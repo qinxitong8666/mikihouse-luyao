@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-03T13:12:57.822808+00:00",
+  "source_manifest": "special_skus_2026aw.csv",
+  "total_sku_count": 351,
+  "successful_sku_count": 311,
+  "failed_sku_count": 40,
+  "review_required_count": 0,
+  "gold_label_count": 231,
+  "products_json_count": 311,
+  "pdf_page_count": 78,
+  "pipeline_exit_code": 2,
+  "outputs": {
+    "pdf": "deliverables/mikihouse_2026AW_price_catalog.pdf",
+    "products_json": "output/production-2026aw/products.json",
+    "failed_skus": "output/production-2026aw/failed_skus.json",
+    "review_required": "output/production-2026aw/review_required.csv"
+  }
+}

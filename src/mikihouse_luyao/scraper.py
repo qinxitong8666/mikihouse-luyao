@@ -41,6 +41,10 @@ class ScrapeError(RuntimeError):
     pass
 
 
+class ProductNotFoundError(ScrapeError):
+    pass
+
+
 class _PageParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -153,7 +157,9 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
     product = (payload.get("data") or {}).get("product")
     if not product:
         errors = "; ".join(str(item.get("message", item)) for item in payload.get("errors", []))
-        raise ScrapeError(errors or f"product not found: {requested_product_number}")
+        if not errors and "data" in payload:
+            raise ProductNotFoundError(f"product not found: {requested_product_number}")
+        raise ScrapeError(errors or f"invalid Storefront response for {requested_product_number}")
     handle = str(product.get("handle") or "")
     if handle != requested_product_number:
         raise ScrapeError(f"product number mismatch: requested {requested_product_number}, API has {handle}")
@@ -245,6 +251,8 @@ def _fetch_html(product_number: str, timeout: float, retries: int) -> Product:
 def fetch_product(product_number: str, timeout: float = 20, retries: int = 2) -> Product:
     try:
         return _fetch_storefront(product_number, timeout, retries)
+    except ProductNotFoundError:
+        raise
     except ScrapeError as api_error:
         try:
             return _fetch_html(product_number, timeout, retries)
