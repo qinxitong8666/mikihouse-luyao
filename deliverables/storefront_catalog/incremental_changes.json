@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "detected_at": "2026-09-03T14:31:21.206620+00:00",
+  "is_initial_sync": true,
+  "change_count": 18338,
+  "change_type_counts": {
+    "new_product": 2603,
+    "new_variant": 15735
+  },
+  "full_report_path": "output/storefront-master/incremental_changes.json",
+  "full_report_size_bytes": 12447089,
+  "full_report_sha256": "9623df6480d9305604d19be3700c9941f19224366b9d543e232adef8d3e3d74e",
+  "full_csv_path": "output/storefront-master/incremental_changes.csv",
+  "full_csv_size_bytes": 7352876,
+  "sample_changes": [
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-1000-028",
+      "product_number": "00-1000-028",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-1000-028::00-1000-02800899999",
+      "product_number": "00-1000-028",
+      "variant_sku": "00-1000-02800899999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 3850,
+        "mini_program_price_jpy": 2503,
+        "color": "色なし",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-028-89-1_l.jpg?v=1637560237",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-1000-035",
+      "product_number": "00-1000-035",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-1000-035::00-1000-03500080110",
+      "product_number": "00-1000-035",
+      "variant_sku": "00-1000-03500080110",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 13200,
+        "mini_program_price_jpy": 8580,
+        "color": "ピンク",
+        "size": "11-13cm",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-08-1_l.jpg?v=1694396975",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-1000-035::00-1000-03500870110",
+      "product_number": "00-1000-035",
+      "variant_sku": "00-1000-03500870110",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 13200,
+        "mini_program_price_jpy": 8580,
+        "color": "マルチカラー",
+        "size": "11-13cm",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-87-1_l.jpg?v=1694396975",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-4000-054",
+      "product_number": "00-4000-054",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-054::00-4000-05400049999",
+      "product_number": "00-4000-054",
+      "variant_sku": "00-4000-05400049999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 11000,
+        "mini_program_price_jpy": 7150,
+        "color": "黄",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-04-1_l.jpg?v=1687419251",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-054::00-4000-05400089999",
+      "product_number": "00-4000-054",
+      "variant_sku": "00-4000-05400089999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 11000,
+        "mini_program_price_jpy": 7150,
+        "color": "ピンク",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-08-1_l.jpg?v=1687420366",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-054::00-4000-05400159999",
+      "product_number": "00-4000-054",
+      "variant_sku": "00-4000-05400159999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 11000,
+        "mini_program_price_jpy": 7150,
+        "color": "ブルー",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-15-1_l.jpg?v=1687420366",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-4000-055",
+      "product_number": "00-4000-055",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-055::00-4000-05500019999",
+      "product_number": "00-4000-055",
+      "variant_sku": "00-4000-05500019999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 11550,
+        "mini_program_price_jpy": 7508,
+        "color": "白",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-055-01-1_l.jpg?v=1694396678",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-4000-057",
+      "product_number": "00-4000-057",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-057::00-4000-05700019998",
+      "product_number": "00-4000-057",
+      "variant_sku": "00-4000-05700019998",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 15950,
+        "mini_program_price_jpy": 10368,
+        "color": "白",
+        "size": "フリー(44-50cm)",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-01-1_l.jpg?v=1694398092",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-057::00-4000-05700089998",
+      "product_number": "00-4000-057",
+      "variant_sku": "00-4000-05700089998",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 15950,
+        "mini_program_price_jpy": 10368,
+        "color": "ピンク",
+        "size": "フリー(44-50cm)",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-08-1_l.jpg?v=1694398092",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-057::00-4000-05700099998",
+      "product_number": "00-4000-057",
+      "variant_sku": "00-4000-05700099998",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 15950,
+        "mini_program_price_jpy": 10368,
+        "color": "ベージュ",
+        "size": "フリー(44-50cm)",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-09-1_l.jpg?v=1694398092",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-057::00-4000-05700749998",
+      "product_number": "00-4000-057",
+      "variant_sku": "00-4000-05700749998",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 15950,
+        "mini_program_price_jpy": 10368,
+        "color": "白×黄",
+        "size": "フリー(44-50cm)",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-74-1_l.jpg?v=1694398092",
+          "width": 700,
+          "height": 700,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-4000-068",
+      "product_number": "00-4000-068",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-068::00-4000-06800019999",
+      "product_number": "00-4000-068",
+      "variant_sku": "00-4000-06800019999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 6930,
+        "mini_program_price_jpy": 4505,
+        "color": "白",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/00-4000-068-01-0.jpg?v=1745821746",
+          "width": 3000,
+          "height": 3000,
+          "alt_text": ""
+        }
+      }
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "product",
+      "change_type": "new_product",
+      "stable_id": "00-4000-075",
+      "product_number": "00-4000-075",
+      "variant_sku": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "detected_at": "2026-09-03T14:31:21.206620+00:00",
+      "entity_type": "variant",
+      "change_type": "new_variant",
+      "stable_id": "00-4000-075::00-4000-07500019999",
+      "product_number": "00-4000-075",
+      "variant_sku": "00-4000-07500019999",
+      "before": null,
+      "after": {
+        "active": true,
+        "available_for_sale": true,
+        "tax_included_price_jpy": 55000,
+        "mini_program_price_jpy": 35750,
+        "color": "白",
+        "size": "---",
+        "variant_image": {
+          "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/00-4000-075-01-1.jpg?v=1782460169",
+          "width": 1200,
+          "height": 1200,
+          "alt_text": ""
+        }
+      }
+    }
+  ]
+}

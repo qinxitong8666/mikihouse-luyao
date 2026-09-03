@@ -16,7 +16,7 @@ STOREFRONT_API_URL = "https://www.mikihouse.co.jp/api/2025-07/graphql.json"
 # Shopify storefront tokens are public, read-only browser credentials. The
 # environment override makes token rotation deployable without a code change.
 STOREFRONT_TOKEN = "b7846f73a48db7fcd6036093f8769ca2"
-USER_AGENT = "Mozilla/5.0 (compatible; mikihouse-luyao/0.3; +https://github.com/qinxitong8666/mikihouse-luyao)"
+USER_AGENT = "Mozilla/5.0 (compatible; mikihouse-luyao/0.4; +https://github.com/qinxitong8666/mikihouse-luyao)"
 STOREFRONT_QUERY = """
 query ProductByHandle($handle: String!, $after: String) {
   product(handle: $handle) {

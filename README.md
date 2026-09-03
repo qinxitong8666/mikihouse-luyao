@@ -159,3 +159,32 @@ python scripts/smoke_test.py \
 - 税入日元底价、折扣、汇率和定价公式只存在于 JSON/底层计算，PDF 中不会出现。
 - 普通商品主图及鞋类全部颜色图先下载并校验为有效图片，再从本地缓存嵌入 PDF，避免生成时出现远程图片空白。
 - 页面结构变化时会快速失败，避免静默产生错误价格表。
+
+## 第二阶段：全站商品主库
+
+全站主库是与 2026AW PDF 完全独立的采集链路。它通过 Storefront API 的 `products` 游标分页读取当前全部可获取商品，并对超过 100 个 variant 的商品继续翻页。运行命令：
+
+```bash
+PYTHONPATH=src python scripts/sync_storefront_catalog.py
+# 安装项目后也可运行：mikihouse-storefront-sync
+```
+
+默认输出到 `output/storefront-master/`：
+
+- `master_catalog.json`：长期保存的商品主库，包含商品、颜色图片和完整 variants；
+- `products.csv`、`variants.csv`：标准化商品表和 variant 表（UTF-8 BOM）；
+- `incremental_changes.json`、`incremental_changes.csv`：本次新增、价格、库存、图片、元数据、下架及恢复变化；
+- `crawl_stats.json`：全站分页、排除、商品/variant、图片和库存统计；
+- `validation_report.json`：鞋类、服装、婴儿用品、杂货的真实样例校验。
+
+`special_skus_2026aw.csv` 的 351 个品番是永久排除集合，采集时即从小程序候选池移除。普通商品按每个 variant 独立计算：
+
+```text
+mini_program_price_jpy = ceil(官网税入日元价 × 0.65)
+```
+
+该字段仍是日元整数，本模块不保存人民币售价、汇率或任何人民币换算结果。商品以 `product_number`、variant 以 `product_number::variant SKU` 为稳定标识。只有全站分页完整成功并通过跨品类、特殊品番和价格校验后才会原子更新主库；官网不再返回的商品或 variant 保留历史记录并标记 `active=false`，以后重新出现时记录为恢复上架。
+
+统计会分别记录排除集合总数、本次官网实际遇到并排除的数量，以及当前官网未出现的特殊品番数量。即使特殊品番暂时下架，仍永久保留在排除集合中，恢复上架后也不会进入小程序商品池。
+
+为便于 GitHub 审核，脚本同时把体积较小的抓取统计、增量变化摘要和分类验证报告写入 `deliverables/storefront_catalog/`；摘要包含完整变化文件的路径、大小、SHA-256 及代表样例。完整主库、逐条变化 JSON/CSV 和同步 CSV 属于运行数据，继续由 `.gitignore` 排除；本模块不会调用 PDF 生成器，也不会修改现有 2026AW PDF 成品。

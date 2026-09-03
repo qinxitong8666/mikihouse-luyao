@@ -1,0 +1,396 @@
+{
+  "validated_at": "2026-09-03T14:31:21.206620+00:00",
+  "special_exclusion_set_count": 351,
+  "special_products_in_active_pool": [],
+  "currency": "JPY",
+  "discount_rate": "0.65",
+  "currency_conversion_applied": false,
+  "forbidden_currency_conversion_fields": [],
+  "examples": {
+    "footwear": [
+      {
+        "product_number": "10-9305-497",
+        "name": "【特別価格】ファーストシューズ【配送希望日・キャンセル・返品不可】",
+        "product_type": "通常商品",
+        "category": {
+          "id": "gid://shopify/TaxonomyCategory/na",
+          "name": "カテゴリーなし"
+        },
+        "product_url": "https://www.mikihouse.co.jp/products/10-9305-497",
+        "variant_count": 16,
+        "color_count": 4,
+        "size_count": 4,
+        "sample_variants": [
+          {
+            "sku": "10-9305-49700020120",
+            "color": "赤",
+            "size": "12cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-02-1.jpg?v=1787538523"
+          },
+          {
+            "sku": "10-9305-49700050120",
+            "color": "黒",
+            "size": "12cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-05-1.jpg?v=1787538523"
+          },
+          {
+            "sku": "10-9305-49700330120",
+            "color": "インディゴブルー",
+            "size": "12cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-33-1.jpg?v=1787538523"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      },
+      {
+        "product_number": "10-9306-490",
+        "name": "【特別価格】セカンドシューズ【配送希望日・キャンセル・返品不可】",
+        "product_type": "通常商品",
+        "category": {
+          "id": "gid://shopify/TaxonomyCategory/na",
+          "name": "カテゴリーなし"
+        },
+        "product_url": "https://www.mikihouse.co.jp/products/10-9306-490",
+        "variant_count": 30,
+        "color_count": 6,
+        "size_count": 5,
+        "sample_variants": [
+          {
+            "sku": "10-9306-49000020135",
+            "color": "赤",
+            "size": "13.5cm",
+            "available_for_sale": false,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-02-1.jpg?v=1787538413"
+          },
+          {
+            "sku": "10-9306-49000030135",
+            "color": "紺",
+            "size": "13.5cm",
+            "available_for_sale": false,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-03-1.jpg?v=1787538413"
+          },
+          {
+            "sku": "10-9306-49000050135",
+            "color": "黒",
+            "size": "13.5cm",
+            "available_for_sale": false,
+            "tax_included_price_jpy": 5500,
+            "mini_program_price_jpy": 3575,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-05-1.jpg?v=1787538413"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      }
+    ],
+    "apparel": [
+      {
+        "product_number": "10-1711-494",
+        "name": "スカート",
+        "product_type": "通常商品",
+        "category": {
+          "id": "gid://shopify/TaxonomyCategory/na",
+          "name": "カテゴリーなし"
+        },
+        "product_url": "https://www.mikihouse.co.jp/products/10-1711-494",
+        "variant_count": 9,
+        "color_count": 3,
+        "size_count": 3,
+        "sample_variants": [
+          {
+            "sku": "10-1711-49400013200",
+            "color": "白",
+            "size": "SS(80-90cm)",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 8800,
+            "mini_program_price_jpy": 5720,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-01-1_l.jpg?v=1674700149"
+          },
+          {
+            "sku": "10-1711-49400333200",
+            "color": "インディゴブルー",
+            "size": "SS(80-90cm)",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 8800,
+            "mini_program_price_jpy": 5720,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-33-1_l.jpg?v=1674705435"
+          },
+          {
+            "sku": "10-1711-49400513200",
+            "color": "紺×白",
+            "size": "SS(80-90cm)",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 8800,
+            "mini_program_price_jpy": 5720,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-51-1_l.jpg?v=1674705435"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      },
+      {
+        "product_number": "10-1821-575",
+        "name": "ジャンパースカート",
+        "product_type": "通常商品",
+        "category": null,
+        "product_url": "https://www.mikihouse.co.jp/products/10-1821-575",
+        "variant_count": 11,
+        "color_count": 3,
+        "size_count": 5,
+        "sample_variants": [
+          {
+            "sku": "10-1821-57500010800",
+            "color": "白",
+            "size": "80cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 11000,
+            "mini_program_price_jpy": 7150,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-01-1.jpg?v=1659585818"
+          },
+          {
+            "sku": "10-1821-57500110800",
+            "color": "茶",
+            "size": "80cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 11000,
+            "mini_program_price_jpy": 7150,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-11-1.jpg?v=1659585818"
+          },
+          {
+            "sku": "10-1821-57500330800",
+            "color": "インディゴブルー",
+            "size": "80cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 11000,
+            "mini_program_price_jpy": 7150,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-33-1.jpg?v=1659585818"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      }
+    ],
+    "baby": [
+      {
+        "product_number": "00-1000-028",
+        "name": "【WEB限定】くうぴい絵本セット【BOX付き】",
+        "product_type": "固定セット商品",
+        "category": {
+          "id": "gid://shopify/TaxonomyCategory/na",
+          "name": "カテゴリーなし"
+        },
+        "product_url": "https://www.mikihouse.co.jp/products/00-1000-028",
+        "variant_count": 1,
+        "color_count": 1,
+        "size_count": 1,
+        "sample_variants": [
+          {
+            "sku": "00-1000-02800899999",
+            "color": "色なし",
+            "size": "---",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 3850,
+            "mini_program_price_jpy": 2503,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-028-89-1_l.jpg?v=1637560237"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      },
+      {
+        "product_number": "00-1000-035",
+        "name": "【WEB限定】ベビーリュック・ソックスセット【BOX付き】",
+        "product_type": "固定セット商品",
+        "category": null,
+        "product_url": "https://www.mikihouse.co.jp/products/00-1000-035",
+        "variant_count": 2,
+        "color_count": 2,
+        "size_count": 1,
+        "sample_variants": [
+          {
+            "sku": "00-1000-03500080110",
+            "color": "ピンク",
+            "size": "11-13cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 13200,
+            "mini_program_price_jpy": 8580,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-08-1_l.jpg?v=1694396975"
+          },
+          {
+            "sku": "00-1000-03500870110",
+            "color": "マルチカラー",
+            "size": "11-13cm",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 13200,
+            "mini_program_price_jpy": 8580,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-87-1_l.jpg?v=1694396975"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      }
+    ],
+    "goods": [
+      {
+        "product_number": "10-8107-492",
+        "name": "ミニタオル",
+        "product_type": "通常商品",
+        "category": null,
+        "product_url": "https://www.mikihouse.co.jp/products/10-8107-492",
+        "variant_count": 5,
+        "color_count": 5,
+        "size_count": 1,
+        "sample_variants": [
+          {
+            "sku": "10-8107-49200029999",
+            "color": "赤",
+            "size": "---",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 1650,
+            "mini_program_price_jpy": 1073,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-02-1_l.jpg?v=1692596934"
+          },
+          {
+            "sku": "10-8107-49200039999",
+            "color": "紺",
+            "size": "---",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 1650,
+            "mini_program_price_jpy": 1073,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-03-1_l.jpg?v=1692596934"
+          },
+          {
+            "sku": "10-8107-49200059999",
+            "color": "黒",
+            "size": "---",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 1650,
+            "mini_program_price_jpy": 1073,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-05-1_l.jpg?v=1692596934"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      },
+      {
+        "product_number": "10-8109-498",
+        "name": "ミキハウス カタカナフェイスタオル",
+        "product_type": "通常商品",
+        "category": {
+          "id": "gid://shopify/TaxonomyCategory/na",
+          "name": "カテゴリーなし"
+        },
+        "product_url": "https://www.mikihouse.co.jp/products/10-8109-498",
+        "variant_count": 1,
+        "color_count": 1,
+        "size_count": 1,
+        "sample_variants": [
+          {
+            "sku": "10-8109-49800879999",
+            "color": "マルチカラー",
+            "size": "---",
+            "available_for_sale": true,
+            "tax_included_price_jpy": 3850,
+            "mini_program_price_jpy": 2503,
+            "image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8109-498-87-1_l.jpg?v=1685410872"
+          }
+        ],
+        "checks": {
+          "all_prices_match_ceil_65_percent": true,
+          "all_variants_have_sku": true,
+          "all_variants_have_selected_options": true,
+          "all_variants_have_color_and_size": true,
+          "all_variants_have_official_image": true,
+          "all_colors_have_image_mapping": true
+        },
+        "passed": true
+      }
+    ]
+  },
+  "passed": true,
+  "online_recheck": {
+    "checked_at": "2026-09-03T14:38:48.935761+00:00",
+    "method": "fresh_storefront_product_query_and_official_image_response_check",
+    "product_count": 8,
+    "variant_count": 75,
+    "official_image_response_count": 8,
+    "types": {
+      "footwear": 2,
+      "apparel": 2,
+      "baby": 2,
+      "goods": 2
+    },
+    "compared_fields": [
+      "sku",
+      "tax_included_price_jpy",
+      "available_for_sale",
+      "color",
+      "size",
+      "image_url"
+    ],
+    "passed": true
+  }
+}
