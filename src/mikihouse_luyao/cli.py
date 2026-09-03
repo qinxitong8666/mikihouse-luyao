@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 
 from .csv_input import read_product_numbers
-from .image_cache import cache_product_image
+from .image_cache import cache_product_images
 from .pdf import generate_price_list
 from .scraper import ScrapeError, fetch_product, parse_product_html
 
@@ -58,9 +58,7 @@ def main(argv: list[str] | None = None) -> int:
         ready_products = []
         for product in products:
             try:
-                image_paths[product.product_number] = cache_product_image(
-                    product.main_image_url, product.product_number, args.image_cache
-                )
+                image_paths[product.product_number] = cache_product_images(product, args.image_cache)
                 ready_products.append(product)
             except (OSError, ValueError, ScrapeError) as exc:
                 failures.append({"product_number": product.product_number, "error": f"image: {exc}"})

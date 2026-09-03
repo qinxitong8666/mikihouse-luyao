@@ -7,7 +7,7 @@ from html.parser import HTMLParser
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from .models import Product, Variant
+from .models import Product, SelectedOption, Variant
 from .pricing import calculate_pdf_price
 
 
@@ -16,19 +16,23 @@ STOREFRONT_API_URL = "https://www.mikihouse.co.jp/api/2025-07/graphql.json"
 # Shopify storefront tokens are public, read-only browser credentials. The
 # environment override makes token rotation deployable without a code change.
 STOREFRONT_TOKEN = "b7846f73a48db7fcd6036093f8769ca2"
-USER_AGENT = "Mozilla/5.0 (compatible; mikihouse-luyao/0.1; +https://github.com/qinxitong8666/mikihouse-luyao)"
+USER_AGENT = "Mozilla/5.0 (compatible; mikihouse-luyao/0.3; +https://github.com/qinxitong8666/mikihouse-luyao)"
 STOREFRONT_QUERY = """
-query ProductByHandle($handle: String!) {
+query ProductByHandle($handle: String!, $after: String) {
   product(handle: $handle) {
     title
     handle
-    featuredImage { url }
-    variants(first: 100) {
-      pageInfo { hasNextPage }
+    productType
+    tags
+    featuredImage { url width height altText }
+    variants(first: 100, after: $after) {
+      pageInfo { hasNextPage endCursor }
       nodes {
         title
         sku
         availableForSale
+        selectedOptions { name value }
+        image { url width height altText }
         price { amount currencyCode }
       }
     }
@@ -43,6 +47,16 @@ class ScrapeError(RuntimeError):
 
 class ProductNotFoundError(ScrapeError):
     pass
+
+
+def is_footwear_product(name: str, tags: tuple[str, ...] | list[str] = ()) -> bool:
+    name_markers = ("シューズ", "靴", "ブーツ", "サンダル", "ローファー", "スニーカー", "パンプス")
+    if any(marker in name for marker in name_markers):
+        return True
+    if any(marker in name for marker in ("ソックス", "ドレス", "ウェア", "セット")):
+        return False
+    safe_tags = {"first-shoes", "second-shoes", "kids-shoes", "formalshoes"}
+    return any(tag.strip().lower() in safe_tags for tag in tags)
 
 
 class _PageParser(HTMLParser):
@@ -138,6 +152,8 @@ def parse_product_html(html: str, requested_product_number: str, source_url: str
             tax_included_price_jpy=variant_price,
             pdf_price=calculate_pdf_price(variant_price),
             sku=str(item.get("sku") or ""),
+            selected_options=(SelectedOption("カラー", color), SelectedOption("サイズ", size)),
+            image_url=image,
         ))
     common_price = next(iter(prices)) if len(prices) == 1 else None
     if not product_name or not main_image:
@@ -150,7 +166,26 @@ def parse_product_html(html: str, requested_product_number: str, source_url: str
         main_image_url=main_image,
         source_url=page_url,
         variants=tuple(parsed),
+        is_footwear=is_footwear_product(product_name),
     )
+
+
+def _variant_options(item: dict) -> tuple[tuple[SelectedOption, ...], str, str]:
+    options = tuple(
+        SelectedOption(str(option.get("name") or "").strip(), str(option.get("value") or "").strip())
+        for option in (item.get("selectedOptions") or [])
+        if str(option.get("name") or "").strip()
+    )
+    by_name = {option.name.casefold(): option.value for option in options}
+    color = by_name.get("カラー") or by_name.get("color") or by_name.get("colour") or ""
+    size = by_name.get("サイズ") or by_name.get("size") or ""
+    if not color or not size:
+        title_parts = [part.strip() for part in str(item.get("title") or "").split("/")]
+        if not color and len(title_parts) >= 2:
+            color = title_parts[0]
+        if not size:
+            size = title_parts[1] if len(title_parts) >= 2 else str(item.get("title") or "").strip()
+    return options, color, size
 
 
 def parse_storefront_response(payload: dict, requested_product_number: str) -> Product:
@@ -165,6 +200,9 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
         raise ScrapeError(f"product number mismatch: requested {requested_product_number}, API has {handle}")
     name = str(product.get("title") or "").strip()
     image = str((product.get("featuredImage") or {}).get("url") or "")
+    tags = tuple(str(tag).strip() for tag in (product.get("tags") or []) if str(tag).strip())
+    product_type = str(product.get("productType") or "").strip()
+    footwear = is_footwear_product(name, tags)
     variant_connection = product.get("variants") or {}
     if (variant_connection.get("pageInfo") or {}).get("hasNextPage"):
         raise ScrapeError("product has more than 100 variants; pagination is required")
@@ -175,9 +213,11 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
     variants: list[Variant] = []
     prices: set[int] = set()
     for item in raw_variants:
-        option = str(item.get("title") or "")
-        parts = [part.strip() for part in option.split("/")]
-        color, size = (parts[0], parts[1]) if len(parts) >= 2 else ("", option)
+        selected_options, color, size = _variant_options(item)
+        variant_image = item.get("image") or {}
+        variant_image_url = str(variant_image.get("url") or "")
+        if footwear and (not selected_options or not color or not size or not variant_image_url):
+            raise ScrapeError(f"incomplete footwear variant data: {item.get('sku') or item.get('title')}")
         price_data = item.get("price") or {}
         if price_data.get("currencyCode") != "JPY":
             raise ScrapeError(f"unexpected currency: {price_data.get('currencyCode')}")
@@ -196,6 +236,10 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
             tax_included_price_jpy=variant_price,
             pdf_price=calculate_pdf_price(variant_price),
             sku=str(item.get("sku") or ""),
+            selected_options=selected_options,
+            image_url=variant_image_url or image,
+            image_width=int(variant_image["width"]) if variant_image.get("width") else None,
+            image_height=int(variant_image["height"]) if variant_image.get("height") else None,
         ))
     common_price = next(iter(prices)) if len(prices) == 1 else None
     if not name or not image:
@@ -208,6 +252,9 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
         main_image_url=image,
         source_url=BASE_URL.format(product_number=handle),
         variants=tuple(variants),
+        tags=tags,
+        product_type=product_type,
+        is_footwear=footwear,
     )
 
 
@@ -224,10 +271,13 @@ def _request_with_retries(request: Request, timeout: float, retries: int) -> byt
     raise ScrapeError(f"request failed: {last_error}") from last_error
 
 
-def _fetch_storefront(product_number: str, timeout: float, retries: int) -> Product:
+def _fetch_storefront_page(product_number: str, after: str | None, timeout: float, retries: int) -> dict:
     import os
 
-    body = json.dumps({"query": STOREFRONT_QUERY, "variables": {"handle": product_number}}).encode("utf-8")
+    body = json.dumps({
+        "query": STOREFRONT_QUERY,
+        "variables": {"handle": product_number, "after": after},
+    }).encode("utf-8")
     request = Request(STOREFRONT_API_URL, data=body, headers={
         "User-Agent": USER_AGENT,
         "Content-Type": "application/json",
@@ -238,6 +288,34 @@ def _fetch_storefront(product_number: str, timeout: float, retries: int) -> Prod
         payload = json.loads(raw.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ScrapeError("Storefront API returned invalid JSON") from exc
+    return payload
+
+
+def _fetch_storefront(product_number: str, timeout: float, retries: int) -> Product:
+    payload = _fetch_storefront_page(product_number, None, timeout, retries)
+    product = (payload.get("data") or {}).get("product")
+    if not product:
+        return parse_storefront_response(payload, product_number)
+    connection = product.get("variants") or {}
+    nodes = list(connection.get("nodes") or [])
+    page_info = connection.get("pageInfo") or {}
+    cursor = page_info.get("endCursor")
+    page_count = 1
+    while page_info.get("hasNextPage"):
+        if not cursor or page_count >= 20:
+            raise ScrapeError("invalid or excessive variant pagination")
+        next_payload = _fetch_storefront_page(product_number, str(cursor), timeout, retries)
+        next_product = (next_payload.get("data") or {}).get("product")
+        if not next_product:
+            return parse_storefront_response(next_payload, product_number)
+        next_connection = next_product.get("variants") or {}
+        nodes.extend(next_connection.get("nodes") or [])
+        page_info = next_connection.get("pageInfo") or {}
+        cursor = page_info.get("endCursor")
+        page_count += 1
+    connection["nodes"] = nodes
+    connection["pageInfo"] = {"hasNextPage": False, "endCursor": cursor}
+    product["variants"] = connection
     return parse_storefront_response(payload, product_number)
 
 

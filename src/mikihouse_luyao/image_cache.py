@@ -7,6 +7,7 @@ from urllib.request import Request
 
 from PIL import Image
 
+from .models import Product
 from .scraper import USER_AGENT, _request_with_retries
 
 
@@ -44,3 +45,23 @@ def cache_product_image(
         raise ValueError(f"invalid product image for {product_number}") from exc
     temporary.replace(target)
     return target
+
+
+def cache_product_images(product: Product, cache_dir: str | Path) -> dict[str, Path]:
+    if not product.is_footwear:
+        return {"": cache_product_image(product.main_image_url, product.product_number, cache_dir)}
+
+    color_urls: dict[str, str] = {}
+    for variant in product.variants:
+        color = variant.color or "-"
+        if not variant.image_url:
+            raise ValueError(f"missing footwear image for {product.product_number} / {color}")
+        previous = color_urls.setdefault(color, variant.image_url)
+        if previous != variant.image_url:
+            raise ValueError(f"multiple footwear images for one color: {product.product_number} / {color}")
+    if not color_urls:
+        raise ValueError(f"no footwear colors for {product.product_number}")
+    return {
+        color: cache_product_image(url, product.product_number, cache_dir)
+        for color, url in color_urls.items()
+    }

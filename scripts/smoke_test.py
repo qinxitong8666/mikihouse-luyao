@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -10,6 +9,7 @@ from pypdf import PdfReader
 
 from mikihouse_luyao.cli import main as run_pipeline
 from mikihouse_luyao.csv_input import read_product_numbers
+from mikihouse_luyao.pdf import catalog_page_count_from_data
 from mikihouse_luyao.pricing import calculate_pdf_price
 
 
@@ -66,8 +66,8 @@ def main() -> int:
                 raise RuntimeError(f"ambiguous product-level price was not cleared: {product['product_number']}")
 
     reader = PdfReader(pdf_path)
-    if len(reader.pages) != math.ceil(len(products) / 4):
-        raise RuntimeError("PDF page count does not match four cards per page")
+    if len(reader.pages) != catalog_page_count_from_data(products):
+        raise RuntimeError("PDF page count does not match the card layout")
     pdf_text = "\n".join(page.extract_text() or "" for page in reader.pages)
     forbidden = [token for token in ("0.73", "0.0435", "73折", "税入", "税込", "公式") if token in pdf_text]
     if forbidden:

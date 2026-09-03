@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T13:12:57.822808+00:00",
+  "generated_at": "2026-09-03T13:54:05.795602+00:00",
   "source_manifest": "special_skus_2026aw.csv",
   "total_sku_count": 351,
   "successful_sku_count": 311,
@@ -7,7 +7,24 @@
   "review_required_count": 0,
   "gold_label_count": 231,
   "products_json_count": 311,
-  "pdf_page_count": 78,
+  "footwear_product_count": 46,
+  "footwear_color_image_count": 99,
+  "half_page_footwear_count": 3,
+  "pdf_page_count": 79,
+  "pdf_file_size_bytes": 32393810,
+  "pdf_sha256": "2d1701723ea8301ae075117c70c5874aaf74c00c6f8eb970afa309deb0797929",
+  "shoe_smoke_test": {
+    "checked_at": "2026-09-03T13:39:52.648948+00:00",
+    "product_count": 12,
+    "color_count": 43,
+    "variant_count": 217,
+    "official_image_dimension_counts": {
+      "3000x3000": 14,
+      "700x700": 29
+    },
+    "pdf_page_count": 4,
+    "failure_count": 0
+  },
   "pipeline_exit_code": 2,
   "outputs": {
     "pdf": "deliverables/mikihouse_2026AW_price_catalog.pdf",

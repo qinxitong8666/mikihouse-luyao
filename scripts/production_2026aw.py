@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
-import math
 import re
 import shutil
 from datetime import datetime, timezone
@@ -12,6 +12,7 @@ from pathlib import Path
 from pypdf import PdfReader
 
 from mikihouse_luyao.cli import main as run_pipeline
+from mikihouse_luyao.pdf import catalog_page_count_from_data
 
 
 SKU_PATTERN = re.compile(r"^\d{2}-\d{4}-\d{3}$")
@@ -70,6 +71,7 @@ def main() -> int:
     parser.add_argument("--work-dir", default="output/production-2026aw")
     parser.add_argument("--deliverable", default="deliverables/mikihouse_2026AW_price_catalog.pdf")
     parser.add_argument("--report", default="deliverables/production_report.json")
+    parser.add_argument("--shoe-smoke-report", default="output/shoe-smoke-2026aw/shoe_smoke_report.json")
     parser.add_argument("--delay", type=float, default=0.25)
     args = parser.parse_args()
 
@@ -140,12 +142,27 @@ def main() -> int:
     if success_count <= 0:
         raise RuntimeError("no successful products")
     pdf_pages = len(PdfReader(working_pdf).pages)
-    expected_pages = math.ceil(success_count / 4)
+    expected_pages = catalog_page_count_from_data(successful_products)
     if pdf_pages != expected_pages:
         raise RuntimeError(f"PDF page mismatch: expected {expected_pages}, got {pdf_pages}")
     deliverable = Path(args.deliverable)
     deliverable.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(working_pdf, deliverable)
+    smoke_summary = None
+    smoke_report_path = Path(args.shoe_smoke_report)
+    if smoke_report_path.is_file():
+        smoke = json.loads(smoke_report_path.read_text(encoding="utf-8"))
+        if smoke.get("product_count", 0) < 10 or smoke.get("failures"):
+            raise RuntimeError("shoe smoke report is incomplete or contains failures")
+        smoke_summary = {
+            "checked_at": smoke["checked_at"],
+            "product_count": smoke["product_count"],
+            "color_count": smoke["color_count"],
+            "variant_count": smoke["variant_count"],
+            "official_image_dimension_counts": smoke["official_image_dimension_counts"],
+            "pdf_page_count": smoke["pdf_page_count"],
+            "failure_count": len(smoke["failures"]),
+        }
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_manifest": str(manifest_path),
@@ -155,7 +172,19 @@ def main() -> int:
         "review_required_count": 0,
         "gold_label_count": sum(row["gold_label"] == "true" for row in manifest),
         "products_json_count": len(successful_products),
+        "footwear_product_count": sum(bool(item.get("is_footwear")) for item in successful_products),
+        "footwear_color_image_count": sum(
+            len({variant.get("color") or "-" for variant in item["variants"]})
+            for item in successful_products if item.get("is_footwear")
+        ),
+        "half_page_footwear_count": sum(
+            len({variant.get("color") or "-" for variant in item["variants"]}) > 6
+            for item in successful_products if item.get("is_footwear")
+        ),
         "pdf_page_count": pdf_pages,
+        "pdf_file_size_bytes": deliverable.stat().st_size,
+        "pdf_sha256": hashlib.sha256(deliverable.read_bytes()).hexdigest(),
+        "shoe_smoke_test": smoke_summary,
         "pipeline_exit_code": pipeline_code,
         "outputs": {
             "pdf": str(deliverable),

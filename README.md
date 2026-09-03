@@ -74,7 +74,7 @@ python -m mikihouse_luyao --input special_skus.csv --delay 0.8
 - `output/failed_skus.json`
 - `output/image-cache/`（按图片 URL 指纹缓存的官网原图）
 
-可通过 `--json`、`--pdf`、`--failures` 和 `--image-cache` 修改路径。在线抓取优先使用官网公开的只读 Storefront API，商品 HTML 页面作为回退。公开令牌轮换时可用 `MIKIHOUSE_STOREFRONT_TOKEN` 环境变量覆盖。
+可通过 `--json`、`--pdf`、`--failures` 和 `--image-cache` 修改路径。在线抓取优先使用官网公开的只读 Storefront API，商品 HTML 页面作为回退。Storefront 抓取会自动翻页读取全部 variant，并保存每个 variant 的 `selected_options`、SKU、`available_for_sale`、税入价、颜色、尺码、官网对应图片 URL 和原始像素尺寸。公开令牌轮换时可用 `MIKIHOUSE_STOREFRONT_TOKEN` 环境变量覆盖。
 
 批量任务逐 SKU 隔离失败：单商品抓取或图片下载失败不会阻断其他商品。只要仍有成功商品，就会生成 JSON 和 PDF；失败项写入 `failed_skus.json`，进程返回码为 `2`，便于自动化任务识别“部分成功”。全部成功返回 `0`，全失败返回 `1`。
 
@@ -96,6 +96,28 @@ PYTHONPATH=src python scripts/production_2026aw.py
 以上运行时明细和图片缓存均由 `.gitignore` 排除。可交付文件为 `deliverables/mikihouse_2026AW_price_catalog.pdf`，汇总数据为 `deliverables/production_report.json`。脚本只在存在成功商品、PDF 页数正确时更新这两个文件。
 
 当前清单共 351 个唯一品番，其中 231 个带 `gold_label` 标记。最近一次完整在线生产的精确成功数、失败数、待复核数和 PDF 页数以 `deliverables/production_report.json` 为准。
+
+## 鞋类专用输出
+
+鞋类依据官网标签和商品名识别，并在 PDF 中稳定排在其他商品之前。每个颜色严格使用该颜色 variant 的官网图片；所有图片按原始 URL 下载并缓存，PDF 只改变显示尺寸，不生成低分辨率缩略图。官网旧款若只提供 700×700 原图，程序保留其真实尺寸，不做虚假放大。
+
+- 1 色：单张大图
+- 2 色：左右双图
+- 3-4 色：2×2 拼图
+- 5-6 色：3×2 拼图
+- 超过 6 色：自动使用半页宽卡片，完整显示所有颜色
+
+每张图片下方显示对应颜色；拼图下方按颜色列出当前 `available_for_sale` 的尺码。只有排序后每一档都严格相差 0.5cm 时才会压缩为范围，存在断码时逐个列出。全商品同价只显示一次人民币售价；价格随颜色或尺码变化时，在对应尺码行显示人民币价格，并保留底部价格区间。
+
+真实鞋类 smoke test 使用 12 款多颜色、多尺码商品，包含 3 款 7 色商品：
+
+```bash
+PYTHONPATH=src python scripts/shoe_smoke_test.py \
+  --input shoe_smoke_skus_2026aw.csv \
+  --output output/shoe-smoke-2026aw
+```
+
+报告 `output/shoe-smoke-2026aw/shoe_smoke_report.json` 会逐商品记录官网颜色图片、像素尺寸、当前可售尺码、variant SKU、税入价和人民币售价，便于与官网逐项复核。
 
 ## 可复现的端到端样例
 
@@ -123,5 +145,5 @@ python scripts/smoke_test.py \
 - PDF 为 A4 2×2 商品卡片，适合直接通过微信发送；只显示商品图、商品名、品番、在售颜色/尺码和最终人民币售价。
 - 商品名支持最多三行自适应换行；颜色/尺码按相同尺码集合与价格合并、压缩重复单位，并动态缩小字号以防止溢出。
 - 税入日元底价、折扣、汇率和定价公式只存在于 JSON/底层计算，PDF 中不会出现。
-- 主图先下载并校验为有效图片，再从本地缓存嵌入 PDF，避免生成时出现远程图片空白。
+- 普通商品主图及鞋类全部颜色图先下载并校验为有效图片，再从本地缓存嵌入 PDF，避免生成时出现远程图片空白。
 - 页面结构变化时会快速失败，避免静默产生错误价格表。
