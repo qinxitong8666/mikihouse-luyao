@@ -24,6 +24,7 @@ query ProductByHandle($handle: String!) {
     handle
     featuredImage { url }
     variants(first: 100) {
+      pageInfo { hasNextPage }
       nodes {
         title
         sku
@@ -114,7 +115,8 @@ def parse_product_html(html: str, requested_product_number: str, source_url: str
     main_image = ""
     for item in variants_raw:
         offer = item.get("offers") or {}
-        prices.add(int(offer["price"]))
+        variant_price = int(offer["price"])
+        prices.add(variant_price)
         image = str(item.get("image") or "")
         main_image = main_image or image
         variant_name = str(item.get("name") or "")
@@ -124,17 +126,23 @@ def parse_product_html(html: str, requested_product_number: str, source_url: str
         availability = str(offer.get("availability") or "")
         in_stock = availability.rsplit("/", 1)[-1] == "InStock"
         stock_text = labels.get(size, "在庫あり" if in_stock else "在庫なし")
-        parsed.append(Variant(color=color, size=size, in_stock=in_stock, stock_text=stock_text, sku=str(item.get("sku") or "")))
-    if len(prices) != 1:
-        raise ScrapeError(f"variants have inconsistent prices: {sorted(prices)}")
-    price = prices.pop()
-    if not all((product_name, main_image, price >= 0)):
+        parsed.append(Variant(
+            color=color,
+            size=size,
+            in_stock=in_stock,
+            stock_text=stock_text,
+            tax_included_price_jpy=variant_price,
+            pdf_price=calculate_pdf_price(variant_price),
+            sku=str(item.get("sku") or ""),
+        ))
+    common_price = next(iter(prices)) if len(prices) == 1 else None
+    if not product_name or not main_image:
         raise ScrapeError("required product fields are missing")
     return Product(
         product_number=requested_product_number,
         name=product_name,
-        tax_included_price_jpy=price,
-        pdf_price=calculate_pdf_price(price),
+        tax_included_price_jpy=common_price,
+        pdf_price=calculate_pdf_price(common_price) if common_price is not None else None,
         main_image_url=main_image,
         source_url=page_url,
         variants=tuple(parsed),
@@ -151,7 +159,10 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
         raise ScrapeError(f"product number mismatch: requested {requested_product_number}, API has {handle}")
     name = str(product.get("title") or "").strip()
     image = str((product.get("featuredImage") or {}).get("url") or "")
-    raw_variants = ((product.get("variants") or {}).get("nodes") or [])
+    variant_connection = product.get("variants") or {}
+    if (variant_connection.get("pageInfo") or {}).get("hasNextPage"):
+        raise ScrapeError("product has more than 100 variants; pagination is required")
+    raw_variants = (variant_connection.get("nodes") or [])
     if not raw_variants:
         raise ScrapeError("no variants found")
 
@@ -164,25 +175,30 @@ def parse_storefront_response(payload: dict, requested_product_number: str) -> P
         price_data = item.get("price") or {}
         if price_data.get("currencyCode") != "JPY":
             raise ScrapeError(f"unexpected currency: {price_data.get('currencyCode')}")
-        prices.add(int(float(price_data["amount"])))
+        amount = str(price_data["amount"])
+        major, dot, minor = amount.partition(".")
+        if (dot and minor.strip("0")) or not major.isdigit():
+            raise ScrapeError(f"JPY price must be an integer: {amount}")
+        variant_price = int(major)
+        prices.add(variant_price)
         in_stock = bool(item.get("availableForSale"))
         variants.append(Variant(
             color=color,
             size=size,
             in_stock=in_stock,
             stock_text="在庫あり" if in_stock else "在庫なし",
+            tax_included_price_jpy=variant_price,
+            pdf_price=calculate_pdf_price(variant_price),
             sku=str(item.get("sku") or ""),
         ))
-    if len(prices) != 1:
-        raise ScrapeError(f"variants have inconsistent prices: {sorted(prices)}")
-    price = prices.pop()
+    common_price = next(iter(prices)) if len(prices) == 1 else None
     if not name or not image:
         raise ScrapeError("required product fields are missing")
     return Product(
         product_number=handle,
         name=name,
-        tax_included_price_jpy=price,
-        pdf_price=calculate_pdf_price(price),
+        tax_included_price_jpy=common_price,
+        pdf_price=calculate_pdf_price(common_price) if common_price is not None else None,
         main_image_url=image,
         source_url=BASE_URL.format(product_number=handle),
         variants=tuple(variants),

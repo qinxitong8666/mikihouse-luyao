@@ -44,11 +44,47 @@ def _register_font() -> str:
     return name
 
 
-def _fit_text(text: str, font: str, max_width: float, start_size: float, minimum: float = 8) -> float:
+def _wrap_text(text: str, font: str, size: float, max_width: float) -> list[str]:
+    lines: list[str] = []
+    current = ""
+    for character in text:
+        if character == "\n":
+            lines.append(current.rstrip())
+            current = ""
+            continue
+        candidate = current + character
+        if current and pdfmetrics.stringWidth(candidate, font, size) > max_width:
+            lines.append(current.rstrip())
+            current = character.lstrip()
+        else:
+            current = candidate
+    if current or not lines:
+        lines.append(current.rstrip())
+    return lines
+
+
+def _fit_wrapped_text(
+    text: str,
+    font: str,
+    max_width: float,
+    max_lines: int,
+    start_size: float,
+    minimum: float,
+) -> tuple[float, list[str]]:
     size = start_size
-    while size > minimum and pdfmetrics.stringWidth(text, font, size) > max_width:
-        size -= 0.5
-    return size
+    lines = _wrap_text(text, font, size, max_width)
+    while len(lines) > max_lines and size > minimum:
+        size = max(minimum, size - 0.5)
+        lines = _wrap_text(text, font, size, max_width)
+    if len(lines) > max_lines:
+        raise ValueError(f"text does not fit in product card: {text}")
+    return size, lines
+
+
+def _draw_lines(canvas: Canvas, lines: list[str], x: float, top: float, font: str, size: float, leading: float) -> None:
+    canvas.setFont(font, size)
+    for index, line in enumerate(lines):
+        canvas.drawString(x, top - size - index * leading, line)
 
 
 def _draw_contained_image(canvas: Canvas, path: Path, x: float, y: float, width: float, height: float) -> None:
@@ -67,14 +103,33 @@ def _draw_contained_image(canvas: Canvas, path: Path, x: float, y: float, width:
     )
 
 
-def _color_size_text(product: Product) -> str:
-    grouped: dict[str, list[str]] = {}
-    for variant in product.variants:
-        if variant.in_stock:
-            grouped.setdefault(variant.color or "-", []).append(variant.size or "-")
-    if not grouped:
-        return "暂无可售尺码"
-    return "  |  ".join(f"{color}: {' / '.join(sizes)}" for color, sizes in grouped.items())
+def _variant_text(product: Product) -> tuple[str, list[int]]:
+    available = [variant for variant in product.variants if variant.in_stock]
+    if not available:
+        return "暂无可售颜色 / 尺码", []
+    prices = sorted({variant.pdf_price for variant in available})
+    grouped: dict[tuple[str, int], list[str]] = {}
+    for variant in available:
+        key = (variant.color or "-", variant.pdf_price)
+        sizes = grouped.setdefault(key, [])
+        size = variant.size or "-"
+        if size not in sizes:
+            sizes.append(size)
+    combined: dict[tuple[tuple[str, ...], int], list[str]] = {}
+    for (color, price), sizes in grouped.items():
+        combined.setdefault((tuple(sizes), price), []).append(color)
+
+    rows = []
+    for (sizes, price), colors_for_sizes in combined.items():
+        if sizes and all(size.endswith("cm") for size in sizes):
+            size_text = "/".join(size.removesuffix("cm") for size in sizes) + "cm"
+        else:
+            size_text = "/".join(sizes)
+        row = f"{' / '.join(colors_for_sizes)}: {size_text}"
+        if len(prices) > 1:
+            row += f"  ¥{price:,}"
+        rows.append(row)
+    return "\n".join(rows), prices
 
 
 def _draw_card(canvas: Canvas, product: Product, image_path: Path, x: float, y: float, font: str) -> None:
@@ -82,29 +137,39 @@ def _draw_card(canvas: Canvas, product: Product, image_path: Path, x: float, y: 
     canvas.setStrokeColor(colors.HexColor("#E3E5E8"))
     canvas.roundRect(x, y, CARD_WIDTH, CARD_HEIGHT, 10, fill=1, stroke=1)
     image_padding = 14
-    image_height = CARD_HEIGHT - 116
-    _draw_contained_image(canvas, image_path, x + image_padding, y + 102, CARD_WIDTH - 2 * image_padding, image_height)
+    image_height = CARD_HEIGHT - 165
+    _draw_contained_image(canvas, image_path, x + image_padding, y + 154, CARD_WIDTH - 2 * image_padding, image_height)
 
     text_x = x + 16
     max_width = CARD_WIDTH - 32
     canvas.setFillColor(INK)
-    name_size = _fit_text(product.name, font, max_width, 13, 9)
-    canvas.setFont(font, name_size)
-    canvas.drawString(text_x, y + 82, product.name)
+    name_size, name_lines = _fit_wrapped_text(product.name, font, max_width, 3, 13, 8)
+    while (
+        len(name_lines) > 1
+        and pdfmetrics.stringWidth(name_lines[-1], font, name_size) < max_width * 0.2
+        and name_size > 8
+    ):
+        name_size = max(8, name_size - 0.5)
+        name_lines = _wrap_text(product.name, font, name_size, max_width)
+    _draw_lines(canvas, name_lines, text_x, y + 148, font, name_size, name_size * 1.18)
 
     canvas.setFillColor(MUTED)
     canvas.setFont(font, 9.5)
-    canvas.drawString(text_x, y + 63, f"品番  {product.product_number}")
-    variants = _color_size_text(product)
-    variant_size = _fit_text(variants, font, max_width, 9.5, 7.5)
-    canvas.setFont(font, variant_size)
-    canvas.drawString(text_x, y + 45, variants)
+    canvas.drawString(text_x, y + 96, f"品番  {product.product_number}")
+    variant_text, prices = _variant_text(product)
+    variant_size, variant_lines = _fit_wrapped_text(variant_text, font, max_width, 7, 9.5, 6.5)
+    _draw_lines(canvas, variant_lines, text_x, y + 88, font, variant_size, variant_size * 1.13)
 
     canvas.setFillColor(ACCENT)
-    price = f"人民币 ¥{product.pdf_price:,}"
-    price_size = _fit_text(price, font, max_width, 18, 13)
+    if not prices:
+        price = "暂时缺货"
+    elif len(prices) == 1:
+        price = f"人民币 ¥{prices[0]:,}"
+    else:
+        price = f"人民币 ¥{prices[0]:,} - ¥{prices[-1]:,}"
+    price_size, price_lines = _fit_wrapped_text(price, font, max_width, 1, 18, 11)
     canvas.setFont(font, price_size)
-    canvas.drawRightString(x + CARD_WIDTH - 16, y + 18, price)
+    canvas.drawRightString(x + CARD_WIDTH - 16, y + 17, price_lines[0])
 
 
 def generate_price_list(

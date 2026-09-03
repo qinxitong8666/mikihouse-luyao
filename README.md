@@ -8,7 +8,9 @@ MIKI HOUSE 商品抓取与微信客户版 PDF 商品册。程序读取 `special_
 PDF售价 = ceil(税入价 × 0.73 × 0.0435)
 ```
 
-例如 `10-1105-495` 的税入价为 `¥44,000`，PDF 售价为 `1398`。
+公式逐变体计算。若同一商品的颜色或尺码价格不同，每个变体分别保存 `tax_included_price_jpy` 和 `pdf_price`，不会再因价格不一致而拒绝整个商品。例如 `10-1105-495` 的税入价为 `¥44,000`，人民币售价为 `1398`。
+
+为兼容旧数据读取方，商品级 `tax_included_price_jpy` 和 `pdf_price` 在所有变体同价时仍保留数值；多价商品中这两个字段为 `null`。JSON 同时提供商品级的 `*_min`/`*_max` 汇总字段，实际销售价应始终以 `variants[]` 内的值为准。
 
 ## 环境与安装
 
@@ -38,6 +40,8 @@ product_number
 
 品番必须符合 `NN-NNNN-NNN` 格式，重复项会保持原顺序去重。
 
+正式 2026AW 批次只需将完整特殊品番逐行写入同一 CSV。程序顺序处理所有品番、缓存已经下载的图片，并在单个品番失败时继续余下任务。
+
 ## 运行
 
 ```bash
@@ -48,6 +52,12 @@ mikihouse-luyao --input special_skus.csv
 
 ```bash
 python -m mikihouse_luyao --input special_skus.csv
+```
+
+默认在官网商品请求之间等待 `0.5` 秒，以适应大批量任务的 API 限流。可按需要调整：
+
+```bash
+python -m mikihouse_luyao --input special_skus.csv --delay 0.8
 ```
 
 默认输出：
@@ -69,11 +79,23 @@ python -m mikihouse_luyao --input special_skus.csv
 pytest -q
 ```
 
+## 真实官网 smoke test
+
+`smoke_skus_2026aw.csv` 包含 12 个不同品类的真实商品，包括服装、鞋、包、袜、餐具和玩具，以及一个不同变体存在两档价格的回归商品。运行命令会真实抓取官网数据与原图，验证逐变体价格、输入顺序、失败报告、图片缓存、PDF 页数和内部定价信息隔离，并输出 `smoke_report.json`：
+
+```bash
+python scripts/smoke_test.py \
+  --input smoke_skus_2026aw.csv \
+  --output output/smoke-2026aw
+```
+
 ## 当前范围
 
 - 以官网 Shopify Storefront API 为主要数据源，抓取实时可售状态；`ProductGroup` JSON-LD 作为回退解析器。
-- 校验请求品番与官网 canonical 商品 URL 一致，并检查必填字段和各变体价格一致性。
+- 校验请求品番与官网商品 handle 一致、必填字段完整，并拒绝非整数 JPY 价格或未完整读取的超大变体集合。
+- 每个变体独立保存并计算价格；不同颜色或尺码价格不同时，PDF 会在对应颜色/尺码行标出人民币价格，并在卡片底部显示人民币价格区间。
 - PDF 为 A4 2×2 商品卡片，适合直接通过微信发送；只显示商品图、商品名、品番、在售颜色/尺码和最终人民币售价。
+- 商品名支持最多三行自适应换行；颜色/尺码按相同尺码集合与价格合并、压缩重复单位，并动态缩小字号以防止溢出。
 - 税入日元底价、折扣、汇率和定价公式只存在于 JSON/底层计算，PDF 中不会出现。
 - 主图先下载并校验为有效图片，再从本地缓存嵌入 PDF，避免生成时出现远程图片空白。
 - 页面结构变化时会快速失败，避免静默产生错误价格表。

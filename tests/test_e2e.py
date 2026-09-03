@@ -32,7 +32,7 @@ def test_csv_to_json_failure_report_and_customer_pdf(tmp_path, monkeypatch) -> N
     failures_path = tmp_path / "failures.json"
     assert cli.main([
         "--input", str(csv_path), "--json", str(json_path), "--pdf", str(pdf_path),
-        "--failures", str(failures_path), "--image-cache", str(tmp_path / "cache"),
+        "--failures", str(failures_path), "--image-cache", str(tmp_path / "cache"), "--delay", "0",
     ]) == 0
     assert json.loads(json_path.read_text(encoding="utf-8"))[0]["tax_included_price_jpy"] == 44_000
     assert json.loads(failures_path.read_text(encoding="utf-8")) == []
@@ -59,6 +59,7 @@ def test_batch_continues_and_reports_failed_sku(tmp_path, monkeypatch) -> None:
     result = cli.main([
         "--input", str(csv_path), "--json", str(tmp_path / "products.json"),
         "--pdf", str(tmp_path / "catalog.pdf"), "--failures", str(failures_path),
+        "--delay", "0",
     ])
     assert result == 2
     assert json.loads(failures_path.read_text(encoding="utf-8")) == [
@@ -74,3 +75,35 @@ def test_four_cards_per_page(tmp_path) -> None:
     images = {product.product_number: image_path for product in products}
     pdf_path = generate_price_list(products, images, tmp_path / "five.pdf")
     assert len(PdfReader(pdf_path).pages) == 2
+
+
+def test_long_name_and_multi_price_variants_fit_card(tmp_path) -> None:
+    base = _product()
+    varied = replace(
+        base,
+        name="【WEB限定】とても長い商品名を想定したミキハウスベア秋冬コレクション商品セット【配送希望日・返品不可】",
+        tax_included_price_jpy=None,
+        pdf_price=None,
+        variants=tuple(
+            replace(
+                variant,
+                color=color,
+                size=size,
+                tax_included_price_jpy=jpy,
+                pdf_price=pdf_price,
+            )
+            for variant, color, size, jpy, pdf_price in [
+                (base.variants[0], "赤", "80cm", 13_200, 420),
+                (base.variants[0], "赤", "90cm", 13_200, 420),
+                (base.variants[0], "紺", "100cm", 15_400, 490),
+                (base.variants[0], "紺", "110cm", 15_400, 490),
+                (base.variants[0], "マルチカラー", "120cm", 16_500, 524),
+            ]
+        ),
+    )
+    image_path = _image(tmp_path / "main.jpg")
+    pdf_path = generate_price_list([varied], {varied.product_number: image_path}, tmp_path / "varied.pdf")
+    text = PdfReader(pdf_path).pages[0].extract_text() or ""
+    assert "¥420" in text and "¥490" in text and "¥524" in text
+    assert "人民币 ¥420 - ¥524" in text
+    assert "13200" not in text and "15400" not in text and "16500" not in text
