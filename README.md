@@ -1,6 +1,6 @@
 # mikihouse-luyao
 
-第一阶段的 MIKI HOUSE 商品抓取与 PDF 价格表骨架。程序读取 `special_skus.csv`，按品番访问 MIKI HOUSE 日本官网商品页，校验商品编号并提取商品名、税入价、官方主图、颜色、尺码和库存；同时计算 PDF 售价并输出 JSON 与基础 PDF 价格表。
+MIKI HOUSE 商品抓取与微信客户版 PDF 商品册。程序读取 `special_skus.csv`，通过官网 Storefront API 按品番抓取并校验商品名、税入价、官方高清主图、颜色、尺码和库存；随后缓存主图、输出底层 JSON，并制作每页最多四件的 A4 商品卡片。
 
 ## 定价规则
 
@@ -53,25 +53,27 @@ python -m mikihouse_luyao --input special_skus.csv
 默认输出：
 
 - `output/products.json`
-- `output/pdf/mikihouse_price_list.pdf`
+- `output/pdf/mikihouse_wechat_catalog.pdf`
+- `output/failed_skus.json`
+- `output/image-cache/`（按图片 URL 指纹缓存的官网原图）
 
-可通过 `--json` 和 `--pdf` 修改路径。官网可能对数据中心 IP 返回 HTTP 403；这是站点侧的访问限制，程序会重试后明确失败。请降低运行频率并遵守官网条款，勿绕过访问控制。
+可通过 `--json`、`--pdf`、`--failures` 和 `--image-cache` 修改路径。在线抓取优先使用官网公开的只读 Storefront API，商品 HTML 页面作为回退。公开令牌轮换时可用 `MIKIHOUSE_STOREFRONT_TOKEN` 环境变量覆盖。
+
+批量任务逐 SKU 隔离失败：单商品抓取或图片下载失败不会阻断其他商品。只要仍有成功商品，就会生成 JSON 和 PDF；失败项写入 `failed_skus.json`，进程返回码为 `2`，便于自动化任务识别“部分成功”。全部成功返回 `0`，全失败返回 `1`。
 
 ## 可复现的端到端样例
 
-仓库保存了从官方页面 JSON-LD 精简得到的 `10-1105-495` 测试夹具，因此无需联网也能验证 CSV → 抓取解析 → 校验 → 定价 → JSON/PDF 的完整链路：
+仓库保存了从官方页面 JSON-LD 精简得到的 `10-1105-495` 测试夹具，可用于解析器的离线验证。完整 PDF 测试使用本地测试图片，不依赖网络：
 
 ```bash
-python -m mikihouse_luyao \
-  --input special_skus.csv \
-  --html-file tests/fixtures/10-1105-495.html \
-  --json output/products.json \
-  --pdf output/pdf/mikihouse_price_list.pdf
+pytest -q
 ```
 
 ## 当前范围
 
-- 以官网 `ProductGroup` JSON-LD 为主要数据源，页面库存文字补充“剩余 N 件”等精确信息。
+- 以官网 Shopify Storefront API 为主要数据源，抓取实时可售状态；`ProductGroup` JSON-LD 作为回退解析器。
 - 校验请求品番与官网 canonical 商品 URL 一致，并检查必填字段和各变体价格一致性。
-- 第一阶段 PDF 是便于核对的数据表，不下载/嵌入远程主图；JSON 中保留完整官方主图 URL。
+- PDF 为 A4 2×2 商品卡片，适合直接通过微信发送；只显示商品图、商品名、品番、在售颜色/尺码和最终人民币售价。
+- 税入日元底价、折扣、汇率和定价公式只存在于 JSON/底层计算，PDF 中不会出现。
+- 主图先下载并校验为有效图片，再从本地缓存嵌入 PDF，避免生成时出现远程图片空白。
 - 页面结构变化时会快速失败，避免静默产生错误价格表。

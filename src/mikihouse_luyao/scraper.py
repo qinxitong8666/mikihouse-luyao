@@ -12,7 +12,28 @@ from .pricing import calculate_pdf_price
 
 
 BASE_URL = "https://www.mikihouse.co.jp/products/{product_number}"
+STOREFRONT_API_URL = "https://www.mikihouse.co.jp/api/2025-07/graphql.json"
+# Shopify storefront tokens are public, read-only browser credentials. The
+# environment override makes token rotation deployable without a code change.
+STOREFRONT_TOKEN = "b7846f73a48db7fcd6036093f8769ca2"
 USER_AGENT = "Mozilla/5.0 (compatible; mikihouse-luyao/0.1; +https://github.com/qinxitong8666/mikihouse-luyao)"
+STOREFRONT_QUERY = """
+query ProductByHandle($handle: String!) {
+  product(handle: $handle) {
+    title
+    handle
+    featuredImage { url }
+    variants(first: 100) {
+      nodes {
+        title
+        sku
+        availableForSale
+        price { amount currencyCode }
+      }
+    }
+  }
+}
+"""
 
 
 class ScrapeError(RuntimeError):
@@ -120,19 +141,96 @@ def parse_product_html(html: str, requested_product_number: str, source_url: str
     )
 
 
-def fetch_product(product_number: str, timeout: float = 20, retries: int = 2) -> Product:
-    url = BASE_URL.format(product_number=product_number)
-    request = Request(url, headers={"User-Agent": USER_AGENT, "Accept-Language": "ja-JP,ja;q=0.9"})
+def parse_storefront_response(payload: dict, requested_product_number: str) -> Product:
+    product = (payload.get("data") or {}).get("product")
+    if not product:
+        errors = "; ".join(str(item.get("message", item)) for item in payload.get("errors", []))
+        raise ScrapeError(errors or f"product not found: {requested_product_number}")
+    handle = str(product.get("handle") or "")
+    if handle != requested_product_number:
+        raise ScrapeError(f"product number mismatch: requested {requested_product_number}, API has {handle}")
+    name = str(product.get("title") or "").strip()
+    image = str((product.get("featuredImage") or {}).get("url") or "")
+    raw_variants = ((product.get("variants") or {}).get("nodes") or [])
+    if not raw_variants:
+        raise ScrapeError("no variants found")
+
+    variants: list[Variant] = []
+    prices: set[int] = set()
+    for item in raw_variants:
+        option = str(item.get("title") or "")
+        parts = [part.strip() for part in option.split("/")]
+        color, size = (parts[0], parts[1]) if len(parts) >= 2 else ("", option)
+        price_data = item.get("price") or {}
+        if price_data.get("currencyCode") != "JPY":
+            raise ScrapeError(f"unexpected currency: {price_data.get('currencyCode')}")
+        prices.add(int(float(price_data["amount"])))
+        in_stock = bool(item.get("availableForSale"))
+        variants.append(Variant(
+            color=color,
+            size=size,
+            in_stock=in_stock,
+            stock_text="在庫あり" if in_stock else "在庫なし",
+            sku=str(item.get("sku") or ""),
+        ))
+    if len(prices) != 1:
+        raise ScrapeError(f"variants have inconsistent prices: {sorted(prices)}")
+    price = prices.pop()
+    if not name or not image:
+        raise ScrapeError("required product fields are missing")
+    return Product(
+        product_number=handle,
+        name=name,
+        tax_included_price_jpy=price,
+        pdf_price=calculate_pdf_price(price),
+        main_image_url=image,
+        source_url=BASE_URL.format(product_number=handle),
+        variants=tuple(variants),
+    )
+
+
+def _request_with_retries(request: Request, timeout: float, retries: int) -> bytes:
     last_error: Exception | None = None
     for attempt in range(retries + 1):
         try:
             with urlopen(request, timeout=timeout) as response:
-                charset = response.headers.get_content_charset() or "utf-8"
-                html = response.read().decode(charset, errors="replace")
-            return parse_product_html(html, product_number, url)
+                return response.read()
         except (HTTPError, URLError, TimeoutError) as exc:
             last_error = exc
             if attempt < retries:
                 time.sleep(0.5 * (2**attempt))
-    raise ScrapeError(f"failed to fetch {url}: {last_error}") from last_error
+    raise ScrapeError(f"request failed: {last_error}") from last_error
 
+
+def _fetch_storefront(product_number: str, timeout: float, retries: int) -> Product:
+    import os
+
+    body = json.dumps({"query": STOREFRONT_QUERY, "variables": {"handle": product_number}}).encode("utf-8")
+    request = Request(STOREFRONT_API_URL, data=body, headers={
+        "User-Agent": USER_AGENT,
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": os.environ.get("MIKIHOUSE_STOREFRONT_TOKEN", STOREFRONT_TOKEN),
+    })
+    raw = _request_with_retries(request, timeout, retries)
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ScrapeError("Storefront API returned invalid JSON") from exc
+    return parse_storefront_response(payload, product_number)
+
+
+def _fetch_html(product_number: str, timeout: float, retries: int) -> Product:
+    url = BASE_URL.format(product_number=product_number)
+    request = Request(url, headers={"User-Agent": USER_AGENT, "Accept-Language": "ja-JP,ja;q=0.9"})
+    html = _request_with_retries(request, timeout, retries).decode("utf-8", errors="replace")
+    return parse_product_html(html, product_number, url)
+
+
+def fetch_product(product_number: str, timeout: float = 20, retries: int = 2) -> Product:
+    try:
+        return _fetch_storefront(product_number, timeout, retries)
+    except ScrapeError as api_error:
+        try:
+            return _fetch_html(product_number, timeout, retries)
+        except ScrapeError as html_error:
+            raise ScrapeError(f"Storefront API: {api_error}; product page: {html_error}") from html_error
