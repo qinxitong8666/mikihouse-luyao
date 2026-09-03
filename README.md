@@ -97,6 +97,18 @@ PYTHONPATH=src python scripts/production_2026aw.py
 
 当前清单共 351 个唯一品番，其中 231 个带 `gold_label` 标记。最近一次完整在线生产的精确成功数、失败数、待复核数和 PDF 页数以 `deliverables/production_report.json` 为准。
 
+最终交付前应把 PDF 全部页面以至少 200dpi 渲染并逐页人工检查。检查完成后运行以下命令，将页数、渲染尺寸、失败品番处置、文件大小、SHA-256 和 `visual_qa_passed` 写回正式报告：
+
+```bash
+PYTHONPATH=src python scripts/final_visual_qa.py \
+  --use-existing-renders \
+  --manual-review-passed
+```
+
+若尚未生成渲染图，省略 `--use-existing-renders`，脚本会调用 `pdftoppm` 在 `tmp/pdfs/final-200dpi-pages/` 生成全部页面。`--manual-review-passed` 只能在人工查看完每一页后使用；自动校验还会确认 311 个成功品番各出现一次、失败品番未进入 PDF、客户版没有内部定价文本，并拒绝空白页或低于 200dpi 的渲染。
+
+本轮最终验收不再重试 40 个失败品番：它们按官网当前不可售或已下架处理，完整保留在 `output/production-2026aw/failed_skus.json`，并明确排除在正式 PDF 之外。
+
 ## 鞋类专用输出
 
 鞋类依据官网标签和商品名识别，并在 PDF 中稳定排在其他商品之前。每个颜色严格使用该颜色 variant 的官网图片；所有图片按原始 URL 下载并缓存，PDF 只改变显示尺寸，不生成低分辨率缩略图。官网旧款若只提供 700×700 原图，程序保留其真实尺寸，不做虚假放大。

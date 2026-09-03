@@ -184,6 +184,21 @@ def main() -> int:
         "pdf_page_count": pdf_pages,
         "pdf_file_size_bytes": deliverable.stat().st_size,
         "pdf_sha256": hashlib.sha256(deliverable.read_bytes()).hexdigest(),
+        "failed_sku_handling": {
+            "disposition": "pending_final_review",
+            "retry_attempted_during_final_qa": None,
+            "included_in_pdf": False,
+            "retained_in_failure_report": True,
+            "count": len(failed_skus),
+        },
+        "visual_qa": {
+            "scope": "pending",
+            "render_dpi": None,
+            "rendered_page_count": 0,
+            "layout_changes_required": None,
+            "passed": False,
+        },
+        "visual_qa_passed": False,
         "shoe_smoke_test": smoke_summary,
         "pipeline_exit_code": pipeline_code,
         "outputs": {

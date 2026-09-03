@@ -31,5 +31,33 @@
     "products_json": "output/production-2026aw/products.json",
     "failed_skus": "output/production-2026aw/failed_skus.json",
     "review_required": "output/production-2026aw/review_required.csv"
-  }
+  },
+  "failed_sku_handling": {
+    "disposition": "official_site_currently_unavailable_or_delisted",
+    "retry_attempted_during_final_qa": false,
+    "included_in_pdf": false,
+    "retained_in_failure_report": true,
+    "count": 40
+  },
+  "visual_qa": {
+    "checked_at": "2026-09-03T14:13:49.450856+00:00",
+    "scope": "all_pages",
+    "render_dpi": 200,
+    "rendered_page_count": 79,
+    "render_dimensions_pixels": [
+      1654,
+      2339
+    ],
+    "checks": [
+      "footwear_collages_and_color_labels",
+      "available_sizes_and_price_display",
+      "product_names_and_product_numbers",
+      "clipping_overlap_and_page_bounds",
+      "font_readability",
+      "image_integrity"
+    ],
+    "layout_changes_required": false,
+    "passed": true
+  },
+  "visual_qa_passed": true
 }
