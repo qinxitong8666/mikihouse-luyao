@@ -219,6 +219,135 @@ class UiContextReadClient:
             "auth_values_included": False,
         }
 
+    def list_context_rows(
+        self,
+        *,
+        good_type: str = "",
+        max_pages: int = 100,
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+        """Read every row visible through the captured UI filter context.
+
+        Only the product-name filter is cleared and the category/page fields are
+        varied. All other browser-captured form fields and their order are kept.
+        The returned summary intentionally excludes authentication values.
+        """
+        if max_pages < 1:
+            raise LiveImportError("UI-context max_pages must be positive")
+        first_pairs = self._query_pairs("", str(good_type), 1)
+        first = self._post(
+            self.url,
+            first_pairs,
+            path=LIST_PATH,
+            operation="UI-context capacity-audit list page 1",
+        )
+        page_size = max(1, int(dict(first_pairs).get("page_size") or 20))
+        declared = _response_count(first)
+        required_pages = max(1, math.ceil((declared or 0) / page_size))
+        if required_pages > max_pages:
+            raise LiveImportError(
+                f"UI-context capacity audit requires {required_pages} pages; "
+                f"configured maximum is {max_pages}"
+            )
+        rows = response_rows(first)
+        for page in range(2, required_pages + 1):
+            rows.extend(response_rows(self._post(
+                self.url,
+                self._query_pairs("", str(good_type), page),
+                path=LIST_PATH,
+                operation=f"UI-context capacity-audit list page {page}",
+            )))
+        unique: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            product_id = _row_id(row)
+            if product_id:
+                unique[product_id] = row
+        if declared is not None and len(unique) != declared:
+            raise ContractMismatchError(
+                "UI-context capacity audit did not enumerate the declared unique product count: "
+                f"declared={declared}, unique={len(unique)}"
+            )
+        return list(unique.values()), {
+            "good_type": str(good_type),
+            "declared_count": declared,
+            "unique_product_count": len(unique),
+            "page_size": page_size,
+            "pages_read": required_pages,
+            "all_declared_rows_enumerated": declared is not None and len(unique) == declared,
+            "preserved_filter_context": {
+                key: value
+                for key, value in self.base_form.items()
+                if key not in {"token", "secret", "good_name", "good_type", "page"}
+            },
+            "auth_values_included": False,
+        }
+
+    def sample_context_rows(
+        self,
+        *,
+        good_type: str = "",
+        sample_page_count: int = 32,
+        max_declared_pages: int = 500,
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+        """Deterministically sample evenly spaced pages from the captured UI context."""
+        if sample_page_count < 1 or max_declared_pages < 1:
+            raise LiveImportError("UI-context sampling bounds must be positive")
+        first_pairs = self._query_pairs("", str(good_type), 1)
+        first = self._post(
+            self.url,
+            first_pairs,
+            path=LIST_PATH,
+            operation="UI-context capacity-audit sampled list page 1",
+        )
+        page_size = max(1, int(dict(first_pairs).get("page_size") or 20))
+        declared = _response_count(first)
+        declared_pages = max(1, math.ceil((declared or 0) / page_size))
+        if declared_pages > max_declared_pages:
+            raise LiveImportError(
+                f"UI-context declared page count {declared_pages} exceeds safety ceiling "
+                f"{max_declared_pages}"
+            )
+        count = min(sample_page_count, declared_pages)
+        if count == 1:
+            sampled_pages = [1]
+        else:
+            sampled_pages = sorted({
+                1 + round(index * (declared_pages - 1) / (count - 1))
+                for index in range(count)
+            })
+        rows = response_rows(first)
+        for page in sampled_pages:
+            if page == 1:
+                continue
+            rows.extend(response_rows(self._post(
+                self.url,
+                self._query_pairs("", str(good_type), page),
+                path=LIST_PATH,
+                operation=f"UI-context capacity-audit sampled list page {page}",
+            )))
+        unique: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            product_id = _row_id(row)
+            if product_id:
+                unique[product_id] = row
+        return list(unique.values()), {
+            "good_type": str(good_type),
+            "declared_count": declared,
+            "declared_page_count": declared_pages,
+            "page_size": page_size,
+            "sampled_page_count": len(sampled_pages),
+            "sampled_pages": sampled_pages,
+            "sampled_unique_product_count": len(unique),
+            "sampling_policy": "deterministic_evenly_spaced_pages_including_first_and_last",
+            "sampling_is_deterministic": True,
+            "all_declared_rows_enumerated": len(sampled_pages) == declared_pages,
+            "preserved_filter_context": {
+                key: value
+                for key, value in self.base_form.items()
+                if key not in {"token", "secret", "good_name", "good_type", "page"}
+            },
+            "auth_values_included": False,
+        }
+
     def product_detail(self, product_id: str) -> dict[str, Any]:
         prefix = self.url.split("/shopapi/", 1)[0]
         detail_url = f"{prefix}{DETAIL_PATH}&token={urllib.parse.quote(self.query_token)}"

@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:19:31.320210+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-6602-492",
+      "product_number": "63-6602-492",
+      "shijiu_product_id": "9358241",
+      "target_category_id": 294884,
+      "good_name": "セーター",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg"
+      ],
+      "detail_image_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg"
+      ],
+      "sku_count": 14,
+      "skus": [
+        {
+          "source_variant_sku": "63-6602-49200050800",
+          "backend_sku_code": "MIKI-63-6602-49200050800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200050800"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,80cm",
+          "color": "黒",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200050900",
+          "backend_sku_code": "MIKI-63-6602-49200050900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200050900"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,90cm",
+          "color": "黒",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200051000",
+          "backend_sku_code": "MIKI-63-6602-49200051000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200051000"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,100cm",
+          "color": "黒",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200051100",
+          "backend_sku_code": "MIKI-63-6602-49200051100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200051100"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,110cm",
+          "color": "黒",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200051200",
+          "backend_sku_code": "MIKI-63-6602-49200051200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200051200"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,120cm",
+          "color": "黒",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200051300",
+          "backend_sku_code": "MIKI-63-6602-49200051300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200051300"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,130cm",
+          "color": "黒",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200051400",
+          "backend_sku_code": "MIKI-63-6602-49200051400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200051400"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "黒,140cm",
+          "color": "黒",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200310800",
+          "backend_sku_code": "MIKI-63-6602-49200310800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200310800"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,80cm",
+          "color": "アイボリー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200310900",
+          "backend_sku_code": "MIKI-63-6602-49200310900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200310900"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,90cm",
+          "color": "アイボリー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200311000",
+          "backend_sku_code": "MIKI-63-6602-49200311000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200311000"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,100cm",
+          "color": "アイボリー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200311100",
+          "backend_sku_code": "MIKI-63-6602-49200311100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200311100"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,110cm",
+          "color": "アイボリー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200311200",
+          "backend_sku_code": "MIKI-63-6602-49200311200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200311200"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,120cm",
+          "color": "アイボリー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200311300",
+          "backend_sku_code": "MIKI-63-6602-49200311300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200311300"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,130cm",
+          "color": "アイボリー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-6602-49200311400",
+          "backend_sku_code": "MIKI-63-6602-49200311400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358241",
+            "backend_sku_code": "MIKI-63-6602-49200311400"
+          },
+          "price_jpy": 8580,
+          "stock": 1,
+          "specification": "アイボリー,140cm",
+          "color": "アイボリー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T07:19:31.217019+00:00"
+    }
+  ],
+  "verified_product_count": 1,
+  "verified_sku_count": 14,
+  "all_passed": true,
+  "sensitive_values_included": false
+}

@@ -148415,8 +148415,8 @@
       "product_number": "63-6602-492",
       "source_present": true,
       "target_category_id": 294884,
-      "shijiu_product_id": null,
-      "last_verified_at": null,
+      "shijiu_product_id": "9358241",
+      "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
       "variants": {
         "63-6602-49200050800": {
           "source": "MIKIHOUSE",
@@ -148425,7 +148425,10 @@
           "backend_sku_code": "MIKI-63-6602-49200050800",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200050900": {
           "source": "MIKIHOUSE",
@@ -148434,7 +148437,10 @@
           "backend_sku_code": "MIKI-63-6602-49200050900",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200051000": {
           "source": "MIKIHOUSE",
@@ -148443,7 +148449,10 @@
           "backend_sku_code": "MIKI-63-6602-49200051000",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200051100": {
           "source": "MIKIHOUSE",
@@ -148452,7 +148461,10 @@
           "backend_sku_code": "MIKI-63-6602-49200051100",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200051200": {
           "source": "MIKIHOUSE",
@@ -148461,7 +148473,10 @@
           "backend_sku_code": "MIKI-63-6602-49200051200",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200051300": {
           "source": "MIKIHOUSE",
@@ -148470,7 +148485,10 @@
           "backend_sku_code": "MIKI-63-6602-49200051300",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200051400": {
           "source": "MIKIHOUSE",
@@ -148479,7 +148497,10 @@
           "backend_sku_code": "MIKI-63-6602-49200051400",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200310800": {
           "source": "MIKIHOUSE",
@@ -148488,7 +148509,10 @@
           "backend_sku_code": "MIKI-63-6602-49200310800",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200310900": {
           "source": "MIKIHOUSE",
@@ -148497,7 +148521,10 @@
           "backend_sku_code": "MIKI-63-6602-49200310900",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200311000": {
           "source": "MIKIHOUSE",
@@ -148506,7 +148533,10 @@
           "backend_sku_code": "MIKI-63-6602-49200311000",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200311100": {
           "source": "MIKIHOUSE",
@@ -148515,7 +148545,10 @@
           "backend_sku_code": "MIKI-63-6602-49200311100",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200311200": {
           "source": "MIKIHOUSE",
@@ -148524,7 +148557,10 @@
           "backend_sku_code": "MIKI-63-6602-49200311200",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200311300": {
           "source": "MIKIHOUSE",
@@ -148533,7 +148569,10 @@
           "backend_sku_code": "MIKI-63-6602-49200311300",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-6602-49200311400": {
           "source": "MIKIHOUSE",
@@ -148542,9 +148581,15 @@
           "backend_sku_code": "MIKI-63-6602-49200311400",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T07:19:31.217019+00:00",
+          "target_product_id": "9358241",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         }
-      }
+      },
+      "match_method": "post_create_detail_readback",
+      "target_active": false,
+      "last_payload_sha256": "3d2bc1e8ff80f436f6d09e37d30a8aed29a0f13ac1572beab5b0d958bffff121"
     },
     "63-7301-792": {
       "source": "MIKIHOUSE",
@@ -171755,5 +171800,5 @@
     "name": "MikiHouse",
     "parent_id": 288338
   },
-  "updated_at": "2026-09-04T05:49:53.859109+00:00"
+  "updated_at": "2026-09-04T07:19:31.240334+00:00"
 }

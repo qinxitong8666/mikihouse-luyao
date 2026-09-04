@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:18:20.565385+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "HIGH_SKU_14_SINGLE_REAL_IMPORT_VALIDATION",
+  "selection_policy": "fixed previously-planned low-image high-SKU candidate reauthorized as an independent one-product batch",
+  "independent_of_prior_serial_gate": true,
+  "prior_bisection_remains_frozen": true,
+  "original_complex_five_remain_frozen": true,
+  "fixed_target_category_id": 294884,
+  "pdf_special_exclusion_count": 351,
+  "maximum_product_create_requests": 1,
+  "hard_prohibited_products": [
+    "00-1000-028",
+    "00-4000-054",
+    "00-4000-057",
+    "10-1829-685",
+    "10-8223-684",
+    "10-8227-686",
+    "13-9310-490",
+    "17-1366-244",
+    "36-2001-572"
+  ],
+  "capacity_audit_sha256": "93188f0811cadf6dafc5645fb454ba18a7a25a567a9c94a6e1f66c49758cabd2",
+  "protected_frozen_evidence": {
+    "original_complex_batch_checkpoint_sha256": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+    "prior_bisection_selection_sha256": "2b682ccd0fa6d97165173b21ef7ac0f3ffa2dbf802f11db125d104173f3237d5",
+    "prior_bisection_checkpoint_sha256": "a4b2d04e1bc83f8e01a186be398e2e82d353dc848679d39303bd9790fe302a47",
+    "prior_bisection_report_sha256": "7be41c08702a6918a7fd92c916ecb7dcc8dea472459812880bc16a6edc864c3b"
+  },
+  "products": [
+    {
+      "sequence": 1,
+      "role": "LOW_IMAGE_HIGH_SKU_14_VARIANT_PROBE",
+      "product_number": "63-6602-492",
+      "good_name": "セーター",
+      "variant_count": 14,
+      "available_variant_count": 14,
+      "color_count": 2,
+      "size_count": 7,
+      "image_count": 6,
+      "detail_image_count": 4,
+      "planned_business_payload_utf8_byte_count": 7940,
+      "payload_sha256": "cea8092f83b7b76323ddf8d70c7bf7e1f4a79a28dd7ec64b5cb1ea93835af853"
+    }
+  ],
+  "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+}

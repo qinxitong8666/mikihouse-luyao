@@ -572,3 +572,48 @@ PYTHONPATH=src python scripts/import_shijiu_complexity_bisection.py \
 - `deliverables/shijiu_import/complexity_bisection_readbacks.json`：强回读结果；
 - `deliverables/shijiu_import/complexity_bisection_diagnosis.json`：实际探针 payload 指标和诊断边界；
 - `state/shijiu_complexity_bisection_checkpoint.json`：独立逐图、CREATE 和 reconciliation 断点。
+
+## Shijiu 14-SKU 独立探针与富媒体容量经验审计
+
+原复杂 5 件批次和上述两件二分批次继续永久冻结：不重试 `13-9310-490` 或 `00-4000-057`，也不恢复旧 checkpoint 中的第二件。经新的单商品明确授权，`63-6602-492` 被复制为一个全新、独立的验证边界；新配置、确认词、checkpoint 和报告均与旧二分批次隔离。执行器在写前逐文件校验两个旧批次的冻结哈希，并要求先存在零写入的富媒体容量审计，不能借此解冻旧批次。
+
+容量审计复用 browser-exact UI 上下文，只允许 `Goods.index` 和 `getFormatInfo`。当前列表上下文声明 3,840 件商品；为避免以数千次详情请求冲击生产后台，审计固定读取首尾及中间等距分布的 32 页，并强制加入 browser-exact 非 MIKI 测试商品、6 件 legacy 只读样本和已映射成功样本，共读取 328 件唯一商品详情。360 次目标请求全部为只读，CREATE、UPDATE、图片上传和 legacy 修改均为 0。报告不保存商品名、商品 ID 原值、图片 URL 或认证值。
+
+下表将三次历史 payload 与目标端抽样观察最大值放在一起。最后一列是“各字段分别取最大”的组合行，不保证来自同一商品，也不代表目标全库最大值或服务器硬限制：
+
+| 指标 | `36-2001-572` 成功 | `13-9310-490` 未持久化 | `00-4000-057` 未持久化 | 目标端只读经验最大值 |
+|---|---:|---:|---:|---:|
+| SKU 数 | 1 | 24 | 4 | 60 |
+| broadcast 字符 / URL | 76 / 1 | 3,233 / 42 | 5,697 / 74 | 991 / 16 |
+| good_detail_pics 字符 / URL | 0 / 0 | 2,925 / 38 | 5,389 / 70 | 615 / 8 |
+| good_details 字符 / UTF-8 bytes / 图片 | 235 / 489 / 0 | 5,821 / 9,331 / 38 | 9,625 / 13,442 / 70 | 1,024 / 2,560 / 0 |
+
+`63-6602-492` 写前在线核验为 14 variants、2 色、7 尺码、6 张轮播、4 张详情图，planned business payload 为 7,940 UTF-8 bytes。实际执行上传 6 张官方图片并发送唯一 1 次 browser-exact canonical CREATE；UI-context 以精确名称取得唯一 `shijiu_product_id=9358241`，随后 `getFormatInfo` 对全部 14 个精确 backend SKU、8,580 JPY 的 65 折价格、库存、颜色/尺码规格、SKU 图片、主图、完整轮播、详情图和类目 294884 全部通过。mapping 已持久化，14 个 `shijiu_sku_id` 因官方回读无该字段而保持 `null`。本轮合计 6 次图片上传、1 次 CREATE、6 次只读请求、0 次 UPDATE、0 次 legacy 操作；没有选择替代品，也没有生成或执行 20 件批次。
+
+结果将“当前 canonical CREATE 至少支持 14 SKU”标记为已验证。结合两个富媒体重商品均未持久化，剩余规模信号主要收敛到富媒体字段，但仍不能从现有样本推出服务器硬限制或单一根因。下一阶段草案采用：CREATE 仅提交核心商品、完整规格/SKU、主图及最多 4 张受控轮播；其余轮播、详情图片和最终详情 HTML 使用仓库已审计的 Shijiu 原生 edit 路径，按完整 payload 重提、分阶段补齐。每步写前保存完整 getFormatInfo 快照，写后强回读，任一不一致即冻结；真实 UPDATE 仍须新的明确授权。本轮只生成草案，未发送任何 UPDATE。
+
+```bash
+# 严格只读容量经验审计；不包含任何写接口
+PYTHONPATH=src python scripts/audit_shijiu_rich_media_capacity.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
+
+# 在线核验官网并冻结独立候选；零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_high_sku_probe.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 已消费的一次性写入命令；完成或失败后的 checkpoint 都禁止再次 CREATE
+PYTHONPATH=src python scripts/import_shijiu_high_sku_probe.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --confirm MIKIHOUSE_HIGH_SKU_14_SINGLE_REAL_IMPORT
+```
+
+本阶段证据：
+
+- `deliverables/shijiu_import/rich_media_capacity_empirical_audit.json`：抽样覆盖、SKU 分布、三份历史 payload 与目标端经验最大值；
+- `config/shijiu_high_sku_14_probe.json`：独立候选、永久排除集合、容量审计与旧冻结文件哈希；
+- `deliverables/shijiu_import/high_sku_14_probe_candidate.json`：官网在线复核和 canonical 私密证据哈希；
+- `deliverables/shijiu_import/high_sku_14_probe_report.json` 与 `high_sku_14_probe_readbacks.json`：写入计数和全部 14 SKU 强回读；
+- `deliverables/shijiu_import/high_sku_14_probe_diagnosis.json`：14-SKU 已通过及剩余证据边界；
+- `deliverables/shijiu_import/staged_rich_media_update_plan.json`：未授权、未执行的分阶段富媒体方案；
+- `state/shijiu_high_sku_14_probe_checkpoint.json` 与 `state/shijiu_mappings.json`：单商品幂等断点和稳定映射。

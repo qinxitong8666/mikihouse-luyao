@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:19:31.321139+00:00",
+  "status": "PLANNED_NOT_EXECUTED",
+  "prerequisite": "14-SKU independent CREATE probe strongly verified",
+  "scope": "future newly authorized MIKIHOUSE products only",
+  "create_stage": {
+    "fields": "core product + complete spec_name + complete sku_info + master_graph + controlled carousel subset",
+    "controlled_carousel_url_count": 4,
+    "good_detail_pics": "empty at CREATE",
+    "good_details": "text-only minimal detail at CREATE",
+    "required_readback": "exact good_name -> product_id -> getFormatInfo; verify every SKU and submitted image"
+  },
+  "update_stages": [
+    {
+      "sequence": 1,
+      "purpose": "resubmit the full native edit payload while adding remaining carousel URLs in bounded chunks",
+      "maximum_new_images_per_step": 8,
+      "required_readback": "exact ordered broadcast equality after every step"
+    },
+    {
+      "sequence": 2,
+      "purpose": "resubmit the full native edit payload while adding good_detail_pics in bounded chunks",
+      "maximum_new_images_per_step": 8,
+      "required_readback": "exact ordered detail-picture inclusion after every step"
+    },
+    {
+      "sequence": 3,
+      "purpose": "install final HTML detail content only after image fields verify",
+      "maximum_new_images_per_step": 8,
+      "required_readback": "exact expected COS URLs and detail content hash after every step"
+    }
+  ],
+  "fail_closed": "any mismatch freezes the product; no retry or next product",
+  "update_contract_requirement": "must use the repository-audited Shijiu native edit path with separate explicit write authorization",
+  "rollback_prerequisite": "persist the complete pre-update getFormatInfo snapshot before every stage",
+  "execution_authorized": false,
+  "update_requests_sent": 0,
+  "legacy_cleanup_executed": false,
+  "bulk_20_executed": false,
+  "sensitive_values_included": false
+}

@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:17:49.482677+00:00",
+  "status": "COMPLETED_READ_ONLY",
+  "mode": "SHIJIU_READ_ONLY_RICH_MEDIA_CAPACITY_EMPIRICAL_AUDIT",
+  "target": "SHIJIU",
+  "scope": {
+    "ui_context_list_coverage": {
+      "good_type": "",
+      "declared_count": 3840,
+      "declared_page_count": 384,
+      "page_size": 10,
+      "sampled_page_count": 32,
+      "sampled_pages": [
+        1,
+        13,
+        26,
+        38,
+        50,
+        63,
+        75,
+        87,
+        100,
+        112,
+        125,
+        137,
+        149,
+        162,
+        174,
+        186,
+        199,
+        211,
+        223,
+        236,
+        248,
+        260,
+        273,
+        285,
+        298,
+        310,
+        322,
+        335,
+        347,
+        359,
+        372,
+        384
+      ],
+      "sampled_unique_product_count": 320,
+      "sampling_policy": "deterministic_evenly_spaced_pages_including_first_and_last",
+      "sampling_is_deterministic": true,
+      "all_declared_rows_enumerated": false,
+      "preserved_filter_context": {
+        "father_type": "",
+        "recommend": "2",
+        "good_code": "",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "page_size": "10",
+        "group_id": ""
+      },
+      "auth_values_included": false
+    },
+    "ui_visible_product_count": 320,
+    "explicit_reference_product_count": 8,
+    "unique_detail_product_count": 328,
+    "cohort_product_counts": {
+      "LEGACY_REFERENCE_ONLY": 6,
+      "MAPPED_MIKIHOUSE_READ_ONLY_REFERENCE": 1,
+      "NON_MIKIHOUSE_BROWSER_TEST": 1,
+      "OTHER_UI_CONTEXT_READABLE_PRODUCT": 320
+    },
+    "all_ui_declared_rows_read": false,
+    "deterministic_evenly_spaced_page_sample_completed": true,
+    "legacy_reference_mode": "READ_ONLY_NO_IDENTITY_RECONCILIATION"
+  },
+  "target_empirical_observed_maxima": {
+    "sku_count": {
+      "value": 60,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "bbc376798a61259b64702299be3b105ce1e9920240eccaf690301a877d10c199"
+    },
+    "broadcast_character_count": {
+      "value": 991,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "e82cfbdf1a0611d22e8ec6f8fc20b9f3794db658c96ff03ff94c3b95ebad63ca"
+    },
+    "broadcast_utf8_byte_count": {
+      "value": 991,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "e82cfbdf1a0611d22e8ec6f8fc20b9f3794db658c96ff03ff94c3b95ebad63ca"
+    },
+    "broadcast_url_count": {
+      "value": 16,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "e82cfbdf1a0611d22e8ec6f8fc20b9f3794db658c96ff03ff94c3b95ebad63ca"
+    },
+    "broadcast_image_count": {
+      "value": 16,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "e82cfbdf1a0611d22e8ec6f8fc20b9f3794db658c96ff03ff94c3b95ebad63ca"
+    },
+    "good_detail_pics_character_count": {
+      "value": 615,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "fc5bbd7e74b6f07248d5c0698e18e8f4c8bfb58917a3a4bdbcfff33782dd63a0"
+    },
+    "good_detail_pics_utf8_byte_count": {
+      "value": 615,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "fc5bbd7e74b6f07248d5c0698e18e8f4c8bfb58917a3a4bdbcfff33782dd63a0"
+    },
+    "good_detail_pics_url_count": {
+      "value": 8,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "fc5bbd7e74b6f07248d5c0698e18e8f4c8bfb58917a3a4bdbcfff33782dd63a0"
+    },
+    "good_detail_pics_image_count": {
+      "value": 8,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "fc5bbd7e74b6f07248d5c0698e18e8f4c8bfb58917a3a4bdbcfff33782dd63a0"
+    },
+    "good_details_character_count": {
+      "value": 1024,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "978fd6bffcdc2b4aeabb59bc2cb614d3f89fd2d4efdd4e061088f72429fe039a"
+    },
+    "good_details_utf8_byte_count": {
+      "value": 2560,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "7c6c262b1561de17c1cb2ed84fc63c911c100b082a0fe6679998f4e0a60aab07"
+    },
+    "good_details_url_count": {
+      "value": 0,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "ffcf1374af7f8d740dc6c149c252afde1a54f334abbf9ff216133515569b212f"
+    },
+    "good_details_image_count": {
+      "value": 0,
+      "source_cohort": "OTHER_UI_CONTEXT_READABLE_PRODUCT",
+      "product_identity_sha256": "ffcf1374af7f8d740dc6c149c252afde1a54f334abbf9ff216133515569b212f"
+    }
+  },
+  "target_sku_count_distribution": {
+    "product_count": 328,
+    "minimum": 1,
+    "maximum": 60,
+    "p50": 1,
+    "p90": 2,
+    "p95": 6,
+    "p99": 24,
+    "buckets": {
+      "1": 273,
+      "2-4": 35,
+      "5-11": 13,
+      "12-14": 2,
+      "15-24": 2,
+      "25+": 3
+    }
+  },
+  "comparison_table": [
+    {
+      "label": "36-2001-572_SUCCESS",
+      "product_number": "36-2001-572",
+      "outcome": "CREATE_PERSISTED_AND_STRONGLY_READ_BACK",
+      "metrics": {
+        "business_payload_utf8_byte_count": 2324,
+        "wire_body_utf8_byte_count": 2411,
+        "sku_count": 1,
+        "spec_dimension_count": 2,
+        "spec_option_count_total": 2,
+        "broadcast_character_count": 76,
+        "broadcast_utf8_byte_count": 76,
+        "broadcast_url_count": 1,
+        "broadcast_image_count": 1,
+        "good_detail_pics_character_count": 0,
+        "good_detail_pics_utf8_byte_count": 0,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_image_count": 0,
+        "good_details_character_count": 235,
+        "good_details_utf8_byte_count": 489,
+        "good_details_url_count": 0,
+        "good_details_image_count": 0
+      }
+    },
+    {
+      "label": "13-9310-490_FAILED",
+      "product_number": "13-9310-490",
+      "outcome": "CREATE_RESPONSE_RECEIVED_NOT_OBSERVED_PERSISTED",
+      "metrics": {
+        "business_payload_utf8_byte_count": 26597,
+        "wire_body_utf8_byte_count": 26684,
+        "sku_count": 24,
+        "spec_dimension_count": 2,
+        "spec_option_count_total": 10,
+        "broadcast_character_count": 3233,
+        "broadcast_utf8_byte_count": 3233,
+        "broadcast_url_count": 42,
+        "broadcast_image_count": 42,
+        "good_detail_pics_character_count": 2925,
+        "good_detail_pics_utf8_byte_count": 2925,
+        "good_detail_pics_url_count": 38,
+        "good_detail_pics_image_count": 38,
+        "good_details_character_count": 5821,
+        "good_details_utf8_byte_count": 9331,
+        "good_details_url_count": 38,
+        "good_details_image_count": 38
+      }
+    },
+    {
+      "label": "00-4000-057_FAILED",
+      "product_number": "00-4000-057",
+      "outcome": "CREATE_RESPONSE_RECEIVED_NOT_OBSERVED_PERSISTED",
+      "metrics": {
+        "business_payload_utf8_byte_count": 27958,
+        "wire_body_utf8_byte_count": 28045,
+        "sku_count": 4,
+        "spec_dimension_count": 2,
+        "spec_option_count_total": 5,
+        "broadcast_character_count": 5697,
+        "broadcast_utf8_byte_count": 5697,
+        "broadcast_url_count": 74,
+        "broadcast_image_count": 74,
+        "good_detail_pics_character_count": 5389,
+        "good_detail_pics_utf8_byte_count": 5389,
+        "good_detail_pics_url_count": 70,
+        "good_detail_pics_image_count": 70,
+        "good_details_character_count": 9625,
+        "good_details_utf8_byte_count": 13442,
+        "good_details_url_count": 70,
+        "good_details_image_count": 70
+      }
+    },
+    {
+      "label": "TARGET_OBSERVED_PER_FIELD_MAXIMUM_COMPOSITE",
+      "outcome": "READ_ONLY_EMPIRICAL_OBSERVATION",
+      "metrics": {
+        "sku_count": 60,
+        "broadcast_character_count": 991,
+        "broadcast_utf8_byte_count": 991,
+        "broadcast_url_count": 16,
+        "broadcast_image_count": 16,
+        "good_detail_pics_character_count": 615,
+        "good_detail_pics_utf8_byte_count": 615,
+        "good_detail_pics_url_count": 8,
+        "good_detail_pics_image_count": 8,
+        "good_details_character_count": 1024,
+        "good_details_utf8_byte_count": 2560,
+        "good_details_url_count": 0,
+        "good_details_image_count": 0
+      },
+      "note": "Each maximum may come from a different target product; identities are SHA-256 only."
+    }
+  ],
+  "interpretation": {
+    "empirical_observed_maximum": "Largest value returned by this deterministic captured-UI-context page sample plus explicit non-MIKIHOUSE test, legacy, and mapped read-only references.",
+    "target_global_maximum": "NOT_CLAIMED; UNSAMPLED PRODUCTS MAY BE LARGER",
+    "server_hard_limit": "NOT_PROVEN_AND_NOT_INFERRED_FROM_OBSERVED_MAXIMA",
+    "create_acceptance_implication": "Existing readback scale demonstrates stored/readable data only; it does not prove the current canonical CREATE endpoint accepts the same scale."
+  },
+  "request_counts": {
+    "read": 360,
+    "goods_index": 32,
+    "get_format_info": 328,
+    "write": 0,
+    "image_upload": 0,
+    "product_create": 0,
+    "update": 0
+  },
+  "target_mutation_requests_sent": 0,
+  "product_names_persisted": false,
+  "raw_urls_persisted": false,
+  "product_ids_persisted": false,
+  "authentication_values_persisted": false
+}

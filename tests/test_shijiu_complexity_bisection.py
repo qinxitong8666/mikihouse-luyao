@@ -290,10 +290,15 @@ def test_checked_in_bisection_evidence_is_frozen_fail_closed_and_sanitized() -> 
     assert orphan["asset_count"] == 42
     assert orphan["reupload_allowed_in_this_batch"] is False
     assert mapping["products"][numbers[0]]["shijiu_product_id"] is None
-    assert mapping["products"][numbers[1]]["shijiu_product_id"] is None
+    assert checkpoint["records"][numbers[1]]["state"] == "PLANNED"
+    assert checkpoint["records"][numbers[1]]["create_attempts"] == 0
+    assert checkpoint["records"][numbers[1]]["image_uploads"] == {}
+    # 63-6602-492 was later authorized and verified in a wholly independent
+    # one-product checkpoint; the old bisection record remains byte-frozen.
+    assert mapping["products"][numbers[1]]["shijiu_product_id"] == "9358241"
     assert [
         number for number, row in mapping["products"].items() if row.get("shijiu_product_id")
-    ] == ["36-2001-572"]
+    ] == ["36-2001-572", "63-6602-492"]
     serialized = json.dumps(
         {"selection": selection, "report": report, "diagnosis": diagnosis, "orphan": orphan}
     ).casefold()

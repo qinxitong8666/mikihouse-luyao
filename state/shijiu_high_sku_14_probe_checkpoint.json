@@ -1,0 +1,627 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "HIGH_SKU_14_SINGLE_REAL_IMPORT_VALIDATION",
+  "created_at": "2026-09-04T07:19:16.752045+00:00",
+  "updated_at": "2026-09-04T07:19:31.318856+00:00",
+  "status": "COMPLETED",
+  "fixed_target_category_id": 294884,
+  "selection_sha256": "ee86b7c0f11c50daa7523e3b6fc86fb40b17e9c1344ee3f7c057566fc51f776f",
+  "legacy_reference_touched": false,
+  "legacy_cleanup_executed": false,
+  "records": {
+    "63-6602-492": {
+      "product_number": "63-6602-492",
+      "source_product_id": "MIKIHOUSE:63-6602-492",
+      "payload_sha256": "cea8092f83b7b76323ddf8d70c7bf7e1f4a79a28dd7ec64b5cb1ea93835af853",
+      "state": "READBACK_VERIFIED",
+      "precreate_ui_absence": {
+        "passed": true,
+        "identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "candidate_product_ids": [],
+        "candidate_observations": [],
+        "expected_backend_sku_count": 14,
+        "expected_backend_sku_overlap": [],
+        "good_code_used_as_primary": false,
+        "ui_queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 0,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": []
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 0,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": []
+          }
+        ]
+      },
+      "image_uploads": {
+        "MIKIHOUSE:63-6602-492:IMAGE:001": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:001",
+          "order": 1,
+          "role": "main",
+          "source_url_sha256": "22a11d1c99642d4e258d13a4e31d3a5811b70be03b3591a3dde0388134fa031c",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:19.090849+00:00",
+          "completed_at": "2026-09-04T07:19:20.393834+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg"
+            },
+            "msg": "Success"
+          }
+        },
+        "MIKIHOUSE:63-6602-492:IMAGE:002": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:002",
+          "order": 2,
+          "role": "product_gallery",
+          "source_url_sha256": "a4d03936843cceff24b3b57c18a767d6e4c93abef14a1035ee243aa68d44d243",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:20.394899+00:00",
+          "completed_at": "2026-09-04T07:19:21.717716+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg"
+            },
+            "msg": "Success"
+          }
+        },
+        "MIKIHOUSE:63-6602-492:IMAGE:003": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:003",
+          "order": 3,
+          "role": "product_gallery",
+          "source_url_sha256": "54ec6ba2b0ad6376f71c76d894750319f30d29789779bb38ae75c817ddabd05b",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:21.718820+00:00",
+          "completed_at": "2026-09-04T07:19:23.434819+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg"
+            },
+            "msg": "Success"
+          }
+        },
+        "MIKIHOUSE:63-6602-492:IMAGE:004": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:004",
+          "order": 4,
+          "role": "product_gallery",
+          "source_url_sha256": "c7ee450736ff7fd9083e9b5fb205b75d8fad8df9e44629cd3b0f1762bb1bee62",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:23.435838+00:00",
+          "completed_at": "2026-09-04T07:19:24.505868+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg"
+            },
+            "msg": "Success"
+          }
+        },
+        "MIKIHOUSE:63-6602-492:IMAGE:005": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:005",
+          "order": 5,
+          "role": "product_gallery",
+          "source_url_sha256": "af6d78ba372cedde95003db7b3460ab7b60d52c3fe05c5a9a351ffeb48aa8d67",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:24.506902+00:00",
+          "completed_at": "2026-09-04T07:19:25.902292+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg"
+            },
+            "msg": "Success"
+          }
+        },
+        "MIKIHOUSE:63-6602-492:IMAGE:006": {
+          "upload_reference": "MIKIHOUSE:63-6602-492:IMAGE:006",
+          "order": 6,
+          "role": "variant_color",
+          "source_url_sha256": "7b8fff20deb5193e04e8bd142fd68dfd4bf0f87f20dc4d94e34d4143e0837508",
+          "target_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+          "status": "UPLOADED",
+          "intent_at": "2026-09-04T07:19:25.904064+00:00",
+          "completed_at": "2026-09-04T07:19:27.129866+00:00",
+          "response": {
+            "code": 200,
+            "data": {
+              "url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg"
+            },
+            "msg": "Success"
+          }
+        }
+      },
+      "create_attempts": 1,
+      "create_response": {
+        "code": 200,
+        "data": [],
+        "msg": "success"
+      },
+      "shijiu_product_id": "9358241",
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:63-6602-492",
+        "product_number": "63-6602-492",
+        "shijiu_product_id": "9358241",
+        "target_category_id": 294884,
+        "good_name": "セーター",
+        "off_shelf": null,
+        "is_shelf_exposed": false,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg"
+        ],
+        "detail_image_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/f4fd18a24d84773056069af5590e7b36.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/91b88cc0f99ad9045120a55b11e2c631.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f9ca18c65e59ced29702ad2c10794948.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/3da04f8a65e12b9422a5b901dcbd9ddd.jpg"
+        ],
+        "sku_count": 14,
+        "skus": [
+          {
+            "source_variant_sku": "63-6602-49200050800",
+            "backend_sku_code": "MIKI-63-6602-49200050800",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200050800"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,80cm",
+            "color": "黒",
+            "size": "80cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200050900",
+            "backend_sku_code": "MIKI-63-6602-49200050900",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200050900"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,90cm",
+            "color": "黒",
+            "size": "90cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200051000",
+            "backend_sku_code": "MIKI-63-6602-49200051000",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200051000"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,100cm",
+            "color": "黒",
+            "size": "100cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200051100",
+            "backend_sku_code": "MIKI-63-6602-49200051100",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200051100"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,110cm",
+            "color": "黒",
+            "size": "110cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200051200",
+            "backend_sku_code": "MIKI-63-6602-49200051200",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200051200"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,120cm",
+            "color": "黒",
+            "size": "120cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200051300",
+            "backend_sku_code": "MIKI-63-6602-49200051300",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200051300"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,130cm",
+            "color": "黒",
+            "size": "130cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200051400",
+            "backend_sku_code": "MIKI-63-6602-49200051400",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200051400"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "黒,140cm",
+            "color": "黒",
+            "size": "140cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0adf805ba63f00b78cb0c21bf7b6f99c.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200310800",
+            "backend_sku_code": "MIKI-63-6602-49200310800",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200310800"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,80cm",
+            "color": "アイボリー",
+            "size": "80cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200310900",
+            "backend_sku_code": "MIKI-63-6602-49200310900",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200310900"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,90cm",
+            "color": "アイボリー",
+            "size": "90cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200311000",
+            "backend_sku_code": "MIKI-63-6602-49200311000",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200311000"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,100cm",
+            "color": "アイボリー",
+            "size": "100cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200311100",
+            "backend_sku_code": "MIKI-63-6602-49200311100",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200311100"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,110cm",
+            "color": "アイボリー",
+            "size": "110cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200311200",
+            "backend_sku_code": "MIKI-63-6602-49200311200",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200311200"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,120cm",
+            "color": "アイボリー",
+            "size": "120cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200311300",
+            "backend_sku_code": "MIKI-63-6602-49200311300",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200311300"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,130cm",
+            "color": "アイボリー",
+            "size": "130cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "63-6602-49200311400",
+            "backend_sku_code": "MIKI-63-6602-49200311400",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358241",
+              "backend_sku_code": "MIKI-63-6602-49200311400"
+            },
+            "price_jpy": 8580,
+            "stock": 1,
+            "specification": "アイボリー,140cm",
+            "color": "アイボリー",
+            "size": "140cm",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/93e2ace6d91e877ff8dddbde81212685.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T07:19:31.217019+00:00"
+      },
+      "mapping_persisted": true,
+      "error": null,
+      "create_intent_at": "2026-09-04T07:19:27.134556+00:00",
+      "resolved_payload_sha256": "3d2bc1e8ff80f436f6d09e37d30a8aed29a0f13ac1572beab5b0d958bffff121",
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "セーター",
+        "candidate_product_ids": [
+          "9358241"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 1,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358241"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 1,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358241"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358241",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 14,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358241"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T07:19:31.217019+00:00"
+    }
+  },
+  "request_ledger": [
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:19:16.752936+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:19:17.446956+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "3fa1334c8bf1551fce7eef03f03ebdb0a03f46d57fafa9d1db2ffa2e390e227d"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:19:17.896520+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "e733a38f00f711b8cc7a4b766ecb27b6e5c887d63322f2cc3f1020176395e254"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:19:19.714949+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "22a11d1c99642d4e258d13a4e31d3a5811b70be03b3591a3dde0388134fa031c",
+      "byte_count": 47404
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:19:21.041321+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "a4d03936843cceff24b3b57c18a767d6e4c93abef14a1035ee243aa68d44d243",
+      "byte_count": 46558
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:19:22.481647+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "54ec6ba2b0ad6376f71c76d894750319f30d29789779bb38ae75c817ddabd05b",
+      "byte_count": 85468
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:19:23.840375+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "c7ee450736ff7fd9083e9b5fb205b75d8fad8df9e44629cd3b0f1762bb1bee62",
+      "byte_count": 48138
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:19:25.133862+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "af6d78ba372cedde95003db7b3460ab7b60d52c3fe05c5a9a351ffeb48aa8d67",
+      "byte_count": 110040
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:19:26.475435+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "7b8fff20deb5193e04e8bd142fd68dfd4bf0f87f20dc4d94e34d4143e0837508",
+      "byte_count": 48322
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:19:27.137002+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "create off-shelf MIKIHOUSE product",
+      "payload_sha256": "3d2bc1e8ff80f436f6d09e37d30a8aed29a0f13ac1572beab5b0d958bffff121"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:19:29.623182+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "3fa1334c8bf1551fce7eef03f03ebdb0a03f46d57fafa9d1db2ffa2e390e227d"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:19:30.476554+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "e733a38f00f711b8cc7a4b766ecb27b6e5c887d63322f2cc3f1020176395e254"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:19:30.855197+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "87261fd2c5d1aa5f660ce8183c2c3b06066f4feabab62b78f2f403aa4c7408c8"
+    }
+  ],
+  "stop_reason": null,
+  "batch_preflight": {
+    "passed": true,
+    "at": "2026-09-04T07:19:17.444301+00:00",
+    "category_id": 294884,
+    "unmapped_product_count": 1,
+    "legacy_reference_scanned_or_bound": false
+  },
+  "completed_at": "2026-09-04T07:19:31.318847+00:00"
+}

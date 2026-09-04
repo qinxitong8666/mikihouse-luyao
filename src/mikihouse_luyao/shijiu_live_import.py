@@ -923,10 +923,18 @@ def validate_product_readback(
         str(row.get("sku_code") or "").strip(): row
         for row in recursively_find_skus(create_response or {})
     }
+    source_variants_by_backend_code = {
+        f"MIKI-{str(row.get('source_variant_sku') or '').strip()}": row
+        for row in item.get("source_variants") or []
+        if str(row.get("source_variant_sku") or "").strip()
+    }
     sku_results = []
     for expected in payload["sku_info"]:
         code = str(expected["sku_code"])
         actual = by_code[code]
+        source_variant = source_variants_by_backend_code.get(code)
+        if source_variant is None:
+            raise ContractMismatchError(f"source variant missing for readback SKU: {code}")
         if _decimal(actual.get("sku_price", actual.get("price"))) != _decimal(expected["sku_price"]):
             raise ContractMismatchError(f"price readback mismatch: {code}")
         if _decimal(actual.get("sku_stock", actual.get("stock"))) != _decimal(expected["sku_stock"]):
@@ -937,6 +945,19 @@ def validate_product_readback(
         if str(expected["spec_name"]).strip() != actual_spec:
             raise ContractMismatchError(
                 f"specification readback mismatch: {code}: {actual_spec!r}"
+            )
+        expected_color = str(source_variant.get("color") or "").strip()
+        expected_size = str(source_variant.get("size") or "").strip()
+        expected_variant_spec = ",".join(
+            value for value in (expected_color, expected_size) if value
+        )
+        explicit_color_size_available = bool(expected_color or expected_size)
+        if (
+            explicit_color_size_available
+            and expected_variant_spec != str(expected["spec_name"]).strip()
+        ):
+            raise ContractMismatchError(
+                f"source color/size to payload specification mismatch: {code}"
             )
         if str(actual.get("sku_thumbnail") or "").strip() != str(expected["sku_thumbnail"]).strip():
             raise ContractMismatchError(f"SKU image readback mismatch: {code}")
@@ -952,6 +973,12 @@ def validate_product_readback(
             "price_jpy": int(_decimal(expected["sku_price"])),
             "stock": int(_decimal(expected["sku_stock"])),
             "specification": expected["spec_name"],
+            "color": expected_color,
+            "size": expected_size,
+            "color_size_verified_via_exact_specification": (
+                explicit_color_size_available
+                and expected_variant_spec == actual_spec
+            ),
             "image_url": expected["sku_thumbnail"],
             "passed": True,
         })
