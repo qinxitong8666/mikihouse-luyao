@@ -144,6 +144,8 @@
     "currency_conversion_applied": false
   },
   "write_executed": true,
-  "result": "STOPPED_ON_FIRST_ERROR",
-  "shijiu_product_id": null
+  "result": "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE",
+  "shijiu_product_id": null,
+  "reconciliation_read_only": true,
+  "additional_write_executed": false
 }

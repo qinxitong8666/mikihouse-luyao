@@ -29,10 +29,11 @@ from .shijiu_live_import import (
     _product_id_from_value,
     _redacted_response,
     _resolve_payload,
+    _unique_exact_name_product_matches,
     _unique_exact_product_matches,
     persist_verified_mapping,
     validate_canonical_create_payload,
-    validate_product_readback,
+    verify_exact_name_create_candidates,
 )
 from .shijiu_minimal_probe import TARGET_CATEGORY, select_minimal_probe_candidate
 
@@ -211,6 +212,10 @@ class CanonicalCreateRunner:
             "exact_backend_sku_match_count": (
                 1 if readback.get("passed") else 0
             ),
+            "product_identity_readback_policy": (
+                "Goods.index exact good_name -> product_id -> getFormatInfo exact backend_sku_code"
+            ),
+            "good_code_search_role": "auxiliary_only_never_binding",
             "variant_identity_policy": "shijiu_product_id + exact backend_sku_code",
             "shijiu_sku_id_policy": "nullable; never guessed",
             "verified_variants": variants,
@@ -254,35 +259,50 @@ class CanonicalCreateRunner:
         if content_sha256(payload) != self.checkpoint.get("resolved_payload_sha256"):
             raise DuplicateRiskError("post-create resume payload hash drift")
         backend_code = self.item["source_variants"][0]["backend_sku_code"]
-        matches: list[dict[str, Any]] = []
+        verified: list[dict[str, Any]] = []
         for delay in (0, 2, 5, 10):
             if delay:
                 time.sleep(delay)
-            matches = _unique_exact_product_matches(self.client, backend_code)
-            if matches:
-                break
-        if len(matches) != 1:
-            raise ContractMismatchError(
-                f"exact backend SKU readback returned {len(matches)} product matches"
+            name_rows, name_evidence = _unique_exact_name_product_matches(
+                self.client, payload["good_name"]
             )
-        list_row = matches[0]
-        product_id = str(
-            list_row.get("id") or list_row.get("good_id") or list_row.get("goods_id") or ""
-        )
+            verified, candidate_observations = verify_exact_name_create_candidates(
+                self.client,
+                self.item,
+                payload,
+                name_rows,
+                create_response=response,
+            )
+            auxiliary_rows = _unique_exact_product_matches(self.client, backend_code)
+            discovery = {
+                **name_evidence,
+                "candidate_validations": candidate_observations,
+                "verified_product_ids": [
+                    row["readback"]["shijiu_product_id"] for row in verified
+                ],
+                "auxiliary_good_code_product_ids": sorted({
+                    str(row.get("id") or row.get("good_id") or row.get("goods_id") or "")
+                    for row in auxiliary_rows
+                    if row.get("id") or row.get("good_id") or row.get("goods_id")
+                }),
+                "good_code_role": "auxiliary_only_never_binding",
+            }
+            self.checkpoint["readback_discovery"] = discovery
+            self._persist()
+            if len(verified) == 1:
+                break
+        if len(verified) != 1:
+            raise ContractMismatchError(
+                "exact good_name -> getFormatInfo strong readback returned "
+                f"{len(verified)} verified product matches"
+            )
+        readback = verified[0]["readback"]
+        product_id = readback["shijiu_product_id"]
         response_id = _product_id_from_value(response)
         if not product_id or (response_id and str(response_id) != product_id):
             raise ContractMismatchError("create response and Goods.index product identity mismatch")
         self.checkpoint["shijiu_product_id"] = product_id
         self._persist()
-        detail = self.client.product_detail(product_id)
-        readback = validate_product_readback(
-            self.item,
-            payload,
-            product_id,
-            detail,
-            create_response=response,
-            list_row=list_row,
-        )
         persist_verified_mapping(
             self.mapping_path,
             self.item,

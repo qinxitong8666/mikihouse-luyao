@@ -452,23 +452,28 @@ def discover_created_product(
             exact_name=item["shijiu_payload_preview"]["good_name"],
             filters={"label": "post_create_default", "push": "2", "status": ""},
         )
+        # Product identity must originate from an exact-name Goods.index row.
+        # good_code/SKU results remain auxiliary because Goods.index does not
+        # reliably map good_code to a backend variant sku_code.
         candidate_rows = {
             _row_id(row): row
-            for row in identity["name_rows"] + identity["sku_rows"] + category_matches
+            for row in identity["name_rows"] + category_matches
             if _row_id(row)
         }
-        if response_id:
-            candidate_rows.setdefault(response_id, {"id": response_id})
         round_result = {
             "delay_seconds": delay,
-            "exact_sku_result_ids": identity["exact_sku_result_ids"],
             "exact_name_result_ids": identity["exact_name_result_ids"],
             "candidate_ids": sorted(candidate_rows),
             "exact_expected_sku_set_ids": [],
+            "auxiliary_good_code_product_ids": identity["exact_sku_result_ids"],
+            "good_code_role": "auxiliary_only_never_binding",
         }
         for product_id, row in candidate_rows.items():
             detail = client.product_detail(product_id)
-            if _sku_codes(detail) == expected_codes:
+            if (
+                _sku_codes(detail) == expected_codes
+                and (not response_id or str(response_id) == str(product_id))
+            ):
                 verified[product_id] = (row, detail)
                 round_result["exact_expected_sku_set_ids"].append(product_id)
         observations.append(round_result)

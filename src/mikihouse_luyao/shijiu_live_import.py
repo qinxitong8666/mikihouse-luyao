@@ -671,6 +671,13 @@ def _save_checkpoint(path: Path, checkpoint: dict[str, Any]) -> None:
 def _unique_exact_product_matches(
     client: ShijiuLiveClient, sku_code: str
 ) -> list[dict[str, Any]]:
+    """Return Goods.index rows found by good_code.
+
+    This is intentionally only auxiliary evidence for CREATE readback. Shijiu's
+    list endpoint does not reliably search backend variant ``sku_code`` through
+    the ``good_code`` field, so callers must never bind a newly created product
+    from this result alone.
+    """
     matches: dict[str, dict[str, Any]] = {}
     for status in ("", "2", "1", "0"):
         response = client.search_products(sku_code, status=status)
@@ -679,6 +686,146 @@ def _unique_exact_product_matches(
             if product_id:
                 matches[product_id] = row
     return list(matches.values())
+
+
+def _row_product_id(row: dict[str, Any]) -> str:
+    return str(row.get("id") or row.get("good_id") or row.get("goods_id") or "").strip()
+
+
+def _row_good_name(row: dict[str, Any]) -> str:
+    return str(row.get("good_name") or row.get("goods_name") or row.get("name") or "").strip()
+
+
+def _response_count(response: dict[str, Any]) -> int | None:
+    for container in (response, response.get("data")):
+        if not isinstance(container, dict):
+            continue
+        value = container.get("count")
+        if isinstance(value, int) and value >= 0:
+            return value
+        if isinstance(value, str) and value.strip().isdigit():
+            return int(value.strip())
+    value = response.get("count")
+    if isinstance(value, int) and value >= 0:
+        return value
+    if isinstance(value, str) and value.strip().isdigit():
+        return int(value.strip())
+    return None
+
+
+def _unique_exact_name_product_matches(
+    client: ShijiuLiveClient,
+    good_name: str,
+    *,
+    category_id: int = 294884,
+    page_size: int = 100,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Locate CREATE candidates by exact good_name, never by fuzzy matching.
+
+    The first query mirrors the browser-exact persistence proof. An unscoped
+    query is also made so a target-side category filter quirk cannot hide a
+    candidate; getFormatInfo remains responsible for proving category 294884.
+    """
+    expected_name = str(good_name).strip()
+    if not expected_name:
+        raise LiveImportError("CREATE readback requires a non-empty exact good_name")
+    matches: dict[str, dict[str, Any]] = {}
+    queries = []
+    for label, good_type in (("category_294884", category_id), ("all_categories", "")):
+        first = client.search_products(
+            "",
+            good_name=expected_name,
+            good_type=good_type,
+            push="",
+            status="",
+            page=1,
+            page_size=page_size,
+        )
+        declared = _response_count(first)
+        pages = max(1, ((declared or 0) + page_size - 1) // page_size)
+        query_rows = response_rows(first)
+        for page in range(2, pages + 1):
+            query_rows.extend(response_rows(client.search_products(
+                "",
+                good_name=expected_name,
+                good_type=good_type,
+                push="",
+                status="",
+                page=page,
+                page_size=page_size,
+            )))
+        exact_rows = [row for row in query_rows if _row_good_name(row) == expected_name]
+        for row in exact_rows:
+            product_id = _row_product_id(row)
+            if product_id:
+                matches[product_id] = row
+        queries.append({
+            "label": label,
+            "good_type": str(good_type),
+            "declared_count": declared,
+            "pages_read": pages,
+            "returned_row_count": len(query_rows),
+            "exact_name_match_ids": sorted({
+                _row_product_id(row) for row in exact_rows if _row_product_id(row)
+            }),
+        })
+    return list(matches.values()), {
+        "primary_identity_path": "Goods.index exact good_name -> product_id -> getFormatInfo exact sku_code",
+        "exact_good_name": expected_name,
+        "candidate_product_ids": sorted(matches),
+        "queries": queries,
+    }
+
+
+def verify_exact_name_create_candidates(
+    client: ShijiuLiveClient,
+    item: dict[str, Any],
+    payload: dict[str, Any],
+    rows: list[dict[str, Any]],
+    *,
+    create_response: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Strongly verify every exact-name candidate with getFormatInfo.
+
+    A candidate is accepted only when the existing full readback validator
+    proves product id, name, category, prices, specifications and all images.
+    """
+    verified: list[dict[str, Any]] = []
+    observations: list[dict[str, Any]] = []
+    response_id = _product_id_from_value(create_response or {})
+    for row in rows:
+        product_id = _row_product_id(row)
+        if not product_id:
+            continue
+        observation: dict[str, Any] = {
+            "product_id": product_id,
+            "list_good_name_exact": _row_good_name(row) == str(payload["good_name"]).strip(),
+            "passed": False,
+        }
+        if response_id and str(response_id) != product_id:
+            observation["mismatch"] = "create response product_id mismatch"
+            observations.append(observation)
+            continue
+        detail = client.product_detail(product_id)
+        try:
+            readback = validate_product_readback(
+                item,
+                payload,
+                product_id,
+                detail,
+                create_response=create_response,
+                list_row=row,
+            )
+        except ContractMismatchError as error:
+            observation["mismatch"] = str(error)
+        else:
+            observation["passed"] = True
+            observation["exact_backend_sku_codes"] = [
+                sku["backend_sku_code"] for sku in readback["skus"]
+            ]
+            verified.append({"list_row": row, "readback": readback})
+        observations.append(observation)
+    return verified, observations
 
 
 def _resolve_payload(item: dict[str, Any], uploaded: dict[str, dict[str, Any]]) -> dict[str, Any]:
@@ -930,8 +1077,12 @@ def build_live_report(
                 else type(create_data).__name__
             ),
             "product_id_exposed": bool(_product_id_from_value(first_create_response)),
-            "creation_confirmed_by_exact_sku_readback": bool(completed),
+            "creation_confirmed_by_exact_name_then_detail_readback": bool(completed),
         } if first_create_response else None),
+        "product_identity_readback_policy": (
+            "Goods.index exact good_name -> product_id -> getFormatInfo exact backend_sku_code"
+        ),
+        "good_code_search_role": "auxiliary_only_never_binding",
         "verified_sku_count": sum(row["readback_result"]["sku_count"] for row in completed),
         "price_source": "mini_program_price_jpy",
         "currency": "JPY",
@@ -1179,44 +1330,44 @@ class FirstLiveBatchRunner:
                 record["create_response"] = _redacted_response(create_response)
                 record["state"] = "CREATE_RESPONSE_RECEIVED"
                 self._persist()
-                product_id = _product_id_from_value(create_response)
-                matches = []
+                verified: list[dict[str, Any]] = []
                 for delay in (0, 2, 5, 10):
                     if delay:
                         time.sleep(delay)
-                    matches = _unique_exact_product_matches(self.client, first_code)
-                    if matches:
+                    name_rows, name_evidence = _unique_exact_name_product_matches(
+                        self.client, payload["good_name"]
+                    )
+                    verified, candidate_observations = verify_exact_name_create_candidates(
+                        self.client,
+                        item,
+                        payload,
+                        name_rows,
+                        create_response=create_response,
+                    )
+                    auxiliary_rows = _unique_exact_product_matches(self.client, first_code)
+                    record["readback_discovery"] = {
+                        **name_evidence,
+                        "candidate_validations": candidate_observations,
+                        "verified_product_ids": [
+                            row["readback"]["shijiu_product_id"] for row in verified
+                        ],
+                        "auxiliary_good_code_product_ids": sorted({
+                            _row_product_id(row) for row in auxiliary_rows if _row_product_id(row)
+                        }),
+                        "good_code_role": "auxiliary_only_never_binding",
+                    }
+                    self._persist()
+                    if len(verified) == 1:
                         break
-                if len(matches) > 1:
+                if len(verified) != 1:
                     raise ContractMismatchError(
-                        f"create endpoint returned but exact target product lookup returned {len(matches)} matches"
+                        "create endpoint returned but exact good_name -> getFormatInfo "
+                        f"readback returned {len(verified)} verified product matches"
                     )
-                list_row = matches[0] if matches else None
-                listed_id = (
-                    str(list_row.get("id") or list_row.get("good_id") or list_row.get("goods_id"))
-                    if list_row
-                    else None
-                )
-                if product_id and listed_id and product_id != listed_id:
-                    raise ContractMismatchError(
-                        f"create response/list product ID mismatch: {product_id} != {listed_id}"
-                    )
-                product_id = listed_id or product_id
-                if not product_id:
-                    raise ContractMismatchError(
-                        "create endpoint returned but neither response nor exact target lookup exposed a product ID"
-                    )
+                product_id = verified[0]["readback"]["shijiu_product_id"]
+                readback = verified[0]["readback"]
                 record["shijiu_product_id"] = product_id
                 self._persist()
-                detail = self.client.product_detail(product_id)
-                readback = validate_product_readback(
-                    item,
-                    payload,
-                    product_id,
-                    detail,
-                    create_response=create_response,
-                    list_row=list_row,
-                )
                 persist_verified_mapping(
                     self.mapping_path, item, readback, content_sha256(payload)
                 )

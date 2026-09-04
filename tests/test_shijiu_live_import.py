@@ -229,13 +229,19 @@ class FakeClient:
             "children": [{"id": 294884, "type_name": "MikiHouse", "pid": 288338}],
         }]}
 
-    def search_products(self, sku_code, *, status="", page=1, page_size=20):
+    def search_products(self, sku_code="", *, status="", page=1, page_size=20, **kwargs):
         self._record("/shopapi/Goods/index", "read")
+        exact_name = kwargs.get("good_name") == (self.payload or {}).get("good_name")
         return {
             "code": 1,
             "msg": "查询成功",
-            "count": 1 if self.created else 0,
-            "data": ([{"id": "99001", "state": 1, "is_shelf": 0}] if self.created else []),
+            "count": 1 if self.created and exact_name else 0,
+            "data": ([{
+                "id": "99001",
+                "good_name": self.payload["good_name"],
+                "state": 1,
+                "is_shelf": 0,
+            }] if self.created and exact_name else []),
         }
 
     def upload_image(self, source_url, *, confirmation):
@@ -289,7 +295,11 @@ def test_runner_persists_verified_mapping_and_is_idempotent(tmp_path: Path) -> N
     assert mapping["products"]["20-0001-001"]["shijiu_product_id"] == "99001"
     assert mapping["products"]["20-0001-001"]["variants"]["sku-1"]["shijiu_sku_id"] == "88001"
     assert client.write_request_count == 2
-    assert json.loads(checkpoint_path.read_text())["records"]["20-0001-001"]["state"] == "READBACK_VERIFIED"
+    record = json.loads(checkpoint_path.read_text())["records"]["20-0001-001"]
+    assert record["state"] == "READBACK_VERIFIED"
+    assert record["readback_discovery"]["candidate_product_ids"] == ["99001"]
+    assert record["readback_discovery"]["auxiliary_good_code_product_ids"] == []
+    assert record["readback_discovery"]["good_code_role"] == "auxiliary_only_never_binding"
     # Reusing a completed runner never sends another mutation.
     runner.run()
     assert client.write_request_count == 2

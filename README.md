@@ -427,11 +427,23 @@ npm run capture:shijiu -- \
 
 `scripts/validate_shijiu_canonical_create.py` 是后续批量前的一次性 fail-closed 验证器。它排除 351 个 `PDF_SPECIAL_LIST` 品番、`00-1000-028`、`17-1366-244` 和已有映射，只选择当前可售、单 variant、图片最少的新商品；发送前必须验证上述 browser-exact 私密证据哈希和 canonical payload。它允许上传所选商品的全部官方图片，但整个 checkpoint 最多只能发送 1 次商品 CREATE，终止后禁止重试。
 
-本轮选中 `36-2001-572`：1 个 variant、1 张官网图片，官网税入价 2200 JPY，`mini_program_price_jpy=1430`，固定类目 294884、`state="1"/is_shelf=0`。图片上传成功，唯一 CREATE 返回与人工成功样本相同的空 `success` 响应；但之后 16 次按精确 `MIKI-36-2001-57200039999`、覆盖不同状态的 Goods.index 查询均为 0 条，因而不能取得 product_id，也不能调用该商品 getFormatInfo 完成强校验。执行器已停止且再次运行会在请求前拒绝：mapping 未写入、后续商品 CREATE 为 0、legacy 286 操作为 0、特殊品番操作为 0。
+本轮选中 `36-2001-572`：1 个 variant、1 张官网图片，官网税入价 2200 JPY，`mini_program_price_jpy=1430`，固定类目 294884、`state="1"/is_shelf=0`。图片上传成功，唯一 CREATE 返回与人工成功样本相同的空 `success` 响应。初版 runner 错把 Goods.index 的 `good_code` 当成 backend `sku_code` 主搜索入口，因此留下了可能假阴性的终止记录；该商品的 CREATE 预算已经耗尽，任何情况下均禁止再次创建。
+
+后续 canonical CREATE 回读已修正为 browser-exact 证明过的主路径：Goods.index 按精确 `good_name` 定位 product_id，再逐个调用 getFormatInfo 强校验精确 backend `sku_code`、类目、JPY 价格、规格、主图、轮播和详情图片；`good_code` 搜索只保留为辅助证据，绝不能单独触发绑定。`shijiu_sku_id` 无官方明确字段时保持 `null`，稳定 variant 身份为 `shijiu_product_id + backend_sku_code`。
+
+2026-09-04 已对历史唯一 CREATE 做一次严格只读 reconciliation。精确名称 `ヘアゴム（2個セット）` 在类目 294884 和全类目名称查询中均为 0；随后完整分页扫描 MikiHouse 类目，286 条记录在扫描前后计数一致且 product_id 全部唯一，仍无同名候选；`good_code` 辅助搜索也为 0。结论为 `RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE`：mapping 继续未绑定，`shijiu_product_id/shijiu_sku_id` 均为 `null`。本次只读核验发送 18 个 Goods.index 请求，CREATE、图片上传、更新和其他目标端 mutation 全部为 0；没有调用任何候选 getFormatInfo，因为没有候选 product_id。
+
+只读 reconciliation 入口如下。它只接受 Git 外已验证的 private capture 目录，不需要也不接受写入确认词；代码会拒绝任何非 read 请求：
+
+```bash
+python scripts/reconcile_shijiu_canonical_create.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
+```
 
 证据文件：
 
 - `deliverables/shijiu_import/canonical_create_candidate.json`：候选选择、官网价格和特殊名单边界；
-- `deliverables/shijiu_import/canonical_create_validation_report.json`：唯一上传/CREATE 预算、空响应和精确 SKU 回读失败；
+- `deliverables/shijiu_import/canonical_create_validation_report.json`：历史唯一上传/CREATE、空响应及当前 reconciliation 汇总；
+- `deliverables/shijiu_import/canonical_create_reconciliation_report.json`：精确名称、完整类目扫描、辅助 good_code 查询及零 mutation 的脱敏证据；
 - `state/shijiu_canonical_create_checkpoint.json`：已耗尽且终止的 checkpoint；
 - `config/shijiu_native_create_contract.json`：当前 browser-exact canonical 字段、类型、顺序和 header 契约。

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T05:32:33.294673+00:00",
+  "mode": "HISTORICAL_CREATE_STRICT_READ_ONLY_RECONCILIATION",
+  "status": "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "product_number": "36-2001-572",
+  "exact_good_name": "ヘアゴム（2個セット）",
+  "target_category_id": 294884,
+  "expected_backend_sku_code": "MIKI-36-2001-57200039999",
+  "expected_price_jpy": 1430,
+  "currency": "JPY",
+  "historical_create_attempts": 1,
+  "create_requests_this_run": 0,
+  "image_upload_requests_this_run": 0,
+  "update_requests_this_run": 0,
+  "target_mutations_this_run": 0,
+  "read_requests_this_run": 18,
+  "primary_discovery": {
+    "primary_identity_path": "Goods.index exact good_name -> product_id -> getFormatInfo exact sku_code",
+    "exact_good_name": "ヘアゴム（2個セット）",
+    "candidate_product_ids": [],
+    "queries": [
+      {
+        "label": "category_294884",
+        "good_type": "294884",
+        "declared_count": 0,
+        "pages_read": 1,
+        "returned_row_count": 0,
+        "exact_name_match_ids": []
+      },
+      {
+        "label": "all_categories",
+        "good_type": "",
+        "declared_count": 198,
+        "pages_read": 2,
+        "returned_row_count": 198,
+        "exact_name_match_ids": []
+      }
+    ]
+  },
+  "full_category_scan_used": true,
+  "full_category_scans": [
+    {
+      "label": "push_any",
+      "filters": {
+        "push": "",
+        "status": ""
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_0",
+      "filters": {
+        "push": "2",
+        "status": "0"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_1",
+      "filters": {
+        "push": "2",
+        "status": "1"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_2",
+      "filters": {
+        "push": "2",
+        "status": "2"
+      },
+      "count_start": 0,
+      "count_end": 0,
+      "row_count": 0,
+      "unique_id_count": 0,
+      "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_name_match_ids": [],
+      "complete": true
+    }
+  ],
+  "candidate_product_ids": [],
+  "candidate_validations": [],
+  "verified_product_ids": [],
+  "auxiliary_good_code_product_ids": [],
+  "good_code_role": "auxiliary_only_never_binding",
+  "mapping_persisted": false,
+  "shijiu_product_id": null,
+  "shijiu_sku_id": null,
+  "backend_sku_code_verified": false,
+  "price_verified": false,
+  "specification_verified": false,
+  "images_verified": false,
+  "pdf_special_exclusion_count": 351,
+  "legacy_product_mutations": 0,
+  "additional_mikihouse_products_touched": 0,
+  "protected_state_previous_sha256": {
+    "checkpoint": "c9fc725a3a98de09bb0ed9be889567ab530bba7a250a4a4212e0939443e4f386",
+    "mapping": "4db5ccba794be3290022cc15c90b689541d502b818ab3cabd550bbbd43433f1c"
+  },
+  "sensitive_values_included": false
+}

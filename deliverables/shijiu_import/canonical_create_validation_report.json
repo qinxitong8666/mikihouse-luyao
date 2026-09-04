@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T05:11:30.074506+00:00",
+  "generated_at": "2026-09-04T05:32:33.299479+00:00",
   "mode": "SINGLE_CANONICAL_CREATE_VALIDATION",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
-  "status": "STOPPED_ON_FIRST_ERROR",
+  "status": "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE",
   "product_number": "36-2001-572",
   "source_product_id": "MIKIHOUSE:36-2001-572",
   "shijiu_product_id": null,
@@ -15,7 +15,7 @@
   "create_attempts": 1,
   "create_request_count": 1,
   "image_upload_count": 1,
-  "read_request_count": 21,
+  "read_request_count": 41,
   "mapping_persisted": false,
   "create_response": {
     "code": 200,
@@ -27,6 +27,8 @@
     "MIKI-36-2001-57200039999"
   ],
   "exact_backend_sku_match_count": 0,
+  "product_identity_readback_policy": "Goods.index exact good_name -> product_id -> getFormatInfo exact backend_sku_code",
+  "good_code_search_role": "auxiliary_only_never_binding",
   "variant_identity_policy": "shijiu_product_id + exact backend_sku_code",
   "shijiu_sku_id_policy": "nullable; never guessed",
   "verified_variants": [],
@@ -40,9 +42,15 @@
   "batch_continuation": "STOP_AFTER_THIS_PRODUCT",
   "additional_product_create_requests_allowed": false,
   "error": {
-    "type": "ContractMismatchError",
-    "message": "exact backend SKU readback returned 0 product matches",
-    "at": "2026-09-04T05:11:30.071588+00:00"
+    "type": "ReconciliationNoUniqueStrongEvidence",
+    "message": "exact good_name queries and complete category scans produced no uniquely verified product; mapping remains unbound",
+    "at": "2026-09-04T05:32:33.294673+00:00"
   },
-  "sensitive_values_included": false
+  "sensitive_values_included": false,
+  "reconciliation": {
+    "report": "canonical_create_reconciliation_report.json",
+    "primary_identity_path": "Goods.index exact good_name -> product_id -> getFormatInfo exact sku_code",
+    "target_mutations": 0,
+    "good_code_role": "auxiliary_only_never_binding"
+  }
 }

@@ -69,11 +69,17 @@ class FakeCanonicalClient:
             "children": [{"id": 294884, "type_name": "MikiHouse", "pid": 288338}],
         }]}
 
-    def search_products(self, sku_code, **kwargs):
+    def search_products(self, sku_code="", **kwargs):
         self._record("/shopapi/Goods/index", "read")
+        exact_name = kwargs.get("good_name") == (self.payload or {}).get("good_name")
         return {
             "code": 1,
-            "data": ([{"id": "99077", "state": 1, "is_shelf": 0}] if self.created else []),
+            "data": ([{
+                "id": "99077",
+                "good_name": self.payload["good_name"],
+                "state": 1,
+                "is_shelf": 0,
+            }] if self.created and exact_name else []),
         }
 
     def upload_image(self, source_url, *, confirmation):
@@ -143,12 +149,16 @@ def test_single_canonical_create_persists_product_plus_exact_code_identity(tmp_p
     assert variant["target_product_id"] == "99077"
     assert variant["backend_sku_code_verified"] is True
     assert variant["shijiu_sku_id"] is None
+    checkpoint = json.loads((tmp_path / "checkpoint.json").read_text())
+    assert checkpoint["readback_discovery"]["candidate_product_ids"] == ["99077"]
+    assert checkpoint["readback_discovery"]["auxiliary_good_code_product_ids"] == []
+    assert checkpoint["readback_discovery"]["good_code_role"] == "auxiliary_only_never_binding"
     before = len(client.requests)
     runner.run()
     assert len(client.requests) == before
 
 
-def test_checked_in_single_create_evidence_is_fail_closed_and_non_special() -> None:
+def test_checked_in_single_create_reconciliation_is_read_only_unbound_and_non_special() -> None:
     report = json.loads(
         (ROOT / "deliverables/shijiu_import/canonical_create_validation_report.json").read_text()
     )
@@ -158,11 +168,14 @@ def test_checked_in_single_create_evidence_is_fail_closed_and_non_special() -> N
     checkpoint = json.loads(
         (ROOT / "state/shijiu_canonical_create_checkpoint.json").read_text()
     )
+    reconciliation = json.loads(
+        (ROOT / "deliverables/shijiu_import/canonical_create_reconciliation_report.json").read_text()
+    )
     mapping = json.loads((ROOT / "state/shijiu_mappings.json").read_text())
     with (ROOT / "special_skus_2026aw.csv").open(newline="", encoding="utf-8-sig") as handle:
         special = {row["product_number"] for row in csv.DictReader(handle)}
     number = report["product_number"]
-    assert report["status"] == "STOPPED_ON_FIRST_ERROR"
+    assert report["status"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
     assert report["create_request_count"] == report["create_attempts"] == 1
     assert report["image_upload_count"] == 1
     assert report["exact_backend_sku_match_count"] == 0
@@ -172,10 +185,21 @@ def test_checked_in_single_create_evidence_is_fail_closed_and_non_special() -> N
     assert report["pdf_special_exclusion_count"] == len(special) == 351
     assert number not in special
     assert candidate["write_executed"] is True
-    assert candidate["result"] == "STOPPED_ON_FIRST_ERROR"
-    assert checkpoint["status"] == "STOPPED_ON_FIRST_ERROR"
+    assert candidate["result"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
+    assert candidate["additional_write_executed"] is False
+    assert checkpoint["status"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
     assert checkpoint["scope"]["product_numbers"] == [number]
     assert checkpoint["create_attempts"] == 1
+    assert reconciliation["create_requests_this_run"] == 0
+    assert reconciliation["image_upload_requests_this_run"] == 0
+    assert reconciliation["update_requests_this_run"] == 0
+    assert reconciliation["target_mutations_this_run"] == 0
+    assert reconciliation["full_category_scan_used"] is True
+    assert reconciliation["candidate_product_ids"] == []
+    assert reconciliation["verified_product_ids"] == []
+    assert reconciliation["auxiliary_good_code_product_ids"] == []
+    assert reconciliation["good_code_role"] == "auxiliary_only_never_binding"
+    assert reconciliation["sensitive_values_included"] is False
     assert mapping["products"][number]["shijiu_product_id"] is None
     assert all(
         row["shijiu_sku_id"] is None
