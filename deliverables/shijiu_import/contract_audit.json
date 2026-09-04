@@ -35,5 +35,12 @@
     "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
     "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
   ],
-  "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
+  "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent",
+  "live_read_only_category_finding": {
+    "name": "MikiHouse",
+    "id": 294884,
+    "parent_name": "母婴用品",
+    "parent_id": 288338,
+    "assignment": "all publishable MIKIHOUSE products"
+  }
 }

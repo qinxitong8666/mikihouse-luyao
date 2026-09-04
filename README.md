@@ -193,11 +193,11 @@ mini_program_price_jpy = ceil(官网税入日元价 × 0.65)
 
 本项目的最终目标端是 **Shijiu（世九）小程序后台**。`qinxitong8666/wawu-product-sync` 仅作为其中可明确定位到 Shijiu 的下游 client、字段样例、回读、checkpoint/resume、回滚和批处理安全机制的参考；瓦屋上游 API、瓦屋 mapper、瓦屋价格/分类/SKU 语义均未复用。证据边界和当前 main 缺失的真实成功写入证据详见 `docs/shijiu_downstream_contract_audit.md`。
 
-当前 adapter 刻意不包含任何写方法，也没有写入 CLI 参数。Shijiu 客户端只允许以下三个语义只读端点：
+当前 adapter 刻意不包含任何写方法，也没有写入 CLI 参数。Shijiu 客户端只允许商品/详情/分类 discovery 所需的语义只读端点：
 
 - `/shopapi/Goods/index`：按稳定 SKU code 查重；
 - `/shopapi/goods/getFormatInfo`：已存在商品回读；
-- `/shopapi/goodtype/fatherIndex`：核对分类 ID 和名称。
+- `/shopapi/Goodtype/typeindex`、`/shopapi/Goodtype/index`、`/shopapi/goodtype/fatherIndex`：核对分类树。
 
 首次 dry-run 命令：
 
@@ -214,14 +214,18 @@ PYTHONPATH=src python scripts/plan_shijiu_import.py \
   --resume
 ```
 
-适配器使用以下稳定标识，防止重复创建：
+MIKI HOUSE 是与 WAWU 平级且隔离的独立 provider，source 固定为 `MIKIHOUSE`。两者不得共享商品身份、variant 身份、同步状态或目标类目。适配器使用以下稳定标识，防止重复创建：
 
 - `source_product_id = MIKIHOUSE:<product_number>`；
 - `source_variant_id = MIKIHOUSE:<product_number>:<variant SKU>`；
 - 目标端 `sku_code = MIKI-<variant SKU>`。
 
+持久映射表为 `state/shijiu_mappings.json`，为每个 product number 和 variant SKU 建立独立行；尚未写入的 Shijiu `product_id`/`sku_id` 保持 `null`，不得猜测。目标 discovery 只接受已持久绑定或精确 `MIKI-<variant SKU>`，商品名匹配被明确禁止。
+
+只读分类树确认 Shijiu 已有子类目 `MikiHouse`（ID `294884`，父类目 `母婴用品` ID `288338`）。所有可发布 MIKIHOUSE 商品固定使用 `good_type=294884`，不得按官网品牌或分类散落到其他 Shijiu 类目。官网 `brand`、`productType`、`category`、`tags` 只保存在 source metadata；由于没有已验证的 Shijiu 品牌 discovery 契约，`brand_id` 和 `supplier` 保持空值。
+
 每个 variant 的 `sku_price` 和会员价格直接复制现有 `mini_program_price_jpy`，并再次验证其等于 `ceil(官网税入日元价 × 0.65)`；币种保持 JPY，不做人民币或汇率换算。Storefront 只提供 `availableForSale` 而没有库存件数，因此目标 `sku_stock` 保守映射为可售 `1`、不可售 `0`，审计数据同时保留原始布尔状态和来源说明。
 
-分类映射保存在 `config/shijiu_category_map.json`，运行时会与 Shijiu 只读分类列表核对：婴儿用品映射到 `母婴用品`，鞋类、服装、杂货及其他 MIKI 商品映射到 `专柜商品`。品牌原文保存在 adapter envelope 和商品描述中；由于参考仓库没有已验证的 Shijiu 品牌 discovery 契约，`brand_id` 和 `supplier` 保持空值，禁止猜测。
+每次全站抓取继续由 catalog 模块以上一次 master catalog 为基线，按 variant SKU 输出独立的 `NEW_PRODUCT`、`NEW_VARIANT`、`PRICE_CHANGED`、`INVENTORY_CHANGED`、`IMAGE_CHANGED`、下架及恢复事件。只有 `PRICE_CHANGED` 能生成 `UPDATE_PRICE_BY_EXACT_VARIANT_SKU`，且不会重新创建商品。价格保护配置位于 `config/shijiu_price_guard.json`：新价格越界，或绝对/相对变化超过阈值时只写入 `review_required.json`，不得进入自动更新计划。
 
-完整字段预览、checkpoint 和 Shijiu 只读快照写入 `output/shijiu-import/`；可追踪的 2603 项精简动作计划、20 个字段样例、价格校验、契约审计和只读验证写入 `deliverables/shijiu_import/`。payload 是字段映射预览而不是可执行写请求：图片保留 MIKI 官网来源，未来需在另行授权的阶段通过已定位的 Shijiu COS 上传接口取得目标 URL。缺少官网图片的商品会设置 `publish_ready=false` 并跳过，绝不使用其他商品图片替代。当前 adapter 即使设置写入环境变量也会拒绝运行。
+完整字段预览、增量操作、checkpoint 和 Shijiu 只读快照写入 `output/shijiu-import/`；可追踪的 2603 项精简动作计划、增量摘要、review required、20 个字段样例、价格校验、映射表、契约审计和只读验证写入仓库。payload 是字段映射预览而不是可执行写请求：图片保留 MIKI 官网来源，未来需在另行授权的阶段通过已定位的 Shijiu COS 上传接口取得目标 URL。缺少官网图片的商品会设置 `publish_ready=false` 并跳过，绝不使用其他商品图片替代。当前 adapter 即使设置写入环境变量也会拒绝运行。

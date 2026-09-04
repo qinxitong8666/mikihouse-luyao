@@ -26,6 +26,8 @@ DEFAULT_SHIJIU_BASE_URL = "https://api.wfcorp.cn/shijiu"
 READ_ONLY_ENDPOINTS = frozenset({
     "/shopapi/Goods/index",
     "/shopapi/goods/getFormatInfo",
+    "/shopapi/Goodtype/typeindex",
+    "/shopapi/Goodtype/index",
     "/shopapi/goodtype/fatherIndex",
 })
 MUTATING_ENDPOINTS = frozenset({
@@ -146,7 +148,7 @@ class ReadOnlyShijiuClient:
                 "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
                 "Origin": "https://shijiu.wfcorp.cn",
                 "Referer": "https://shijiu.wfcorp.cn/",
-                "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.5; read-only)",
+                "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.6; read-only)",
             },
         )
         with urllib.request.urlopen(request, timeout=self.timeout) as response:
@@ -159,16 +161,23 @@ class ReadOnlyShijiuClient:
             raise ImportPlanError(f"target read endpoint returned a non-object: {path}")
         return result
 
-    def search_products(self, *, sku_code: str = "", good_name: str = "", page_size: int = 20) -> dict[str, Any]:
+    def search_products(
+        self,
+        *,
+        sku_code: str = "",
+        page: int = 1,
+        page_size: int = 20,
+        good_type: int | str = "",
+    ) -> dict[str, Any]:
         return self.request_read(
             "/shopapi/Goods/index",
             {
-                "page": 1,
+                "page": page,
                 "page_size": page_size,
-                "good_type": "",
+                "good_type": good_type,
                 "father_type": "",
                 "recommend": "",
-                "good_name": good_name,
+                "good_name": "",
                 "good_code": sku_code,
                 "push": "2",
                 "status": "",
@@ -185,6 +194,15 @@ class ReadOnlyShijiuClient:
 
     def categories(self) -> dict[str, Any]:
         return self.request_read("/shopapi/goodtype/fatherIndex", {})
+
+    def category_list(self, page: int = 1) -> dict[str, Any]:
+        return self.request_read("/shopapi/Goodtype/typeindex", {"page": page})
+
+    def category_management_index(
+        self, *, page: int = 1, parent_id: str | int | None = None
+    ) -> dict[str, Any]:
+        payload = {"id": parent_id} if parent_id not in (None, "") else {"page": page}
+        return self.request_read("/shopapi/Goodtype/index", payload)
 
     @property
     def semantic_write_request_count(self) -> int:
@@ -242,37 +260,68 @@ def _classification_name(product: dict[str, Any]) -> str:
     return _classification(product) or "other"
 
 
-def load_category_map(path: Path) -> dict[str, dict[str, Any]]:
+def load_category_map(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if payload.get("source") != SOURCE_CODE or payload.get("target") != "SHIJIU":
         raise ImportPlanError("category map must explicitly declare MIKIHOUSE -> SHIJIU")
-    categories = payload.get("target_categories") or {}
-    required = {"footwear", "apparel", "baby", "goods", "other"}
-    if set(categories) != required:
-        raise ImportPlanError(f"category map keys must be {sorted(required)}")
-    for key, value in categories.items():
-        if not isinstance(value.get("id"), int) or not str(value.get("name") or "").strip():
-            raise ImportPlanError(f"invalid target category mapping: {key}")
-    return categories
+    category = payload.get("target_category") or {}
+    if (
+        not isinstance(category.get("id"), int)
+        or not str(category.get("name") or "").strip()
+        or not isinstance(category.get("parent_id"), int)
+        or category.get("assignment_policy") != "all_publishable_mikihouse_products"
+    ):
+        raise ImportPlanError("invalid fixed Shijiu MIKI HOUSE category mapping")
+    return category
 
 
-def validate_live_categories(
-    category_map: dict[str, dict[str, Any]], response: dict[str, Any]
-) -> list[dict[str, Any]]:
-    live = {int(item["id"]): str(item.get("type_name") or "") for item in response_rows(response)}
-    checks = []
-    for classification, mapping in category_map.items():
-        actual = live.get(mapping["id"])
-        checks.append({
-            "classification": classification,
-            "target_category_id": mapping["id"],
-            "expected_name": mapping["name"],
-            "actual_name": actual,
-            "passed": actual == mapping["name"],
-        })
-    if not all(item["passed"] for item in checks):
-        raise ImportPlanError(f"target category mapping no longer matches live categories: {checks}")
-    return checks
+def _category_rows(value: Any, parent: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    if isinstance(value, list):
+        for item in value:
+            rows.extend(_category_rows(item, parent))
+    elif isinstance(value, dict):
+        if value.get("id") is not None and value.get("type_name") is not None:
+            rows.append({
+                "id": int(value["id"]),
+                "name": str(value["type_name"]),
+                "parent_id": int(value.get("pid") or (parent or {}).get("id") or 0),
+                "parent_name": str((parent or {}).get("type_name") or ""),
+            })
+            parent = value
+        for child in value.get("children") or []:
+            rows.extend(_category_rows(child, parent))
+        if not rows:
+            for child in value.values():
+                rows.extend(_category_rows(child, parent))
+    return rows
+
+
+def validate_live_mikihouse_category(
+    configured: dict[str, Any], response: dict[str, Any]
+) -> dict[str, Any]:
+    normalized_matches = [
+        row
+        for row in _category_rows(response)
+        if re.sub(r"[^a-z0-9]", "", row["name"].casefold()) == "mikihouse"
+    ]
+    exact = [row for row in normalized_matches if row["id"] == configured["id"]]
+    passed = (
+        len(normalized_matches) == 1
+        and len(exact) == 1
+        and exact[0]["name"] == configured["name"]
+        and exact[0]["parent_id"] == configured["parent_id"]
+    )
+    result = {
+        "configured": configured,
+        "normalized_name_match_count": len(normalized_matches),
+        "matches": normalized_matches,
+        "all_products_fixed_to_category_id": configured["id"],
+        "passed": passed,
+    }
+    if not passed:
+        raise ImportPlanError(f"fixed Shijiu MIKI HOUSE category validation failed: {result}")
+    return result
 
 
 def source_product_id(product_number: str) -> str:
@@ -357,11 +406,10 @@ def _product_image_urls(product: dict[str, Any]) -> list[str]:
 
 def map_product_to_shijiu(
     product: dict[str, Any],
-    category_map: dict[str, dict[str, Any]],
+    target_category: dict[str, Any],
 ) -> dict[str, Any]:
     product_number = str(product["product_number"])
     classification = _classification_name(product)
-    target_category = category_map[classification]
     variants = list(product.get("variants") or [])
     if not variants:
         raise ImportPlanError(f"product has no variants: {product_number}")
@@ -481,6 +529,14 @@ def map_product_to_shijiu(
         "source_url": product.get("product_url"),
         "source_brand": brand,
         "source_category": source_category,
+        "source_product_type": product.get("product_type") or "",
+        "source_tags": list(product.get("tags") or []),
+        "source_metadata": {
+            "brand": product.get("brand") or "",
+            "product_type": product.get("product_type") or "",
+            "category": copy.deepcopy(product.get("category")),
+            "tags": list(product.get("tags") or []),
+        },
         "classification": classification,
         "target_category": target_category,
         "currency": "JPY",
@@ -601,6 +657,130 @@ def discover_shijiu_read_contract(client: ReadOnlyShijiuClient) -> dict[str, Any
     }
 
 
+def discover_exact_mikihouse_bindings(
+    client: ReadOnlyShijiuClient,
+    products: list[dict[str, Any]],
+    mapping_state: dict[str, Any],
+    target_category: dict[str, Any],
+    *,
+    page_size: int = 200,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Scan the fixed category and bind only exact MIKI-prefixed SKU codes."""
+    source_by_code: dict[str, tuple[str, str]] = {}
+    for product in products:
+        product_number = str(product["product_number"])
+        for variant in product.get("variants") or []:
+            sku = str(variant["sku"])
+            code = backend_sku_code(sku)
+            if code in source_by_code:
+                raise ImportPlanError(f"duplicate MIKIHOUSE backend SKU identity: {code}")
+            source_by_code[code] = (product_number, sku)
+
+    pages: list[dict[str, Any]] = []
+    first = client.search_products(page=1, page_size=page_size, good_type=target_category["id"])
+    pages.append(first)
+    total = int(first.get("count") or len(response_rows(first)))
+    total_pages = max(1, (total + page_size - 1) // page_size)
+    for page in range(2, total_pages + 1):
+        pages.append(client.search_products(page=page, page_size=page_size, good_type=target_category["id"]))
+    target_rows = [row for response in pages for row in response_rows(response)]
+    if len(target_rows) != total:
+        raise ImportPlanError(
+            f"incomplete Shijiu MikiHouse category scan: expected {total}, observed {len(target_rows)}"
+        )
+
+    next_state = copy.deepcopy(mapping_state)
+    reviews: list[dict[str, Any]] = []
+    exact_code_count = 0
+    bound_products: set[str] = set()
+    bound_variants: set[str] = set()
+    details_read = 0
+    foreign_namespace_codes = 0
+    bound_target_product_ids: set[str] = set()
+    for target_row in target_rows:
+        target_product_id = target_row.get("id") or target_row.get("good_id") or target_row.get("goods_id")
+        if target_product_id in (None, ""):
+            reviews.append({"reason": "target_row_missing_product_id"})
+            continue
+        detail = client.product_detail(target_product_id)
+        details_read += 1
+        sku_rows = recursively_find_skus(detail)
+        matches: list[tuple[str, str, dict[str, Any]]] = []
+        for sku_row in sku_rows:
+            code = str(sku_row.get("sku_code") or "").strip()
+            if code.startswith("WAWU-"):
+                foreign_namespace_codes += 1
+            if code in source_by_code:
+                product_number, sku = source_by_code[code]
+                matches.append((product_number, sku, sku_row))
+                exact_code_count += 1
+            elif code.startswith("MIKI-"):
+                reviews.append({
+                    "reason": "unknown_miki_backend_sku_code",
+                    "shijiu_product_id": str(target_product_id),
+                    "backend_sku_code": code,
+                })
+        product_numbers = {item[0] for item in matches}
+        if len(product_numbers) > 1:
+            reviews.append({
+                "reason": "one_shijiu_product_contains_multiple_mikihouse_product_numbers",
+                "shijiu_product_id": str(target_product_id),
+                "product_numbers": sorted(product_numbers),
+            })
+            continue
+        if not matches:
+            continue
+        product_number = matches[0][0]
+        mapping = next_state["products"][product_number]
+        prior_target = mapping.get("shijiu_product_id")
+        if prior_target not in (None, "", target_product_id, str(target_product_id)):
+            reviews.append({
+                "reason": "source_product_already_bound_to_different_shijiu_product",
+                "product_number": product_number,
+                "existing_shijiu_product_id": str(prior_target),
+                "observed_shijiu_product_id": str(target_product_id),
+            })
+            continue
+        mapping["shijiu_product_id"] = str(target_product_id)
+        mapping["target_category_id"] = target_category["id"]
+        mapping["last_verified_at"] = now()
+        mapping["match_method"] = "exact_backend_sku_code"
+        bound_products.add(product_number)
+        bound_target_product_ids.add(str(target_product_id))
+        for _, sku, sku_row in matches:
+            variant_mapping = mapping["variants"][sku]
+            observed_sku_id = sku_row.get("id") or sku_row.get("sku_id") or sku_row.get("goods_sku_id")
+            if observed_sku_id not in (None, ""):
+                variant_mapping["shijiu_sku_id"] = str(observed_sku_id)
+            variant_mapping["last_verified_at"] = now()
+            variant_mapping["match_method"] = "exact_backend_sku_code"
+            bound_variants.add(source_variant_id(product_number, sku))
+    unresolved_target_products = len(target_rows) - len(bound_target_product_ids)
+    if unresolved_target_products:
+        reviews.append({
+            "reason": "existing_shijiu_mikihouse_products_have_no_exact_stable_source_binding",
+            "unresolved_target_product_count": unresolved_target_products,
+            "required_action": "manual_identity_reconciliation_before_any_create",
+        })
+    report = {
+        "target_category_id": target_category["id"],
+        "target_category_name": target_category["name"],
+        "target_product_rows_scanned": len(target_rows),
+        "target_detail_reads": details_read,
+        "exact_backend_sku_codes_found": exact_code_count,
+        "exact_product_bindings_found": len(bound_products),
+        "exact_variant_bindings_found": len(bound_variants),
+        "unresolved_target_product_count": unresolved_target_products,
+        "foreign_wawu_namespace_codes_observed": foreign_namespace_codes,
+        "product_name_matching_attempts": 0,
+        "automatic_create_allowed": unresolved_target_products == 0,
+        "review_required_count": len(reviews),
+        "review_required": reviews,
+        "passed": True,
+    }
+    return next_state, report
+
+
 def affected_product_numbers(changes: dict[str, Any], products: list[dict[str, Any]]) -> set[str]:
     if changes.get("is_initial_sync"):
         return {item["product_number"] for item in products}
@@ -613,11 +793,288 @@ def affected_product_numbers(changes: dict[str, Any], products: list[dict[str, A
 
 def load_mapping_state(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"schema_version": 1, "source": SOURCE_CODE, "mappings": {}}
+        return {
+            "schema_version": 1,
+            "source": SOURCE_CODE,
+            "target": "SHIJIU",
+            "identity_contract": {
+                "source_product_id": "MIKIHOUSE:<product_number>",
+                "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
+                "backend_sku_code": "MIKI-<variant SKU>",
+                "product_match": "exact persisted mapping or exact backend_sku_code only",
+                "product_name_matching": "forbidden",
+            },
+            "products": {},
+        }
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if payload.get("source") != SOURCE_CODE or not isinstance(payload.get("mappings"), dict):
+    if (
+        payload.get("source") != SOURCE_CODE
+        or payload.get("target") != "SHIJIU"
+        or not isinstance(payload.get("products"), dict)
+        or payload.get("identity_contract", {}).get("product_name_matching") != "forbidden"
+    ):
         raise ImportPlanError("invalid Shijiu mapping state")
+    seen_shijiu_product_ids: set[str] = set()
+    seen_shijiu_sku_ids: set[str] = set()
+    for product_number, mapping in payload["products"].items():
+        if (
+            mapping.get("source") != SOURCE_CODE
+            or mapping.get("source_product_id") != source_product_id(product_number)
+        ):
+            raise ImportPlanError(f"cross-provider product mapping rejected: {product_number}")
+        target_product_id = mapping.get("shijiu_product_id")
+        if target_product_id not in (None, ""):
+            marker = str(target_product_id)
+            if marker in seen_shijiu_product_ids:
+                raise ImportPlanError(f"duplicate Shijiu product binding rejected: {marker}")
+            seen_shijiu_product_ids.add(marker)
+        for sku, variant_mapping in (mapping.get("variants") or {}).items():
+            if (
+                variant_mapping.get("source") != SOURCE_CODE
+                or variant_mapping.get("source_variant_id") != source_variant_id(product_number, sku)
+                or variant_mapping.get("backend_sku_code") != backend_sku_code(sku)
+            ):
+                raise ImportPlanError(f"cross-provider variant mapping rejected: {product_number}/{sku}")
+            target_sku_id = variant_mapping.get("shijiu_sku_id")
+            if target_sku_id not in (None, ""):
+                marker = str(target_sku_id)
+                if marker in seen_shijiu_sku_ids:
+                    raise ImportPlanError(f"duplicate Shijiu SKU binding rejected: {marker}")
+                seen_shijiu_sku_ids.add(marker)
     return payload
+
+
+def reconcile_mapping_state(
+    mapping_state: dict[str, Any],
+    products: list[dict[str, Any]],
+    target_category: dict[str, Any],
+) -> dict[str, Any]:
+    result = copy.deepcopy(mapping_state)
+    result["source"] = SOURCE_CODE
+    result["target"] = "SHIJIU"
+    result["fixed_target_category"] = {
+        "id": target_category["id"],
+        "name": target_category["name"],
+        "parent_id": target_category["parent_id"],
+    }
+    mappings = result.setdefault("products", {})
+    for mapping in mappings.values():
+        mapping["source_present"] = False
+        for variant in (mapping.get("variants") or {}).values():
+            variant["source_present"] = False
+    for product in products:
+        product_number = str(product["product_number"])
+        mapping = mappings.setdefault(product_number, {})
+        mapping.update({
+            "source": SOURCE_CODE,
+            "source_product_id": source_product_id(product_number),
+            "product_number": product_number,
+            "source_present": True,
+            "target_category_id": target_category["id"],
+        })
+        mapping.setdefault("shijiu_product_id", None)
+        mapping.setdefault("last_verified_at", None)
+        variant_mappings = mapping.setdefault("variants", {})
+        for variant in product.get("variants") or []:
+            sku = str(variant["sku"])
+            variant_mapping = variant_mappings.setdefault(sku, {})
+            variant_mapping.update({
+                "source": SOURCE_CODE,
+                "source_variant_id": source_variant_id(product_number, sku),
+                "source_variant_sku": sku,
+                "backend_sku_code": backend_sku_code(sku),
+                "source_present": True,
+            })
+            variant_mapping.setdefault("shijiu_sku_id", None)
+            variant_mapping.setdefault("last_verified_at", None)
+    result["updated_at"] = now()
+    return result
+
+
+def _bound_product_mapping(mapping_state: dict[str, Any], product_number: str) -> dict[str, Any] | None:
+    mapping = mapping_state["products"].get(product_number)
+    return mapping if mapping and mapping.get("shijiu_product_id") not in (None, "") else None
+
+
+def mapping_summary(mapping_state: dict[str, Any]) -> dict[str, Any]:
+    products = list(mapping_state["products"].values())
+    variants = [variant for product in products for variant in (product.get("variants") or {}).values()]
+    return {
+        "product_rows": len(products),
+        "variant_rows": len(variants),
+        "bound_product_rows": sum(item.get("shijiu_product_id") not in (None, "") for item in products),
+        "bound_variant_rows": sum(item.get("shijiu_sku_id") not in (None, "") for item in variants),
+        "unbound_product_rows": sum(item.get("shijiu_product_id") in (None, "") for item in products),
+        "unbound_variant_rows": sum(item.get("shijiu_sku_id") in (None, "") for item in variants),
+        "product_name_matching": "forbidden",
+    }
+
+
+def load_price_guard(path: Path) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("source") != SOURCE_CODE or payload.get("target") != "SHIJIU":
+        raise ImportPlanError("price guard must explicitly declare MIKIHOUSE -> SHIJIU")
+    required = (
+        "minimum_tax_included_price_jpy",
+        "maximum_tax_included_price_jpy",
+        "maximum_absolute_change_jpy",
+        "maximum_relative_change_ratio",
+    )
+    if any(Decimal(str(payload.get(key))) < 0 for key in required):
+        raise ImportPlanError("price guard thresholds must be non-negative")
+    return payload
+
+
+def assess_price_change(change: dict[str, Any], guard: dict[str, Any]) -> dict[str, Any]:
+    before = change.get("before") or {}
+    after = change.get("after") or {}
+    reasons: list[str] = []
+    try:
+        old_tax = int(before["tax_included_price_jpy"])
+        new_tax = int(after["tax_included_price_jpy"])
+        stated_new_mini = int(after["mini_program_price_jpy"])
+    except (KeyError, TypeError, ValueError):
+        return {"passed": False, "review_required": True, "reasons": ["missing_or_invalid_price_baseline"]}
+    recalculated = calculate_mini_program_price_jpy(new_tax)
+    if stated_new_mini != recalculated:
+        reasons.append("mini_program_price_jpy_recalculation_mismatch")
+    minimum = int(guard["minimum_tax_included_price_jpy"])
+    maximum = int(guard["maximum_tax_included_price_jpy"])
+    if not minimum <= new_tax <= maximum:
+        reasons.append("new_tax_included_price_outside_valid_range")
+    absolute_change = abs(new_tax - old_tax)
+    if absolute_change > int(guard["maximum_absolute_change_jpy"]):
+        reasons.append("absolute_price_change_exceeds_threshold")
+    relative_change = None if old_tax <= 0 else Decimal(absolute_change) / Decimal(old_tax)
+    if relative_change is None:
+        reasons.append("non_positive_baseline_price")
+    elif relative_change > Decimal(str(guard["maximum_relative_change_ratio"])):
+        reasons.append("relative_price_change_exceeds_threshold")
+    return {
+        "passed": not reasons,
+        "review_required": bool(reasons),
+        "reasons": reasons,
+        "before_tax_included_price_jpy": old_tax,
+        "after_tax_included_price_jpy": new_tax,
+        "before_mini_program_price_jpy": before.get("mini_program_price_jpy"),
+        "after_mini_program_price_jpy": recalculated,
+        "absolute_change_jpy": absolute_change,
+        "relative_change_ratio": float(relative_change) if relative_change is not None else None,
+        "currency": "JPY",
+        "currency_conversion_applied": False,
+    }
+
+
+CHANGE_TYPE_NAMES = {
+    "new_product": "NEW_PRODUCT",
+    "new_variant": "NEW_VARIANT",
+    "price_changed": "PRICE_CHANGED",
+    "inventory_changed": "INVENTORY_CHANGED",
+    "product_images_changed": "IMAGE_CHANGED",
+    "variant_image_changed": "IMAGE_CHANGED",
+    "product_inactivated": "PRODUCT_INACTIVATED",
+    "variant_inactivated": "VARIANT_INACTIVATED",
+    "product_reactivated": "PRODUCT_REACTIVATED",
+    "variant_reactivated": "VARIANT_REACTIVATED",
+    "product_metadata_changed": "PRODUCT_METADATA_CHANGED",
+    "variant_metadata_changed": "VARIANT_METADATA_CHANGED",
+}
+
+
+def build_incremental_sync_operations(
+    changes: dict[str, Any],
+    mapping_state: dict[str, Any],
+    mapped_by_product: dict[str, dict[str, Any]],
+    price_guard: dict[str, Any],
+    *,
+    automatic_create_allowed: bool = True,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    operations: list[dict[str, Any]] = []
+    reviews: list[dict[str, Any]] = []
+    new_products = {
+        str(item.get("product_number"))
+        for item in changes.get("changes") or []
+        if item.get("change_type") == "new_product"
+    }
+    for change in changes.get("changes") or []:
+        raw_type = str(change.get("change_type") or "")
+        change_type = CHANGE_TYPE_NAMES.get(raw_type, raw_type.upper() or "UNKNOWN")
+        product_number = str(change.get("product_number") or "")
+        variant_sku = str(change.get("variant_sku") or "")
+        product_mapping = mapping_state["products"].get(product_number) or {}
+        variant_mapping = (product_mapping.get("variants") or {}).get(variant_sku) or {}
+        bound_product = product_mapping.get("shijiu_product_id") not in (None, "")
+        mapped = mapped_by_product.get(product_number) or {}
+        publish_ready = bool(mapped.get("publish_ready"))
+        operation = {
+            "detected_at": change.get("detected_at"),
+            "source": SOURCE_CODE,
+            "target": "SHIJIU",
+            "change_type": change_type,
+            "source_product_id": source_product_id(product_number),
+            "source_variant_id": source_variant_id(product_number, variant_sku) if variant_sku else None,
+            "product_number": product_number,
+            "variant_sku": variant_sku or None,
+            "shijiu_product_id": product_mapping.get("shijiu_product_id"),
+            "shijiu_sku_id": variant_mapping.get("shijiu_sku_id"),
+            "backend_sku_code": variant_mapping.get("backend_sku_code") if variant_sku else None,
+            "currency": "JPY",
+            "currency_conversion_applied": False,
+            "write_executed": False,
+        }
+        if change_type == "PRICE_CHANGED":
+            assessment = assess_price_change(change, price_guard)
+            operation["price_change"] = assessment
+            if assessment["review_required"]:
+                operation["planned_action"] = "REVIEW_REQUIRED"
+                reviews.append(copy.deepcopy(operation))
+            elif not bound_product:
+                operation["planned_action"] = "BLOCKED_UNMAPPED_PRICE_UPDATE"
+            else:
+                operation["planned_action"] = "UPDATE_PRICE_BY_EXACT_VARIANT_SKU"
+        elif change_type == "NEW_PRODUCT":
+            operation["planned_action"] = (
+                "SKIP_MISSING_OFFICIAL_IMAGE"
+                if not publish_ready
+                else (
+                    "SKIP_ALREADY_BOUND"
+                    if bound_product
+                    else (
+                        "CREATE_PRODUCT"
+                        if automatic_create_allowed
+                        else "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+                    )
+                )
+            )
+        elif change_type == "NEW_VARIANT":
+            operation["planned_action"] = (
+                "SKIP_MISSING_OFFICIAL_IMAGE"
+                if not publish_ready
+                else (
+                    "ADD_VARIANT_TO_BOUND_PRODUCT"
+                    if bound_product
+                    else (
+                        ("INCLUDED_IN_NEW_PRODUCT" if automatic_create_allowed else "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS")
+                        if product_number in new_products
+                        else "BLOCKED_UNMAPPED_VARIANT"
+                    )
+                )
+            )
+        elif change_type == "INVENTORY_CHANGED":
+            operation["planned_action"] = "UPDATE_INVENTORY" if bound_product else "BLOCKED_UNMAPPED"
+        elif change_type == "IMAGE_CHANGED":
+            operation["planned_action"] = "UPDATE_IMAGE" if bound_product else "BLOCKED_UNMAPPED"
+        elif change_type in {"PRODUCT_INACTIVATED", "VARIANT_INACTIVATED"}:
+            operation["planned_action"] = "DEACTIVATE" if bound_product else "SKIP_UNMAPPED"
+        elif change_type in {"PRODUCT_REACTIVATED", "VARIANT_REACTIVATED"}:
+            operation["planned_action"] = "REACTIVATE" if bound_product else "BLOCKED_UNMAPPED"
+        elif change_type in {"PRODUCT_METADATA_CHANGED", "VARIANT_METADATA_CHANGED"}:
+            operation["planned_action"] = "UPDATE_METADATA" if bound_product else "BLOCKED_UNMAPPED"
+        else:
+            operation["planned_action"] = "REVIEW_REQUIRED_UNKNOWN_CHANGE_TYPE"
+            reviews.append(copy.deepcopy(operation))
+        operations.append(operation)
+    return operations, reviews
 
 
 def choose_action(
@@ -700,6 +1157,13 @@ def build_contract_audit() -> dict[str, Any]:
         "implementation_consequence": (
             "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
         ),
+        "live_read_only_category_finding": {
+            "name": "MikiHouse",
+            "id": 294884,
+            "parent_name": "母婴用品",
+            "parent_id": 288338,
+            "assignment": "all publishable MIKIHOUSE products",
+        },
     }
 
 
@@ -709,7 +1173,8 @@ def field_mapping_contract() -> dict[str, Any]:
         "target": "Shijiu native field preview",
         "product_name": "name -> good_name",
         "brand": "brand -> adapter source_brand + good_describe; brand_id deferred",
-        "category": "classification -> verified Shijiu father category good_type",
+        "category": "all publishable MIKIHOUSE products -> fixed Shijiu MikiHouse category 294884",
+        "source_metadata": "brand/productType/category/tags retained internally and never used for target category routing",
         "main_image": "main_image.url -> master_graph preview; future COS upload required",
         "color_images": "color_images/resolved_image -> broadcast and sku_thumbnail previews; future COS upload required",
         "options": "selected_options/color/size -> spec_name dimensions and per-SKU spec_name",
@@ -723,7 +1188,7 @@ def field_mapping_contract() -> dict[str, Any]:
 def plan_import(
     products: list[dict[str, Any]],
     changes: dict[str, Any],
-    category_map: dict[str, dict[str, Any]],
+    target_category: dict[str, Any],
     mapping_state: dict[str, Any],
     target_checks: dict[str, dict[str, Any]],
     checkpoint_path: Path,
@@ -763,10 +1228,15 @@ def plan_import(
         if stable_product_id in records and records[stable_product_id].get("status") == "planned":
             continue
         try:
-            mapped = map_product_to_shijiu(product, category_map)
-            mapping = mapping_state["mappings"].get(stable_product_id)
+            mapped = map_product_to_shijiu(product, target_category)
+            mapping = _bound_product_mapping(mapping_state, product["product_number"])
             target_check = target_checks.get(product["product_number"])
-            action, reason = choose_action(mapped, mapping, target_check)
+            if changes.get("is_initial_sync"):
+                action, reason = choose_action(mapped, mapping, target_check)
+            elif not mapped["publish_ready"]:
+                action, reason = "skip", "missing_official_image"
+            else:
+                action, reason = "incremental_change_set", "use_variant_level_incremental_sync_plan"
             record = {
                 "status": "planned",
                 "action": action,
@@ -774,7 +1244,7 @@ def plan_import(
                 "target_check_status": "checked" if target_check else "not_sampled_this_run",
                 "payload_sha256": mapped["payload_sha256"],
                 "existing_backend_product_id": (
-                    mapping.get("backend_product_id") if mapping else None
+                    mapping.get("shijiu_product_id") if mapping else None
                 ),
                 "planned_at": now(),
             }
@@ -800,8 +1270,8 @@ def plan_import(
             entry = {"source_product_id": stable_product_id, **records[stable_product_id]}
             if entry["status"] == "planned":
                 entry["target_check"] = target_checks.get(product["product_number"])
-                entry["existing_mapping"] = mapping_state["mappings"].get(stable_product_id)
-                entry["mapped_product"] = map_product_to_shijiu(product, category_map)
+                entry["existing_mapping"] = mapping_state["products"].get(product["product_number"])
+                entry["mapped_product"] = map_product_to_shijiu(product, target_category)
             plan.append(entry)
     complete = len(plan) == len(selected)
     checkpoint.update({
@@ -865,6 +1335,7 @@ def run_dry_run_import(
     changes_path: Path,
     special_path: Path,
     category_map_path: Path,
+    price_guard_path: Path,
     mapping_path: Path,
     output_dir: Path,
     report_dir: Path,
@@ -886,27 +1357,42 @@ def run_dry_run_import(
     leaked = sorted({item["product_number"] for item in products} & special)
     if leaked:
         raise ImportPlanError(f"special products leaked into import source: {leaked}")
-    category_map = load_category_map(category_map_path)
-    category_checks: list[dict[str, Any]] = []
+    target_category = load_category_map(category_map_path)
+    price_guard = load_price_guard(price_guard_path)
+    category_discovery: dict[str, Any] = {}
     target_checks: list[dict[str, Any]] = []
     target_contract_discovery: dict[str, Any] = {}
+    binding_discovery: dict[str, Any] = {
+        "skipped": True,
+        "reason": "offline_target_checks",
+        "product_name_matching_attempts": 0,
+    }
+    mapping_state = reconcile_mapping_state(load_mapping_state(mapping_path), products, target_category)
     if client:
-        category_checks = validate_live_categories(category_map, client.categories())
+        category_discovery = validate_live_mikihouse_category(target_category, client.category_list(1))
         target_contract_discovery = discover_shijiu_read_contract(client)
+        mapping_state, binding_discovery = discover_exact_mikihouse_bindings(
+            client, products, mapping_state, target_category
+        )
         for product in select_cross_category_samples(products, sample_per_category):
             target_checks.append(target_check_product(client, product))
+    write_json_atomic(mapping_path, mapping_state)
     target_check_map = {item["product_number"]: item for item in target_checks}
-    mapping_state = load_mapping_state(mapping_path)
     plan, checkpoint_summary = plan_import(
         products,
         changes,
-        category_map,
+        target_category,
         mapping_state,
         target_check_map,
         checkpoint_path,
         resume=resume,
         max_items=max_items,
     )
+    if client and not binding_discovery.get("automatic_create_allowed", False):
+        for entry in plan:
+            if entry.get("action") == "create":
+                entry["action"] = "review_required"
+                entry["reason"] = "existing_unmapped_shijiu_mikihouse_products_block_automatic_create"
     action_counts = Counter(item["action"] for item in plan)
     mapped = [item["mapped_product"] for item in plan if item.get("mapped_product")]
     source_variants = [variant for item in mapped for variant in item["source_variants"]]
@@ -921,8 +1407,21 @@ def run_dry_run_import(
     missing_images = [
         item["product_number"] for item in mapped if not item["publish_ready"]
     ]
+    mapped_by_product = {item["product_number"]: item for item in mapped}
+    incremental_operations, price_reviews = build_incremental_sync_operations(
+        changes,
+        mapping_state,
+        mapped_by_product,
+        price_guard,
+        automatic_create_allowed=(
+            bool(binding_discovery.get("automatic_create_allowed")) if client else True
+        ),
+    )
+    incremental_type_counts = Counter(item["change_type"] for item in incremental_operations)
+    incremental_action_counts = Counter(item["planned_action"] for item in incremental_operations)
     output_dir.mkdir(parents=True, exist_ok=True)
     full_plan_path = output_dir / "dry_run_import_plan.json"
+    incremental_plan_path = output_dir / "incremental_sync_plan.json"
     target_snapshot_path = output_dir / "read_only_target_snapshot.json"
     write_json_atomic(full_plan_path, {
         "schema_version": ADAPTER_SCHEMA_VERSION,
@@ -930,11 +1429,21 @@ def run_dry_run_import(
         "generated_at": now(),
         "plan": plan,
     })
+    write_json_atomic(incremental_plan_path, {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "mode": "dry-run",
+        "source": SOURCE_CODE,
+        "target": "SHIJIU",
+        "generated_at": now(),
+        "price_guard": price_guard,
+        "operations": incremental_operations,
+    })
     target_snapshot = {
         "target": "SHIJIU",
         "checked_at": now(),
-        "category_checks": category_checks,
+        "fixed_category_discovery": category_discovery,
         "read_contract_discovery": target_contract_discovery,
+        "exact_binding_discovery": binding_discovery,
         "product_checks": target_checks,
         "request_ledger": client.requests if client else [],
         "read_request_count": len(client.requests) if client else 0,
@@ -948,6 +1457,8 @@ def run_dry_run_import(
     checked_plan_entries = [item for item in plan if item.get("target_check")]
     sample_entries = checked_plan_entries or [item for item in plan if item.get("mapped_product")][:20]
     compact_action_path = report_dir / "dry_run_actions.json"
+    incremental_summary_path = report_dir / "incremental_sync_summary.json"
+    review_required_path = report_dir / "review_required.json"
     write_json_atomic(compact_action_path, {
         "schema_version": ADAPTER_SCHEMA_VERSION,
         "mode": "dry-run",
@@ -956,12 +1467,69 @@ def run_dry_run_import(
         "generated_at": now(),
         "actions": [_compact_action(item) for item in plan],
     })
+    incremental_summary = {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "source": SOURCE_CODE,
+        "target": "SHIJIU",
+        "mode": "dry-run",
+        "baseline": "previous MIKI HOUSE master catalog used by storefront incremental_changes.json",
+        "is_initial_sync": bool(changes.get("is_initial_sync")),
+        "operation_count": len(incremental_operations),
+        "change_type_counts": dict(sorted(incremental_type_counts.items())),
+        "planned_action_counts": dict(sorted(incremental_action_counts.items())),
+        "price_changed_count": incremental_type_counts.get("PRICE_CHANGED", 0),
+        "price_update_count": incremental_action_counts.get("UPDATE_PRICE_BY_EXACT_VARIANT_SKU", 0),
+        "price_review_required_count": len(price_reviews),
+        "price_update_recreates_product": False,
+        "currency": "JPY",
+        "currency_conversion_applied": False,
+        "price_guard": price_guard,
+        "samples": {
+            change_type: [item for item in incremental_operations if item["change_type"] == change_type][:3]
+            for change_type in sorted(incremental_type_counts)
+        },
+        "full_plan_path": str(incremental_plan_path),
+        "full_plan_sha256": file_sha256(incremental_plan_path),
+    }
+    write_json_atomic(incremental_summary_path, incremental_summary)
+    write_json_atomic(review_required_path, {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "source": SOURCE_CODE,
+        "target": "SHIJIU",
+        "price_review_required": price_reviews,
+        "binding_review_required": binding_discovery.get("review_required") or [],
+        "write_executed": False,
+    })
     report = {
         "schema_version": ADAPTER_SCHEMA_VERSION,
         "generated_at": now(),
         "mode": "dry-run",
         "source": SOURCE_CODE,
         "target": "SHIJIU",
+        "provider_isolation": {
+            "upstream_provider": SOURCE_CODE,
+            "peer_provider": "WAWU",
+            "shared_product_identity": False,
+            "shared_variant_identity": False,
+            "shared_sync_state": False,
+            "shared_target_category": False,
+            "fixed_shijiu_category_id": target_category["id"],
+            "product_name_matching": "forbidden",
+        },
+        "readiness": {
+            "dry_run_validation_passed": True,
+            "ready_for_online_write": False,
+            "online_write_authorized": False,
+            "automatic_create_allowed": bool(binding_discovery.get("automatic_create_allowed")),
+            "blockers": [
+                "real Shijiu writes are outside this round",
+                (
+                    f"{binding_discovery.get('unresolved_target_product_count', 0)} existing Shijiu "
+                    "MikiHouse products lack exact stable source bindings"
+                ),
+                "image upload and readback execution require a separately authorized writer",
+            ],
+        },
         "framework_reference": {
             "repository": "qinxitong8666/wawu-product-sync",
             "commit": WAWU_REFERENCE_COMMIT,
@@ -1001,6 +1569,8 @@ def run_dry_run_import(
             "reactivate": action_counts.get("reactivate", 0),
             "skip": action_counts.get("skip", 0),
             "failed": action_counts.get("failed", 0),
+            "review_required": action_counts.get("review_required", 0),
+            "incremental_change_set": action_counts.get("incremental_change_set", 0),
             "publish_ready": sum(bool(item.get("publish_ready")) for item in mapped),
             "unpublishable_missing_image": len(missing_images),
         },
@@ -1018,14 +1588,15 @@ def run_dry_run_import(
             "sample_product_count": len(target_checks),
             "type_counts": dict(sorted(Counter(item["classification"] for item in target_checks).items())),
             "matched_existing_count": sum(bool(item["matched"]) for item in target_checks),
-            "category_checks": category_checks,
+            "fixed_category_discovery": category_discovery,
+            "exact_binding_discovery": binding_discovery,
             "read_contract_discovery": target_contract_discovery,
             "read_request_count": target_snapshot["read_request_count"],
             "semantic_write_request_count": target_snapshot["semantic_write_request_count"],
             "mutating_endpoints_called": target_snapshot["mutating_endpoints_called"],
             "passed": (
                 len(target_checks) >= 20
-                and all(item["passed"] for item in category_checks)
+                and category_discovery.get("passed") is True
                 and target_contract_discovery.get("passed") is True
                 and target_snapshot["semantic_write_request_count"] == 0
             ) if client else False,
@@ -1035,7 +1606,10 @@ def run_dry_run_import(
             "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
             "backend_sku_code": "MIKI-<variant SKU>",
             "mapping_state_path": str(mapping_path),
+            "mapping_summary": mapping_summary(mapping_state),
+            "product_name_matching": "forbidden",
         },
+        "incremental_sync": incremental_summary,
         "contract_audit": contract_audit,
         "field_mapping_contract": field_mapping_contract(),
         "checkpoint": checkpoint_summary,
@@ -1058,9 +1632,13 @@ def run_dry_run_import(
             "full_plan_sha256": file_sha256(full_plan_path),
             "target_snapshot_path": str(target_snapshot_path),
             "checkpoint_path": str(checkpoint_path),
+            "mapping_state_path": str(mapping_path),
+            "incremental_plan_path": str(incremental_plan_path),
             "tracked_action_plan_path": str(compact_action_path),
             "tracked_action_plan_size_bytes": compact_action_path.stat().st_size,
             "tracked_action_plan_sha256": file_sha256(compact_action_path),
+            "tracked_incremental_summary_path": str(incremental_summary_path),
+            "review_required_path": str(review_required_path),
         },
         "passed": (
             checkpoint_summary["complete"]
@@ -1068,6 +1646,7 @@ def run_dry_run_import(
             and len(missing_images) == 7
             and not price_failures
             and (target_snapshot["semantic_write_request_count"] == 0)
+            and (category_discovery.get("passed") is True if client else True)
             and (target_contract_discovery.get("passed") is True if client else True)
             and (len(target_checks) >= 20 if client else True)
         ),
@@ -1087,7 +1666,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--changes", type=Path, default=Path("output/storefront-master/incremental_changes.json"))
     parser.add_argument("--special", type=Path, default=Path("special_skus_2026aw.csv"))
     parser.add_argument("--category-map", type=Path, default=Path("config/shijiu_category_map.json"))
-    parser.add_argument("--mapping-state", type=Path, default=Path("output/shijiu-import/mappings.json"))
+    parser.add_argument("--price-guard", type=Path, default=Path("config/shijiu_price_guard.json"))
+    parser.add_argument("--mapping-state", type=Path, default=Path("state/shijiu_mappings.json"))
     parser.add_argument("--output", type=Path, default=Path("output/shijiu-import"))
     parser.add_argument("--report-dir", type=Path, default=Path("deliverables/shijiu_import"))
     parser.add_argument("--checkpoint", type=Path, default=Path("output/shijiu-import/checkpoint.json"))
@@ -1123,6 +1703,7 @@ def main(argv: list[str] | None = None) -> int:
             args.changes,
             args.special,
             args.category_map,
+            args.price_guard,
             args.mapping_state,
             args.output,
             args.report_dir,

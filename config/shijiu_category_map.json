@@ -2,26 +2,11 @@
   "schema_version": 1,
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
-  "target_categories": {
-    "footwear": {
-      "id": 290899,
-      "name": "专柜商品"
-    },
-    "apparel": {
-      "id": 290899,
-      "name": "专柜商品"
-    },
-    "baby": {
-      "id": 288338,
-      "name": "母婴用品"
-    },
-    "goods": {
-      "id": 290899,
-      "name": "专柜商品"
-    },
-    "other": {
-      "id": 290899,
-      "name": "专柜商品"
-    }
+  "target_category": {
+    "id": 294884,
+    "name": "MikiHouse",
+    "parent_id": 288338,
+    "parent_name": "母婴用品",
+    "assignment_policy": "all_publishable_mikihouse_products"
   }
 }

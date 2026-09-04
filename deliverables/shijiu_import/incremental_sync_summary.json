@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "dry-run",
+  "baseline": "previous MIKI HOUSE master catalog used by storefront incremental_changes.json",
+  "is_initial_sync": true,
+  "operation_count": 18338,
+  "change_type_counts": {
+    "NEW_PRODUCT": 2603,
+    "NEW_VARIANT": 15735
+  },
+  "planned_action_counts": {
+    "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS": 18324,
+    "SKIP_MISSING_OFFICIAL_IMAGE": 14
+  },
+  "price_changed_count": 0,
+  "price_update_count": 0,
+  "price_review_required_count": 0,
+  "price_update_recreates_product": false,
+  "currency": "JPY",
+  "currency_conversion_applied": false,
+  "price_guard": {
+    "schema_version": 1,
+    "source": "MIKIHOUSE",
+    "target": "SHIJIU",
+    "minimum_tax_included_price_jpy": 1,
+    "maximum_tax_included_price_jpy": 1000000,
+    "maximum_absolute_change_jpy": 50000,
+    "maximum_relative_change_ratio": 0.5,
+    "policy": "a price change is review_required if either the absolute or relative threshold is exceeded, or if the new price is outside the valid range"
+  },
+  "samples": {
+    "NEW_PRODUCT": [
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_PRODUCT",
+        "source_product_id": "MIKIHOUSE:00-1000-028",
+        "source_variant_id": null,
+        "product_number": "00-1000-028",
+        "variant_sku": null,
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": null,
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      },
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_PRODUCT",
+        "source_product_id": "MIKIHOUSE:00-1000-035",
+        "source_variant_id": null,
+        "product_number": "00-1000-035",
+        "variant_sku": null,
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": null,
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      },
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_PRODUCT",
+        "source_product_id": "MIKIHOUSE:00-4000-054",
+        "source_variant_id": null,
+        "product_number": "00-4000-054",
+        "variant_sku": null,
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": null,
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      }
+    ],
+    "NEW_VARIANT": [
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_VARIANT",
+        "source_product_id": "MIKIHOUSE:00-1000-028",
+        "source_variant_id": "MIKIHOUSE:00-1000-028:00-1000-02800899999",
+        "product_number": "00-1000-028",
+        "variant_sku": "00-1000-02800899999",
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": "MIKI-00-1000-02800899999",
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      },
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_VARIANT",
+        "source_product_id": "MIKIHOUSE:00-1000-035",
+        "source_variant_id": "MIKIHOUSE:00-1000-035:00-1000-03500080110",
+        "product_number": "00-1000-035",
+        "variant_sku": "00-1000-03500080110",
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": "MIKI-00-1000-03500080110",
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      },
+      {
+        "detected_at": "2026-09-03T14:31:21.206620+00:00",
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "change_type": "NEW_VARIANT",
+        "source_product_id": "MIKIHOUSE:00-1000-035",
+        "source_variant_id": "MIKIHOUSE:00-1000-035:00-1000-03500870110",
+        "product_number": "00-1000-035",
+        "variant_sku": "00-1000-03500870110",
+        "shijiu_product_id": null,
+        "shijiu_sku_id": null,
+        "backend_sku_code": "MIKI-00-1000-03500870110",
+        "currency": "JPY",
+        "currency_conversion_applied": false,
+        "write_executed": false,
+        "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+      }
+    ]
+  },
+  "full_plan_path": "output/shijiu-import/incremental_sync_plan.json",
+  "full_plan_sha256": "20c127795587552763427f479ad517b33e43d051e24d5348288c300ce42e1cd6"
+}

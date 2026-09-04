@@ -1,9 +1,30 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T00:31:45.269429+00:00",
+  "generated_at": "2026-09-04T00:54:44.181128+00:00",
   "mode": "dry-run",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
+  "provider_isolation": {
+    "upstream_provider": "MIKIHOUSE",
+    "peer_provider": "WAWU",
+    "shared_product_identity": false,
+    "shared_variant_identity": false,
+    "shared_sync_state": false,
+    "shared_target_category": false,
+    "fixed_shijiu_category_id": 294884,
+    "product_name_matching": "forbidden"
+  },
+  "readiness": {
+    "dry_run_validation_passed": true,
+    "ready_for_online_write": false,
+    "online_write_authorized": false,
+    "automatic_create_allowed": false,
+    "blockers": [
+      "real Shijiu writes are outside this round",
+      "286 existing Shijiu MikiHouse products lack exact stable source bindings",
+      "image upload and readback execution require a separately authorized writer"
+    ]
+  },
   "framework_reference": {
     "repository": "qinxitong8666/wawu-product-sync",
     "commit": "a36c5eab40bf419562ba03d15c090151698d582a",
@@ -34,12 +55,14 @@
   },
   "plan_summary": {
     "total": 2603,
-    "create": 2596,
+    "create": 0,
     "update": 0,
     "deactivate": 0,
     "reactivate": 0,
     "skip": 7,
     "failed": 0,
+    "review_required": 2596,
+    "incremental_change_set": 0,
     "publish_ready": 2596,
     "unpublishable_missing_image": 7
   },
@@ -70,43 +93,48 @@
       "goods": 5
     },
     "matched_existing_count": 0,
-    "category_checks": [
-      {
-        "classification": "footwear",
-        "target_category_id": 290899,
-        "expected_name": "专柜商品",
-        "actual_name": "专柜商品",
-        "passed": true
+    "fixed_category_discovery": {
+      "configured": {
+        "id": 294884,
+        "name": "MikiHouse",
+        "parent_id": 288338,
+        "parent_name": "母婴用品",
+        "assignment_policy": "all_publishable_mikihouse_products"
       },
-      {
-        "classification": "apparel",
-        "target_category_id": 290899,
-        "expected_name": "专柜商品",
-        "actual_name": "专柜商品",
-        "passed": true
-      },
-      {
-        "classification": "baby",
-        "target_category_id": 288338,
-        "expected_name": "母婴用品",
-        "actual_name": "母婴用品",
-        "passed": true
-      },
-      {
-        "classification": "goods",
-        "target_category_id": 290899,
-        "expected_name": "专柜商品",
-        "actual_name": "专柜商品",
-        "passed": true
-      },
-      {
-        "classification": "other",
-        "target_category_id": 290899,
-        "expected_name": "专柜商品",
-        "actual_name": "专柜商品",
-        "passed": true
-      }
-    ],
+      "normalized_name_match_count": 1,
+      "matches": [
+        {
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品"
+        }
+      ],
+      "all_products_fixed_to_category_id": 294884,
+      "passed": true
+    },
+    "exact_binding_discovery": {
+      "target_category_id": 294884,
+      "target_category_name": "MikiHouse",
+      "target_product_rows_scanned": 286,
+      "target_detail_reads": 286,
+      "exact_backend_sku_codes_found": 0,
+      "exact_product_bindings_found": 0,
+      "exact_variant_bindings_found": 0,
+      "unresolved_target_product_count": 286,
+      "foreign_wawu_namespace_codes_observed": 0,
+      "product_name_matching_attempts": 0,
+      "automatic_create_allowed": false,
+      "review_required_count": 1,
+      "review_required": [
+        {
+          "reason": "existing_shijiu_mikihouse_products_have_no_exact_stable_source_binding",
+          "unresolved_target_product_count": 286,
+          "required_action": "manual_identity_reconciliation_before_any_create"
+        }
+      ],
+      "passed": true
+    },
     "read_contract_discovery": {
       "passed": true,
       "active_catalog_count": 3398,
@@ -155,7 +183,7 @@
         "weight"
       ]
     },
-    "read_request_count": 23,
+    "read_request_count": 311,
     "semantic_write_request_count": 0,
     "mutating_endpoints_called": [],
     "passed": true
@@ -164,7 +192,160 @@
     "source_product_id": "MIKIHOUSE:<product_number>",
     "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
     "backend_sku_code": "MIKI-<variant SKU>",
-    "mapping_state_path": "output/shijiu-import/mappings.json"
+    "mapping_state_path": "state/shijiu_mappings.json",
+    "mapping_summary": {
+      "product_rows": 2603,
+      "variant_rows": 15735,
+      "bound_product_rows": 0,
+      "bound_variant_rows": 0,
+      "unbound_product_rows": 2603,
+      "unbound_variant_rows": 15735,
+      "product_name_matching": "forbidden"
+    },
+    "product_name_matching": "forbidden"
+  },
+  "incremental_sync": {
+    "schema_version": 1,
+    "source": "MIKIHOUSE",
+    "target": "SHIJIU",
+    "mode": "dry-run",
+    "baseline": "previous MIKI HOUSE master catalog used by storefront incremental_changes.json",
+    "is_initial_sync": true,
+    "operation_count": 18338,
+    "change_type_counts": {
+      "NEW_PRODUCT": 2603,
+      "NEW_VARIANT": 15735
+    },
+    "planned_action_counts": {
+      "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS": 18324,
+      "SKIP_MISSING_OFFICIAL_IMAGE": 14
+    },
+    "price_changed_count": 0,
+    "price_update_count": 0,
+    "price_review_required_count": 0,
+    "price_update_recreates_product": false,
+    "currency": "JPY",
+    "currency_conversion_applied": false,
+    "price_guard": {
+      "schema_version": 1,
+      "source": "MIKIHOUSE",
+      "target": "SHIJIU",
+      "minimum_tax_included_price_jpy": 1,
+      "maximum_tax_included_price_jpy": 1000000,
+      "maximum_absolute_change_jpy": 50000,
+      "maximum_relative_change_ratio": 0.5,
+      "policy": "a price change is review_required if either the absolute or relative threshold is exceeded, or if the new price is outside the valid range"
+    },
+    "samples": {
+      "NEW_PRODUCT": [
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_PRODUCT",
+          "source_product_id": "MIKIHOUSE:00-1000-028",
+          "source_variant_id": null,
+          "product_number": "00-1000-028",
+          "variant_sku": null,
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": null,
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        },
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_PRODUCT",
+          "source_product_id": "MIKIHOUSE:00-1000-035",
+          "source_variant_id": null,
+          "product_number": "00-1000-035",
+          "variant_sku": null,
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": null,
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        },
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_PRODUCT",
+          "source_product_id": "MIKIHOUSE:00-4000-054",
+          "source_variant_id": null,
+          "product_number": "00-4000-054",
+          "variant_sku": null,
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": null,
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        }
+      ],
+      "NEW_VARIANT": [
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_VARIANT",
+          "source_product_id": "MIKIHOUSE:00-1000-028",
+          "source_variant_id": "MIKIHOUSE:00-1000-028:00-1000-02800899999",
+          "product_number": "00-1000-028",
+          "variant_sku": "00-1000-02800899999",
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": "MIKI-00-1000-02800899999",
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        },
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_VARIANT",
+          "source_product_id": "MIKIHOUSE:00-1000-035",
+          "source_variant_id": "MIKIHOUSE:00-1000-035:00-1000-03500080110",
+          "product_number": "00-1000-035",
+          "variant_sku": "00-1000-03500080110",
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": "MIKI-00-1000-03500080110",
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        },
+        {
+          "detected_at": "2026-09-03T14:31:21.206620+00:00",
+          "source": "MIKIHOUSE",
+          "target": "SHIJIU",
+          "change_type": "NEW_VARIANT",
+          "source_product_id": "MIKIHOUSE:00-1000-035",
+          "source_variant_id": "MIKIHOUSE:00-1000-035:00-1000-03500870110",
+          "product_number": "00-1000-035",
+          "variant_sku": "00-1000-03500870110",
+          "shijiu_product_id": null,
+          "shijiu_sku_id": null,
+          "backend_sku_code": "MIKI-00-1000-03500870110",
+          "currency": "JPY",
+          "currency_conversion_applied": false,
+          "write_executed": false,
+          "planned_action": "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
+        }
+      ]
+    },
+    "full_plan_path": "output/shijiu-import/incremental_sync_plan.json",
+    "full_plan_sha256": "20c127795587552763427f479ad517b33e43d051e24d5348288c300ce42e1cd6"
   },
   "contract_audit": {
     "target": "SHIJIU",
@@ -203,14 +384,22 @@
       "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
       "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
     ],
-    "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
+    "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent",
+    "live_read_only_category_finding": {
+      "name": "MikiHouse",
+      "id": 294884,
+      "parent_name": "母婴用品",
+      "parent_id": 288338,
+      "assignment": "all publishable MIKIHOUSE products"
+    }
   },
   "field_mapping_contract": {
     "source": "MIKI HOUSE master_catalog.json",
     "target": "Shijiu native field preview",
     "product_name": "name -> good_name",
     "brand": "brand -> adapter source_brand + good_describe; brand_id deferred",
-    "category": "classification -> verified Shijiu father category good_type",
+    "category": "all publishable MIKIHOUSE products -> fixed Shijiu MikiHouse category 294884",
+    "source_metadata": "brand/productType/category/tags retained internally and never used for target category routing",
     "main_image": "main_image.url -> master_graph preview; future COS upload required",
     "color_images": "color_images/resolved_image -> broadcast and sku_thumbnail previews; future COS upload required",
     "options": "selected_options/color/size -> spec_name dimensions and per-SKU spec_name",
@@ -236,6 +425,8 @@
     "target_brand_id_mapping_status": "deferred_no_evidenced_read_contract",
     "allowed_target_endpoints": [
       "/shopapi/Goods/index",
+      "/shopapi/Goodtype/index",
+      "/shopapi/Goodtype/typeindex",
       "/shopapi/goods/getFormatInfo",
       "/shopapi/goodtype/fatherIndex"
     ],
@@ -269,8 +460,8 @@
     {
       "source_product_id": "MIKIHOUSE:00-1000-028",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "00-1000-028",
@@ -288,8 +479,11 @@
         "source_category": "カテゴリーなし",
         "classification": "baby",
         "target_category": {
-          "id": 288338,
-          "name": "母婴用品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -340,8 +534,8 @@
     {
       "source_product_id": "MIKIHOUSE:00-1000-035",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "00-1000-035",
@@ -359,8 +553,11 @@
         "source_category": "固定セット商品",
         "classification": "baby",
         "target_category": {
-          "id": 288338,
-          "name": "母婴用品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -430,8 +627,8 @@
     {
       "source_product_id": "MIKIHOUSE:00-4000-054",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "00-4000-054",
@@ -449,8 +646,11 @@
         "source_category": "カテゴリーなし",
         "classification": "baby",
         "target_category": {
-          "id": 288338,
-          "name": "母婴用品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -539,8 +739,8 @@
     {
       "source_product_id": "MIKIHOUSE:00-4000-055",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "00-4000-055",
@@ -558,8 +758,11 @@
         "source_category": "カテゴリーなし",
         "classification": "baby",
         "target_category": {
-          "id": 288338,
-          "name": "母婴用品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -610,8 +813,8 @@
     {
       "source_product_id": "MIKIHOUSE:00-4000-057",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "00-4000-057",
@@ -629,8 +832,11 @@
         "source_category": "カテゴリーなし",
         "classification": "baby",
         "target_category": {
-          "id": 288338,
-          "name": "母婴用品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -723,8 +929,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-1711-494",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-1711-494",
@@ -742,8 +948,11 @@
         "source_category": "カテゴリーなし",
         "classification": "apparel",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -840,8 +1049,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-1821-575",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-1821-575",
@@ -859,8 +1068,11 @@
         "source_category": "通常商品",
         "classification": "apparel",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -965,8 +1177,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-1823-496",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-1823-496",
@@ -984,8 +1196,11 @@
         "source_category": "カテゴリーなし",
         "classification": "apparel",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1078,8 +1293,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-1828-682",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-1828-682",
@@ -1097,8 +1312,11 @@
         "source_category": "カテゴリーなし",
         "classification": "apparel",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1191,8 +1409,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-1829-685",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-1829-685",
@@ -1210,8 +1428,11 @@
         "source_category": "カテゴリーなし",
         "classification": "apparel",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1320,8 +1541,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-8107-492",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-8107-492",
@@ -1339,8 +1560,11 @@
         "source_category": "通常商品",
         "classification": "goods",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1437,8 +1661,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-8109-498",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-8109-498",
@@ -1456,8 +1680,11 @@
         "source_category": "カテゴリーなし",
         "classification": "goods",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1508,8 +1735,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-8110-498",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-8110-498",
@@ -1527,8 +1754,11 @@
         "source_category": "カテゴリーなし",
         "classification": "goods",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1598,8 +1828,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-8111-491",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-8111-491",
@@ -1617,8 +1847,11 @@
         "source_category": "カテゴリーなし",
         "classification": "goods",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1688,8 +1921,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-8112-494",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-8112-494",
@@ -1707,8 +1940,11 @@
         "source_category": "カテゴリーなし",
         "classification": "goods",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1778,8 +2014,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-9305-497",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-9305-497",
@@ -1797,8 +2033,11 @@
         "source_category": "カテゴリーなし",
         "classification": "footwear",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -1903,8 +2142,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-9306-490",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-9306-490",
@@ -1922,8 +2161,11 @@
         "source_category": "カテゴリーなし",
         "classification": "footwear",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -2040,8 +2282,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-9327-145",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-9327-145",
@@ -2059,8 +2301,11 @@
         "source_category": "カテゴリーなし",
         "classification": "footwear",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -2185,8 +2430,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-9328-148",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-9328-148",
@@ -2204,8 +2449,11 @@
         "source_category": "カテゴリーなし",
         "classification": "footwear",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -2310,8 +2558,8 @@
     {
       "source_product_id": "MIKIHOUSE:10-9329-141",
       "status": "planned",
-      "action": "create",
-      "reason": "no_stable_mapping_or_target_sample_match",
+      "action": "review_required",
+      "reason": "existing_unmapped_shijiu_mikihouse_products_block_automatic_create",
       "target_check_status": "checked",
       "target_check": {
         "product_number": "10-9329-141",
@@ -2329,8 +2577,11 @@
         "source_category": "カテゴリーなし",
         "classification": "footwear",
         "target_category": {
-          "id": 290899,
-          "name": "专柜商品"
+          "id": 294884,
+          "name": "MikiHouse",
+          "parent_id": 288338,
+          "parent_name": "母婴用品",
+          "assignment_policy": "all_publishable_mikihouse_products"
         },
         "currency": "JPY",
         "publish_ready": true,
@@ -2423,13 +2674,17 @@
   ],
   "artifacts": {
     "full_plan_path": "output/shijiu-import/dry_run_import_plan.json",
-    "full_plan_size_bytes": 38026697,
-    "full_plan_sha256": "9f220a0cd1788a81f7ecf8ad2f9baee07db6f5295a2570b66fb0b88d374ed510",
+    "full_plan_size_bytes": 49584399,
+    "full_plan_sha256": "d21d0d4a616e99d291999a20936e4702d048143a90d3a0d52c146a1ac9bfeb5f",
     "target_snapshot_path": "output/shijiu-import/read_only_target_snapshot.json",
     "checkpoint_path": "output/shijiu-import/checkpoint.json",
+    "mapping_state_path": "state/shijiu_mappings.json",
+    "incremental_plan_path": "output/shijiu-import/incremental_sync_plan.json",
     "tracked_action_plan_path": "deliverables/shijiu_import/dry_run_actions.json",
-    "tracked_action_plan_size_bytes": 955832,
-    "tracked_action_plan_sha256": "c8ce8237c2230321c446232a163ce6201287375e591c698b9cb447a1bb267af3"
+    "tracked_action_plan_size_bytes": 1046692,
+    "tracked_action_plan_sha256": "c20a580bd2629e2d629043f31aa109cec699f7443b2d10fc642672989bb573c7",
+    "tracked_incremental_summary_path": "deliverables/shijiu_import/incremental_sync_summary.json",
+    "review_required_path": "deliverables/shijiu_import/review_required.json"
   },
   "passed": true
 }
