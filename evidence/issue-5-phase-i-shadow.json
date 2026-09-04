@@ -43,6 +43,9 @@
   "validation": {
     "targeted_shadow_tests": "11 passed",
     "full_pytest": "176 passed, 1 skipped",
+    "unified_verification": "PASS",
+    "pull_request": 6,
+    "ci": "PASS",
     "online_storefront_smoke": "NOT APPLICABLE",
     "live_shijiu": "NOT RUN",
     "central_service": "NOT CONTACTED; upstream PostgreSQL/mTLS not ready"
