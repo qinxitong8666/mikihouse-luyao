@@ -347,9 +347,35 @@ function sanitizeExactCapture(raw) {
     ...(raw.playwright_request?.headers || {}),
     ...(raw.cdp_request_extra_info?.headers || {}),
   };
+  let operationKind = "UNKNOWN";
+  let authContext = {
+    query_token_present: false,
+    body_token_present: false,
+    body_secret_present: false,
+    query_body_token_equal: false,
+    values_included: false,
+  };
+  try {
+    const payload = JSON.parse(raw.playwright_request?.post_data || "{}");
+    operationKind = Number(payload.id) > 0 ? "EDIT" : "CREATE";
+    const tokenMatch = String(raw.playwright_request?.url || "").match(/[?&]token=([^&#]+)/);
+    const queryToken = tokenMatch ? decodeURIComponent(tokenMatch[1]) : "";
+    const bodyToken = String(payload.token || "");
+    authContext = {
+      query_token_present: Boolean(queryToken),
+      body_token_present: Boolean(bodyToken),
+      body_secret_present: Boolean(String(payload.secret || "")),
+      query_body_token_equal: Boolean(queryToken) && queryToken === bodyToken,
+      values_included: false,
+    };
+  } catch {
+    operationKind = "UNKNOWN";
+  }
   return {
     captured_at: raw.captured_at,
     private_evidence_sha256: raw.private_evidence_sha256,
+    operation_kind: operationKind,
+    auth_context: authContext,
     request: shapeRequest({
       method: raw.playwright_request?.method,
       url: raw.playwright_request?.url,
@@ -366,6 +392,13 @@ function sanitizeExactCapture(raw) {
       product_id: raw.readback?.product_id || null,
       sku_ids: raw.readback?.sku_ids || [],
       goods_index_unique: Boolean(raw.readback?.goods_index_unique),
+      list_name_verified: Boolean(raw.readback?.list_name_verified),
+      list_match_method: raw.readback?.list_match_method || null,
+      list_pages_scanned: Number(raw.readback?.list_pages_scanned || 0),
+      read_only_request_count: Number(raw.readback?.read_only_request_count || 0),
+      get_format_info_product_verified: Boolean(raw.readback?.get_format_info_product_verified),
+      sku_structure_verified: Boolean(raw.readback?.sku_structure_verified),
+      sku_id_exposed: Boolean(raw.readback?.sku_id_exposed),
       get_format_info_verified: Boolean(raw.readback?.get_format_info_verified),
     },
     sensitive_values_included: false,
@@ -394,9 +427,25 @@ function correctionConclusion(exact, historical, miki) {
   ) fixes.push("ALIGN_BODY_FIELD_SET_AND_ORDER");
   if (exactVsMiki.body_type_differences.length || exactVsMiki.sku_type_differences.length || exactVsMiki.specification_type_differences.length) fixes.push("ALIGN_BODY_VALUE_TYPES");
   if (!fixes.length) fixes.push("NO_TRANSPORT_DIFFERENCE_PROVEN_REVIEW_SERVER_BUSINESS_VALIDATION");
+  const productAndStructureVerified = Boolean(
+    exact.readback?.get_format_info_product_verified && exact.readback?.sku_structure_verified,
+  );
+  const state = exact.readback?.get_format_info_verified
+    ? "BROWSER_EXACT_CAPTURE_VERIFIED"
+    : (productAndStructureVerified && !exact.readback?.sku_id_exposed
+      ? "BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED"
+      : "CAPTURED_BUT_READBACK_NOT_VERIFIED");
   return {
-    state: exact.readback?.get_format_info_verified ? "BROWSER_EXACT_CAPTURE_VERIFIED" : "CAPTURED_BUT_READBACK_NOT_VERIFIED",
+    state,
     fixes,
+    missing_cookie_as_root_cause: (
+      !exact.headers?.cookie_present
+      && exact.readback?.goods_index_unique
+      && exact.readback?.get_format_info_product_verified
+    ) ? "RULED_OUT_BY_PERSISTED_NATIVE_EDIT" : "NOT_EVALUATED",
+    create_contract_captured: exact.operation_kind === "CREATE",
+    operation_kind: exact.operation_kind,
+    sku_id_contract: exact.readback?.sku_id_exposed ? "EXPOSED" : "NOT_EXPOSED_BY_GET_FORMAT_INFO",
     historical_comparison_available: Boolean(historical),
     no_automatic_product_write_authorized: true,
   };
@@ -459,74 +508,110 @@ function collectSkuIds(value, expectedCode, output = new Set()) {
 }
 
 
-async function browserReadback(page, createRequest) {
+async function postReadOnlyForm(url, fields) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      Origin: "https://shijiu.wfcorp.cn",
+      Referer: "https://shijiu.wfcorp.cn/",
+      "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/browser-exact-readback; read-only)",
+    },
+    body: new URLSearchParams(fields).toString(),
+    signal: AbortSignal.timeout(60000),
+  });
+  const bodyText = await response.text();
+  return {
+    status: response.status,
+    headers: Object.fromEntries(response.headers),
+    body_text: bodyText,
+    json: JSON.parse(bodyText),
+  };
+}
+
+
+async function readbackCapturedProduct(createRequest) {
   const payload = JSON.parse(createRequest.post_data);
   const token = String(payload.token || "");
   const secret = String(payload.secret || "");
   const goodName = String(payload.good_name || "");
   const skuCode = String(payload.sku_info?.[0]?.sku_code || "");
-  if (!token || !secret || !goodName || !skuCode) {
-    throw new Error("captured create body lacks token, secret, good_name, or sku_code");
+  const expectedSkuCount = Array.isArray(payload.sku_info) ? payload.sku_info.length : 0;
+  if (!token || !secret || !goodName || expectedSkuCount < 1) {
+    throw new Error("captured create body lacks token, secret, good_name, or sku_info");
   }
   const prefix = String(createRequest.url).split("/shopapi/")[0];
   const listUrl = `${prefix}/shopapi/Goods/index&token=${encodeURIComponent(token)}`;
-  const listResult = await page.evaluate(async ({ url, tokenValue, secretValue, name, code }) => {
-    const form = new URLSearchParams({
-      secret: secretValue,
-      token: tokenValue,
-      page: "1",
-      page_size: "100",
-      good_type: "",
-      father_type: "",
-      recommend: "",
-      good_name: name,
-      good_code: code,
-      push: "",
-      status: "",
-      update_start_time: "",
-      update_end_time: "",
-      create_start_time: "",
-      create_end_time: "",
-      group_id: "",
-    });
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: form.toString(),
-    });
-    return { status: response.status, json: await response.json() };
-  }, { url: listUrl, tokenValue: token, secretValue: secret, name: goodName, code: skuCode });
-  const exactRows = responseRows(listResult.json).filter((row) => String(row.good_name || "") === goodName);
+  const capturedProductId = Number(payload.id) > 0 ? String(payload.id) : "";
+  const listRequest = (page) => postReadOnlyForm(listUrl, {
+    secret,
+    token,
+    page: String(page),
+    page_size: "100",
+    good_type: "",
+    father_type: "",
+    recommend: "",
+    good_name: goodName,
+    good_code: "",
+    push: "",
+    status: "",
+    update_start_time: "",
+    update_end_time: "",
+    create_start_time: "",
+    create_end_time: "",
+    group_id: "",
+  });
+  const listResults = [await listRequest(1)];
+  let readOnlyRequestCount = 1;
+  const declaredCount = Number(listResults[0].json?.count || 0);
+  const pageCount = Math.min(100, Math.max(1, Math.ceil(declaredCount / 100)));
+  const rowId = (row) => String(row?.id ?? row?.good_id ?? row?.goods_id ?? "");
+  const rowName = (row) => String(row?.good_name ?? row?.goods_name ?? row?.name ?? "");
+  let exactRows = responseRows(listResults[0].json).filter((row) => (
+    capturedProductId ? rowId(row) === capturedProductId : rowName(row) === goodName
+  ));
+  for (let page = 2; page <= pageCount; page += 1) {
+    if (capturedProductId && exactRows.length) break;
+    listResults.push(await listRequest(page));
+    readOnlyRequestCount += 1;
+    exactRows = exactRows.concat(responseRows(listResults.at(-1).json).filter((row) => (
+      capturedProductId ? rowId(row) === capturedProductId : rowName(row) === goodName
+    )));
+  }
   const productIds = [...new Set(exactRows.map((row) => row.id ?? row.good_id ?? row.goods_id).filter(Boolean).map(String))];
+  const listNameVerified = exactRows.length > 0 && exactRows.every((row) => rowName(row) === goodName);
   if (productIds.length !== 1) {
-    return { goods_index_unique: false, product_ids: productIds, sku_ids: [], get_format_info_verified: false, list_result: listResult };
+    return {
+      goods_index_unique: false,
+      product_ids: productIds,
+      sku_ids: [],
+      expected_sku_count: expectedSkuCount,
+      read_only_request_count: readOnlyRequestCount,
+      list_pages_scanned: listResults.length,
+      list_declared_count: declaredCount,
+      list_name_verified: listNameVerified,
+      get_format_info_verified: false,
+      list_results: listResults,
+    };
   }
   const productId = productIds[0];
   const detailUrl = `${prefix}/shopapi/goods/getFormatInfo&token=${encodeURIComponent(token)}`;
-  const detailResult = await page.evaluate(async ({ url, tokenValue, secretValue, id }) => {
-    const form = new URLSearchParams({ secret: secretValue, token: tokenValue, id });
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: form.toString(),
-    });
-    return { status: response.status, json: await response.json() };
-  }, { url: detailUrl, tokenValue: token, secretValue: secret, id: productId });
+  readOnlyRequestCount += 1;
+  const detailResult = await postReadOnlyForm(detailUrl, { secret, token, id: productId });
   const skuIds = collectSkuIds(detailResult.json, skuCode);
   return {
     goods_index_unique: true,
     product_id: productId,
     sku_ids: skuIds,
-    get_format_info_verified: skuIds.length === 1,
-    list_result: listResult,
+    expected_sku_count: expectedSkuCount,
+    read_only_request_count: readOnlyRequestCount,
+    list_pages_scanned: listResults.length,
+    list_declared_count: declaredCount,
+    list_name_verified: listNameVerified,
+    list_match_method: capturedProductId ? "CAPTURED_EDIT_PRODUCT_ID" : "EXACT_GOOD_NAME",
+    get_format_info_verified: listNameVerified && skuIds.length === expectedSkuCount,
+    list_results: listResults,
     detail_result: detailResult,
   };
 }
@@ -561,25 +646,36 @@ async function captureOneHumanSave(args, playwright) {
     if (!context) throw new Error("CDP browser exposes no context");
   }
   try {
-    const page = await selectPage(
+    const initialPage = await selectPage(
       context,
       args.startUrl || "https://shijiu.wfcorp.cn/",
     );
-    const cdp = await context.newCDPSession(page);
-    await cdp.send("Network.enable");
     const targetRequestIds = new Map();
     const extraInfoById = new Map();
-    cdp.on("Network.requestWillBeSent", (event) => {
-      if (event.request?.url?.includes(TARGET_FRAGMENT)) targetRequestIds.set(event.requestId, event);
-    });
-    cdp.on("Network.requestWillBeSentExtraInfo", (event) => {
-      extraInfoById.set(event.requestId, event);
+    const cdpSessions = new WeakMap();
+    const attachCdp = async (page) => {
+      if (cdpSessions.has(page)) return;
+      const cdp = await context.newCDPSession(page);
+      cdpSessions.set(page, cdp);
+      await cdp.send("Network.enable");
+      cdp.on("Network.requestWillBeSent", (event) => {
+        if (event.request?.url?.includes(TARGET_FRAGMENT)) targetRequestIds.set(event.requestId, event);
+      });
+      cdp.on("Network.requestWillBeSentExtraInfo", (event) => {
+        extraInfoById.set(event.requestId, event);
+      });
+    };
+    await Promise.all(context.pages().map((page) => attachCdp(page)));
+    context.on("page", (page) => {
+      attachCdp(page).catch((error) => {
+        process.stderr.write(`CDP attach warning: ${error?.message || String(error)}\n`);
+      });
     });
     let rejectMikihouse;
     const mikihouseGuard = new Promise((_, reject) => {
       rejectMikihouse = reject;
     });
-    await page.route(`**${TARGET_FRAGMENT}**`, async (route) => {
+    await context.route(`**${TARGET_FRAGMENT}**`, async (route) => {
       if (isMikihousePayload(route.request().postData())) {
         await route.abort("blockedbyclient");
         rejectMikihouse(new Error("MIKIHOUSE create payload was blocked before transmission"));
@@ -588,20 +684,26 @@ async function captureOneHumanSave(args, playwright) {
       await route.continue();
     });
     process.stdout.write(
-      "Browser capture armed. Log in if needed, manually add exactly one non-MIKIHOUSE disposable test product, then click Save once.\n",
+      "Browser-context capture armed across existing and newly opened tabs. Manually save one non-MIKIHOUSE disposable test product.\n",
     );
     const response = await Promise.race([
-      page.waitForResponse(
-        (candidate) => candidate.url().includes(TARGET_FRAGMENT),
-        { timeout: args.timeoutMs },
-      ),
+      context.waitForEvent("response", {
+        predicate: (candidate) => candidate.url().includes(TARGET_FRAGMENT),
+        timeout: args.timeoutMs,
+      }),
       mikihouseGuard,
     ]);
     const request = response.request();
+    let requestPage = initialPage;
+    try {
+      requestPage = request.frame().page();
+    } catch {
+      // Keep the initial page for the read-only follow-up if the request has no frame.
+    }
     const requestHeaders = await request.allHeaders();
     const responseHeaders = await response.allHeaders();
     const responseBody = await response.text();
-    await page.waitForTimeout(2500);
+    await requestPage.waitForTimeout(2500);
     const cdpPair = [...targetRequestIds.entries()].find(([, event]) => event.request.url === request.url());
     const requestId = cdpPair?.[0];
     const raw = {
@@ -630,7 +732,7 @@ async function captureOneHumanSave(args, playwright) {
     try {
       raw.readback = {
         state: "COMPLETED",
-        ...(await browserReadback(page, raw.playwright_request)),
+        ...(await readbackCapturedProduct(raw.playwright_request)),
       };
     } catch (error) {
       raw.readback = {
@@ -644,6 +746,202 @@ async function captureOneHumanSave(args, playwright) {
   } finally {
     if (ownsContext) await context.close().catch(() => {});
   }
+}
+
+
+function latestPrivateCapture(privateDir) {
+  const files = fs.readdirSync(privateDir)
+    .filter((name) => name.startsWith("shijiu-browser-exact-") && name.endsWith(".private.json"))
+    .map((name) => {
+      const filePath = path.join(privateDir, name);
+      return { filePath, modified: fs.statSync(filePath).mtimeMs };
+    })
+    .sort((left, right) => right.modified - left.modified);
+  if (!files.length) throw new Error("no private browser-exact capture is available for readback");
+  return files[0].filePath;
+}
+
+
+async function resumeLatestReadback(args) {
+  const privateDir = assertPrivatePath(args.privateDir);
+  const rawPath = latestPrivateCapture(privateDir);
+  const raw = readJson(rawPath);
+  raw.readback = { state: "PENDING_READ_ONLY_RESUME" };
+  writeJsonSecure(rawPath, raw);
+  try {
+    raw.readback = {
+      state: "COMPLETED",
+      ...(await readbackCapturedProduct(raw.playwright_request)),
+    };
+  } catch (error) {
+    raw.readback = {
+      state: "FAILED",
+      error: { type: error?.name || "Error", message: error?.message || String(error) },
+    };
+  }
+  writeJsonSecure(rawPath, raw);
+  const privateFileSha256 = sha256(fs.readFileSync(rawPath));
+  return { raw, rawPath, privateFileSha256 };
+}
+
+
+async function resumeUiReadback(args, playwright) {
+  const privateDir = assertPrivatePath(args.privateDir);
+  const rawPath = latestPrivateCapture(privateDir);
+  const raw = readJson(rawPath);
+  const payload = JSON.parse(raw.playwright_request.post_data);
+  const expectedProductId = String(payload.id || "");
+  const expectedName = String(payload.good_name || "");
+  const expectedSkuCount = Array.isArray(payload.sku_info) ? payload.sku_info.length : 0;
+  if (!expectedProductId || !expectedName || expectedSkuCount < 1) {
+    throw new Error("UI readback requires captured edit id, good_name, and sku_info");
+  }
+  const context = await playwright.chromium.launchPersistentContext(
+    path.join(privateDir, "chrome-profile"),
+    { channel: "chrome", headless: true },
+  );
+  try {
+    await context.route(`**${TARGET_FRAGMENT}**`, (route) => route.abort("blockedbyclient"));
+    const page = context.pages()[0] || await context.newPage();
+    const listResponsePromise = context.waitForEvent("response", {
+      predicate: (response) => response.url().includes("/shopapi/Goods/index"),
+      timeout: 60000,
+    });
+    await page.goto("https://shijiu.wfcorp.cn/wf/admin/shop/newshop_list", {
+      waitUntil: "domcontentloaded",
+      timeout: 60000,
+    });
+    const listResponse = await listResponsePromise;
+    const listRequest = listResponse.request();
+    const listBodyText = await listResponse.text();
+    const listJson = JSON.parse(listBodyText);
+    const matchingRows = responseRows(listJson).filter((row) => (
+      String(row?.id ?? row?.good_id ?? row?.goods_id ?? "") === expectedProductId
+      && String(row?.good_name ?? row?.goods_name ?? row?.name ?? "") === expectedName
+    ));
+    if (matchingRows.length !== 1) {
+      throw new Error(`native UI Goods.index returned ${matchingRows.length} exact captured product matches`);
+    }
+    const listForm = Object.fromEntries(new URLSearchParams(listRequest.postData() || ""));
+    const token = String(listForm.token || payload.token || "");
+    const secret = String(listForm.secret || payload.secret || "");
+    const urlTokenMatch = listRequest.url().match(/[?&]token=([^&#]+)/);
+    const queryToken = urlTokenMatch ? decodeURIComponent(urlTokenMatch[1]) : token;
+    const prefix = listRequest.url().split("/shopapi/")[0];
+    const detailUrl = `${prefix}/shopapi/goods/getFormatInfo&token=${encodeURIComponent(queryToken)}`;
+    const detailForm = { secret, token, id: expectedProductId };
+    raw.ui_readback = {
+      captured_at: new Date().toISOString(),
+      state: "LIST_VERIFIED_DETAIL_PENDING",
+      list_request: {
+        method: listRequest.method(),
+        url: listRequest.url(),
+        headers: await listRequest.allHeaders(),
+        post_data: listRequest.postData() || "",
+      },
+      list_response: {
+        status: listResponse.status(),
+        headers: await listResponse.allHeaders(),
+        body_text: listBodyText,
+      },
+    };
+    raw.readback = {
+      state: "LIST_VERIFIED_DETAIL_PENDING",
+      goods_index_unique: true,
+      product_id: expectedProductId,
+      sku_ids: [],
+      expected_sku_count: expectedSkuCount,
+      list_name_verified: true,
+      list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+      list_pages_scanned: 1,
+      read_only_request_count: 1,
+      get_format_info_verified: false,
+    };
+    writeJsonSecure(rawPath, raw);
+    const detailResult = await postReadOnlyForm(detailUrl, detailForm);
+    const detailJson = detailResult.json;
+    const skuIds = collectSkuIds(detailJson, String(payload.sku_info?.[0]?.sku_code || ""));
+    raw.ui_readback = {
+      ...raw.ui_readback,
+      state: "COMPLETED",
+      detail_request: {
+        method: "POST",
+        url: detailUrl,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          Origin: "https://shijiu.wfcorp.cn",
+          Referer: "https://shijiu.wfcorp.cn/",
+        },
+        post_data: new URLSearchParams(detailForm).toString(),
+      },
+      detail_response: {
+        status: detailResult.status,
+        headers: detailResult.headers,
+        body_text: detailResult.body_text,
+      },
+    };
+    const detailProductVerified = String(detailJson?.data?.good_name || "") === expectedName;
+    const detailSkuRows = Array.isArray(detailJson?.data?.sku_info) ? detailJson.data.sku_info : [];
+    raw.readback = {
+      state: "COMPLETED",
+      goods_index_unique: true,
+      product_id: expectedProductId,
+      sku_ids: skuIds,
+      expected_sku_count: expectedSkuCount,
+      list_name_verified: true,
+      list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+      list_pages_scanned: 1,
+      read_only_request_count: 2,
+      get_format_info_product_verified: detailProductVerified,
+      sku_structure_verified: detailSkuRows.length === expectedSkuCount,
+      sku_id_exposed: skuIds.length > 0,
+      get_format_info_verified: detailProductVerified && skuIds.length === expectedSkuCount,
+    };
+    writeJsonSecure(rawPath, raw);
+    const privateFileSha256 = sha256(fs.readFileSync(rawPath));
+    return { raw, rawPath, privateFileSha256 };
+  } finally {
+    await context.close().catch(() => {});
+  }
+}
+
+
+function finalizeStoredUiEvidence(args) {
+  const privateDir = assertPrivatePath(args.privateDir);
+  const rawPath = latestPrivateCapture(privateDir);
+  const raw = readJson(rawPath);
+  const payload = JSON.parse(raw.playwright_request?.post_data || "{}");
+  const listJson = JSON.parse(raw.ui_readback?.list_response?.body_text || "null");
+  const detailJson = JSON.parse(raw.ui_readback?.detail_response?.body_text || "null");
+  const expectedProductId = String(payload.id || "");
+  const expectedName = String(payload.good_name || "");
+  const expectedSkuCount = Array.isArray(payload.sku_info) ? payload.sku_info.length : 0;
+  const matchingRows = responseRows(listJson).filter((row) => (
+    String(row?.id ?? row?.good_id ?? row?.goods_id ?? "") === expectedProductId
+    && String(row?.good_name ?? row?.goods_name ?? row?.name ?? "") === expectedName
+  ));
+  const skuIds = collectSkuIds(detailJson, String(payload.sku_info?.[0]?.sku_code || ""));
+  const detailSkuRows = Array.isArray(detailJson?.data?.sku_info) ? detailJson.data.sku_info : [];
+  const detailProductVerified = String(detailJson?.data?.good_name || "") === expectedName;
+  raw.readback = {
+    state: "COMPLETED",
+    goods_index_unique: matchingRows.length === 1,
+    product_id: matchingRows.length === 1 ? expectedProductId : null,
+    sku_ids: skuIds,
+    expected_sku_count: expectedSkuCount,
+    list_name_verified: matchingRows.length === 1,
+    list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+    list_pages_scanned: 1,
+    read_only_request_count: 2,
+    get_format_info_product_verified: detailProductVerified,
+    sku_structure_verified: detailSkuRows.length === expectedSkuCount,
+    sku_id_exposed: skuIds.length > 0,
+    get_format_info_verified: detailProductVerified && skuIds.length === expectedSkuCount,
+  };
+  writeJsonSecure(rawPath, raw);
+  const privateFileSha256 = sha256(fs.readFileSync(rawPath));
+  return { raw, rawPath, privateFileSha256 };
 }
 
 
@@ -665,7 +963,13 @@ function buildReport(args, readiness, exactRaw = null) {
   const exact = exactRaw ? sanitizeExactCapture(exactRaw) : null;
   const exactRequest = exact?.request || null;
   const state = exact
-    ? (exact.readback.get_format_info_verified ? "BROWSER_EXACT_CAPTURE_VERIFIED" : "CAPTURED_BUT_READBACK_NOT_VERIFIED")
+    ? (exact.readback.get_format_info_verified
+      ? "BROWSER_EXACT_CAPTURE_VERIFIED"
+      : (exact.readback.get_format_info_product_verified
+        && exact.readback.sku_structure_verified
+        && !exact.readback.sku_id_exposed
+        ? "BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED"
+        : "CAPTURED_BUT_READBACK_NOT_VERIFIED"))
     : (readiness.playwright?.available && (readiness.cdp?.available || readiness.launch_private_profile_requested)
       ? "READY_FOR_ONE_HUMAN_NATIVE_SAVE_CAPTURE"
       : "BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE");
@@ -680,6 +984,8 @@ function buildReport(args, readiness, exactRaw = null) {
       mikihouse_product_write_requests: 0,
       mikihouse_payload_guard: "ABORT_BEFORE_TRANSMISSION",
       automatic_test_product_write_requests: 0,
+      captured_human_test_product_write_requests: exactRaw ? 1 : 0,
+      read_only_requests: Number(exactRaw?.readback?.read_only_request_count || 0),
       human_native_save_only: true,
       token_values_included: false,
       secret_values_included: false,
@@ -694,7 +1000,11 @@ function buildReport(args, readiness, exactRaw = null) {
       browser_exact_vs_previous_mikihouse: compareShapes(exactRequest, miki, "browser_exact", "previous_mikihouse"),
       historical_wawu_vs_previous_mikihouse: compareShapes(historical, miki, "historical_wawu", "previous_mikihouse"),
     },
-    conclusion: correctionConclusion(exactRequest ? { ...exactRequest, readback: exact.readback } : null, historical, miki),
+    conclusion: correctionConclusion(
+      exactRequest ? { ...exactRequest, readback: exact.readback, operation_kind: exact.operation_kind } : null,
+      historical,
+      miki,
+    ),
     minimum_human_steps: exact ? [] : [
       "Install/enable the ChatGPT Chrome extension if Codex must inspect the existing Chrome tab; current Chrome cannot be attached through that bridge.",
       "Preferred standalone path: run capture mode with --launch-private-profile and a --private-dir outside Git, then log in to Shijiu in the opened dedicated Chrome profile.",
@@ -723,7 +1033,9 @@ async function selfTest() {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.selfTest) return selfTest();
-  if (!["preflight", "capture"].includes(args.mode)) throw new Error("--mode must be preflight or capture");
+  if (!["preflight", "capture", "readback", "ui-readback", "finalize"].includes(args.mode)) {
+    throw new Error("--mode must be preflight, capture, readback, ui-readback, or finalize");
+  }
   const privateDir = assertPrivatePath(args.privateDir);
   let playwright;
   let playwrightStatus;
@@ -750,6 +1062,49 @@ async function main() {
     const report = buildReport(args, readiness);
     writeJsonSecure(path.resolve(args.sanitizedReport), report, 0o644);
     process.stdout.write(`${JSON.stringify({ status: report.state, shijiu_requests: 0, report: args.sanitizedReport })}\n`);
+    return;
+  }
+  if (args.mode === "readback") {
+    const result = await resumeLatestReadback(args);
+    result.raw.private_evidence_sha256 = result.privateFileSha256;
+    const report = buildReport(args, readiness, result.raw);
+    writeJsonSecure(path.resolve(args.sanitizedReport), report, 0o644);
+    process.stdout.write(`${JSON.stringify({
+      status: report.state,
+      read_only_requests: Number(result.raw.readback?.read_only_request_count || 0),
+      product_write_requests: 0,
+      private_file_updated: true,
+      sanitized_report: args.sanitizedReport,
+    })}\n`);
+    return;
+  }
+  if (args.mode === "ui-readback") {
+    if (!playwright) throw new Error("Playwright is unavailable; run npm install or pass --playwright-root");
+    const result = await resumeUiReadback(args, playwright);
+    result.raw.private_evidence_sha256 = result.privateFileSha256;
+    const report = buildReport(args, readiness, result.raw);
+    writeJsonSecure(path.resolve(args.sanitizedReport), report, 0o644);
+    process.stdout.write(`${JSON.stringify({
+      status: report.state,
+      read_only_requests: Number(result.raw.readback?.read_only_request_count || 0),
+      product_write_requests: 0,
+      private_file_updated: true,
+      sanitized_report: args.sanitizedReport,
+    })}\n`);
+    return;
+  }
+  if (args.mode === "finalize") {
+    const result = finalizeStoredUiEvidence(args);
+    result.raw.private_evidence_sha256 = result.privateFileSha256;
+    const report = buildReport(args, readiness, result.raw);
+    writeJsonSecure(path.resolve(args.sanitizedReport), report, 0o644);
+    process.stdout.write(`${JSON.stringify({
+      status: report.state,
+      network_requests: 0,
+      product_write_requests: 0,
+      private_file_updated: true,
+      sanitized_report: args.sanitizedReport,
+    })}\n`);
     return;
   }
   if (args.confirmCapture !== CAPTURE_CONFIRMATION) {

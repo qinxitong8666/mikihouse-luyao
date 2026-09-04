@@ -345,7 +345,7 @@ PYTHONPATH=src python scripts/audit_shijiu_session.py \
 
 ## Shijiu browser-exact 本地捕获助手
 
-`scripts/shijiu_browser_exact_capture.mjs` 用于解除上述 browser-exact 证据门禁。它同时监听 Playwright `request.allHeaders()` 与 CDP `Network.requestWillBeSentExtraInfo`，捕获人工在 Shijiu 原生后台执行一次“新增测试商品→保存”时的完整请求和响应；保存后只读调用 `Goods/index` 与 `getFormatInfo`，要求取得唯一 `product_id` 和对应 `sku_id`。工具不会填写表单、不会点击保存，也不会自动创建测试商品。
+`scripts/shijiu_browser_exact_capture.mjs` 用于解除上述 browser-exact 证据门禁。它同时监听 Playwright `request.allHeaders()` 与 CDP `Network.requestWillBeSentExtraInfo`，捕获人工在 Shijiu 原生后台执行一次保存时的完整请求和响应；保存后只读调用 `Goods/index` 与 `getFormatInfo`，要求唯一定位 `product_id`、核对商品与 SKU 结构，并如实记录目标响应是否暴露独立 `sku_id`。工具不会填写表单、不会点击保存，也不会自动创建测试商品。
 
 该助手有两层强制安全边界：
 
@@ -369,7 +369,7 @@ npm run capture:shijiu -- \
   --historical-wawu-template /absolute/outside/repo/native_save_request.json
 ```
 
-本机现状为 `BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE`：Chrome 152 正在运行，但没有启用 ChatGPT Chrome 扩展，且当前进程没有开放本地 CDP 端口；不能在不重启的情况下附着现有默认 profile，也未读取其 Cookie、storage 或密码。最少人工路径是让脚本启动一个独立私有 profile：
+首次预检状态为 `BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE`：Chrome 152 正在运行，但没有启用 ChatGPT Chrome 扩展，且当前进程没有开放本地 CDP 端口；不能在不重启的情况下附着现有默认 profile，也未读取其 Cookie、storage 或密码。已验证的最少人工路径是让脚本启动一个独立私有 profile：
 
 ```bash
 npm run capture:shijiu -- \
@@ -380,7 +380,7 @@ npm run capture:shijiu -- \
   --confirm-capture SHIJIU_BROWSER_EXACT_HUMAN_SAVE_CAPTURE
 ```
 
-浏览器打开后，人工登录 Shijiu，在原生后台只新增一个非 MIKIHOUSE 测试商品并点击一次保存，其余捕获、只读回读、脱敏比较和报告生成均自动完成。不要复制或复用 Chrome 默认 profile。
+浏览器打开后，人工登录 Shijiu，在原生后台只处理一个非 MIKIHOUSE 测试商品并点击一次保存，其余捕获、只读回读、脱敏比较和报告生成均自动完成。监听器现在作用于整个 browser context，覆盖登录后新开的后台标签页。不要复制或复用 Chrome 默认 profile。
 
 若已有专用的、非默认 Chrome profile，可先用 `--remote-debugging-port=9222 --user-data-dir=/absolute/private/profile` 启动它，再用下面的 CDP 模式；端口只应监听本机：
 
@@ -393,4 +393,13 @@ npm run capture:shijiu -- \
   --confirm-capture SHIJIU_BROWSER_EXACT_HUMAN_SAVE_CAPTURE
 ```
 
-若希望 Codex 直接检查现有 Chrome 标签，需要先在 Codex 设置的 Computer use 页面安装并启用 ChatGPT Chrome 扩展；这与上述独立 profile/CDP 捕获路径二选一即可。当前脱敏预检确认：历史 WAWU 样例与此前 MIKIHOUSE 请求在已知 method、endpoint、query 名称、header 名称、Content-Type、body 字段及类型上均无差异；因此现阶段结论仍是 `WAITING_FOR_BROWSER_EXACT_CAPTURE`，不修改 writer，也不发任何新的 MIKIHOUSE 请求。
+若希望 Codex 直接检查现有 Chrome 标签，需要先在 Codex 设置的 Computer use 页面安装并启用 ChatGPT Chrome 扩展；这与上述独立 profile/CDP 捕获路径二选一即可。
+
+2026-09-04 已完成一次真实 browser-exact 验证。首次新增请求因登录后在新标签打开后台而未被旧版单页监听器捕获；修复为 context 级监听后，只对同一非 MIKIHOUSE 一次性测试商品执行一次人工编辑保存并成功捕获。脱敏结果为 `BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED`：
+
+- 当前持久化成功的原生编辑请求没有 Cookie/Authorization，query token 与 body token 均非空且完全相同；因此“MIKIHOUSE 请求缺少 Cookie”已被排除为充分根因；
+- `Goods.index` 在后台页面的真实读取上下文中唯一回读 `product_id=9357918` 和相同商品名，`getFormatInfo` 回读相同商品及 1 个 SKU 的完整价格、库存、规格和图片结构；
+- 当前 `getFormatInfo.data.sku_info[]` 不含 `id`、`sku_id`、`goods_sku_id` 或 `good_sku_id`。这一事实与 6 个 legacy 样本共 70 个 SKU 以及 `wawu-product-sync@a36c5ea` 的明确注释一致，故 `sku_id` 必须保持 null，绝不从数组位置、规格或商品 ID 猜测；
+- 当前原生编辑请求相对历史 WAWU/此前 MIKIHOUSE payload 新增 `id/orderby/virtual_sales`、缺少 `brand_id`，且 `original_price`、`tax_rate`、`sku_stock` 的类型不同；body 顺序不同，browser 请求还包含 `Origin`。由于捕获的是同一商品的 EDIT 而非首次 CREATE，这些是下一轮离线 mapper 审计的候选差异，不足以直接宣称 CREATE 静默拒绝根因。
+
+恢复回读支持 `--mode readback`（审计 client 直连）和 `--mode ui-readback`（复用私有后台页面的真实 `Goods.index` 身份）；`--mode finalize` 只从 Git 外已有证据重建脱敏报告，网络请求为零。最终证据见 `deliverables/shijiu_import/browser_exact_capture_readiness.json` 和 `browser_exact_capture_analysis.json`。本轮 MIKIHOUSE 写请求、自动商品写请求和 legacy 操作均为 0。
