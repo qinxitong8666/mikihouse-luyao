@@ -60,6 +60,12 @@ NATIVE_SAVE_FALLBACK_HEADERS = {
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
     ),
 }
+OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES = (
+    "shopify.com",
+    "mikihouse.co.jp",
+    # Detail media returned by the official MIKI HOUSE Storefront product data.
+    "img.mksk.me",
+)
 CANONICAL_CREATE_CONTRACT_PATH = (
     Path(__file__).resolve().parents[2] / "config/shijiu_native_create_contract.json"
 )
@@ -113,6 +119,23 @@ def validate_canonical_create_payload(payload: dict[str, Any]) -> None:
             raise ContractMismatchError("create payload specification field order differs from canonical browser CREATE")
         if {key: _json_value_type(value) for key, value in row.items()} != contract["spec_field_types"]:
             raise ContractMismatchError("create payload specification field types differ from canonical browser CREATE")
+
+
+def validate_canonical_update_payload(payload: dict[str, Any]) -> None:
+    """Validate the audited native full-payload edit shape.
+
+    Shijiu uses the same save endpoint for CREATE and edit.  The only permitted
+    edit-only business field is the existing integer product ``id``; every
+    canonical CREATE field (including complete specs/SKUs) must remain present
+    in its browser-observed order and type.
+    """
+    product_id = payload.get("id")
+    if not isinstance(product_id, int):
+        raise ContractMismatchError("native edit payload requires an integer product id")
+    if list(payload)[-1:] != ["id"]:
+        raise ContractMismatchError("native edit product id must follow the canonical full payload")
+    create_shape = {key: value for key, value in payload.items() if key != "id"}
+    validate_canonical_create_payload(create_shape)
 
 
 def _utc_now() -> str:
@@ -534,6 +557,7 @@ class ShijiuLiveClient:
             raise LiveImportError("native edit payload requires an integer product id")
         normalized = copy.deepcopy(payload)
         normalized["id"] = product_id
+        validate_canonical_update_payload(normalized)
         return self._native_save_product(
             normalized,
             confirmation=confirmation,
@@ -546,7 +570,9 @@ class ShijiuLiveClient:
 
     def _download_official_image(self, source_url: str) -> tuple[bytes, str, str]:
         parsed = urllib.parse.urlparse(source_url)
-        if parsed.scheme != "https" or not parsed.netloc.endswith(("shopify.com", "mikihouse.co.jp")):
+        if parsed.scheme != "https" or not parsed.netloc.endswith(
+            OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES
+        ):
             raise ContractMismatchError(f"image source is not an official HTTPS MIKI HOUSE host: {parsed.netloc}")
         request = urllib.request.Request(
             source_url,
@@ -885,6 +911,7 @@ def validate_product_readback(
     list_row: dict[str, Any] | None = None,
     expected_state: str = "1",
     require_is_shelf: bool = True,
+    require_exact_good_details: bool = False,
 ) -> dict[str, Any]:
     _assert_success(detail, "product readback")
     detail_data = detail.get("data") if isinstance(detail.get("data"), dict) else {}
@@ -910,8 +937,16 @@ def validate_product_readback(
         )
     actual_details = str(_first_observation(detail, ("good_details",)) or "")
     expected_detail_urls = _split_urls(payload.get("good_detail_pics"))
+    actual_detail_urls = _split_urls(_first_observation(detail, ("good_detail_pics",)))
+    if actual_detail_urls != expected_detail_urls:
+        raise ContractMismatchError(
+            "good_detail_pics readback mismatch: "
+            f"expected {len(expected_detail_urls)}, got {len(actual_detail_urls)}"
+        )
     if not actual_details or any(url not in actual_details for url in expected_detail_urls):
         raise ContractMismatchError("good_details readback is empty or missing uploaded detail images")
+    if require_exact_good_details and actual_details != str(payload.get("good_details") or ""):
+        raise ContractMismatchError("good_details exact content/hash readback mismatch")
     actual_skus = recursively_find_skus(detail)
     by_code = {str(row.get("sku_code") or "").strip(): row for row in actual_skus}
     expected_codes = [str(row["sku_code"]) for row in payload["sku_info"]]
@@ -1009,6 +1044,7 @@ def validate_product_readback(
         "master_graph": payload["master_graph"],
         "carousel_urls": expected_broadcast,
         "detail_image_urls": expected_detail_urls,
+        "good_details_sha256": hashlib.sha256(actual_details.encode("utf-8")).hexdigest(),
         "sku_count": len(sku_results),
         "skus": sku_results,
         "passed": True,

@@ -120,8 +120,12 @@ def test_checked_in_high_sku_probe_is_single_create_strongly_verified_and_saniti
     assert len(mapped["variants"]) == 14
     assert all(row["shijiu_sku_id"] is None for row in mapped["variants"].values())
     assert diagnosis["fourteen_sku_scale_passed"] is True
-    assert plan["status"] == "PLANNED_NOT_EXECUTED"
-    assert plan["update_requests_sent"] == 0
+    assert plan["status"] == "PARTIALLY_VALIDATED_FROZEN"
+    assert plan["update_requests_sent"] == 2
+    assert plan["verified_stage_keys"] == [
+        "CREATE_CORE", "BROADCAST_5_12", "BROADCAST_13_20"
+    ]
+    assert plan["continued_after_first_anomaly"] is False
     assert audit["status"] == "COMPLETED_READ_ONLY"
     assert audit["request_counts"]["write"] == 0
     assert audit["scope"]["unique_detail_product_count"] == 328

@@ -298,7 +298,7 @@ def test_checked_in_bisection_evidence_is_frozen_fail_closed_and_sanitized() -> 
     assert mapping["products"][numbers[1]]["shijiu_product_id"] == "9358241"
     assert [
         number for number, row in mapping["products"].items() if row.get("shijiu_product_id")
-    ] == ["36-2001-572", "63-6602-492"]
+    ] == ["10-8375-578", "36-2001-572", "63-6602-492"]
     serialized = json.dumps(
         {"selection": selection, "report": report, "diagnosis": diagnosis, "orphan": orphan}
     ).casefold()

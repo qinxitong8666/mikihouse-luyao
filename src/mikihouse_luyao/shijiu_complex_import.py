@@ -609,6 +609,8 @@ def ui_strong_readback(
     item: dict[str, Any],
     payload: dict[str, Any],
     create_response: dict[str, Any],
+    *,
+    require_exact_good_details: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     rows, evidence = ui.exact_name_candidates(payload["good_name"])
     verified = []
@@ -625,6 +627,7 @@ def ui_strong_readback(
                 create_response=create_response,
                 list_row=row,
                 require_is_shelf=False,
+                require_exact_good_details=require_exact_good_details,
             )
         except ContractMismatchError as error:
             observation["mismatch"] = str(error)

@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:53:04.490595+00:00",
+  "product_number": "10-8375-578",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-8375-578",
+      "product_number": "10-8375-578",
+      "shijiu_product_id": "9358250",
+      "target_category_id": 294884,
+      "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+      "sku_count": 2,
+      "skus": [
+        {
+          "source_variant_sku": "10-8375-57800029999",
+          "backend_sku_code": "MIKI-10-8375-57800029999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800029999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "赤,---",
+          "color": "赤",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-8375-57800089999",
+          "backend_sku_code": "MIKI-10-8375-57800089999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800089999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "ピンク,---",
+          "color": "ピンク",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T07:44:42.906711+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-8375-578",
+      "product_number": "10-8375-578",
+      "shijiu_product_id": "9358250",
+      "target_category_id": 294884,
+      "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+      "sku_count": 2,
+      "skus": [
+        {
+          "source_variant_sku": "10-8375-57800029999",
+          "backend_sku_code": "MIKI-10-8375-57800029999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800029999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "赤,---",
+          "color": "赤",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-8375-57800089999",
+          "backend_sku_code": "MIKI-10-8375-57800089999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800089999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "ピンク,---",
+          "color": "ピンク",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T07:46:48.244422+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-8375-578",
+      "product_number": "10-8375-578",
+      "shijiu_product_id": "9358250",
+      "target_category_id": 294884,
+      "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+      "sku_count": 2,
+      "skus": [
+        {
+          "source_variant_sku": "10-8375-57800029999",
+          "backend_sku_code": "MIKI-10-8375-57800029999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800029999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "赤,---",
+          "color": "赤",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-8375-57800089999",
+          "backend_sku_code": "MIKI-10-8375-57800089999",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358250",
+            "backend_sku_code": "MIKI-10-8375-57800089999"
+          },
+          "price_jpy": 71500,
+          "stock": 1,
+          "specification": "ピンク,---",
+          "color": "ピンク",
+          "size": "---",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T07:48:37.333071+00:00"
+    }
+  ],
+  "verified_stage_count": 3,
+  "sensitive_values_included": false
+}

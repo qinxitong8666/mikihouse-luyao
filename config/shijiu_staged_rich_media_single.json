@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:42:32.242561+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "STAGED_RICH_MEDIA_SINGLE_REAL_VALIDATION",
+  "selection_policy": "deterministic: active, publishable, unmapped, non-special, never-attempted, source-unique name, 2-6 variants, 20-35 ordered official images, gallery+detail; then closest to 27 images and product_number",
+  "fixed_target_category_id": 294884,
+  "pdf_special_exclusion_count": 351,
+  "candidate_pool_count": 13,
+  "maximum_product_create_requests": 1,
+  "maximum_product_save_requests_per_runner_invocation": 1,
+  "hard_prohibited_products": [
+    "00-1000-028",
+    "00-4000-054",
+    "00-4000-057",
+    "10-1829-685",
+    "10-8223-684",
+    "10-8227-686",
+    "13-9310-490",
+    "17-1366-244",
+    "36-2001-572",
+    "63-6602-492"
+  ],
+  "protected_frozen_evidence": {
+    "state/shijiu_canonical_create_checkpoint.json": "2e9ca267870c7a9169490608ebaf75a26cb03718a67d06202d9bb80c275e1132",
+    "state/shijiu_complex_live_batch_checkpoint.json": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+    "state/shijiu_complexity_bisection_checkpoint.json": "a4b2d04e1bc83f8e01a186be398e2e82d353dc848679d39303bd9790fe302a47",
+    "state/shijiu_high_sku_14_probe_checkpoint.json": "fa6f0b06e701765f2ce1b99f1068db99cb1f8e81293a0457791f658f8c614ef3",
+    "deliverables/shijiu_import/complex_live_batch_report.json": "21a0ec0d374ed5f94096cc255ea027c09c8d20613a7485550d677aa2d7b26a6b",
+    "deliverables/shijiu_import/complexity_bisection_report.json": "7be41c08702a6918a7fd92c916ecb7dcc8dea472459812880bc16a6edc864c3b",
+    "deliverables/shijiu_import/high_sku_14_probe_report.json": "c99bab87682512926a7fa466679def3b0bfb208a9b1bec065be7acb0486ccf7f"
+  },
+  "product": {
+    "product_number": "10-8375-578",
+    "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+    "name_unique_in_source": true,
+    "variant_count": 2,
+    "available_variant_count": 2,
+    "color_count": 2,
+    "size_count": 1,
+    "official_image_count": 27,
+    "role_counts": {
+      "detail": 6,
+      "main": 1,
+      "product_gallery": 19,
+      "variant_color": 1
+    },
+    "detail_pic_count": 25,
+    "source_payload_sha256": "9d3ec94ee64f70010ee0493d248ec0a2f6071e1b6bd59965e48d5b611ef6786d"
+  },
+  "stages": [
+    {
+      "sequence": 1,
+      "key": "CREATE_CORE",
+      "operation": "CREATE",
+      "broadcast_count": 4,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:001",
+        "MIKIHOUSE:10-8375-578:IMAGE:002",
+        "MIKIHOUSE:10-8375-578:IMAGE:003",
+        "MIKIHOUSE:10-8375-578:IMAGE:004",
+        "MIKIHOUSE:10-8375-578:IMAGE:021"
+      ]
+    },
+    {
+      "sequence": 2,
+      "key": "BROADCAST_5_12",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 12,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:005",
+        "MIKIHOUSE:10-8375-578:IMAGE:006",
+        "MIKIHOUSE:10-8375-578:IMAGE:007",
+        "MIKIHOUSE:10-8375-578:IMAGE:008",
+        "MIKIHOUSE:10-8375-578:IMAGE:009",
+        "MIKIHOUSE:10-8375-578:IMAGE:010",
+        "MIKIHOUSE:10-8375-578:IMAGE:011",
+        "MIKIHOUSE:10-8375-578:IMAGE:012"
+      ]
+    },
+    {
+      "sequence": 3,
+      "key": "BROADCAST_13_20",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 20,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:013",
+        "MIKIHOUSE:10-8375-578:IMAGE:014",
+        "MIKIHOUSE:10-8375-578:IMAGE:015",
+        "MIKIHOUSE:10-8375-578:IMAGE:016",
+        "MIKIHOUSE:10-8375-578:IMAGE:017",
+        "MIKIHOUSE:10-8375-578:IMAGE:018",
+        "MIKIHOUSE:10-8375-578:IMAGE:019",
+        "MIKIHOUSE:10-8375-578:IMAGE:020"
+      ]
+    },
+    {
+      "sequence": 4,
+      "key": "BROADCAST_21_27",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 27,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:021",
+        "MIKIHOUSE:10-8375-578:IMAGE:022",
+        "MIKIHOUSE:10-8375-578:IMAGE:023",
+        "MIKIHOUSE:10-8375-578:IMAGE:024",
+        "MIKIHOUSE:10-8375-578:IMAGE:025",
+        "MIKIHOUSE:10-8375-578:IMAGE:026",
+        "MIKIHOUSE:10-8375-578:IMAGE:027"
+      ]
+    },
+    {
+      "sequence": 5,
+      "key": "DETAIL_PICS_1_8",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 8,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:002",
+        "MIKIHOUSE:10-8375-578:IMAGE:003",
+        "MIKIHOUSE:10-8375-578:IMAGE:004",
+        "MIKIHOUSE:10-8375-578:IMAGE:005",
+        "MIKIHOUSE:10-8375-578:IMAGE:006",
+        "MIKIHOUSE:10-8375-578:IMAGE:007",
+        "MIKIHOUSE:10-8375-578:IMAGE:008",
+        "MIKIHOUSE:10-8375-578:IMAGE:009"
+      ]
+    },
+    {
+      "sequence": 6,
+      "key": "DETAIL_PICS_9_16",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 16,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:010",
+        "MIKIHOUSE:10-8375-578:IMAGE:011",
+        "MIKIHOUSE:10-8375-578:IMAGE:012",
+        "MIKIHOUSE:10-8375-578:IMAGE:013",
+        "MIKIHOUSE:10-8375-578:IMAGE:014",
+        "MIKIHOUSE:10-8375-578:IMAGE:015",
+        "MIKIHOUSE:10-8375-578:IMAGE:016",
+        "MIKIHOUSE:10-8375-578:IMAGE:017"
+      ]
+    },
+    {
+      "sequence": 7,
+      "key": "DETAIL_PICS_17_24",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 24,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:018",
+        "MIKIHOUSE:10-8375-578:IMAGE:019",
+        "MIKIHOUSE:10-8375-578:IMAGE:020",
+        "MIKIHOUSE:10-8375-578:IMAGE:022",
+        "MIKIHOUSE:10-8375-578:IMAGE:023",
+        "MIKIHOUSE:10-8375-578:IMAGE:024",
+        "MIKIHOUSE:10-8375-578:IMAGE:025",
+        "MIKIHOUSE:10-8375-578:IMAGE:026"
+      ]
+    },
+    {
+      "sequence": 8,
+      "key": "DETAIL_PICS_25_25",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 25,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:027"
+      ]
+    },
+    {
+      "sequence": 9,
+      "key": "FINAL_GOOD_DETAILS_HTML",
+      "operation": "UPDATE_GOOD_DETAILS",
+      "broadcast_count": 27,
+      "detail_pic_count": 25,
+      "new_references": []
+    }
+  ],
+  "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+}

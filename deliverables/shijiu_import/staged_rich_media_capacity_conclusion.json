@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T07:53:04.492185+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "10-8375-578",
+  "shijiu_product_id": "9358250",
+  "observed_stable_success": {
+    "maximum_ordered_broadcast_url_count": 20,
+    "maximum_ordered_good_detail_pics_url_count": 0,
+    "verified_stage_keys": [
+      "CREATE_CORE",
+      "BROADCAST_5_12",
+      "BROADCAST_13_20"
+    ]
+  },
+  "first_failed_or_blocked_state": {
+    "stage": "BROADCAST_21_27",
+    "operation": "UPDATE_BROADCAST",
+    "planned_broadcast_count": 27,
+    "planned_detail_pic_count": 0,
+    "mutation_request_sent": false,
+    "failure_scope": "LOCAL_SOURCE_HOST_POLICY_BEFORE_DOWNLOAD_UPLOAD_OR_UPDATE",
+    "target_upload_request_sent": false
+  },
+  "first_target_rejected_state": null,
+  "unverified_planned_state": {
+    "stage": "BROADCAST_21_27",
+    "broadcast_count": 27,
+    "detail_pic_count": 0,
+    "reason": "image source is not an official HTTPS MIKI HOUSE host: img.mksk.me"
+  },
+  "interpretation": "CREATE with 4 carousel URLs and native full-payload updates through 12 and 20 ordered carousel URLs were strongly verified. The planned 27-URL update was never sent because a newly encountered official detail-CDN host was blocked locally before download/upload. Detail-pic and final-HTML capacities were therefore not tested.",
+  "observed_empirical_boundary_only": true,
+  "server_hard_limit_proven": false,
+  "sensitive_values_included": false
+}

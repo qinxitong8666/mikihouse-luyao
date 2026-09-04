@@ -615,5 +615,41 @@ PYTHONPATH=src python scripts/import_shijiu_high_sku_probe.py \
 - `deliverables/shijiu_import/high_sku_14_probe_candidate.json`：官网在线复核和 canonical 私密证据哈希；
 - `deliverables/shijiu_import/high_sku_14_probe_report.json` 与 `high_sku_14_probe_readbacks.json`：写入计数和全部 14 SKU 强回读；
 - `deliverables/shijiu_import/high_sku_14_probe_diagnosis.json`：14-SKU 已通过及剩余证据边界；
-- `deliverables/shijiu_import/staged_rich_media_update_plan.json`：未授权、未执行的分阶段富媒体方案；
+- `deliverables/shijiu_import/staged_rich_media_update_plan.json`：最初的分阶段富媒体方案及下一阶段实际验证状态；
 - `state/shijiu_high_sku_14_probe_checkpoint.json` 与 `state/shijiu_mappings.json`：单商品幂等断点和稳定映射。
+
+## Shijiu 单商品分阶段富媒体真实验证
+
+本阶段只选择一个全新商品，历史失败/冻结批次保持不可恢复，`13-9310-490`、`00-4000-057` 没有重试，已验证的 `36-2001-572`、`63-6602-492` 没有修改。确定性规则从非 351 `PDF_SPECIAL_LIST`、未映射且可发布的源商品中选择名称唯一、2–6 variants、20–35 张有序官方图并同时包含商品图与详情图的候选；当前冻结候选是 `10-8375-578`（2 variants、27 张图）。官网在线核验确认两个 SKU 的价格、库存、颜色、尺码和 variant 图与 master 一致。
+
+执行器 `scripts/import_shijiu_staged_rich_media.py` 每次启动最多推进一个商品保存步骤。CREATE 一次提交完整规格与全部 SKU，但只带主图、4 张有序轮播、空 `good_detail_pics` 和不含 URL 的最小详情文本；每次 UPDATE 前先持久化完整 `getFormatInfo` 快照，随后只使用带整数商品 ID、完整 canonical 字段、完整规格和完整 SKU 的原生 full-payload edit。轮播与详情图每步最多增加8张，每步均以 UI-context 精确商品名定位唯一商品，再用 `getFormatInfo` 校验全部 SKU、JPY 价格、库存、规格、主图及有序图片。不存在 PATCH 式更新或自动回滚。
+
+真实结果：CREATE 使用5张实际必需的 COS 图片，成功创建下架商品 `shijiu_product_id=9358250`；两个 backend SKU 的售价均为 71,500 JPY，库存均为1，mapping 已持久化且 `shijiu_sku_id=null`。轮播 4→12 和 12→20 的两次 full-payload UPDATE 均完整回读通过，SKU、价格、库存和规格未变化。因此当前商品已观察到的稳定成功值为20张有序轮播（高于此前只读样本中的16张），但这不是服务器硬限制。
+
+计划测试 20→27 时，第22号详情图来自官方商品数据使用的 `img.mksk.me` CDN；当时下载白名单尚未包含该域名，工具在下载、COS上传和商品 UPDATE 之前本地拒绝并立即冻结。目标端没有收到该阶段上传或 UPDATE；之后只读 UI-context 再次确认商品仍准确保持20张轮播、0张 `good_detail_pics` 和2个正确 SKU。代码现已把该官方详情 CDN 纳入“可下载但正式 payload 仍禁止热链”的安全策略，但冻结商品绝不重试。因此27张轮播、详情图片和最终详情 HTML 容量均仍未验证，不能视为目标端拒绝或服务器上限。
+
+```bash
+# 只读官网核验、冻结候选和阶段计划；不会调用 Shijiu 写接口
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 一次调用只推进一个 CREATE 或 full-payload UPDATE；checkpoint 终态禁止重试
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --next-step \
+  --confirm MIKIHOUSE_STAGED_RICH_MEDIA_SINGLE_STEP
+
+# 冻结后仅用 UI-context 对最后成功状态做强回读，不发送写请求
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --readonly-confirm-frozen
+```
+
+新增证据文件：
+
+- `config/shijiu_staged_rich_media_single.json`：单商品选择、9个阶段及历史冻结文件哈希；
+- `state/shijiu_staged_rich_media_single_checkpoint.json`：逐图、逐次保存、写前快照、强回读与冻结断点；
+- `deliverables/shijiu_import/staged_rich_media_candidate.json`：官网在线核验及脱敏 browser-exact 证据；
+- `deliverables/shijiu_import/staged_rich_media_validation_report.json` 与 `staged_rich_media_validation_readbacks.json`：逐阶段结果和完整强回读；
+- `deliverables/shijiu_import/staged_rich_media_capacity_conclusion.json`：最后成功状态、未发送的首个阻断状态及经验容量边界。

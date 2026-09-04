@@ -1,0 +1,3950 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "STAGED_RICH_MEDIA_SINGLE_REAL_VALIDATION",
+  "created_at": "2026-09-04T07:42:32.530254+00:00",
+  "updated_at": "2026-09-04T07:53:04.487565+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "10-8375-578",
+  "source_payload_sha256": "9d3ec94ee64f70010ee0493d248ec0a2f6071e1b6bd59965e48d5b611ef6786d",
+  "selection_sha256": "19709a766bb9d1fee90354350c886eb71d01be1667dd905756ea7d900e144461",
+  "stage_cursor": 3,
+  "stages": [
+    {
+      "sequence": 1,
+      "key": "CREATE_CORE",
+      "operation": "CREATE",
+      "broadcast_count": 4,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:001",
+        "MIKIHOUSE:10-8375-578:IMAGE:002",
+        "MIKIHOUSE:10-8375-578:IMAGE:003",
+        "MIKIHOUSE:10-8375-578:IMAGE:004",
+        "MIKIHOUSE:10-8375-578:IMAGE:021"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "precreate_ui_absence": {
+        "passed": true,
+        "identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "candidate_product_ids": [],
+        "candidate_observations": [],
+        "expected_backend_sku_count": 2,
+        "expected_backend_sku_overlap": [],
+        "good_code_used_as_primary": false,
+        "ui_queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 2,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": []
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 224,
+            "page_size": 10,
+            "pages_read": 23,
+            "exact_match_product_ids": []
+          }
+        ]
+      },
+      "intent_at": "2026-09-04T07:43:58.055424+00:00",
+      "payload_sha256": "cf93c95fa77afd2dddfd31ad52b700486ec53ef8c24c41a233c7c59442fa602e",
+      "metrics": {
+        "payload_utf8_bytes": 2648,
+        "sku_count": 2,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 4,
+        "broadcast_characters": 307,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 95,
+        "good_details_utf8_bytes": 139,
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "cf93c95fa77afd2dddfd31ad52b700486ec53ef8c24c41a233c7c59442fa602e",
+          "body_byte_count": 2735
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-8375-578",
+        "product_number": "10-8375-578",
+        "shijiu_product_id": "9358250",
+        "target_category_id": 294884,
+        "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "off_shelf": null,
+        "is_shelf_exposed": false,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+        "sku_count": 2,
+        "skus": [
+          {
+            "source_variant_sku": "10-8375-57800029999",
+            "backend_sku_code": "MIKI-10-8375-57800029999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800029999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "赤,---",
+            "color": "赤",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-8375-57800089999",
+            "backend_sku_code": "MIKI-10-8375-57800089999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800089999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "ピンク,---",
+            "color": "ピンク",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T07:44:42.906711+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "candidate_product_ids": [
+          "9358250"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 3,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 225,
+            "page_size": 10,
+            "pages_read": 23,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358250",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 2,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358250"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T07:44:42.906711+00:00"
+    },
+    {
+      "sequence": 2,
+      "key": "BROADCAST_5_12",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 12,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:005",
+        "MIKIHOUSE:10-8375-578:IMAGE:006",
+        "MIKIHOUSE:10-8375-578:IMAGE:007",
+        "MIKIHOUSE:10-8375-578:IMAGE:008",
+        "MIKIHOUSE:10-8375-578:IMAGE:009",
+        "MIKIHOUSE:10-8375-578:IMAGE:010",
+        "MIKIHOUSE:10-8375-578:IMAGE:011",
+        "MIKIHOUSE:10-8375-578:IMAGE:012"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg,https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg,https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg,https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-8375-578；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>クラリーノタフロックNEOランドセル【箱入】</h2><p>品番：10-8375-578</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-8375-57800029999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "赤,---"
+            },
+            {
+              "sku_code": "MIKI-10-8375-57800089999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "ピンク,---"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "赤",
+              "ピンク"
+            ],
+            [
+              "---"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "511a2ddeb6a38c97ffad5c9ef5883f850b4f0829fd5a0e183fce4d239b6380aa",
+      "intent_at": "2026-09-04T07:46:06.057512+00:00",
+      "payload_sha256": "61ed3f77d82a317002e1e813f674ff452ed21107040519a2e71c9bdfb571544a",
+      "metrics": {
+        "payload_utf8_bytes": 3264,
+        "sku_count": 2,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 12,
+        "broadcast_characters": 923,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 95,
+        "good_details_utf8_bytes": 139,
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id",
+              "id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "61ed3f77d82a317002e1e813f674ff452ed21107040519a2e71c9bdfb571544a",
+          "body_byte_count": 3364
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-8375-578",
+        "product_number": "10-8375-578",
+        "shijiu_product_id": "9358250",
+        "target_category_id": 294884,
+        "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "off_shelf": true,
+        "is_shelf_exposed": true,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+        "sku_count": 2,
+        "skus": [
+          {
+            "source_variant_sku": "10-8375-57800029999",
+            "backend_sku_code": "MIKI-10-8375-57800029999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800029999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "赤,---",
+            "color": "赤",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-8375-57800089999",
+            "backend_sku_code": "MIKI-10-8375-57800089999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800089999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "ピンク,---",
+            "color": "ピンク",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T07:46:48.244422+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "candidate_product_ids": [
+          "9358250"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 3,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 225,
+            "page_size": 10,
+            "pages_read": 23,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358250",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 2,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358250"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T07:46:48.244422+00:00"
+    },
+    {
+      "sequence": 3,
+      "key": "BROADCAST_13_20",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 20,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:013",
+        "MIKIHOUSE:10-8375-578:IMAGE:014",
+        "MIKIHOUSE:10-8375-578:IMAGE:015",
+        "MIKIHOUSE:10-8375-578:IMAGE:016",
+        "MIKIHOUSE:10-8375-578:IMAGE:017",
+        "MIKIHOUSE:10-8375-578:IMAGE:018",
+        "MIKIHOUSE:10-8375-578:IMAGE:019",
+        "MIKIHOUSE:10-8375-578:IMAGE:020"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg,https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg,https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg,https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg,https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg,https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg,https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg,https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg,https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg,https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg,https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg,https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-8375-578；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>クラリーノタフロックNEOランドセル【箱入】</h2><p>品番：10-8375-578</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "日本",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "件",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "0.00",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "日本",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "source_product_id=MIKIHOUSE:10-8375-578;source_brand=ミキハウス;source_category=カテゴリーなし;currency=JPY",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-8375-57800029999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "赤,---"
+            },
+            {
+              "sku_code": "MIKI-10-8375-57800089999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "ピンク,---"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "赤",
+              "ピンク"
+            ],
+            [
+              "---"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "6729f78709b73ffb05e8bb3e0868fe743c4b313ea365b695c6a7bddae72662fc",
+      "intent_at": "2026-09-04T07:47:54.394532+00:00",
+      "payload_sha256": "454e4de6c8a95a717dfc185c23e141e87f1fac6c863a0ed497d1ade3030cd268",
+      "metrics": {
+        "payload_utf8_bytes": 3880,
+        "sku_count": 2,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 20,
+        "broadcast_characters": 1539,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 95,
+        "good_details_utf8_bytes": 139,
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id",
+              "id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "454e4de6c8a95a717dfc185c23e141e87f1fac6c863a0ed497d1ade3030cd268",
+          "body_byte_count": 3980
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-8375-578",
+        "product_number": "10-8375-578",
+        "shijiu_product_id": "9358250",
+        "target_category_id": 294884,
+        "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "off_shelf": true,
+        "is_shelf_exposed": true,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+        "sku_count": 2,
+        "skus": [
+          {
+            "source_variant_sku": "10-8375-57800029999",
+            "backend_sku_code": "MIKI-10-8375-57800029999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800029999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "赤,---",
+            "color": "赤",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-8375-57800089999",
+            "backend_sku_code": "MIKI-10-8375-57800089999",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358250",
+              "backend_sku_code": "MIKI-10-8375-57800089999"
+            },
+            "price_jpy": 71500,
+            "stock": 1,
+            "specification": "ピンク,---",
+            "color": "ピンク",
+            "size": "---",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T07:48:37.333071+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "クラリーノタフロックNEOランドセル【箱入】",
+        "candidate_product_ids": [
+          "9358250"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 3,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 225,
+            "page_size": 10,
+            "pages_read": 23,
+            "exact_match_product_ids": [
+              "9358250"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358250",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 2,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358250"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T07:48:37.333071+00:00"
+    },
+    {
+      "sequence": 4,
+      "key": "BROADCAST_21_27",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 27,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:021",
+        "MIKIHOUSE:10-8375-578:IMAGE:022",
+        "MIKIHOUSE:10-8375-578:IMAGE:023",
+        "MIKIHOUSE:10-8375-578:IMAGE:024",
+        "MIKIHOUSE:10-8375-578:IMAGE:025",
+        "MIKIHOUSE:10-8375-578:IMAGE:026",
+        "MIKIHOUSE:10-8375-578:IMAGE:027"
+      ],
+      "state": "FROZEN_ON_ANOMALY",
+      "attempts": 0,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg,https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg,https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg,https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg,https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg,https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg,https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg,https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg,https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg,https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg,https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg,https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg,https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg,https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg,https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg,https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg,https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg,https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg,https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg,https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-8375-578；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>クラリーノタフロックNEOランドセル【箱入】</h2><p>品番：10-8375-578</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "日本",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "件",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "0.00",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "日本",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "source_product_id=MIKIHOUSE:10-8375-578;source_brand=ミキハウス;source_category=カテゴリーなし;currency=JPY",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-8375-57800029999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "赤,---"
+            },
+            {
+              "sku_code": "MIKI-10-8375-57800089999",
+              "price": "71500.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+              "first_level": "71500.00",
+              "second_level": "71500.00",
+              "third_level": "71500.00",
+              "fourth_level": "71500.00",
+              "fifth_level": "71500.00",
+              "sixth_level": "71500.00",
+              "weight": "0.00",
+              "sku_cost_price": "110000.00",
+              "spec_son_name": "ピンク,---"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "赤",
+              "ピンク"
+            ],
+            [
+              "---"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "ca14d815fcf8480efd01b45de9430c9d64b99045992d0f6559741c76e0d1a1de",
+      "error": {
+        "type": "ContractMismatchError",
+        "message": "image source is not an official HTTPS MIKI HOUSE host: img.mksk.me",
+        "at": "2026-09-04T07:49:31.812035+00:00"
+      },
+      "post_failure_readonly_confirmation": {
+        "status": "LAST_VERIFIED_STATE_READ_ONLY_RECONFIRMED",
+        "performed_at": "2026-09-04T07:52:02.071325+00:00",
+        "product_id": "9358250",
+        "verified_stage": "BROADCAST_13_20",
+        "verified_broadcast_count": 20,
+        "verified_detail_pic_count": 0,
+        "verified_sku_count": 2,
+        "readback": {
+          "source": "MIKIHOUSE",
+          "source_product_id": "MIKIHOUSE:10-8375-578",
+          "product_number": "10-8375-578",
+          "shijiu_product_id": "9358250",
+          "target_category_id": 294884,
+          "good_name": "クラリーノタフロックNEOランドセル【箱入】",
+          "off_shelf": true,
+          "is_shelf_exposed": true,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+          "carousel_urls": [
+            "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg",
+            "https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg"
+          ],
+          "detail_image_urls": [],
+          "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37",
+          "sku_count": 2,
+          "skus": [
+            {
+              "source_variant_sku": "10-8375-57800029999",
+              "backend_sku_code": "MIKI-10-8375-57800029999",
+              "shijiu_sku_id": null,
+              "stable_target_identity": {
+                "shijiu_product_id": "9358250",
+                "backend_sku_code": "MIKI-10-8375-57800029999"
+              },
+              "price_jpy": 71500,
+              "stock": 1,
+              "specification": "赤,---",
+              "color": "赤",
+              "size": "---",
+              "color_size_verified_via_exact_specification": true,
+              "image_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+              "passed": true
+            },
+            {
+              "source_variant_sku": "10-8375-57800089999",
+              "backend_sku_code": "MIKI-10-8375-57800089999",
+              "shijiu_sku_id": null,
+              "stable_target_identity": {
+                "shijiu_product_id": "9358250",
+                "backend_sku_code": "MIKI-10-8375-57800089999"
+              },
+              "price_jpy": 71500,
+              "stock": 1,
+              "specification": "ピンク,---",
+              "color": "ピンク",
+              "size": "---",
+              "color_size_verified_via_exact_specification": true,
+              "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+              "passed": true
+            }
+          ],
+          "passed": true,
+          "verified_at": "2026-09-04T07:52:02.071233+00:00"
+        },
+        "discovery": {
+          "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+          "exact_good_name": "クラリーノタフロックNEOランドセル【箱入】",
+          "candidate_product_ids": [
+            "9358250"
+          ],
+          "queries": [
+            {
+              "label": "category_294884",
+              "good_type": "294884",
+              "declared_count": 3,
+              "page_size": 10,
+              "pages_read": 1,
+              "exact_match_product_ids": [
+                "9358250"
+              ]
+            },
+            {
+              "label": "all_categories",
+              "good_type": "",
+              "declared_count": 225,
+              "page_size": 10,
+              "pages_read": 23,
+              "exact_match_product_ids": [
+                "9358250"
+              ]
+            }
+          ],
+          "filter_context": {
+            "page": "1",
+            "good_type": "",
+            "father_type": "",
+            "recommend": "2",
+            "good_name": "",
+            "good_code": "",
+            "push": "2",
+            "status": "",
+            "update_start_time": "",
+            "update_end_time": "",
+            "create_start_time": "",
+            "create_end_time": "",
+            "page_size": "10",
+            "group_id": ""
+          },
+          "auth_values_included": false,
+          "candidate_validations": [
+            {
+              "product_id": "9358250",
+              "exact_good_name": true,
+              "passed": true,
+              "verified_backend_sku_count": 2,
+              "prices_verified": true,
+              "stocks_verified": true,
+              "specifications_verified": true,
+              "images_verified": true
+            }
+          ],
+          "verified_product_ids": [
+            "9358250"
+          ],
+          "good_code_role": "not_used_for_primary_or_binding"
+        },
+        "target_mutations": 0
+      }
+    },
+    {
+      "sequence": 5,
+      "key": "DETAIL_PICS_1_8",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 8,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:002",
+        "MIKIHOUSE:10-8375-578:IMAGE:003",
+        "MIKIHOUSE:10-8375-578:IMAGE:004",
+        "MIKIHOUSE:10-8375-578:IMAGE:005",
+        "MIKIHOUSE:10-8375-578:IMAGE:006",
+        "MIKIHOUSE:10-8375-578:IMAGE:007",
+        "MIKIHOUSE:10-8375-578:IMAGE:008",
+        "MIKIHOUSE:10-8375-578:IMAGE:009"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 6,
+      "key": "DETAIL_PICS_9_16",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 16,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:010",
+        "MIKIHOUSE:10-8375-578:IMAGE:011",
+        "MIKIHOUSE:10-8375-578:IMAGE:012",
+        "MIKIHOUSE:10-8375-578:IMAGE:013",
+        "MIKIHOUSE:10-8375-578:IMAGE:014",
+        "MIKIHOUSE:10-8375-578:IMAGE:015",
+        "MIKIHOUSE:10-8375-578:IMAGE:016",
+        "MIKIHOUSE:10-8375-578:IMAGE:017"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 7,
+      "key": "DETAIL_PICS_17_24",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 24,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:018",
+        "MIKIHOUSE:10-8375-578:IMAGE:019",
+        "MIKIHOUSE:10-8375-578:IMAGE:020",
+        "MIKIHOUSE:10-8375-578:IMAGE:022",
+        "MIKIHOUSE:10-8375-578:IMAGE:023",
+        "MIKIHOUSE:10-8375-578:IMAGE:024",
+        "MIKIHOUSE:10-8375-578:IMAGE:025",
+        "MIKIHOUSE:10-8375-578:IMAGE:026"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 8,
+      "key": "DETAIL_PICS_25_25",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 25,
+      "new_references": [
+        "MIKIHOUSE:10-8375-578:IMAGE:027"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 9,
+      "key": "FINAL_GOOD_DETAILS_HTML",
+      "operation": "UPDATE_GOOD_DETAILS",
+      "broadcast_count": 27,
+      "detail_pic_count": 25,
+      "new_references": [],
+      "state": "PLANNED",
+      "attempts": 0
+    }
+  ],
+  "image_uploads": {
+    "MIKIHOUSE:10-8375-578:IMAGE:001": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:001",
+      "order": 1,
+      "role": "main",
+      "source_url_sha256": "7f7bf6eadbabc6f3a6b4c60caed7a41f32b42013ca15250b61fa10d9f2f58922",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:43:50.037203+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/461aed0a414ce7783ba30cf38e984ce2.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:43:51.485940+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:002": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:002",
+      "order": 2,
+      "role": "product_gallery",
+      "source_url_sha256": "f6af4c4c9b3e12a506e0f651d91c8d6445e27eee9582f1e7d0cf80bb89bf97f1",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:43:51.488529+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/07dc8fd5ca078bdbf82d4e408e002bdb.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:43:52.853722+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:003": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:003",
+      "order": 3,
+      "role": "product_gallery",
+      "source_url_sha256": "73b36da629981bedcef00287f8221fb21914a030f50a6e9ad4972a68fe10a0e4",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:43:52.858676+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/6ae4774a8400a63cf016156689aec80f.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:43:54.654704+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:004": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:004",
+      "order": 4,
+      "role": "product_gallery",
+      "source_url_sha256": "e30fb2bc1d99cbc1c4edf46fa8a32e043a4a77fc3bde95d50b0f696f1f6f383e",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:43:54.659511+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/1a86977fe4527276fa2324a889f32bbb.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:43:56.782181+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:021": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:021",
+      "order": 21,
+      "role": "variant_color",
+      "source_url_sha256": "43393789038d567850170c3b14321a673695e2beaaf6f1c91951220f2eebfdcc",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:43:56.786208+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/a7fe102868c6fcf72fde71a1d1fcf499.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:43:58.052836+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:005": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:005",
+      "order": 5,
+      "role": "product_gallery",
+      "source_url_sha256": "9dcb850d49af6d17793312ed09a581e0752f1a92e8a9988827d1195e3a15beeb",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:45:54.451544+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/361ceadedb04032b0413b9001b86c88e.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:45:55.849611+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:006": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:006",
+      "order": 6,
+      "role": "product_gallery",
+      "source_url_sha256": "1c424a99232664bdd5c77964661b1bccb5d0e1cbb9ab5fabb5607a6c387060fb",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:45:55.852874+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/5617ff909a71fe0821449a76e7978dca.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:45:57.088028+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:007": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:007",
+      "order": 7,
+      "role": "product_gallery",
+      "source_url_sha256": "78607165f9e73b9c53d7d8f9bf599748698766231a1a4029e367a9eebbac23f4",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:45:57.090592+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/b0550eeaf41d27b2c8e0f5df31d34459.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:45:58.509376+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:008": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:008",
+      "order": 8,
+      "role": "product_gallery",
+      "source_url_sha256": "10a7736ba4ef109f1562a5821d8163ebb1c05be6f36380e5a6401f923187bbe6",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:45:58.514190+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/4859229486c7804cda05af1ba44e17d6.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:45:59.937758+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:009": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:009",
+      "order": 9,
+      "role": "product_gallery",
+      "source_url_sha256": "81317f03223e88c5094e6e1789a5bb86ef1a4af67e6b66f029e9a9c7e3a900c1",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:45:59.940724+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/1eabf1c70389306fdeb947eef8154bf9.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:46:01.259004+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:010": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:010",
+      "order": 10,
+      "role": "product_gallery",
+      "source_url_sha256": "7805cecf9cf847035ebcc82a103c7d04ba319e87474a9993462122cc6bb5070e",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:46:01.261400+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/e896f3082991311c705000eb6cd87df6.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:46:03.152029+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:011": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:011",
+      "order": 11,
+      "role": "product_gallery",
+      "source_url_sha256": "9372c1a505030c8237b3695632ed2dbdf338dd8bc1ff9cfad5c9b36c590566a1",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:46:03.154677+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/58472642a9a472f4b9bf451a3d330086.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:46:04.928142+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:012": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:012",
+      "order": 12,
+      "role": "product_gallery",
+      "source_url_sha256": "cecf9fcd9e7ea7b18200c3875aa748f25d045300f86d61e1fbc9c3aa46634e64",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:46:04.933299+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/b405bcd66d130794bbe7918b99df63f0.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:46:06.052678+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:013": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:013",
+      "order": 13,
+      "role": "product_gallery",
+      "source_url_sha256": "9a74c1c25cc8b56128e1c5da009caa287bcd9b94e15c551e888e70649c63154f",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:43.583212+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/acd33b764c5201058c82032e35a171f6.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:44.803492+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:014": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:014",
+      "order": 14,
+      "role": "product_gallery",
+      "source_url_sha256": "09c45d28dd2d088d629f58eb48e363c2121c9e041c3a4f003862d2fe72a87fc2",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:44.805942+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/afe1e9feef5088ebc89620202a24fd79.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:46.102676+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:015": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:015",
+      "order": 15,
+      "role": "product_gallery",
+      "source_url_sha256": "c1ae69227f037494dec1977c95a647a19ce9b6ce1aa7db1791d439358de23bbd",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:46.104655+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/a1ae4d79e3fb966b70e760ff6d395f1d.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:47.416518+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:016": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:016",
+      "order": 16,
+      "role": "product_gallery",
+      "source_url_sha256": "43dd2905f4470d02d74d44cd2a64e603dd527d209f6a7b6ff1f7e09313adf8db",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:47.418875+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/0eb2f3ca5ace5d3b98a4ad7a9fc7d1d4.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:49.329977+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:017": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:017",
+      "order": 17,
+      "role": "product_gallery",
+      "source_url_sha256": "8cb102a1bf4bb726aadaae500e422650608427071cb6dab978dd0d087dd15026",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:49.338727+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/e6ba08e440f7a80c20949ae639a85849.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:50.415010+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:018": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:018",
+      "order": 18,
+      "role": "product_gallery",
+      "source_url_sha256": "7cc549fb1c15b4671030bee2a42a60cd4116c123205e993f0a0fc410a62c1ed0",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:50.418166+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/aaa96b1868c013c20a5a3812b5369361.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:51.734549+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:019": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:019",
+      "order": 19,
+      "role": "product_gallery",
+      "source_url_sha256": "c78bad888ea59e23bcbe83f18b5fd13debb6d6288d221e5a6bb8d4e3b97b7e0c",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:51.737725+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/97b382cc5319ef0843df47348207ae55.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:53.063131+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:020": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:020",
+      "order": 20,
+      "role": "product_gallery",
+      "source_url_sha256": "1cd23263bc60e6f55f9b6f0adac632533dad19839fe20b1ec702ad09e880fdf9",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T07:47:53.065491+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/4fcc7cd9a3cfd5c10b174a7e0a5eefd7.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T07:47:54.390427+00:00"
+    },
+    "MIKIHOUSE:10-8375-578:IMAGE:022": {
+      "upload_reference": "MIKIHOUSE:10-8375-578:IMAGE:022",
+      "order": 22,
+      "role": "detail",
+      "source_url_sha256": "57f497b080c73d6e51e280e398e6caf6250217d322ad320c4af30f41501d800f",
+      "status": "BLOCKED_BEFORE_DOWNLOAD_OR_UPLOAD_REQUEST",
+      "intent_at": "2026-09-04T07:49:31.779629+00:00",
+      "target_upload_request_sent": false
+    }
+  },
+  "create_response": null,
+  "shijiu_product_id": "9358250",
+  "mapping_persisted": true,
+  "last_verified_payload_sha256": "d46a14fd6ae61e1712d20f60bc8aab4d813ef4149085fd96d1f7c4cec63d7427",
+  "last_verified_state": {
+    "stage": "BROADCAST_13_20",
+    "operation": "UPDATE_BROADCAST",
+    "payload_utf8_bytes": 3880,
+    "sku_count": 2,
+    "spec_dimension_count": 2,
+    "broadcast_url_count": 20,
+    "broadcast_characters": 1539,
+    "good_detail_pics_url_count": 0,
+    "good_detail_pics_characters": 0,
+    "good_details_characters": 95,
+    "good_details_utf8_bytes": 139,
+    "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37"
+  },
+  "first_failed_state": {
+    "stage": "BROADCAST_21_27",
+    "operation": "UPDATE_BROADCAST",
+    "planned_broadcast_count": 27,
+    "planned_detail_pic_count": 0,
+    "mutation_request_sent": false,
+    "failure_scope": "LOCAL_SOURCE_HOST_POLICY_BEFORE_DOWNLOAD_UPLOAD_OR_UPDATE",
+    "target_upload_request_sent": false
+  },
+  "request_ledger": [
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:43:05.346437+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:43:06.790973+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:43:08.443636+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:43:09.540608+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:43:11.029655+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:43:12.695093+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:43:14.417614+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:43:16.260070+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:43:17.544180+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:43:19.355888+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:43:20.986819+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T07:43:22.811480+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T07:43:25.112689+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T07:43:27.147096+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T07:43:29.310829+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T07:43:31.563928+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T07:43:33.386192+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T07:43:35.116074+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T07:43:36.859529+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T07:43:39.119747+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T07:43:40.849756+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T07:43:42.592622+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T07:43:44.148383+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T07:43:46.304735+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T07:43:48.014763+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:43:50.991624+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "7f7bf6eadbabc6f3a6b4c60caed7a41f32b42013ca15250b61fa10d9f2f58922",
+      "byte_count": 28778
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:43:52.076456+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "f6af4c4c9b3e12a506e0f651d91c8d6445e27eee9582f1e7d0cf80bb89bf97f1",
+      "byte_count": 42158
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:43:53.863886+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "73b36da629981bedcef00287f8221fb21914a030f50a6e9ad4972a68fe10a0e4",
+      "byte_count": 80314
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:43:55.358041+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "e30fb2bc1d99cbc1c4edf46fa8a32e043a4a77fc3bde95d50b0f696f1f6f383e",
+      "byte_count": 81984
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:43:57.254211+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "43393789038d567850170c3b14321a673695e2beaaf6f1c91951220f2eebfdcc",
+      "byte_count": 31812
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:43:58.056583+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native minimal MIKIHOUSE product create",
+      "payload_sha256": "cf93c95fa77afd2dddfd31ad52b700486ec53ef8c24c41a233c7c59442fa602e"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T07:44:00.504673+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T07:44:02.126738+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T07:44:03.787954+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T07:44:05.168090+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T07:44:06.453354+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T07:44:08.131629+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T07:44:09.628282+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T07:44:11.452997+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T07:44:12.754576+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T07:44:14.308503+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T07:44:15.994359+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T07:44:18.124454+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T07:44:19.823581+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T07:44:21.371131+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T07:44:23.043177+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T07:44:25.190897+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T07:44:27.340529+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T07:44:29.289243+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T07:44:31.446526+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T07:44:33.223004+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T07:44:35.236691+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T07:44:36.882370+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T07:44:39.033628+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T07:44:40.644297+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T07:44:42.393930+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:45:07.086265+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:45:07.700190+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:45:08.641869+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:45:10.391461+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:45:11.504405+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:45:12.750691+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:45:14.737273+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:45:16.701978+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:45:17.996887+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:45:19.779267+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:45:20.997289+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T07:45:23.372889+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T07:45:24.888275+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T07:45:26.452066+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T07:45:28.100738+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T07:45:30.339545+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T07:45:32.673711+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T07:45:34.314561+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T07:45:36.436503+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T07:45:38.108524+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T07:45:42.920793+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T07:45:44.499451+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T07:45:46.087788+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T07:45:47.732697+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T07:45:49.763552+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T07:45:51.391329+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T07:45:53.463055+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:45:55.072660+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "9dcb850d49af6d17793312ed09a581e0752f1a92e8a9988827d1195e3a15beeb",
+      "byte_count": 51398
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:45:56.449197+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "1c424a99232664bdd5c77964661b1bccb5d0e1cbb9ab5fabb5607a6c387060fb",
+      "byte_count": 32294
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:45:57.731608+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "78607165f9e73b9c53d7d8f9bf599748698766231a1a4029e367a9eebbac23f4",
+      "byte_count": 35480
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:45:59.155181+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "10a7736ba4ef109f1562a5821d8163ebb1c05be6f36380e5a6401f923187bbe6",
+      "byte_count": 48740
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:46:00.461074+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "81317f03223e88c5094e6e1789a5bb86ef1a4af67e6b66f029e9a9c7e3a900c1",
+      "byte_count": 58054
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:46:02.097474+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "7805cecf9cf847035ebcc82a103c7d04ba319e87474a9993462122cc6bb5070e",
+      "byte_count": 73670
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:46:03.702344+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "9372c1a505030c8237b3695632ed2dbdf338dd8bc1ff9cfad5c9b36c590566a1",
+      "byte_count": 45886
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:46:05.341949+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "cecf9fcd9e7ea7b18200c3875aa748f25d045300f86d61e1fbc9c3aa46634e64",
+      "byte_count": 45258
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:46:06.060498+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native staged MIKIHOUSE product update",
+      "payload_sha256": "61ed3f77d82a317002e1e813f674ff452ed21107040519a2e71c9bdfb571544a"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T07:46:08.486001+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T07:46:10.279574+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T07:46:11.485127+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T07:46:12.813006+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T07:46:14.656608+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T07:46:16.266582+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T07:46:17.844830+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T07:46:19.033599+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T07:46:20.245379+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T07:46:22.032695+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T07:46:23.668054+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T07:46:25.708786+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T07:46:27.254953+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T07:46:28.775315+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T07:46:30.347442+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T07:46:31.984249+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T07:46:33.605503+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T07:46:35.196645+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T07:46:37.162725+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T07:46:38.823031+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T07:46:40.421087+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T07:46:42.100680+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T07:46:43.668251+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T07:46:45.584587+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T07:46:47.164565+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:47:02.059569+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:47:02.640486+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:47:02.989709+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:47:04.669810+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:47:05.779189+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:47:07.280966+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:47:08.522871+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:47:10.472208+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:47:11.767785+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:47:12.960003+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:47:14.254202+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T07:47:15.854980+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T07:47:17.633590+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T07:47:19.226066+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T07:47:21.203301+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T07:47:22.778506+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T07:47:24.395255+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T07:47:25.955738+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T07:47:28.180555+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T07:47:29.755439+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T07:47:31.314845+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T07:47:33.693152+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T07:47:36.013155+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T07:47:38.218002+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T07:47:39.900793+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T07:47:41.495180+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T07:47:43.133843+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:47:44.041223+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "9a74c1c25cc8b56128e1c5da009caa287bcd9b94e15c551e888e70649c63154f",
+      "byte_count": 41938
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:47:45.443578+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "09c45d28dd2d088d629f58eb48e363c2121c9e041c3a4f003862d2fe72a87fc2",
+      "byte_count": 34610
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:47:46.513299+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "c1ae69227f037494dec1977c95a647a19ce9b6ce1aa7db1791d439358de23bbd",
+      "byte_count": 51486
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:47:48.048932+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "43dd2905f4470d02d74d44cd2a64e603dd527d209f6a7b6ff1f7e09313adf8db",
+      "byte_count": 50028
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:47:49.750310+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "8cb102a1bf4bb726aadaae500e422650608427071cb6dab978dd0d087dd15026",
+      "byte_count": 36984
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:47:50.844483+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "7cc549fb1c15b4671030bee2a42a60cd4116c123205e993f0a0fc410a62c1ed0",
+      "byte_count": 57984
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:47:52.346525+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "c78bad888ea59e23bcbe83f18b5fd13debb6d6288d221e5a6bb8d4e3b97b7e0c",
+      "byte_count": 40286
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:47:53.883785+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "1cd23263bc60e6f55f9b6f0adac632533dad19839fe20b1ec702ad09e880fdf9",
+      "byte_count": 18576
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:47:54.396910+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native staged MIKIHOUSE product update",
+      "payload_sha256": "454e4de6c8a95a717dfc185c23e141e87f1fac6c863a0ed497d1ade3030cd268"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T07:47:56.923169+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T07:47:59.108458+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T07:48:00.803460+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T07:48:02.485447+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T07:48:03.818339+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T07:48:05.044832+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T07:48:06.377504+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T07:48:07.634809+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T07:48:08.915405+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T07:48:10.522389+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T07:48:12.060782+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T07:48:14.161895+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T07:48:15.954972+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T07:48:17.538003+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T07:48:19.178777+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T07:48:20.815288+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T07:48:23.069427+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T07:48:25.166671+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T07:48:27.163645+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T07:48:28.904734+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T07:48:30.748346+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T07:48:32.330708+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T07:48:33.885803+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T07:48:35.453161+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T07:48:36.976665+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:48:50.600584+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:48:51.270061+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:48:51.730917+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:48:53.378480+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:48:54.546418+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:48:55.736738+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:48:57.374295+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:48:58.808302+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:49:00.022633+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:49:01.365664+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:49:03.311759+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T07:49:05.054986+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T07:49:06.795759+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T07:49:08.434402+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T07:49:10.071504+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T07:49:12.120900+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T07:49:13.925680+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T07:49:15.599977+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T07:49:17.176679+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T07:49:19.388294+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T07:49:21.028540+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T07:49:22.622329+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T07:49:24.271445+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T07:49:26.045737+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T07:49:27.682830+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T07:49:29.423798+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T07:49:31.267379+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T07:51:20.192413+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "e2e7d51b60ce88c34b2367ed2a92cd4edb74cf437b8f40db083ad340b4322bfa"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T07:51:21.863012+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "171d737ebacd9b284611c950621835b2e4f83f413a55bdea3890e1fd08604dcf"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T07:51:23.500952+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "f0c750b8b6aae959fa06c810770ce2be0f912858b3355f42480d8ad7400df2a4"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T07:51:24.720812+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "931da540c4644fd43e46cbbc6a95e463490e0b68d01ad6eab0145b25d0754c5d"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T07:51:26.057572+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "1fb8a96630188b5138dccd2b467441d533bcbb356a2937b6798bd258e92fcca1"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T07:51:27.388854+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "addda373043e9abf409e42fdb9d53b9035d2ca214090b9f2eda23f8f7b044e26"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T07:51:29.311577+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "38689964d4e26390800a4ede6d1bdd86d7a35fad52d1371c05dd6f543a9c6894"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T07:51:30.636080+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "4c89700397b66b55aaff5570589723421d956aa897bc4fc7708c84bc50317080"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T07:51:32.610814+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "c76bf1a4eb6f1d3c985368f0073cbdcfa233a8a1d7faba11e34d00e304d25057"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T07:51:34.776931+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "37e046060368b48d6f48f90240efe1a86a5f3063d820aceb81e004d3cd6c3b74"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T07:51:36.302187+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "88f4b65988133b4fec9da716d2a3b64176d3bb642b56eff9e0f0f497eeec7ac0"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T07:51:37.863348+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "bd410a095f82e1f2fcde3296f14cefd0d18131e19a43ee8df9a30e2300702183"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T07:51:39.436604+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "1084f067de7b1b860a16de1ef25504723868976e6979206a166356659c653416"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T07:51:41.576852+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "9279664e0f2a340e0b9a74b86dc84070805e36f591b510edc04438a762102d08"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T07:51:43.671284+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "9c405895662e1591983786fd38e835da6695b7c6cdd4a8bb0d74dbc46c004acc"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T07:51:45.720391+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 15",
+      "body_sha256": "77e76aed5258b43c5780cbf2f669cc5bc704a691d53c226a6466a73ae84505e8"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T07:51:47.888676+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 16",
+      "body_sha256": "6fc304bda3781d7e14cb40b3caf068215c42b2761fdbbc398963c370fb436a9f"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T07:51:49.481449+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 17",
+      "body_sha256": "ac2969b2a68f10d097aac756c8ff3b1240a80849355fe6db3e2f5863757c2bbb"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T07:51:51.247377+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 18",
+      "body_sha256": "d78d8ab2a8dfb602eeadb1346f4a0a053cae9947bcfcd0ffb8e0877317b20bcf"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T07:51:52.841110+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 19",
+      "body_sha256": "637e8f99e5adf88396940799274d799c12e2a0a514146bb1ee563f424e06befb"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T07:51:54.423140+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 20",
+      "body_sha256": "0eb872b3a780567170e309671fc3dd0757e8f2dd7ade6d9b6d7d4eb223751581"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T07:51:55.976826+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 21",
+      "body_sha256": "ca28b8c7a028721dad6408270dbdffe6fd2cd267f33852e51dcb84aff0c81426"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T07:51:58.111737+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 22",
+      "body_sha256": "20ef5b62d169f58756d0b3bdd168b6176239eab6be552fc4af219a50ecfa37da"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T07:51:59.648630+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 23",
+      "body_sha256": "22b04ffbe713c51e87897e04d060a17816ef8d140aae8dd270df4544d6b7bfb3"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T07:52:01.288391+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "79dbb0fbe87acd963f39429eaea8f0924875569b7140c29dad02ba24b03bd1f7"
+    }
+  ],
+  "stop_reason": {
+    "type": "ContractMismatchError",
+    "message": "image source is not an official HTTPS MIKI HOUSE host: img.mksk.me",
+    "at": "2026-09-04T07:49:31.812035+00:00"
+  },
+  "legacy_reference_touched": false,
+  "bulk_20_generated_or_executed": false
+}

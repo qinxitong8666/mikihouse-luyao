@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T07:19:31.321139+00:00",
-  "status": "PLANNED_NOT_EXECUTED",
+  "generated_at": "2026-09-04T07:53:04.492554+00:00",
+  "status": "PARTIALLY_VALIDATED_FROZEN",
   "prerequisite": "14-SKU independent CREATE probe strongly verified",
   "scope": "future newly authorized MIKIHOUSE products only",
   "create_stage": {
@@ -34,9 +34,44 @@
   "fail_closed": "any mismatch freezes the product; no retry or next product",
   "update_contract_requirement": "must use the repository-audited Shijiu native edit path with separate explicit write authorization",
   "rollback_prerequisite": "persist the complete pre-update getFormatInfo snapshot before every stage",
-  "execution_authorized": false,
-  "update_requests_sent": 0,
+  "execution_authorized": true,
+  "further_execution_authorized": false,
+  "update_requests_sent": 2,
   "legacy_cleanup_executed": false,
   "bulk_20_executed": false,
-  "sensitive_values_included": false
+  "sensitive_values_included": false,
+  "validation_product_number": "10-8375-578",
+  "validation_product_id": "9358250",
+  "validation_stage_count": 9,
+  "verified_stage_keys": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_20"
+  ],
+  "last_verified_success_state": {
+    "stage": "BROADCAST_13_20",
+    "operation": "UPDATE_BROADCAST",
+    "payload_utf8_bytes": 3880,
+    "sku_count": 2,
+    "spec_dimension_count": 2,
+    "broadcast_url_count": 20,
+    "broadcast_characters": 1539,
+    "good_detail_pics_url_count": 0,
+    "good_detail_pics_characters": 0,
+    "good_details_characters": 95,
+    "good_details_utf8_bytes": 139,
+    "good_details_sha256": "6eb75a0b76561f386a406686781febb8c8e56c3115c7c23ad3f99d54fe070d37"
+  },
+  "first_failed_state": {
+    "stage": "BROADCAST_21_27",
+    "operation": "UPDATE_BROADCAST",
+    "planned_broadcast_count": 27,
+    "planned_detail_pic_count": 0,
+    "mutation_request_sent": false,
+    "failure_scope": "LOCAL_SOURCE_HOST_POLICY_BEFORE_DOWNLOAD_UPLOAD_OR_UPDATE",
+    "target_upload_request_sent": false
+  },
+  "continued_after_first_anomaly": false,
+  "automatic_retry_or_rollback": false,
+  "server_hard_limit_proven": false
 }
