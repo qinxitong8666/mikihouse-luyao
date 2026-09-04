@@ -33,9 +33,31 @@
   ],
   "missing_evidence": [
     "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
+    "first MIKIHOUSE create attempt returned code=200/msg=success/data=[] but exposed no product ID and produced no exact MIKI SKU readback match",
     "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
   ],
-  "implementation_consequence": "read-only legacy structure sampling and non-executable mapping previews only; image uploads and every Shijiu mutation are absent",
+  "implementation_consequence": "the separately authorized first-live-batch runner uploaded 12 images and sent one create request, then froze on the missing product identity; no automatic create retry or later product mutation is allowed",
+  "first_live_validation": {
+    "executed_at": "2026-09-04",
+    "authorized_batch_size": 20,
+    "official_images_uploaded": 12,
+    "image_target_host": "cdn0.19mini.com",
+    "product_create_requests": 1,
+    "create_response_code": 200,
+    "create_response_message": "success",
+    "create_response_data_shape": "empty_list",
+    "confirmed_created_products": 0,
+    "verified_product_readbacks": 0,
+    "mapping_bindings_written": 0,
+    "subsequent_product_writes_suppressed": 19,
+    "legacy_cleanup_requests": 0,
+    "status": "STOPPED_ON_FIRST_ERROR",
+    "evidence": [
+      "deliverables/shijiu_import/first_live_batch_report.json",
+      "deliverables/shijiu_import/first_live_batch_forensics.json",
+      "state/shijiu_first_live_batch_checkpoint.json"
+    ]
+  },
   "legacy_boundary": {
     "classification": "legacy_reference_only",
     "expected_product_count": 286,

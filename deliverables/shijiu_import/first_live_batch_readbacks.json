@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T02:10:12.876744+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "status": "STOPPED_ON_FIRST_ERROR",
+  "stop_reason": "create endpoint returned without a product ID and exact MIKI SKU readback found no product",
+  "results": [],
+  "verified_product_count": 0,
+  "verified_sku_count": 0,
+  "all_passed": false
+}

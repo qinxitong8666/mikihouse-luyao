@@ -23,11 +23,13 @@
 - 不采用 `WAWU-*` SKU、瓦屋价格倍率、瓦屋分类、供应商字段值或任何瓦屋字段含义。
 - 不把仓库名、历史任务名或 `MyShop` 类名当作目标身份；目标身份由 `/shijiu` API 根地址和 Shijiu 管理端 Origin/Referer 证明。
 
-## 当前 main 缺失的证据与处理
+## 当前 main 的真实验证证据与边界
 
-参考仓库提交的 `LIVE_001_EVIDENCE.md/json` 明确记录 `BLOCKED_BEFORE_WRITE`、`backend_write_calls=0`。因此当前 main 能证明目标 URL、接口代码、原生 payload 样例、门禁及离线生命周期测试，但**不能证明该提交曾成功完成真实 Shijiu 创建/更新/回滚闭环**。
+参考仓库提交的 `LIVE_001_EVIDENCE.md/json` 明确记录 `BLOCKED_BEFORE_WRITE`、`backend_write_calls=0`，所以它只能证明目标 URL、接口代码、原生 payload 样例、门禁及离线生命周期测试，不能单独证明成功创建闭环。
 
-本轮据此停止所有真实写入实现：不提供 write CLI、不调用上传/创建/编辑/上下架/删除接口、不生成可直接执行的写请求。报告中的 payload 只是字段映射预览；MIKI 官网源 URL 仅保留在上传计划，`master_graph`、轮播、详情图片和 SKU 缩略图只保留待替换的 COS 引用。未来必须先经另行授权的 Shijiu COS 上传并取得目标 URL，全部回填后才可验证 payload。品牌 `brand_id` 也因缺少已证实的 Shijiu 品牌 discovery 契约而保持空值。MIKI 原始品牌会保留在 adapter envelope 与描述字段中供人工复核，但不会猜测品牌 ID。
+本轮用户另行明确授权冻结首批 20 件真实验证后，项目新增独立 fail-closed writer。2026-09-04 实际完成首件 12 张图片上传，目标端均返回 `cdn0.19mini.com` HTTPS URL；随后只发送 1 次 `/shopapi/Goods/newAddGood`，响应为 `code=200, msg=success, data=[]`。该响应没有商品 ID，覆盖上下架/可见状态的精确 MIKI SKU 查询及延迟复核均为 0 条，因此创建结果不能被确认，更无法执行要求的商品/SKU ID 回读闭环。执行器随即冻结 checkpoint：确认创建 0 件、mapping 绑定 0 件、后续 19 件写入 0、legacy cleanup 0。详情见 `deliverables/shijiu_import/first_live_batch_report.json` 和 `first_live_batch_forensics.json`。
+
+这次验证新增了“图片上传链路真实可达且返回目标 URL”的证据，但仍没有“创建成功并可按稳定 MIKI SKU 回读”的证据。不得把 `code=200` 或 `msg=success` 单独解释为创建成功，也不得基于商品名、时间或列表位置猜测 ID。冻结批次禁止自动二次创建。品牌 `brand_id` 仍因没有已证实的品牌 discovery 契约而保持空值。
 
 ## 本轮 Shijiu 只读事实
 

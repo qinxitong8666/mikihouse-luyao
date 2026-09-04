@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T02:12:20+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "POST_STOP_READ_ONLY_FORENSICS",
+  "product_number": "00-1000-028",
+  "backend_sku_code": "MIKI-00-1000-02800899999",
+  "mutating_requests_after_stop": 0,
+  "exact_sku_checks": {
+    "query_field": "good_code",
+    "category_scopes": [294884, "all"],
+    "push_filters": ["all", "0", "1", "2"],
+    "status_filters": ["all", "0", "1", "2"],
+    "nonempty_result_count": 0,
+    "product_id_found": false
+  },
+  "exact_source_name_candidate_forensics": {
+    "purpose": "candidate enumeration only; never an identity binding",
+    "candidate_count": 6,
+    "candidate_detail_reads": 6,
+    "exact_source_name_match_count": 0,
+    "candidate_with_any_miki_sku_count": 0,
+    "candidate_with_exact_expected_sku_set_count": 0,
+    "legacy_business_content_persisted": false,
+    "legacy_identity_reconciliation_attempted": false,
+    "legacy_mapping_bound": false
+  },
+  "conclusion": "The create endpoint returned code=200/msg=success/data=[], but no durable product ID or exact MIKI SKU identity could be observed. Creation is therefore unconfirmed and the batch remains stopped. No retry or second create is authorized.",
+  "rollback": "No product rollback was attempted because no product ID or exact MIKI SKU identity was confirmed. The 12 uploaded COS images are retained as checkpointed assets.",
+  "passed": false
+}

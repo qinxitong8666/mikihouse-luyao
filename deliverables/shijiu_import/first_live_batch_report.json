@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T02:10:12.876563+00:00",
+  "mode": "REAL_WRITE_VALIDATION",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "status": "STOPPED_ON_FIRST_ERROR",
+  "stop_reason": {
+    "type": "ContractMismatchError",
+    "message": "create endpoint returned but neither response nor exact target lookup exposed a product ID",
+    "at": "2026-09-04T02:10:12.873264+00:00"
+  },
+  "requested_product_count": 20,
+  "verified_product_count": 0,
+  "remaining_product_count": 20,
+  "state_counts": {
+    "PLANNED": 19,
+    "STOPPED_ON_ERROR": 1
+  },
+  "fixed_target_category_id": 294884,
+  "default_visibility": "OFF_SHELF_INVISIBLE",
+  "uploaded_official_image_count": 12,
+  "uploaded_image_target_hosts": [
+    "cdn0.19mini.com"
+  ],
+  "created_product_ids": [],
+  "confirmed_created_product_count": 0,
+  "batch_mapping_bindings_written": {
+    "products": 0,
+    "skus": 0
+  },
+  "create_endpoint_response": {
+    "code": 200,
+    "msg": "success",
+    "data_shape": "empty_list",
+    "product_id_exposed": false,
+    "creation_confirmed_by_exact_sku_readback": false
+  },
+  "verified_sku_count": 0,
+  "price_source": "mini_program_price_jpy",
+  "currency": "JPY",
+  "currency_conversion_applied": false,
+  "special_exclusion_count": 351,
+  "special_excluded_reason": "PDF_SPECIAL_LIST",
+  "special_product_in_batch_count": 0,
+  "legacy_reference_touched": false,
+  "legacy_cleanup_executed": false,
+  "rollback": {
+    "executed": false,
+    "status": "NOT_EXECUTABLE_WITHOUT_CONFIRMED_PRODUCT_ID",
+    "product_mutations": 0,
+    "uploaded_images_retained": 12
+  },
+  "subsequent_product_writes_suppressed": 19,
+  "post_stop_read_only_forensics": "deliverables/shijiu_import/first_live_batch_forensics.json",
+  "request_counts": {
+    "total": 114,
+    "read": 101,
+    "write": 13,
+    "image_upload": 12,
+    "product_create": 1,
+    "legacy_cleanup": 0
+  },
+  "fail_closed": true,
+  "resume_checkpoint": "state/shijiu_first_live_batch_checkpoint.json",
+  "mapping_state": "state/shijiu_mappings.json",
+  "readback_results": "deliverables/shijiu_import/first_live_batch_readbacks.json",
+  "product_results": [
+    {
+      "product_number": "00-1000-028",
+      "classification": "baby",
+      "state": "STOPPED_ON_ERROR",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 12,
+      "error": {
+        "type": "ContractMismatchError",
+        "message": "create endpoint returned but neither response nor exact target lookup exposed a product ID",
+        "at": "2026-09-04T02:10:12.873243+00:00"
+      }
+    },
+    {
+      "product_number": "00-1000-035",
+      "classification": "baby",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "00-4000-054",
+      "classification": "baby",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "00-4000-055",
+      "classification": "baby",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "00-4000-057",
+      "classification": "baby",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-1711-494",
+      "classification": "apparel",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-1821-575",
+      "classification": "apparel",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-1823-496",
+      "classification": "apparel",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-1828-682",
+      "classification": "apparel",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-1829-685",
+      "classification": "apparel",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-8107-492",
+      "classification": "goods",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-8109-498",
+      "classification": "goods",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-8110-498",
+      "classification": "goods",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-8111-491",
+      "classification": "goods",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-8112-494",
+      "classification": "goods",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-9305-497",
+      "classification": "footwear",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-9306-490",
+      "classification": "footwear",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-9327-145",
+      "classification": "footwear",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-9328-148",
+      "classification": "footwear",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    },
+    {
+      "product_number": "10-9329-141",
+      "classification": "footwear",
+      "state": "PLANNED",
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "error": null
+    }
+  ]
+}

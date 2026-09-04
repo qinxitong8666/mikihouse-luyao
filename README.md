@@ -234,4 +234,34 @@ Shijiu `MikiHouse` 类目中既有的 286 件商品统一定义为 `legacy_refer
 
 完整字段预览、增量操作、checkpoint 和 Shijiu 只读快照写入 `output/shijiu-import/`；可追踪的精简动作、增量摘要、review required、跨鞋类/服装/婴儿用品/杂货各 5 件的 20 个完整 payload、legacy 结构审计、cleanup 草案、351 排除清单、价格校验、映射表和契约审计写入 `deliverables/shijiu_import/`。
 
-payload 是不可执行预览：官网图片 URL 只保留在 `source_content` 和 `image_upload_plan` 中，正式 `master_graph`、`broadcast`、`good_detail_pics`、`sku_thumbnail` 只放 `SHIJIU_COS_URL` 占位引用。未来必须先逐图调用已确认的 `/v1/cos/upload`，拿到全部 Shijiu/COS URL 并替换占位符后才允许进入写入验证。详情 HTML 由当前 MIKI HOUSE 商品名、品番、品牌、描述、颜色、尺码和详情图片引用生成，绝不复制 legacy 商品内容。缺少官网图片的 7 件商品继续 `SKIP`，不使用其他商品图片替代。当前 adapter 即使设置写入环境变量也会拒绝运行。
+dry-run payload 本身仍不可执行：官网图片 URL 只保留在 `source_content` 和 `image_upload_plan` 中，`master_graph`、`broadcast`、`good_detail_pics`、`sku_thumbnail` 是 `SHIJIU_COS_URL` 占位引用。详情 HTML 由当前 MIKI HOUSE 商品名、品番、品牌、描述、颜色、尺码和详情图片引用生成，绝不复制 legacy 商品内容。缺少官网图片的 7 件商品继续 `SKIP`，不使用其他商品图片替代。
+
+## Shijiu 首批真实导入验证
+
+`scripts/import_shijiu_first_batch.py` 是与只读 planner 分离的、仅用于冻结首批 20 件商品的 fail-closed 写执行器。批次固定在 `config/shijiu_first_live_batch.json`，包含鞋类、服装、婴儿用品和杂货各 5 件，共 176 个 variant、533 张有序官方图片。执行器具有以下硬门禁：
+
+- 在任何目标请求前重新校验 351 个 `PDF_SPECIAL_LIST` 排除项，命中即失败；
+- 固定 `source=MIKIHOUSE`、`good_type=294884`，不读取、绑定、更新或下架 legacy 286；
+- 每件商品先逐图上传 `/v1/cos/upload`，所有占位引用替换为 Shijiu/COS HTTPS URL 后才创建；
+- 强制 `state=0`、`is_shelf=0`，首批商品默认下架/不可见；
+- 每个上传和创建请求前写 checkpoint；已完成上传可以恢复，结果不明的上传或创建禁止自动重试；
+- 创建后必须回读并验证商品 ID、SKU ID、类目、价格、库存、规格、主图、轮播和详情；验证通过后才原子更新 `state/shijiu_mappings.json`；
+- 首个传输、字段或回读偏差立即停止整个批次，后续商品不会写入。
+
+真实运行要求显式提供独立的目标端凭据文件和固定确认短语：
+
+```bash
+PYTHONPATH=src python scripts/import_shijiu_first_batch.py \
+  --target-env-file /absolute/path/to/shijiu.env \
+  --confirm MIKIHOUSE_FIRST_20_REAL_IMPORT
+```
+
+2026-09-04 的首次执行已按 fail-closed 规则停止：首件 `00-1000-028` 的 12 张官网图成功上传到 Shijiu/COS，但创建接口返回 `code=200, msg=success, data=[]`，既未返回商品 ID，延迟后覆盖上下架过滤的精确 `MIKI-00-1000-02800899999` 查询也仍为 0 条。因而不能证明商品实际创建，未做任何 ID 猜测或 mapping 绑定，后续 19 件的上传和创建均未执行，legacy cleanup 也未执行。由于没有可确认的商品 ID，也没有执行商品回滚；12 张 COS 图片作为已完成断点保留。冻结 checkpoint 禁止自动二次创建；再次运行会直接拒绝，必须先由人工确认目标接口为何返回空 ID，并另行授权如何处置。
+
+真实写入事实见：
+
+- `deliverables/shijiu_import/first_live_batch_report.json`：写请求数量、图片上传、停止原因和逐商品状态；
+- `deliverables/shijiu_import/first_live_batch_readbacks.json`：已完成的强校验回读（本次为 0）；
+- `deliverables/shijiu_import/first_live_batch_forensics.json`：停止后的只读取证；
+- `state/shijiu_first_live_batch_checkpoint.json`：逐图片/逐商品断点与创建响应；
+- `deliverables/shijiu_import/preflight_attempt_001_report.json`：首次使用错误分类 discovery 路径时的零写入预检记录，随后已改为仓库原先验证成功的 `Goodtype/typeindex`。
