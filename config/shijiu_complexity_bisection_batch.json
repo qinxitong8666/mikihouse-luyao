@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:36:30.063490+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "COMPLEXITY_BISECTION_2_REAL_IMPORT_VALIDATION",
+  "selection_policy": "probe 1: unique name then maximum image/detail scale among 2-4 variants; probe 2: minimum image/detail scale among 12-24 variants",
+  "execution_order_is_binding": true,
+  "second_requires_first_strong_readback_and_mapping": true,
+  "fixed_target_category_id": 294884,
+  "pdf_special_exclusion_count": 351,
+  "hard_prohibited_products": [
+    "00-1000-028",
+    "00-4000-054",
+    "10-1829-685",
+    "10-8223-684",
+    "10-8227-686",
+    "13-9310-490",
+    "17-1366-244",
+    "36-2001-572"
+  ],
+  "original_complex_batch_frozen": true,
+  "eligible_pool_count": 2600,
+  "products": [
+    {
+      "sequence": 1,
+      "role": "IMAGE_DETAIL_SCALE_2_TO_4_VARIANTS",
+      "product_number": "00-4000-057",
+      "good_name": "【WEB限定】マイクロファーフード・ブーティ【BOX付き】",
+      "name_unique_in_source": true,
+      "variant_count": 4,
+      "available_variant_count": 4,
+      "color_count": 4,
+      "size_count": 1,
+      "image_count": 74,
+      "gallery_or_detail_image_count": 70,
+      "detail_image_count": 70,
+      "good_details_character_count": 7805,
+      "payload_sha256": "3a42e225bdfd41db571923471038fc2ac136e0c39e2a19db33c40f4d72c9a19a"
+    },
+    {
+      "sequence": 2,
+      "role": "SKU_SCALE_12_TO_24_VARIANTS",
+      "product_number": "63-6602-492",
+      "good_name": "セーター",
+      "name_unique_in_source": false,
+      "variant_count": 14,
+      "available_variant_count": 14,
+      "color_count": 2,
+      "size_count": 7,
+      "image_count": 6,
+      "gallery_or_detail_image_count": 4,
+      "detail_image_count": 4,
+      "good_details_character_count": 610,
+      "payload_sha256": "cea8092f83b7b76323ddf8d70c7bf7e1f4a79a28dd7ec64b5cb1ea93835af853"
+    }
+  ],
+  "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+}

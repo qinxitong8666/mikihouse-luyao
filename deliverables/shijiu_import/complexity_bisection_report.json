@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:49:14.506994+00:00",
+  "mode": "COMPLEXITY_BISECTION_2_REAL_IMPORT_VALIDATION",
+  "status": "STOPPED_ON_FIRST_ERROR",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "requested_product_count": 2,
+  "verified_product_count": 0,
+  "complex_validation_all_passed": false,
+  "fixed_target_category_id": 294884,
+  "price_source": "mini_program_price_jpy=ceil(tax_included_price_jpy*0.65)",
+  "currency": "JPY",
+  "currency_conversion_applied": false,
+  "default_visibility": "state=1,is_shelf=0",
+  "selection": {
+    "schema_version": 1,
+    "generated_at": "2026-09-04T06:36:30.063490+00:00",
+    "source": "MIKIHOUSE",
+    "target": "SHIJIU",
+    "mode": "COMPLEXITY_BISECTION_2_REAL_IMPORT_VALIDATION",
+    "selection_policy": "probe 1: unique name then maximum image/detail scale among 2-4 variants; probe 2: minimum image/detail scale among 12-24 variants",
+    "execution_order_is_binding": true,
+    "second_requires_first_strong_readback_and_mapping": true,
+    "fixed_target_category_id": 294884,
+    "pdf_special_exclusion_count": 351,
+    "hard_prohibited_products": [
+      "00-1000-028",
+      "00-4000-054",
+      "10-1829-685",
+      "10-8223-684",
+      "10-8227-686",
+      "13-9310-490",
+      "17-1366-244",
+      "36-2001-572"
+    ],
+    "original_complex_batch_frozen": true,
+    "eligible_pool_count": 2600,
+    "products": [
+      {
+        "sequence": 1,
+        "role": "IMAGE_DETAIL_SCALE_2_TO_4_VARIANTS",
+        "product_number": "00-4000-057",
+        "good_name": "【WEB限定】マイクロファーフード・ブーティ【BOX付き】",
+        "name_unique_in_source": true,
+        "variant_count": 4,
+        "available_variant_count": 4,
+        "color_count": 4,
+        "size_count": 1,
+        "image_count": 74,
+        "gallery_or_detail_image_count": 70,
+        "detail_image_count": 70,
+        "good_details_character_count": 7805,
+        "payload_sha256": "3a42e225bdfd41db571923471038fc2ac136e0c39e2a19db33c40f4d72c9a19a"
+      },
+      {
+        "sequence": 2,
+        "role": "SKU_SCALE_12_TO_24_VARIANTS",
+        "product_number": "63-6602-492",
+        "good_name": "セーター",
+        "name_unique_in_source": false,
+        "variant_count": 14,
+        "available_variant_count": 14,
+        "color_count": 2,
+        "size_count": 7,
+        "image_count": 6,
+        "gallery_or_detail_image_count": 4,
+        "detail_image_count": 4,
+        "good_details_character_count": 610,
+        "payload_sha256": "cea8092f83b7b76323ddf8d70c7bf7e1f4a79a28dd7ec64b5cb1ea93835af853"
+      }
+    ],
+    "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+  },
+  "ui_context_contract": {
+    "method": "POST",
+    "endpoint": {
+      "scheme": "https",
+      "host": "api.wfcorp.cn",
+      "path": "/shijiu/shopapi/Goods/index"
+    },
+    "header_names": [
+      "accept",
+      "content-type",
+      "origin",
+      "referer",
+      "sec-ch-ua",
+      "sec-ch-ua-mobile",
+      "sec-ch-ua-platform",
+      "user-agent"
+    ],
+    "form_field_names_in_order": [
+      "secret",
+      "page",
+      "good_type",
+      "father_type",
+      "recommend",
+      "good_name",
+      "good_code",
+      "push",
+      "status",
+      "update_start_time",
+      "update_end_time",
+      "create_start_time",
+      "create_end_time",
+      "page_size",
+      "group_id"
+    ],
+    "filter_context": {
+      "page": "1",
+      "good_type": "",
+      "father_type": "",
+      "recommend": "2",
+      "good_name": "",
+      "good_code": "",
+      "push": "2",
+      "status": "",
+      "update_start_time": "",
+      "update_end_time": "",
+      "create_start_time": "",
+      "create_end_time": "",
+      "page_size": "10",
+      "group_id": ""
+    },
+    "query_token_present": true,
+    "body_secret_present": true,
+    "credential_values_persisted": false,
+    "private_evidence_sha256": "e4ee2045ef238f61480d45ac73cc113e5291acb125128084f18318ef3d5e78ac",
+    "canonical_create_evidence_sha256": "b6796ebec303c116bbebbd6146efb6c51289877e3b9f831f5bc5c65be610fa9f"
+  },
+  "identity_policy": "UI-context Goods.index exact good_name -> unique product_id after full getFormatInfo verification of every backend sku_code",
+  "variant_identity_policy": "shijiu_product_id + exact backend_sku_code",
+  "shijiu_sku_id_policy": "null when no documented official field is available; never guessed",
+  "official_source_image_urls_in_formal_payload": false,
+  "uploaded_official_image_count": 74,
+  "verified_sku_count": 0,
+  "created_product_ids": [],
+  "mapping_persisted_product_count": 0,
+  "request_counts": {
+    "read": 61,
+    "write": 75,
+    "image_upload": 74,
+    "product_create": 1,
+    "update": 0,
+    "legacy_cleanup": 0
+  },
+  "fail_closed": true,
+  "stop_reason": {
+    "type": "UiStrongReadbackError",
+    "message": "UI-context exact good_name -> getFormatInfo produced 0 full matches",
+    "at": "2026-09-04T06:40:32.846768+00:00"
+  },
+  "product_results": [
+    {
+      "product_number": "00-4000-057",
+      "state": "STOPPED_ON_ERROR",
+      "create_attempts": 1,
+      "create_response_summary": {
+        "code": 200,
+        "msg": "success",
+        "data_shape": "empty_list"
+      },
+      "shijiu_product_id": null,
+      "uploaded_image_count": 74,
+      "verified_sku_count": 0,
+      "mapping_persisted": false,
+      "post_stop_delayed_ui_reconciliation": {
+        "at": "2026-09-04T06:43:22.186488+00:00",
+        "status": "NO_UNIQUE_FULL_MATCH",
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "【WEB限定】マイクロファーフード・ブーティ【BOX付き】",
+        "candidate_product_ids": [],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 6,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": []
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 183,
+            "page_size": 10,
+            "pages_read": 19,
+            "exact_match_product_ids": []
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [],
+        "verified_product_ids": [],
+        "good_code_role": "not_used_for_primary_or_binding",
+        "target_mutations": 0
+      },
+      "error": {
+        "type": "UiStrongReadbackError",
+        "message": "UI-context exact good_name -> getFormatInfo produced 0 full matches",
+        "at": "2026-09-04T06:40:32.846761+00:00"
+      }
+    },
+    {
+      "product_number": "63-6602-492",
+      "state": "PLANNED",
+      "create_attempts": 0,
+      "create_response_summary": null,
+      "shijiu_product_id": null,
+      "uploaded_image_count": 0,
+      "verified_sku_count": 0,
+      "mapping_persisted": false,
+      "post_stop_delayed_ui_reconciliation": null,
+      "error": null
+    }
+  ],
+  "pdf_special_exclusion_count": 351,
+  "pdf_special_product_selected": false,
+  "legacy_reference_touched": false,
+  "legacy_cleanup_executed": false,
+  "next_20_executed": false,
+  "next_20_plan_generated": false,
+  "sensitive_values_included": false
+}

@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:49:14.500977+00:00",
+  "source": "MIKIHOUSE",
+  "product_number": "13-9310-490",
+  "asset_count": 42,
+  "state": "REUSABLE_ORPHAN_ASSETS_RETAINED",
+  "retry_product_create_allowed": false,
+  "delete_allowed": false,
+  "reupload_allowed_in_this_batch": false,
+  "reuse_scope": "future separately authorized reconciliation for the same product only",
+  "source_checkpoint_sha256": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+  "assets": [
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:001",
+      "order": 1,
+      "role": "main",
+      "source_url_sha256": "a760844c077277bcbd6be7d12a7f0722efdb1ec315da2f6cb01ed261af50e0de",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0e06b09ab41aedd902941a5bf7a3a434.jpg",
+      "target_url_sha256": "ae0cbca03b6871bb05cdbe280048f5b371f5e240e7b9d2e478207f6a0892817c",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:002",
+      "order": 2,
+      "role": "product_gallery",
+      "source_url_sha256": "83f9b5fec0d372e63c83fb5aca6d2e4e729a91d58a22ddb0eedeb6bad662efb8",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/075c5edf666b6310d99963fc0f9896bb.jpg",
+      "target_url_sha256": "97b042ec90570146a736808c9f5609b12f4f2f994e22cbbce6e98e886fc80d1e",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:003",
+      "order": 3,
+      "role": "product_gallery",
+      "source_url_sha256": "13fc72ffa749c959357c80640f600917ec9dd8988f6e54343de6d9e53a2e7f51",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/11370103cd13655641504c3f605a3f11.jpg",
+      "target_url_sha256": "1a058de903165a4511a6f77d50bd3f6e2857d7861055b5b4470fb6b4467e1dd3",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:004",
+      "order": 4,
+      "role": "product_gallery",
+      "source_url_sha256": "8d97e8d2c5e09018f01e5fa1d6af6b4c0c276d43eda7ae9808f19d0f532a9b9b",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/a4511bacedef0f44c01e9ddf327d1aae.jpg",
+      "target_url_sha256": "f49c949d011ef7703caf97fc6af7822b154975f2147c66e8f10fe1bc787641f7",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:005",
+      "order": 5,
+      "role": "product_gallery",
+      "source_url_sha256": "092cc1563b19578c7d1b325c24ef3ca632a6b21cf5758d0e357b4d2cf4ca7fe5",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/bb1eb3e51efe3f14bc3024ace30be041.jpg",
+      "target_url_sha256": "aca9d60543032953b77ce96b0bd615b8cde9437a32ffeb7b59cdb588b1cee890",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:006",
+      "order": 6,
+      "role": "product_gallery",
+      "source_url_sha256": "12a519e8690d7b574e03243b906a97a59da91055c618375019d157a4a3d7911d",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/b760b9b039c9f63f4ecbd6d8a9d44acd.jpg",
+      "target_url_sha256": "a9a6a5c2c90a36dcd8d20fe35188a0cfa0033f9512926d760e714c6a19a87e76",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:007",
+      "order": 7,
+      "role": "product_gallery",
+      "source_url_sha256": "ba68b1008a90d2c66636923b5e57c324fd1ffd8f5974fe388c5386ce8dd0cc7c",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/255798e7ae8ef9189a07542d9268cc6e.jpg",
+      "target_url_sha256": "a1aead6080ec68ad6fb2b484d31369b4385e44df843725001aa6b0f313a9db8c",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:008",
+      "order": 8,
+      "role": "product_gallery",
+      "source_url_sha256": "212aacfa8a2eed5c5d1b3c48736857f5c4e3c40a7bec612a114dec50ca94a0da",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/c4e8c68ca03c13118078c91b5bb8d53b.jpg",
+      "target_url_sha256": "047eeb5553b541f41c28d638e64aa894ae9ce1d3750f0418900209e95b871dd1",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:009",
+      "order": 9,
+      "role": "product_gallery",
+      "source_url_sha256": "18a994af70f93bfb566d7b1fb77d1f3eee24123baca9c837f262541490e3ff2b",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/473d368d6ad1646b8867d51b2b86285e.jpg",
+      "target_url_sha256": "e53dfb926988a45bdb2450d138186555e05fca1e1c9c979aa4e46a4e37814260",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:010",
+      "order": 10,
+      "role": "product_gallery",
+      "source_url_sha256": "b715118e0de3429a9e0d8ead6d078a233f71f73138279688b237e8b773ab2bbb",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0676571e5ced0df13b3f8bfe13bccddc.jpg",
+      "target_url_sha256": "dffd00add30d5a3f8ea9d219186a457f91d036c2d742ec9b03e115a6e415e095",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:011",
+      "order": 11,
+      "role": "product_gallery",
+      "source_url_sha256": "9621177248ec21ec0b77b6279c1d8428b190e8b47ec654421ff01408dcf321bf",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/74503864cff9e9e9c24ec0b9f8ce3984.jpg",
+      "target_url_sha256": "823bdc27e2dcb495951c3dde7f3754867b22c4677efe110f753df28fb3d8e860",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:012",
+      "order": 12,
+      "role": "product_gallery",
+      "source_url_sha256": "e1719d90e3337e63853a1ea3656d836b48982888f84cdfb508f5dcc2ef7411b0",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/031398c7b0829d53ac11997662060763.jpg",
+      "target_url_sha256": "a688aa8cfe29e1dc5fdb609f544f2ce8192e8827fb5fb06caf1e825275db41a8",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:013",
+      "order": 13,
+      "role": "product_gallery",
+      "source_url_sha256": "7b31c626d53538cd1929f5dccc9e8c942b86c9ed482bdb83531697ae3018d2a3",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/e3a148e66b0bc77fa7553642bc078f12.jpg",
+      "target_url_sha256": "b6e94ee44308648d1c0ea06f49bb23eba76c6a2cdb1dcb5c96c2c529446f7d7f",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:014",
+      "order": 14,
+      "role": "product_gallery",
+      "source_url_sha256": "8cac76b1ffe422bc5b4acd7997a963408e485a2620f884b14e808dd2f37870cc",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/d77e373a628085a0648d5f1a8649f797.jpg",
+      "target_url_sha256": "b5ff57a357fbe0528a2ee25b5cfe6ae686b048b93e2740c1469e0661e9512b78",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:015",
+      "order": 15,
+      "role": "product_gallery",
+      "source_url_sha256": "d8cecc1371e67b60adde4359579a5491f5bac9e8fe4e88686ce56b8031ccb1d5",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/4c8a4bc7cd01d4bc89938b14dd242368.jpg",
+      "target_url_sha256": "5c996fbe1bc8e6b39cd46ceb00515d0b6351990af3eeb3be349782f0dce6d710",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:016",
+      "order": 16,
+      "role": "product_gallery",
+      "source_url_sha256": "8720078b573aac153adaf9a64364140ed7e0c8b9ff6db64cc49345363bd41005",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/1c52ae2ace6f9900b6327ab552cfd82f.jpg",
+      "target_url_sha256": "54084b13a78574341540f9520ed2635f69593ebc212ec0d974a07931d0185d66",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:017",
+      "order": 17,
+      "role": "product_gallery",
+      "source_url_sha256": "c2b35e00a8dea5c6e23c9888396897c00e420e6f6d4d93dafc55625e2d9b0568",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/8237ede7c230288460c6b1af87ea0e9e.jpg",
+      "target_url_sha256": "4aeefb3d302fcdbb7faaf9bebffe8a68d58661da5fb009bf6f623b04e5b1e75e",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:018",
+      "order": 18,
+      "role": "product_gallery",
+      "source_url_sha256": "1f856b298b44d8f2a24ea618f450af016a7734bd587efc8198c13fcd816ce464",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/bae6bd5d7553722e04bf2c4eb6b19423.jpg",
+      "target_url_sha256": "02a184dceff76631ffa4ec205a78cf61b18ba69ca52bc5767e1343dbf5b0ebf5",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:019",
+      "order": 19,
+      "role": "product_gallery",
+      "source_url_sha256": "dc69d9a859d2f18c2eb3730dd2ec69a1a83582ac3f5a447cb4cc9482fa76b470",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/1055d5b13725c0c2bd359781e2d342ae.jpg",
+      "target_url_sha256": "d0168f6af7495ec699d04478b34722ee5f6a7795edf16ff657ec41e5f8f7a2fc",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:020",
+      "order": 20,
+      "role": "product_gallery",
+      "source_url_sha256": "b2e399f6211af35a5e27c51d53c41131136538e6642c2ef2e75bc3960efa57ab",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/33bdd554c3f327eef4182dcc5fe4c140.jpg",
+      "target_url_sha256": "0201da69b588d972242ffc51677d91ea355b0e46586c62eeb57879d3e717c96a",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:021",
+      "order": 21,
+      "role": "product_gallery",
+      "source_url_sha256": "db676b6f17431f8dcd005932feaffbcb77292c8ab3622aabbb73b2036eb7a5cc",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0e1b93ec40491a68657122dc0aa759f7.jpg",
+      "target_url_sha256": "0114ecf6f85d694c21aac8810e0d164108454c0828b1007a47f9ea0a819dc1f1",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:022",
+      "order": 22,
+      "role": "product_gallery",
+      "source_url_sha256": "ab3d8c9d91e232ab14a9c5b28c667c7e81ecae9123811c389bf990916efb7dd5",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/15fd0b7d77860640a1f11215c4d6b7e3.jpg",
+      "target_url_sha256": "fa14716e2bfcaea5aa67be95702a9bbbe63afe2f704b7c6c6ac181025dad9fea",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:023",
+      "order": 23,
+      "role": "product_gallery",
+      "source_url_sha256": "1b6ed89f55186a32c4a3afbf1785e622b1e63aceb0ddcc07034e9abbf49ab71b",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/827ed43fbbd0473157f59985bfa8c053.jpg",
+      "target_url_sha256": "0b608f0eef9b0e7a4eadb567fa31a5e1460e6c99b8e1292f1f7fc14e5423d970",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:024",
+      "order": 24,
+      "role": "product_gallery",
+      "source_url_sha256": "3f3096033317637e654da0bd22bd2d8ec199524a53ef39e12fa5e386c99f14dc",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/de93d2b555fa7ec868216cdea8d46ce2.jpg",
+      "target_url_sha256": "48004024ec535d60e37318d659ff6e36f2dc68f32c35e4165b81f3364aa45d40",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:025",
+      "order": 25,
+      "role": "product_gallery",
+      "source_url_sha256": "c8fbd546004147fec2042a76ac19c689a2e989c4787e691307059101a4df5b3f",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/2be927994d2f10df819f6dabca7de0bc.jpg",
+      "target_url_sha256": "40f8a8c88d3f222dc6e51180fe49ed95b5102b81139133c41f4b90501c60dc27",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:026",
+      "order": 26,
+      "role": "product_gallery",
+      "source_url_sha256": "e32eace789d0ee96722cefd3b238dea40f7c84b91265454cc7e734291a305640",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/2e2d547e9ef8712c729dadcd7e78ceae.jpg",
+      "target_url_sha256": "5ff61155fb4dceea36a56484cbbbffff177045d79dfd6324e27b360bb0b71bf7",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:027",
+      "order": 27,
+      "role": "product_gallery",
+      "source_url_sha256": "fd61e97931707eb3146530bd3b0c1cd713b71dcf45c9e4901d12a5769a3ef44a",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/599a8d5c8f5d12e1f0d5aadabf9cdc0b.jpg",
+      "target_url_sha256": "232c99aff484469c4a5f8f9120c5db4fc443e43904abb39c7ef50a77fd33f2c6",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:028",
+      "order": 28,
+      "role": "product_gallery",
+      "source_url_sha256": "94e85f71afb9e3952c983fc5a4f580e1d7b0f327580e1f2665049c2de77172e6",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/978cd0072222bb8d558fbc42215649e5.jpg",
+      "target_url_sha256": "ed84ad8a97800005b886f4551986de96de82eea529c113b4b1f379ce2951ac27",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:029",
+      "order": 29,
+      "role": "product_gallery",
+      "source_url_sha256": "661577c80bf7dd4e792f517253f006e5933c3739bad0f7c4b340ca7641d3d6e1",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/cc3dd8d5a5d583c9c613219d46e7f9e7.jpg",
+      "target_url_sha256": "4108f945d1f278bb9a4f4c0dfcf2a7cf3d0a7b6e47643085b8b9893397617b46",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:030",
+      "order": 30,
+      "role": "product_gallery",
+      "source_url_sha256": "a36071b2b51f15fc51276d616c5c9363f10d0de65ab922dca9b12b008ba33ca9",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/3e98a728961be73b65d9bb009d8c6090.jpg",
+      "target_url_sha256": "d18e1a5c59b083fd5a03b0c989896188e501a226d20b1326bc0ae5a21eb45dc0",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:031",
+      "order": 31,
+      "role": "product_gallery",
+      "source_url_sha256": "2ecc541265960bcd81536da03866f6ab2a270c3df2190db56ce1bfcb6d1635f8",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/7debc1865062990bbbcf3cf8abb29b68.jpg",
+      "target_url_sha256": "453c7c1982aa02bbe6e1cc51a19b8c6e418b2bd896ab00c61a12cf69a6449899",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:032",
+      "order": 32,
+      "role": "product_gallery",
+      "source_url_sha256": "9710dbb6c7682d23d2de209ac65a8900e537d373cfa54ac0ae129cf19875b0ae",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/5c262d5454e50dac33afadc7656fcd90.jpg",
+      "target_url_sha256": "de7f164132fa3e30507ae454a6b49d4f0fa0f7f097d824fcaa1b1941a8be4762",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:033",
+      "order": 33,
+      "role": "product_gallery",
+      "source_url_sha256": "46ad5007db8106702176e2c4dc648578db079200f673b1968cb998780983d46e",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/708137dce03723b22e2733d3ead6a6cc.jpg",
+      "target_url_sha256": "d34b2b48acddd5b5fb313bf63f7e6a2482c909f74e53aad7e8ae090889d5b305",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:034",
+      "order": 34,
+      "role": "product_gallery",
+      "source_url_sha256": "e6bec0f65e9a0e1be406bcd716b1f689d34bfc3bc6d56154cb763bc8f86bded9",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/d475d5fc190e54caef4b7bdd04d523d0.jpg",
+      "target_url_sha256": "9d5d75ef2e756a0bf748e6875288e20ff00195904c38f0262240f7769317f72c",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:035",
+      "order": 35,
+      "role": "product_gallery",
+      "source_url_sha256": "b30f7afed81f65ded4c99c746bdeb381c853e19d025b688dafc21d964afbdd8d",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0f35367e7edbe2ae27cd4aff172bda1f.jpg",
+      "target_url_sha256": "aee2cf2630f7c507e28796a9246fcb625ad6486905bb841bc5cee477b4dffa7e",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:036",
+      "order": 36,
+      "role": "product_gallery",
+      "source_url_sha256": "25bfd24eed2f13c69eb9d3c73867ca34cb561e905424c02336c20ffd79365243",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/885a6cabfea4a04a09a9bb317efc2c56.jpg",
+      "target_url_sha256": "a030e09ba717d261969beb7e3a257a57e1785fdd95374135202afb07155b83c5",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:037",
+      "order": 37,
+      "role": "product_gallery",
+      "source_url_sha256": "8b965b0ea7c6c1b4c68fa8c600d38046e5c07552e3609fb6e085ccd8e539e498",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/d0c138d569b4466f0525f1c6aa9e033c.jpg",
+      "target_url_sha256": "13dda28bf045d3c5a3a81ed74db2db00d3c6b572d254d4d36b757064b13ef42a",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:038",
+      "order": 38,
+      "role": "product_gallery",
+      "source_url_sha256": "04aad62d730d2f1ebff38e85684b06ebed69c94ad912a2675bcab6dc70b03877",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/537bb21fb38113300aea12a09d849293.jpg",
+      "target_url_sha256": "04530dce84c71a4a57a773b7b29bc0a83e8ac60869819f8a70b63f5a6f2f1741",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:039",
+      "order": 39,
+      "role": "product_gallery",
+      "source_url_sha256": "a087a285c6953a0c2d4a67331750ea49b1ee8e827d38c573d398263d33f921c2",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/c5db113c9d0c233812e5b8138ebf7cba.jpg",
+      "target_url_sha256": "2c8d485ffec0697ad1b2a8b45aa6fe64bbc32ed031a0bf38c2d6ccf00a07586f",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:040",
+      "order": 40,
+      "role": "variant_color",
+      "source_url_sha256": "0bc87dc1ba69569c7740442528803cacf2620ebfe6e5a274bea2539ebb830b0b",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/503e777a00c986eec55a5d4a1deb60b4.jpg",
+      "target_url_sha256": "52217e65edceb0316ed8497fbb52e4344756342358bda9f5152e4a63b68971c1",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:041",
+      "order": 41,
+      "role": "variant_color",
+      "source_url_sha256": "8fc4c154542d120f585295fb49d920945b32f01158251903bdf370028d471e56",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/a70bcc033f7a41fee3481747a0161dbc.jpg",
+      "target_url_sha256": "83b79c30bbdcef8675bedb2e8166478c0c1818cd66aba36a293ea4469d15be3f",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    },
+    {
+      "upload_reference": "MIKIHOUSE:13-9310-490:IMAGE:042",
+      "order": 42,
+      "role": "variant_color",
+      "source_url_sha256": "e4bd563ce8a791d8e55643ee2bbcfb30243605bcab25f20b9ab69509adcda5f4",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/25b5a1562f3dadea69c784ad61baa71e.jpg",
+      "target_url_sha256": "c69f27a817a8b0af6a8b8ffbbd38cab4b5f509b20b3f473b040aeaaf7cd64615",
+      "target_host": "cdn0.19mini.com",
+      "status": "UPLOADED_REUSABLE_ORPHAN"
+    }
+  ],
+  "sensitive_values_included": false
+}

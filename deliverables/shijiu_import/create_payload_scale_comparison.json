@@ -1,0 +1,765 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:49:14.498397+00:00",
+  "mode": "OFFLINE_CREATE_PAYLOAD_SCALE_COMPARISON",
+  "successful_reference": {
+    "product_number": "36-2001-572",
+    "create_attempts": 1,
+    "persistence_verified": true,
+    "metrics": {
+      "business_payload_utf8_byte_count": 2324,
+      "wire_body_utf8_byte_count": 2411,
+      "wire_auth_envelope_overhead_byte_count": 87,
+      "wire_credentials_persisted": false,
+      "payload_sha256": "e6a09b224da94a090b29f8507994e89f374e6b3280b0dc0f868df43b52ac2576",
+      "sku_info_count": 1,
+      "spec_dimension_count": 2,
+      "spec_option_count_total": 2,
+      "spec_option_count_by_dimension": [
+        1,
+        1
+      ],
+      "spec_max_options_in_one_dimension": 1,
+      "broadcast": {
+        "url_count": 1,
+        "character_count": 76,
+        "utf8_byte_count": 76,
+        "max_url_character_count": 76
+      },
+      "good_details": {
+        "character_count": 235,
+        "utf8_byte_count": 489,
+        "image_tag_count": 0,
+        "embedded_url_count": 0
+      },
+      "good_detail_pics": {
+        "url_count": 0,
+        "character_count": 0,
+        "utf8_byte_count": 0,
+        "max_url_character_count": 0
+      },
+      "master_graph_character_count": 76,
+      "top_level_string_field_maximum": {
+        "path": "good_details",
+        "observed_value_count": 1,
+        "max_character_count": 235,
+        "max_utf8_byte_count": 489
+      },
+      "all_string_field_maxima": [
+        {
+          "path": "good_details",
+          "observed_value_count": 1,
+          "max_character_count": 235,
+          "max_utf8_byte_count": 489
+        },
+        {
+          "path": "description",
+          "observed_value_count": 1,
+          "max_character_count": 98,
+          "max_utf8_byte_count": 126
+        },
+        {
+          "path": "good_describe",
+          "observed_value_count": 1,
+          "max_character_count": 37,
+          "max_utf8_byte_count": 87
+        },
+        {
+          "path": "broadcast",
+          "observed_value_count": 1,
+          "max_character_count": 76,
+          "max_utf8_byte_count": 76
+        },
+        {
+          "path": "master_graph",
+          "observed_value_count": 1,
+          "max_character_count": 76,
+          "max_utf8_byte_count": 76
+        },
+        {
+          "path": "sku_info[].sku_thumbnail",
+          "observed_value_count": 1,
+          "max_character_count": 76,
+          "max_utf8_byte_count": 76
+        },
+        {
+          "path": "good_name",
+          "observed_value_count": 1,
+          "max_character_count": 11,
+          "max_utf8_byte_count": 31
+        },
+        {
+          "path": "sku_info[].sku_code",
+          "observed_value_count": 1,
+          "max_character_count": 24,
+          "max_utf8_byte_count": 24
+        },
+        {
+          "path": "sku_info[].fifth_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].first_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].fourth_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].second_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].sixth_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].sku_cost_price",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].sku_price",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].third_level",
+          "observed_value_count": 1,
+          "max_character_count": 7,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "sku_info[].spec_name",
+          "observed_value_count": 1,
+          "max_character_count": 5,
+          "max_utf8_byte_count": 7
+        },
+        {
+          "path": "bus_region",
+          "observed_value_count": 1,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "cargo_place",
+          "observed_value_count": 1,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "spec_name[].spec_name",
+          "observed_value_count": 2,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "sku_info[].sku_stock",
+          "observed_value_count": 1,
+          "max_character_count": 4,
+          "max_utf8_byte_count": 4
+        },
+        {
+          "path": "spec_name[].son_name[].spec_name",
+          "observed_value_count": 2,
+          "max_character_count": 3,
+          "max_utf8_byte_count": 3
+        },
+        {
+          "path": "buying_unit",
+          "observed_value_count": 1,
+          "max_character_count": 1,
+          "max_utf8_byte_count": 3
+        },
+        {
+          "path": "state",
+          "observed_value_count": 1,
+          "max_character_count": 1,
+          "max_utf8_byte_count": 1
+        },
+        {
+          "path": "brand_id",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "cargo_function",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "cargo_ingredient",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "code_ts",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "distribution_type",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "first_commission",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "good_detail_pics",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "good_group_id",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "good_videos",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "gross_weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "gyy_erp_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "hc_erp_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "height",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "hs_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "length",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "mortgage_content",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "name_ch",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "name_eh",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "net_weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "second_commisstion",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "standard_place",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "supplier",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "video_cover",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        }
+      ]
+    }
+  },
+  "failed_reference": {
+    "product_number": "13-9310-490",
+    "create_attempts": 1,
+    "persistence_verified": false,
+    "retry_allowed": false,
+    "metrics": {
+      "business_payload_utf8_byte_count": 26597,
+      "wire_body_utf8_byte_count": 26684,
+      "wire_auth_envelope_overhead_byte_count": 87,
+      "wire_credentials_persisted": false,
+      "payload_sha256": "e62524fbf6b5c62df5b57691db0bf9483f4fb3be832d717c20e07c5813027f70",
+      "sku_info_count": 24,
+      "spec_dimension_count": 2,
+      "spec_option_count_total": 10,
+      "spec_option_count_by_dimension": [
+        4,
+        6
+      ],
+      "spec_max_options_in_one_dimension": 6,
+      "broadcast": {
+        "url_count": 42,
+        "character_count": 3233,
+        "utf8_byte_count": 3233,
+        "max_url_character_count": 76
+      },
+      "good_details": {
+        "character_count": 5821,
+        "utf8_byte_count": 9331,
+        "image_tag_count": 38,
+        "embedded_url_count": 38
+      },
+      "good_detail_pics": {
+        "url_count": 38,
+        "character_count": 2925,
+        "utf8_byte_count": 2925,
+        "max_url_character_count": 76
+      },
+      "master_graph_character_count": 76,
+      "top_level_string_field_maximum": {
+        "path": "good_details",
+        "observed_value_count": 1,
+        "max_character_count": 5821,
+        "max_utf8_byte_count": 9331
+      },
+      "all_string_field_maxima": [
+        {
+          "path": "good_details",
+          "observed_value_count": 1,
+          "max_character_count": 5821,
+          "max_utf8_byte_count": 9331
+        },
+        {
+          "path": "broadcast",
+          "observed_value_count": 1,
+          "max_character_count": 3233,
+          "max_utf8_byte_count": 3233
+        },
+        {
+          "path": "good_detail_pics",
+          "observed_value_count": 1,
+          "max_character_count": 2925,
+          "max_utf8_byte_count": 2925
+        },
+        {
+          "path": "description",
+          "observed_value_count": 1,
+          "max_character_count": 95,
+          "max_utf8_byte_count": 119
+        },
+        {
+          "path": "good_describe",
+          "observed_value_count": 1,
+          "max_character_count": 34,
+          "max_utf8_byte_count": 80
+        },
+        {
+          "path": "master_graph",
+          "observed_value_count": 1,
+          "max_character_count": 76,
+          "max_utf8_byte_count": 76
+        },
+        {
+          "path": "sku_info[].sku_thumbnail",
+          "observed_value_count": 24,
+          "max_character_count": 76,
+          "max_utf8_byte_count": 76
+        },
+        {
+          "path": "good_name",
+          "observed_value_count": 1,
+          "max_character_count": 18,
+          "max_utf8_byte_count": 52
+        },
+        {
+          "path": "sku_info[].spec_name",
+          "observed_value_count": 24,
+          "max_character_count": 13,
+          "max_utf8_byte_count": 25
+        },
+        {
+          "path": "sku_info[].sku_code",
+          "observed_value_count": 24,
+          "max_character_count": 24,
+          "max_utf8_byte_count": 24
+        },
+        {
+          "path": "spec_name[].son_name[].spec_name",
+          "observed_value_count": 10,
+          "max_character_count": 6,
+          "max_utf8_byte_count": 18
+        },
+        {
+          "path": "sku_info[].fifth_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].first_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].fourth_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].second_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].sixth_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].sku_cost_price",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].sku_price",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "sku_info[].third_level",
+          "observed_value_count": 24,
+          "max_character_count": 8,
+          "max_utf8_byte_count": 8
+        },
+        {
+          "path": "bus_region",
+          "observed_value_count": 1,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "cargo_place",
+          "observed_value_count": 1,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "spec_name[].spec_name",
+          "observed_value_count": 2,
+          "max_character_count": 2,
+          "max_utf8_byte_count": 6
+        },
+        {
+          "path": "sku_info[].sku_stock",
+          "observed_value_count": 24,
+          "max_character_count": 4,
+          "max_utf8_byte_count": 4
+        },
+        {
+          "path": "buying_unit",
+          "observed_value_count": 1,
+          "max_character_count": 1,
+          "max_utf8_byte_count": 3
+        },
+        {
+          "path": "state",
+          "observed_value_count": 1,
+          "max_character_count": 1,
+          "max_utf8_byte_count": 1
+        },
+        {
+          "path": "brand_id",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "cargo_function",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "cargo_ingredient",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "code_ts",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "distribution_type",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "first_commission",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "good_group_id",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "good_videos",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "gross_weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "gyy_erp_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "hc_erp_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "height",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "hs_code",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "length",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "mortgage_content",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "name_ch",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "name_eh",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "net_weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "second_commisstion",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "standard_place",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "supplier",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "video_cover",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        },
+        {
+          "path": "weight",
+          "observed_value_count": 1,
+          "max_character_count": 0,
+          "max_utf8_byte_count": 0
+        }
+      ]
+    }
+  },
+  "deltas": {
+    "business_payload_utf8_byte_count": {
+      "successful": 2324,
+      "failed": 26597,
+      "absolute_delta": 24273,
+      "failed_to_success_ratio": 11.4445
+    },
+    "wire_body_utf8_byte_count": {
+      "successful": 2411,
+      "failed": 26684,
+      "absolute_delta": 24273,
+      "failed_to_success_ratio": 11.0676
+    },
+    "sku_info_count": {
+      "successful": 1,
+      "failed": 24,
+      "absolute_delta": 23,
+      "failed_to_success_ratio": 24.0
+    },
+    "spec_dimension_count": {
+      "successful": 2,
+      "failed": 2,
+      "absolute_delta": 0,
+      "failed_to_success_ratio": 1.0
+    },
+    "spec_option_count_total": {
+      "successful": 2,
+      "failed": 10,
+      "absolute_delta": 8,
+      "failed_to_success_ratio": 5.0
+    },
+    "broadcast_url_count": {
+      "successful": 1,
+      "failed": 42,
+      "absolute_delta": 41,
+      "failed_to_success_ratio": 42.0
+    },
+    "broadcast_character_count": {
+      "successful": 76,
+      "failed": 3233,
+      "absolute_delta": 3157,
+      "failed_to_success_ratio": 42.5395
+    },
+    "good_details_character_count": {
+      "successful": 235,
+      "failed": 5821,
+      "absolute_delta": 5586,
+      "failed_to_success_ratio": 24.7702
+    },
+    "good_details_image_tag_count": {
+      "successful": 0,
+      "failed": 38,
+      "absolute_delta": 38,
+      "failed_to_success_ratio": null
+    },
+    "good_detail_pics_url_count": {
+      "successful": 0,
+      "failed": 38,
+      "absolute_delta": 38,
+      "failed_to_success_ratio": null
+    }
+  },
+  "credentials_used_only_for_wire_byte_count": true,
+  "credential_values_persisted": false,
+  "target_requests_sent": 0,
+  "known_shijiu_multisku_evidence": {
+    "evidence_kind": "existing_read_only_committed_WAWU_to_Shijiu_CREATE_result",
+    "evidence_sha256": "c2b176c6f110b2c41ddc0b876c20374ab5e3d1a664c9f0e44e0f3fe1153e2802",
+    "evidence_commit": "5ed5dbc",
+    "verified_created_product_count": 20,
+    "verified_created_sku_count_total": 67,
+    "maximum_verified_sku_count_per_created_product": 11,
+    "known_acceptable_CREATE_scale_conclusion": "Shijiu has accepted and uniquely read back at least one 11-SKU CREATE",
+    "wawu_upstream_semantics_reused": false,
+    "target_requests_sent": 0,
+    "sensitive_values_included": false
+  },
+  "known_shijiu_existing_product_scale": {
+    "evidence_kind": "existing_read_only_Shijiu_legacy_product_structure",
+    "evidence_sha256": "fa0840e61e31b66f3750038cf13e90a631f21d2741ff006d719b4ffe65cb1024",
+    "sample_product_count": 6,
+    "maximum_readable_sku_count_per_existing_product": 24,
+    "known_storage_readback_scale_conclusion": "Shijiu currently stores and getFormatInfo reads at least one 24-SKU product",
+    "proves_current_canonical_CREATE_acceptance": false,
+    "identity_reconciliation_attempted": false,
+    "legacy_reference_touched_by_current_run": false,
+    "target_requests_sent": 0,
+    "sensitive_values_included": false
+  }
+}

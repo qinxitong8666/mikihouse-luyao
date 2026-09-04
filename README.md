@@ -509,3 +509,66 @@ PYTHONPATH=src python scripts/import_shijiu_complex_batch.py \
 - `deliverables/shijiu_import/complex_live_batch_readbacks.json`：强回读结果，本轮为 0 件通过；
 - `deliverables/shijiu_import/complex_live_batch_readiness.json`：冻结与下一阶段未就绪结论；
 - `state/shijiu_complex_live_batch_checkpoint.json`：逐图片、逐 CREATE 和只读 reconciliation 断点。
+
+## Shijiu CREATE 复杂度二分验证
+
+原 5 件复杂商品批次永久保持冻结，`13-9310-490` 不重试，后四件也不恢复。`scripts/import_shijiu_complexity_bisection.py` 使用全新的候选配置、checkpoint、确认词和报告路径，硬性排除全部历史尝试品番、351 个 `PDF_SPECIAL_LIST` 品番、已有 mapping 以及 legacy 286。两个探针严格串行：第 1 件未完成 UI-context 精确名称定位、getFormatInfo 全字段强校验和 mapping 持久化时，第 2 件不允许上传或 CREATE。
+
+离线重建实际 resolved payload 后，成功的 `36-2001-572` 与未持久化的 `13-9310-490` 对比如下：
+
+| 指标 | `36-2001-572` 成功 | `13-9310-490` 未持久化 |
+|---|---:|---:|
+| business payload UTF-8 bytes | 2,324 | 26,597 |
+| 含认证信封 wire body bytes | 2,411 | 26,684 |
+| SKU / 规格维度 / 选项总数 | 1 / 2 / 2 | 24 / 2 / 10 |
+| broadcast URL / 字符数 | 1 / 76 | 42 / 3,233 |
+| good_details 字符 / UTF-8 bytes / 图片 | 235 / 489 / 0 | 5,821 / 9,331 / 38 |
+| good_detail_pics URL / 字符数 | 0 / 0 | 38 / 2,925 |
+
+报告同时列出每个字符串字段的最大字符数和 UTF-8 bytes，不保存 token、secret 或 Cookie。只读参考证据显示：已提交的 WAWU→Shijiu 唯一回读 CREATE 记录已成功到单商品 11 SKU；现存 legacy 只读样本中 getFormatInfo 可读取 24 SKU 商品。后者只证明存储/读取能力，不单独证明当前 canonical CREATE 可接受 24 SKU。
+
+本轮自动冻结的二分候选为：
+
+- 图片/详情探针 `00-4000-057`：4 variants、74 张轮播图、70 张详情图；
+- SKU 探针 `63-6602-492`：14 variants、6 张轮播图、4 张详情图。
+
+两件的官网 SKU、税入 JPY 价格、65 折 JPY 价格、库存、颜色、尺码和 variant 图片均在写前在线核对。第 1 件完成 74 次 COS 上传并只发送 1 次 canonical CREATE；CREATE 后即时及冻结后延迟 UI-context 查询在类目 294884 和全类目中都没有精确名称候选，不能认定持久化，mapping 未写入。执行器立即永久冻结该批次：第 2 件保持 `PLANNED`，图片上传和 CREATE 均为 0。
+
+截至最终只读 reconciliation，目标请求总计 74 次图片上传、1 次 CREATE、61 次只读查询、0 次 UPDATE、0 次 legacy 操作。结论为 `IMAGE_OR_DETAIL_SCALE_SUSPECTED_SKU_PROBE_NOT_RUN`：4 SKU 已低于现有 11-SKU 成功 CREATE 证据，而实际探针 payload 为 28,045 wire bytes、74 轮播、70 详情图，仍未持久化，因此图片/详情规模是当前最强嫌疑；这只是受控证据指向，不等同于已证明服务器硬上限。由于首件失败，14-SKU 探针按规则永久不执行，不能据此宣布 SKU 规模已通过或失败，也不生成 20 件批量计划。
+
+失败的 `13-9310-490` 原 42 张 COS 图片登记在 `deliverables/shijiu_import/orphan_cos_assets_13_9310_490.json`，保留原 upload reference、顺序、角色和目标 URL；本批次不删除、不重新上传，也不用于其他商品。
+
+```bash
+# 冻结候选、在线核对官网、生成离线规模报告；零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_complexity_bisection.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --wawu-evidence /absolute/read-only/wawu-multisku-evidence.json \
+  --prepare-only
+
+# 仅在新的明确授权下，最多两个、严格串行的真实探针
+PYTHONPATH=src python scripts/import_shijiu_complexity_bisection.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --wawu-evidence /absolute/read-only/wawu-multisku-evidence.json \
+  --confirm MIKIHOUSE_COMPLEXITY_BISECTION_2_REAL_IMPORT
+
+# 冻结后只读 reconciliation；绝不恢复第二件
+PYTHONPATH=src python scripts/import_shijiu_complexity_bisection.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --wawu-evidence /absolute/read-only/wawu-multisku-evidence.json \
+  --reconcile-only
+
+# 从既有 checkpoint 重建脱敏结论；零网络请求
+PYTHONPATH=src python scripts/import_shijiu_complexity_bisection.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --wawu-evidence /absolute/read-only/wawu-multisku-evidence.json \
+  --finalize-reports-only
+```
+
+本阶段证据：
+
+- `deliverables/shijiu_import/create_payload_scale_comparison.json`：两次历史 CREATE 的完整离线复杂度量化及多 SKU 只读证据；
+- `deliverables/shijiu_import/complexity_bisection_candidates.json`：两个冻结候选与官网在线核验；
+- `deliverables/shijiu_import/complexity_bisection_report.json`：请求计数、逐商品状态和 fail-closed 原因；
+- `deliverables/shijiu_import/complexity_bisection_readbacks.json`：强回读结果；
+- `deliverables/shijiu_import/complexity_bisection_diagnosis.json`：实际探针 payload 指标和诊断边界；
+- `state/shijiu_complexity_bisection_checkpoint.json`：独立逐图、CREATE 和 reconciliation 断点。

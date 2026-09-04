@@ -388,12 +388,17 @@ def select_complex_batch(
     return items, selection
 
 
-def initial_checkpoint(items: list[dict[str, Any]], selection: dict[str, Any]) -> dict[str, Any]:
+def initial_checkpoint(
+    items: list[dict[str, Any]],
+    selection: dict[str, Any],
+    *,
+    mode: str = "COMPLEX_5_REAL_IMPORT_VALIDATION",
+) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "source": SOURCE_CODE,
         "target": "SHIJIU",
-        "mode": "COMPLEX_5_REAL_IMPORT_VALIDATION",
+        "mode": mode,
         "created_at": now(),
         "updated_at": now(),
         "status": "READY",
@@ -583,6 +588,10 @@ class ComplexLiveBatchRunner:
         report_path: Path,
         readbacks_path: Path,
         confirmation: str,
+        expected_batch_size: int = COMPLEX_BATCH_SIZE,
+        expected_confirmation: str = COMPLEX_WRITE_CONFIRMATION,
+        mode: str = "COMPLEX_5_REAL_IMPORT_VALIDATION",
+        prohibited_product_numbers: set[str] | None = None,
     ) -> None:
         self.client = client
         self.ui = ui
@@ -595,11 +604,21 @@ class ComplexLiveBatchRunner:
         self.report_path = report_path
         self.readbacks_path = readbacks_path
         self.confirmation = confirmation
+        self.expected_batch_size = expected_batch_size
+        self.expected_confirmation = expected_confirmation
+        self.mode = mode
+        self.prohibited_product_numbers = (
+            set(PREVIOUSLY_TESTED_PRODUCTS)
+            if prohibited_product_numbers is None
+            else set(prohibited_product_numbers)
+        )
         if checkpoint_path.exists():
             self.checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
         else:
-            self.checkpoint = initial_checkpoint(items, selection)
+            self.checkpoint = initial_checkpoint(items, selection, mode=mode)
             self._persist()
+        if self.checkpoint.get("mode") != self.mode:
+            raise LiveImportError("complex batch checkpoint mode drift")
         expected = [item["product_number"] for item in items]
         if list((self.checkpoint.get("records") or {}).keys()) != expected:
             raise LiveImportError("complex batch checkpoint identity drift")
@@ -610,19 +629,23 @@ class ComplexLiveBatchRunner:
 
     def _report_documents(self) -> tuple[dict[str, Any], dict[str, Any]]:
         records = self.checkpoint["records"]
-        completed = [row for row in records.values() if row["state"] == "READBACK_VERIFIED"]
+        completed = [
+            row for row in records.values()
+            if row["state"] in {"READBACK_VERIFIED", "READBACK_VERIFIED_AFTER_BATCH_STOP"}
+        ]
         ledger = self.checkpoint.get("request_ledger") or []
         report = {
             "schema_version": 1,
             "generated_at": now(),
-            "mode": "COMPLEX_5_REAL_IMPORT_VALIDATION",
+            "mode": self.mode,
             "status": self.checkpoint.get("status"),
             "source": SOURCE_CODE,
             "target": "SHIJIU",
             "requested_product_count": len(self.items),
             "verified_product_count": len(completed),
             "complex_validation_all_passed": (
-                len(completed) == COMPLEX_BATCH_SIZE and self.checkpoint.get("status") == "COMPLETED"
+                len(completed) == self.expected_batch_size
+                and self.checkpoint.get("status") == "COMPLETED"
             ),
             "fixed_target_category_id": TARGET_CATEGORY_ID,
             "price_source": "mini_program_price_jpy=ceil(tax_included_price_jpy*0.65)",
@@ -660,6 +683,16 @@ class ComplexLiveBatchRunner:
                     "product_number": number,
                     "state": row["state"],
                     "create_attempts": row["create_attempts"],
+                    "create_response_summary": ({
+                        "code": row["create_response"].get("code"),
+                        "msg": row["create_response"].get("msg"),
+                        "data_shape": (
+                            "empty_list"
+                            if isinstance(row["create_response"].get("data"), list)
+                            and not row["create_response"].get("data")
+                            else type(row["create_response"].get("data")).__name__
+                        ),
+                    } if isinstance(row.get("create_response"), dict) else None),
                     "shijiu_product_id": row.get("shijiu_product_id"),
                     "uploaded_image_count": sum(
                         image.get("status") == "UPLOADED" for image in row["image_uploads"].values()
@@ -689,7 +722,10 @@ class ComplexLiveBatchRunner:
             "results": [row["readback"] for row in completed],
             "verified_product_count": len(completed),
             "verified_sku_count": report["verified_sku_count"],
-            "all_passed": len(completed) == COMPLEX_BATCH_SIZE and self.checkpoint.get("status") == "COMPLETED",
+            "all_passed": (
+                len(completed) == self.expected_batch_size
+                and self.checkpoint.get("status") == "COMPLETED"
+            ),
             "sensitive_values_included": False,
         }
         return report, readbacks
@@ -721,13 +757,13 @@ class ComplexLiveBatchRunner:
         self._persist()
 
     def _batch_preflight(self) -> None:
-        if len(self.items) != COMPLEX_BATCH_SIZE or len(self.special) != EXPECTED_SPECIAL_COUNT:
+        if len(self.items) != self.expected_batch_size or len(self.special) != EXPECTED_SPECIAL_COUNT:
             raise LiveImportError("complex batch size or permanent exclusion count changed")
         numbers = {item["product_number"] for item in self.items}
         if numbers & self.special:
             raise LiveImportError(f"{PDF_SPECIAL_EXCLUDED_REASON}: complex batch boundary failure")
-        if numbers & PREVIOUSLY_TESTED_PRODUCTS:
-            raise LiveImportError("previously tested simple product entered the complex batch")
+        if numbers & self.prohibited_product_numbers:
+            raise LiveImportError("prohibited or previously attempted product entered the complex batch")
         validate_live_mikihouse_category(self.category, self.client.categories())
         mapping = load_mapping_state(self.mapping_path)
         for item in self.items:
@@ -836,7 +872,7 @@ class ComplexLiveBatchRunner:
         }
 
     def run(self) -> dict[str, Any]:
-        if self.confirmation != COMPLEX_WRITE_CONFIRMATION:
+        if self.confirmation != self.expected_confirmation:
             raise LiveImportError("exact complex-batch write confirmation missing")
         if self.checkpoint.get("status") == "COMPLETED":
             self._persist()
