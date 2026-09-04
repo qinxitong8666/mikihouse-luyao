@@ -58,6 +58,7 @@ def _configured_product_numbers(root: Path) -> set[str]:
         "config/shijiu_staged_rich_media_complete_single.json",
         "config/shijiu_staged_detail_html_single.json",
         "config/shijiu_production_architecture_verification_single.json",
+        "config/shijiu_richtext_e2e_single.json",
     ):
         path = root / relative
         if not path.exists():

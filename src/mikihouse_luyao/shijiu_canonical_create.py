@@ -53,13 +53,22 @@ def load_verified_browser_credentials(
     )
     if not candidates:
         raise LiveImportError("no private browser-exact capture found")
-    capture_path = candidates[0]
-    raw_bytes = capture_path.read_bytes()
-    raw = json.loads(raw_bytes)
     contract = json.loads(canonical_contract_path.read_text(encoding="utf-8"))
-    capture_hash = hashlib.sha256(raw_bytes).hexdigest()
-    if capture_hash != contract.get("browser_exact_private_evidence_sha256"):
-        raise LiveImportError("private browser capture does not match the canonical contract hash")
+    expected_hash = str(contract.get("browser_exact_private_evidence_sha256") or "")
+    capture_path = None
+    raw_bytes = b""
+    capture_hash = ""
+    for candidate in candidates:
+        candidate_bytes = candidate.read_bytes()
+        candidate_hash = hashlib.sha256(candidate_bytes).hexdigest()
+        if candidate_hash == expected_hash:
+            capture_path = candidate
+            raw_bytes = candidate_bytes
+            capture_hash = candidate_hash
+            break
+    if capture_path is None:
+        raise LiveImportError("no private browser capture matches the canonical CREATE contract hash")
+    raw = json.loads(raw_bytes)
     payload = json.loads(raw.get("playwright_request", {}).get("post_data") or "{}")
     if payload.get("id") not in (None, "", 0, "0"):
         raise LiveImportError("canonical private evidence is not a CREATE request")

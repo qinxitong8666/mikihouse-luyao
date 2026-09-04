@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:48:15.390943+00:00",
+  "status": "TECHNICALLY_VERIFIED_MUTEX_EVIDENCE_NOT_CAPTURED",
+  "product_number": "10-9332-796",
+  "shijiu_product_id": "9358340",
+  "resource_preflight_status": "PASSED",
+  "verified_stage_keys": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_18",
+    "DETAIL_PICS_1_8",
+    "DETAIL_PICS_9_16"
+  ],
+  "maximum_verified_broadcast_url_count": 18,
+  "maximum_verified_good_detail_pics_url_count": 16,
+  "minimum_required_good_detail_pics_count": 16,
+  "minimum_required_good_detail_pics_satisfied": true,
+  "final_good_details_html_verified": false,
+  "good_details_text_or_light_html_verified": true,
+  "detail_images_carried_by": "good_detail_pics",
+  "production_import_architecture_verified": false,
+  "first_failed_or_blocked_state": null,
+  "post_failure_forensic_readback": {
+    "status": "NOT_CAPTURED",
+    "observed_good_detail_pics_count": null,
+    "observed_broadcast_count": null,
+    "all_non_html_fields_match_last_verified_state": null,
+    "mutation_was_not_retried": null
+  },
+  "ui_read_retry_attempt_count": 0,
+  "ui_transient_read_error_count": 0,
+  "mutation_auto_retry_count": 0,
+  "interpretation": "All five payload/readback stages passed technically, but the production write window did not capture proof that no other Shijiu writer was active. AGENTS.md section 14 therefore forbids READY/COMPLETED and all further writes fail closed.",
+  "sensitive_values_included": false,
+  "technical_five_stage_readback_completed": true,
+  "production_write_mutex_evidence_verified": false,
+  "production_architecture": "LIGHTWEIGHT_CREATE_PLUS_STAGED_NATIVE_FULL_PAYLOAD_BROADCAST_AND_GOOD_DETAIL_PICS_UPDATE_PLUS_LIGHTWEIGHT_GOOD_DETAILS",
+  "image_type_good_details_generated_or_attempted": false,
+  "fail_closed_no_further_write": true
+}

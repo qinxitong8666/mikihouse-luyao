@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:41:03.601920+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "MIKIHOUSE_RICHTEXT_CONTRACT_FINAL_E2E_VALIDATION",
+  "selection_policy": "exactly the product frozen by richtext_contract_readiness.json",
+  "fixed_target_category_id": 294884,
+  "pdf_special_exclusion_count": 351,
+  "historical_prohibited_product_numbers": [
+    "00-1000-028",
+    "00-1000-035",
+    "00-4000-054",
+    "00-4000-055",
+    "00-4000-057",
+    "10-1711-494",
+    "10-1821-575",
+    "10-1823-496",
+    "10-1828-682",
+    "10-1829-685",
+    "10-5292-148",
+    "10-8107-492",
+    "10-8109-498",
+    "10-8110-498",
+    "10-8111-491",
+    "10-8112-494",
+    "10-8223-684",
+    "10-8227-686",
+    "10-8375-578",
+    "10-9129-792",
+    "10-9305-497",
+    "10-9306-490",
+    "10-9327-145",
+    "10-9328-148",
+    "10-9329-141",
+    "13-9310-490",
+    "63-3210-146",
+    "63-6602-492"
+  ],
+  "maximum_product_create_requests": 1,
+  "maximum_product_save_requests_per_runner_invocation": 1,
+  "all_resource_preflight_required_before_any_shijiu_write": true,
+  "ui_read_retry_policy": {
+    "applies_only_to": [
+      "Goods.index",
+      "getFormatInfo"
+    ],
+    "maximum_retries_after_initial_attempt": 3,
+    "initial_backoff_seconds": 0.5,
+    "backoff": "exponential",
+    "transient_http_status_codes": [
+      502,
+      503,
+      504
+    ],
+    "mutation_retry_count": 0
+  },
+  "richtext_contract_sha256": "4d090e6825b87746acdc88d64d7153ddbefec868fe1c814f3ba7407620f1f336",
+  "protected_frozen_evidence": {
+    "state/shijiu_canonical_create_checkpoint.json": "2e9ca267870c7a9169490608ebaf75a26cb03718a67d06202d9bb80c275e1132",
+    "state/shijiu_complex_live_batch_checkpoint.json": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+    "state/shijiu_complexity_bisection_checkpoint.json": "a4b2d04e1bc83f8e01a186be398e2e82d353dc848679d39303bd9790fe302a47",
+    "state/shijiu_high_sku_14_probe_checkpoint.json": "fa6f0b06e701765f2ce1b99f1068db99cb1f8e81293a0457791f658f8c614ef3",
+    "deliverables/shijiu_import/complex_live_batch_report.json": "21a0ec0d374ed5f94096cc255ea027c09c8d20613a7485550d677aa2d7b26a6b",
+    "deliverables/shijiu_import/complexity_bisection_report.json": "7be41c08702a6918a7fd92c916ecb7dcc8dea472459812880bc16a6edc864c3b",
+    "deliverables/shijiu_import/high_sku_14_probe_report.json": "c99bab87682512926a7fa466679def3b0bfb208a9b1bec065be7acb0486ccf7f",
+    "config/shijiu_staged_rich_media_single.json": "7886fe4ccbdfa97c23eb8ae78d16c46d454b1e4994de325e1996a0f043b1cad3",
+    "state/shijiu_staged_rich_media_single_checkpoint.json": "6e9438ca457113d00823f726895b14cd9317a1f2755100c3b99f36797247c244",
+    "deliverables/shijiu_import/staged_rich_media_validation_report.json": "f50207da97d654bf3b5b9fe0a0fd8715fa33a7bf9f99eb44ac1f809cd66d6ec4",
+    "deliverables/shijiu_import/staged_rich_media_validation_readbacks.json": "9ce78b0f5c3a2abaec057ee7cdfc296999283d20cd6f5533e8af3db6a47d95e3",
+    "deliverables/shijiu_import/staged_rich_media_capacity_conclusion.json": "db293c61319f68ba97e6d15e286fd46012f0fe2220dd6f8a2dc57689b4c288d4",
+    "config/shijiu_staged_rich_media_complete_single.json": "10b92967f59949c0dc89bd3a87ca57a5935105470f46b90d278acbe1702974e0",
+    "state/shijiu_staged_rich_media_complete_single_checkpoint.json": "c66853d784872157f7a9c66f5dda970e1860a4cdb2131529ec87863d98fd8e16",
+    "deliverables/shijiu_import/staged_rich_media_complete_candidate.json": "9bcfdca545f7c997ad7077941b61489da3075a50857b1a2c3970f1a9c952404d",
+    "deliverables/shijiu_import/staged_rich_media_complete_capacity_conclusion.json": "3906fe673651e00413add89ca3104a053b311d457aed0c6d7aefa8d439c5f040",
+    "deliverables/shijiu_import/staged_rich_media_complete_readbacks.json": "66a1183d2078df623b0aeb59e867032a846a81a509eaadfb16b9e1079f6b6e5e",
+    "deliverables/shijiu_import/staged_rich_media_complete_readiness.json": "3e9cad91815dc4d9f2f7dba07c38c69274ead33acd13d1aedf0a94c39fc4c717",
+    "deliverables/shijiu_import/staged_rich_media_complete_resource_preflight.json": "377d93ae70a81f4da404a6ee4e720c21ff76becd14a5629b51f1246e95a6ca4c",
+    "deliverables/shijiu_import/staged_rich_media_complete_validation_report.json": "104a2b8644f72c30dd98e3c6a34e8a6a63d6e2a4a2f4793eaa1270fd5431efe2",
+    "config/shijiu_staged_detail_html_single.json": "6837b7fb2a8d61c78668e0de92c9ee9b7258315afaab6330152bd923095ec47c",
+    "state/shijiu_staged_detail_html_single_checkpoint.json": "253cb21039f9856712f94133156375a93ccdd593300d49e4a5cdd75106f9aa29",
+    "deliverables/shijiu_import/staged_detail_html_candidate.json": "1c2792137993b62a8906186794f8974b0ddcf72af34ab1b177ff3b6bbea9bab3",
+    "deliverables/shijiu_import/staged_detail_html_capacity_conclusion.json": "0a23e55148c96ba156938f4adc8f7118652c9f471f54ab6e03a4435a530883a1",
+    "deliverables/shijiu_import/staged_detail_html_false_negative_forensics.json": "2cb49b8f3e22b3314243b879b75b551e62a27b7de3fd166bb34f6043ed0196bd",
+    "deliverables/shijiu_import/staged_detail_html_readbacks.json": "c630f9533d2eebeb990d9d902a5e7d1e0072c39709e2d078686b28d732eb9dbf",
+    "deliverables/shijiu_import/staged_detail_html_readiness.json": "77b8fed8345e6b696c114f02797932fc458ce7225f891cb8e176f3ebfbc06207",
+    "deliverables/shijiu_import/staged_detail_html_resource_preflight.json": "f2d2730ce72f8f52797047531b1859ab796aa9298b7bed791462fea1a9a34be8",
+    "deliverables/shijiu_import/staged_detail_html_validation_report.json": "e07f2946ee757749c8b012ab7fa3c2b6e6635dff4c38fdf7aa64b79fef8d296e",
+    "config/shijiu_richtext_contract.json": "4d090e6825b87746acdc88d64d7153ddbefec868fe1c814f3ba7407620f1f336",
+    "deliverables/shijiu_import/richtext_contract_comparison.json": "83ce55e9a39fa81eba39365db2f9b67c0f1206c33b0aa1e5bb975d1394324ee8",
+    "deliverables/shijiu_import/richtext_contract_readiness.json": "718ae1cbf75ee44abf76a7c1e5951c66a39da7fa207892ce3f247cafbc88cd26",
+    "deliverables/shijiu_import/richtext_contract_readonly_audit.json": "eff98523ca55ff30a461ce7f6b8fe2eb9ce425d9bd9f805953f84f1b91f71b19",
+    "deliverables/shijiu_import/richtext_native_image_edit_capture.json": "15586d4f1ee038b6ff77b557242bd8ee962b2add2fc256872ef8820cb4b04a40",
+    "deliverables/shijiu_import/richtext_native_text_edit_capture.json": "1bb1b2eb13d3fe676382d6d43070ff72fcb47b82536b047175d273e2373bd333"
+  },
+  "protected_existing_mapping_row_hashes": {
+    "10-5292-148": "68ee952da04c1cfc8ec8e757b059e7fb225f1887eb52692cb87a61f8de129724",
+    "10-8375-578": "12a20c2a4bd795f210ac78a3a29ac99c84701b5bc9357a3419307c6f8efaea4a",
+    "10-9129-792": "75ebbca85a087a962b9762e206c030e472075259e43d7ca5e1a98e5745fc1b90",
+    "36-2001-572": "0bf307ec533d5237a5f15b6b8e9076f65be797b3a1adc362505473150cd2f39c",
+    "63-3210-146": "39ed61a195a7c8c8bfb3b4f23a34b907be55d0a41ea533b840e0ad2174ed6a3f",
+    "63-6602-492": "1abe8942df459254f260e2abb667ef134824a4b5d8d73300480f2ae42ba76a73"
+  },
+  "product": {
+    "product_number": "10-9332-796",
+    "good_name": "牛革セカンドベビーシューズ",
+    "name_unique_in_source": true,
+    "variant_count": 6,
+    "available_variant_count": 6,
+    "color_count": 2,
+    "size_count": 3,
+    "official_image_count": 18,
+    "role_counts": {
+      "detail": 1,
+      "main": 1,
+      "product_gallery": 15,
+      "variant_color": 1
+    },
+    "broadcast_count": 18,
+    "detail_pic_count": 16,
+    "good_details_contract": "TEXT_OR_LIGHT_HTML_NO_IMAGE_OR_URL_MAX_1024",
+    "source_payload_sha256": "9ed689db3d55d8178bdbea570c07e0f02086b5b7ce947ca0eef5ee82c3fe2c8e"
+  },
+  "stages": [
+    {
+      "sequence": 1,
+      "key": "CREATE_CORE",
+      "operation": "CREATE",
+      "broadcast_count": 4,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:001",
+        "MIKIHOUSE:10-9332-796:IMAGE:002",
+        "MIKIHOUSE:10-9332-796:IMAGE:003",
+        "MIKIHOUSE:10-9332-796:IMAGE:004",
+        "MIKIHOUSE:10-9332-796:IMAGE:017"
+      ]
+    },
+    {
+      "sequence": 2,
+      "key": "BROADCAST_5_12",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 12,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:005",
+        "MIKIHOUSE:10-9332-796:IMAGE:006",
+        "MIKIHOUSE:10-9332-796:IMAGE:007",
+        "MIKIHOUSE:10-9332-796:IMAGE:008",
+        "MIKIHOUSE:10-9332-796:IMAGE:009",
+        "MIKIHOUSE:10-9332-796:IMAGE:010",
+        "MIKIHOUSE:10-9332-796:IMAGE:011",
+        "MIKIHOUSE:10-9332-796:IMAGE:012"
+      ]
+    },
+    {
+      "sequence": 3,
+      "key": "BROADCAST_13_18",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 18,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:013",
+        "MIKIHOUSE:10-9332-796:IMAGE:014",
+        "MIKIHOUSE:10-9332-796:IMAGE:015",
+        "MIKIHOUSE:10-9332-796:IMAGE:016",
+        "MIKIHOUSE:10-9332-796:IMAGE:017",
+        "MIKIHOUSE:10-9332-796:IMAGE:018"
+      ]
+    },
+    {
+      "sequence": 4,
+      "key": "DETAIL_PICS_1_8",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 18,
+      "detail_pic_count": 8,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:002",
+        "MIKIHOUSE:10-9332-796:IMAGE:003",
+        "MIKIHOUSE:10-9332-796:IMAGE:004",
+        "MIKIHOUSE:10-9332-796:IMAGE:005",
+        "MIKIHOUSE:10-9332-796:IMAGE:006",
+        "MIKIHOUSE:10-9332-796:IMAGE:007",
+        "MIKIHOUSE:10-9332-796:IMAGE:008",
+        "MIKIHOUSE:10-9332-796:IMAGE:009"
+      ]
+    },
+    {
+      "sequence": 5,
+      "key": "DETAIL_PICS_9_16",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 18,
+      "detail_pic_count": 16,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:010",
+        "MIKIHOUSE:10-9332-796:IMAGE:011",
+        "MIKIHOUSE:10-9332-796:IMAGE:012",
+        "MIKIHOUSE:10-9332-796:IMAGE:013",
+        "MIKIHOUSE:10-9332-796:IMAGE:014",
+        "MIKIHOUSE:10-9332-796:IMAGE:015",
+        "MIKIHOUSE:10-9332-796:IMAGE:016",
+        "MIKIHOUSE:10-9332-796:IMAGE:018"
+      ]
+    }
+  ],
+  "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+}

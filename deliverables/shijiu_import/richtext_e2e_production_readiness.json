@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:48:15.391367+00:00",
+  "status": "NOT_READY_MUTEX_EVIDENCE_NOT_CAPTURED",
+  "production_import_architecture_verified": false,
+  "production_architecture": "LIGHTWEIGHT_CREATE_PLUS_STAGED_NATIVE_FULL_PAYLOAD_BROADCAST_AND_GOOD_DETAIL_PICS_UPDATE_PLUS_LIGHTWEIGHT_GOOD_DETAILS",
+  "verified_product_number": null,
+  "verified_shijiu_product_id": null,
+  "next_20_plan_generated": false,
+  "next_20_executed": false,
+  "requires_separate_write_authorization": true,
+  "pdf_special_exclusion_count": 351,
+  "legacy_reference_touched": false,
+  "non_mikihouse_richtext_test_cleanup_included": false,
+  "image_type_good_details_generated_or_attempted": false,
+  "production_write_mutex_evidence_verified": false,
+  "fail_closed_no_further_write": true,
+  "sensitive_values_included": false
+}

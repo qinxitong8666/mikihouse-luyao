@@ -1,0 +1,715 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:48:15.389504+00:00",
+  "product_number": "10-9332-796",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9332-796",
+      "product_number": "10-9332-796",
+      "shijiu_product_id": "9358340",
+      "target_category_id": 294884,
+      "good_name": "牛革セカンドベビーシューズ",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "dbc204834963c0ea0f86efe94f5dcb04287e3cfd9d87be9bdeb357e0450f3fcc",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-9332-79600010130",
+          "backend_sku_code": "MIKI-10-9332-79600010130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,13cm",
+          "color": "白",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010140",
+          "backend_sku_code": "MIKI-10-9332-79600010140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,14cm",
+          "color": "白",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010150",
+          "backend_sku_code": "MIKI-10-9332-79600010150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,15cm",
+          "color": "白",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060130",
+          "backend_sku_code": "MIKI-10-9332-79600060130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,13cm",
+          "color": "グレー",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060140",
+          "backend_sku_code": "MIKI-10-9332-79600060140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,14cm",
+          "color": "グレー",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060150",
+          "backend_sku_code": "MIKI-10-9332-79600060150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,15cm",
+          "color": "グレー",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T12:43:12.001704+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9332-796",
+      "product_number": "10-9332-796",
+      "shijiu_product_id": "9358340",
+      "target_category_id": 294884,
+      "good_name": "牛革セカンドベビーシューズ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/388744a1a4335eacd6e46477bab11660.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5159f1901d5fe4ab6b8128864e80da95.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6c9323592e17ca2ed2e11620d4b3e707.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "dbc204834963c0ea0f86efe94f5dcb04287e3cfd9d87be9bdeb357e0450f3fcc",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-9332-79600010130",
+          "backend_sku_code": "MIKI-10-9332-79600010130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,13cm",
+          "color": "白",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010140",
+          "backend_sku_code": "MIKI-10-9332-79600010140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,14cm",
+          "color": "白",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010150",
+          "backend_sku_code": "MIKI-10-9332-79600010150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,15cm",
+          "color": "白",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060130",
+          "backend_sku_code": "MIKI-10-9332-79600060130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,13cm",
+          "color": "グレー",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060140",
+          "backend_sku_code": "MIKI-10-9332-79600060140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,14cm",
+          "color": "グレー",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060150",
+          "backend_sku_code": "MIKI-10-9332-79600060150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,15cm",
+          "color": "グレー",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T12:43:38.813438+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9332-796",
+      "product_number": "10-9332-796",
+      "shijiu_product_id": "9358340",
+      "target_category_id": 294884,
+      "good_name": "牛革セカンドベビーシューズ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/388744a1a4335eacd6e46477bab11660.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5159f1901d5fe4ab6b8128864e80da95.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6c9323592e17ca2ed2e11620d4b3e707.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b1ac1b86b6cf563b8aa165a9c0a908cd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd4ee7f2ea39f1062d55da31fd4a6004.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ae0048b723236198e87ffeeb196ed965.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0403139e4ab00982253c6facd5f97a66.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f625d893c3dad6fce02436341052d908.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "dbc204834963c0ea0f86efe94f5dcb04287e3cfd9d87be9bdeb357e0450f3fcc",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-9332-79600010130",
+          "backend_sku_code": "MIKI-10-9332-79600010130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,13cm",
+          "color": "白",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010140",
+          "backend_sku_code": "MIKI-10-9332-79600010140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,14cm",
+          "color": "白",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010150",
+          "backend_sku_code": "MIKI-10-9332-79600010150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,15cm",
+          "color": "白",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060130",
+          "backend_sku_code": "MIKI-10-9332-79600060130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,13cm",
+          "color": "グレー",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060140",
+          "backend_sku_code": "MIKI-10-9332-79600060140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,14cm",
+          "color": "グレー",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060150",
+          "backend_sku_code": "MIKI-10-9332-79600060150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,15cm",
+          "color": "グレー",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T12:44:01.341432+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9332-796",
+      "product_number": "10-9332-796",
+      "shijiu_product_id": "9358340",
+      "target_category_id": 294884,
+      "good_name": "牛革セカンドベビーシューズ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/388744a1a4335eacd6e46477bab11660.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5159f1901d5fe4ab6b8128864e80da95.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6c9323592e17ca2ed2e11620d4b3e707.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b1ac1b86b6cf563b8aa165a9c0a908cd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd4ee7f2ea39f1062d55da31fd4a6004.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ae0048b723236198e87ffeeb196ed965.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0403139e4ab00982253c6facd5f97a66.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f625d893c3dad6fce02436341052d908.jpg"
+      ],
+      "detail_image_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg"
+      ],
+      "good_details_sha256": "dbc204834963c0ea0f86efe94f5dcb04287e3cfd9d87be9bdeb357e0450f3fcc",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-9332-79600010130",
+          "backend_sku_code": "MIKI-10-9332-79600010130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,13cm",
+          "color": "白",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010140",
+          "backend_sku_code": "MIKI-10-9332-79600010140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,14cm",
+          "color": "白",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010150",
+          "backend_sku_code": "MIKI-10-9332-79600010150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,15cm",
+          "color": "白",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060130",
+          "backend_sku_code": "MIKI-10-9332-79600060130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,13cm",
+          "color": "グレー",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060140",
+          "backend_sku_code": "MIKI-10-9332-79600060140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,14cm",
+          "color": "グレー",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060150",
+          "backend_sku_code": "MIKI-10-9332-79600060150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,15cm",
+          "color": "グレー",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T12:44:20.673611+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9332-796",
+      "product_number": "10-9332-796",
+      "shijiu_product_id": "9358340",
+      "target_category_id": 294884,
+      "good_name": "牛革セカンドベビーシューズ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/388744a1a4335eacd6e46477bab11660.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5159f1901d5fe4ab6b8128864e80da95.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6c9323592e17ca2ed2e11620d4b3e707.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b1ac1b86b6cf563b8aa165a9c0a908cd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd4ee7f2ea39f1062d55da31fd4a6004.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ae0048b723236198e87ffeeb196ed965.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0403139e4ab00982253c6facd5f97a66.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f625d893c3dad6fce02436341052d908.jpg"
+      ],
+      "detail_image_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/7c2e221f587bdc596f5d993daab3da6d.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f5d4784adcf6191fbe574d5fcfbb2cb.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e12875b3d89d165c63d2b44713364fb4.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cce66c3fac6bc944897640231c88a3b6.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d54dee7e2963276865996901da47c14c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6b0f5bb4e7a675770440832418a11b07.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd292e5ccc04424d85852879f3234834.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/7b880dc5c9e886866960eda724279f85.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/388744a1a4335eacd6e46477bab11660.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5159f1901d5fe4ab6b8128864e80da95.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6c9323592e17ca2ed2e11620d4b3e707.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b1ac1b86b6cf563b8aa165a9c0a908cd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd4ee7f2ea39f1062d55da31fd4a6004.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ae0048b723236198e87ffeeb196ed965.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0403139e4ab00982253c6facd5f97a66.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f625d893c3dad6fce02436341052d908.jpg"
+      ],
+      "good_details_sha256": "dbc204834963c0ea0f86efe94f5dcb04287e3cfd9d87be9bdeb357e0450f3fcc",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-9332-79600010130",
+          "backend_sku_code": "MIKI-10-9332-79600010130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,13cm",
+          "color": "白",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010140",
+          "backend_sku_code": "MIKI-10-9332-79600010140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,14cm",
+          "color": "白",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600010150",
+          "backend_sku_code": "MIKI-10-9332-79600010150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600010150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "白,15cm",
+          "color": "白",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/ee6ca39d36dd9c0fc736c986b03cae1c.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060130",
+          "backend_sku_code": "MIKI-10-9332-79600060130",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060130"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,13cm",
+          "color": "グレー",
+          "size": "13cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060140",
+          "backend_sku_code": "MIKI-10-9332-79600060140",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060140"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,14cm",
+          "color": "グレー",
+          "size": "14cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9332-79600060150",
+          "backend_sku_code": "MIKI-10-9332-79600060150",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358340",
+            "backend_sku_code": "MIKI-10-9332-79600060150"
+          },
+          "price_jpy": 35750,
+          "stock": 1,
+          "specification": "グレー,15cm",
+          "color": "グレー",
+          "size": "15cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/de0554407ff309ac8690bbcd3d652ef4.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T12:44:41.077352+00:00"
+    }
+  ],
+  "verified_stage_count": 5,
+  "sensitive_values_included": false
+}

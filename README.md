@@ -790,3 +790,31 @@ PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification
 - `deliverables/shijiu_import/richtext_contract_readiness.json`。
 
 readiness 仅冻结下一个新 MIKIHOUSE 端到端验证计划，不代表获得执行授权；本轮 MIKIHOUSE 写请求为0，351特殊品番仍在所有 Shijiu 阶段前置排除，legacy 286仅只读，所有历史冻结商品不重试，`shijiu_sku_id` 仍 nullable。
+
+冻结商品 `10-9332-796` 获得单商品授权后使用独立入口执行，不复用任何历史冻结 checkpoint：
+
+```bash
+# 官网6 variants实时核验与独立checkpoint准备；无Shijiu写请求
+PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 18张资源全部下载、MIME/解码/尺寸/hash预检；仍为零Shijiu请求
+PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --preflight-resources
+
+# 每次仅消费一个且不允许重试的 mutation stage；共5次，任一异常永久冻结
+PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --next-step \
+  --confirm MIKIHOUSE_RICHTEXT_CONTRACT_FINAL_E2E_SINGLE_STEP
+```
+
+执行器在每次 mutation 前重新核验官网 SKU/价格/库存/颜色/尺码/selectedOptions/variant图片，强制加载 `config/shijiu_richtext_contract.json`，并保证正式 payload 的 `good_details` 不含图片和URL。成功完成5阶段后才会生成 `richtext_e2e_next_20_frozen_plan.json`；计划不代表20件批次获得执行授权。
+
+> 互斥审计：远端 `main` 在本轮执行期间新增 `AGENTS.md` 第14节。五阶段已完成目标端强回读，但写前没有取得可追溯的全局 production writer 互斥证据，因此只能认定为技术契约通过，不能认定生产治理 READY/COMPLETED。`richtext_e2e_writer_mutex_audit.json` 如实记录 `concurrent_shijiu_writer_observed=NOT_CAPTURED`，readiness 与20件计划均保持 `FAIL_CLOSED_NO_WRITE`。所有后续 `--next-step` 现在必须提供 Git 工作区外、与当前仓库/HEAD/商品/阶段精确匹配且未过期的 `--writer-mutex-evidence`，同时取得本机全局非阻塞 mutex；缺少任一证据会在任何 Shijiu 请求前停止。
+
+本轮技术取证结果：官网实时核验 `10-9332-796` 的6个variant全部一致，税入价均为55,000 JPY，65折价均为35,750 JPY；18张官方图片完成HTTPS/域名/重定向/MIME/完整下载/解码/尺寸/hash预检且预检阶段Shijiu请求为0。目标端 `shijiu_product_id=9358340`，5阶段均完成强回读：18张有序broadcast、16张有序`good_detail_pics`、6个精确backend SKU、颜色/尺码/价格/库存/规格/主图/类目294884一致，405字符`good_details`在每阶段保持同一SHA-256且无图片和URL。请求台账为18次COS上传、1次CREATE、4次UPDATE、38次只读、0 failure、0 transport-unknown、`cross_source_writes=0`；`shijiu_sku_id`继续为null。
+
+由于互斥证据缺失，`production_import_architecture_verified=false`。生成的20件代表性计划仅用于冻结审阅，状态为 `FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED`，不得执行。后续外部互斥证据的非敏感结构由 `config/shijiu_writer_mutex_evidence.schema.json` 定义；原值必须留在Git工作区外，并且每个写入阶段都要重新匹配当前仓库HEAD、商品和stage。一次性非MIKI富文本测试商品继续保留，不纳入本轮清理。

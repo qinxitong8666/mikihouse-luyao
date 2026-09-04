@@ -1,0 +1,1034 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:44:41.382414+00:00",
+  "status": "FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "fixed_target_category_id": 294884,
+  "product_count": 20,
+  "coverage": {
+    "classification_counts": {
+      "footwear": 5,
+      "apparel": 5,
+      "baby": 5,
+      "goods": 5
+    },
+    "complexity_band_counts": {
+      "simple": 8,
+      "rich_media": 10,
+      "multi_sku": 2
+    },
+    "includes_simple": true,
+    "includes_multi_sku": true,
+    "includes_rich_media": true
+  },
+  "products": [
+    {
+      "sequence": 1,
+      "product_number": "23-9403-490",
+      "good_name": "チェック柄キッズシューズ",
+      "classification": "footwear",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 8,
+      "good_detail_pics_count": 7,
+      "required_cos_upload_count": 8,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_8",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 8,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_7",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 8,
+          "good_detail_pics_count": 7,
+          "new_cos_upload_count": 7
+        }
+      ],
+      "payload_sha256": "aac04293bc355e212db434902582816e979ca300364e61a9abadd231393d0d21"
+    },
+    {
+      "sequence": 2,
+      "product_number": "13-9401-686",
+      "good_name": "ウィンターブーツ",
+      "classification": "footwear",
+      "complexity_band": "rich_media",
+      "variant_count": 12,
+      "broadcast_count": 15,
+      "good_detail_pics_count": 13,
+      "required_cos_upload_count": 15,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_15",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_13",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 13,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "42d71416e2aad6c3b40d478970c40d46fb52d1a6420e73302582ca761d4ec95a"
+    },
+    {
+      "sequence": 3,
+      "product_number": "61-9303-493",
+      "good_name": "合皮ファーストベビーシューズ",
+      "classification": "footwear",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 9,
+      "good_detail_pics_count": 8,
+      "required_cos_upload_count": 9,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_9",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 9,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 9,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        }
+      ],
+      "payload_sha256": "e0e2e1700fa0673e2a9e94b1d666c904c58803a1a5df337585610e8c65f11787"
+    },
+    {
+      "sequence": 4,
+      "product_number": "10-9511-490",
+      "good_name": "シューズ風ベビーソックス",
+      "classification": "footwear",
+      "complexity_band": "simple",
+      "variant_count": 4,
+      "broadcast_count": 8,
+      "good_detail_pics_count": 6,
+      "required_cos_upload_count": 8,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_8",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 8,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_6",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 8,
+          "good_detail_pics_count": 6,
+          "new_cos_upload_count": 6
+        }
+      ],
+      "payload_sha256": "8a339dec530f9881cc43d9a160621c5f48a520d133f626663d7ac78451962165"
+    },
+    {
+      "sequence": 5,
+      "product_number": "13-9403-149",
+      "good_name": "ルームシューズ",
+      "classification": "footwear",
+      "complexity_band": "rich_media",
+      "variant_count": 4,
+      "broadcast_count": 15,
+      "good_detail_pics_count": 13,
+      "required_cos_upload_count": 15,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_15",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_13",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 13,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "777ed1e333d8b60f429ed807c6376ac6add4d875f0e6d30cbd9176f9e8387ea1"
+    },
+    {
+      "sequence": 6,
+      "product_number": "11-3201-389",
+      "good_name": "10分丈ストレッチパンツ",
+      "classification": "apparel",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 6,
+      "good_detail_pics_count": 5,
+      "required_cos_upload_count": 6,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_6",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 6,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 2
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_5",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 6,
+          "good_detail_pics_count": 5,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "e49816782f2acb4cd7837c10c6a5eecc91b97eda5b91a0406b5e71ecabf38d41"
+    },
+    {
+      "sequence": 7,
+      "product_number": "13-6603-490",
+      "good_name": "編みぐるみセーター",
+      "classification": "apparel",
+      "complexity_band": "multi_sku",
+      "variant_count": 10,
+      "broadcast_count": 7,
+      "good_detail_pics_count": 5,
+      "required_cos_upload_count": 7,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_7",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_5",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 5,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "b333b36641af972a5de5cd96871bcb44655823ef891ba479d38f15b6fcd558a7"
+    },
+    {
+      "sequence": 8,
+      "product_number": "30-3631-578",
+      "good_name": "スーツ【エルメネジルド・ゼニア社製素材使用】",
+      "classification": "apparel",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 16,
+      "good_detail_pics_count": 15,
+      "required_cos_upload_count": 16,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_16",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_15",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 15,
+          "new_cos_upload_count": 7
+        }
+      ],
+      "payload_sha256": "1a20717f9c3b8ac9c6c08a7e8d22babfff2ac8e2f7c545c1980e33ba123bb7b4"
+    },
+    {
+      "sequence": 9,
+      "product_number": "10-5675-491",
+      "good_name": "バックロゴトレーナー（大人用）",
+      "classification": "apparel",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 7,
+      "good_detail_pics_count": 6,
+      "required_cos_upload_count": 7,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_7",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_6",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 6,
+          "new_cos_upload_count": 6
+        }
+      ],
+      "payload_sha256": "f16a447c2ee903761d6267d0fe35546e707c908e374462f24056890b5c713cd2"
+    },
+    {
+      "sequence": 10,
+      "product_number": "30-3639-794",
+      "good_name": "ウールサキソニー素材のスーツ",
+      "classification": "apparel",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 16,
+      "good_detail_pics_count": 15,
+      "required_cos_upload_count": 16,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_16",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_15",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 15,
+          "new_cos_upload_count": 7
+        }
+      ],
+      "payload_sha256": "3621c3780eb812e0823512834ff65d7beb4b2e20f130ffa5f1ee9a232b242b0d"
+    },
+    {
+      "sequence": 11,
+      "product_number": "12-7503-497",
+      "good_name": "パッチワーク柄 プッチー甚平オール",
+      "classification": "baby",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 7,
+      "good_detail_pics_count": 6,
+      "required_cos_upload_count": 7,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_7",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_6",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 6,
+          "new_cos_upload_count": 6
+        }
+      ],
+      "payload_sha256": "945cc6df4f9bac2cb3764f0b478daa9e80096b83640e091b49d763b158390333"
+    },
+    {
+      "sequence": 12,
+      "product_number": "30-9608-576",
+      "good_name": "クルーソックス",
+      "classification": "baby",
+      "complexity_band": "multi_sku",
+      "variant_count": 10,
+      "broadcast_count": 7,
+      "good_detail_pics_count": 5,
+      "required_cos_upload_count": 7,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_7",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_5",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 5,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "39355326c853855f6edb5ed7b41b24f6aa4a2e169cc6c33b3d5ccbf1c398074a"
+    },
+    {
+      "sequence": 13,
+      "product_number": "72-1203-496",
+      "good_name": "総柄プレオール",
+      "classification": "baby",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 16,
+      "good_detail_pics_count": 13,
+      "required_cos_upload_count": 16,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_16",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_13",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 16,
+          "good_detail_pics_count": 13,
+          "new_cos_upload_count": 5
+        }
+      ],
+      "payload_sha256": "b4fede5295a3ed1909c4f92b298ea1aa6fbf3d74e572be45095cf6024719ac6e"
+    },
+    {
+      "sequence": 14,
+      "product_number": "12-7504-490",
+      "good_name": "お花うさこ甚平オール",
+      "classification": "baby",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 7,
+      "good_detail_pics_count": 6,
+      "required_cos_upload_count": 7,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 4
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_7",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_6",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 7,
+          "good_detail_pics_count": 6,
+          "new_cos_upload_count": 6
+        }
+      ],
+      "payload_sha256": "c5e4ffccedf9433a8f795b223cf2eb7361900df0808d8f1c864a058a156e1b00"
+    },
+    {
+      "sequence": 15,
+      "product_number": "40-2917-490",
+      "good_name": "無撚糸パイルボーダースタイ",
+      "classification": "baby",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 15,
+      "good_detail_pics_count": 12,
+      "required_cos_upload_count": 15,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_15",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_12",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 12,
+          "new_cos_upload_count": 4
+        }
+      ],
+      "payload_sha256": "661ba14cd31c8733dbb30170325e45ff26e9c8a712966de4ddca7e9529600b7d"
+    },
+    {
+      "sequence": 16,
+      "product_number": "16-2193-688",
+      "good_name": "ミキハウスベア カチューシャ",
+      "classification": "goods",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 6,
+      "good_detail_pics_count": 3,
+      "required_cos_upload_count": 6,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_6",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 6,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 2
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_3",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 6,
+          "good_detail_pics_count": 3,
+          "new_cos_upload_count": 3
+        }
+      ],
+      "payload_sha256": "14511eb1e650349cff275d0e1ece2420e552cd991c6f0f3073421cad6cc065b8"
+    },
+    {
+      "sequence": 17,
+      "product_number": "14-9909-491",
+      "good_name": "【WEB限定】ミキハウス カタカナソックス＆ミニタオルセット【BOX付き】",
+      "classification": "goods",
+      "complexity_band": "rich_media",
+      "variant_count": 12,
+      "broadcast_count": 52,
+      "good_detail_pics_count": 49,
+      "required_cos_upload_count": 52,
+      "required_create_count": 1,
+      "required_update_count": 13,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_20",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 20,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 4,
+          "key": "BROADCAST_21_28",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 28,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "BROADCAST_29_36",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 36,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 6,
+          "key": "BROADCAST_37_44",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 44,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 7,
+          "key": "BROADCAST_45_52",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 8,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 9,
+          "key": "DETAIL_PICS_9_16",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 16,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 10,
+          "key": "DETAIL_PICS_17_24",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 24,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 11,
+          "key": "DETAIL_PICS_25_32",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 32,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 12,
+          "key": "DETAIL_PICS_33_40",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 40,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 13,
+          "key": "DETAIL_PICS_41_48",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 48,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 14,
+          "key": "DETAIL_PICS_49_49",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 52,
+          "good_detail_pics_count": 49,
+          "new_cos_upload_count": 1
+        }
+      ],
+      "payload_sha256": "d4be5f61d6db24895436c1697ffdb4a28dc4cfc00d53d2e8c89cea506f81170e"
+    },
+    {
+      "sequence": 18,
+      "product_number": "62-8101-790",
+      "good_name": "てぬぐい",
+      "classification": "goods",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 15,
+      "good_detail_pics_count": 12,
+      "required_cos_upload_count": 15,
+      "required_create_count": 1,
+      "required_update_count": 4,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_12",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 12,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 3,
+          "key": "BROADCAST_13_15",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 3
+        },
+        {
+          "sequence": 4,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        },
+        {
+          "sequence": 5,
+          "key": "DETAIL_PICS_9_12",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 15,
+          "good_detail_pics_count": 12,
+          "new_cos_upload_count": 4
+        }
+      ],
+      "payload_sha256": "dfb34609bec02282a276bb09d5635ddf2e945b7e443e9683174943ca94d5a50a"
+    },
+    {
+      "sequence": 19,
+      "product_number": "16-1655-688",
+      "good_name": "ご当地チャーム",
+      "classification": "goods",
+      "complexity_band": "simple",
+      "variant_count": 3,
+      "broadcast_count": 9,
+      "good_detail_pics_count": 6,
+      "required_cos_upload_count": 9,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_9",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 9,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 5
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_6",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 9,
+          "good_detail_pics_count": 6,
+          "new_cos_upload_count": 6
+        }
+      ],
+      "payload_sha256": "0c19f58e9fd080be5998e30bcde07f147e248567be4d40d4ae5c4137592ccc50"
+    },
+    {
+      "sequence": 20,
+      "product_number": "10-8348-781",
+      "good_name": "リコーダーケース",
+      "classification": "goods",
+      "complexity_band": "rich_media",
+      "variant_count": 3,
+      "broadcast_count": 11,
+      "good_detail_pics_count": 8,
+      "required_cos_upload_count": 11,
+      "required_create_count": 1,
+      "required_update_count": 2,
+      "required_stages": [
+        {
+          "sequence": 1,
+          "key": "CREATE_CORE",
+          "operation": "CREATE",
+          "broadcast_count": 4,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 6
+        },
+        {
+          "sequence": 2,
+          "key": "BROADCAST_5_11",
+          "operation": "UPDATE_BROADCAST",
+          "broadcast_count": 11,
+          "good_detail_pics_count": 0,
+          "new_cos_upload_count": 7
+        },
+        {
+          "sequence": 3,
+          "key": "DETAIL_PICS_1_8",
+          "operation": "UPDATE_DETAIL_PICS",
+          "broadcast_count": 11,
+          "good_detail_pics_count": 8,
+          "new_cos_upload_count": 8
+        }
+      ],
+      "payload_sha256": "a4ef21abceaa9fedace3908c2b86c8e72e707a711c001468d4d378206b32a6a3"
+    }
+  ],
+  "execution_authorized": false,
+  "real_write_requests": 0,
+  "pdf_special_exclusion_count": 351,
+  "legacy_reference_touched": false,
+  "sensitive_values_included": false,
+  "production_write_mutex_evidence_verified": false,
+  "fail_closed_no_write": true
+}

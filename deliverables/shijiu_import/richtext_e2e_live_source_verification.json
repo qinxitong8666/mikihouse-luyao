@@ -1,0 +1,124 @@
+{
+  "verified_at": "2026-09-04T12:44:33.023603+00:00",
+  "product_number": "10-9332-796",
+  "product_name": "牛革セカンドベビーシューズ",
+  "variant_count": 6,
+  "variants": [
+    {
+      "backend_sku_code": "MIKI-10-9332-79600010130",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "白",
+      "size": "13cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "白"
+        },
+        {
+          "name": "サイズ",
+          "value": "13cm"
+        }
+      ],
+      "variant_image_url_sha256": "3018391dbb9cb9167547e3e56f39314e4225d4a34b7c48f1bcca298c0ce248da"
+    },
+    {
+      "backend_sku_code": "MIKI-10-9332-79600010140",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "白",
+      "size": "14cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "白"
+        },
+        {
+          "name": "サイズ",
+          "value": "14cm"
+        }
+      ],
+      "variant_image_url_sha256": "3018391dbb9cb9167547e3e56f39314e4225d4a34b7c48f1bcca298c0ce248da"
+    },
+    {
+      "backend_sku_code": "MIKI-10-9332-79600010150",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "白",
+      "size": "15cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "白"
+        },
+        {
+          "name": "サイズ",
+          "value": "15cm"
+        }
+      ],
+      "variant_image_url_sha256": "3018391dbb9cb9167547e3e56f39314e4225d4a34b7c48f1bcca298c0ce248da"
+    },
+    {
+      "backend_sku_code": "MIKI-10-9332-79600060130",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "グレー",
+      "size": "13cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "グレー"
+        },
+        {
+          "name": "サイズ",
+          "value": "13cm"
+        }
+      ],
+      "variant_image_url_sha256": "fc67d26e97a1992a211bb90271042208aadfb69583ba36539f14bc1a091fd68c"
+    },
+    {
+      "backend_sku_code": "MIKI-10-9332-79600060140",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "グレー",
+      "size": "14cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "グレー"
+        },
+        {
+          "name": "サイズ",
+          "value": "14cm"
+        }
+      ],
+      "variant_image_url_sha256": "fc67d26e97a1992a211bb90271042208aadfb69583ba36539f14bc1a091fd68c"
+    },
+    {
+      "backend_sku_code": "MIKI-10-9332-79600060150",
+      "tax_included_price_jpy": 55000,
+      "mini_program_price_jpy": 35750,
+      "available_for_sale": true,
+      "color": "グレー",
+      "size": "15cm",
+      "selected_options": [
+        {
+          "name": "カラー",
+          "value": "グレー"
+        },
+        {
+          "name": "サイズ",
+          "value": "15cm"
+        }
+      ],
+      "variant_image_url_sha256": "fc67d26e97a1992a211bb90271042208aadfb69583ba36539f14bc1a091fd68c"
+    }
+  ],
+  "all_skus_prices_65pct_prices_stocks_options_and_images_match_master": true,
+  "sensitive_values_included": false
+}

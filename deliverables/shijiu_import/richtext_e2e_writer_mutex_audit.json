@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:48:15.391140+00:00",
+  "status": "FAIL_CLOSED_NO_FURTHER_WRITE_MUTEX_EVIDENCE_NOT_CAPTURED",
+  "rule_source": "AGENTS.md#14",
+  "rule_introduced_remote_commit": "26e30330c25987743be6fe7c424dd3528c6f83c0",
+  "shijiu_writer_source": "MIKIHOUSE",
+  "repository": "qinxitong8666/mikihouse-luyao",
+  "branch_at_write_time": "main",
+  "local_head_at_write_time": "cf75516b3e12cba77ce34fde7e1cd6d1b5a6f811",
+  "product_number": "10-9332-796",
+  "shijiu_product_id": "9358340",
+  "exact_write_scope": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_18",
+    "DETAIL_PICS_1_8",
+    "DETAIL_PICS_9_16"
+  ],
+  "ownership_proof": {
+    "create_was_explicitly_authorized_for_product_number": "10-9332-796",
+    "mapping_completed_by_exact_backend_sku_readback": true,
+    "update_target_was_the_same_mapped_product_id": "9358340"
+  },
+  "cross_source_writes": 0,
+  "concurrent_shijiu_writer_observed": "NOT_CAPTURED",
+  "production_write_window_started_at": "2026-09-04T12:43:07.943318+00:00",
+  "production_write_window_ended_at": "2026-09-04T12:44:41.077352+00:00",
+  "request_counts": {
+    "create": 1,
+    "update": 4,
+    "upload": 18,
+    "readback": 38,
+    "failure": 0,
+    "transport_unknown": 0
+  },
+  "technical_five_stage_readback_completed": true,
+  "production_governance_verified": false,
+  "no_new_shijiu_writes_allowed_without_fresh_mutex_evidence": true,
+  "sensitive_values_included": false
+}
