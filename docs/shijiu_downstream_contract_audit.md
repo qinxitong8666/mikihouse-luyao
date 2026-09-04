@@ -77,4 +77,10 @@
 
 原始 endpoint/query、完整 headers、Cookie/token/secret、body、响应及回读原文只允许写入 Git 工作区外的 `--private-dir`，目录/文件权限分别为 `0700`/`0600`。可提交的 `browser_exact_capture_readiness.json` 只包含字段名、类型、布尔存在性、哈希以及成功后可公开的目标 ID；私有路径本身也不写入报告。
 
-2026-09-04 本机预检发现 Chrome 152 已运行，但没有 ChatGPT Chrome 扩展且未开放 `127.0.0.1:9222` CDP，因此无法附着当前默认会话，状态保持 `BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE`。可行的最少路径是由脚本启动 Git 外的独立私有 Chrome profile 后人工登录并保存一次，或人工启动一个带本地 CDP 端口的专用非默认 profile；禁止复制默认 Chrome profile。当前历史 WAWU 与此前 MIKIHOUSE 的脱敏比较在 method、endpoint、query/header 名称、Content-Type、body/sku/spec 字段和类型上均未发现差异，故尚无证据支持修改认证或 payload。必须先取得当期成功 browser-exact 请求和唯一回读对，再根据自动差异报告决定下一步修复。
+2026-09-04 本机预检发现 Chrome 152 已运行，但没有 ChatGPT Chrome 扩展且未开放 `127.0.0.1:9222` CDP，因此无法附着当前默认会话。随后由工具启动 Git 外独立 private profile；初始单页监听遗漏登录后新开的后台标签，已修复为 context 级 route/response/CDP 监听。首次 CREATE 的过去请求无法补录且未伪造，最终证据明确标记 `operation_kind=EDIT`、`create_contract_captured=false`。
+
+同一非 MIKIHOUSE 测试商品的人工编辑保存已持久化：原生 `newAddGood` 为 POST、JSON Content-Type，query/body token 均存在且相等；`request.allHeaders()` 未观察到 Cookie 或 Authorization。通过后台页面原生 `Goods.index` 唯一回读 `product_id=9357918` 和相同商品名；`getFormatInfo` 回读相同商品及 1 个 SKU 的规格、价格、库存和图片结构。该持久化原生请求不含 Cookie，故缺少 Cookie 已被排除为此前 MIKIHOUSE 静默拒绝的充分原因。
+
+真实 `getFormatInfo.data.sku_info[]` 没有 `id/sku_id/goods_sku_id/good_sku_id`。仓库旧 6 个 legacy 样本共 70 个 SKU 同样未观察到独立 SKU ID；最新 `wawu-product-sync@a36c5eab40bf419562ba03d15c090151698d582a` 的 Shijiu transformer 也明确说明 native detail 当前不暴露单独后台 SKU ID，并保持 nullable。因此本轮状态为 `BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED`，不将商品 ID、数组位置、规格文本或空 `sku_code` 猜作 SKU ID。
+
+相对历史 WAWU/此前 MIKIHOUSE 请求，当前原生 EDIT 多出 `id/orderby/virtual_sales`、少 `brand_id`；`original_price/tax_rate` 从 number 变为 string，`sku_stock` 从 string 变为 number，body 字段顺序不同，且当前浏览器请求多 `Origin` header。浏览器版本导致的 `sec-ch-ua/User-Agent` 哈希变化不是业务契约结论。由于本轮没有捕获首次 CREATE，这些差异只能进入下一轮离线 create mapper 审计，不能直接宣称为 create 静默拒绝的唯一根因。本轮 MIKIHOUSE 写入 0、自动测试商品写入 0、legacy 操作 0；原始证据仍只在 Git 外私有目录。

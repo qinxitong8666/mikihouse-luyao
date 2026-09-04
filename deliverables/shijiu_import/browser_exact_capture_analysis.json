@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T04:16:21Z",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "state": "BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED",
+  "capture": {
+    "operation_kind": "EDIT",
+    "create_contract_captured": false,
+    "initial_create_capture_missing_reason": "LOGIN_OPENED_ADMIN_IN_A_NEW_TAB_BEFORE_CONTEXT_WIDE_LISTENING_FIX",
+    "endpoint_path": "/shopapi/Goods/newAddGood",
+    "method": "POST",
+    "content_type": "application/json;charset=UTF-8",
+    "http_status": 200,
+    "response_body_value_included": false,
+    "private_evidence_value_included": false
+  },
+  "authentication_and_tenant_evidence": {
+    "cookie_present": false,
+    "authorization_header_present": false,
+    "query_token_present": true,
+    "body_token_present": true,
+    "body_secret_present": true,
+    "query_body_token_equal": true,
+    "explicit_tenant_fields_present": false,
+    "credential_values_included": false,
+    "finding": "MISSING_COOKIE_ALONE_RULED_OUT_BY_PERSISTED_NATIVE_EDIT"
+  },
+  "readback": {
+    "goods_index_unique": true,
+    "product_id": "9357918",
+    "good_name_verified": true,
+    "get_format_info_product_verified": true,
+    "expected_sku_count": 1,
+    "actual_sku_structure_count": 1,
+    "sku_structure_verified": true,
+    "sku_id_exposed": false,
+    "sku_ids": [],
+    "sku_id_missing_fields": [
+      "id",
+      "sku_id",
+      "goods_sku_id",
+      "good_sku_id"
+    ],
+    "sku_id_policy": "KEEP_NULL_DO_NOT_GUESS"
+  },
+  "browser_exact_vs_previous_mikihouse": {
+    "same_method": true,
+    "same_endpoint_path": true,
+    "same_query_parameter_names": true,
+    "same_content_type": true,
+    "cookie_present_in_either": false,
+    "current_only_header_names": [
+      "origin"
+    ],
+    "current_only_body_fields": [
+      "id",
+      "orderby",
+      "virtual_sales"
+    ],
+    "previous_only_body_fields": [
+      "brand_id"
+    ],
+    "body_type_differences": {
+      "original_price": {
+        "current_native": "string",
+        "previous_mikihouse": "number"
+      },
+      "tax_rate": {
+        "current_native": "string",
+        "previous_mikihouse": "number"
+      },
+      "sku_info[].sku_stock": {
+        "current_native": "number",
+        "previous_mikihouse": "string"
+      }
+    },
+    "body_field_order_equal": false
+  },
+  "evidence_boundary": {
+    "current_request_is_edit_not_create": true,
+    "create_silent_rejection_root_cause_proven": false,
+    "candidate_payload_differences_require_offline_mapper_review": true,
+    "get_format_info_independent_sku_id_contract_available": false,
+    "historical_wawu_reference_commit": "a36c5eab40bf419562ba03d15c090151698d582a"
+  },
+  "safety": {
+    "mikihouse_product_write_requests": 0,
+    "automatic_product_write_requests": 0,
+    "human_reported_non_mikihouse_create_requests": 1,
+    "captured_human_non_mikihouse_edit_requests": 1,
+    "confirmed_target_endpoint_read_requests_during_diagnostics": 14,
+    "other_page_load_read_requests_enumerated": false,
+    "legacy_operations": 0,
+    "secret_values_included": false,
+    "token_values_included": false,
+    "cookie_values_included": false,
+    "raw_body_values_included": false,
+    "private_path_included": false
+  },
+  "next_fix_conclusion": {
+    "do_not_add_cookie_requirement": true,
+    "do_not_bind_or_guess_shijiu_sku_id": true,
+    "offline_review_fields": [
+      "origin header",
+      "brand_id",
+      "orderby",
+      "virtual_sales",
+      "original_price type",
+      "tax_rate type",
+      "sku_stock type",
+      "body field order"
+    ],
+    "future_create_capture_requires_separate_authorization": true,
+    "mikihouse_writes_remain_prohibited": true
+  }
+}
