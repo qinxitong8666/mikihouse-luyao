@@ -60,3 +60,13 @@
 目标 `/v1/cos/upload` 成功返回一张 `cdn0.19mini.com` 图片。唯一一次 `/shopapi/Goods/newAddGood` 返回 HTTP 200、JSON Content-Type、`code=200, msg=success, data=[]`。其后精确 SKU 和精确名称查询均未返回 ID，11 个 MikiHouse 分类过滤视图的完整分页仍为创建前同一组 286 个 ID。没有唯一 product ID，因而不存在可安全调用 `getFormatInfo` 的目标，也没有 SKU ID 或 mapping 可持久化。
 
 本轮总请求 321：319 次只读、1 次图片上传、1 次最小创建；渐进 edit 0、批量处理 0、legacy 修改 0、`00-1000-028` 请求 0。一次性 checkpoint 为 `STOPPED_ON_PROBE_ERROR`，禁止重试。规格、完整轮播和详情三组更新门禁均未到达，所以现有结果不能把静默拒绝归因于这些扩展字段。已证明的是“native-shaped 请求被解析并返回空 success，但没有可观测的持久实体”；尚不能证明具体由目标端校验、账号权限、租户上下文或其他后台工作流条件造成，禁止选择第二个商品继续试写或猜测 ID。
+
+## 会话、Cookie 与 browser-exact 证据审计
+
+参考仓库 current main `a36c5eab40bf419562ba03d15c090151698d582a` 的 `backend_client.py` 将 `NATIVE_SAVE_REQUEST_PATH` 作为 Git 外模板来源。`_native_save_headers()` 读取模板 headers 后主动删除其中的 Cookie，只有本地 `MYSHOP_COOKIE` 非空时才注入 Cookie。当前外部 `shijiu.env` 有 token/secret、无 `MYSHOP_COOKIE/SHIJIU_COOKIE`，也没有自定义 native path；因此 MIKIHOUSE 上一轮请求不含 Cookie 与代码和运行配置一致。
+
+历史 native 模板捕获于 2026-08-14，endpoint、54 个 payload 字段、JSON 顺序、Content-Type 和浏览器 header 子集均有效，且对应的原生 UI 保存曾由 Goods.index 确认可见。但捕获器调用 `request.headers()`，没有调用 `request.allHeaders()` 或监听 `Network.requestWillBeSentExtraInfo`；Playwright 的基础 headers 结果不足以证明 Cookie 等受保护 headers 是否真实存在。模板的无 Cookie 状态只能表述为“未观察到”，不能表述为“浏览器未发送”。
+
+同时，历史 WAWU programmatic direct loop 的请求预览也不含 Cookie，却完成商品创建、SKU 回读校验和删除后确认。这一反证说明 Cookie 缺失不是当前静默拒绝的充分原因。现有 token/secret 仍能完成 MIKIHOUSE 的只读列表和分类扫描，说明读取认证有效，但创建授权、当期浏览器会话及租户工作流仍未得到 browser-exact 证据。
+
+浏览器只读环境检查没有发现应用内 Shijiu 标签；Chrome 正在运行但无可连接的 ChatGPT 浏览器扩展，未读取 Cookie、storage 或密码。由于缺少当前登录会话、完整受保护请求头和当期成功保存/回读对，审计严格停止在 `BLOCKED_MISSING_BROWSER_EXACT_SESSION_EVIDENCE`。本轮没有发 Shijiu read/upload/create/update 请求，没有选择另一件商品，也没有修改 legacy 286。缺失私有证据和安全存放方式详见 `deliverables/shijiu_import/session_auth_audit.json`；所有 token、secret、Cookie、cURL/HAR 与原始 body 必须留在 Git 工作区之外。

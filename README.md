@@ -312,3 +312,33 @@ PYTHONPATH=src python scripts/probe_shijiu_minimal_create.py \
   --target-env-file /absolute/path/to/shijiu.env \
   --confirm MIKIHOUSE_MINIMAL_CREATE_PROBE_ONE
 ```
+
+## Shijiu 会话与 browser-exact 请求审计
+
+`scripts/audit_shijiu_session.py` 只读取本地非 Git 配置、历史 native 模板和两仓库代码，不访问 Shijiu，也不包含任何商品写方法。2026-09-04 审计基线为本仓库 `becfc8b` 与 `qinxitong8666/wawu-product-sync@a36c5ea`。
+
+WAWU 参考 writer 的真实行为是：`NATIVE_SAVE_REQUEST_PATH` 指向 Git 外的 `native_save_request.json`；发送前先加载模板 headers、明确移除模板中的 Cookie，再仅在本地配置存在 `MYSHOP_COOKIE` 时重新注入；body 仍为 `secret`、`token` 在前的 UTF-8 紧凑 JSON。当前本地私有配置只有 `MYSHOP_TOKEN/MYSHOP_SECRET`，没有 `MYSHOP_COOKIE/SHIJIU_COOKIE`，也没有覆盖 `NATIVE_SAVE_REQUEST_PATH`，因此上一轮 MIKIHOUSE create 确实没有 Cookie。
+
+但 Cookie 缺失不是已证明的根因。历史 WAWU 直接调用闭环在同样不含 Cookie header 的情况下完成了创建、Goods.index/getFormatInfo 校验和测试商品清理。另一方面，历史浏览器 native 模板虽对应一次 `PASS_NATIVE_UI_SAVE_VISIBLE`，捕获器使用的是 Playwright `request.headers()`，没有使用 `request.allHeaders()` 或 CDP `requestWillBeSentExtraInfo`，所以模板中看不到 Cookie 并不能证明真实浏览器当时没有受保护请求头。
+
+当前应用内浏览器没有 Shijiu 标签；本机 Chrome 虽在运行，但未安装/连接 ChatGPT 浏览器扩展，无法只读确认其是否有当前登录后台。现有 token/secret 已通过上一轮 319 次只读请求证明具有读取能力，但不能证明当前浏览器会话或商品创建权限。审计结论因此是 `BLOCKED_MISSING_BROWSER_EXACT_SESSION_EVIDENCE`：本轮 Shijiu read/upload/create/update 全部为 0，没有选择新候选，没有触碰 legacy，也不会继续更换 MIKIHOUSE 商品试写。
+
+解除门禁前，需要人工在当前已登录的 Shijiu 后台私下取得以下最小证据，且全部保存在 Git 工作区之外：
+
+1. 一次原生“新增商品→保存”的完整 Copy as cURL 或 HAR，或由 `request.allHeaders()`/CDP extra-info 捕获的请求；必须保留 method、完整 endpoint/query 形式、全部 request headers、Content-Type、原始 JSON body 和响应。如果真实请求含 Cookie，完整 Cookie 值只写入外部 `.secrets/shijiu.env` 的 `SHIJIU_COOKIE` 或 `MYSHOP_COOKIE`。
+2. 与该请求对应的唯一测试商品 `Goods/index` product ID 和 `getFormatInfo` SKU ID，证明请求在当前会话下真实、持久落库；测试数据处置须另行明确。
+3. 当前登录页能够访问 MikiHouse 类目 294884 的可见会话证明。若希望由 Codex 只读确认 Chrome 页面，需要先在 Chrome 安装并启用 ChatGPT 浏览器扩展。
+4. 私有 native 模板路径通过外部配置 `NATIVE_SAVE_REQUEST_PATH` 指向；不得把 cURL、HAR、token、secret、Cookie 或原始请求体提交到仓库。
+
+脱敏审计结果位于 `deliverables/shijiu_import/session_auth_audit.json`。报告只包含字段名、布尔状态、文件哈希和结构摘要；明确断言 token、secret、Cookie 与原始 body 值均未写入。
+
+纯本地审计命令：
+
+```bash
+PYTHONPATH=src python scripts/audit_shijiu_session.py \
+  --target-env-file /outside/git/shijiu.env \
+  --native-template /outside/git/native_save_request.json \
+  --native-capture-script /outside/git/capture.js \
+  --native-result /outside/git/native_ui_result.json \
+  --direct-loop-result /outside/git/direct_loop_result.json
+```

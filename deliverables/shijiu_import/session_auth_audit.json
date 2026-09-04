@@ -1,0 +1,347 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:25:43.471220+00:00",
+  "mode": "LOCAL_AND_READ_ONLY_EVIDENCE_AUDIT",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "repositories": {
+    "mikihouse_main_commit": "becfc8bb8f3aca2e13208dd3bddbf454966ded06",
+    "wawu_reference": {
+      "repository": "qinxitong8666/wawu-product-sync",
+      "main_commit": "a36c5eab40bf419562ba03d15c090151698d582a",
+      "backend_client_sha256": "e8c66771ba648829dc2c9d0c8130baaa2853cd63b4cbc3fbd5ff7f0b44e3897e",
+      "target_endpoint": "/shopapi/Goods/newAddGood",
+      "native_request_path_config_key": "NATIVE_SAVE_REQUEST_PATH",
+      "default_native_template_location": "external outputs/browser_session_reports/native_save_request.json",
+      "template_headers_loaded": true,
+      "template_cookie_removed_before_send": true,
+      "runtime_cookie_config_key": "MYSHOP_COOKIE",
+      "runtime_cookie_injected_when_present": true,
+      "compact_json_body": true,
+      "body_auth_fields_first": [
+        "secret",
+        "token"
+      ],
+      "native_request_template_is_committed": false
+    }
+  },
+  "runtime_config": {
+    "location_scope": "external_local_non_git_config",
+    "exists": true,
+    "auth_key_presence": {
+      "SHIJIU_TOKEN": false,
+      "SHIJIU_SECRET": false,
+      "SHIJIU_COOKIE": false,
+      "MYSHOP_TOKEN": true,
+      "MYSHOP_SECRET": true,
+      "MYSHOP_COOKIE": false
+    },
+    "token_available": true,
+    "secret_available": true,
+    "cookie_available": false,
+    "cookie_source_key": null,
+    "native_request_path_configured": false
+  },
+  "native_browser_template": {
+    "location_scope": "external_local_non_git_native_template",
+    "exists": true,
+    "sha256": "7b19a95c6072f484d00fcd4f3dd0c87071a83d0c3540c26d4bbd399f37022dc4",
+    "byte_count": 4121,
+    "phase": "native_save",
+    "captured_at": "2026-08-14T01:08:23.534Z",
+    "method": "POST",
+    "resource_type": "xhr",
+    "url_shape": {
+      "scheme": "https",
+      "host": "api.wfcorp.cn",
+      "path": "/shijiu/shopapi/Goods/newAddGood",
+      "query_parameter_names": [
+        "token"
+      ],
+      "contains_query_values": true
+    },
+    "header_names": [
+      "accept",
+      "content-type",
+      "referer",
+      "sec-ch-ua",
+      "sec-ch-ua-mobile",
+      "sec-ch-ua-platform",
+      "user-agent"
+    ],
+    "cookie_header_observed": false,
+    "content_type": "application/json;charset=UTF-8",
+    "body": {
+      "type": "json_object",
+      "field_names_in_order": [
+        "secret",
+        "token",
+        "good_videos",
+        "video_cover",
+        "good_name",
+        "gyy_erp_code",
+        "hc_erp_code",
+        "good_describe",
+        "original_price",
+        "good_details",
+        "state",
+        "spec_name",
+        "sku_info",
+        "vnarious",
+        "good_type",
+        "good_detail_pics",
+        "integral_type",
+        "integral_content",
+        "is_cumulative",
+        "mortgage_type",
+        "mortgage_content",
+        "distribution_set",
+        "distribution_type",
+        "first_commission",
+        "second_commisstion",
+        "freight_type",
+        "freight_id",
+        "member_type",
+        "advance_sale",
+        "is_border",
+        "spt1",
+        "name_ch",
+        "name_eh",
+        "brand_id",
+        "cargo_place",
+        "standard_place",
+        "buying_unit",
+        "cargo_ingredient",
+        "gross_weight",
+        "net_weight",
+        "cargo_function",
+        "tax_rate",
+        "code_ts",
+        "hs_code",
+        "length",
+        "weight",
+        "height",
+        "supplier",
+        "bus_region",
+        "description",
+        "is_shelf",
+        "is_collection",
+        "is_need_authentication",
+        "master_graph",
+        "broadcast",
+        "good_group_id"
+      ],
+      "field_count": 56,
+      "has_secret_field": true,
+      "has_token_field": true,
+      "sku_count": 2,
+      "specification_count": 1
+    },
+    "response": {
+      "http_status": 200,
+      "api_code": 200,
+      "api_message_shape": {
+        "type": "str",
+        "length": 7
+      },
+      "api_data_shape": {
+        "type": "list",
+        "length": 0
+      }
+    }
+  },
+  "native_capture_implementation": {
+    "location_scope": "external_local_non_git_capture_implementation",
+    "exists": true,
+    "sha256": "549707c6afaafd47261cdb5ab84e7e346877686731b5c80200f5c7d88f8fe667",
+    "uses_request_headers": true,
+    "uses_request_all_headers": false,
+    "uses_cdp_request_will_be_sent_extra_info": false,
+    "sensitive_header_capture_complete": false,
+    "limitation": "request.headers() cannot prove whether protected Cookie headers were sent"
+  },
+  "native_historical_result": {
+    "exists": true,
+    "sha256": "f8dbb20cb353733edc698d1db25a9ab3ad89fc4445d0845220d53d9d639268fb",
+    "status": "PASS_NATIVE_UI_SAVE_VISIBLE",
+    "native_save_captured": true,
+    "goods_index_visible": true,
+    "custom_fetch_capture_present": true
+  },
+  "historical_programmatic_direct_loop": {
+    "exists": true,
+    "sha256": "b534a8ee6b798725a032d84d63bc7b7c627479c328a8963229a6e7da15e585db",
+    "validation_passed": true,
+    "validated_sku_count": 3,
+    "native_request_header_names": [
+      "accept",
+      "content-type",
+      "referer",
+      "sec-ch-ua",
+      "sec-ch-ua-mobile",
+      "sec-ch-ua-platform",
+      "user-agent"
+    ],
+    "cookie_header_sent": false,
+    "product_create_and_readback_proven": true,
+    "post_test_cleanup_proven": true
+  },
+  "mikihouse_previous_probe": {
+    "report_sha256": "a93fdf4fd3fa96bd8a6e343befdeffad504cb7b3355e6087c30bd87a203bdc87",
+    "candidate_product_number": "17-1366-244",
+    "state": "STOPPED_ON_PROBE_ERROR",
+    "request_header_names": [
+      "accept",
+      "content-type",
+      "referer",
+      "sec-ch-ua",
+      "sec-ch-ua-mobile",
+      "sec-ch-ua-platform",
+      "user-agent"
+    ],
+    "cookie_header_sent": false,
+    "content_type": "application/json;charset=UTF-8",
+    "serialization": {
+      "format": "JSON",
+      "encoding": "UTF-8",
+      "ensure_ascii": false,
+      "separators": [
+        ",",
+        ":"
+      ],
+      "body_auth_key_order": [
+        "secret",
+        "token"
+      ],
+      "body_key_order_after_auth": [
+        "good_videos",
+        "video_cover",
+        "good_name",
+        "gyy_erp_code",
+        "hc_erp_code",
+        "good_describe",
+        "original_price",
+        "good_details",
+        "state",
+        "spec_name",
+        "sku_info",
+        "vnarious",
+        "good_type",
+        "good_detail_pics",
+        "integral_type",
+        "integral_content",
+        "is_cumulative",
+        "mortgage_type",
+        "mortgage_content",
+        "distribution_set",
+        "distribution_type",
+        "first_commission",
+        "second_commisstion",
+        "freight_type",
+        "freight_id",
+        "member_type",
+        "advance_sale",
+        "is_border",
+        "spt1",
+        "name_ch",
+        "name_eh",
+        "brand_id",
+        "cargo_place",
+        "standard_place",
+        "buying_unit",
+        "cargo_ingredient",
+        "gross_weight",
+        "net_weight",
+        "cargo_function",
+        "tax_rate",
+        "code_ts",
+        "hs_code",
+        "length",
+        "weight",
+        "height",
+        "supplier",
+        "bus_region",
+        "description",
+        "is_shelf",
+        "is_collection",
+        "is_need_authentication",
+        "master_graph",
+        "broadcast",
+        "good_group_id"
+      ],
+      "token_also_in_query": true
+    },
+    "api_response": {
+      "http_status": 200,
+      "code": 200,
+      "data_shape": {
+        "type": "list",
+        "length": 0
+      }
+    },
+    "read_only_requests": 319,
+    "post_failure_read_only_passed": true,
+    "create_requests": 1,
+    "staged_updates": 0
+  },
+  "browser_environment": {
+    "inspection_mode": "visible_session_only_no_cookie_or_storage_access",
+    "iab_open_shijiu_tab_count": 0,
+    "chrome_running": true,
+    "chrome_extension_connected": false,
+    "authenticated_shijiu_admin_visible": false
+  },
+  "analysis": {
+    "template_shape_matches_native_save": true,
+    "historical_native_save_was_visible": true,
+    "cookie_absence_in_template_is_conclusive": false,
+    "reason_cookie_absence_is_not_conclusive": "the capture used request.headers(), not allHeaders() or CDP extra-info",
+    "wawu_programmatic_writer_would_send_cookie_now": false,
+    "cookie_requirement_resolved": false,
+    "historical_cookie_less_programmatic_create_and_readback_passed": true,
+    "mikihouse_previous_create_sent_cookie": false,
+    "current_token_secret_support_read_only_access": true,
+    "current_browser_exact_session_evidence_complete": false,
+    "cookie_is_proven_root_cause": false,
+    "conclusion": "No current browser-exact authenticated save request can be reproduced. A historical programmatic create/readback succeeded without Cookie, so Cookie absence alone is not a sufficient explanation. The browser capture also cannot prove whether the native UI request carried protected headers."
+  },
+  "decision": {
+    "state": "BLOCKED_MISSING_BROWSER_EXACT_SESSION_EVIDENCE",
+    "shijiu_read_requests_executed_this_audit": 0,
+    "image_upload_requests_executed_this_audit": 0,
+    "product_create_requests_executed_this_audit": 0,
+    "product_update_requests_executed_this_audit": 0,
+    "new_candidate_selected": false,
+    "different_mikihouse_product_create_attempted": false,
+    "legacy_products_touched": 0,
+    "next_write_allowed": false
+  },
+  "minimum_required_private_evidence": [
+    {
+      "id": "CURRENT_LOGIN_COOKIE",
+      "required_private_content": "the complete Cookie request-header value, if present on a successful logged-in browser newAddGood request",
+      "store_only_in": "external .secrets/shijiu.env as SHIJIU_COOKIE or MYSHOP_COOKIE"
+    },
+    {
+      "id": "COMPLETE_BROWSER_REQUEST_HEADERS",
+      "required_private_content": "Copy as cURL/HAR headers or Playwright request.allHeaders()/CDP requestWillBeSentExtraInfo from a successful native browser save",
+      "must_include": "method, exact endpoint/query style, every request-header name/value including Cookie when sent, Content-Type, and User-Agent/client hints"
+    },
+    {
+      "id": "CURRENT_AUTHENTICATED_BROWSER_SESSION",
+      "required_private_content": "a currently logged-in Shijiu admin tab with MikiHouse category access"
+    },
+    {
+      "id": "SUCCESSFUL_NATIVE_SAVE_AND_READBACK_PAIR",
+      "required_private_content": "one browser-native new-product save capture plus the resulting unique Goods/index product ID and getFormatInfo SKU ID",
+      "purpose": "prove the exact private template is currently authorized and durable before any MIKIHOUSE write"
+    }
+  ],
+  "report_safety": {
+    "token_values_included": false,
+    "secret_values_included": false,
+    "cookie_values_included": false,
+    "native_request_body_values_included": false,
+    "external_private_files_copied_into_git": false
+  }
+}

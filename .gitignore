@@ -8,3 +8,7 @@ build/
 tmp/
 output/*
 !output/.gitkeep
+.secrets/
+*.har
+*native_save_request.private.json
+*browser_exact_request.private.json
