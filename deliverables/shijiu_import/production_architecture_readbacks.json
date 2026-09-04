@@ -1,0 +1,797 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:40:38.067091+00:00",
+  "product_number": "63-3210-146",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-3210-146",
+      "product_number": "63-3210-146",
+      "shijiu_product_id": "9358329",
+      "target_category_id": 294884,
+      "good_name": "ツーウェイパンツ",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+      "sku_count": 7,
+      "skus": [
+        {
+          "source_variant_sku": "63-3210-14600270800",
+          "backend_sku_code": "MIKI-63-3210-14600270800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270800"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,80cm",
+          "color": "チャコールグレー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600270900",
+          "backend_sku_code": "MIKI-63-3210-14600270900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270900"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,90cm",
+          "color": "チャコールグレー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271000",
+          "backend_sku_code": "MIKI-63-3210-14600271000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271000"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,100cm",
+          "color": "チャコールグレー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271100",
+          "backend_sku_code": "MIKI-63-3210-14600271100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271100"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,110cm",
+          "color": "チャコールグレー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271200",
+          "backend_sku_code": "MIKI-63-3210-14600271200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271200"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,120cm",
+          "color": "チャコールグレー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271300",
+          "backend_sku_code": "MIKI-63-3210-14600271300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271300"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,130cm",
+          "color": "チャコールグレー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271400",
+          "backend_sku_code": "MIKI-63-3210-14600271400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271400"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,140cm",
+          "color": "チャコールグレー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:36:21.635638+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-3210-146",
+      "product_number": "63-3210-146",
+      "shijiu_product_id": "9358329",
+      "target_category_id": 294884,
+      "good_name": "ツーウェイパンツ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8434aaac8643aaa1f2721c5ce056b66a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a649d86c9a3b76135de3b039565b5142.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/04d4399a8147936de5ced1a73a400e5e.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+      "sku_count": 7,
+      "skus": [
+        {
+          "source_variant_sku": "63-3210-14600270800",
+          "backend_sku_code": "MIKI-63-3210-14600270800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270800"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,80cm",
+          "color": "チャコールグレー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600270900",
+          "backend_sku_code": "MIKI-63-3210-14600270900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270900"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,90cm",
+          "color": "チャコールグレー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271000",
+          "backend_sku_code": "MIKI-63-3210-14600271000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271000"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,100cm",
+          "color": "チャコールグレー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271100",
+          "backend_sku_code": "MIKI-63-3210-14600271100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271100"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,110cm",
+          "color": "チャコールグレー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271200",
+          "backend_sku_code": "MIKI-63-3210-14600271200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271200"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,120cm",
+          "color": "チャコールグレー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271300",
+          "backend_sku_code": "MIKI-63-3210-14600271300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271300"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,130cm",
+          "color": "チャコールグレー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271400",
+          "backend_sku_code": "MIKI-63-3210-14600271400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271400"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,140cm",
+          "color": "チャコールグレー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:37:01.479069+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-3210-146",
+      "product_number": "63-3210-146",
+      "shijiu_product_id": "9358329",
+      "target_category_id": 294884,
+      "good_name": "ツーウェイパンツ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8434aaac8643aaa1f2721c5ce056b66a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a649d86c9a3b76135de3b039565b5142.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/04d4399a8147936de5ced1a73a400e5e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f8c46343a869861793c3e5c802710cf0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bf7cd3c8cf1e49db8ecf0d691beec43b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/38590159b280138a51d527bea8e3f588.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5cf01561d4e7db556bac7fb1cf23f6f0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c3458cd2051b48bc8f8fd7fb6cdf03c.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+      "sku_count": 7,
+      "skus": [
+        {
+          "source_variant_sku": "63-3210-14600270800",
+          "backend_sku_code": "MIKI-63-3210-14600270800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270800"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,80cm",
+          "color": "チャコールグレー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600270900",
+          "backend_sku_code": "MIKI-63-3210-14600270900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270900"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,90cm",
+          "color": "チャコールグレー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271000",
+          "backend_sku_code": "MIKI-63-3210-14600271000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271000"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,100cm",
+          "color": "チャコールグレー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271100",
+          "backend_sku_code": "MIKI-63-3210-14600271100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271100"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,110cm",
+          "color": "チャコールグレー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271200",
+          "backend_sku_code": "MIKI-63-3210-14600271200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271200"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,120cm",
+          "color": "チャコールグレー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271300",
+          "backend_sku_code": "MIKI-63-3210-14600271300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271300"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,130cm",
+          "color": "チャコールグレー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271400",
+          "backend_sku_code": "MIKI-63-3210-14600271400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271400"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,140cm",
+          "color": "チャコールグレー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:37:29.864197+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-3210-146",
+      "product_number": "63-3210-146",
+      "shijiu_product_id": "9358329",
+      "target_category_id": 294884,
+      "good_name": "ツーウェイパンツ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8434aaac8643aaa1f2721c5ce056b66a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a649d86c9a3b76135de3b039565b5142.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/04d4399a8147936de5ced1a73a400e5e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f8c46343a869861793c3e5c802710cf0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bf7cd3c8cf1e49db8ecf0d691beec43b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/38590159b280138a51d527bea8e3f588.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5cf01561d4e7db556bac7fb1cf23f6f0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c3458cd2051b48bc8f8fd7fb6cdf03c.jpg"
+      ],
+      "detail_image_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg"
+      ],
+      "good_details_sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+      "sku_count": 7,
+      "skus": [
+        {
+          "source_variant_sku": "63-3210-14600270800",
+          "backend_sku_code": "MIKI-63-3210-14600270800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270800"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,80cm",
+          "color": "チャコールグレー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600270900",
+          "backend_sku_code": "MIKI-63-3210-14600270900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270900"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,90cm",
+          "color": "チャコールグレー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271000",
+          "backend_sku_code": "MIKI-63-3210-14600271000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271000"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,100cm",
+          "color": "チャコールグレー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271100",
+          "backend_sku_code": "MIKI-63-3210-14600271100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271100"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,110cm",
+          "color": "チャコールグレー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271200",
+          "backend_sku_code": "MIKI-63-3210-14600271200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271200"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,120cm",
+          "color": "チャコールグレー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271300",
+          "backend_sku_code": "MIKI-63-3210-14600271300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271300"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,130cm",
+          "color": "チャコールグレー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271400",
+          "backend_sku_code": "MIKI-63-3210-14600271400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271400"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,140cm",
+          "color": "チャコールグレー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:37:47.629555+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:63-3210-146",
+      "product_number": "63-3210-146",
+      "shijiu_product_id": "9358329",
+      "target_category_id": 294884,
+      "good_name": "ツーウェイパンツ",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8434aaac8643aaa1f2721c5ce056b66a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a649d86c9a3b76135de3b039565b5142.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/04d4399a8147936de5ced1a73a400e5e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f8c46343a869861793c3e5c802710cf0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bf7cd3c8cf1e49db8ecf0d691beec43b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/38590159b280138a51d527bea8e3f588.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5cf01561d4e7db556bac7fb1cf23f6f0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c3458cd2051b48bc8f8fd7fb6cdf03c.jpg"
+      ],
+      "detail_image_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/553d919b0ac6935af5eb2ebb2064cd8e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6471a9710698e5c577600e229395eb44.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/b4476f12115a202371e60e2dd63e183c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ddaf0746bcdea3c12cf2bd8aaddb07d3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6aa6a401bc7c9093af1cab11cdc40e96.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/d1c657d9e4a9e4767936d315acac64a1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/76cc95473e226031a69e9cbda205afaa.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ce6042c1af45f3635e97aa65bd3c3c04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8434aaac8643aaa1f2721c5ce056b66a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a649d86c9a3b76135de3b039565b5142.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/04d4399a8147936de5ced1a73a400e5e.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f8c46343a869861793c3e5c802710cf0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bf7cd3c8cf1e49db8ecf0d691beec43b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/38590159b280138a51d527bea8e3f588.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5cf01561d4e7db556bac7fb1cf23f6f0.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c3458cd2051b48bc8f8fd7fb6cdf03c.jpg"
+      ],
+      "good_details_sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+      "sku_count": 7,
+      "skus": [
+        {
+          "source_variant_sku": "63-3210-14600270800",
+          "backend_sku_code": "MIKI-63-3210-14600270800",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270800"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,80cm",
+          "color": "チャコールグレー",
+          "size": "80cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600270900",
+          "backend_sku_code": "MIKI-63-3210-14600270900",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600270900"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,90cm",
+          "color": "チャコールグレー",
+          "size": "90cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271000",
+          "backend_sku_code": "MIKI-63-3210-14600271000",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271000"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,100cm",
+          "color": "チャコールグレー",
+          "size": "100cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271100",
+          "backend_sku_code": "MIKI-63-3210-14600271100",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271100"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,110cm",
+          "color": "チャコールグレー",
+          "size": "110cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271200",
+          "backend_sku_code": "MIKI-63-3210-14600271200",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271200"
+          },
+          "price_jpy": 15730,
+          "stock": 0,
+          "specification": "チャコールグレー,120cm",
+          "color": "チャコールグレー",
+          "size": "120cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271300",
+          "backend_sku_code": "MIKI-63-3210-14600271300",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271300"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,130cm",
+          "color": "チャコールグレー",
+          "size": "130cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "63-3210-14600271400",
+          "backend_sku_code": "MIKI-63-3210-14600271400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358329",
+            "backend_sku_code": "MIKI-63-3210-14600271400"
+          },
+          "price_jpy": 15730,
+          "stock": 1,
+          "specification": "チャコールグレー,140cm",
+          "color": "チャコールグレー",
+          "size": "140cm",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/a0f81276d20d53c522ca7de67f5a8698.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:38:04.392078+00:00"
+    }
+  ],
+  "verified_stage_count": 5,
+  "sensitive_values_included": false
+}

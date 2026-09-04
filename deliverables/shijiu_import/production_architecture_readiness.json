@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:40:38.072286+00:00",
+  "status": "NOT_READY_SINGLE_PRODUCT_FLOW_INCOMPLETE",
+  "production_import_architecture_verified": false,
+  "verified_product_number": null,
+  "verified_shijiu_product_id": null,
+  "next_20_plan_generated": false,
+  "next_20_executed": false,
+  "requires_separate_write_authorization": true,
+  "pdf_special_exclusion_count": 351,
+  "legacy_reference_touched": false,
+  "sensitive_values_included": false
+}

@@ -56,8 +56,13 @@ def _configured_product_numbers(root: Path) -> set[str]:
         "config/shijiu_high_sku_14_probe.json",
         "config/shijiu_staged_rich_media_single.json",
         "config/shijiu_staged_rich_media_complete_single.json",
+        "config/shijiu_staged_detail_html_single.json",
+        "config/shijiu_production_architecture_verification_single.json",
     ):
-        payload = json.loads((root / relative).read_text(encoding="utf-8"))
+        path = root / relative
+        if not path.exists():
+            continue
+        payload = json.loads(path.read_text(encoding="utf-8"))
         numbers.update(str(value) for value in payload.get("product_numbers") or [] if value)
         numbers.update(
             str(row.get("product_number"))

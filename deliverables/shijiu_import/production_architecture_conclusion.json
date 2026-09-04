@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:40:38.072016+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "63-3210-146",
+  "shijiu_product_id": "9358329",
+  "resource_preflight_status": "PASSED",
+  "verified_stage_keys": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_17",
+    "DETAIL_PICS_1_8",
+    "DETAIL_PICS_9_16"
+  ],
+  "maximum_verified_broadcast_url_count": 17,
+  "maximum_verified_good_detail_pics_url_count": 16,
+  "minimum_required_good_detail_pics_count": 16,
+  "minimum_required_good_detail_pics_satisfied": true,
+  "final_good_details_html_verified": false,
+  "production_import_architecture_verified": false,
+  "first_failed_or_blocked_state": {
+    "stage": "FINAL_GOOD_DETAILS_HTML",
+    "operation": "UPDATE_GOOD_DETAILS",
+    "planned_broadcast_count": 17,
+    "planned_detail_pic_count": 16,
+    "mutation_request_sent": true,
+    "failure_phase": "POST_MUTATION_UI_CONTEXT_STRONG_READBACK"
+  },
+  "post_failure_forensic_readback": {
+    "status": "FINAL_HTML_MUTATION_ACKNOWLEDGED_BUT_TARGET_RETAINED_PRIOR_MINIMAL_HTML",
+    "observed_good_detail_pics_count": 16,
+    "observed_broadcast_count": 17,
+    "all_non_html_fields_match_last_verified_state": true,
+    "mutation_was_not_retried": true
+  },
+  "ui_read_retry_attempt_count": 0,
+  "ui_transient_read_error_count": 0,
+  "mutation_auto_retry_count": 0,
+  "interpretation": "The final-HTML save was acknowledged but the target retained the prior minimal HTML; the checkpoint is frozen, production architecture verification remains incomplete, and no replacement product may be attempted.",
+  "sensitive_values_included": false
+}

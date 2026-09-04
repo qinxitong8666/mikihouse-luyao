@@ -732,3 +732,38 @@ PYTHONPATH=src python scripts/import_shijiu_staged_detail_html.py \
 ```
 
 脱敏证据位于 `deliverables/shijiu_import/staged_detail_html_*.json`，包括候选、全资源预检、逐阶段回读、容量结论、假失败根因和 readiness。
+
+## Shijiu 生产架构终局单商品验证
+
+本轮建立独立的 `MIKIHOUSE_PRODUCTION_ARCHITECTURE_FINAL_E2E_VALIDATION` 模式，不恢复或覆盖任何历史 checkpoint。候选选择前置排除351个 `PDF_SPECIAL_LIST`、全部历史配置中的尝试/冻结品番、所有已映射商品和源站重名商品；候选还必须有2–8个 variants、12–20张 broadcast、16–20张 detail pics，以及可替换为COS URL的图片型完整详情HTML。
+
+确定性候选为 `63-3210-146`（`ツーウェイパンツ`）：名称唯一、7 variants、17张 broadcast、16张 detail pics。官网实时核验确认全部 SKU、税入价、65折 JPY 售价、库存、颜色、尺码和 variant 图与 master 一致。正式写入前完成17/17个有序去重资源的 HTTPS、官方域/子域、重定向、MIME、完整下载、图片解码、尺寸和内容 hash 预检，预检期间 Shijiu 请求与写入均为0。
+
+轻量 CREATE 创建下架商品 `shijiu_product_id=9358329`，随后 `broadcast 4→12→17`、`good_detail_pics 0→8→16` 均通过 UI-context 精确名称定位和 getFormatInfo 强回读；7个 backend SKU、15730 JPY售价、逐SKU库存、颜色尺码、规格、主图、轮播、详情图和类目294884保持一致，mapping 已持久化且 `shijiu_sku_id=null`。
+
+最终 `good_details` full-payload UPDATE 仅发送一次并返回 `code=200/msg=success`，但强回读显示目标端仍保留前一阶段的最小文本 HTML，没有保存预期的16张COS图片型HTML。冻结后只读快照同时证明17张broadcast、16张detail pics、全部SKU/价格/库存/规格/主图和类目没有回归。这不是旧校验器假阴性，而是目标端未持久化最终HTML。因此 checkpoint 按首次异常永久冻结，不重发 mutation、不自动回滚、不更换商品；`production_import_architecture_verified=false`，20件冻结计划未生成也未执行。
+
+```bash
+# 候选冻结与官网只读校验；零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 全图片资源预检；严格零 Shijiu 请求/写入
+PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --preflight-resources
+
+# 每次调用最多一个 CREATE/UPDATE；终态 checkpoint 永久拒绝继续
+PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --next-step \
+  --confirm MIKIHOUSE_PRODUCTION_ARCHITECTURE_FINAL_E2E_SINGLE_STEP
+
+# 从已有快照重建脱敏结论；零网络、零目标请求
+PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --finalize-evidence-only
+```
+
+脱敏证据使用 `deliverables/shijiu_import/production_architecture_*.json`；其中 `production_architecture_final_html_forensics.json` 明确区分“API确认保存请求”与“目标端实际持久化状态”。只有完整HTML强回读通过时才会生成 `production_architecture_next_20_frozen_plan.json`，计划生成不代表获得执行授权。

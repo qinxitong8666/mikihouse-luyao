@@ -145224,8 +145224,8 @@
       "product_number": "63-3210-146",
       "source_present": true,
       "target_category_id": 294884,
-      "shijiu_product_id": null,
-      "last_verified_at": null,
+      "shijiu_product_id": "9358329",
+      "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
       "variants": {
         "63-3210-14600270800": {
           "source": "MIKIHOUSE",
@@ -145234,7 +145234,10 @@
           "backend_sku_code": "MIKI-63-3210-14600270800",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600270900": {
           "source": "MIKIHOUSE",
@@ -145243,7 +145246,10 @@
           "backend_sku_code": "MIKI-63-3210-14600270900",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600271000": {
           "source": "MIKIHOUSE",
@@ -145252,7 +145258,10 @@
           "backend_sku_code": "MIKI-63-3210-14600271000",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600271100": {
           "source": "MIKIHOUSE",
@@ -145261,7 +145270,10 @@
           "backend_sku_code": "MIKI-63-3210-14600271100",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600271200": {
           "source": "MIKIHOUSE",
@@ -145270,7 +145282,10 @@
           "backend_sku_code": "MIKI-63-3210-14600271200",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600271300": {
           "source": "MIKIHOUSE",
@@ -145279,7 +145294,10 @@
           "backend_sku_code": "MIKI-63-3210-14600271300",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         },
         "63-3210-14600271400": {
           "source": "MIKIHOUSE",
@@ -145288,9 +145306,15 @@
           "backend_sku_code": "MIKI-63-3210-14600271400",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T11:38:04.392078+00:00",
+          "target_product_id": "9358329",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         }
-      }
+      },
+      "match_method": "post_create_detail_readback",
+      "target_active": false,
+      "last_payload_sha256": "fd2c8f3b9f7e22dd0774f081744492e3a73096edced8c4c29fc73eaa3f0486e5"
     },
     "63-3211-798": {
       "source": "MIKIHOUSE",
@@ -171842,5 +171866,5 @@
     "name": "MikiHouse",
     "parent_id": 288338
   },
-  "updated_at": "2026-09-04T11:10:54.418685+00:00"
+  "updated_at": "2026-09-04T11:38:04.415092+00:00"
 }

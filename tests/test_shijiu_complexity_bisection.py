@@ -300,7 +300,7 @@ def test_checked_in_bisection_evidence_is_frozen_fail_closed_and_sanitized() -> 
         number for number, row in mapping["products"].items() if row.get("shijiu_product_id")
             ] == [
                 "10-5292-148", "10-8375-578", "10-9129-792",
-                "36-2001-572", "63-6602-492",
+                "36-2001-572", "63-3210-146", "63-6602-492",
             ]
     serialized = json.dumps(
         {"selection": selection, "report": report, "diagnosis": diagnosis, "orphan": orphan}
