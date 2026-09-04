@@ -1,0 +1,2305 @@
+{
+  "schema_version": 2,
+  "mode": "dry-run",
+  "target": "SHIJIU",
+  "target_category_id": 294884,
+  "legacy_reference_only": true,
+  "action_count": 286,
+  "preconditions": [
+    "new MIKIHOUSE products have been created under separately authorized execution",
+    "new products passed Shijiu readback and storefront validation",
+    "cleanup received separate explicit authorization"
+  ],
+  "identity_relation_to_new_mikihouse_pool": "none",
+  "actions": [
+    {
+      "legacy_shijiu_product_id": "9354946",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9351241",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9351239",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9351238",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9351236",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9344444",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9342935",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9342931",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9342377",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9341216",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9337731",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9331813",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9328834",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9328162",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9328015",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9326348",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9326020",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9326018",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9326017",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9326014",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9325938",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9325937",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9325936",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324380",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324375",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324372",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324371",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324362",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324359",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324358",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324356",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9324355",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9323447",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322904",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322643",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322642",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322641",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322640",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322639",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322222",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9322084",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321602",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321601",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321600",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321424",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321423",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321422",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321420",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321419",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321418",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321270",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321182",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321167",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321131",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9321128",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319674",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319660",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319574",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319500",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319480",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319479",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319478",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319340",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319336",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319292",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319243",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319241",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319205",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319197",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319194",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319193",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319191",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319189",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9319188",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318639",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318635",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318386",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318250",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318249",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9318032",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9317956",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9317798",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9317795",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9317725",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9316710",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9315252",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9315012",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312917",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312590",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312555",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312549",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312534",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312452",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312445",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312394",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312393",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312267",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9311985",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9311876",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9311754",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9311323",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9311322",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308492",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308491",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308376",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308333",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308331",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308152",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308141",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308056",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308055",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9306441",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9306339",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9306338",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305997",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305917",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305915",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305864",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305863",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305862",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305861",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305860",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305817",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305679",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305234",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305218",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305217",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305103",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305101",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305100",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9305097",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9304921",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9304920",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9303385",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288375",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288371",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288369",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288368",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285539",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285535",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285519",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285511",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285499",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285498",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285497",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285496",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285495",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285494",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285493",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285490",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285488",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285484",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285481",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285380",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285378",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285377",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285376",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285375",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285372",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285371",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285370",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285368",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285366",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285364",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285363",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285361",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285359",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285357",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285356",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285355",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285354",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285353",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285352",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285351",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285350",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285349",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285348",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285347",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285345",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285344",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285343",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285342",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285341",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285340",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285338",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285336",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285334",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285330",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285159",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285158",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285157",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285156",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285155",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285154",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285153",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285152",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285149",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285147",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285145",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285143",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285142",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285141",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285137",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285129",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285128",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285126",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285125",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285124",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285121",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285119",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285118",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9283800",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9281021",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9281020",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9240326",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9240325",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186257",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186255",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186254",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186252",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186251",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186092",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186091",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186090",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186088",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186086",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186085",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186084",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186083",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186082",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186081",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186079",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186078",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186077",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186076",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186074",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186073",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185946",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185945",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185944",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185943",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185942",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185941",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185938",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185936",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185931",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185861",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185860",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185858",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185856",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185855",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185853",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185712",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185710",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185709",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185705",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185704",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185703",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285135",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185940",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185939",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185937",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185933",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185701",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185696",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185694",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9303382",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312539",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9312538",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9308379",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9303383",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288363",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288376",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288373",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288372",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9288366",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285531",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285525",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285524",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285483",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9285139",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185854",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185934",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9185711",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186253",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    },
+    {
+      "legacy_shijiu_product_id": "9186087",
+      "classification": "legacy_reference_only",
+      "planned_action": "OFF_SHELF",
+      "target_endpoint": "/shopapi/Goods/grounding",
+      "target_state": 0,
+      "write_executed": false
+    }
+  ],
+  "write_executed": false
+}

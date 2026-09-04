@@ -26,7 +26,27 @@ def raw_product(handle: str = "20-0001-001", price: str = "11001.0") -> dict:
         "tags": ["shoes", "ベビー"],
         "category": {"id": "gid://shopify/TaxonomyCategory/aa", "name": "Baby Shoes"},
         "onlineStoreUrl": f"https://www.mikihouse.co.jp/products/{handle}",
+        "description": "公式の商品説明",
+        "descriptionHtml": '<p>公式の商品説明</p><img src="https://cdn/detail.jpg">',
         "featuredImage": {"url": "https://cdn/main.jpg", "width": 3000, "height": 3000, "altText": "main"},
+        "images": {
+            "pageInfo": {"hasNextPage": False, "endCursor": "i1"},
+            "nodes": [
+                {"url": "https://cdn/main.jpg", "width": 3000, "height": 3000, "altText": "main"},
+                {"url": "https://cdn/angle.jpg", "width": 2500, "height": 2500, "altText": "angle"},
+                {"url": "https://cdn/red.jpg", "width": 2400, "height": 2400, "altText": "red"},
+            ],
+        },
+        "media": {
+            "pageInfo": {"hasNextPage": False, "endCursor": "m1"},
+            "nodes": [{
+                "id": "gid://shopify/MediaImage/1",
+                "mediaContentType": "IMAGE",
+                "alt": "detail",
+                "previewImage": {"url": "https://cdn/media-detail.jpg", "width": 2000, "height": 2000, "altText": "detail"},
+                "image": {"url": "https://cdn/media-detail.jpg", "width": 2000, "height": 2000, "altText": "detail"},
+            }],
+        },
         "variants": {
             "pageInfo": {"hasNextPage": False, "endCursor": "v1"},
             "nodes": [
@@ -69,6 +89,14 @@ def test_normalize_product_preserves_storefront_variant_fields_and_image_mapping
     assert variant["mini_program_price_jpy"] == 7_151
     assert variant["variant_image"]["url"] == "https://cdn/red.jpg"
     assert product["color_images"][0]["color"] == "赤"
+    assert product["description"] == "公式の商品説明"
+    assert len(product["product_images"]) == 3
+    assert len(product["media"]) == 1
+    assert [item["role"] for item in product["ordered_images"]] == [
+        "main", "product_gallery", "variant_color", "detail", "detail"
+    ]
+    ordered_urls = [item["image"]["url"] for item in product["ordered_images"]]
+    assert len(ordered_urls) == len(set(ordered_urls))
 
 
 def test_full_catalog_fetch_paginates_products_variants_and_excludes_special(monkeypatch) -> None:
@@ -100,6 +128,42 @@ def test_full_catalog_fetch_paginates_products_variants_and_excludes_special(mon
     assert stats["excluded_special_not_present_count"] == 0
     assert stats["product_page_count"] == 2
     assert stats["extra_variant_page_count"] == 1
+
+
+def test_full_catalog_fetch_paginates_product_images_and_media(monkeypatch) -> None:
+    item = raw_product("20-0001-001")
+    item["images"]["pageInfo"] = {"hasNextPage": True, "endCursor": "image-1"}
+    item["media"]["pageInfo"] = {"hasNextPage": True, "endCursor": "media-1"}
+    calls = []
+
+    def fake_request(query, variables, timeout, retries):
+        calls.append((query, variables.get("after")))
+        if query == catalog.CATALOG_QUERY:
+            return {"data": {"products": {
+                "pageInfo": {"hasNextPage": False, "endCursor": "done"},
+                "nodes": [copy.deepcopy(item)],
+            }}}
+        if query == catalog.IMAGE_PAGE_QUERY:
+            return {"data": {"product": {"handle": item["handle"], "images": {
+                "pageInfo": {"hasNextPage": False, "endCursor": "image-done"},
+                "nodes": [{"url": "https://cdn/last-angle.jpg", "width": 1000, "height": 1000}],
+            }}}}
+        return {"data": {"product": {"handle": item["handle"], "media": {
+            "pageInfo": {"hasNextPage": False, "endCursor": "media-done"},
+            "nodes": [{
+                "id": "gid://shopify/MediaImage/2", "mediaContentType": "IMAGE",
+                "image": {"url": "https://cdn/last-detail.jpg", "width": 1000, "height": 1000},
+            }],
+        }}}}
+
+    monkeypatch.setattr(catalog, "_graphql_request", fake_request)
+    products, stats = catalog.fetch_all_storefront_products(set(), page_size=1, delay=0)
+    assert len(products[0]["product_images"]) == 4
+    assert len(products[0]["media"]) == 2
+    assert stats["extra_image_page_count"] == 1
+    assert stats["extra_media_page_count"] == 1
+    assert (catalog.IMAGE_PAGE_QUERY, "image-1") in calls
+    assert (catalog.MEDIA_PAGE_QUERY, "media-1") in calls
 
 
 def test_incremental_merge_detects_price_inventory_image_inactive_and_restore() -> None:

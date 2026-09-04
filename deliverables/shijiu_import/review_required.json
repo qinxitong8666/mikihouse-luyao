@@ -1,14 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "price_review_required": [],
-  "binding_review_required": [
-    {
-      "reason": "existing_shijiu_mikihouse_products_have_no_exact_stable_source_binding",
-      "unresolved_target_product_count": 286,
-      "required_action": "manual_identity_reconciliation_before_any_create"
-    }
-  ],
   "write_executed": false
 }

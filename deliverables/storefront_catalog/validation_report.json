@@ -1,11 +1,24 @@
 {
-  "validated_at": "2026-09-03T14:31:21.206620+00:00",
+  "validated_at": "2026-09-04T01:45:00.948275+00:00",
   "special_exclusion_set_count": 351,
   "special_products_in_active_pool": [],
   "currency": "JPY",
   "discount_rate": "0.65",
   "currency_conversion_applied": false,
   "forbidden_currency_conversion_fields": [],
+  "ordered_image_validation": {
+    "product_count": 2615,
+    "image_count": 35731,
+    "invalid_product_count": 0,
+    "order": [
+      "main",
+      "product_gallery",
+      "variant_color",
+      "detail"
+    ],
+    "deduplicated_by_source_url": true,
+    "passed": true
+  },
   "examples": {
     "footwear": [
       {
@@ -370,27 +383,5 @@
       }
     ]
   },
-  "passed": true,
-  "online_recheck": {
-    "checked_at": "2026-09-03T14:38:48.935761+00:00",
-    "method": "fresh_storefront_product_query_and_official_image_response_check",
-    "product_count": 8,
-    "variant_count": 75,
-    "official_image_response_count": 8,
-    "types": {
-      "footwear": 2,
-      "apparel": 2,
-      "baby": 2,
-      "goods": 2
-    },
-    "compared_fields": [
-      "sku",
-      "tax_included_price_jpy",
-      "available_for_sale",
-      "color",
-      "size",
-      "image_url"
-    ],
-    "passed": true
-  }
+  "passed": true
 }

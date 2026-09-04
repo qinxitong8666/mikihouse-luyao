@@ -27,8 +27,12 @@
 
 参考仓库提交的 `LIVE_001_EVIDENCE.md/json` 明确记录 `BLOCKED_BEFORE_WRITE`、`backend_write_calls=0`。因此当前 main 能证明目标 URL、接口代码、原生 payload 样例、门禁及离线生命周期测试，但**不能证明该提交曾成功完成真实 Shijiu 创建/更新/回滚闭环**。
 
-本轮据此停止所有真实写入实现：不提供 write CLI、不调用上传/创建/编辑/上下架/删除接口、不生成可直接执行的写请求。报告中的 payload 只是字段映射预览；图片仍是 MIKI 官网源 URL，未来必须先经另行授权的 Shijiu COS 上传并回填，品牌 `brand_id` 也因缺少已证实的 Shijiu 品牌 discovery 契约而保持空值。MIKI 原始品牌会保留在 adapter envelope 与描述字段中供人工复核，但不会猜测品牌 ID。
+本轮据此停止所有真实写入实现：不提供 write CLI、不调用上传/创建/编辑/上下架/删除接口、不生成可直接执行的写请求。报告中的 payload 只是字段映射预览；MIKI 官网源 URL 仅保留在上传计划，`master_graph`、轮播、详情图片和 SKU 缩略图只保留待替换的 COS 引用。未来必须先经另行授权的 Shijiu COS 上传并取得目标 URL，全部回填后才可验证 payload。品牌 `brand_id` 也因缺少已证实的 Shijiu 品牌 discovery 契约而保持空值。MIKI 原始品牌会保留在 adapter envelope 与描述字段中供人工复核，但不会猜测品牌 ID。
 
 ## 本轮 Shijiu 只读事实
 
 `/shopapi/Goodtype/typeindex` 返回的当前分类树中，规范化名称唯一匹配 MIKI HOUSE 的子类目为 `MikiHouse`：ID `294884`、父类目 ID `288338`（`母婴用品`）。因此本项目固定 `source=MIKIHOUSE` 且所有可发布商品统一写入 `good_type=294884`；官网品牌和分类字段不参与 Shijiu 路由。该类目与 WAWU 的商品身份、SKU 前缀、映射状态及类目选择完全隔离。
+
+该类目现有 286 件商品只归类为 `legacy_reference_only`。本轮仅读取完整列表以形成未来独立下架目标，并均匀抽取 6 件读取详情结构；没有用商品名、SKU、价格或任何内容与 MIKI HOUSE 主库做关联。只读结果确认列表含 `good_name`、`master_graph`、`orderby` 等字段，详情含 `broadcast`、`good_detail_pics`、`good_details`、`spec_name`、`sku_info`，SKU 行实际使用 `spec_son_name`、`price`、`stock`、`sku_code`、`sku_thumbnail` 等字段，另观察到 `serial_number` 等排序字段。可追踪审计只保存字段名、类型、长度/数量统计和目标 ID，不复制旧商品名称、图片、详情或规格内容。
+
+`special_skus_2026aw.csv` 的 351 个品番另属 PDF 专用池，与 legacy 和新商品池均相互独立。Shijiu 计划在任何目标读取之前同时检查主库和增量事件，任一命中即以 `PDF_SPECIAL_LIST` fail closed；在线 311 件和当前离线 40 件采用同一永久规则，未来恢复上架也不能进入 CREATE、UPDATE、库存、图片、价格或恢复流程。

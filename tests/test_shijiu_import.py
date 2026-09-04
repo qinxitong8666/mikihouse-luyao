@@ -8,13 +8,16 @@ import pytest
 from mikihouse_luyao.shijiu_import import (
     ReadOnlyShijiuClient,
     WriteProhibitedError,
+    ImportPlanError,
+    PDF_SPECIAL_EXCLUDED_REASON,
+    assert_shijiu_pool_boundary,
+    audit_legacy_reference_only,
     backend_sku_code,
+    build_legacy_cleanup_plan,
     build_incremental_sync_operations,
     build_contract_audit,
     build_parser,
     choose_action,
-    discover_exact_mikihouse_bindings,
-    discover_shijiu_read_contract,
     load_mapping_state,
     map_product_to_shijiu,
     plan_import,
@@ -32,6 +35,14 @@ CATEGORY = {
     "parent_name": "母婴用品",
     "assignment_policy": "all_publishable_mikihouse_products",
 }
+
+
+def exclusions(include: str | None = None) -> set[str]:
+    values = {f"99-{index:04d}-999" for index in range(351)}
+    if include:
+        values.remove("99-0000-999")
+        values.add(include)
+    return values
 
 PRICE_GUARD = {
     "minimum_tax_included_price_jpy": 1,
@@ -84,7 +95,7 @@ def test_stable_source_ids_and_backend_sku_code() -> None:
 
 
 def test_mapper_copies_existing_jpy_price_and_all_variant_fields() -> None:
-    mapped = map_product_to_shijiu(product(), CATEGORY)
+    mapped = map_product_to_shijiu(product(), CATEGORY, excluded_product_numbers=exclusions())
     sku = mapped["shijiu_payload_preview"]["sku_info"][0]
     source = mapped["source_variants"][0]
     assert mapped["currency"] == "JPY"
@@ -102,16 +113,42 @@ def test_mapper_copies_existing_jpy_price_and_all_variant_fields() -> None:
     assert sku["sku_stock"] == "1.00"
     assert sku["sku_code"] == "MIKI-sku-1"
     assert sku["spec_name"] == "赤,12.5cm"
-    assert sku["sku_thumbnail"] == "https://cdn/main.jpg"
+    assert sku["sku_thumbnail"].startswith("{{SHIJIU_COS_URL:MIKIHOUSE:")
+    assert mapped["shijiu_payload_preview"]["master_graph"].startswith("{{SHIJIU_COS_URL:")
+    assert "https://cdn/main.jpg" not in json.dumps(mapped["shijiu_payload_preview"])
+    assert mapped["payload_ready_for_write"] is False
     assert source["color"] == "赤" and source["size"] == "12.5cm"
     assert source["stock_source"] == "storefront_availableForSale_boolean"
 
 
 def test_missing_image_is_unpublishable_and_skipped() -> None:
-    mapped = map_product_to_shijiu(product(image=False), CATEGORY)
+    mapped = map_product_to_shijiu(
+        product(image=False), CATEGORY, excluded_product_numbers=exclusions()
+    )
     assert mapped["publish_ready"] is False
     assert mapped["publish_blockers"] == ["missing_official_image"]
-    assert choose_action(mapped, None, None) == ("skip", "missing_official_image")
+    assert choose_action(mapped, None) == ("skip", "missing_official_image")
+
+
+def test_mapper_preserves_ordered_gallery_roles_and_requires_cos_urls() -> None:
+    item = product()
+    main = item["main_image"]
+    angle = {"url": "https://cdn/angle.jpg", "width": 2000, "height": 2000, "alt_text": ""}
+    detail = {"url": "https://cdn/detail.jpg", "width": 1800, "height": 1800, "alt_text": ""}
+    item["description"] = "公式説明"
+    item["ordered_images"] = [
+        {"order": 1, "role": "main", "image": main},
+        {"order": 2, "role": "product_gallery", "image": angle},
+        {"order": 3, "role": "detail", "image": detail},
+    ]
+    mapped = map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=exclusions())
+    assert [entry["role"] for entry in mapped["image_upload_plan"]] == [
+        "main", "product_gallery", "detail"
+    ]
+    assert [entry["order"] for entry in mapped["image_upload_plan"]] == [1, 2, 3]
+    assert all(entry["target_url"] is None for entry in mapped["image_upload_plan"])
+    assert "公式説明" in mapped["shijiu_payload_preview"]["good_details"]
+    assert mapped["carousel_contract"]["requires_all_target_urls_before_write"] is True
 
 
 def test_read_only_client_blocks_every_non_allowlisted_endpoint_before_network() -> None:
@@ -156,8 +193,8 @@ def test_checkpoint_resume_reuses_planned_items_without_duplicates(tmp_path: Pat
         changes,
         CATEGORY,
         mapping_state,
-        {},
         checkpoint,
+        excluded_product_numbers=exclusions(),
         max_items=2,
     )
     assert len(first) == 2
@@ -168,8 +205,8 @@ def test_checkpoint_resume_reuses_planned_items_without_duplicates(tmp_path: Pat
         changes,
         CATEGORY,
         mapping_state,
-        {},
         checkpoint,
+        excluded_product_numbers=exclusions(),
         resume=True,
     )
     assert len(resumed) == 3
@@ -182,20 +219,21 @@ def test_checkpoint_resume_reuses_planned_items_without_duplicates(tmp_path: Pat
 
 
 def test_action_selection_uses_stable_mapping_and_target_discovery() -> None:
-    mapped = map_product_to_shijiu(product(), CATEGORY)
-    assert choose_action(mapped, None, None)[0] == "create"
+    mapped = map_product_to_shijiu(product(), CATEGORY, excluded_product_numbers=exclusions())
+    assert choose_action(mapped, None)[0] == "create"
     mapping = {"backend_product_id": "123", "last_payload_sha256": mapped["payload_sha256"]}
-    assert choose_action(mapped, mapping, None)[0] == "skip"
+    assert choose_action(mapped, mapping)[0] == "skip"
     mapping["last_payload_sha256"] = "changed"
-    assert choose_action(mapped, mapping, None)[0] == "update"
+    assert choose_action(mapped, mapping)[0] == "update"
     mapping["target_active"] = False
-    assert choose_action(mapped, mapping, None)[0] == "reactivate"
-    assert choose_action(mapped, None, {"matched": True})[0] == "update"
+    assert choose_action(mapped, mapping)[0] == "reactivate"
 
     inactive_product = product()
     inactive_product["active"] = False
-    inactive = map_product_to_shijiu(inactive_product, CATEGORY)
-    assert choose_action(inactive, mapping, None)[0] == "deactivate"
+    inactive = map_product_to_shijiu(
+        inactive_product, CATEGORY, excluded_product_numbers=exclusions()
+    )
+    assert choose_action(inactive, mapping)[0] == "deactivate"
 
 
 def test_cli_has_no_write_or_confirm_write_option() -> None:
@@ -212,22 +250,40 @@ def test_contract_audit_is_truthful_about_reference_live_write_evidence() -> Non
     assert "WAWU mapper and source field semantics" in audit["excluded_reference_components"]
 
 
-def test_read_contract_discovery_records_schema_not_business_values() -> None:
+def test_legacy_reference_audit_samples_schema_only_and_builds_separate_cleanup() -> None:
     class FakeClient:
-        def search_products(self, **_kwargs):
-            return {"count": 1, "data": [{"id": 99, "good_name": "private-name"}]}
+        def search_products(self, **kwargs):
+            rows = [{"id": index, "good_name": f"private-name-{index}", "sort": index} for index in range(286)]
+            start = (kwargs["page"] - 1) * kwargs["page_size"]
+            return {"count": 286, "data": rows[start:start + kwargs["page_size"]]}
 
         def product_detail(self, backend_product_id):
-            assert backend_product_id == 99
-            return {"data": {"sku_info": [{"sku_code": "private-sku", "sku_price": "1.00"}]}}
+            return {"data": {
+                "good_name": f"private-name-{backend_product_id}",
+                "master_graph": "https://private/image.jpg",
+                "broadcast": "https://private/a.jpg",
+                "good_details": "private-details",
+                "good_detail_pics": ["private-detail.jpg"],
+                "spec_name": [{"spec_name": "private-color", "sort": 1}],
+                "sku_info": [{
+                    "sku_code": "private-sku", "sku_price": "1.00", "sku_stock": 1,
+                    "sku_thumbnail": "private.jpg", "spec_name": "private-red",
+                }],
+            }}
 
-    result = discover_shijiu_read_contract(FakeClient())
+    result, rows = audit_legacy_reference_only(FakeClient(), CATEGORY, sample_size=4)
     assert result["passed"] is True
-    assert result["backend_product_id_observed"] is True
-    assert result["list_row_keys"] == ["good_name", "id"]
-    assert result["detail_sku_field_keys"] == ["sku_code", "sku_price"]
-    assert "private-name" not in json.dumps(result)
-    assert "private-sku" not in json.dumps(result)
+    assert result["legacy_product_count"] == 286
+    assert result["legacy_detail_reads"] == 4
+    assert result["identity_reconciliation_attempted"] is False
+    assert "sort" in result["ordering_field_keys"]
+    serialized = json.dumps(result)
+    assert "private-name" not in serialized
+    assert "private-sku" not in serialized
+    cleanup = build_legacy_cleanup_plan(rows, CATEGORY)
+    assert cleanup["action_count"] == 286
+    assert cleanup["write_executed"] is False
+    assert all(item["classification"] == "legacy_reference_only" for item in cleanup["actions"])
 
 
 def test_mapping_state_creates_isolated_rows_for_every_mikihouse_identity(tmp_path: Path) -> None:
@@ -275,8 +331,10 @@ def test_price_changed_only_updates_exact_bound_sku_and_abnormal_change_is_revie
         "before": True,
         "after": False,
     }]}
-    mapped = {item["product_number"]: map_product_to_shijiu(item, CATEGORY)}
-    operations, reviews = build_incremental_sync_operations(changes, state, mapped, PRICE_GUARD)
+    mapped = {item["product_number"]: map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=exclusions())}
+    operations, reviews = build_incremental_sync_operations(
+        changes, state, mapped, PRICE_GUARD, excluded_product_numbers=exclusions()
+    )
     assert operations[0]["change_type"] == "PRICE_CHANGED"
     assert operations[0]["planned_action"] == "UPDATE_PRICE_BY_EXACT_VARIANT_SKU"
     assert operations[0]["price_change"]["after_mini_program_price_jpy"] == 7151
@@ -289,7 +347,9 @@ def test_price_changed_only_updates_exact_bound_sku_and_abnormal_change_is_revie
         "tax_included_price_jpy": 100_000,
         "mini_program_price_jpy": 65_000,
     })]
-    operations, reviews = build_incremental_sync_operations(changes, state, mapped, PRICE_GUARD)
+    operations, reviews = build_incremental_sync_operations(
+        changes, state, mapped, PRICE_GUARD, excluded_product_numbers=exclusions()
+    )
     assert operations[0]["planned_action"] == "REVIEW_REQUIRED"
     assert reviews and "relative_price_change_exceeds_threshold" in reviews[0]["price_change"]["reasons"]
 
@@ -303,7 +363,11 @@ def test_non_price_change_never_generates_price_update(tmp_path: Path) -> None:
         "variant_sku": "sku-1",
     }]}
     operations, _ = build_incremental_sync_operations(
-        changes, state, {item["product_number"]: map_product_to_shijiu(item, CATEGORY)}, PRICE_GUARD
+        changes,
+        state,
+        {item["product_number"]: map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=exclusions())},
+        PRICE_GUARD,
+        excluded_product_numbers=exclusions(),
     )
     assert operations[0]["change_type"] == "IMAGE_CHANGED"
     assert "PRICE" not in operations[0]["planned_action"]
@@ -312,7 +376,7 @@ def test_non_price_change_never_generates_price_update(tmp_path: Path) -> None:
 def test_unmapped_price_change_never_recreates_product_and_unsafe_create_is_blocked(tmp_path: Path) -> None:
     item = product()
     state = reconcile_mapping_state(load_mapping_state(tmp_path / "missing.json"), [item], CATEGORY)
-    mapped = {item["product_number"]: map_product_to_shijiu(item, CATEGORY)}
+    mapped = {item["product_number"]: map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=exclusions())}
     changes = {"is_initial_sync": False, "changes": [{
         "change_type": "price_changed",
         "product_number": item["product_number"],
@@ -325,30 +389,37 @@ def test_unmapped_price_change_never_recreates_product_and_unsafe_create_is_bloc
         "variant_sku": None,
     }]}
     operations, _ = build_incremental_sync_operations(
-        changes, state, mapped, PRICE_GUARD, automatic_create_allowed=False
+        changes, state, mapped, PRICE_GUARD, excluded_product_numbers=exclusions()
     )
     assert operations[0]["planned_action"] == "BLOCKED_UNMAPPED_PRICE_UPDATE"
-    assert operations[1]["planned_action"] == "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
-    assert all(item["planned_action"] != "CREATE_PRODUCT" for item in operations)
+    assert operations[1]["planned_action"] == "CREATE_PRODUCT"
 
 
-def test_existing_binding_discovery_uses_exact_miki_sku_and_never_name(tmp_path: Path) -> None:
-    item = product()
+def test_every_pdf_special_is_rejected_from_map_plan_and_incremental(tmp_path: Path) -> None:
+    special_number = "10-1105-495"
+    special = exclusions(special_number)
+    item = product(special_number)
+    with pytest.raises(ImportPlanError, match=PDF_SPECIAL_EXCLUDED_REASON):
+        map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=special)
     state = reconcile_mapping_state(load_mapping_state(tmp_path / "missing.json"), [item], CATEGORY)
+    changes = {"is_initial_sync": True, "changes": [{
+        "change_type": "new_product", "product_number": special_number,
+    }]}
+    with pytest.raises(ImportPlanError, match=PDF_SPECIAL_EXCLUDED_REASON):
+        plan_import(
+            [item], changes, CATEGORY, state, tmp_path / "checkpoint.json",
+            excluded_product_numbers=special,
+        )
+    with pytest.raises(ImportPlanError, match=PDF_SPECIAL_EXCLUDED_REASON):
+        build_incremental_sync_operations(
+            changes, state, {}, PRICE_GUARD, excluded_product_numbers=special,
+        )
 
-    class FakeClient:
-        def search_products(self, **kwargs):
-            assert kwargs["good_type"] == 294884
-            return {"count": 2, "data": [{"id": 10}, {"id": 11}]}
 
-        def product_detail(self, backend_product_id):
-            code = "MIKI-sku-1" if backend_product_id == 10 else "WAWU-sku-1"
-            return {"data": {"sku_info": [{"sku_code": code, "sku_price": "1.00", "id": backend_product_id * 10}]}}
-
-    discovered, report = discover_exact_mikihouse_bindings(FakeClient(), [item], state, CATEGORY)
-    mapping = discovered["products"][item["product_number"]]
-    assert mapping["shijiu_product_id"] == "10"
-    assert mapping["variants"]["sku-1"]["shijiu_sku_id"] == "100"
-    assert mapping["match_method"] == "exact_backend_sku_code"
-    assert report["foreign_wawu_namespace_codes_observed"] == 1
-    assert report["product_name_matching_attempts"] == 0
+def test_all_351_exclusions_fail_closed_if_any_enters_candidate_pool() -> None:
+    special = exclusions()
+    for product_number in special:
+        with pytest.raises(ImportPlanError, match=PDF_SPECIAL_EXCLUDED_REASON):
+            assert_shijiu_pool_boundary(
+                [product(product_number)], {"changes": []}, special
+            )

@@ -11,6 +11,7 @@ import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_CEILING
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 from urllib.request import Request
@@ -27,7 +28,7 @@ from .scraper import (
 )
 
 
-CATALOG_SCHEMA_VERSION = 1
+CATALOG_SCHEMA_VERSION = 2
 MINI_PROGRAM_DISCOUNT_RATE = Decimal("0.65")
 CATALOG_QUERY = """
 query CatalogPage($first: Int!, $after: String) {
@@ -42,7 +43,26 @@ query CatalogPage($first: Int!, $after: String) {
       tags
       category { id name }
       onlineStoreUrl
+      description
+      descriptionHtml
       featuredImage { url width height altText }
+      images(first: 100) {
+        pageInfo { hasNextPage endCursor }
+        nodes { url width height altText }
+      }
+      media(first: 100) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          id
+          mediaContentType
+          alt
+          previewImage { url width height altText }
+          ... on MediaImage { image { url width height altText } }
+          ... on Video { sources { url mimeType format height width } }
+          ... on ExternalVideo { embeddedUrl host }
+          ... on Model3d { sources { url mimeType format filesize } }
+        }
+      }
       variants(first: 100) {
         pageInfo { hasNextPage endCursor }
         nodes {
@@ -54,6 +74,37 @@ query CatalogPage($first: Int!, $after: String) {
           image { url width height altText }
           price { amount currencyCode }
         }
+      }
+    }
+  }
+}
+"""
+IMAGE_PAGE_QUERY = """
+query CatalogImagePage($handle: String!, $after: String) {
+  product(handle: $handle) {
+    handle
+    images(first: 100, after: $after) {
+      pageInfo { hasNextPage endCursor }
+      nodes { url width height altText }
+    }
+  }
+}
+"""
+MEDIA_PAGE_QUERY = """
+query CatalogMediaPage($handle: String!, $after: String) {
+  product(handle: $handle) {
+    handle
+    media(first: 100, after: $after) {
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        id
+        mediaContentType
+        alt
+        previewImage { url width height altText }
+        ... on MediaImage { image { url width height altText } }
+        ... on Video { sources { url mimeType format height width } }
+        ... on ExternalVideo { embeddedUrl host }
+        ... on Model3d { sources { url mimeType format filesize } }
       }
     }
   }
@@ -109,6 +160,108 @@ def _image(raw: dict[str, Any] | None) -> dict[str, Any] | None:
         "height": int(raw["height"]) if raw.get("height") else None,
         "alt_text": str(raw.get("altText") or ""),
     }
+
+
+class _DescriptionImageParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.urls: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.casefold() != "img":
+            return
+        values = {key.casefold(): value for key, value in attrs}
+        url = str(values.get("src") or values.get("data-src") or "").strip()
+        if url and url not in self.urls:
+            self.urls.append(url)
+
+
+def _description_images(description_html: str) -> list[dict[str, Any]]:
+    parser = _DescriptionImageParser()
+    parser.feed(description_html or "")
+    return [{"url": url, "width": None, "height": None, "alt_text": ""} for url in parser.urls]
+
+
+def _media(raw: dict[str, Any]) -> dict[str, Any]:
+    media_type = str(raw.get("mediaContentType") or "").strip()
+    image = _image(raw.get("image"))
+    preview = _image(raw.get("previewImage"))
+    sources = []
+    for source in raw.get("sources") or []:
+        sources.append({
+            "url": str(source.get("url") or ""),
+            "mime_type": str(source.get("mimeType") or ""),
+            "format": str(source.get("format") or ""),
+            "width": int(source["width"]) if source.get("width") else None,
+            "height": int(source["height"]) if source.get("height") else None,
+            "filesize": int(source["filesize"]) if source.get("filesize") else None,
+        })
+    return {
+        "shopify_media_id": str(raw.get("id") or ""),
+        "media_content_type": media_type,
+        "alt_text": str(raw.get("alt") or ""),
+        "image": image,
+        "preview_image": preview,
+        "embedded_url": str(raw.get("embeddedUrl") or ""),
+        "host": str(raw.get("host") or ""),
+        "sources": sources,
+    }
+
+
+def _ordered_product_images(
+    featured_image: dict[str, Any] | None,
+    product_images: list[dict[str, Any]],
+    media: list[dict[str, Any]],
+    variants: list[dict[str, Any]],
+    detail_images: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Build a stable, deduplicated image order for future Shijiu upload."""
+    result: list[dict[str, Any]] = []
+    seen: dict[str, dict[str, Any]] = {}
+    variant_urls = {
+        str((variant.get("variant_image") or {}).get("url") or "")
+        for variant in variants
+        if (variant.get("variant_image") or {}).get("url")
+    }
+    detail_urls = {str(item.get("url") or "") for item in detail_images}
+
+    def add(image: dict[str, Any] | None, role: str, **metadata: Any) -> None:
+        url = str((image or {}).get("url") or "").strip()
+        if not url:
+            return
+        if url in seen:
+            existing = seen[url]
+            for field in ("variant_skus", "colors"):
+                for value in metadata.get(field) or []:
+                    if value and value not in existing.setdefault(field, []):
+                        existing[field].append(value)
+            return
+        entry = {
+            "order": len(result) + 1,
+            "role": role,
+            "image": copy.deepcopy(image),
+            **metadata,
+        }
+        result.append(entry)
+        seen[url] = entry
+
+    add(featured_image, "main")
+    for image in product_images:
+        url = str(image.get("url") or "")
+        if url not in variant_urls and url not in detail_urls:
+            add(image, "product_gallery")
+    for variant in variants:
+        add(
+            variant.get("variant_image"),
+            "variant_color",
+            colors=[variant.get("color") or ""],
+            variant_skus=[variant.get("sku")],
+        )
+    for image in detail_images:
+        add(image, "detail")
+    for item in media:
+        add(item.get("image") or item.get("preview_image"), "detail")
+    return result
 
 
 def _options(raw: list[dict[str, Any]] | None, title: str) -> tuple[list[dict[str, str]], str, str]:
@@ -197,6 +350,20 @@ def normalize_product(raw: dict[str, Any], synced_at: str) -> dict[str, Any]:
 
     category = raw.get("category")
     tags = sorted({str(tag).strip() for tag in (raw.get("tags") or []) if str(tag).strip()})
+    product_images = [
+        image for image in (_image(item) for item in (raw.get("images") or {}).get("nodes") or [])
+        if image
+    ]
+    media = [_media(item) for item in (raw.get("media") or {}).get("nodes") or []]
+    description_html = str(raw.get("descriptionHtml") or "")
+    detail_images = _description_images(description_html)
+    ordered_images = _ordered_product_images(
+        featured_image,
+        product_images,
+        media,
+        variants,
+        detail_images,
+    )
     product_url = str(raw.get("onlineStoreUrl") or BASE_URL.format(product_number=product_number))
     return {
         "stable_id": product_number,
@@ -212,7 +379,13 @@ def normalize_product(raw: dict[str, Any], synced_at: str) -> dict[str, Any]:
             else None
         ),
         "tags": tags,
+        "description": str(raw.get("description") or "").strip(),
+        "description_html": description_html,
         "main_image": featured_image,
+        "product_images": product_images,
+        "media": media,
+        "detail_images": detail_images,
+        "ordered_images": ordered_images,
         "color_images": color_images,
         "product_url": product_url,
         "active": True,
@@ -271,6 +444,8 @@ def fetch_all_storefront_products(
     after: str | None = None
     product_page_count = 0
     extra_variant_page_count = 0
+    extra_image_page_count = 0
+    extra_media_page_count = 0
     api_request_count = 0
     synced_at = datetime.now(timezone.utc).isoformat()
 
@@ -298,6 +473,49 @@ def fetch_all_storefront_products(
             if handle in excluded_product_numbers:
                 excluded_seen.add(handle)
                 continue
+
+            for connection_name, page_query in (
+                ("images", IMAGE_PAGE_QUERY),
+                ("media", MEDIA_PAGE_QUERY),
+            ):
+                connection = raw_product.get(connection_name) or {}
+                nodes = list(connection.get("nodes") or [])
+                connection_info = connection.get("pageInfo") or {}
+                connection_cursor = connection_info.get("endCursor")
+                pages_for_product = 1
+                while connection_info.get("hasNextPage"):
+                    if not connection_cursor or pages_for_product >= 100:
+                        raise ScrapeError(
+                            f"invalid or excessive {connection_name} pagination: {handle}"
+                        )
+                    connection_payload = _graphql_request(
+                        page_query,
+                        {"handle": handle, "after": connection_cursor},
+                        timeout,
+                        retries,
+                    )
+                    api_request_count += 1
+                    if connection_name == "images":
+                        extra_image_page_count += 1
+                    else:
+                        extra_media_page_count += 1
+                    next_product = (connection_payload.get("data") or {}).get("product")
+                    if not next_product or next_product.get("handle") != handle:
+                        raise ScrapeError(
+                            f"product disappeared during {connection_name} pagination: {handle}"
+                        )
+                    next_connection = next_product.get(connection_name) or {}
+                    nodes.extend(next_connection.get("nodes") or [])
+                    connection_info = next_connection.get("pageInfo") or {}
+                    connection_cursor = connection_info.get("endCursor")
+                    pages_for_product += 1
+                    if delay:
+                        time.sleep(delay)
+                raw_product.setdefault(connection_name, {})["nodes"] = nodes
+                raw_product[connection_name]["pageInfo"] = {
+                    "hasNextPage": False,
+                    "endCursor": connection_cursor,
+                }
 
             variants = raw_product.get("variants") or {}
             nodes = list(variants.get("nodes") or [])
@@ -344,6 +562,8 @@ def fetch_all_storefront_products(
         "api_request_count": api_request_count,
         "product_page_count": product_page_count,
         "extra_variant_page_count": extra_variant_page_count,
+        "extra_image_page_count": extra_image_page_count,
+        "extra_media_page_count": extra_media_page_count,
         "storefront_product_count": len(seen_handles),
         "excluded_special_product_count": len(excluded_seen),
         "excluded_special_product_numbers": sorted(excluded_seen),
@@ -415,6 +635,8 @@ def merge_catalog(
         "product_type",
         "category",
         "tags",
+        "description",
+        "description_html",
         "product_url",
     )
     variant_metadata_fields = (
@@ -462,8 +684,16 @@ def merge_catalog(
                 before=before_metadata,
                 after=after_metadata,
             )
-        before_images = {"main_image": old.get("main_image"), "color_images": old.get("color_images", [])}
-        after_images = {"main_image": current.get("main_image"), "color_images": current.get("color_images", [])}
+        image_fields = (
+            "main_image",
+            "product_images",
+            "media",
+            "detail_images",
+            "ordered_images",
+            "color_images",
+        )
+        before_images = {field: old.get(field, []) for field in image_fields}
+        after_images = {field: current.get(field, []) for field in image_fields}
         if before_images != after_images:
             _change(
                 changes,
@@ -630,6 +860,7 @@ def merge_catalog(
             "currency_conversion_applied": False,
         },
         "special_exclusion_count": len(excluded_product_numbers),
+        "special_exclusion_policy": "PDF_SPECIAL_LIST_permanent_pre_filter",
         "products": merged_products,
     }
     change_report = {
@@ -667,6 +898,10 @@ def product_rows(master: dict[str, Any]) -> tuple[list[str], list[list[Any]]]:
         "main_image_width",
         "main_image_height",
         "color_images_json",
+        "product_images_json",
+        "media_json",
+        "detail_images_json",
+        "ordered_images_json",
         "variant_count",
         "active_variant_count",
         "available_variant_count",
@@ -694,6 +929,10 @@ def product_rows(master: dict[str, Any]) -> tuple[list[str], list[list[Any]]]:
             image.get("width", ""),
             image.get("height", ""),
             _json_cell(product["color_images"]),
+            _json_cell(product.get("product_images") or []),
+            _json_cell(product.get("media") or []),
+            _json_cell(product.get("detail_images") or []),
+            _json_cell(product.get("ordered_images") or []),
             len(variants),
             sum(bool(item["active"]) for item in variants),
             sum(bool(item["active"] and item["available_for_sale"]) for item in variants),
@@ -841,6 +1080,25 @@ def build_validation_report(
     leaks = sorted({item["product_number"] for item in active_products} & excluded_product_numbers)
     if leaks:
         raise ScrapeError(f"special products leaked into mini-program pool: {leaks}")
+    image_role_order = {"main": 0, "product_gallery": 1, "variant_color": 2, "detail": 3}
+    invalid_ordered_images: list[str] = []
+    for product in active_products:
+        entries = product.get("ordered_images") or []
+        urls = [str((entry.get("image") or {}).get("url") or "") for entry in entries]
+        roles = [image_role_order.get(str(entry.get("role") or ""), 99) for entry in entries]
+        main_url = str((product.get("main_image") or {}).get("url") or "")
+        if (
+            any(not url for url in urls)
+            or len(urls) != len(set(urls))
+            or roles != sorted(roles)
+            or [entry.get("order") for entry in entries] != list(range(1, len(entries) + 1))
+            or (main_url and (not urls or urls[0] != main_url))
+        ):
+            invalid_ordered_images.append(product["product_number"])
+    if invalid_ordered_images:
+        raise ScrapeError(
+            f"ordered product image validation failed: {invalid_ordered_images[:20]}"
+        )
     examples: dict[str, list[dict[str, Any]]] = {kind: [] for kind in ("footwear", "apparel", "baby", "goods")}
     for product in active_products:
         kind = _classification(product)
@@ -922,6 +1180,14 @@ def build_validation_report(
         "discount_rate": "0.65",
         "currency_conversion_applied": False,
         "forbidden_currency_conversion_fields": forbidden_conversion_fields,
+        "ordered_image_validation": {
+            "product_count": len(active_products),
+            "image_count": sum(len(item.get("ordered_images") or []) for item in active_products),
+            "invalid_product_count": len(invalid_ordered_images),
+            "order": ["main", "product_gallery", "variant_color", "detail"],
+            "deduplicated_by_source_url": True,
+            "passed": not invalid_ordered_images,
+        },
         "examples": examples,
         "passed": True,
     }
@@ -955,6 +1221,12 @@ def build_crawl_stats(
         "active_products_without_main_image": sum(not item.get("main_image") for item in active_products),
         "active_variants_without_any_image": sum(not item.get("resolved_image") for item in active_variants),
         "active_variants_without_variant_specific_image": sum(not item.get("variant_image") for item in active_variants),
+        "active_product_image_count": sum(len(item.get("product_images") or []) for item in active_products),
+        "active_media_count": sum(len(item.get("media") or []) for item in active_products),
+        "active_detail_image_count": sum(len(item.get("detail_images") or []) for item in active_products),
+        "active_ordered_deduplicated_image_count": sum(
+            len(item.get("ordered_images") or []) for item in active_products
+        ),
         "product_type_counts": dict(sorted(product_types.items())),
         "brand_counts": dict(sorted(brands.items())),
         "incremental_change_count": change_report["change_count"],
@@ -988,6 +1260,15 @@ def run_catalog_sync(
     )
     synced_at = fetch_stats["synced_at"]
     master, changes = merge_catalog(previous, current, excluded, synced_at)
+    master["special_exclusion"] = {
+        "excluded_reason": "PDF_SPECIAL_LIST",
+        "policy": "permanent_pre_filter_for_all_shijiu_stages",
+        "total_count": len(excluded),
+        "online_excluded_count": fetch_stats["excluded_special_product_count"],
+        "offline_remembered_count": fetch_stats["excluded_special_not_present_count"],
+        "online_product_numbers": fetch_stats["excluded_special_product_numbers"],
+        "offline_product_numbers": fetch_stats["excluded_special_not_present_product_numbers"],
+    }
     validation = build_validation_report(master, excluded, synced_at)
     stats = build_crawl_stats(master, fetch_stats, changes, excluded)
 

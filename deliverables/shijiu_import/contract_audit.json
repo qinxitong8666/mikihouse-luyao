@@ -35,7 +35,15 @@
     "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
     "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
   ],
-  "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent",
+  "implementation_consequence": "read-only legacy structure sampling and non-executable mapping previews only; image uploads and every Shijiu mutation are absent",
+  "legacy_boundary": {
+    "classification": "legacy_reference_only",
+    "expected_product_count": 286,
+    "identity_reconciliation": "forbidden",
+    "sku_binding": "forbidden",
+    "price_matching": "forbidden",
+    "content_reuse": "forbidden"
+  },
   "live_read_only_category_finding": {
     "name": "MikiHouse",
     "id": 294884,

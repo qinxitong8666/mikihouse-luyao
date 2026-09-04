@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import copy
 import hashlib
+import html
 import json
 import os
 import re
@@ -18,8 +19,14 @@ from .catalog import _classification, calculate_mini_program_price_jpy
 from .csv_input import read_product_numbers
 
 
-ADAPTER_SCHEMA_VERSION = 1
+ADAPTER_SCHEMA_VERSION = 2
 SOURCE_CODE = "MIKIHOUSE"
+PDF_SPECIAL_EXCLUDED_REASON = "PDF_SPECIAL_LIST"
+EXPECTED_SPECIAL_COUNT = 351
+EXPECTED_LEGACY_REFERENCE_COUNT = 286
+DEFAULT_LEGACY_AUDIT_SAMPLE_SIZE = 6
+DECLARED_STOREFRONT_BASELINE_COUNT = 2914
+DECLARED_CANDIDATE_BASELINE_COUNT = 2603
 WAWU_REFERENCE_COMMIT = "a36c5eab40bf419562ba03d15c090151698d582a"
 SHIJIU_CONTRACT_AUDIT_PATH = "docs/shijiu_downstream_contract_audit.md"
 DEFAULT_SHIJIU_BASE_URL = "https://api.wfcorp.cn/shijiu"
@@ -148,7 +155,7 @@ class ReadOnlyShijiuClient:
                 "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
                 "Origin": "https://shijiu.wfcorp.cn",
                 "Referer": "https://shijiu.wfcorp.cn/",
-                "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.6; read-only)",
+                "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.7; read-only)",
             },
         )
         with urllib.request.urlopen(request, timeout=self.timeout) as response:
@@ -220,17 +227,11 @@ def response_rows(response: dict[str, Any]) -> list[dict[str, Any]]:
     return []
 
 
-def recursively_find_sku_codes(value: Any) -> set[str]:
-    result: set[str] = set()
-    if isinstance(value, dict):
-        for key, child in value.items():
-            if key in {"sku_code", "good_code"} and child not in (None, ""):
-                result.add(str(child).strip())
-            result.update(recursively_find_sku_codes(child))
-    elif isinstance(value, list):
-        for item in value:
-            result.update(recursively_find_sku_codes(item))
-    return result
+def _target_product_id(row: dict[str, Any]) -> Any:
+    for key in ("id", "good_id", "goods_id"):
+        if row.get(key) not in (None, ""):
+            return row[key]
+    return None
 
 
 def recursively_find_skus(value: Any) -> list[dict[str, Any]]:
@@ -387,28 +388,106 @@ def _specification_structure(variants: list[dict[str, Any]]) -> tuple[list[dict[
     return dimensions, dimension_names
 
 
-def _product_image_urls(product: dict[str, Any]) -> list[str]:
-    result: list[str] = []
+def assert_not_pdf_special(product_number: str, excluded_product_numbers: set[str]) -> None:
+    if product_number in excluded_product_numbers:
+        raise ImportPlanError(
+            f"{PDF_SPECIAL_EXCLUDED_REASON}: {product_number} is permanently excluded from every Shijiu stage"
+        )
 
-    def add(image: dict[str, Any] | None) -> None:
+
+def assert_shijiu_pool_boundary(
+    products: list[dict[str, Any]],
+    changes: dict[str, Any],
+    excluded_product_numbers: set[str],
+) -> None:
+    if len(excluded_product_numbers) != EXPECTED_SPECIAL_COUNT:
+        raise ImportPlanError(
+            f"expected {EXPECTED_SPECIAL_COUNT} permanent exclusions, got {len(excluded_product_numbers)}"
+        )
+    product_numbers = {str(item.get("product_number") or "") for item in products}
+    change_numbers = {
+        str(item.get("product_number") or "") for item in changes.get("changes") or []
+    }
+    leaked = sorted((product_numbers | change_numbers) & excluded_product_numbers)
+    if leaked:
+        raise ImportPlanError(
+            f"{PDF_SPECIAL_EXCLUDED_REASON}: forbidden product numbers reached Shijiu planning: {leaked[:20]}"
+        )
+
+
+def _product_image_entries(product: dict[str, Any]) -> list[dict[str, Any]]:
+    ordered = product.get("ordered_images") or []
+    if ordered:
+        return copy.deepcopy(ordered)
+    result: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def add(image: dict[str, Any] | None, role: str, **metadata: Any) -> None:
         url = str((image or {}).get("url") or "").strip()
-        if url and url not in result:
-            result.append(url)
+        if not url or url in seen:
+            return
+        seen.add(url)
+        result.append({
+            "order": len(result) + 1,
+            "role": role,
+            "image": copy.deepcopy(image),
+            **metadata,
+        })
 
-    add(product.get("main_image"))
+    add(product.get("main_image"), "main")
+    for image in product.get("product_images") or []:
+        add(image, "product_gallery")
     for color in product.get("color_images") or []:
         for item in color.get("images") or []:
-            add(item.get("image"))
+            add(item.get("image"), "variant_color", colors=[color.get("color") or ""])
     for variant in product.get("variants") or []:
-        add(variant.get("resolved_image"))
+        add(
+            variant.get("resolved_image"),
+            "variant_color",
+            colors=[variant.get("color") or ""],
+            variant_skus=[variant.get("sku")],
+        )
+    for image in product.get("detail_images") or []:
+        add(image, "detail")
     return result
+
+
+def _upload_reference(product_number: str, order: int) -> str:
+    return f"MIKIHOUSE:{product_number}:IMAGE:{order:03d}"
+
+
+def _cos_placeholder(upload_reference: str) -> str:
+    return f"{{{{SHIJIU_COS_URL:{upload_reference}}}}}"
+
+
+def _details_template(product: dict[str, Any], detail_placeholders: list[str]) -> str:
+    product_number = html.escape(str(product.get("product_number") or ""))
+    name = html.escape(str(product.get("name") or ""))
+    brand = html.escape(str(product.get("brand") or ""))
+    description = html.escape(str(product.get("description") or "")).replace("\n", "<br>")
+    colors = sorted({str(item.get("color") or "") for item in product.get("variants") or [] if item.get("color")})
+    sizes = sorted({str(item.get("size") or "") for item in product.get("variants") or [] if item.get("size")})
+    image_html = "".join(
+        f'<p><img src="{html.escape(reference)}" alt="{name}"></p>'
+        for reference in detail_placeholders
+    )
+    return (
+        '<section data-source="MIKIHOUSE">'
+        f"<h2>{name}</h2><p>品番：{product_number}</p><p>品牌：{brand}</p>"
+        f"<p>颜色：{html.escape('、'.join(colors))}</p>"
+        f"<p>尺码：{html.escape('、'.join(sizes))}</p>"
+        f"<div>{description}</div>{image_html}</section>"
+    )
 
 
 def map_product_to_shijiu(
     product: dict[str, Any],
     target_category: dict[str, Any],
+    *,
+    excluded_product_numbers: set[str],
 ) -> dict[str, Any]:
     product_number = str(product["product_number"])
+    assert_not_pdf_special(product_number, excluded_product_numbers)
     classification = _classification_name(product)
     variants = list(product.get("variants") or [])
     if not variants:
@@ -433,7 +512,7 @@ def map_product_to_shijiu(
             "spec_name": spec_value or "默认规格",
             "sku_code": backend_sku_code(sku),
             "sku_cost_price": _money(variant["tax_included_price_jpy"]),
-            "sku_thumbnail": image_url,
+            "sku_thumbnail": "",
             "weight": "",
         }
         for field in MEMBER_LEVEL_FIELDS:
@@ -454,10 +533,40 @@ def map_product_to_shijiu(
             "mini_program_price_jpy": price,
             "image_url": image_url,
         })
-    images = _product_image_urls(product)
+    image_entries = _product_image_entries(product)
+    source_url_to_reference: dict[str, str] = {}
+    image_upload_plan = []
+    for index, entry in enumerate(image_entries, start=1):
+        source_url = str((entry.get("image") or {}).get("url") or "")
+        reference = _upload_reference(product_number, index)
+        source_url_to_reference[source_url] = reference
+        image_upload_plan.append({
+            "upload_reference": reference,
+            "order": index,
+            "role": entry.get("role") or "product_gallery",
+            "colors": entry.get("colors") or [],
+            "variant_skus": entry.get("variant_skus") or [],
+            "source_url": source_url,
+            "source_width": (entry.get("image") or {}).get("width"),
+            "source_height": (entry.get("image") or {}).get("height"),
+            "target_upload_endpoint": "/v1/cos/upload",
+            "target_url": None,
+            "status": "PENDING_DRY_RUN_NO_UPLOAD",
+        })
+    image_placeholders = [_cos_placeholder(item["upload_reference"]) for item in image_upload_plan]
     cover = str((product.get("main_image") or {}).get("url") or "")
-    if not cover and images:
-        cover = images[0]
+    if not cover and image_entries:
+        cover = str((image_entries[0].get("image") or {}).get("url") or "")
+    cover_placeholder = _cos_placeholder(source_url_to_reference[cover]) if cover in source_url_to_reference else ""
+    for row, source_variant in zip(sku_info, source_variants):
+        reference = source_url_to_reference.get(source_variant["image_url"])
+        row["sku_thumbnail"] = _cos_placeholder(reference) if reference else ""
+        source_variant["image_upload_reference"] = reference
+    detail_placeholders = [
+        _cos_placeholder(item["upload_reference"])
+        for item in image_upload_plan
+        if item["role"] in {"product_gallery", "detail"}
+    ]
     publish_ready = bool(cover) and all(item["image_url"] for item in source_variants)
     min_price = min(item["mini_program_price_jpy"] for item in source_variants)
     brand = str(product.get("brand") or "").strip()
@@ -470,13 +579,13 @@ def map_product_to_shijiu(
         "hc_erp_code": "",
         "good_describe": f"品牌：{brand or '未提供'}；品番：{product_number}；分类：{source_category}",
         "original_price": 0,
-        "good_details": "",
+        "good_details": _details_template(product, detail_placeholders),
         "state": "1" if product.get("active") else "0",
         "spec_name": spec_name,
         "sku_info": sku_info,
         "vnarious": 1,
         "good_type": target_category["id"],
-        "good_detail_pics": ",".join(images),
+        "good_detail_pics": ",".join(detail_placeholders),
         "integral_type": 0,
         "integral_content": 0,
         "is_cumulative": 0,
@@ -517,8 +626,8 @@ def map_product_to_shijiu(
         "is_shelf": 0,
         "is_collection": 0,
         "is_need_authentication": 0,
-        "master_graph": cover,
-        "broadcast": ",".join(images),
+        "master_graph": cover_placeholder,
+        "broadcast": ",".join(image_placeholders),
         "good_group_id": "",
     }
     return {
@@ -543,16 +652,28 @@ def map_product_to_shijiu(
         "currency_conversion_applied": False,
         "publish_ready": publish_ready,
         "publish_blockers": [] if publish_ready else ["missing_official_image"],
+        "payload_ready_for_write": False,
+        "payload_blockers": ["shijiu_cos_uploads_not_executed"],
         "source_variants": source_variants,
-        "image_upload_plan": [
-            {"source_url": url, "operation": "upload_before_future_write"} for url in images
-        ],
+        "source_content": {
+            "description": product.get("description") or "",
+            "description_html": product.get("description_html") or "",
+            "ordered_images": image_entries,
+        },
+        "image_upload_plan": image_upload_plan,
+        "carousel_contract": {
+            "ordering": ["main", "product_gallery", "variant_color", "detail"],
+            "source_count": len(image_upload_plan),
+            "deduplicated": True,
+            "formal_shijiu_fields_contain_source_urls": False,
+            "requires_all_target_urls_before_write": True,
+        },
         "shijiu_payload_preview": payload,
         "payload_sha256": content_sha256(payload),
         "minimum_mini_program_price_jpy": min_price,
         "future_write_dependencies": [
             "upload every official source image through the evidenced Shijiu COS endpoint",
-            "replace image preview URLs with returned Shijiu URLs",
+            "replace every COS placeholder with the returned target URL before payload validation",
             "resolve brand_id only after a Shijiu brand discovery contract is evidenced",
             "execute only under a separately authorized write runner with readback and rollback",
         ],
@@ -573,212 +694,193 @@ def select_cross_category_samples(
     return [product for kind in buckets for product in buckets[kind]]
 
 
-def target_check_product(
-    client: ReadOnlyShijiuClient,
-    product: dict[str, Any],
-) -> dict[str, Any]:
-    first_variant = next(
-        (item for item in product.get("variants") or [] if item.get("sku")), None
-    )
-    if first_variant is None:
-        raise ImportPlanError(f"sample product has no SKU: {product['product_number']}")
-    desired_code = backend_sku_code(str(first_variant["sku"]))
-    response = client.search_products(sku_code=desired_code, page_size=20)
-    rows = response_rows(response)
-    matched = None
-    detail = None
-    detail_checks = None
-    for row in rows[:20]:
-        row_code = str(row.get("good_code") or row.get("sku_code") or "").strip()
-        if row_code == desired_code:
-            matched = row
-            break
-        backend_id = row.get("id") or row.get("good_id") or row.get("goods_id")
-        if backend_id:
-            candidate_detail = client.product_detail(backend_id)
-            if desired_code in recursively_find_sku_codes(candidate_detail):
-                matched = row
-                detail = candidate_detail
-                break
-    if matched and detail is None:
-        backend_id = matched.get("id") or matched.get("good_id") or matched.get("goods_id")
-        if backend_id:
-            detail = client.product_detail(backend_id)
-    if detail is not None:
-        detail_checks = {
-            "desired_sku_found": desired_code in recursively_find_sku_codes(detail),
-            "returned_sku_count": len(recursively_find_skus(detail)),
-        }
+def _recursive_field_observations(value: Any, requested_keys: set[str]) -> dict[str, list[Any]]:
+    observations = {key: [] for key in requested_keys}
+
+    def walk(current: Any) -> None:
+        if isinstance(current, dict):
+            for key, child in current.items():
+                if key in observations:
+                    observations[key].append(child)
+                walk(child)
+        elif isinstance(current, list):
+            for child in current:
+                walk(child)
+
+    walk(value)
+    return observations
+
+
+def _schema_only_observation(values: list[Any]) -> dict[str, Any]:
     return {
-        "product_number": product["product_number"],
-        "classification": _classification_name(product),
-        "query_sku_code": desired_code,
-        "target_response_count": int(response.get("count") or len(rows)),
-        "target_rows_examined": len(rows[:20]),
-        "matched": bool(matched),
-        "backend_product_id": (
-            str(matched.get("id") or matched.get("good_id") or matched.get("goods_id"))
-            if matched
+        "observed_count": len(values),
+        "value_types": sorted({type(value).__name__ for value in values}),
+        "non_empty_count": sum(value not in (None, "", [], {}) for value in values),
+        "list_lengths": sorted({len(value) for value in values if isinstance(value, list)}),
+        "string_length_range": (
+            [min(lengths), max(lengths)]
+            if (lengths := [len(value) for value in values if isinstance(value, str)])
             else None
         ),
-        "detail_checks": detail_checks,
     }
 
 
-def discover_shijiu_read_contract(client: ReadOnlyShijiuClient) -> dict[str, Any]:
-    """Read one existing Shijiu row/detail and retain schema evidence, not business values."""
-    listing = client.search_products(page_size=1)
-    rows = response_rows(listing)
-    if not rows:
-        return {
-            "passed": False,
-            "reason": "Shijiu product list returned no rows",
-            "active_catalog_count": int(listing.get("count") or 0),
-        }
-    row = rows[0]
-    backend_id = row.get("id") or row.get("good_id") or row.get("goods_id")
-    if backend_id in (None, ""):
-        return {
-            "passed": False,
-            "reason": "Shijiu product list row has no backend product id",
-            "active_catalog_count": int(listing.get("count") or len(rows)),
-            "list_row_keys": sorted(row),
-        }
-    detail = client.product_detail(backend_id)
-    sku_rows = recursively_find_skus(detail)
-    return {
-        "passed": isinstance(detail, dict) and bool(detail),
-        "active_catalog_count": int(listing.get("count") or len(rows)),
-        "backend_product_id_observed": True,
-        "list_row_keys": sorted(row),
-        "detail_root_keys": sorted(detail),
-        "detail_sku_count": len(sku_rows),
-        "detail_sku_field_keys": sorted({key for sku in sku_rows for key in sku}),
-    }
-
-
-def discover_exact_mikihouse_bindings(
+def list_legacy_reference_products(
     client: ReadOnlyShijiuClient,
-    products: list[dict[str, Any]],
-    mapping_state: dict[str, Any],
     target_category: dict[str, Any],
     *,
     page_size: int = 200,
-) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Scan the fixed category and bind only exact MIKI-prefixed SKU codes."""
-    source_by_code: dict[str, tuple[str, str]] = {}
-    for product in products:
-        product_number = str(product["product_number"])
-        for variant in product.get("variants") or []:
-            sku = str(variant["sku"])
-            code = backend_sku_code(sku)
-            if code in source_by_code:
-                raise ImportPlanError(f"duplicate MIKIHOUSE backend SKU identity: {code}")
-            source_by_code[code] = (product_number, sku)
-
-    pages: list[dict[str, Any]] = []
+) -> list[dict[str, Any]]:
     first = client.search_products(page=1, page_size=page_size, good_type=target_category["id"])
-    pages.append(first)
     total = int(first.get("count") or len(response_rows(first)))
+    pages = [first]
     total_pages = max(1, (total + page_size - 1) // page_size)
     for page in range(2, total_pages + 1):
-        pages.append(client.search_products(page=page, page_size=page_size, good_type=target_category["id"]))
-    target_rows = [row for response in pages for row in response_rows(response)]
-    if len(target_rows) != total:
-        raise ImportPlanError(
-            f"incomplete Shijiu MikiHouse category scan: expected {total}, observed {len(target_rows)}"
+        pages.append(
+            client.search_products(page=page, page_size=page_size, good_type=target_category["id"])
         )
+    rows = [row for response in pages for row in response_rows(response)]
+    if len(rows) != total:
+        raise ImportPlanError(
+            f"incomplete legacy reference listing: expected {total}, observed {len(rows)}"
+        )
+    if total != EXPECTED_LEGACY_REFERENCE_COUNT:
+        raise ImportPlanError(
+            f"expected {EXPECTED_LEGACY_REFERENCE_COUNT} legacy reference products, observed {total}"
+        )
+    return rows
 
-    next_state = copy.deepcopy(mapping_state)
-    reviews: list[dict[str, Any]] = []
-    exact_code_count = 0
-    bound_products: set[str] = set()
-    bound_variants: set[str] = set()
-    details_read = 0
-    foreign_namespace_codes = 0
-    bound_target_product_ids: set[str] = set()
-    for target_row in target_rows:
-        target_product_id = target_row.get("id") or target_row.get("good_id") or target_row.get("goods_id")
-        if target_product_id in (None, ""):
-            reviews.append({"reason": "target_row_missing_product_id"})
-            continue
-        detail = client.product_detail(target_product_id)
-        details_read += 1
-        sku_rows = recursively_find_skus(detail)
-        matches: list[tuple[str, str, dict[str, Any]]] = []
-        for sku_row in sku_rows:
-            code = str(sku_row.get("sku_code") or "").strip()
-            if code.startswith("WAWU-"):
-                foreign_namespace_codes += 1
-            if code in source_by_code:
-                product_number, sku = source_by_code[code]
-                matches.append((product_number, sku, sku_row))
-                exact_code_count += 1
-            elif code.startswith("MIKI-"):
-                reviews.append({
-                    "reason": "unknown_miki_backend_sku_code",
-                    "shijiu_product_id": str(target_product_id),
-                    "backend_sku_code": code,
-                })
-        product_numbers = {item[0] for item in matches}
-        if len(product_numbers) > 1:
-            reviews.append({
-                "reason": "one_shijiu_product_contains_multiple_mikihouse_product_numbers",
-                "shijiu_product_id": str(target_product_id),
-                "product_numbers": sorted(product_numbers),
-            })
-            continue
-        if not matches:
-            continue
-        product_number = matches[0][0]
-        mapping = next_state["products"][product_number]
-        prior_target = mapping.get("shijiu_product_id")
-        if prior_target not in (None, "", target_product_id, str(target_product_id)):
-            reviews.append({
-                "reason": "source_product_already_bound_to_different_shijiu_product",
-                "product_number": product_number,
-                "existing_shijiu_product_id": str(prior_target),
-                "observed_shijiu_product_id": str(target_product_id),
-            })
-            continue
-        mapping["shijiu_product_id"] = str(target_product_id)
-        mapping["target_category_id"] = target_category["id"]
-        mapping["last_verified_at"] = now()
-        mapping["match_method"] = "exact_backend_sku_code"
-        bound_products.add(product_number)
-        bound_target_product_ids.add(str(target_product_id))
-        for _, sku, sku_row in matches:
-            variant_mapping = mapping["variants"][sku]
-            observed_sku_id = sku_row.get("id") or sku_row.get("sku_id") or sku_row.get("goods_sku_id")
-            if observed_sku_id not in (None, ""):
-                variant_mapping["shijiu_sku_id"] = str(observed_sku_id)
-            variant_mapping["last_verified_at"] = now()
-            variant_mapping["match_method"] = "exact_backend_sku_code"
-            bound_variants.add(source_variant_id(product_number, sku))
-    unresolved_target_products = len(target_rows) - len(bound_target_product_ids)
-    if unresolved_target_products:
-        reviews.append({
-            "reason": "existing_shijiu_mikihouse_products_have_no_exact_stable_source_binding",
-            "unresolved_target_product_count": unresolved_target_products,
-            "required_action": "manual_identity_reconciliation_before_any_create",
+
+def audit_legacy_reference_only(
+    client: ReadOnlyShijiuClient,
+    target_category: dict[str, Any],
+    *,
+    sample_size: int = DEFAULT_LEGACY_AUDIT_SAMPLE_SIZE,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Audit only a small legacy sample for schema; never perform identity reconciliation."""
+    rows = list_legacy_reference_products(client, target_category)
+    if not 1 <= sample_size < len(rows):
+        raise ImportPlanError("legacy audit sample must be small and smaller than the legacy set")
+    indexes = (
+        [0]
+        if sample_size == 1
+        else sorted({
+            round(index * (len(rows) - 1) / (sample_size - 1))
+            for index in range(sample_size)
         })
-    report = {
-        "target_category_id": target_category["id"],
-        "target_category_name": target_category["name"],
-        "target_product_rows_scanned": len(target_rows),
-        "target_detail_reads": details_read,
-        "exact_backend_sku_codes_found": exact_code_count,
-        "exact_product_bindings_found": len(bound_products),
-        "exact_variant_bindings_found": len(bound_variants),
-        "unresolved_target_product_count": unresolved_target_products,
-        "foreign_wawu_namespace_codes_observed": foreign_namespace_codes,
-        "product_name_matching_attempts": 0,
-        "automatic_create_allowed": unresolved_target_products == 0,
-        "review_required_count": len(reviews),
-        "review_required": reviews,
-        "passed": True,
+    )
+    sample_rows = [rows[index] for index in indexes]
+    requested_fields = {
+        "good_name",
+        "master_graph",
+        "broadcast",
+        "good_detail_pics",
+        "good_details",
+        "spec_name",
+        "sku_info",
+        "sku_code",
+        "sku_price",
+        "sku_stock",
+        "sku_thumbnail",
+        "price",
+        "stock",
+        "spec_son_name",
+        "orderby",
+        "serial_number",
+        "is_shelf",
     }
-    return next_state, report
+    aggregate = {field: [] for field in requested_fields}
+    sample_schemas = []
+    ordering_keys: set[str] = set()
+    for row in sample_rows:
+        backend_id = _target_product_id(row)
+        if backend_id in (None, ""):
+            raise ImportPlanError("legacy reference row has no backend product id")
+        detail = client.product_detail(backend_id)
+        observed = _recursive_field_observations(detail, requested_fields)
+        for field, values in observed.items():
+            aggregate[field].extend(values)
+
+        def collect_ordering_keys(value: Any) -> None:
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    normalized = key.casefold()
+                    if any(marker in normalized for marker in ("order", "sort", "serial", "sequence", "index")):
+                        ordering_keys.add(key)
+                    collect_ordering_keys(child)
+            elif isinstance(value, list):
+                for child in value:
+                    collect_ordering_keys(child)
+
+        collect_ordering_keys(detail)
+        sku_rows = recursively_find_skus(detail)
+        sample_schemas.append({
+            "backend_product_id": str(backend_id),
+            "list_row_keys": sorted(row),
+            "detail_root_keys": sorted(detail),
+            "detail_sku_count": len(sku_rows),
+            "detail_sku_field_keys": sorted({key for sku in sku_rows for key in sku}),
+        })
+    field_contract = {
+        field: _schema_only_observation(values) for field, values in sorted(aggregate.items())
+    }
+    required_observed = all(field_contract[field]["observed_count"] > 0 for field in (
+        "good_name", "master_graph", "broadcast", "good_details", "spec_name", "sku_info"
+    ))
+    audit = {
+        "mode": "read-only",
+        "classification": "legacy_reference_only",
+        "target_category_id": target_category["id"],
+        "legacy_product_count": len(rows),
+        "sample_size": len(sample_rows),
+        "sample_selection": "evenly_spaced_category_rows",
+        "sample_schemas": sample_schemas,
+        "field_contract": field_contract,
+        "ordering_field_keys": sorted(ordering_keys),
+        "identity_reconciliation_attempted": False,
+        "sku_binding_attempted": False,
+        "price_matching_attempted": False,
+        "legacy_content_copied_to_new_payload": False,
+        "legacy_detail_reads": len(sample_rows),
+        "passed": required_observed,
+    }
+    if not audit["passed"]:
+        raise ImportPlanError(f"legacy display contract audit incomplete: {field_contract}")
+    return audit, rows
+
+
+def build_legacy_cleanup_plan(
+    rows: list[dict[str, Any]], target_category: dict[str, Any]
+) -> dict[str, Any]:
+    actions = []
+    for row in rows:
+        backend_id = _target_product_id(row)
+        if backend_id in (None, ""):
+            raise ImportPlanError("legacy cleanup target has no backend product id")
+        actions.append({
+            "legacy_shijiu_product_id": str(backend_id),
+            "classification": "legacy_reference_only",
+            "planned_action": "OFF_SHELF",
+            "target_endpoint": "/shopapi/Goods/grounding",
+            "target_state": 0,
+            "write_executed": False,
+        })
+    return {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "mode": "dry-run",
+        "target": "SHIJIU",
+        "target_category_id": target_category["id"],
+        "legacy_reference_only": True,
+        "action_count": len(actions),
+        "preconditions": [
+            "new MIKIHOUSE products have been created under separately authorized execution",
+            "new products passed Shijiu readback and storefront validation",
+            "cleanup received separate explicit authorization",
+        ],
+        "identity_relation_to_new_mikihouse_pool": "none",
+        "actions": actions,
+        "write_executed": False,
+    }
 
 
 def affected_product_numbers(changes: dict[str, Any], products: list[dict[str, Any]]) -> set[str]:
@@ -801,8 +903,9 @@ def load_mapping_state(path: Path) -> dict[str, Any]:
                 "source_product_id": "MIKIHOUSE:<product_number>",
                 "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
                 "backend_sku_code": "MIKI-<variant SKU>",
-                "product_match": "exact persisted mapping or exact backend_sku_code only",
+                "product_match": "persisted post-create/readback mapping only",
                 "product_name_matching": "forbidden",
+                "legacy_reference_binding": "forbidden",
             },
             "products": {},
         }
@@ -817,6 +920,10 @@ def load_mapping_state(path: Path) -> dict[str, Any]:
     seen_shijiu_product_ids: set[str] = set()
     seen_shijiu_sku_ids: set[str] = set()
     for product_number, mapping in payload["products"].items():
+        if mapping.get("match_method") == "exact_backend_sku_code":
+            raise ImportPlanError(
+                "legacy target discovery bindings are forbidden; only post-create/readback mappings are valid"
+            )
         if (
             mapping.get("source") != SOURCE_CODE
             or mapping.get("source_product_id") != source_product_id(product_number)
@@ -829,6 +936,10 @@ def load_mapping_state(path: Path) -> dict[str, Any]:
                 raise ImportPlanError(f"duplicate Shijiu product binding rejected: {marker}")
             seen_shijiu_product_ids.add(marker)
         for sku, variant_mapping in (mapping.get("variants") or {}).items():
+            if variant_mapping.get("match_method") == "exact_backend_sku_code":
+                raise ImportPlanError(
+                    "legacy target SKU discovery bindings are forbidden; no reconciliation is allowed"
+                )
             if (
                 variant_mapping.get("source") != SOURCE_CODE
                 or variant_mapping.get("source_variant_id") != source_variant_id(product_number, sku)
@@ -856,6 +967,14 @@ def reconcile_mapping_state(
         "id": target_category["id"],
         "name": target_category["name"],
         "parent_id": target_category["parent_id"],
+    }
+    result["identity_contract"] = {
+        "source_product_id": "MIKIHOUSE:<product_number>",
+        "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
+        "backend_sku_code": "MIKI-<variant SKU>",
+        "product_match": "persisted post-create/readback mapping only",
+        "product_name_matching": "forbidden",
+        "legacy_reference_binding": "forbidden",
     }
     mappings = result.setdefault("products", {})
     for mapping in mappings.values():
@@ -987,8 +1106,9 @@ def build_incremental_sync_operations(
     mapped_by_product: dict[str, dict[str, Any]],
     price_guard: dict[str, Any],
     *,
-    automatic_create_allowed: bool = True,
+    excluded_product_numbers: set[str],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    assert_shijiu_pool_boundary(list(mapped_by_product.values()), changes, excluded_product_numbers)
     operations: list[dict[str, Any]] = []
     reviews: list[dict[str, Any]] = []
     new_products = {
@@ -1000,6 +1120,7 @@ def build_incremental_sync_operations(
         raw_type = str(change.get("change_type") or "")
         change_type = CHANGE_TYPE_NAMES.get(raw_type, raw_type.upper() or "UNKNOWN")
         product_number = str(change.get("product_number") or "")
+        assert_not_pdf_special(product_number, excluded_product_numbers)
         variant_sku = str(change.get("variant_sku") or "")
         product_mapping = mapping_state["products"].get(product_number) or {}
         variant_mapping = (product_mapping.get("variants") or {}).get(variant_sku) or {}
@@ -1039,11 +1160,7 @@ def build_incremental_sync_operations(
                 else (
                     "SKIP_ALREADY_BOUND"
                     if bound_product
-                    else (
-                        "CREATE_PRODUCT"
-                        if automatic_create_allowed
-                        else "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS"
-                    )
+                    else "CREATE_PRODUCT"
                 )
             )
         elif change_type == "NEW_VARIANT":
@@ -1054,7 +1171,7 @@ def build_incremental_sync_operations(
                     "ADD_VARIANT_TO_BOUND_PRODUCT"
                     if bound_product
                     else (
-                        ("INCLUDED_IN_NEW_PRODUCT" if automatic_create_allowed else "BLOCKED_EXISTING_UNMAPPED_TARGET_PRODUCTS")
+                        "INCLUDED_IN_NEW_PRODUCT"
                         if product_number in new_products
                         else "BLOCKED_UNMAPPED_VARIANT"
                     )
@@ -1080,12 +1197,11 @@ def build_incremental_sync_operations(
 def choose_action(
     mapped: dict[str, Any],
     mapping: dict[str, Any] | None,
-    target_check: dict[str, Any] | None,
 ) -> tuple[str, str]:
     if not mapped["publish_ready"]:
         return "skip", "missing_official_image"
     if not mapped["shijiu_payload_preview"]["state"] == "1":
-        if mapping or (target_check and target_check.get("matched")):
+        if mapping:
             return "deactivate", "source_product_inactive"
         return "skip", "inactive_source_not_present_on_target"
     if mapping:
@@ -1094,9 +1210,7 @@ def choose_action(
         if mapping.get("last_payload_sha256") == mapped["payload_sha256"]:
             return "skip", "payload_unchanged_since_verified_sync"
         return "update", "stable_source_mapping_exists"
-    if target_check and target_check.get("matched"):
-        return "update", "read_only_target_match_by_stable_sku"
-    return "create", "no_stable_mapping_or_target_sample_match"
+    return "create", "no_persisted_post_create_mapping"
 
 
 def build_rollback_plan() -> dict[str, Any]:
@@ -1155,8 +1269,16 @@ def build_contract_audit() -> dict[str, Any]:
             "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed",
         ],
         "implementation_consequence": (
-            "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
+            "read-only legacy structure sampling and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
         ),
+        "legacy_boundary": {
+            "classification": "legacy_reference_only",
+            "expected_product_count": EXPECTED_LEGACY_REFERENCE_COUNT,
+            "identity_reconciliation": "forbidden",
+            "sku_binding": "forbidden",
+            "price_matching": "forbidden",
+            "content_reuse": "forbidden",
+        },
         "live_read_only_category_finding": {
             "name": "MikiHouse",
             "id": 294884,
@@ -1175,13 +1297,20 @@ def field_mapping_contract() -> dict[str, Any]:
         "brand": "brand -> adapter source_brand + good_describe; brand_id deferred",
         "category": "all publishable MIKIHOUSE products -> fixed Shijiu MikiHouse category 294884",
         "source_metadata": "brand/productType/category/tags retained internally and never used for target category routing",
-        "main_image": "main_image.url -> master_graph preview; future COS upload required",
-        "color_images": "color_images/resolved_image -> broadcast and sku_thumbnail previews; future COS upload required",
+        "main_image": "main_image -> COS upload reference -> master_graph; source URL forbidden in formal target field",
+        "carousel": (
+            "ordered_images main -> product_gallery -> variant_color -> detail, deduplicated; "
+            "COS upload references only until target URLs exist"
+        ),
+        "detail": "MIKI HOUSE name/description/options + COS detail-image references -> good_details/good_detail_pics",
+        "color_images": "variant resolved_image -> COS upload reference -> sku_thumbnail",
         "options": "selected_options/color/size -> spec_name dimensions and per-SKU spec_name",
         "sku": "variant sku -> MIKI-<sku> in sku_code",
         "inventory": "availableForSale boolean -> sku_stock 1/0; source boolean retained",
         "price": "mini_program_price_jpy -> sku_price and member price fields, currency JPY",
         "source_identity": "product_number and product_number+variant SKU -> stable source IDs",
+        "legacy_products": "286 existing rows are legacy_reference_only and have no identity relation to new data",
+        "special_exclusion": "all 351 PDF special product numbers fail closed before every Shijiu plan stage",
     }
 
 
@@ -1190,13 +1319,14 @@ def plan_import(
     changes: dict[str, Any],
     target_category: dict[str, Any],
     mapping_state: dict[str, Any],
-    target_checks: dict[str, dict[str, Any]],
     checkpoint_path: Path,
     *,
+    excluded_product_numbers: set[str],
     resume: bool = False,
     max_items: int | None = None,
     checkpoint_interval: int = 25,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    assert_shijiu_pool_boundary(products, changes, excluded_product_numbers)
     if checkpoint_interval <= 0:
         raise ImportPlanError("checkpoint_interval must be positive")
     master_identity = content_sha256([
@@ -1220,6 +1350,11 @@ def plan_import(
         write_json_atomic(checkpoint_path, checkpoint)
 
     affected = affected_product_numbers(changes, products)
+    affected.update(
+        item["product_number"]
+        for item in products
+        if not _bound_product_mapping(mapping_state, item["product_number"])
+    )
     selected = [item for item in products if item["product_number"] in affected]
     records: dict[str, Any] = checkpoint["records"]
     processed_this_run = 0
@@ -1228,11 +1363,14 @@ def plan_import(
         if stable_product_id in records and records[stable_product_id].get("status") == "planned":
             continue
         try:
-            mapped = map_product_to_shijiu(product, target_category)
+            mapped = map_product_to_shijiu(
+                product,
+                target_category,
+                excluded_product_numbers=excluded_product_numbers,
+            )
             mapping = _bound_product_mapping(mapping_state, product["product_number"])
-            target_check = target_checks.get(product["product_number"])
-            if changes.get("is_initial_sync"):
-                action, reason = choose_action(mapped, mapping, target_check)
+            if not mapping:
+                action, reason = choose_action(mapped, mapping)
             elif not mapped["publish_ready"]:
                 action, reason = "skip", "missing_official_image"
             else:
@@ -1241,7 +1379,7 @@ def plan_import(
                 "status": "planned",
                 "action": action,
                 "reason": reason,
-                "target_check_status": "checked" if target_check else "not_sampled_this_run",
+                "target_identity_check": "forbidden_legacy_isolation",
                 "payload_sha256": mapped["payload_sha256"],
                 "existing_backend_product_id": (
                     mapping.get("shijiu_product_id") if mapping else None
@@ -1269,9 +1407,12 @@ def plan_import(
         if stable_product_id in records:
             entry = {"source_product_id": stable_product_id, **records[stable_product_id]}
             if entry["status"] == "planned":
-                entry["target_check"] = target_checks.get(product["product_number"])
                 entry["existing_mapping"] = mapping_state["products"].get(product["product_number"])
-                entry["mapped_product"] = map_product_to_shijiu(product, target_category)
+                entry["mapped_product"] = map_product_to_shijiu(
+                    product,
+                    target_category,
+                    excluded_product_numbers=excluded_product_numbers,
+                )
             plan.append(entry)
     complete = len(plan) == len(selected)
     checkpoint.update({
@@ -1295,7 +1436,7 @@ def plan_import(
 
 def _compact_plan_sample(entry: dict[str, Any]) -> dict[str, Any]:
     result = {key: entry.get(key) for key in (
-        "source_product_id", "status", "action", "reason", "target_check_status", "target_check"
+        "source_product_id", "status", "action", "reason", "target_identity_check"
     )}
     mapped = entry.get("mapped_product") or {}
     payload = mapped.get("shijiu_payload_preview") or {}
@@ -1309,6 +1450,9 @@ def _compact_plan_sample(entry: dict[str, Any]) -> dict[str, Any]:
         "publish_ready": mapped.get("publish_ready"),
         "good_name": payload.get("good_name"),
         "master_graph": payload.get("master_graph"),
+        "carousel_image_count": len(mapped.get("image_upload_plan") or []),
+        "carousel_roles": [item.get("role") for item in mapped.get("image_upload_plan") or []],
+        "payload_ready_for_write": mapped.get("payload_ready_for_write"),
         "spec_name": payload.get("spec_name"),
         "sku_count": len(payload.get("sku_info") or []),
         "sku_samples": (payload.get("sku_info") or [])[:3],
@@ -1326,7 +1470,7 @@ def _compact_action(entry: dict[str, Any]) -> dict[str, Any]:
         "publish_ready": mapped.get("publish_ready", False),
         "variant_count": len(mapped.get("source_variants") or []),
         "payload_sha256": mapped.get("payload_sha256") or entry.get("payload_sha256"),
-        "target_checked": bool(entry.get("target_check")),
+        "target_identity_reconciliation_attempted": False,
     }
 
 
@@ -1351,48 +1495,60 @@ def run_dry_run_import(
     master = json.loads(master_path.read_text(encoding="utf-8"))
     changes = json.loads(changes_path.read_text(encoding="utf-8"))
     products = list(master.get("products") or [])
+    exclusion_snapshot = master.get("special_exclusion") or {}
+    online_special_count = int(exclusion_snapshot.get("online_excluded_count", 311))
+    offline_special_count = int(exclusion_snapshot.get("offline_remembered_count", 40))
+    if exclusion_snapshot and (
+        int(exclusion_snapshot.get("total_count", 0)) != EXPECTED_SPECIAL_COUNT
+        or online_special_count + offline_special_count != EXPECTED_SPECIAL_COUNT
+    ):
+        raise ImportPlanError("master catalog special exclusion snapshot is inconsistent")
+    first_seen_counts = Counter(str(item.get("first_seen_at") or "") for item in products)
+    declared_baseline_timestamp = next(
+        (timestamp for timestamp, count in first_seen_counts.items() if count == DECLARED_CANDIDATE_BASELINE_COUNT),
+        None,
+    )
+    live_new_since_declared_baseline = sorted(
+        item["product_number"]
+        for item in products
+        if declared_baseline_timestamp and str(item.get("first_seen_at") or "") != declared_baseline_timestamp
+    )
+    if len(live_new_since_declared_baseline) != max(
+        0, len(products) - DECLARED_CANDIDATE_BASELINE_COUNT
+    ):
+        live_new_since_declared_baseline = []
     special = set(read_product_numbers(special_path))
-    if len(special) != 351:
-        raise ImportPlanError(f"expected 351 permanent exclusions, got {len(special)}")
-    leaked = sorted({item["product_number"] for item in products} & special)
-    if leaked:
-        raise ImportPlanError(f"special products leaked into import source: {leaked}")
+    assert_shijiu_pool_boundary(products, changes, special)
+    leaked: list[str] = []
     target_category = load_category_map(category_map_path)
     price_guard = load_price_guard(price_guard_path)
     category_discovery: dict[str, Any] = {}
-    target_checks: list[dict[str, Any]] = []
-    target_contract_discovery: dict[str, Any] = {}
-    binding_discovery: dict[str, Any] = {
+    legacy_audit: dict[str, Any] = {
         "skipped": True,
         "reason": "offline_target_checks",
-        "product_name_matching_attempts": 0,
+        "classification": "legacy_reference_only",
+        "identity_reconciliation_attempted": False,
     }
+    legacy_rows: list[dict[str, Any]] = []
     mapping_state = reconcile_mapping_state(load_mapping_state(mapping_path), products, target_category)
     if client:
         category_discovery = validate_live_mikihouse_category(target_category, client.category_list(1))
-        target_contract_discovery = discover_shijiu_read_contract(client)
-        mapping_state, binding_discovery = discover_exact_mikihouse_bindings(
-            client, products, mapping_state, target_category
+        legacy_audit, legacy_rows = audit_legacy_reference_only(
+            client,
+            target_category,
+            sample_size=DEFAULT_LEGACY_AUDIT_SAMPLE_SIZE,
         )
-        for product in select_cross_category_samples(products, sample_per_category):
-            target_checks.append(target_check_product(client, product))
     write_json_atomic(mapping_path, mapping_state)
-    target_check_map = {item["product_number"]: item for item in target_checks}
     plan, checkpoint_summary = plan_import(
         products,
         changes,
         target_category,
         mapping_state,
-        target_check_map,
         checkpoint_path,
+        excluded_product_numbers=special,
         resume=resume,
         max_items=max_items,
     )
-    if client and not binding_discovery.get("automatic_create_allowed", False):
-        for entry in plan:
-            if entry.get("action") == "create":
-                entry["action"] = "review_required"
-                entry["reason"] = "existing_unmapped_shijiu_mikihouse_products_block_automatic_create"
     action_counts = Counter(item["action"] for item in plan)
     mapped = [item["mapped_product"] for item in plan if item.get("mapped_product")]
     source_variants = [variant for item in mapped for variant in item["source_variants"]]
@@ -1407,15 +1563,31 @@ def run_dry_run_import(
     missing_images = [
         item["product_number"] for item in mapped if not item["publish_ready"]
     ]
+    image_role_counts = Counter(
+        upload["role"] for item in mapped for upload in item.get("image_upload_plan") or []
+    )
+    formal_image_source_url_leaks = []
+    for item in mapped:
+        payload = item["shijiu_payload_preview"]
+        formal_values = [
+            payload.get("master_graph") or "",
+            payload.get("broadcast") or "",
+            payload.get("good_detail_pics") or "",
+            *(sku.get("sku_thumbnail") or "" for sku in payload.get("sku_info") or []),
+        ]
+        if any("http://" in value or "https://" in value for value in formal_values):
+            formal_image_source_url_leaks.append(item["product_number"])
+    if formal_image_source_url_leaks:
+        raise ImportPlanError(
+            f"official source URLs leaked into formal Shijiu image fields: {formal_image_source_url_leaks[:20]}"
+        )
     mapped_by_product = {item["product_number"]: item for item in mapped}
     incremental_operations, price_reviews = build_incremental_sync_operations(
         changes,
         mapping_state,
         mapped_by_product,
         price_guard,
-        automatic_create_allowed=(
-            bool(binding_discovery.get("automatic_create_allowed")) if client else True
-        ),
+        excluded_product_numbers=special,
     )
     incremental_type_counts = Counter(item["change_type"] for item in incremental_operations)
     incremental_action_counts = Counter(item["planned_action"] for item in incremental_operations)
@@ -1423,6 +1595,7 @@ def run_dry_run_import(
     full_plan_path = output_dir / "dry_run_import_plan.json"
     incremental_plan_path = output_dir / "incremental_sync_plan.json"
     target_snapshot_path = output_dir / "read_only_target_snapshot.json"
+    legacy_cleanup_path = output_dir / "legacy_cleanup_plan.json"
     write_json_atomic(full_plan_path, {
         "schema_version": ADAPTER_SCHEMA_VERSION,
         "mode": "dry-run",
@@ -1442,9 +1615,10 @@ def run_dry_run_import(
         "target": "SHIJIU",
         "checked_at": now(),
         "fixed_category_discovery": category_discovery,
-        "read_contract_discovery": target_contract_discovery,
-        "exact_binding_discovery": binding_discovery,
-        "product_checks": target_checks,
+        "legacy_reference_audit": legacy_audit,
+        "legacy_identity_reconciliation_attempted": False,
+        "legacy_sku_binding_attempted": False,
+        "legacy_price_matching_attempted": False,
         "request_ledger": client.requests if client else [],
         "read_request_count": len(client.requests) if client else 0,
         "semantic_write_request_count": client.semantic_write_request_count if client else 0,
@@ -1453,12 +1627,37 @@ def run_dry_run_import(
         ],
     }
     write_json_atomic(target_snapshot_path, target_snapshot)
+    legacy_cleanup_plan = (
+        build_legacy_cleanup_plan(legacy_rows, target_category)
+        if client
+        else {
+            "schema_version": ADAPTER_SCHEMA_VERSION,
+            "mode": "dry-run",
+            "target": "SHIJIU",
+            "legacy_reference_only": True,
+            "skipped": True,
+            "reason": "offline_target_checks",
+            "write_executed": False,
+            "actions": [],
+        }
+    )
+    write_json_atomic(legacy_cleanup_path, legacy_cleanup_plan)
     contract_audit = build_contract_audit()
-    checked_plan_entries = [item for item in plan if item.get("target_check")]
-    sample_entries = checked_plan_entries or [item for item in plan if item.get("mapped_product")][:20]
+    sample_products = select_cross_category_samples(products, sample_per_category)
+    sample_numbers = {item["product_number"] for item in sample_products}
+    sample_entries = [
+        item for item in plan
+        if (item.get("mapped_product") or {}).get("product_number") in sample_numbers
+    ]
+    if len(sample_entries) < 20:
+        raise ImportPlanError(f"expected at least 20 cross-category payload previews, got {len(sample_entries)}")
     compact_action_path = report_dir / "dry_run_actions.json"
     incremental_summary_path = report_dir / "incremental_sync_summary.json"
     review_required_path = report_dir / "review_required.json"
+    payload_previews_path = report_dir / "payload_previews.json"
+    legacy_audit_path = report_dir / "legacy_reference_audit.json"
+    tracked_cleanup_path = report_dir / "legacy_cleanup_plan.json"
+    special_exclusion_path = report_dir / "special_exclusion_report.json"
     write_json_atomic(compact_action_path, {
         "schema_version": ADAPTER_SCHEMA_VERSION,
         "mode": "dry-run",
@@ -1497,9 +1696,49 @@ def run_dry_run_import(
         "source": SOURCE_CODE,
         "target": "SHIJIU",
         "price_review_required": price_reviews,
-        "binding_review_required": binding_discovery.get("review_required") or [],
         "write_executed": False,
     })
+    write_json_atomic(payload_previews_path, {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "mode": "dry-run",
+        "source": SOURCE_CODE,
+        "target": "SHIJIU",
+        "cross_category_product_count": len(sample_entries),
+        "classification_counts": dict(sorted(Counter(
+            item["mapped_product"]["classification"] for item in sample_entries[:20]
+        ).items())),
+        "payloads": [item["mapped_product"] for item in sample_entries[:20]],
+        "write_executed": False,
+    })
+    write_json_atomic(legacy_audit_path, legacy_audit)
+    write_json_atomic(tracked_cleanup_path, legacy_cleanup_plan)
+    special_exclusion_report = {
+        "schema_version": ADAPTER_SCHEMA_VERSION,
+        "source": SOURCE_CODE,
+        "target": "SHIJIU",
+        "excluded_reason": PDF_SPECIAL_EXCLUDED_REASON,
+        "policy": "permanent_pre_filter_before_all_Shijiu_create_update_inventory_image_price_reactivation_stages",
+        "total_count": len(special),
+        "online_excluded_count": online_special_count,
+        "offline_remembered_count": offline_special_count,
+        "product_numbers": sorted(special),
+        "special_products_in_shijiu_candidate_pool": [],
+        "declared_baseline": {
+            "storefront_product_count": DECLARED_STOREFRONT_BASELINE_COUNT,
+            "online_special_excluded_count": 311,
+            "candidate_product_count": DECLARED_CANDIDATE_BASELINE_COUNT,
+        },
+        "live_observation": {
+            "storefront_product_count": len(products) + online_special_count,
+            "candidate_product_count": len(products),
+            "new_non_special_products_since_declared_baseline": max(
+                0, len(products) - DECLARED_CANDIDATE_BASELINE_COUNT
+            ),
+            "new_non_special_product_numbers": live_new_since_declared_baseline,
+        },
+        "passed": not leaked,
+    }
+    write_json_atomic(special_exclusion_path, special_exclusion_report)
     report = {
         "schema_version": ADAPTER_SCHEMA_VERSION,
         "generated_at": now(),
@@ -1520,14 +1759,12 @@ def run_dry_run_import(
             "dry_run_validation_passed": True,
             "ready_for_online_write": False,
             "online_write_authorized": False,
-            "automatic_create_allowed": bool(binding_discovery.get("automatic_create_allowed")),
+            "automatic_create_allowed": True,
+            "legacy_products_block_create": False,
             "blockers": [
                 "real Shijiu writes are outside this round",
-                (
-                    f"{binding_discovery.get('unresolved_target_product_count', 0)} existing Shijiu "
-                    "MikiHouse products lack exact stable source bindings"
-                ),
-                "image upload and readback execution require a separately authorized writer",
+                "every official image must be uploaded through Shijiu/COS before a payload becomes executable",
+                "readback execution requires a separately authorized writer",
             ],
         },
         "framework_reference": {
@@ -1559,6 +1796,17 @@ def run_dry_run_import(
             "product_count": len(products),
             "variant_count": sum(len(item.get("variants") or []) for item in products),
             "permanent_special_exclusion_count": len(special),
+            "special_excluded_reason": PDF_SPECIAL_EXCLUDED_REASON,
+            "live_storefront_product_count": len(products) + online_special_count,
+            "declared_baseline_storefront_product_count": DECLARED_STOREFRONT_BASELINE_COUNT,
+            "online_special_excluded_count": online_special_count,
+            "offline_special_remembered_count": offline_special_count,
+            "candidate_product_count": len(products),
+            "declared_baseline_candidate_count": DECLARED_CANDIDATE_BASELINE_COUNT,
+            "new_non_special_products_since_declared_baseline": max(
+                0, len(products) - DECLARED_CANDIDATE_BASELINE_COUNT
+            ),
+            "new_non_special_product_numbers": live_new_since_declared_baseline,
             "special_products_in_source": leaked,
         },
         "plan_summary": {
@@ -1573,6 +1821,13 @@ def run_dry_run_import(
             "incremental_change_set": action_counts.get("incremental_change_set", 0),
             "publish_ready": sum(bool(item.get("publish_ready")) for item in mapped),
             "unpublishable_missing_image": len(missing_images),
+            "declared_baseline_candidate_count": DECLARED_CANDIDATE_BASELINE_COUNT,
+            "declared_baseline_publishable_create_count": max(
+                0, DECLARED_CANDIDATE_BASELINE_COUNT - len(missing_images)
+            ),
+            "live_new_non_special_create_count": max(
+                0, len(products) - DECLARED_CANDIDATE_BASELINE_COUNT
+            ),
         },
         "missing_image_products": missing_images,
         "price_validation": {
@@ -1584,23 +1839,42 @@ def run_dry_run_import(
             "currency_conversion_applied": False,
             "passed": not price_failures,
         },
+        "image_mapping_validation": {
+            "ordered_upload_task_count": sum(
+                len(item.get("image_upload_plan") or []) for item in mapped
+            ),
+            "role_counts": dict(sorted(image_role_counts.items())),
+            "formal_shijiu_image_source_url_leak_count": len(formal_image_source_url_leaks),
+            "target_upload_endpoint": "/v1/cos/upload",
+            "uploads_executed": 0,
+            "all_payloads_require_target_urls_before_write": True,
+            "passed": not formal_image_source_url_leaks,
+        },
         "target_read_only_verification": {
-            "sample_product_count": len(target_checks),
-            "type_counts": dict(sorted(Counter(item["classification"] for item in target_checks).items())),
-            "matched_existing_count": sum(bool(item["matched"]) for item in target_checks),
             "fixed_category_discovery": category_discovery,
-            "exact_binding_discovery": binding_discovery,
-            "read_contract_discovery": target_contract_discovery,
+            "legacy_reference_audit": legacy_audit,
+            "legacy_product_count": legacy_audit.get("legacy_product_count", 0),
+            "legacy_detail_sample_count": legacy_audit.get("sample_size", 0),
+            "identity_reconciliation_attempted": False,
+            "sku_binding_attempted": False,
+            "price_matching_attempted": False,
             "read_request_count": target_snapshot["read_request_count"],
             "semantic_write_request_count": target_snapshot["semantic_write_request_count"],
             "mutating_endpoints_called": target_snapshot["mutating_endpoints_called"],
             "passed": (
-                len(target_checks) >= 20
-                and category_discovery.get("passed") is True
-                and target_contract_discovery.get("passed") is True
+                category_discovery.get("passed") is True
+                and legacy_audit.get("passed") is True
                 and target_snapshot["semantic_write_request_count"] == 0
             ) if client else False,
         },
+        "legacy_reference_only": {
+            "legacy_product_count": legacy_audit.get("legacy_product_count", 0),
+            "identity_relation_to_new_pool": "none",
+            "blocks_new_create": False,
+            "cleanup_plan_action_count": legacy_cleanup_plan.get("action_count", 0),
+            "cleanup_write_executed": False,
+        },
+        "permanent_pdf_special_exclusion": special_exclusion_report,
         "stable_identity": {
             "source_product_id": "MIKIHOUSE:<product_number>",
             "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
@@ -1626,6 +1900,10 @@ def run_dry_run_import(
         },
         "rollback_plan": build_rollback_plan(),
         "field_mapping_samples": [_compact_plan_sample(item) for item in sample_entries][:20],
+        "payload_preview_count": min(20, len(sample_entries)),
+        "payload_preview_type_counts": dict(sorted(Counter(
+            item["mapped_product"]["classification"] for item in sample_entries[:20]
+        ).items())),
         "artifacts": {
             "full_plan_path": str(full_plan_path),
             "full_plan_size_bytes": full_plan_path.stat().st_size,
@@ -1639,6 +1917,10 @@ def run_dry_run_import(
             "tracked_action_plan_sha256": file_sha256(compact_action_path),
             "tracked_incremental_summary_path": str(incremental_summary_path),
             "review_required_path": str(review_required_path),
+            "payload_previews_path": str(payload_previews_path),
+            "legacy_reference_audit_path": str(legacy_audit_path),
+            "legacy_cleanup_plan_path": str(tracked_cleanup_path),
+            "special_exclusion_report_path": str(special_exclusion_path),
         },
         "passed": (
             checkpoint_summary["complete"]
@@ -1647,8 +1929,8 @@ def run_dry_run_import(
             and not price_failures
             and (target_snapshot["semantic_write_request_count"] == 0)
             and (category_discovery.get("passed") is True if client else True)
-            and (target_contract_discovery.get("passed") is True if client else True)
-            and (len(target_checks) >= 20 if client else True)
+            and (legacy_audit.get("passed") is True if client else True)
+            and len(sample_entries) >= 20
         ),
     }
     write_json_atomic(output_dir / "dry_run_report.json", report)

@@ -1,0 +1,493 @@
+{
+  "mode": "read-only",
+  "classification": "legacy_reference_only",
+  "target_category_id": 294884,
+  "legacy_product_count": 286,
+  "sample_size": 6,
+  "sample_selection": "evenly_spaced_category_rows",
+  "sample_schemas": [
+    {
+      "backend_product_id": "9354946",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 9,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    {
+      "backend_product_id": "9319574",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 4,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    {
+      "backend_product_id": "9305997",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 24,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    {
+      "backend_product_id": "9285353",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 7,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    {
+      "backend_product_id": "9186083",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 14,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    {
+      "backend_product_id": "9186087",
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 12,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    }
+  ],
+  "field_contract": {
+    "broadcast": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [],
+      "string_length_range": [
+        76,
+        461
+      ]
+    },
+    "good_detail_pics": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": [
+        0,
+        0
+      ]
+    },
+    "good_details": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": [
+        0,
+        0
+      ]
+    },
+    "good_name": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [],
+      "string_length_range": [
+        13,
+        25
+      ]
+    },
+    "is_shelf": {
+      "observed_count": 6,
+      "value_types": [
+        "int"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [],
+      "string_length_range": null
+    },
+    "master_graph": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [],
+      "string_length_range": [
+        76,
+        76
+      ]
+    },
+    "orderby": {
+      "observed_count": 6,
+      "value_types": [
+        "int"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [],
+      "string_length_range": null
+    },
+    "price": {
+      "observed_count": 70,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 70,
+      "list_lengths": [],
+      "string_length_range": [
+        7,
+        8
+      ]
+    },
+    "serial_number": {
+      "observed_count": 6,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": [
+        0,
+        0
+      ]
+    },
+    "sku_code": {
+      "observed_count": 70,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": [
+        0,
+        0
+      ]
+    },
+    "sku_info": {
+      "observed_count": 6,
+      "value_types": [
+        "list"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [
+        4,
+        7,
+        9,
+        12,
+        14,
+        24
+      ],
+      "string_length_range": null
+    },
+    "sku_price": {
+      "observed_count": 0,
+      "value_types": [],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": null
+    },
+    "sku_stock": {
+      "observed_count": 0,
+      "value_types": [],
+      "non_empty_count": 0,
+      "list_lengths": [],
+      "string_length_range": null
+    },
+    "sku_thumbnail": {
+      "observed_count": 70,
+      "value_types": [
+        "str"
+      ],
+      "non_empty_count": 40,
+      "list_lengths": [],
+      "string_length_range": [
+        0,
+        94
+      ]
+    },
+    "spec_name": {
+      "observed_count": 6,
+      "value_types": [
+        "list"
+      ],
+      "non_empty_count": 6,
+      "list_lengths": [
+        1,
+        2
+      ],
+      "string_length_range": null
+    },
+    "spec_son_name": {
+      "observed_count": 76,
+      "value_types": [
+        "list",
+        "str"
+      ],
+      "non_empty_count": 76,
+      "list_lengths": [
+        1,
+        2
+      ],
+      "string_length_range": [
+        7,
+        13
+      ]
+    },
+    "stock": {
+      "observed_count": 70,
+      "value_types": [
+        "int"
+      ],
+      "non_empty_count": 70,
+      "list_lengths": [],
+      "string_length_range": null
+    }
+  },
+  "ordering_field_keys": [
+    "border_good_type",
+    "is_border",
+    "orderby",
+    "serial_number"
+  ],
+  "identity_reconciliation_attempted": false,
+  "sku_binding_attempted": false,
+  "price_matching_attempted": false,
+  "legacy_content_copied_to_new_payload": false,
+  "legacy_detail_reads": 6,
+  "passed": true
+}

@@ -171,13 +171,13 @@ PYTHONPATH=src python scripts/sync_storefront_catalog.py
 
 默认输出到 `output/storefront-master/`：
 
-- `master_catalog.json`：长期保存的商品主库，包含商品、颜色图片和完整 variants；
+- `master_catalog.json`：长期保存的商品主库，包含商品描述、完整 `images`/`media`/详情图、有序去重图片集合、颜色图片和全部 variants；
 - `products.csv`、`variants.csv`：标准化商品表和 variant 表（UTF-8 BOM）；
 - `incremental_changes.json`、`incremental_changes.csv`：本次新增、价格、库存、图片、元数据、下架及恢复变化；
 - `crawl_stats.json`：全站分页、排除、商品/variant、图片和库存统计；
 - `validation_report.json`：鞋类、服装、婴儿用品、杂货的真实样例校验。
 
-`special_skus_2026aw.csv` 的 351 个品番是永久排除集合，采集时即从小程序候选池移除。普通商品按每个 variant 独立计算：
+`special_skus_2026aw.csv` 的 351 个品番是 PDF 专用池，也是 Shijiu 全流程的永久排除集合。它们在采集及 Shijiu CREATE/UPDATE/库存/图片/价格/下架恢复计划之前以 `excluded_reason=PDF_SPECIAL_LIST` 前置过滤；即使当前离线的 40 项以后恢复，仍不得进入小程序。普通商品按每个 variant 独立计算：
 
 ```text
 mini_program_price_jpy = ceil(官网税入日元价 × 0.65)
@@ -185,7 +185,9 @@ mini_program_price_jpy = ceil(官网税入日元价 × 0.65)
 
 该字段仍是日元整数，本模块不保存人民币售价、汇率或任何人民币换算结果。商品以 `product_number`、variant 以 `product_number::variant SKU` 为稳定标识。只有全站分页完整成功并通过跨品类、特殊品番和价格校验后才会原子更新主库；官网不再返回的商品或 variant 保留历史记录并标记 `active=false`，以后重新出现时记录为恢复上架。
 
-统计会分别记录排除集合总数、本次官网实际遇到并排除的数量，以及当前官网未出现的特殊品番数量。即使特殊品番暂时下架，仍永久保留在排除集合中，恢复上架后也不会进入小程序商品池。
+统计会分别记录排除集合总数、本次官网实际遇到并排除的数量，以及当前官网未出现的特殊品番数量。2026-09-04 建立的业务基线为官网 2914 件、在线特殊品番 311 件、离线但永久记忆 40 件、非特殊候选 2603 件。本轮最终在线复核时官网已变为 2926 件，新增 12 件均为非特殊普通商品，因此实时池为 2615 件；具体新增品番记录在 `special_exclusion_report.json` 的 `live_observation`。官网随后出现新品时会作为独立 `NEW_PRODUCT` 记录；候选池仍严格等于“实时官网全站 − 351 永久排除”，报告同时保留基线与实时漂移，绝不会将新增普通商品误判为 legacy 或特殊商品。
+
+Storefront 现在同时分页抓取 `images` 和 `media`，并解析描述中的详情图。每个商品生成 `ordered_images`，按“官网主图 → 其他商品/角度图 → variant 颜色图 → 详情图”排序并按源 URL 去重；`product_images_changed` 会覆盖这些集合的变化。
 
 为便于 GitHub 审核，脚本同时把体积较小的抓取统计、增量变化摘要和分类验证报告写入 `deliverables/storefront_catalog/`；摘要包含完整变化文件的路径、大小、SHA-256 及代表样例。完整主库、逐条变化 JSON/CSV 和同步 CSV 属于运行数据，继续由 `.gitignore` 排除；本模块不会调用 PDF 生成器，也不会修改现有 2026AW PDF 成品。
 
@@ -195,8 +197,8 @@ mini_program_price_jpy = ceil(官网税入日元价 × 0.65)
 
 当前 adapter 刻意不包含任何写方法，也没有写入 CLI 参数。Shijiu 客户端只允许商品/详情/分类 discovery 所需的语义只读端点：
 
-- `/shopapi/Goods/index`：按稳定 SKU code 查重；
-- `/shopapi/goods/getFormatInfo`：已存在商品回读；
+- `/shopapi/Goods/index`：只列出固定类目的 legacy 参考商品；
+- `/shopapi/goods/getFormatInfo`：只读取少量 legacy 样本的展示字段结构；
 - `/shopapi/Goodtype/typeindex`、`/shopapi/Goodtype/index`、`/shopapi/goodtype/fatherIndex`：核对分类树。
 
 首次 dry-run 命令：
@@ -220,7 +222,7 @@ MIKI HOUSE 是与 WAWU 平级且隔离的独立 provider，source 固定为 `MIK
 - `source_variant_id = MIKIHOUSE:<product_number>:<variant SKU>`；
 - 目标端 `sku_code = MIKI-<variant SKU>`。
 
-持久映射表为 `state/shijiu_mappings.json`，为每个 product number 和 variant SKU 建立独立行；尚未写入的 Shijiu `product_id`/`sku_id` 保持 `null`，不得猜测。目标 discovery 只接受已持久绑定或精确 `MIKI-<variant SKU>`，商品名匹配被明确禁止。
+持久映射表为 `state/shijiu_mappings.json`，为每个新 product number 和 variant SKU 建立独立行；尚未完成未来“创建后回读”的 Shijiu `product_id`/`sku_id` 保持 `null`，不得猜测。目标商品 ID 只允许来自以后另行授权的新建成功回读，商品名匹配和对旧商品做 SKU reconciliation 均被明确禁止。
 
 只读分类树确认 Shijiu 已有子类目 `MikiHouse`（ID `294884`，父类目 `母婴用品` ID `288338`）。所有可发布 MIKIHOUSE 商品固定使用 `good_type=294884`，不得按官网品牌或分类散落到其他 Shijiu 类目。官网 `brand`、`productType`、`category`、`tags` 只保存在 source metadata；由于没有已验证的 Shijiu 品牌 discovery 契约，`brand_id` 和 `supplier` 保持空值。
 
@@ -228,4 +230,8 @@ MIKI HOUSE 是与 WAWU 平级且隔离的独立 provider，source 固定为 `MIK
 
 每次全站抓取继续由 catalog 模块以上一次 master catalog 为基线，按 variant SKU 输出独立的 `NEW_PRODUCT`、`NEW_VARIANT`、`PRICE_CHANGED`、`INVENTORY_CHANGED`、`IMAGE_CHANGED`、下架及恢复事件。只有 `PRICE_CHANGED` 能生成 `UPDATE_PRICE_BY_EXACT_VARIANT_SKU`，且不会重新创建商品。价格保护配置位于 `config/shijiu_price_guard.json`：新价格越界，或绝对/相对变化超过阈值时只写入 `review_required.json`，不得进入自动更新计划。
 
-完整字段预览、增量操作、checkpoint 和 Shijiu 只读快照写入 `output/shijiu-import/`；可追踪的 2603 项精简动作计划、增量摘要、review required、20 个字段样例、价格校验、映射表、契约审计和只读验证写入仓库。payload 是字段映射预览而不是可执行写请求：图片保留 MIKI 官网来源，未来需在另行授权的阶段通过已定位的 Shijiu COS 上传接口取得目标 URL。缺少官网图片的商品会设置 `publish_ready=false` 并跳过，绝不使用其他商品图片替代。当前 adapter 即使设置写入环境变量也会拒绝运行。
+Shijiu `MikiHouse` 类目中既有的 286 件商品统一定义为 `legacy_reference_only`，与新的 MIKIHOUSE source identity、SKU、价格和同步状态没有任何关系。在线 discovery 仅分页读取 286 条列表并均匀抽取 6 条详情，记录 `good_name`、`master_graph`、轮播/详情字段、SKU 规格和排序字段的结构，不保存样本业务内容，也不做匹配。`legacy_cleanup_plan.json` 为 286 件旧商品生成独立 `OFF_SHELF` 草案，但只有新商品完成另行授权的创建和回读验证后才能执行；本轮执行数始终为零。
+
+完整字段预览、增量操作、checkpoint 和 Shijiu 只读快照写入 `output/shijiu-import/`；可追踪的精简动作、增量摘要、review required、跨鞋类/服装/婴儿用品/杂货各 5 件的 20 个完整 payload、legacy 结构审计、cleanup 草案、351 排除清单、价格校验、映射表和契约审计写入 `deliverables/shijiu_import/`。
+
+payload 是不可执行预览：官网图片 URL 只保留在 `source_content` 和 `image_upload_plan` 中，正式 `master_graph`、`broadcast`、`good_detail_pics`、`sku_thumbnail` 只放 `SHIJIU_COS_URL` 占位引用。未来必须先逐图调用已确认的 `/v1/cos/upload`，拿到全部 Shijiu/COS URL 并替换占位符后才允许进入写入验证。详情 HTML 由当前 MIKI HOUSE 商品名、品番、品牌、描述、颜色、尺码和详情图片引用生成，绝不复制 legacy 商品内容。缺少官网图片的 7 件商品继续 `SKIP`，不使用其他商品图片替代。当前 adapter 即使设置写入环境变量也会拒绝运行。

@@ -1,6 +1,6 @@
 {
   "target": "SHIJIU",
-  "checked_at": "2026-09-04T00:54:44.159022+00:00",
+  "checked_at": "2026-09-04T01:51:33.504054+00:00",
   "fixed_category_discovery": {
     "configured": {
       "id": 294884,
@@ -21,278 +21,502 @@
     "all_products_fixed_to_category_id": 294884,
     "passed": true
   },
-  "read_contract_discovery": {
-    "passed": true,
-    "active_catalog_count": 3398,
-    "backend_product_id_observed": true,
-    "list_row_keys": [
-      "advance_sale",
-      "appr_rtn",
-      "concessional_rate",
-      "create_time",
-      "good_name",
-      "good_sales",
-      "good_stock",
-      "good_type",
-      "id",
-      "is_border",
-      "is_change",
-      "is_shelf",
-      "master_graph",
-      "orderby",
-      "price_range",
-      "push",
-      "state",
-      "type_name",
-      "update_time",
-      "virtual_sales"
-    ],
-    "detail_root_keys": [
-      "code",
-      "data",
-      "msg"
-    ],
-    "detail_sku_count": 1,
-    "detail_sku_field_keys": [
-      "fifth_level",
-      "first_level",
-      "fourth_level",
-      "price",
-      "second_level",
-      "sixth_level",
-      "sku_code",
-      "sku_cost_price",
-      "sku_thumbnail",
-      "spec_son_name",
-      "stock",
-      "third_level",
-      "weight"
-    ]
-  },
-  "exact_binding_discovery": {
+  "legacy_reference_audit": {
+    "mode": "read-only",
+    "classification": "legacy_reference_only",
     "target_category_id": 294884,
-    "target_category_name": "MikiHouse",
-    "target_product_rows_scanned": 286,
-    "target_detail_reads": 286,
-    "exact_backend_sku_codes_found": 0,
-    "exact_product_bindings_found": 0,
-    "exact_variant_bindings_found": 0,
-    "unresolved_target_product_count": 286,
-    "foreign_wawu_namespace_codes_observed": 0,
-    "product_name_matching_attempts": 0,
-    "automatic_create_allowed": false,
-    "review_required_count": 1,
-    "review_required": [
+    "legacy_product_count": 286,
+    "sample_size": 6,
+    "sample_selection": "evenly_spaced_category_rows",
+    "sample_schemas": [
       {
-        "reason": "existing_shijiu_mikihouse_products_have_no_exact_stable_source_binding",
-        "unresolved_target_product_count": 286,
-        "required_action": "manual_identity_reconciliation_before_any_create"
+        "backend_product_id": "9354946",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 9,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
+      },
+      {
+        "backend_product_id": "9319574",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 4,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
+      },
+      {
+        "backend_product_id": "9305997",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 24,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
+      },
+      {
+        "backend_product_id": "9285353",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 7,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
+      },
+      {
+        "backend_product_id": "9186083",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 14,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
+      },
+      {
+        "backend_product_id": "9186087",
+        "list_row_keys": [
+          "advance_sale",
+          "appr_rtn",
+          "concessional_rate",
+          "create_time",
+          "good_name",
+          "good_sales",
+          "good_stock",
+          "good_type",
+          "id",
+          "is_border",
+          "is_change",
+          "is_shelf",
+          "master_graph",
+          "orderby",
+          "price_range",
+          "push",
+          "state",
+          "type_name",
+          "update_time",
+          "virtual_sales"
+        ],
+        "detail_root_keys": [
+          "code",
+          "data",
+          "msg"
+        ],
+        "detail_sku_count": 12,
+        "detail_sku_field_keys": [
+          "fifth_level",
+          "first_level",
+          "fourth_level",
+          "price",
+          "second_level",
+          "sixth_level",
+          "sku_code",
+          "sku_cost_price",
+          "sku_thumbnail",
+          "spec_son_name",
+          "stock",
+          "third_level",
+          "weight"
+        ]
       }
     ],
+    "field_contract": {
+      "broadcast": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [],
+        "string_length_range": [
+          76,
+          461
+        ]
+      },
+      "good_detail_pics": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": [
+          0,
+          0
+        ]
+      },
+      "good_details": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": [
+          0,
+          0
+        ]
+      },
+      "good_name": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [],
+        "string_length_range": [
+          13,
+          25
+        ]
+      },
+      "is_shelf": {
+        "observed_count": 6,
+        "value_types": [
+          "int"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [],
+        "string_length_range": null
+      },
+      "master_graph": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [],
+        "string_length_range": [
+          76,
+          76
+        ]
+      },
+      "orderby": {
+        "observed_count": 6,
+        "value_types": [
+          "int"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [],
+        "string_length_range": null
+      },
+      "price": {
+        "observed_count": 70,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 70,
+        "list_lengths": [],
+        "string_length_range": [
+          7,
+          8
+        ]
+      },
+      "serial_number": {
+        "observed_count": 6,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": [
+          0,
+          0
+        ]
+      },
+      "sku_code": {
+        "observed_count": 70,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": [
+          0,
+          0
+        ]
+      },
+      "sku_info": {
+        "observed_count": 6,
+        "value_types": [
+          "list"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [
+          4,
+          7,
+          9,
+          12,
+          14,
+          24
+        ],
+        "string_length_range": null
+      },
+      "sku_price": {
+        "observed_count": 0,
+        "value_types": [],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": null
+      },
+      "sku_stock": {
+        "observed_count": 0,
+        "value_types": [],
+        "non_empty_count": 0,
+        "list_lengths": [],
+        "string_length_range": null
+      },
+      "sku_thumbnail": {
+        "observed_count": 70,
+        "value_types": [
+          "str"
+        ],
+        "non_empty_count": 40,
+        "list_lengths": [],
+        "string_length_range": [
+          0,
+          94
+        ]
+      },
+      "spec_name": {
+        "observed_count": 6,
+        "value_types": [
+          "list"
+        ],
+        "non_empty_count": 6,
+        "list_lengths": [
+          1,
+          2
+        ],
+        "string_length_range": null
+      },
+      "spec_son_name": {
+        "observed_count": 76,
+        "value_types": [
+          "list",
+          "str"
+        ],
+        "non_empty_count": 76,
+        "list_lengths": [
+          1,
+          2
+        ],
+        "string_length_range": [
+          7,
+          13
+        ]
+      },
+      "stock": {
+        "observed_count": 70,
+        "value_types": [
+          "int"
+        ],
+        "non_empty_count": 70,
+        "list_lengths": [],
+        "string_length_range": null
+      }
+    },
+    "ordering_field_keys": [
+      "border_good_type",
+      "is_border",
+      "orderby",
+      "serial_number"
+    ],
+    "identity_reconciliation_attempted": false,
+    "sku_binding_attempted": false,
+    "price_matching_attempted": false,
+    "legacy_content_copied_to_new_payload": false,
+    "legacy_detail_reads": 6,
     "passed": true
   },
-  "product_checks": [
-    {
-      "product_number": "10-9305-497",
-      "classification": "footwear",
-      "query_sku_code": "MIKI-10-9305-49700020120",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-9306-490",
-      "classification": "footwear",
-      "query_sku_code": "MIKI-10-9306-49000020135",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-9327-145",
-      "classification": "footwear",
-      "query_sku_code": "MIKI-10-9327-14500010115",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-9328-148",
-      "classification": "footwear",
-      "query_sku_code": "MIKI-10-9328-14800010105",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-9329-141",
-      "classification": "footwear",
-      "query_sku_code": "MIKI-10-9329-14100010110",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-1711-494",
-      "classification": "apparel",
-      "query_sku_code": "MIKI-10-1711-49400013200",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-1821-575",
-      "classification": "apparel",
-      "query_sku_code": "MIKI-10-1821-57500010800",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-1823-496",
-      "classification": "apparel",
-      "query_sku_code": "MIKI-10-1823-49600023400",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-1828-682",
-      "classification": "apparel",
-      "query_sku_code": "MIKI-10-1828-68200033400",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-1829-685",
-      "classification": "apparel",
-      "query_sku_code": "MIKI-10-1829-68500093400",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "00-1000-028",
-      "classification": "baby",
-      "query_sku_code": "MIKI-00-1000-02800899999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "00-1000-035",
-      "classification": "baby",
-      "query_sku_code": "MIKI-00-1000-03500080110",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "00-4000-054",
-      "classification": "baby",
-      "query_sku_code": "MIKI-00-4000-05400049999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "00-4000-055",
-      "classification": "baby",
-      "query_sku_code": "MIKI-00-4000-05500019999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "00-4000-057",
-      "classification": "baby",
-      "query_sku_code": "MIKI-00-4000-05700019998",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-8107-492",
-      "classification": "goods",
-      "query_sku_code": "MIKI-10-8107-49200029999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-8109-498",
-      "classification": "goods",
-      "query_sku_code": "MIKI-10-8109-49800879999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-8110-498",
-      "classification": "goods",
-      "query_sku_code": "MIKI-10-8110-49800029999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-8111-491",
-      "classification": "goods",
-      "query_sku_code": "MIKI-10-8111-49100029999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    },
-    {
-      "product_number": "10-8112-494",
-      "classification": "goods",
-      "query_sku_code": "MIKI-10-8112-49400029999",
-      "target_response_count": 0,
-      "target_rows_examined": 0,
-      "matched": false,
-      "backend_product_id": null,
-      "detail_checks": null
-    }
-  ],
+  "legacy_identity_reconciliation_attempted": false,
+  "legacy_sku_binding_attempted": false,
+  "legacy_price_matching_attempted": false,
   "request_ledger": [
     {
       "sequence": 1,
@@ -305,37 +529,6 @@
     },
     {
       "sequence": 2,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 1,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 3,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9355864
-      }
-    },
-    {
-      "sequence": 4,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/Goods/index",
@@ -357,7 +550,7 @@
       }
     },
     {
-      "sequence": 5,
+      "sequence": 3,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/Goods/index",
@@ -379,7 +572,7 @@
       }
     },
     {
-      "sequence": 6,
+      "sequence": 4,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
@@ -388,511 +581,7 @@
       }
     },
     {
-      "sequence": 7,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9351241
-      }
-    },
-    {
-      "sequence": 8,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9351239
-      }
-    },
-    {
-      "sequence": 9,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9351238
-      }
-    },
-    {
-      "sequence": 10,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9351236
-      }
-    },
-    {
-      "sequence": 11,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9344444
-      }
-    },
-    {
-      "sequence": 12,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9342935
-      }
-    },
-    {
-      "sequence": 13,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9342931
-      }
-    },
-    {
-      "sequence": 14,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9342377
-      }
-    },
-    {
-      "sequence": 15,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9341216
-      }
-    },
-    {
-      "sequence": 16,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9337731
-      }
-    },
-    {
-      "sequence": 17,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9331813
-      }
-    },
-    {
-      "sequence": 18,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9328834
-      }
-    },
-    {
-      "sequence": 19,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9328162
-      }
-    },
-    {
-      "sequence": 20,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9328015
-      }
-    },
-    {
-      "sequence": 21,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9326348
-      }
-    },
-    {
-      "sequence": 22,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9326020
-      }
-    },
-    {
-      "sequence": 23,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9326018
-      }
-    },
-    {
-      "sequence": 24,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9326017
-      }
-    },
-    {
-      "sequence": 25,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9326014
-      }
-    },
-    {
-      "sequence": 26,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9325938
-      }
-    },
-    {
-      "sequence": 27,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9325937
-      }
-    },
-    {
-      "sequence": 28,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9325936
-      }
-    },
-    {
-      "sequence": 29,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324380
-      }
-    },
-    {
-      "sequence": 30,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324375
-      }
-    },
-    {
-      "sequence": 31,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324372
-      }
-    },
-    {
-      "sequence": 32,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324371
-      }
-    },
-    {
-      "sequence": 33,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324362
-      }
-    },
-    {
-      "sequence": 34,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324359
-      }
-    },
-    {
-      "sequence": 35,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324358
-      }
-    },
-    {
-      "sequence": 36,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324356
-      }
-    },
-    {
-      "sequence": 37,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9324355
-      }
-    },
-    {
-      "sequence": 38,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9323447
-      }
-    },
-    {
-      "sequence": 39,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322904
-      }
-    },
-    {
-      "sequence": 40,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322643
-      }
-    },
-    {
-      "sequence": 41,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322642
-      }
-    },
-    {
-      "sequence": 42,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322641
-      }
-    },
-    {
-      "sequence": 43,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322640
-      }
-    },
-    {
-      "sequence": 44,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322639
-      }
-    },
-    {
-      "sequence": 45,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322222
-      }
-    },
-    {
-      "sequence": 46,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9322084
-      }
-    },
-    {
-      "sequence": 47,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321602
-      }
-    },
-    {
-      "sequence": 48,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321601
-      }
-    },
-    {
-      "sequence": 49,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321600
-      }
-    },
-    {
-      "sequence": 50,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321424
-      }
-    },
-    {
-      "sequence": 51,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321423
-      }
-    },
-    {
-      "sequence": 52,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321422
-      }
-    },
-    {
-      "sequence": 53,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321420
-      }
-    },
-    {
-      "sequence": 54,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321419
-      }
-    },
-    {
-      "sequence": 55,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321418
-      }
-    },
-    {
-      "sequence": 56,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321270
-      }
-    },
-    {
-      "sequence": 57,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321182
-      }
-    },
-    {
-      "sequence": 58,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321167
-      }
-    },
-    {
-      "sequence": 59,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321131
-      }
-    },
-    {
-      "sequence": 60,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9321128
-      }
-    },
-    {
-      "sequence": 61,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319674
-      }
-    },
-    {
-      "sequence": 62,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319660
-      }
-    },
-    {
-      "sequence": 63,
+      "sequence": 5,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
@@ -901,511 +590,7 @@
       }
     },
     {
-      "sequence": 64,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319500
-      }
-    },
-    {
-      "sequence": 65,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319480
-      }
-    },
-    {
-      "sequence": 66,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319479
-      }
-    },
-    {
-      "sequence": 67,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319478
-      }
-    },
-    {
-      "sequence": 68,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319340
-      }
-    },
-    {
-      "sequence": 69,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319336
-      }
-    },
-    {
-      "sequence": 70,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319292
-      }
-    },
-    {
-      "sequence": 71,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319243
-      }
-    },
-    {
-      "sequence": 72,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319241
-      }
-    },
-    {
-      "sequence": 73,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319205
-      }
-    },
-    {
-      "sequence": 74,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319197
-      }
-    },
-    {
-      "sequence": 75,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319194
-      }
-    },
-    {
-      "sequence": 76,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319193
-      }
-    },
-    {
-      "sequence": 77,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319191
-      }
-    },
-    {
-      "sequence": 78,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319189
-      }
-    },
-    {
-      "sequence": 79,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9319188
-      }
-    },
-    {
-      "sequence": 80,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318639
-      }
-    },
-    {
-      "sequence": 81,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318635
-      }
-    },
-    {
-      "sequence": 82,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318386
-      }
-    },
-    {
-      "sequence": 83,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318250
-      }
-    },
-    {
-      "sequence": 84,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318249
-      }
-    },
-    {
-      "sequence": 85,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9318032
-      }
-    },
-    {
-      "sequence": 86,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9317956
-      }
-    },
-    {
-      "sequence": 87,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9317798
-      }
-    },
-    {
-      "sequence": 88,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9317795
-      }
-    },
-    {
-      "sequence": 89,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9317725
-      }
-    },
-    {
-      "sequence": 90,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9316710
-      }
-    },
-    {
-      "sequence": 91,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9315252
-      }
-    },
-    {
-      "sequence": 92,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9315012
-      }
-    },
-    {
-      "sequence": 93,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312917
-      }
-    },
-    {
-      "sequence": 94,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312590
-      }
-    },
-    {
-      "sequence": 95,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312555
-      }
-    },
-    {
-      "sequence": 96,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312549
-      }
-    },
-    {
-      "sequence": 97,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312534
-      }
-    },
-    {
-      "sequence": 98,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312452
-      }
-    },
-    {
-      "sequence": 99,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312445
-      }
-    },
-    {
-      "sequence": 100,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312394
-      }
-    },
-    {
-      "sequence": 101,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312393
-      }
-    },
-    {
-      "sequence": 102,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312267
-      }
-    },
-    {
-      "sequence": 103,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9311985
-      }
-    },
-    {
-      "sequence": 104,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9311876
-      }
-    },
-    {
-      "sequence": 105,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9311754
-      }
-    },
-    {
-      "sequence": 106,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9311323
-      }
-    },
-    {
-      "sequence": 107,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9311322
-      }
-    },
-    {
-      "sequence": 108,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308492
-      }
-    },
-    {
-      "sequence": 109,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308491
-      }
-    },
-    {
-      "sequence": 110,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308376
-      }
-    },
-    {
-      "sequence": 111,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308333
-      }
-    },
-    {
-      "sequence": 112,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308331
-      }
-    },
-    {
-      "sequence": 113,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308152
-      }
-    },
-    {
-      "sequence": 114,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308141
-      }
-    },
-    {
-      "sequence": 115,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308056
-      }
-    },
-    {
-      "sequence": 116,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308055
-      }
-    },
-    {
-      "sequence": 117,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9306441
-      }
-    },
-    {
-      "sequence": 118,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9306339
-      }
-    },
-    {
-      "sequence": 119,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9306338
-      }
-    },
-    {
-      "sequence": 120,
+      "sequence": 6,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
@@ -1414,511 +599,7 @@
       }
     },
     {
-      "sequence": 121,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305917
-      }
-    },
-    {
-      "sequence": 122,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305915
-      }
-    },
-    {
-      "sequence": 123,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305864
-      }
-    },
-    {
-      "sequence": 124,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305863
-      }
-    },
-    {
-      "sequence": 125,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305862
-      }
-    },
-    {
-      "sequence": 126,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305861
-      }
-    },
-    {
-      "sequence": 127,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305860
-      }
-    },
-    {
-      "sequence": 128,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305817
-      }
-    },
-    {
-      "sequence": 129,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305679
-      }
-    },
-    {
-      "sequence": 130,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305234
-      }
-    },
-    {
-      "sequence": 131,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305218
-      }
-    },
-    {
-      "sequence": 132,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305217
-      }
-    },
-    {
-      "sequence": 133,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305103
-      }
-    },
-    {
-      "sequence": 134,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305101
-      }
-    },
-    {
-      "sequence": 135,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305100
-      }
-    },
-    {
-      "sequence": 136,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9305097
-      }
-    },
-    {
-      "sequence": 137,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9304921
-      }
-    },
-    {
-      "sequence": 138,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9304920
-      }
-    },
-    {
-      "sequence": 139,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9303385
-      }
-    },
-    {
-      "sequence": 140,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288375
-      }
-    },
-    {
-      "sequence": 141,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288371
-      }
-    },
-    {
-      "sequence": 142,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288369
-      }
-    },
-    {
-      "sequence": 143,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288368
-      }
-    },
-    {
-      "sequence": 144,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285539
-      }
-    },
-    {
-      "sequence": 145,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285535
-      }
-    },
-    {
-      "sequence": 146,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285519
-      }
-    },
-    {
-      "sequence": 147,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285511
-      }
-    },
-    {
-      "sequence": 148,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285499
-      }
-    },
-    {
-      "sequence": 149,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285498
-      }
-    },
-    {
-      "sequence": 150,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285497
-      }
-    },
-    {
-      "sequence": 151,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285496
-      }
-    },
-    {
-      "sequence": 152,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285495
-      }
-    },
-    {
-      "sequence": 153,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285494
-      }
-    },
-    {
-      "sequence": 154,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285493
-      }
-    },
-    {
-      "sequence": 155,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285490
-      }
-    },
-    {
-      "sequence": 156,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285488
-      }
-    },
-    {
-      "sequence": 157,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285484
-      }
-    },
-    {
-      "sequence": 158,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285481
-      }
-    },
-    {
-      "sequence": 159,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285380
-      }
-    },
-    {
-      "sequence": 160,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285378
-      }
-    },
-    {
-      "sequence": 161,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285377
-      }
-    },
-    {
-      "sequence": 162,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285376
-      }
-    },
-    {
-      "sequence": 163,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285375
-      }
-    },
-    {
-      "sequence": 164,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285372
-      }
-    },
-    {
-      "sequence": 165,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285371
-      }
-    },
-    {
-      "sequence": 166,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285370
-      }
-    },
-    {
-      "sequence": 167,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285368
-      }
-    },
-    {
-      "sequence": 168,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285366
-      }
-    },
-    {
-      "sequence": 169,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285364
-      }
-    },
-    {
-      "sequence": 170,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285363
-      }
-    },
-    {
-      "sequence": 171,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285361
-      }
-    },
-    {
-      "sequence": 172,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285359
-      }
-    },
-    {
-      "sequence": 173,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285357
-      }
-    },
-    {
-      "sequence": 174,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285356
-      }
-    },
-    {
-      "sequence": 175,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285355
-      }
-    },
-    {
-      "sequence": 176,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285354
-      }
-    },
-    {
-      "sequence": 177,
+      "sequence": 7,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
@@ -1927,511 +608,7 @@
       }
     },
     {
-      "sequence": 178,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285352
-      }
-    },
-    {
-      "sequence": 179,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285351
-      }
-    },
-    {
-      "sequence": 180,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285350
-      }
-    },
-    {
-      "sequence": 181,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285349
-      }
-    },
-    {
-      "sequence": 182,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285348
-      }
-    },
-    {
-      "sequence": 183,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285347
-      }
-    },
-    {
-      "sequence": 184,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285345
-      }
-    },
-    {
-      "sequence": 185,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285344
-      }
-    },
-    {
-      "sequence": 186,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285343
-      }
-    },
-    {
-      "sequence": 187,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285342
-      }
-    },
-    {
-      "sequence": 188,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285341
-      }
-    },
-    {
-      "sequence": 189,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285340
-      }
-    },
-    {
-      "sequence": 190,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285338
-      }
-    },
-    {
-      "sequence": 191,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285336
-      }
-    },
-    {
-      "sequence": 192,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285334
-      }
-    },
-    {
-      "sequence": 193,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285330
-      }
-    },
-    {
-      "sequence": 194,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285159
-      }
-    },
-    {
-      "sequence": 195,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285158
-      }
-    },
-    {
-      "sequence": 196,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285157
-      }
-    },
-    {
-      "sequence": 197,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285156
-      }
-    },
-    {
-      "sequence": 198,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285155
-      }
-    },
-    {
-      "sequence": 199,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285154
-      }
-    },
-    {
-      "sequence": 200,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285153
-      }
-    },
-    {
-      "sequence": 201,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285152
-      }
-    },
-    {
-      "sequence": 202,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285149
-      }
-    },
-    {
-      "sequence": 203,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285147
-      }
-    },
-    {
-      "sequence": 204,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285145
-      }
-    },
-    {
-      "sequence": 205,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285143
-      }
-    },
-    {
-      "sequence": 206,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285142
-      }
-    },
-    {
-      "sequence": 207,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285141
-      }
-    },
-    {
-      "sequence": 208,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285137
-      }
-    },
-    {
-      "sequence": 209,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285129
-      }
-    },
-    {
-      "sequence": 210,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285128
-      }
-    },
-    {
-      "sequence": 211,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285126
-      }
-    },
-    {
-      "sequence": 212,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285125
-      }
-    },
-    {
-      "sequence": 213,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285124
-      }
-    },
-    {
-      "sequence": 214,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285121
-      }
-    },
-    {
-      "sequence": 215,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285119
-      }
-    },
-    {
-      "sequence": 216,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285118
-      }
-    },
-    {
-      "sequence": 217,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9283800
-      }
-    },
-    {
-      "sequence": 218,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9281021
-      }
-    },
-    {
-      "sequence": 219,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9281020
-      }
-    },
-    {
-      "sequence": 220,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9240326
-      }
-    },
-    {
-      "sequence": 221,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9240325
-      }
-    },
-    {
-      "sequence": 222,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186257
-      }
-    },
-    {
-      "sequence": 223,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186255
-      }
-    },
-    {
-      "sequence": 224,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186254
-      }
-    },
-    {
-      "sequence": 225,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186252
-      }
-    },
-    {
-      "sequence": 226,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186251
-      }
-    },
-    {
-      "sequence": 227,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186092
-      }
-    },
-    {
-      "sequence": 228,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186091
-      }
-    },
-    {
-      "sequence": 229,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186090
-      }
-    },
-    {
-      "sequence": 230,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186088
-      }
-    },
-    {
-      "sequence": 231,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186086
-      }
-    },
-    {
-      "sequence": 232,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186085
-      }
-    },
-    {
-      "sequence": 233,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186084
-      }
-    },
-    {
-      "sequence": 234,
+      "sequence": 8,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
@@ -2440,960 +617,16 @@
       }
     },
     {
-      "sequence": 235,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186082
-      }
-    },
-    {
-      "sequence": 236,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186081
-      }
-    },
-    {
-      "sequence": 237,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186079
-      }
-    },
-    {
-      "sequence": 238,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186078
-      }
-    },
-    {
-      "sequence": 239,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186077
-      }
-    },
-    {
-      "sequence": 240,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186076
-      }
-    },
-    {
-      "sequence": 241,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186074
-      }
-    },
-    {
-      "sequence": 242,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186073
-      }
-    },
-    {
-      "sequence": 243,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185946
-      }
-    },
-    {
-      "sequence": 244,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185945
-      }
-    },
-    {
-      "sequence": 245,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185944
-      }
-    },
-    {
-      "sequence": 246,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185943
-      }
-    },
-    {
-      "sequence": 247,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185942
-      }
-    },
-    {
-      "sequence": 248,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185941
-      }
-    },
-    {
-      "sequence": 249,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185938
-      }
-    },
-    {
-      "sequence": 250,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185936
-      }
-    },
-    {
-      "sequence": 251,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185931
-      }
-    },
-    {
-      "sequence": 252,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185861
-      }
-    },
-    {
-      "sequence": 253,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185860
-      }
-    },
-    {
-      "sequence": 254,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185858
-      }
-    },
-    {
-      "sequence": 255,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185856
-      }
-    },
-    {
-      "sequence": 256,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185855
-      }
-    },
-    {
-      "sequence": 257,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185853
-      }
-    },
-    {
-      "sequence": 258,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185712
-      }
-    },
-    {
-      "sequence": 259,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185710
-      }
-    },
-    {
-      "sequence": 260,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185709
-      }
-    },
-    {
-      "sequence": 261,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185705
-      }
-    },
-    {
-      "sequence": 262,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185704
-      }
-    },
-    {
-      "sequence": 263,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185703
-      }
-    },
-    {
-      "sequence": 264,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285135
-      }
-    },
-    {
-      "sequence": 265,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185940
-      }
-    },
-    {
-      "sequence": 266,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185939
-      }
-    },
-    {
-      "sequence": 267,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185937
-      }
-    },
-    {
-      "sequence": 268,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185933
-      }
-    },
-    {
-      "sequence": 269,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185701
-      }
-    },
-    {
-      "sequence": 270,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185696
-      }
-    },
-    {
-      "sequence": 271,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185694
-      }
-    },
-    {
-      "sequence": 272,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9303382
-      }
-    },
-    {
-      "sequence": 273,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312539
-      }
-    },
-    {
-      "sequence": 274,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9312538
-      }
-    },
-    {
-      "sequence": 275,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9308379
-      }
-    },
-    {
-      "sequence": 276,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9303383
-      }
-    },
-    {
-      "sequence": 277,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288363
-      }
-    },
-    {
-      "sequence": 278,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288376
-      }
-    },
-    {
-      "sequence": 279,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288373
-      }
-    },
-    {
-      "sequence": 280,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288372
-      }
-    },
-    {
-      "sequence": 281,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9288366
-      }
-    },
-    {
-      "sequence": 282,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285531
-      }
-    },
-    {
-      "sequence": 283,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285525
-      }
-    },
-    {
-      "sequence": 284,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285524
-      }
-    },
-    {
-      "sequence": 285,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285483
-      }
-    },
-    {
-      "sequence": 286,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9285139
-      }
-    },
-    {
-      "sequence": 287,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185854
-      }
-    },
-    {
-      "sequence": 288,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185934
-      }
-    },
-    {
-      "sequence": 289,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9185711
-      }
-    },
-    {
-      "sequence": 290,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/goods/getFormatInfo",
-      "payload": {
-        "id": 9186253
-      }
-    },
-    {
-      "sequence": 291,
+      "sequence": 9,
       "method": "POST",
       "semantic_operation": "read",
       "path": "/shopapi/goods/getFormatInfo",
       "payload": {
         "id": 9186087
       }
-    },
-    {
-      "sequence": 292,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-9305-49700020120",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 293,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-9306-49000020135",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 294,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-9327-14500010115",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 295,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-9328-14800010105",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 296,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-9329-14100010110",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 297,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-1711-49400013200",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 298,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-1821-57500010800",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 299,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-1823-49600023400",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 300,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-1828-68200033400",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 301,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-1829-68500093400",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 302,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-00-1000-02800899999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 303,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-00-1000-03500080110",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 304,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-00-4000-05400049999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 305,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-00-4000-05500019999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 306,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-00-4000-05700019998",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 307,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-8107-49200029999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 308,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-8109-49800879999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 309,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-8110-49800029999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 310,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-8111-49100029999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
-    },
-    {
-      "sequence": 311,
-      "method": "POST",
-      "semantic_operation": "read",
-      "path": "/shopapi/Goods/index",
-      "payload": {
-        "page": 1,
-        "page_size": 20,
-        "good_type": "",
-        "father_type": "",
-        "recommend": "",
-        "good_name": "",
-        "good_code": "MIKI-10-8112-49400029999",
-        "push": "2",
-        "status": "",
-        "update_start_time": "",
-        "update_end_time": "",
-        "create_start_time": "",
-        "create_end_time": "",
-        "group_id": ""
-      }
     }
   ],
-  "read_request_count": 311,
+  "read_request_count": 9,
   "semantic_write_request_count": 0,
   "mutating_endpoints_called": []
 }
