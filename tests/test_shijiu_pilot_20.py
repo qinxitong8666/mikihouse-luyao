@@ -21,19 +21,17 @@ from mikihouse_luyao.shijiu_pilot_20 import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def loaded() -> tuple[dict, set[str], dict, dict, dict]:
+def loaded() -> tuple[dict, set[str], dict]:
     plan = json.loads(
         (ROOT / "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json").read_text()
     )
     special = set(read_product_numbers(ROOT / "special_skus_2026aw.csv"))
     mapping = load_mapping_state(ROOT / "state/shijiu_mappings.json")
-    master = json.loads((ROOT / "output/storefront-master/master_catalog.json").read_text())
-    category = load_category_map(ROOT / "config/shijiu_category_map.json")
-    return plan, special, mapping, master, category
+    return plan, special, mapping
 
 
 def test_checked_in_pilot_plan_is_exactly_twenty_unmapped_non_special_products() -> None:
-    plan, special, mapping, _, _ = loaded()
+    plan, special, mapping = loaded()
     rows = validate_frozen_pilot_plan(plan, special, mapping)
     assert len(rows) == PILOT_PRODUCT_COUNT
     assert [row["sequence"] for row in rows] == list(range(1, 21))
@@ -45,7 +43,12 @@ def test_checked_in_pilot_plan_is_exactly_twenty_unmapped_non_special_products()
 
 
 def test_each_frozen_product_rebuilds_the_same_payload_and_stage_plan() -> None:
-    plan, special, mapping, master, category = loaded()
+    plan, special, mapping = loaded()
+    master_path = ROOT / "output/storefront-master/master_catalog.json"
+    if not master_path.exists():
+        pytest.skip("formal Storefront master catalog is a protected local production artifact")
+    master = json.loads(master_path.read_text())
+    category = load_category_map(ROOT / "config/shijiu_category_map.json")
     for row in plan["products"]:
         item, selection = build_pilot_product_selection(
             ROOT, master, special, mapping, category, row
@@ -59,7 +62,7 @@ def test_each_frozen_product_rebuilds_the_same_payload_and_stage_plan() -> None:
 
 
 def test_pilot_fails_closed_if_one_product_becomes_mapped() -> None:
-    plan, special, mapping, _, _ = loaded()
+    plan, special, mapping = loaded()
     number = plan["products"][0]["product_number"]
     mapping["products"][number]["shijiu_product_id"] = "foreign-or-duplicate"
     with pytest.raises(LiveImportError, match="already mapped"):
@@ -70,7 +73,7 @@ def test_pilot_fails_closed_if_one_product_becomes_mapped() -> None:
 
 
 def test_waiting_checkpoint_and_report_have_zero_writes() -> None:
-    plan, _, _, _, _ = loaded()
+    plan, _, _ = loaded()
     checkpoint = initial_pilot_checkpoint(plan)
     report = waiting_operator_report(plan, checkpoint)
     assert checkpoint["status"] == "WAITING_OPERATOR_MUTEX_CONFIRMATION"
