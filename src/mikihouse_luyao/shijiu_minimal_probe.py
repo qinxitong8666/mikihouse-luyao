@@ -42,6 +42,7 @@ from .shijiu_live_import import (
     _sku_id_from_row,
 )
 from .shijiu_recovery import discover_created_product, prove_no_residual
+from .shijiu_shadow import ShadowControlPlaneClient, mutation_context
 
 
 PROBE_SCHEMA_VERSION = 1
@@ -623,6 +624,16 @@ def validate_probe_readback(
 def _persist_probe_mapping(
     path: Path, mapped: dict[str, Any], readback: dict[str, Any], payload_hash: str
 ) -> None:
+    ShadowControlPlaneClient.from_env().emit(
+        operation="OWNERSHIP_SEED_PROPOSAL",
+        target_type="PRODUCT",
+        context=mutation_context(
+            mapped["product_number"],
+            backend_product_id=readback["shijiu_product_id"],
+            variant_ids=[row["source_variant_id"] for row in mapped["source_variants"]],
+        ),
+        scope={"mapping_receipt": "MINIMAL_PROBE_READBACK_VERIFIED"},
+    )
     state = load_mapping_state(path)
     row = state["products"][mapped["product_number"]]
     existing = row.get("shijiu_product_id")

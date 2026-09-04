@@ -1,0 +1,66 @@
+{
+  "issue": "qinxitong8666/mikihouse-luyao#5",
+  "upstream_contract": {
+    "issue": "qinxitong8666/shijiu-10kaifa#63",
+    "commit": "4d08b93140e800691ac0b977a06ad762b7696beb",
+    "endpoint": "POST /v1/shadow/events"
+  },
+  "mode": "shadow",
+  "enforcement_enabled": false,
+  "production_behavior_changed": false,
+  "mutation_sites": {
+    "upload": "ShijiuLiveClient.upload_image",
+    "create": [
+      "ShijiuLiveClient.create_product",
+      "ShijiuLiveClient.create_product_native"
+    ],
+    "update": "ShijiuLiveClient.update_product_native",
+    "mapping_adoption": [
+      "persist_verified_mapping",
+      "persist_mapping_after_recovery",
+      "_persist_probe_mapping",
+      "canonical reconciliation via persist_verified_mapping"
+    ]
+  },
+  "compatibility": {
+    "shadow_on_off_business_input_equal": true,
+    "mutation_payload_changed": false,
+    "mapping_or_checkpoint_schema_changed": false,
+    "return_or_exception_semantics_changed": false,
+    "timeout_fail_open": true,
+    "dns_fail_open": true,
+    "http_500_fail_open": true,
+    "malformed_response_fail_open": true,
+    "foreign_unknown_quarantined_lease_are_observational_only": true,
+    "unknown_create_reconciliation_result_changed": false
+  },
+  "privacy": {
+    "raw_tenant_emitted": false,
+    "raw_product_number_emitted": false,
+    "raw_backend_id_emitted": false,
+    "credentials_emitted": false
+  },
+  "validation": {
+    "targeted_shadow_tests": "11 passed",
+    "full_pytest": "176 passed, 1 skipped",
+    "online_storefront_smoke": "NOT APPLICABLE",
+    "live_shijiu": "NOT RUN",
+    "central_service": "NOT CONTACTED; upstream PostgreSQL/mTLS not ready"
+  },
+  "side_effects": {
+    "shijiu_requests": 0,
+    "shadow_network_requests": 0,
+    "product_creates": 0,
+    "product_updates": 0,
+    "image_uploads": 0,
+    "inventory_updates": 0,
+    "price_updates": 0,
+    "listing_updates": 0,
+    "freight_updates": 0,
+    "mapping_updates": 0,
+    "checkpoint_updates": 0,
+    "runtime_config_changes": 0,
+    "enforcement_changes": 0
+  },
+  "final_classification": "MIKIHOUSE_SHADOW_INTEGRATION_READY"
+}
