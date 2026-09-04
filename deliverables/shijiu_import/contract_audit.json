@@ -1,0 +1,39 @@
+{
+  "target": "SHIJIU",
+  "reference_repository": "qinxitong8666/wawu-product-sync",
+  "reference_commit": "a36c5eab40bf419562ba03d15c090151698d582a",
+  "audit_document": "docs/shijiu_downstream_contract_audit.md",
+  "proven_target_evidence": [
+    {
+      "source": "backend_client.py:30-92",
+      "finding": "default API root contains /shijiu and admin Origin/Referer use shijiu.wfcorp.cn"
+    },
+    {
+      "source": "backend_client.py:309-573",
+      "finding": "Shijiu product write, grounding, list, detail and category endpoint paths are explicit"
+    },
+    {
+      "source": "DISPOSABLE_SKU_UPDATE_SEMANTICS_CREATE_PAYLOAD.json",
+      "finding": "native product, spec_name and sku_info field sets are fixed in a committed payload fixture"
+    },
+    {
+      "source": "transformer.py:478-548",
+      "finding": "readback fields and SKU matching/validation checks are explicit"
+    },
+    {
+      "source": "DISPOSABLE_UPDATE_SEMANTICS_RUNNER.py:110-365",
+      "finding": "intent checkpoint, readback-before-retry and rollback state-machine behavior is explicit"
+    }
+  ],
+  "excluded_reference_components": [
+    "WAWU upstream API client",
+    "WAWU mapper and source field semantics",
+    "WAWU SKU prefixes",
+    "WAWU price multiplier and category decisions"
+  ],
+  "missing_evidence": [
+    "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
+    "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
+  ],
+  "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
+}

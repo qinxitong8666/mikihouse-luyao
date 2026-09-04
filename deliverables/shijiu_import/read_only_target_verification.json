@@ -1,0 +1,774 @@
+{
+  "target": "SHIJIU",
+  "checked_at": "2026-09-04T00:31:45.251670+00:00",
+  "category_checks": [
+    {
+      "classification": "footwear",
+      "target_category_id": 290899,
+      "expected_name": "专柜商品",
+      "actual_name": "专柜商品",
+      "passed": true
+    },
+    {
+      "classification": "apparel",
+      "target_category_id": 290899,
+      "expected_name": "专柜商品",
+      "actual_name": "专柜商品",
+      "passed": true
+    },
+    {
+      "classification": "baby",
+      "target_category_id": 288338,
+      "expected_name": "母婴用品",
+      "actual_name": "母婴用品",
+      "passed": true
+    },
+    {
+      "classification": "goods",
+      "target_category_id": 290899,
+      "expected_name": "专柜商品",
+      "actual_name": "专柜商品",
+      "passed": true
+    },
+    {
+      "classification": "other",
+      "target_category_id": 290899,
+      "expected_name": "专柜商品",
+      "actual_name": "专柜商品",
+      "passed": true
+    }
+  ],
+  "read_contract_discovery": {
+    "passed": true,
+    "active_catalog_count": 3398,
+    "backend_product_id_observed": true,
+    "list_row_keys": [
+      "advance_sale",
+      "appr_rtn",
+      "concessional_rate",
+      "create_time",
+      "good_name",
+      "good_sales",
+      "good_stock",
+      "good_type",
+      "id",
+      "is_border",
+      "is_change",
+      "is_shelf",
+      "master_graph",
+      "orderby",
+      "price_range",
+      "push",
+      "state",
+      "type_name",
+      "update_time",
+      "virtual_sales"
+    ],
+    "detail_root_keys": [
+      "code",
+      "data",
+      "msg"
+    ],
+    "detail_sku_count": 1,
+    "detail_sku_field_keys": [
+      "fifth_level",
+      "first_level",
+      "fourth_level",
+      "price",
+      "second_level",
+      "sixth_level",
+      "sku_code",
+      "sku_cost_price",
+      "sku_thumbnail",
+      "spec_son_name",
+      "stock",
+      "third_level",
+      "weight"
+    ]
+  },
+  "product_checks": [
+    {
+      "product_number": "10-9305-497",
+      "classification": "footwear",
+      "query_sku_code": "MIKI-10-9305-49700020120",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-9306-490",
+      "classification": "footwear",
+      "query_sku_code": "MIKI-10-9306-49000020135",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-9327-145",
+      "classification": "footwear",
+      "query_sku_code": "MIKI-10-9327-14500010115",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-9328-148",
+      "classification": "footwear",
+      "query_sku_code": "MIKI-10-9328-14800010105",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-9329-141",
+      "classification": "footwear",
+      "query_sku_code": "MIKI-10-9329-14100010110",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-1711-494",
+      "classification": "apparel",
+      "query_sku_code": "MIKI-10-1711-49400013200",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-1821-575",
+      "classification": "apparel",
+      "query_sku_code": "MIKI-10-1821-57500010800",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-1823-496",
+      "classification": "apparel",
+      "query_sku_code": "MIKI-10-1823-49600023400",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-1828-682",
+      "classification": "apparel",
+      "query_sku_code": "MIKI-10-1828-68200033400",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-1829-685",
+      "classification": "apparel",
+      "query_sku_code": "MIKI-10-1829-68500093400",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "00-1000-028",
+      "classification": "baby",
+      "query_sku_code": "MIKI-00-1000-02800899999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "00-1000-035",
+      "classification": "baby",
+      "query_sku_code": "MIKI-00-1000-03500080110",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "00-4000-054",
+      "classification": "baby",
+      "query_sku_code": "MIKI-00-4000-05400049999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "00-4000-055",
+      "classification": "baby",
+      "query_sku_code": "MIKI-00-4000-05500019999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "00-4000-057",
+      "classification": "baby",
+      "query_sku_code": "MIKI-00-4000-05700019998",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-8107-492",
+      "classification": "goods",
+      "query_sku_code": "MIKI-10-8107-49200029999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-8109-498",
+      "classification": "goods",
+      "query_sku_code": "MIKI-10-8109-49800879999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-8110-498",
+      "classification": "goods",
+      "query_sku_code": "MIKI-10-8110-49800029999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-8111-491",
+      "classification": "goods",
+      "query_sku_code": "MIKI-10-8111-49100029999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    },
+    {
+      "product_number": "10-8112-494",
+      "classification": "goods",
+      "query_sku_code": "MIKI-10-8112-49400029999",
+      "target_response_count": 0,
+      "target_rows_examined": 0,
+      "matched": false,
+      "backend_product_id": null,
+      "detail_checks": null
+    }
+  ],
+  "request_ledger": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/goodtype/fatherIndex",
+      "payload": {}
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 1,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/goods/getFormatInfo",
+      "payload": {
+        "id": 9355864
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-9305-49700020120",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-9306-49000020135",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-9327-14500010115",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-9328-14800010105",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-9329-14100010110",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-1711-49400013200",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-1821-57500010800",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-1823-49600023400",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-1828-68200033400",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-1829-68500093400",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-00-1000-02800899999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-00-1000-03500080110",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-00-4000-05400049999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-00-4000-05500019999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-00-4000-05700019998",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-8107-49200029999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-8109-49800879999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-8110-49800029999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-8111-49100029999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "semantic_operation": "read",
+      "path": "/shopapi/Goods/index",
+      "payload": {
+        "page": 1,
+        "page_size": 20,
+        "good_type": "",
+        "father_type": "",
+        "recommend": "",
+        "good_name": "",
+        "good_code": "MIKI-10-8112-49400029999",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "group_id": ""
+      }
+    }
+  ],
+  "read_request_count": 23,
+  "semantic_write_request_count": 0,
+  "mutating_endpoints_called": []
+}

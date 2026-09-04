@@ -1,0 +1,2435 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T00:31:45.269429+00:00",
+  "mode": "dry-run",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "framework_reference": {
+    "repository": "qinxitong8666/wawu-product-sync",
+    "commit": "a36c5eab40bf419562ba03d15c090151698d582a",
+    "reused_patterns": [
+      "Shijiu client transport and evidenced endpoint paths",
+      "Shijiu native product/SKU payload field names",
+      "intent-before-mutation and readback-before-retry state-machine pattern",
+      "checkpoint/resume",
+      "dry-run write gate"
+    ],
+    "not_reused": [
+      "WAWU upstream API client",
+      "WAWU mapper",
+      "WAWU product field semantics",
+      "WAWU pricing rules"
+    ],
+    "successful_live_write_evidence_on_reference_main": false,
+    "evidence_limitation": "current reference main proves the Shijiu URL, endpoint paths, native payload fixtures, write gates and offline lifecycle tests; its committed LIVE_001 evidence records zero writes",
+    "contract_audit": "docs/shijiu_downstream_contract_audit.md"
+  },
+  "source_catalog": {
+    "path": "output/storefront-master/master_catalog.json",
+    "sha256": "e0ed87e3c39a1aefc3c13494c0e03d17d7a77f92b75511dad60f30ef42848f3a",
+    "product_count": 2603,
+    "variant_count": 15735,
+    "permanent_special_exclusion_count": 351,
+    "special_products_in_source": []
+  },
+  "plan_summary": {
+    "total": 2603,
+    "create": 2596,
+    "update": 0,
+    "deactivate": 0,
+    "reactivate": 0,
+    "skip": 7,
+    "failed": 0,
+    "publish_ready": 2596,
+    "unpublishable_missing_image": 7
+  },
+  "missing_image_products": [
+    "00-9999-002",
+    "00-9999-004",
+    "00-9999-006",
+    "00-9999-008",
+    "00-9999-010",
+    "00-9999-012",
+    "00-9999-014"
+  ],
+  "price_validation": {
+    "currency": "JPY",
+    "source_field": "mini_program_price_jpy",
+    "rule": "copy existing per-variant value; validate ceil(tax_included_price_jpy * 0.65)",
+    "variant_count": 15735,
+    "failure_count": 0,
+    "currency_conversion_applied": false,
+    "passed": true
+  },
+  "target_read_only_verification": {
+    "sample_product_count": 20,
+    "type_counts": {
+      "apparel": 5,
+      "baby": 5,
+      "footwear": 5,
+      "goods": 5
+    },
+    "matched_existing_count": 0,
+    "category_checks": [
+      {
+        "classification": "footwear",
+        "target_category_id": 290899,
+        "expected_name": "专柜商品",
+        "actual_name": "专柜商品",
+        "passed": true
+      },
+      {
+        "classification": "apparel",
+        "target_category_id": 290899,
+        "expected_name": "专柜商品",
+        "actual_name": "专柜商品",
+        "passed": true
+      },
+      {
+        "classification": "baby",
+        "target_category_id": 288338,
+        "expected_name": "母婴用品",
+        "actual_name": "母婴用品",
+        "passed": true
+      },
+      {
+        "classification": "goods",
+        "target_category_id": 290899,
+        "expected_name": "专柜商品",
+        "actual_name": "专柜商品",
+        "passed": true
+      },
+      {
+        "classification": "other",
+        "target_category_id": 290899,
+        "expected_name": "专柜商品",
+        "actual_name": "专柜商品",
+        "passed": true
+      }
+    ],
+    "read_contract_discovery": {
+      "passed": true,
+      "active_catalog_count": 3398,
+      "backend_product_id_observed": true,
+      "list_row_keys": [
+        "advance_sale",
+        "appr_rtn",
+        "concessional_rate",
+        "create_time",
+        "good_name",
+        "good_sales",
+        "good_stock",
+        "good_type",
+        "id",
+        "is_border",
+        "is_change",
+        "is_shelf",
+        "master_graph",
+        "orderby",
+        "price_range",
+        "push",
+        "state",
+        "type_name",
+        "update_time",
+        "virtual_sales"
+      ],
+      "detail_root_keys": [
+        "code",
+        "data",
+        "msg"
+      ],
+      "detail_sku_count": 1,
+      "detail_sku_field_keys": [
+        "fifth_level",
+        "first_level",
+        "fourth_level",
+        "price",
+        "second_level",
+        "sixth_level",
+        "sku_code",
+        "sku_cost_price",
+        "sku_thumbnail",
+        "spec_son_name",
+        "stock",
+        "third_level",
+        "weight"
+      ]
+    },
+    "read_request_count": 23,
+    "semantic_write_request_count": 0,
+    "mutating_endpoints_called": [],
+    "passed": true
+  },
+  "stable_identity": {
+    "source_product_id": "MIKIHOUSE:<product_number>",
+    "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
+    "backend_sku_code": "MIKI-<variant SKU>",
+    "mapping_state_path": "output/shijiu-import/mappings.json"
+  },
+  "contract_audit": {
+    "target": "SHIJIU",
+    "reference_repository": "qinxitong8666/wawu-product-sync",
+    "reference_commit": "a36c5eab40bf419562ba03d15c090151698d582a",
+    "audit_document": "docs/shijiu_downstream_contract_audit.md",
+    "proven_target_evidence": [
+      {
+        "source": "backend_client.py:30-92",
+        "finding": "default API root contains /shijiu and admin Origin/Referer use shijiu.wfcorp.cn"
+      },
+      {
+        "source": "backend_client.py:309-573",
+        "finding": "Shijiu product write, grounding, list, detail and category endpoint paths are explicit"
+      },
+      {
+        "source": "DISPOSABLE_SKU_UPDATE_SEMANTICS_CREATE_PAYLOAD.json",
+        "finding": "native product, spec_name and sku_info field sets are fixed in a committed payload fixture"
+      },
+      {
+        "source": "transformer.py:478-548",
+        "finding": "readback fields and SKU matching/validation checks are explicit"
+      },
+      {
+        "source": "DISPOSABLE_UPDATE_SEMANTICS_RUNNER.py:110-365",
+        "finding": "intent checkpoint, readback-before-retry and rollback state-machine behavior is explicit"
+      }
+    ],
+    "excluded_reference_components": [
+      "WAWU upstream API client",
+      "WAWU mapper and source field semantics",
+      "WAWU SKU prefixes",
+      "WAWU price multiplier and category decisions"
+    ],
+    "missing_evidence": [
+      "reference main has no committed successful live Shijiu create/update/rollback round-trip; LIVE_001 records zero writes",
+      "no evidenced Shijiu brand discovery endpoint, so brand_id is not guessed"
+    ],
+    "implementation_consequence": "read-only discovery and non-executable mapping previews only; image uploads and every Shijiu mutation are absent"
+  },
+  "field_mapping_contract": {
+    "source": "MIKI HOUSE master_catalog.json",
+    "target": "Shijiu native field preview",
+    "product_name": "name -> good_name",
+    "brand": "brand -> adapter source_brand + good_describe; brand_id deferred",
+    "category": "classification -> verified Shijiu father category good_type",
+    "main_image": "main_image.url -> master_graph preview; future COS upload required",
+    "color_images": "color_images/resolved_image -> broadcast and sku_thumbnail previews; future COS upload required",
+    "options": "selected_options/color/size -> spec_name dimensions and per-SKU spec_name",
+    "sku": "variant sku -> MIKI-<sku> in sku_code",
+    "inventory": "availableForSale boolean -> sku_stock 1/0; source boolean retained",
+    "price": "mini_program_price_jpy -> sku_price and member price fields, currency JPY",
+    "source_identity": "product_number and product_number+variant SKU -> stable source IDs"
+  },
+  "checkpoint": {
+    "complete": true,
+    "total_items": 2603,
+    "planned_items": 2603,
+    "remaining_items": 0,
+    "processed_this_run": 2603,
+    "resumed": false,
+    "checkpoint_path": "output/shijiu-import/checkpoint.json"
+  },
+  "write_safety": {
+    "write_capability_present": false,
+    "cli_write_option_present": false,
+    "payload_is_executable_write_request": false,
+    "image_uploads_executed": 0,
+    "target_brand_id_mapping_status": "deferred_no_evidenced_read_contract",
+    "allowed_target_endpoints": [
+      "/shopapi/Goods/index",
+      "/shopapi/goods/getFormatInfo",
+      "/shopapi/goodtype/fatherIndex"
+    ],
+    "blocked_mutating_endpoints": [
+      "/shopapi/Goods/delGood",
+      "/shopapi/Goods/grounding",
+      "/shopapi/Goods/newAddGood",
+      "/shopapi/Goodtype/delType",
+      "/shopapi/Goodtype/editParentTypedo",
+      "/shopapi/Goodtype/editSonTypedo",
+      "/v1/cos/upload"
+    ],
+    "semantic_write_request_count": 0,
+    "passed": true
+  },
+  "rollback_plan": {
+    "current_run": {
+      "required": false,
+      "reason": "dry_run_only; no target mutations are possible"
+    },
+    "future_write_run": {
+      "create": "record backend_product_id after readback; rollback by off-shelf, never hard delete",
+      "update": "persist pre-update getFormatInfo snapshot and restore the exact prior payload",
+      "deactivate": "persist prior grounding/state and restore it if rollback is required",
+      "reactivate": "persist prior inactive state and restore it if rollback is required",
+      "images": "retain source URLs and uploaded target URLs in the mapping ledger",
+      "checkpoint_rule": "persist intent before request and verified result after target readback"
+    }
+  },
+  "field_mapping_samples": [
+    {
+      "source_product_id": "MIKIHOUSE:00-1000-028",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "00-1000-028",
+        "classification": "baby",
+        "query_sku_code": "MIKI-00-1000-02800899999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "00-1000-028",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "baby",
+        "target_category": {
+          "id": 288338,
+          "name": "母婴用品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】くうぴい絵本セット【BOX付き】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-028-89-1_l.jpg?v=1637560237",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "色なし",
+                "id": 1
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 1,
+        "sku_samples": [
+          {
+            "sku_price": "2503.00",
+            "sku_stock": "1.00",
+            "spec_name": "色なし,---",
+            "sku_code": "MIKI-00-1000-02800899999",
+            "sku_cost_price": "3850.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-028-89-1_l.jpg?v=1637560237",
+            "weight": "",
+            "first_level": "2503.00",
+            "second_level": "2503.00",
+            "third_level": "2503.00",
+            "fourth_level": "2503.00",
+            "fifth_level": "2503.00",
+            "sixth_level": "2503.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:00-1000-035",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "00-1000-035",
+        "classification": "baby",
+        "query_sku_code": "MIKI-00-1000-03500080110",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "00-1000-035",
+        "source_brand": "ミキハウス",
+        "source_category": "固定セット商品",
+        "classification": "baby",
+        "target_category": {
+          "id": 288338,
+          "name": "母婴用品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】ベビーリュック・ソックスセット【BOX付き】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-08-1_l.jpg?v=1694396975",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "ピンク",
+                "id": 1
+              },
+              {
+                "spec_name": "マルチカラー",
+                "id": 2
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "11-13cm",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 2,
+        "sku_samples": [
+          {
+            "sku_price": "8580.00",
+            "sku_stock": "1.00",
+            "spec_name": "ピンク,11-13cm",
+            "sku_code": "MIKI-00-1000-03500080110",
+            "sku_cost_price": "13200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-08-1_l.jpg?v=1694396975",
+            "weight": "",
+            "first_level": "8580.00",
+            "second_level": "8580.00",
+            "third_level": "8580.00",
+            "fourth_level": "8580.00",
+            "fifth_level": "8580.00",
+            "sixth_level": "8580.00"
+          },
+          {
+            "sku_price": "8580.00",
+            "sku_stock": "1.00",
+            "spec_name": "マルチカラー,11-13cm",
+            "sku_code": "MIKI-00-1000-03500870110",
+            "sku_cost_price": "13200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-1000-035-87-1_l.jpg?v=1694396975",
+            "weight": "",
+            "first_level": "8580.00",
+            "second_level": "8580.00",
+            "third_level": "8580.00",
+            "fourth_level": "8580.00",
+            "fifth_level": "8580.00",
+            "sixth_level": "8580.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:00-4000-054",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "00-4000-054",
+        "classification": "baby",
+        "query_sku_code": "MIKI-00-4000-05400049999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "00-4000-054",
+        "source_brand": "ミキハウス ベビー",
+        "source_category": "カテゴリーなし",
+        "classification": "baby",
+        "target_category": {
+          "id": 288338,
+          "name": "母婴用品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【eギフト】無撚糸バスポンチョセット【BOX付き】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-04-1_l.jpg?v=1687419251",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "黄",
+                "id": 1
+              },
+              {
+                "spec_name": "ピンク",
+                "id": 2
+              },
+              {
+                "spec_name": "ブルー",
+                "id": 3
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 3,
+        "sku_samples": [
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "黄,---",
+            "sku_code": "MIKI-00-4000-05400049999",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-04-1_l.jpg?v=1687419251",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          },
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "ピンク,---",
+            "sku_code": "MIKI-00-4000-05400089999",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-08-1_l.jpg?v=1687420366",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          },
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "ブルー,---",
+            "sku_code": "MIKI-00-4000-05400159999",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-054-15-1_l.jpg?v=1687420366",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:00-4000-055",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "00-4000-055",
+        "classification": "baby",
+        "query_sku_code": "MIKI-00-4000-05500019999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "00-4000-055",
+        "source_brand": "ミキハウス ベビー",
+        "source_category": "カテゴリーなし",
+        "classification": "baby",
+        "target_category": {
+          "id": 288338,
+          "name": "母婴用品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】コットンスリーパー・ラトルセット【BOX付き】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-055-01-1_l.jpg?v=1694396678",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 1,
+        "sku_samples": [
+          {
+            "sku_price": "7508.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,---",
+            "sku_code": "MIKI-00-4000-05500019999",
+            "sku_cost_price": "11550.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-055-01-1_l.jpg?v=1694396678",
+            "weight": "",
+            "first_level": "7508.00",
+            "second_level": "7508.00",
+            "third_level": "7508.00",
+            "fourth_level": "7508.00",
+            "fifth_level": "7508.00",
+            "sixth_level": "7508.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:00-4000-057",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "00-4000-057",
+        "classification": "baby",
+        "query_sku_code": "MIKI-00-4000-05700019998",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "00-4000-057",
+        "source_brand": "ミキハウス ベビー",
+        "source_category": "カテゴリーなし",
+        "classification": "baby",
+        "target_category": {
+          "id": 288338,
+          "name": "母婴用品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】マイクロファーフード・ブーティ【BOX付き】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-01-1_l.jpg?v=1694398092",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              },
+              {
+                "spec_name": "ピンク",
+                "id": 2
+              },
+              {
+                "spec_name": "ベージュ",
+                "id": 3
+              },
+              {
+                "spec_name": "白×黄",
+                "id": 4
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "フリー(44-50cm)",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 4,
+        "sku_samples": [
+          {
+            "sku_price": "10368.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,フリー(44-50cm)",
+            "sku_code": "MIKI-00-4000-05700019998",
+            "sku_cost_price": "15950.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-01-1_l.jpg?v=1694398092",
+            "weight": "",
+            "first_level": "10368.00",
+            "second_level": "10368.00",
+            "third_level": "10368.00",
+            "fourth_level": "10368.00",
+            "fifth_level": "10368.00",
+            "sixth_level": "10368.00"
+          },
+          {
+            "sku_price": "10368.00",
+            "sku_stock": "1.00",
+            "spec_name": "ピンク,フリー(44-50cm)",
+            "sku_code": "MIKI-00-4000-05700089998",
+            "sku_cost_price": "15950.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-08-1_l.jpg?v=1694398092",
+            "weight": "",
+            "first_level": "10368.00",
+            "second_level": "10368.00",
+            "third_level": "10368.00",
+            "fourth_level": "10368.00",
+            "fifth_level": "10368.00",
+            "sixth_level": "10368.00"
+          },
+          {
+            "sku_price": "10368.00",
+            "sku_stock": "1.00",
+            "spec_name": "ベージュ,フリー(44-50cm)",
+            "sku_code": "MIKI-00-4000-05700099998",
+            "sku_cost_price": "15950.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/00-4000-057-09-1_l.jpg?v=1694398092",
+            "weight": "",
+            "first_level": "10368.00",
+            "second_level": "10368.00",
+            "third_level": "10368.00",
+            "fourth_level": "10368.00",
+            "fifth_level": "10368.00",
+            "sixth_level": "10368.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-1711-494",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-1711-494",
+        "classification": "apparel",
+        "query_sku_code": "MIKI-10-1711-49400013200",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-1711-494",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "apparel",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "スカート",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-01-1_l.jpg?v=1674700149",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              },
+              {
+                "spec_name": "インディゴブルー",
+                "id": 2
+              },
+              {
+                "spec_name": "紺×白",
+                "id": 3
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "SS(80-90cm)",
+                "id": 1
+              },
+              {
+                "spec_name": "S(100-110cm)",
+                "id": 2
+              },
+              {
+                "spec_name": "M(120-130cm)",
+                "id": 3
+              }
+            ]
+          }
+        ],
+        "sku_count": 9,
+        "sku_samples": [
+          {
+            "sku_price": "5720.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,SS(80-90cm)",
+            "sku_code": "MIKI-10-1711-49400013200",
+            "sku_cost_price": "8800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-01-1_l.jpg?v=1674700149",
+            "weight": "",
+            "first_level": "5720.00",
+            "second_level": "5720.00",
+            "third_level": "5720.00",
+            "fourth_level": "5720.00",
+            "fifth_level": "5720.00",
+            "sixth_level": "5720.00"
+          },
+          {
+            "sku_price": "5720.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,S(100-110cm)",
+            "sku_code": "MIKI-10-1711-49400013400",
+            "sku_cost_price": "8800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-01-1_l.jpg?v=1674700149",
+            "weight": "",
+            "first_level": "5720.00",
+            "second_level": "5720.00",
+            "third_level": "5720.00",
+            "fourth_level": "5720.00",
+            "fifth_level": "5720.00",
+            "sixth_level": "5720.00"
+          },
+          {
+            "sku_price": "5720.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,M(120-130cm)",
+            "sku_code": "MIKI-10-1711-49400013600",
+            "sku_cost_price": "8800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1711-494-01-1_l.jpg?v=1674700149",
+            "weight": "",
+            "first_level": "5720.00",
+            "second_level": "5720.00",
+            "third_level": "5720.00",
+            "fourth_level": "5720.00",
+            "fifth_level": "5720.00",
+            "sixth_level": "5720.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-1821-575",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-1821-575",
+        "classification": "apparel",
+        "query_sku_code": "MIKI-10-1821-57500010800",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-1821-575",
+        "source_brand": "ミキハウス",
+        "source_category": "通常商品",
+        "classification": "apparel",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "ジャンパースカート",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-01-1.jpg?v=1659585818",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              },
+              {
+                "spec_name": "茶",
+                "id": 2
+              },
+              {
+                "spec_name": "インディゴブルー",
+                "id": 3
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "80cm",
+                "id": 1
+              },
+              {
+                "spec_name": "90cm",
+                "id": 2
+              },
+              {
+                "spec_name": "100cm",
+                "id": 3
+              },
+              {
+                "spec_name": "110cm",
+                "id": 4
+              },
+              {
+                "spec_name": "120cm",
+                "id": 5
+              }
+            ]
+          }
+        ],
+        "sku_count": 11,
+        "sku_samples": [
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,80cm",
+            "sku_code": "MIKI-10-1821-57500010800",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-01-1.jpg?v=1659585818",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          },
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,90cm",
+            "sku_code": "MIKI-10-1821-57500010900",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-01-1.jpg?v=1659585818",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          },
+          {
+            "sku_price": "7150.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,100cm",
+            "sku_code": "MIKI-10-1821-57500011000",
+            "sku_cost_price": "11000.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1821-575-01-1.jpg?v=1659585818",
+            "weight": "",
+            "first_level": "7150.00",
+            "second_level": "7150.00",
+            "third_level": "7150.00",
+            "fourth_level": "7150.00",
+            "fifth_level": "7150.00",
+            "sixth_level": "7150.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-1823-496",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-1823-496",
+        "classification": "apparel",
+        "query_sku_code": "MIKI-10-1823-49600023400",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-1823-496",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "apparel",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "ジャンパースカート",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1823-496-02-1_l.jpg?v=1669875147",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "インディゴブルー",
+                "id": 2
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "S(70-80cm)",
+                "id": 1
+              },
+              {
+                "spec_name": "M(80-90cm)",
+                "id": 2
+              },
+              {
+                "spec_name": "L(90-100cm)",
+                "id": 3
+              }
+            ]
+          }
+        ],
+        "sku_count": 6,
+        "sku_samples": [
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,S(70-80cm)",
+            "sku_code": "MIKI-10-1823-49600023400",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1823-496-02-1_l.jpg?v=1669875147",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          },
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,M(80-90cm)",
+            "sku_code": "MIKI-10-1823-49600023600",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1823-496-02-1_l.jpg?v=1669875147",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          },
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,L(90-100cm)",
+            "sku_code": "MIKI-10-1823-49600023700",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-1823-496-02-1_l.jpg?v=1669875147",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-1828-682",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-1828-682",
+        "classification": "apparel",
+        "query_sku_code": "MIKI-10-1828-68200033400",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-1828-682",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "apparel",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "ジャンパースカート",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1828-682-03-1_l.jpg?v=1767598214",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "紺",
+                "id": 1
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "S(70-80cm)",
+                "id": 1
+              },
+              {
+                "spec_name": "M(80-90cm)",
+                "id": 2
+              },
+              {
+                "spec_name": "L(90-100cm)",
+                "id": 3
+              },
+              {
+                "spec_name": "LL(100-110cm)",
+                "id": 4
+              }
+            ]
+          }
+        ],
+        "sku_count": 4,
+        "sku_samples": [
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,S(70-80cm)",
+            "sku_code": "MIKI-10-1828-68200033400",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1828-682-03-1_l.jpg?v=1767598214",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          },
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,M(80-90cm)",
+            "sku_code": "MIKI-10-1828-68200033600",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1828-682-03-1_l.jpg?v=1767598214",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          },
+          {
+            "sku_price": "15730.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,L(90-100cm)",
+            "sku_code": "MIKI-10-1828-68200033700",
+            "sku_cost_price": "24200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1828-682-03-1_l.jpg?v=1767598214",
+            "weight": "",
+            "first_level": "15730.00",
+            "second_level": "15730.00",
+            "third_level": "15730.00",
+            "fourth_level": "15730.00",
+            "fifth_level": "15730.00",
+            "sixth_level": "15730.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-1829-685",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-1829-685",
+        "classification": "apparel",
+        "query_sku_code": "MIKI-10-1829-68500093400",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-1829-685",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "apparel",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】ジャンパースカート【WebLimited】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1829-685-09-1_l_model1.jpg?v=1740647431",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "ベージュ",
+                "id": 1
+              },
+              {
+                "spec_name": "オレンジ",
+                "id": 2
+              },
+              {
+                "spec_name": "パープル",
+                "id": 3
+              },
+              {
+                "spec_name": "ブルー",
+                "id": 4
+              },
+              {
+                "spec_name": "ライトグリーン",
+                "id": 5
+              },
+              {
+                "spec_name": "コーン",
+                "id": 6
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "S(70-80cm)",
+                "id": 1
+              },
+              {
+                "spec_name": "M(80-90cm)",
+                "id": 2
+              },
+              {
+                "spec_name": "L(90-100cm)",
+                "id": 3
+              }
+            ]
+          }
+        ],
+        "sku_count": 18,
+        "sku_samples": [
+          {
+            "sku_price": "4290.00",
+            "sku_stock": "1.00",
+            "spec_name": "ベージュ,S(70-80cm)",
+            "sku_code": "MIKI-10-1829-68500093400",
+            "sku_cost_price": "6600.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1829-685-09-1_l_model1.jpg?v=1740647431",
+            "weight": "",
+            "first_level": "4290.00",
+            "second_level": "4290.00",
+            "third_level": "4290.00",
+            "fourth_level": "4290.00",
+            "fifth_level": "4290.00",
+            "sixth_level": "4290.00"
+          },
+          {
+            "sku_price": "4290.00",
+            "sku_stock": "1.00",
+            "spec_name": "ベージュ,M(80-90cm)",
+            "sku_code": "MIKI-10-1829-68500093600",
+            "sku_cost_price": "6600.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1829-685-09-1_l_model1.jpg?v=1740647431",
+            "weight": "",
+            "first_level": "4290.00",
+            "second_level": "4290.00",
+            "third_level": "4290.00",
+            "fourth_level": "4290.00",
+            "fifth_level": "4290.00",
+            "sixth_level": "4290.00"
+          },
+          {
+            "sku_price": "4290.00",
+            "sku_stock": "1.00",
+            "spec_name": "ベージュ,L(90-100cm)",
+            "sku_code": "MIKI-10-1829-68500093700",
+            "sku_cost_price": "6600.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-1829-685-09-1_l_model1.jpg?v=1740647431",
+            "weight": "",
+            "first_level": "4290.00",
+            "second_level": "4290.00",
+            "third_level": "4290.00",
+            "fourth_level": "4290.00",
+            "fifth_level": "4290.00",
+            "sixth_level": "4290.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-8107-492",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-8107-492",
+        "classification": "goods",
+        "query_sku_code": "MIKI-10-8107-49200029999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-8107-492",
+        "source_brand": "ミキハウス",
+        "source_category": "通常商品",
+        "classification": "goods",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "ミニタオル",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-02-1_l.jpg?v=1692596934",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "紺",
+                "id": 2
+              },
+              {
+                "spec_name": "黒",
+                "id": 3
+              },
+              {
+                "spec_name": "カラシ",
+                "id": 4
+              },
+              {
+                "spec_name": "アイボリー",
+                "id": 5
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 5,
+        "sku_samples": [
+          {
+            "sku_price": "1073.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,---",
+            "sku_code": "MIKI-10-8107-49200029999",
+            "sku_cost_price": "1650.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-02-1_l.jpg?v=1692596934",
+            "weight": "",
+            "first_level": "1073.00",
+            "second_level": "1073.00",
+            "third_level": "1073.00",
+            "fourth_level": "1073.00",
+            "fifth_level": "1073.00",
+            "sixth_level": "1073.00"
+          },
+          {
+            "sku_price": "1073.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,---",
+            "sku_code": "MIKI-10-8107-49200039999",
+            "sku_cost_price": "1650.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-03-1_l.jpg?v=1692596934",
+            "weight": "",
+            "first_level": "1073.00",
+            "second_level": "1073.00",
+            "third_level": "1073.00",
+            "fourth_level": "1073.00",
+            "fifth_level": "1073.00",
+            "sixth_level": "1073.00"
+          },
+          {
+            "sku_price": "1073.00",
+            "sku_stock": "1.00",
+            "spec_name": "黒,---",
+            "sku_code": "MIKI-10-8107-49200059999",
+            "sku_cost_price": "1650.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8107-492-05-1_l.jpg?v=1692596934",
+            "weight": "",
+            "first_level": "1073.00",
+            "second_level": "1073.00",
+            "third_level": "1073.00",
+            "fourth_level": "1073.00",
+            "fifth_level": "1073.00",
+            "sixth_level": "1073.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-8109-498",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-8109-498",
+        "classification": "goods",
+        "query_sku_code": "MIKI-10-8109-49800879999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-8109-498",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "goods",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "ミキハウス カタカナフェイスタオル",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8109-498-87-1_l.jpg?v=1685410872",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "マルチカラー",
+                "id": 1
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 1,
+        "sku_samples": [
+          {
+            "sku_price": "2503.00",
+            "sku_stock": "1.00",
+            "spec_name": "マルチカラー,---",
+            "sku_code": "MIKI-10-8109-49800879999",
+            "sku_cost_price": "3850.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/10-8109-498-87-1_l.jpg?v=1685410872",
+            "weight": "",
+            "first_level": "2503.00",
+            "second_level": "2503.00",
+            "third_level": "2503.00",
+            "fourth_level": "2503.00",
+            "fifth_level": "2503.00",
+            "sixth_level": "2503.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-8110-498",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-8110-498",
+        "classification": "goods",
+        "query_sku_code": "MIKI-10-8110-49800029999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-8110-498",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "goods",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【ふわはだたおる】タオルハンカチ",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8110-498-02-1_l.jpg?v=1698298879",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "紺",
+                "id": 2
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 2,
+        "sku_samples": [
+          {
+            "sku_price": "1430.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,---",
+            "sku_code": "MIKI-10-8110-49800029999",
+            "sku_cost_price": "2200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8110-498-02-1_l.jpg?v=1698298879",
+            "weight": "",
+            "first_level": "1430.00",
+            "second_level": "1430.00",
+            "third_level": "1430.00",
+            "fourth_level": "1430.00",
+            "fifth_level": "1430.00",
+            "sixth_level": "1430.00"
+          },
+          {
+            "sku_price": "1430.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,---",
+            "sku_code": "MIKI-10-8110-49800039999",
+            "sku_cost_price": "2200.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8110-498-03-1_l.jpg?v=1698298879",
+            "weight": "",
+            "first_level": "1430.00",
+            "second_level": "1430.00",
+            "third_level": "1430.00",
+            "fourth_level": "1430.00",
+            "fifth_level": "1430.00",
+            "sixth_level": "1430.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-8111-491",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-8111-491",
+        "classification": "goods",
+        "query_sku_code": "MIKI-10-8111-49100029999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-8111-491",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "goods",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【ふわはだたおる】ハンドタオル",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8111-491-02-1_l.jpg?v=1698298946",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "紺",
+                "id": 2
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 2,
+        "sku_samples": [
+          {
+            "sku_price": "2145.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,---",
+            "sku_code": "MIKI-10-8111-49100029999",
+            "sku_cost_price": "3300.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8111-491-02-1_l.jpg?v=1698298946",
+            "weight": "",
+            "first_level": "2145.00",
+            "second_level": "2145.00",
+            "third_level": "2145.00",
+            "fourth_level": "2145.00",
+            "fifth_level": "2145.00",
+            "sixth_level": "2145.00"
+          },
+          {
+            "sku_price": "2145.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,---",
+            "sku_code": "MIKI-10-8111-49100039999",
+            "sku_cost_price": "3300.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8111-491-03-1_l.jpg?v=1698298946",
+            "weight": "",
+            "first_level": "2145.00",
+            "second_level": "2145.00",
+            "third_level": "2145.00",
+            "fourth_level": "2145.00",
+            "fifth_level": "2145.00",
+            "sixth_level": "2145.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-8112-494",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-8112-494",
+        "classification": "goods",
+        "query_sku_code": "MIKI-10-8112-49400029999",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-8112-494",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "goods",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【ふわはだたおる】フェイスタオル",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8112-494-02-1_l.jpg?v=1698299004",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "紺",
+                "id": 2
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "---",
+                "id": 1
+              }
+            ]
+          }
+        ],
+        "sku_count": 2,
+        "sku_samples": [
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,---",
+            "sku_code": "MIKI-10-8112-49400029999",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8112-494-02-1_l.jpg?v=1698299004",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          },
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "1.00",
+            "spec_name": "紺,---",
+            "sku_code": "MIKI-10-8112-49400039999",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-8112-494-03-1_l.jpg?v=1698299004",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-9305-497",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-9305-497",
+        "classification": "footwear",
+        "query_sku_code": "MIKI-10-9305-49700020120",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-9305-497",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "footwear",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【特別価格】ファーストシューズ【配送希望日・キャンセル・返品不可】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-02-1.jpg?v=1787538523",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "黒",
+                "id": 2
+              },
+              {
+                "spec_name": "インディゴブルー",
+                "id": 3
+              },
+              {
+                "spec_name": "マルチカラー",
+                "id": 4
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "12cm",
+                "id": 1
+              },
+              {
+                "spec_name": "12.5cm",
+                "id": 2
+              },
+              {
+                "spec_name": "13cm",
+                "id": 3
+              },
+              {
+                "spec_name": "13.5cm",
+                "id": 4
+              }
+            ]
+          }
+        ],
+        "sku_count": 16,
+        "sku_samples": [
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,12cm",
+            "sku_code": "MIKI-10-9305-49700020120",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-02-1.jpg?v=1787538523",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          },
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "1.00",
+            "spec_name": "赤,12.5cm",
+            "sku_code": "MIKI-10-9305-49700020125",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-02-1.jpg?v=1787538523",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          },
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "0.00",
+            "spec_name": "赤,13cm",
+            "sku_code": "MIKI-10-9305-49700020130",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9305-497-02-1.jpg?v=1787538523",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-9306-490",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-9306-490",
+        "classification": "footwear",
+        "query_sku_code": "MIKI-10-9306-49000020135",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-9306-490",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "footwear",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【特別価格】セカンドシューズ【配送希望日・キャンセル・返品不可】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-02-1.jpg?v=1787538413",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "赤",
+                "id": 1
+              },
+              {
+                "spec_name": "紺",
+                "id": 2
+              },
+              {
+                "spec_name": "黒",
+                "id": 3
+              },
+              {
+                "spec_name": "ピンク",
+                "id": 4
+              },
+              {
+                "spec_name": "インディゴブルー",
+                "id": 5
+              },
+              {
+                "spec_name": "マルチカラー",
+                "id": 6
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "13.5cm",
+                "id": 1
+              },
+              {
+                "spec_name": "14cm",
+                "id": 2
+              },
+              {
+                "spec_name": "14.5cm",
+                "id": 3
+              },
+              {
+                "spec_name": "15cm",
+                "id": 4
+              },
+              {
+                "spec_name": "15.5cm",
+                "id": 5
+              }
+            ]
+          }
+        ],
+        "sku_count": 30,
+        "sku_samples": [
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "0.00",
+            "spec_name": "赤,13.5cm",
+            "sku_code": "MIKI-10-9306-49000020135",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-02-1.jpg?v=1787538413",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          },
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "0.00",
+            "spec_name": "赤,14cm",
+            "sku_code": "MIKI-10-9306-49000020140",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-02-1.jpg?v=1787538413",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          },
+          {
+            "sku_price": "3575.00",
+            "sku_stock": "0.00",
+            "spec_name": "赤,14.5cm",
+            "sku_code": "MIKI-10-9306-49000020145",
+            "sku_cost_price": "5500.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9306-490-02-1.jpg?v=1787538413",
+            "weight": "",
+            "first_level": "3575.00",
+            "second_level": "3575.00",
+            "third_level": "3575.00",
+            "fourth_level": "3575.00",
+            "fifth_level": "3575.00",
+            "sixth_level": "3575.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-9327-145",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-9327-145",
+        "classification": "footwear",
+        "query_sku_code": "MIKI-10-9327-14500010115",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-9327-145",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "footwear",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "【WEB限定】55周年記念モデル ファーストシューズ【WebLimited】",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9327-145-01-1_l.jpg?v=1765441156",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              },
+              {
+                "spec_name": "赤",
+                "id": 2
+              },
+              {
+                "spec_name": "紺",
+                "id": 3
+              },
+              {
+                "spec_name": "黄",
+                "id": 4
+              },
+              {
+                "spec_name": "グリーン",
+                "id": 5
+              },
+              {
+                "spec_name": "ピンク",
+                "id": 6
+              },
+              {
+                "spec_name": "ブルー",
+                "id": 7
+              },
+              {
+                "spec_name": "ラベンダー",
+                "id": 8
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "11.5cm",
+                "id": 1
+              },
+              {
+                "spec_name": "12cm",
+                "id": 2
+              },
+              {
+                "spec_name": "12.5cm",
+                "id": 3
+              },
+              {
+                "spec_name": "13cm",
+                "id": 4
+              },
+              {
+                "spec_name": "13.5cm",
+                "id": 5
+              }
+            ]
+          }
+        ],
+        "sku_count": 40,
+        "sku_samples": [
+          {
+            "sku_price": "5148.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,11.5cm",
+            "sku_code": "MIKI-10-9327-14500010115",
+            "sku_cost_price": "7920.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9327-145-01-1_l.jpg?v=1765441156",
+            "weight": "",
+            "first_level": "5148.00",
+            "second_level": "5148.00",
+            "third_level": "5148.00",
+            "fourth_level": "5148.00",
+            "fifth_level": "5148.00",
+            "sixth_level": "5148.00"
+          },
+          {
+            "sku_price": "5148.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,12cm",
+            "sku_code": "MIKI-10-9327-14500010120",
+            "sku_cost_price": "7920.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9327-145-01-1_l.jpg?v=1765441156",
+            "weight": "",
+            "first_level": "5148.00",
+            "second_level": "5148.00",
+            "third_level": "5148.00",
+            "fourth_level": "5148.00",
+            "fifth_level": "5148.00",
+            "sixth_level": "5148.00"
+          },
+          {
+            "sku_price": "5148.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,12.5cm",
+            "sku_code": "MIKI-10-9327-14500010125",
+            "sku_cost_price": "7920.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9327-145-01-1_l.jpg?v=1765441156",
+            "weight": "",
+            "first_level": "5148.00",
+            "second_level": "5148.00",
+            "third_level": "5148.00",
+            "fourth_level": "5148.00",
+            "fifth_level": "5148.00",
+            "sixth_level": "5148.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-9328-148",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-9328-148",
+        "classification": "footwear",
+        "query_sku_code": "MIKI-10-9328-14800010105",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-9328-148",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "footwear",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "プレシューズ",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9328-148-01-1_l.jpg?v=1751877967",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              },
+              {
+                "spec_name": "赤",
+                "id": 2
+              },
+              {
+                "spec_name": "紺",
+                "id": 3
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "10.5cm",
+                "id": 1
+              },
+              {
+                "spec_name": "11cm",
+                "id": 2
+              },
+              {
+                "spec_name": "11.5cm",
+                "id": 3
+              },
+              {
+                "spec_name": "12cm",
+                "id": 4
+              },
+              {
+                "spec_name": "12.5cm",
+                "id": 5
+              }
+            ]
+          }
+        ],
+        "sku_count": 15,
+        "sku_samples": [
+          {
+            "sku_price": "6793.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,10.5cm",
+            "sku_code": "MIKI-10-9328-14800010105",
+            "sku_cost_price": "10450.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9328-148-01-1_l.jpg?v=1751877967",
+            "weight": "",
+            "first_level": "6793.00",
+            "second_level": "6793.00",
+            "third_level": "6793.00",
+            "fourth_level": "6793.00",
+            "fifth_level": "6793.00",
+            "sixth_level": "6793.00"
+          },
+          {
+            "sku_price": "6793.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,11cm",
+            "sku_code": "MIKI-10-9328-14800010110",
+            "sku_cost_price": "10450.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9328-148-01-1_l.jpg?v=1751877967",
+            "weight": "",
+            "first_level": "6793.00",
+            "second_level": "6793.00",
+            "third_level": "6793.00",
+            "fourth_level": "6793.00",
+            "fifth_level": "6793.00",
+            "sixth_level": "6793.00"
+          },
+          {
+            "sku_price": "6793.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,11.5cm",
+            "sku_code": "MIKI-10-9328-14800010115",
+            "sku_cost_price": "10450.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9328-148-01-1_l.jpg?v=1751877967",
+            "weight": "",
+            "first_level": "6793.00",
+            "second_level": "6793.00",
+            "third_level": "6793.00",
+            "fourth_level": "6793.00",
+            "fifth_level": "6793.00",
+            "sixth_level": "6793.00"
+          }
+        ]
+      }
+    },
+    {
+      "source_product_id": "MIKIHOUSE:10-9329-141",
+      "status": "planned",
+      "action": "create",
+      "reason": "no_stable_mapping_or_target_sample_match",
+      "target_check_status": "checked",
+      "target_check": {
+        "product_number": "10-9329-141",
+        "classification": "footwear",
+        "query_sku_code": "MIKI-10-9329-14100010110",
+        "target_response_count": 0,
+        "target_rows_examined": 0,
+        "matched": false,
+        "backend_product_id": null,
+        "detail_checks": null
+      },
+      "mapped_fields": {
+        "product_number": "10-9329-141",
+        "source_brand": "ミキハウス",
+        "source_category": "カテゴリーなし",
+        "classification": "footwear",
+        "target_category": {
+          "id": 290899,
+          "name": "专柜商品"
+        },
+        "currency": "JPY",
+        "publish_ready": true,
+        "good_name": "プレシューズ",
+        "master_graph": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9329-141-01-1_l.jpg?v=1751007977",
+        "spec_name": [
+          {
+            "spec_name": "颜色",
+            "id": 0,
+            "son_name": [
+              {
+                "spec_name": "白",
+                "id": 1
+              }
+            ]
+          },
+          {
+            "spec_name": "尺码",
+            "id": 1,
+            "son_name": [
+              {
+                "spec_name": "11cm",
+                "id": 1
+              },
+              {
+                "spec_name": "11.5cm",
+                "id": 2
+              },
+              {
+                "spec_name": "12cm",
+                "id": 3
+              },
+              {
+                "spec_name": "12.5cm",
+                "id": 4
+              }
+            ]
+          }
+        ],
+        "sku_count": 4,
+        "sku_samples": [
+          {
+            "sku_price": "12870.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,11cm",
+            "sku_code": "MIKI-10-9329-14100010110",
+            "sku_cost_price": "19800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9329-141-01-1_l.jpg?v=1751007977",
+            "weight": "",
+            "first_level": "12870.00",
+            "second_level": "12870.00",
+            "third_level": "12870.00",
+            "fourth_level": "12870.00",
+            "fifth_level": "12870.00",
+            "sixth_level": "12870.00"
+          },
+          {
+            "sku_price": "12870.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,11.5cm",
+            "sku_code": "MIKI-10-9329-14100010115",
+            "sku_cost_price": "19800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9329-141-01-1_l.jpg?v=1751007977",
+            "weight": "",
+            "first_level": "12870.00",
+            "second_level": "12870.00",
+            "third_level": "12870.00",
+            "fourth_level": "12870.00",
+            "fifth_level": "12870.00",
+            "sixth_level": "12870.00"
+          },
+          {
+            "sku_price": "12870.00",
+            "sku_stock": "1.00",
+            "spec_name": "白,12cm",
+            "sku_code": "MIKI-10-9329-14100010120",
+            "sku_cost_price": "19800.00",
+            "sku_thumbnail": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/10-9329-141-01-1_l.jpg?v=1751007977",
+            "weight": "",
+            "first_level": "12870.00",
+            "second_level": "12870.00",
+            "third_level": "12870.00",
+            "fourth_level": "12870.00",
+            "fifth_level": "12870.00",
+            "sixth_level": "12870.00"
+          }
+        ]
+      }
+    }
+  ],
+  "artifacts": {
+    "full_plan_path": "output/shijiu-import/dry_run_import_plan.json",
+    "full_plan_size_bytes": 38026697,
+    "full_plan_sha256": "9f220a0cd1788a81f7ecf8ad2f9baee07db6f5295a2570b66fb0b88d374ed510",
+    "target_snapshot_path": "output/shijiu-import/read_only_target_snapshot.json",
+    "checkpoint_path": "output/shijiu-import/checkpoint.json",
+    "tracked_action_plan_path": "deliverables/shijiu_import/dry_run_actions.json",
+    "tracked_action_plan_size_bytes": 955832,
+    "tracked_action_plan_sha256": "c8ce8237c2230321c446232a163ce6201287375e591c698b9cb447a1bb267af3"
+  },
+  "passed": true
+}
