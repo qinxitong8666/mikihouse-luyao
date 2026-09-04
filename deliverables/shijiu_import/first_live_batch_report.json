@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T02:10:12.876563+00:00",
+  "generated_at": "2026-09-04T02:35:25.436454+00:00",
   "mode": "REAL_WRITE_VALIDATION",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
@@ -62,6 +62,30 @@
     "legacy_cleanup": 0
   },
   "fail_closed": true,
+  "controlled_recovery": {
+    "product_number": "00-1000-028",
+    "completed_at": "2026-09-04T02:35:25.433668+00:00",
+    "native_state_semantics": {
+      "state": "1",
+      "is_shelf": 0
+    },
+    "pre_create_residual_absence_proven": true,
+    "prior_cos_images_reused": 12,
+    "new_image_upload_requests": 0,
+    "create_requests": 1,
+    "create_response": {
+      "code": 200,
+      "data": [],
+      "msg": "success"
+    },
+    "observable_product_found": false,
+    "mapping_persisted": false,
+    "subsequent_19_products_processed": 0,
+    "legacy_products_modified": 0,
+    "state": "STOPPED_ON_RECOVERY_ERROR",
+    "report": "deliverables/shijiu_import/first_product_recovery_report.json",
+    "checkpoint": "state/shijiu_first_product_recovery_checkpoint.json"
+  },
   "resume_checkpoint": "state/shijiu_first_live_batch_checkpoint.json",
   "mapping_state": "state/shijiu_mappings.json",
   "readback_results": "deliverables/shijiu_import/first_live_batch_readbacks.json",

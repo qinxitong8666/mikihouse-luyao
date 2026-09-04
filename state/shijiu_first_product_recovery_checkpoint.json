@@ -1,0 +1,2812 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "scope": {
+    "product_numbers": [
+      "00-1000-028"
+    ],
+    "maximum_create_requests": 1
+  },
+  "created_at": "2026-09-04T02:26:39.796509+00:00",
+  "updated_at": "2026-09-04T02:35:25.434910+00:00",
+  "state": "STOPPED_ON_RECOVERY_ERROR",
+  "recovery_create_attempts": 1,
+  "image_upload_requests": 0,
+  "legacy_cleanup_requests": 0,
+  "subsequent_batch_product_requests": 0,
+  "prior_create_attempt": {
+    "at": "2026-09-04T02:09:35.585783+00:00",
+    "response": {
+      "code": 200,
+      "data": [],
+      "msg": "success"
+    },
+    "confirmed_product_id": null
+  },
+  "reused_image_count": 12,
+  "reused_image_target_urls_sha256": "69bc3781c8055d03dfab78fe4995fc99a8d99b4da1a1b73d1e18905dc508792a",
+  "source_payload_sha256": "c5c914dc59ea114186b832e3c76b9f2579312b39cede3661e5efd8320f710e8c",
+  "recovery_payload_sha256": "a2172c538b207ee698110583c426efe240732637e7200d236cfbb8c2b28cbd7a",
+  "native_contract": {
+    "reference_repository": "qinxitong8666/wawu-product-sync",
+    "reference_commit": "a36c5eab40bf419562ba03d15c090151698d582a",
+    "reference_file_sha256": "1183564685c35f1f79b684077fbb1b1f7ed6bd2b9a46d227edb18ade94c9d016",
+    "state": "1",
+    "is_shelf": 0
+  },
+  "residual_scan": {
+    "performed_at": "2026-09-04T02:27:56.123306+00:00",
+    "mode": "READ_ONLY",
+    "category_id": 294884,
+    "baseline_legacy_count": 286,
+    "identity_queries": {
+      "query_count": 34,
+      "exact_sku_result_ids": [],
+      "exact_name_result_ids": []
+    },
+    "category_scans": [
+      {
+        "label": "default",
+        "filters": {
+          "push": "2",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "push_any",
+        "filters": {
+          "push": "",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_0",
+        "filters": {
+          "push": "2",
+          "status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_1",
+        "filters": {
+          "push": "2",
+          "status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_2",
+        "filters": {
+          "push": "2",
+          "status": "2"
+        },
+        "count_start": 0,
+        "count_end": 0,
+        "row_count": 0,
+        "unique_id_count": 0,
+        "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_2",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "2"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_3",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "3"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      }
+    ],
+    "exact_name_candidate_details": [],
+    "original_create_response": {
+      "code": 200,
+      "data": [],
+      "msg": "success"
+    },
+    "original_checkpoint_product_id": null,
+    "mapping_product_id": null,
+    "absence_proof_reasons": [],
+    "legacy_rows_modified": 0,
+    "legacy_mappings_created": 0,
+    "passed": true
+  },
+  "create_intent_at": "2026-09-04T02:28:19.069033+00:00",
+  "create_response": {
+    "code": 200,
+    "data": [],
+    "msg": "success"
+  },
+  "shijiu_product_id": null,
+  "readback": null,
+  "mapping_persisted": false,
+  "error": {
+    "type": "ContractMismatchError",
+    "message": "post-create identity is not unique: exact verified IDs=[]",
+    "at": "2026-09-04T02:32:32.771452+00:00"
+  },
+  "request_ledger": [
+    {
+      "sequence": 1,
+      "at": "2026-09-04T02:26:39.797155+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T02:26:41.105851+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T02:26:42.154373+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T02:26:43.195399+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T02:26:44.244450+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T02:26:45.388107+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T02:26:47.103292+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T02:26:48.106979+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T02:26:49.711172+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T02:26:50.700105+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T02:26:52.510320+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T02:26:53.680942+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T02:26:54.729648+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T02:26:55.826899+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T02:26:56.914008+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T02:26:57.912529+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T02:26:59.552110+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T02:27:00.568828+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T02:27:02.609259+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T02:27:04.267057+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T02:27:05.911582+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T02:27:07.003449+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T02:27:08.633180+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T02:27:10.311535+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T02:27:11.311035+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T02:27:12.338922+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T02:27:13.966588+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T02:27:14.976626+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T02:27:16.004562+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T02:27:17.020775+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T02:27:18.388523+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T02:27:19.380741+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T02:27:20.421917+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T02:27:21.469024+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T02:27:23.630164+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T02:27:25.663530+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T02:27:27.019561+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T02:27:27.953595+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T02:27:28.309613+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T02:27:29.712522+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T02:27:30.709894+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T02:27:31.445252+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T02:27:33.529217+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T02:27:34.576555+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T02:27:34.947317+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T02:27:36.280065+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T02:27:37.208977+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T02:27:37.565224+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T02:27:37.906577+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T02:27:38.252927+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T02:27:39.593795+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-09-04T02:27:41.022709+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-09-04T02:27:41.401838+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-09-04T02:27:42.805392+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-09-04T02:27:43.728999+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 56,
+      "at": "2026-09-04T02:27:44.080755+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-09-04T02:27:45.462073+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-09-04T02:27:46.985046+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-09-04T02:27:47.325442+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-09-04T02:27:48.734046+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-09-04T02:27:49.640370+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 62,
+      "at": "2026-09-04T02:27:50.092868+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-09-04T02:27:51.978446+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-09-04T02:27:53.088205+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-09-04T02:27:53.450854+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 66,
+      "at": "2026-09-04T02:27:54.810265+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-09-04T02:27:55.733997+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T02:28:19.072962+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "create off-shelf MIKIHOUSE product",
+      "payload_sha256": "a2172c538b207ee698110583c426efe240732637e7200d236cfbb8c2b28cbd7a"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T02:28:19.842823+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T02:28:20.903556+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T02:28:22.006773+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T02:28:23.028868+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T02:28:24.059772+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T02:28:25.697948+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T02:28:26.721428+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T02:28:27.950883+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T02:28:29.102545+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T02:28:30.919896+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T02:28:32.043712+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T02:28:33.477681+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T02:28:35.013976+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T02:28:36.063344+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T02:28:37.150773+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T02:28:38.149778+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T02:28:39.132882+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T02:28:40.119834+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T02:28:41.161078+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T02:28:42.300666+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T02:28:43.336897+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T02:28:44.321900+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T02:28:45.980098+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T02:28:47.099778+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T02:28:48.649085+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T02:28:49.634066+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T02:28:51.202796+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T02:28:52.311815+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T02:28:53.338010+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T02:28:54.335788+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T02:28:55.391599+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T02:28:56.395497+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T02:28:57.415468+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T02:28:58.988841+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T02:29:01.644668+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T02:29:03.010068+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T02:29:03.940125+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T02:29:06.288202+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T02:29:07.375081+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T02:29:08.451650+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T02:29:09.480832+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T02:29:10.520771+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T02:29:11.569859+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T02:29:12.618709+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T02:29:13.673037+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T02:29:14.728677+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T02:29:15.764570+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T02:29:16.901101+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T02:29:17.897204+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T02:29:18.909865+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-09-04T02:29:19.990199+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-09-04T02:29:21.007228+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-09-04T02:29:22.222645+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-09-04T02:29:23.243927+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 56,
+      "at": "2026-09-04T02:29:24.270518+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-09-04T02:29:25.452053+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-09-04T02:29:26.524258+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-09-04T02:29:27.646356+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-09-04T02:29:28.668606+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-09-04T02:29:30.108238+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 62,
+      "at": "2026-09-04T02:29:31.114459+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-09-04T02:29:32.768028+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-09-04T02:29:33.831566+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-09-04T02:29:35.330439+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 66,
+      "at": "2026-09-04T02:29:36.968426+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-09-04T02:29:37.996600+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 68,
+      "at": "2026-09-04T02:29:38.989950+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 69,
+      "at": "2026-09-04T02:29:40.078336+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 70,
+      "at": "2026-09-04T02:29:41.266832+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 71,
+      "at": "2026-09-04T02:29:42.290686+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 72,
+      "at": "2026-09-04T02:29:43.767509+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 73,
+      "at": "2026-09-04T02:29:45.771519+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-09-04T02:29:47.221299+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 75,
+      "at": "2026-09-04T02:29:48.137481+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 76,
+      "at": "2026-09-04T02:29:53.578413+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 77,
+      "at": "2026-09-04T02:29:54.598758+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 78,
+      "at": "2026-09-04T02:29:55.610044+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 79,
+      "at": "2026-09-04T02:29:57.258773+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 80,
+      "at": "2026-09-04T02:29:58.271832+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 81,
+      "at": "2026-09-04T02:29:59.290457+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 82,
+      "at": "2026-09-04T02:30:01.051851+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 83,
+      "at": "2026-09-04T02:30:02.159758+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 84,
+      "at": "2026-09-04T02:30:03.745642+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 85,
+      "at": "2026-09-04T02:30:04.777097+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 86,
+      "at": "2026-09-04T02:30:05.803495+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 87,
+      "at": "2026-09-04T02:30:06.870220+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 88,
+      "at": "2026-09-04T02:30:08.302104+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 89,
+      "at": "2026-09-04T02:30:09.426132+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 90,
+      "at": "2026-09-04T02:30:10.421414+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 91,
+      "at": "2026-09-04T02:30:11.422381+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 92,
+      "at": "2026-09-04T02:30:12.436362+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 93,
+      "at": "2026-09-04T02:30:13.960879+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 94,
+      "at": "2026-09-04T02:30:15.163913+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 95,
+      "at": "2026-09-04T02:30:16.158570+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 96,
+      "at": "2026-09-04T02:30:17.163145+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 97,
+      "at": "2026-09-04T02:30:18.745280+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 98,
+      "at": "2026-09-04T02:30:20.006010+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 99,
+      "at": "2026-09-04T02:30:21.011880+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 100,
+      "at": "2026-09-04T02:30:22.639603+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 101,
+      "at": "2026-09-04T02:30:23.650731+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 102,
+      "at": "2026-09-04T02:30:24.692826+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 103,
+      "at": "2026-09-04T02:30:25.707176+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 104,
+      "at": "2026-09-04T02:30:26.790861+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 105,
+      "at": "2026-09-04T02:30:27.793327+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 106,
+      "at": "2026-09-04T02:30:28.814974+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 107,
+      "at": "2026-09-04T02:30:30.512091+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 108,
+      "at": "2026-09-04T02:30:31.533171+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 109,
+      "at": "2026-09-04T02:30:33.184044+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 110,
+      "at": "2026-09-04T02:30:35.736446+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 111,
+      "at": "2026-09-04T02:30:37.115583+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 112,
+      "at": "2026-09-04T02:30:38.078490+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 113,
+      "at": "2026-09-04T02:30:48.463621+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 114,
+      "at": "2026-09-04T02:30:49.612178+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 115,
+      "at": "2026-09-04T02:30:50.694141+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 116,
+      "at": "2026-09-04T02:30:51.719503+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 117,
+      "at": "2026-09-04T02:30:52.790790+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 118,
+      "at": "2026-09-04T02:30:53.815050+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 119,
+      "at": "2026-09-04T02:30:54.893306+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 120,
+      "at": "2026-09-04T02:30:56.474659+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 121,
+      "at": "2026-09-04T02:30:57.505109+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 122,
+      "at": "2026-09-04T02:30:58.527951+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 123,
+      "at": "2026-09-04T02:30:59.574268+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 124,
+      "at": "2026-09-04T02:31:00.732013+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 125,
+      "at": "2026-09-04T02:31:01.819981+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 126,
+      "at": "2026-09-04T02:31:02.816566+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 127,
+      "at": "2026-09-04T02:31:03.891963+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 128,
+      "at": "2026-09-04T02:31:05.442661+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 129,
+      "at": "2026-09-04T02:31:06.916022+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 130,
+      "at": "2026-09-04T02:31:08.001338+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 131,
+      "at": "2026-09-04T02:31:09.026475+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 132,
+      "at": "2026-09-04T02:31:10.150596+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 133,
+      "at": "2026-09-04T02:31:11.213060+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 134,
+      "at": "2026-09-04T02:31:12.681082+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 135,
+      "at": "2026-09-04T02:31:13.728768+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 136,
+      "at": "2026-09-04T02:31:14.864240+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 137,
+      "at": "2026-09-04T02:31:15.876526+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 138,
+      "at": "2026-09-04T02:31:16.898191+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 139,
+      "at": "2026-09-04T02:31:17.923704+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 140,
+      "at": "2026-09-04T02:31:18.972518+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 141,
+      "at": "2026-09-04T02:31:20.021981+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 142,
+      "at": "2026-09-04T02:31:21.102260+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 143,
+      "at": "2026-09-04T02:31:22.118509+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 144,
+      "at": "2026-09-04T02:31:23.166742+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 145,
+      "at": "2026-09-04T02:31:24.262905+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 146,
+      "at": "2026-09-04T02:31:26.124780+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 147,
+      "at": "2026-09-04T02:31:28.247816+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 148,
+      "at": "2026-09-04T02:31:29.636623+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 149,
+      "at": "2026-09-04T02:31:30.568419+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 150,
+      "at": "2026-09-04T02:31:50.921897+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 151,
+      "at": "2026-09-04T02:31:52.089153+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 152,
+      "at": "2026-09-04T02:31:53.140629+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 153,
+      "at": "2026-09-04T02:31:54.161620+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 154,
+      "at": "2026-09-04T02:31:55.197767+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 155,
+      "at": "2026-09-04T02:31:56.209915+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 156,
+      "at": "2026-09-04T02:31:57.248479+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 157,
+      "at": "2026-09-04T02:31:58.296506+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 158,
+      "at": "2026-09-04T02:31:59.345589+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 159,
+      "at": "2026-09-04T02:32:00.408772+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 160,
+      "at": "2026-09-04T02:32:01.445177+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 161,
+      "at": "2026-09-04T02:32:02.492408+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 162,
+      "at": "2026-09-04T02:32:03.603833+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 163,
+      "at": "2026-09-04T02:32:04.638287+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 164,
+      "at": "2026-09-04T02:32:05.637622+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 165,
+      "at": "2026-09-04T02:32:07.215005+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 166,
+      "at": "2026-09-04T02:32:08.259232+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 167,
+      "at": "2026-09-04T02:32:09.338209+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 168,
+      "at": "2026-09-04T02:32:10.397989+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 169,
+      "at": "2026-09-04T02:32:11.474484+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 170,
+      "at": "2026-09-04T02:32:12.478070+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 171,
+      "at": "2026-09-04T02:32:14.026545+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 172,
+      "at": "2026-09-04T02:32:15.175363+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 173,
+      "at": "2026-09-04T02:32:16.176281+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 174,
+      "at": "2026-09-04T02:32:17.174820+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 175,
+      "at": "2026-09-04T02:32:18.220874+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 176,
+      "at": "2026-09-04T02:32:19.410349+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 177,
+      "at": "2026-09-04T02:32:20.468972+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 178,
+      "at": "2026-09-04T02:32:21.452600+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 179,
+      "at": "2026-09-04T02:32:22.443620+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 180,
+      "at": "2026-09-04T02:32:23.469470+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 181,
+      "at": "2026-09-04T02:32:24.511519+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 182,
+      "at": "2026-09-04T02:32:25.690481+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 183,
+      "at": "2026-09-04T02:32:27.722939+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 184,
+      "at": "2026-09-04T02:32:29.783231+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 185,
+      "at": "2026-09-04T02:32:31.085693+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 186,
+      "at": "2026-09-04T02:32:32.026837+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T02:34:10.883882+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T02:34:12.223158+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T02:34:13.243623+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T02:34:14.389027+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T02:34:15.407403+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T02:34:16.391801+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T02:34:17.388435+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T02:34:18.445907+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T02:34:19.455302+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T02:34:20.493438+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T02:34:21.525611+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T02:34:22.525181+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T02:34:24.149849+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T02:34:25.527792+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T02:34:26.759960+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T02:34:27.887353+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T02:34:30.141455+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T02:34:31.394850+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T02:34:32.494068+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T02:34:33.623128+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T02:34:35.240356+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T02:34:36.223100+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T02:34:37.209704+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T02:34:38.230058+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T02:34:39.259513+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T02:34:40.481282+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T02:34:42.052783+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T02:34:43.077037+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T02:34:44.200920+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T02:34:45.296753+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T02:34:46.421865+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T02:34:47.460164+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T02:34:48.454341+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-09-04T02:34:49.496071+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-09-04T02:34:51.865771+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-09-04T02:34:53.940309+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-09-04T02:34:55.308027+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-09-04T02:34:56.750073+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-09-04T02:34:57.488136+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-09-04T02:34:58.980442+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-09-04T02:34:59.908531+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T02:35:00.266606+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T02:35:01.672007+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T02:35:02.686017+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T02:35:03.038686+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T02:35:04.622860+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T02:35:05.674921+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T02:35:06.717744+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T02:35:07.080362+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T02:35:08.097312+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T02:35:09.410696+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-09-04T02:35:10.722635+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-09-04T02:35:11.068215+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-09-04T02:35:12.323785+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-09-04T02:35:13.604781+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 56,
+      "at": "2026-09-04T02:35:14.060710+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-09-04T02:35:15.479629+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-09-04T02:35:16.387113+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-09-04T02:35:16.827525+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-09-04T02:35:18.343783+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-09-04T02:35:19.304125+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 62,
+      "at": "2026-09-04T02:35:19.655857+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-09-04T02:35:21.525919+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-09-04T02:35:22.420555+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-09-04T02:35:22.777106+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 66,
+      "at": "2026-09-04T02:35:24.171360+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-09-04T02:35:25.042565+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "exact MIKIHOUSE SKU search"
+    }
+  ],
+  "post_recovery_forensics": {
+    "performed_at": "2026-09-04T02:35:25.433668+00:00",
+    "observable_product_found": false,
+    "residual_absence_still_proven": true,
+    "requests": {
+      "read": 67,
+      "write": 0,
+      "image_upload": 0,
+      "product_create": 0
+    },
+    "report": "deliverables/shijiu_import/first_product_recovery_forensics.json"
+  }
+}

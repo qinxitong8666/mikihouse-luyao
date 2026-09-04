@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T02:35:25.437010+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "product_number": "00-1000-028",
+  "state": "STOPPED_ON_RECOVERY_ERROR",
+  "result": null,
+  "passed": false,
+  "unavailable_reason": "no unique product_id was exposed by response or list/SKU/name discovery",
+  "post_recovery_forensics": {
+    "performed_at": "2026-09-04T02:35:25.433668+00:00",
+    "observable_product_found": false,
+    "residual_absence_still_proven": true,
+    "requests": {
+      "read": 67,
+      "write": 0,
+      "image_upload": 0,
+      "product_create": 0
+    },
+    "report": "deliverables/shijiu_import/first_product_recovery_forensics.json"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "performed_at": "2026-09-04T02:27:56.123306+00:00",
+  "mode": "READ_ONLY",
+  "category_id": 294884,
+  "baseline_legacy_count": 286,
+  "identity_queries": {
+    "query_count": 34,
+    "exact_sku_result_ids": [],
+    "exact_name_result_ids": []
+  },
+  "category_scans": [
+    {
+      "label": "default",
+      "filters": {
+        "push": "2",
+        "status": ""
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "push_any",
+      "filters": {
+        "push": "",
+        "status": ""
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_0",
+      "filters": {
+        "push": "2",
+        "status": "0"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_1",
+      "filters": {
+        "push": "2",
+        "status": "1"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "status_2",
+      "filters": {
+        "push": "2",
+        "status": "2"
+      },
+      "count_start": 0,
+      "count_end": 0,
+      "row_count": 0,
+      "unique_id_count": 0,
+      "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "is_delete_0",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "is_delete": "0"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "is_delete_1",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "is_delete": "1"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "audit_status_0",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "audit_status": "0"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "audit_status_1",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "audit_status": "1"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "audit_status_2",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "audit_status": "2"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    },
+    {
+      "label": "audit_status_3",
+      "filters": {
+        "push": "2",
+        "status": "",
+        "audit_status": "3"
+      },
+      "count_start": 286,
+      "count_end": 286,
+      "row_count": 286,
+      "unique_id_count": 286,
+      "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+      "exact_name_match_ids": [],
+      "complete": true
+    }
+  ],
+  "exact_name_candidate_details": [],
+  "original_create_response": {
+    "code": 200,
+    "data": [],
+    "msg": "success"
+  },
+  "original_checkpoint_product_id": null,
+  "mapping_product_id": null,
+  "absence_proof_reasons": [],
+  "legacy_rows_modified": 0,
+  "legacy_mappings_created": 0,
+  "passed": true
+}

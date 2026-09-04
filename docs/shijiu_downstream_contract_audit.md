@@ -31,6 +31,16 @@
 
 这次验证新增了“图片上传链路真实可达且返回目标 URL”的证据，但仍没有“创建成功并可按稳定 MIKI SKU 回读”的证据。不得把 `code=200` 或 `msg=success` 单独解释为创建成功，也不得基于商品名、时间或列表位置猜测 ID。冻结批次禁止自动二次创建。品牌 `brand_id` 仍因没有已证实的品牌 discovery 契约而保持空值。
 
+## 单件原生语义恢复审计
+
+`qinxitong8666/wawu-product-sync@a36c5eab40bf419562ba03d15c090151698d582a` 中的 `DISPOSABLE_SKU_UPDATE_SEMANTICS_CREATE_PAYLOAD.json` 明确使用 `state="1"`、`is_shelf=0`。本仓库以 `config/shijiu_native_create_contract.json` 固定该来源提交、原文件 SHA-256、创建端点以及商品/SKU/规格字段顺序。恢复 payload 只把首次执行器的 `state="0"` 改成原生样例的 `state="1"`，保持 `is_shelf=0` 和所有 MIKIHOUSE 字段不变。
+
+恢复前只读审计覆盖分类树、34 组跨类目/状态的精确 SKU 与名称查询，以及 MikiHouse 类目 11 组过滤视图的完整分页。默认视图为 286 条，所有非空视图 ID 集一致，未发现 `00-1000-028` 的精确 SKU、名称、checkpoint ID 或 mapping ID，因而允许消耗一次单件恢复写预算。
+
+恢复创建复用了首次运行已上传的 12 张 `cdn0.19mini.com` 图片，没有调用 `/v1/cos/upload`；只向 `/shopapi/Goods/newAddGood` 写入一次 `00-1000-028`，没有处理后续 19 件或 legacy。响应再次为 `code=200, msg=success, data=[]`。创建后多轮延迟查询及独立事后取证均显示精确 SKU/名称为 0，默认类目仍为同一组 286 个 ID。由于列表没有暴露候选 product ID，`getFormatInfo` 无法安全调用，商品 ID、SKU ID 和详情闭环均未成立，mapping 因此保持未绑定。
+
+恢复 checkpoint 当前为 `STOPPED_ON_RECOVERY_ERROR`，唯一创建预算已经消耗，禁止幂等重试逻辑再次创建。现有证据只能说明 `state=1` 未解决空响应与不可观测问题，不能推断服务端具体拒绝原因。完整证据位于 `first_product_residual_scan.json`、`first_product_recovery_report.json`、`first_product_recovery_forensics.json`、`first_product_recovery_readback.json` 和 `state/shijiu_first_product_recovery_checkpoint.json`。
+
 ## 本轮 Shijiu 只读事实
 
 `/shopapi/Goodtype/typeindex` 返回的当前分类树中，规范化名称唯一匹配 MIKI HOUSE 的子类目为 `MikiHouse`：ID `294884`、父类目 ID `288338`（`母婴用品`）。因此本项目固定 `source=MIKIHOUSE` 且所有可发布商品统一写入 `good_type=294884`；官网品牌和分类字段不参与 Shijiu 路由。该类目与 WAWU 的商品身份、SKU 前缀、映射状态及类目选择完全隔离。

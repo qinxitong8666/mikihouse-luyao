@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "performed_at": "2026-09-04T02:35:25.433668+00:00",
+  "mode": "POST_RECOVERY_READ_ONLY_FORENSICS",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "product_number": "00-1000-028",
+  "create_attempts_already_consumed": 1,
+  "create_response": {
+    "code": 200,
+    "data": [],
+    "msg": "success"
+  },
+  "terminal_error": {
+    "type": "ContractMismatchError",
+    "message": "post-create identity is not unique: exact verified IDs=[]",
+    "at": "2026-09-04T02:32:32.771452+00:00"
+  },
+  "observable_product_found": false,
+  "residual_absence_still_proven": true,
+  "multi_path": {
+    "product_list_and_exact_sku_queries": {
+      "query_count": 34,
+      "exact_sku_result_ids": [],
+      "exact_name_result_ids": []
+    },
+    "complete_category_scans": [
+      {
+        "label": "default",
+        "filters": {
+          "push": "2",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "push_any",
+        "filters": {
+          "push": "",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_0",
+        "filters": {
+          "push": "2",
+          "status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_1",
+        "filters": {
+          "push": "2",
+          "status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_2",
+        "filters": {
+          "push": "2",
+          "status": "2"
+        },
+        "count_start": 0,
+        "count_end": 0,
+        "row_count": 0,
+        "unique_id_count": 0,
+        "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_2",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "2"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_3",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "3"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      }
+    ],
+    "getFormatInfo_candidate_details": [],
+    "getFormatInfo_not_possible_reason": "no product_id candidate was returned by list/SKU/name discovery"
+  },
+  "requests": {
+    "read": 67,
+    "write": 0,
+    "image_upload": 0,
+    "product_create": 0
+  },
+  "mapping_persisted": false,
+  "subsequent_19_products_processed": 0,
+  "legacy_products_modified": 0,
+  "conclusion": "the single recovery request returned success without an ID, but the product remains unobservable and therefore cannot be treated as created"
+}

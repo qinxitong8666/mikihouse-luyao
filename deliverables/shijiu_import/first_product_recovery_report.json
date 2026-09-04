@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T02:35:25.436454+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "scope": {
+    "product_numbers": [
+      "00-1000-028"
+    ],
+    "maximum_create_requests": 1
+  },
+  "state": "STOPPED_ON_RECOVERY_ERROR",
+  "error": {
+    "type": "ContractMismatchError",
+    "message": "post-create identity is not unique: exact verified IDs=[]",
+    "at": "2026-09-04T02:32:32.771452+00:00"
+  },
+  "state_semantics": {
+    "failed_attempt": {
+      "state": "0",
+      "is_shelf": 0
+    },
+    "audited_native_recovery": {
+      "state": "1",
+      "is_shelf": 0
+    },
+    "visibility": "OFF_SHELF_INVISIBLE"
+  },
+  "residual_absence_proven": true,
+  "images": {
+    "prior_cos_images_reused": 12,
+    "new_upload_requests": 0
+  },
+  "requests": {
+    "total": 320,
+    "read": 319,
+    "write": 1,
+    "product_create": 1,
+    "image_upload": 0,
+    "legacy_cleanup": 0,
+    "later_batch_products": 0
+  },
+  "recovery_create_attempts": 1,
+  "create_response": {
+    "code": 200,
+    "data": [],
+    "msg": "success"
+  },
+  "shijiu_product_id": null,
+  "mapping_persisted": false,
+  "readback_passed": false,
+  "post_recovery_forensics": {
+    "performed_at": "2026-09-04T02:35:25.433668+00:00",
+    "observable_product_found": false,
+    "residual_absence_still_proven": true,
+    "requests": {
+      "read": 67,
+      "write": 0,
+      "image_upload": 0,
+      "product_create": 0
+    },
+    "report": "deliverables/shijiu_import/first_product_recovery_forensics.json"
+  },
+  "legacy_products_modified": 0,
+  "legacy_cleanup_executed": false,
+  "subsequent_19_products_processed": 0,
+  "checkpoint": "state/shijiu_first_product_recovery_checkpoint.json",
+  "residual_report": "deliverables/shijiu_import/first_product_residual_scan.json",
+  "readback_report": "deliverables/shijiu_import/first_product_recovery_readback.json",
+  "post_recovery_forensics_report": "deliverables/shijiu_import/first_product_recovery_forensics.json"
+}

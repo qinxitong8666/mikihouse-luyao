@@ -208,6 +208,7 @@ class ShijiuLiveClient:
         base_url: str = DEFAULT_SHIJIU_BASE_URL,
         cookie: str = "",
         timeout: float = 90,
+        write_confirmation: str = LIVE_WRITE_CONFIRMATION,
         request_observer: Callable[[dict[str, Any]], None] | None = None,
     ) -> None:
         if not token or not secret:
@@ -219,6 +220,7 @@ class ShijiuLiveClient:
         self.api_origin = f"{parsed.scheme}://{parsed.netloc}"
         self.cookie = cookie
         self.timeout = timeout
+        self.write_confirmation = write_confirmation
         self.request_observer = request_observer
         self.requests: list[dict[str, Any]] = []
 
@@ -262,25 +264,39 @@ class ShijiuLiveClient:
         return self._post_form(CATEGORY_PATH, {"page": 1}, operation="category discovery")
 
     def search_products(
-        self, sku_code: str, *, status: str = "", page: int = 1, page_size: int = 20
+        self,
+        sku_code: str = "",
+        *,
+        good_name: str = "",
+        status: str = "",
+        push: str = "2",
+        good_type: int | str = 294884,
+        page: int = 1,
+        page_size: int = 20,
+        **filters: Any,
     ) -> dict[str, Any]:
         return self._post_form(
             LIST_PATH,
             {
                 "page": page,
                 "page_size": page_size,
-                "good_type": 294884,
+                "good_type": good_type,
                 "father_type": "",
                 "recommend": "",
-                "good_name": "",
+                "good_name": good_name,
                 "good_code": sku_code,
-                "push": "2",
+                "push": push,
                 "status": status,
                 "update_start_time": "",
                 "update_end_time": "",
                 "create_start_time": "",
                 "create_end_time": "",
                 "group_id": "",
+                **{
+                    key: value
+                    for key, value in filters.items()
+                    if key in {"is_delete", "audit_status", "state"}
+                },
             },
             operation="exact MIKIHOUSE SKU search",
         )
@@ -375,7 +391,7 @@ class ShijiuLiveClient:
         return result
 
     def _require_write_confirmation(self, confirmation: str) -> None:
-        if confirmation != LIVE_WRITE_CONFIRMATION:
+        if confirmation != self.write_confirmation:
             raise LiveImportError("real Shijiu mutation blocked: exact confirmation phrase missing")
 
     def _download_official_image(self, source_url: str) -> tuple[bytes, str, str]:
@@ -570,6 +586,7 @@ def validate_product_readback(
     *,
     create_response: dict[str, Any] | None = None,
     list_row: dict[str, Any] | None = None,
+    expected_state: str = "0",
 ) -> dict[str, Any]:
     _assert_success(detail, "product readback")
     detail_data = detail.get("data") if isinstance(detail.get("data"), dict) else {}
@@ -649,7 +666,7 @@ def validate_product_readback(
     if list_row:
         actual_state = list_row.get("state", actual_state)
         actual_is_shelf = list_row.get("is_shelf", actual_is_shelf)
-    if str(actual_state) != "0" or str(actual_is_shelf) not in {"0", "False", "false"}:
+    if str(actual_state) != str(expected_state) or str(actual_is_shelf) not in {"0", "False", "false"}:
         raise ContractMismatchError(
             f"off-shelf readback mismatch: state={actual_state!r}, is_shelf={actual_is_shelf!r}"
         )
@@ -1074,7 +1091,12 @@ class FirstLiveBatchRunner:
         return json.loads(self.report_path.read_text(encoding="utf-8"))
 
 
-def client_from_env(env_path: Path, observer: Callable[[dict[str, Any]], None] | None = None) -> ShijiuLiveClient:
+def client_from_env(
+    env_path: Path,
+    observer: Callable[[dict[str, Any]], None] | None = None,
+    *,
+    write_confirmation: str = LIVE_WRITE_CONFIRMATION,
+) -> ShijiuLiveClient:
     values = load_env_file(env_path)
     return ShijiuLiveClient(
         values.get("SHIJIU_TOKEN") or values.get("MYSHOP_TOKEN") or "",
@@ -1085,5 +1107,6 @@ def client_from_env(env_path: Path, observer: Callable[[dict[str, Any]], None] |
             or DEFAULT_SHIJIU_BASE_URL
         ),
         cookie=values.get("SHIJIU_COOKIE") or values.get("MYSHOP_COOKIE") or "",
+        write_confirmation=write_confirmation,
         request_observer=observer,
     )

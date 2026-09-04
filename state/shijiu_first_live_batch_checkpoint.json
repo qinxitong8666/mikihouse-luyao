@@ -4,7 +4,7 @@
   "target": "SHIJIU",
   "batch_name": "MIKIHOUSE_FIRST_20_REAL_IMPORT",
   "created_at": "2026-09-04T02:07:28.311659+00:00",
-  "updated_at": "2026-09-04T02:10:12.873398+00:00",
+  "updated_at": "2026-09-04T02:35:25.433668+00:00",
   "status": "STOPPED_ON_FIRST_ERROR",
   "stop_reason": {
     "type": "ContractMismatchError",
@@ -1487,5 +1487,17 @@
     "category_id": 294884,
     "exact_identity_absence_checks": 20,
     "legacy_reference_scanned_or_bound": false
+  },
+  "controlled_recovery": {
+    "product_number": "00-1000-028",
+    "completed_at": "2026-09-04T02:35:25.433668+00:00",
+    "state": "STOPPED_ON_RECOVERY_ERROR",
+    "recovery_create_attempts": 1,
+    "new_image_upload_requests": 0,
+    "shijiu_product_id": null,
+    "mapping_persisted": false,
+    "subsequent_19_products_processed": 0,
+    "legacy_products_modified": 0,
+    "checkpoint": "state/shijiu_first_product_recovery_checkpoint.json"
   }
 }

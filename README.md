@@ -243,7 +243,7 @@ dry-run payload 本身仍不可执行：官网图片 URL 只保留在 `source_co
 - 在任何目标请求前重新校验 351 个 `PDF_SPECIAL_LIST` 排除项，命中即失败；
 - 固定 `source=MIKIHOUSE`、`good_type=294884`，不读取、绑定、更新或下架 legacy 286；
 - 每件商品先逐图上传 `/v1/cos/upload`，所有占位引用替换为 Shijiu/COS HTTPS URL 后才创建；
-- 强制 `state=0`、`is_shelf=0`，首批商品默认下架/不可见；
+- 首次批次执行器强制 `state=0`、`is_shelf=0`；受控恢复则严格采用已审计原生样例的 `state=1`、`is_shelf=0`，两者都不改变“默认下架/不可见”业务要求；
 - 每个上传和创建请求前写 checkpoint；已完成上传可以恢复，结果不明的上传或创建禁止自动重试；
 - 创建后必须回读并验证商品 ID、SKU ID、类目、价格、库存、规格、主图、轮播和详情；验证通过后才原子更新 `state/shijiu_mappings.json`；
 - 首个传输、字段或回读偏差立即停止整个批次，后续商品不会写入。
@@ -258,10 +258,31 @@ PYTHONPATH=src python scripts/import_shijiu_first_batch.py \
 
 2026-09-04 的首次执行已按 fail-closed 规则停止：首件 `00-1000-028` 的 12 张官网图成功上传到 Shijiu/COS，但创建接口返回 `code=200, msg=success, data=[]`，既未返回商品 ID，延迟后覆盖上下架过滤的精确 `MIKI-00-1000-02800899999` 查询也仍为 0 条。因而不能证明商品实际创建，未做任何 ID 猜测或 mapping 绑定，后续 19 件的上传和创建均未执行，legacy cleanup 也未执行。由于没有可确认的商品 ID，也没有执行商品回滚；12 张 COS 图片作为已完成断点保留。冻结 checkpoint 禁止自动二次创建；再次运行会直接拒绝，必须先由人工确认目标接口为何返回空 ID，并另行授权如何处置。
 
+随后按单件恢复授权完成了 `state` 语义核对和受控恢复。`config/shijiu_native_create_contract.json` 固定了参考仓库已审计原生 payload 的字段顺序与 `state=1/is_shelf=0`；执行前通过完整类目分页、34 组 SKU/名称精确查询和 mapping/checkpoint 检查证明首件无残留。恢复仅复用已有 12 张 COS 图片，图片上传请求为 0；只对 `00-1000-028` 发送 1 次创建，后续 19 件和 legacy 286 均为 0 次处理。
+
+受控恢复响应仍是 `code=200, msg=success, data=[]`。创建后的多轮延迟查询和最终只读取证均未发现精确 SKU 或商品名，MikiHouse 类目仍为同一组 286 个 ID；因为没有候选 `product_id`，无法调用 `getFormatInfo` 核验 SKU ID、价格、规格、图片和详情。该商品因此仍不能认定已创建，mapping 保持空值，恢复 checkpoint 已终止且禁止第二次恢复创建。这个结果证明 `state=0` 与原生 `state=1` 的差异并非当前空响应/不可回读问题的充分解释，具体服务端拒绝原因仍缺少证据，不作猜测。
+
+单件恢复命令（只能对新建或尚未消耗写预算的 checkpoint 使用）与纯只读取证命令：
+
+```bash
+PYTHONPATH=src python scripts/recover_shijiu_first_product.py \
+  --target-env-file /absolute/path/to/shijiu.env \
+  --confirm MIKIHOUSE_00_1000_028_RECOVERY_CREATE_ONCE
+
+PYTHONPATH=src python scripts/recover_shijiu_first_product.py \
+  --target-env-file /absolute/path/to/shijiu.env \
+  --post-recovery-forensics
+```
+
 真实写入事实见：
 
 - `deliverables/shijiu_import/first_live_batch_report.json`：写请求数量、图片上传、停止原因和逐商品状态；
 - `deliverables/shijiu_import/first_live_batch_readbacks.json`：已完成的强校验回读（本次为 0）；
 - `deliverables/shijiu_import/first_live_batch_forensics.json`：停止后的只读取证；
 - `state/shijiu_first_live_batch_checkpoint.json`：逐图片/逐商品断点与创建响应；
+- `deliverables/shijiu_import/first_product_residual_scan.json`：恢复创建前的完整只读无残留证明；
+- `deliverables/shijiu_import/first_product_recovery_report.json`：单件恢复写预算、原生字段语义、响应和停止状态；
+- `deliverables/shijiu_import/first_product_recovery_forensics.json`：恢复创建后的商品列表/SKU/名称多路径只读取证；
+- `deliverables/shijiu_import/first_product_recovery_readback.json`：未取得唯一商品 ID、无法完成详情回读的明确失败记录；
+- `state/shijiu_first_product_recovery_checkpoint.json`：一次性恢复 checkpoint，写预算已耗尽且为终止状态；
 - `deliverables/shijiu_import/preflight_attempt_001_report.json`：首次使用错误分类 discovery 路径时的零写入预检记录，随后已改为仓库原先验证成功的 `Goodtype/typeindex`。
