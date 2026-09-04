@@ -1,0 +1,7 @@
+interface:
+  display_name: "Issue → Verified Push"
+  short_description: "供应商同步安全开发、验收、远端 SHA、CI 与 PR 证据闭环"
+  default_prompt: "Complete the requested GitHub issue end-to-end under the repository supplier-sync safety rules. Run the unified offline verification, perform any additional Storefront/Shijiu/PDF validation only when required and authorized, commit only task changes, push safely, prove local HEAD matches the remote feature branch, create or update durable PR evidence, wait for final CI before marking completed, and never auto-merge or trigger unauthorized Shijiu live writes."
+
+policy:
+  allow_implicit_invocation: false
