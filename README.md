@@ -464,3 +464,48 @@ python scripts/finalize_shijiu_ui_context_reconciliation.py \
 - `deliverables/shijiu_import/canonical_create_ui_context_reconciliation_report.json`：真实 UI 请求上下文、强回读、业务值差异及最终 mapping 证据；
 - `state/shijiu_canonical_create_checkpoint.json`：已耗尽且终止的 checkpoint；
 - `config/shijiu_native_create_contract.json`：当前 browser-exact canonical 字段、类型、顺序和 header 契约。
+
+## Shijiu 复杂商品五件真实验证
+
+`scripts/import_shijiu_complex_batch.py` 为复杂商品专用、逐商品 fail-closed 执行器。它从当前非特殊、未映射、可售主库中按五个确定性角色选择商品，永久排除 351 个 `PDF_SPECIAL_LIST` 品番以及此前测试过的 `00-1000-028`、`17-1366-244`、`36-2001-572`。冻结批次位于 `config/shijiu_complex_live_batch.json`，后续恢复不会因已完成 mapping 而重新选择商品。
+
+本轮自动选择结果为：
+
+- 多颜色多尺码鞋类 `13-9310-490`：24 variants、4 色、6 尺码、42 图；
+- 高 SKU 服装 `10-1829-685`：18 variants、6 色、3 尺码、66 图；
+- 多轮播/详情图商品 `10-8227-686`：6 variants、69 图；
+- 婴童用品 `00-4000-054`：3 variants、31 图；
+- 普通杂货 `10-8223-684`：3 variants、19 图。
+
+5 件共 54 个 variants、227 张有序官方图片。写前已在线确认全部 SKU、税入 JPY 价格、库存、颜色、尺码和 variant 图片与当天 master catalog 一致；每个 `mini_program_price_jpy` 继续由 `ceil(tax_included_price_jpy×0.65)` 校验，不做人民币换算。官网说明中的普通链接会在详情模板生成前移除，正式 Shijiu 图片字段和详情中不得残留 MIKI HOUSE 外链。
+
+执行器从 Git 外已验证 capture 同时加载 browser-exact CREATE contract 和真实 UI Goods.index 请求。UI 查询保持 endpoint、headers、form 字段顺序、URL token、body secret、`recommend=2`、`push=2` 等上下文，只改变精确 `good_name`、必要的 `good_type` 和分页；`good_code` 不参与主判定或 mapping。每件商品必须完成全部 COS 上传、唯一 CREATE、精确名称定位及 getFormatInfo 全 SKU/价格/库存/规格/图片强校验后才会写 mapping 并进入下一件。`shijiu_sku_id` 无官方字段时始终为 `null`。
+
+```bash
+# 只核对官网并冻结候选；不访问 Shijiu
+PYTHONPATH=src python scripts/import_shijiu_complex_batch.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 真实写入只能在新的、明确授权批次使用精确确认词
+PYTHONPATH=src python scripts/import_shijiu_complex_batch.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --confirm MIKIHOUSE_COMPLEX_5_REAL_IMPORT
+
+# 冻结后的延迟 reconciliation 仅执行 Goods.index/getFormatInfo 读取
+PYTHONPATH=src python scripts/import_shijiu_complex_batch.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --reconcile-only
+```
+
+2026-09-04 的实际执行在首件即按规则停止。`13-9310-490` 的 42 张官网图片全部取得 Shijiu/COS URL，唯一 CREATE 返回与已验证原生保存相同的 `code=200/msg=success/data=[]`；随后 UI-context 在类目 294884 和无类目限制下均未找到精确商品名候选。延迟只读 reconciliation 结果仍为 0 个候选，因此该 CREATE 不能认定持久化，mapping 保持未绑定，绝不重试。
+
+后四件的图片上传和 CREATE 均为 0；没有对 legacy 286 做 identity reconciliation、绑定或修改，cleanup 为 0。目标端总计 42 次图片上传、1 次 CREATE、7 次只读请求、0 次 UPDATE。批次状态为 `STOPPED_ON_FIRST_ERROR`，checkpoint 已冻结。由于五件未全部通过，本轮没有生成、更没有执行下一阶段 20 件计划，readiness 明确为 `BLOCKED_AFTER_FIRST_COMPLEX_CREATE_ANOMALY`。不对复杂 CREATE 未持久化的具体字段原因作无证据推断。
+
+脱敏证据：
+
+- `deliverables/shijiu_import/complex_live_batch_candidates.json`：确定性选择、复杂度指标和官网在线核验；
+- `deliverables/shijiu_import/complex_live_batch_report.json`：写入计数、逐商品结果与停止原因；
+- `deliverables/shijiu_import/complex_live_batch_readbacks.json`：强回读结果，本轮为 0 件通过；
+- `deliverables/shijiu_import/complex_live_batch_readiness.json`：冻结与下一阶段未就绪结论；
+- `state/shijiu_complex_live_batch_checkpoint.json`：逐图片、逐 CREATE 和只读 reconciliation 断点。

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:13:59.811962+00:00",
+  "status": "BLOCKED_AFTER_FIRST_COMPLEX_CREATE_ANOMALY",
+  "complex_validation_all_passed": false,
+  "verified_product_count": 0,
+  "next_batch_plan_generated": false,
+  "next_batch_executed": false,
+  "batch_frozen": true,
+  "reconciliation": {
+    "status": "BATCH_FROZEN_CREATE_NOT_VERIFIED",
+    "product_number": "13-9310-490",
+    "candidate_product_ids": [],
+    "verified_product_ids": [],
+    "target_mutations": 0
+  },
+  "requires_separate_investigation_and_authorization": true,
+  "pdf_special_exclusion_count": 351,
+  "legacy_reference_touched": false,
+  "sensitive_values_included": false
+}

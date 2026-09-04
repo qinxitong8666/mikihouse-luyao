@@ -464,7 +464,13 @@ def _details_template(product: dict[str, Any], detail_placeholders: list[str]) -
     product_number = html.escape(str(product.get("product_number") or ""))
     name = html.escape(str(product.get("name") or ""))
     brand = html.escape(str(product.get("brand") or ""))
-    description = html.escape(str(product.get("description") or "")).replace("\n", "<br>")
+    # Source descriptions occasionally contain collection/product links. The
+    # Shijiu detail must be self-contained and may only reference images after
+    # they have been uploaded to COS, so no source-host URL is carried over.
+    source_description = re.sub(
+        r"https?://[^\s<]+", "", str(product.get("description") or "")
+    ).strip()
+    description = html.escape(source_description).replace("\n", "<br>")
     colors = sorted({str(item.get("color") or "") for item in product.get("variants") or [] if item.get("color")})
     sizes = sorted({str(item.get("size") or "") for item in product.get("variants") or [] if item.get("size")})
     image_html = "".join(

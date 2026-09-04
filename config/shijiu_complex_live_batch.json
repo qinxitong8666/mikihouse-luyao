@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T06:09:55.687996+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "selection_policy": "deterministic bounded-complexity representative roles",
+  "fixed_target_category_id": 294884,
+  "pdf_special_exclusion_count": 351,
+  "previously_tested_excluded": [
+    "00-1000-028",
+    "17-1366-244",
+    "36-2001-572"
+  ],
+  "eligible_pool_count": 1901,
+  "products": [
+    {
+      "role": "multi_color_multi_size_footwear",
+      "product_number": "13-9310-490",
+      "good_name": "ミズノコラボ セカンドベビーシューズ",
+      "classification": "footwear",
+      "name_unique_in_source": true,
+      "variant_count": 24,
+      "available_variant_count": 24,
+      "color_count": 4,
+      "size_count": 6,
+      "image_count": 42,
+      "gallery_or_detail_image_count": 38,
+      "payload_sha256": "7c0ec834769d6367a8f2e4ffe2f3b12514365d35eb622f5bf3ec762e3cd9f05d"
+    },
+    {
+      "role": "high_sku_apparel",
+      "product_number": "10-1829-685",
+      "good_name": "【WEB限定】ジャンパースカート【WebLimited】",
+      "classification": "apparel",
+      "name_unique_in_source": true,
+      "variant_count": 18,
+      "available_variant_count": 18,
+      "color_count": 6,
+      "size_count": 3,
+      "image_count": 66,
+      "gallery_or_detail_image_count": 60,
+      "payload_sha256": "37223f8ae59bdbff6f0ff9d880b44a6e03a9422713c19bcf31c9709d52fdb9e5"
+    },
+    {
+      "role": "rich_gallery_and_details",
+      "product_number": "10-8227-686",
+      "good_name": "【WEB限定】トートバッグ【WebLimited】",
+      "classification": "goods",
+      "name_unique_in_source": true,
+      "variant_count": 6,
+      "available_variant_count": 4,
+      "color_count": 6,
+      "size_count": 1,
+      "image_count": 69,
+      "gallery_or_detail_image_count": 63,
+      "payload_sha256": "1087353937febe415a6031cd72a96a93982aa6ef8b85a597cc640242dd1c6b1a"
+    },
+    {
+      "role": "baby_product",
+      "product_number": "00-4000-054",
+      "good_name": "【eギフト】無撚糸バスポンチョセット【BOX付き】",
+      "classification": "baby",
+      "name_unique_in_source": true,
+      "variant_count": 3,
+      "available_variant_count": 3,
+      "color_count": 3,
+      "size_count": 1,
+      "image_count": 31,
+      "gallery_or_detail_image_count": 28,
+      "payload_sha256": "51e99fb5dd8d04423f7d703c3a6999ecb656dc63a3ec63b75b6ae38655d8b2d9"
+    },
+    {
+      "role": "ordinary_goods",
+      "product_number": "10-8223-684",
+      "good_name": "ミキハウスベア トートバッグ",
+      "classification": "goods",
+      "name_unique_in_source": true,
+      "variant_count": 3,
+      "available_variant_count": 2,
+      "color_count": 3,
+      "size_count": 1,
+      "image_count": 19,
+      "gallery_or_detail_image_count": 16,
+      "payload_sha256": "a203af485187beedc0e571956a6a63c690f536bb098e6b4215c18b61f983ac12"
+    }
+  ],
+  "master_catalog_sha256": "e0aa450c084e517d6e1f1ef3ddda456f7e619ccde8cf53289c0b62759d4d5231"
+}
