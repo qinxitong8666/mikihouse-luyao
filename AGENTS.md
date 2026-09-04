@@ -269,3 +269,35 @@ $issue-to-verified-push 完成 Issue #<number>
 ```
 
 该 Skill 不允许自动 merge。merge 是独立审查决定。
+
+## 14. SHIJIU 来源所有权与生产写入互斥
+
+MIKIHOUSE 是独立 source ownership 域。
+
+### 14.1 来源所有权
+
+- 只能修改 `state`/mapping 已明确证明属于 MIKIHOUSE 的 backend product/SKU IDs，或当前单轮明确授权 CREATE 后由稳定 MIKI identity 完成回读绑定的实体；
+- 不采用 `WAWU-*` SKU，不得修改 WAWU registry/binding 已管理的商品；
+- 不得按商品名、列表位置、全店商品总数、类目、创建时间或近似匹配认领商品；
+- MikiHouse 类目 `294884` 本身不是 ownership proof，类目内 foreign/legacy 对象不得自动接管；
+- 任何归属不明确实体一律 `FAIL_CLOSED_NO_WRITE`；
+- 全店商品总数只能作为观察值，不能作为 MIKIHOUSE 同步健康的固定不变量。
+
+### 14.2 全局 SHIJIU production write mutex
+
+多个项目可以并行开发、测试、官网抓取和只读审计，但同一个 SHIJIU 正式租户在同一时间只能有一个项目执行业务写入。
+
+真实 CREATE/UPDATE、库存/上下架、价格、weight、生产图片上传及会改变正式店铺状态的调用都属于 production write window。
+
+开始写入前必须有任务级明确授权，并记录 writer=`MIKIHOUSE`、仓库/分支/SHA、精确写入范围、开始/停止条件。若不能证明没有其他项目正在写 SHIJIU，则禁止开始 live write。
+
+生产写入证据必须包含：
+
+- `shijiu_writer_source=MIKIHOUSE`；
+- 所有 UPDATE/DELETE 目标的 MIKIHOUSE ownership proof；
+- `cross_source_writes=0`；
+- `concurrent_shijiu_writer_observed=false`；
+- production write window 开始/结束时间；
+- CREATE/UPDATE/upload/readback/failure/transport-unknown 计数。
+
+任一跨来源写入或并发 production writer 重叠，都不得报告 READY/COMPLETED。
