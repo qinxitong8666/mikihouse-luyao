@@ -248,6 +248,11 @@ def load_recovery_inputs(
         raise DuplicateRiskError("mapping state is already bound for the recovery product")
     contract = json.loads(native_contract_path.read_text(encoding="utf-8"))
     original_payload = _resolve_payload(item, uploads)
+    # This module preserves the already-consumed historical recovery scenario.
+    # Normalize its frozen pre-canonical preview without authorizing a retry.
+    original_payload["state"] = "0"
+    for sku_row in original_payload.get("sku_info") or []:
+        sku_row.pop("weight", None)
     payload = copy.deepcopy(original_payload)
     payload["state"] = contract.get("state")
     payload["is_shelf"] = contract.get("is_shelf")

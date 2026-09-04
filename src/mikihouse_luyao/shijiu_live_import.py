@@ -50,15 +50,19 @@ TARGET_SKU_ID_FIELDS = ("sku_id", "goods_sku_id", "good_sku_id", "id")
 NATIVE_SAVE_FALLBACK_HEADERS = {
     "accept": "application/json, text/plain, */*",
     "content-type": "application/json;charset=UTF-8",
+    "origin": "https://shijiu.wfcorp.cn",
     "referer": "https://shijiu.wfcorp.cn/",
-    "sec-ch-ua": '"Chromium";v="151", "Not=A?Brand";v="99"',
+    "sec-ch-ua": '"Chromium";v="152", "Not?A_Brand";v="24", "Google Chrome";v="152"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"macOS"',
     "user-agent": (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
     ),
 }
+CANONICAL_CREATE_CONTRACT_PATH = (
+    Path(__file__).resolve().parents[2] / "config/shijiu_native_create_contract.json"
+)
 
 
 class LiveImportError(ImportPlanError):
@@ -71,6 +75,44 @@ class ContractMismatchError(LiveImportError):
 
 class DuplicateRiskError(LiveImportError):
     pass
+
+
+def _json_value_type(value: Any) -> str:
+    if isinstance(value, list):
+        return "array"
+    if isinstance(value, dict):
+        return "object"
+    if isinstance(value, bool):
+        return "boolean"
+    if value is None:
+        return "null"
+    if isinstance(value, (int, float, Decimal)):
+        return "number"
+    return "string" if isinstance(value, str) else type(value).__name__
+
+
+def validate_canonical_create_payload(payload: dict[str, Any]) -> None:
+    """Fail closed unless a payload exactly matches the persisted browser CREATE shape."""
+    contract = json.loads(CANONICAL_CREATE_CONTRACT_PATH.read_text(encoding="utf-8"))
+    if list(payload) != contract["product_fields"]:
+        raise ContractMismatchError("create payload top-level field order differs from canonical browser CREATE")
+    actual_types = {key: _json_value_type(value) for key, value in payload.items()}
+    if actual_types != contract["product_field_types"]:
+        raise ContractMismatchError("create payload top-level field types differ from canonical browser CREATE")
+    if payload.get("state") != contract["state"] or payload.get("is_shelf") != contract["is_shelf"]:
+        raise ContractMismatchError("create payload state/is_shelf differs from canonical browser CREATE")
+    if not payload.get("sku_info") or not payload.get("spec_name"):
+        raise ContractMismatchError("canonical create requires non-empty sku_info and spec_name")
+    for row in payload["sku_info"]:
+        if list(row) != contract["sku_fields"]:
+            raise ContractMismatchError("create payload SKU field order differs from canonical browser CREATE")
+        if {key: _json_value_type(value) for key, value in row.items()} != contract["sku_field_types"]:
+            raise ContractMismatchError("create payload SKU field types differ from canonical browser CREATE")
+    for row in payload["spec_name"]:
+        if list(row) != contract["spec_fields"]:
+            raise ContractMismatchError("create payload specification field order differs from canonical browser CREATE")
+        if {key: _json_value_type(value) for key, value in row.items()} != contract["spec_field_types"]:
+            raise ContractMismatchError("create payload specification field types differ from canonical browser CREATE")
 
 
 def _utc_now() -> str:
@@ -373,6 +415,7 @@ class ShijiuLiveClient:
 
     def create_product(self, payload: dict[str, Any], *, confirmation: str) -> dict[str, Any]:
         self._require_write_confirmation(confirmation)
+        validate_canonical_create_payload(payload)
         self._record(
             CREATE_PATH,
             "write",
@@ -386,17 +429,11 @@ class ShijiuLiveClient:
             ensure_ascii=False,
             separators=(",", ":"),
         ).encode()
-        headers = {
-            "Accept": "application/json, text/plain, */*",
-            "Content-Type": "application/json;charset=UTF-8",
-            "Origin": "https://shijiu.wfcorp.cn",
-            "Referer": "https://shijiu.wfcorp.cn/",
-            "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.8; Shijiu import)",
-        }
-        if self.cookie:
-            headers["Cookie"] = self.cookie
         request = urllib.request.Request(
-            self._endpoint(CREATE_PATH), data=body, method="POST", headers=headers
+            self._endpoint(CREATE_PATH),
+            data=body,
+            method="POST",
+            headers=self.native_save_headers(),
         )
         with urllib.request.urlopen(request, timeout=max(self.timeout, 120)) as response:
             result = _parse_json_response(response, response.read(), "product create")
@@ -480,6 +517,7 @@ class ShijiuLiveClient:
     ) -> dict[str, Any]:
         if "id" in payload:
             raise LiveImportError("native create payload must not contain an existing product id")
+        validate_canonical_create_payload(payload)
         return self._native_save_product(
             payload,
             confirmation=confirmation,
@@ -663,7 +701,7 @@ def _resolve_payload(item: dict[str, Any], uploaded: dict[str, dict[str, Any]]) 
         return current
 
     payload = replace(copy.deepcopy(item["shijiu_payload_preview"]))
-    payload["state"] = "0"
+    payload["state"] = "1"
     payload["is_shelf"] = 0
     serialized = canonical_json(payload)
     if "SHIJIU_COS_URL" in serialized:
@@ -677,7 +715,7 @@ def _resolve_payload(item: dict[str, Any], uploaded: dict[str, dict[str, Any]]) 
     })
     if "cdn.shopify.com" in formal_images or "mikihouse.co.jp" in formal_images:
         raise LiveImportError(f"official external image leaked into formal payload: {item['product_number']}")
-    if payload.get("good_type") != 294884 or payload.get("state") != "0" or payload.get("is_shelf") != 0:
+    if payload.get("good_type") != 294884 or payload.get("state") != "1" or payload.get("is_shelf") != 0:
         raise LiveImportError("fixed category or off-shelf invariant failed")
     return payload
 
@@ -698,7 +736,7 @@ def validate_product_readback(
     *,
     create_response: dict[str, Any] | None = None,
     list_row: dict[str, Any] | None = None,
-    expected_state: str = "0",
+    expected_state: str = "1",
 ) -> dict[str, Any]:
     _assert_success(detail, "product readback")
     detail_data = detail.get("data") if isinstance(detail.get("data"), dict) else {}
@@ -738,7 +776,6 @@ def validate_product_readback(
         for row in recursively_find_skus(create_response or {})
     }
     sku_results = []
-    missing_sku_ids = []
     for expected in payload["sku_info"]:
         code = str(expected["sku_code"])
         actual = by_code[code]
@@ -756,23 +793,20 @@ def validate_product_readback(
         if str(actual.get("sku_thumbnail") or "").strip() != str(expected["sku_thumbnail"]).strip():
             raise ContractMismatchError(f"SKU image readback mismatch: {code}")
         target_sku_id = _sku_id_from_row(actual) or _sku_id_from_row(create_sku_rows.get(code, {}))
-        if not target_sku_id:
-            missing_sku_ids.append(code)
         sku_results.append({
             "source_variant_sku": code.removeprefix("MIKI-"),
             "backend_sku_code": code,
             "shijiu_sku_id": target_sku_id,
+            "stable_target_identity": {
+                "shijiu_product_id": str(product_id),
+                "backend_sku_code": code,
+            },
             "price_jpy": int(_decimal(expected["sku_price"])),
             "stock": int(_decimal(expected["sku_stock"])),
             "specification": expected["spec_name"],
             "image_url": expected["sku_thumbnail"],
-            "passed": bool(target_sku_id),
+            "passed": True,
         })
-    if missing_sku_ids:
-        raise ContractMismatchError(
-            "Shijiu create/detail responses expose no durable SKU ID for: "
-            + ", ".join(missing_sku_ids[:10])
-        )
     actual_state = _first_observation(detail, ("state",))
     actual_is_shelf = _first_observation(detail, ("is_shelf",))
     if list_row:
@@ -832,7 +866,9 @@ def persist_verified_mapping(
             raise DuplicateRiskError(f"attempt to replace existing Shijiu SKU mapping: {sku}")
         variant.update({
             "shijiu_sku_id": sku_result["shijiu_sku_id"],
-            "match_method": "post_create_detail_readback",
+            "target_product_id": readback["shijiu_product_id"],
+            "backend_sku_code_verified": True,
+            "match_method": "post_create_product_id_and_backend_sku_code_readback",
             "last_verified_at": verified_at,
         })
     state["updated_at"] = now()

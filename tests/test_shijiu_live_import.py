@@ -108,7 +108,7 @@ def detail_for(payload: dict, *, sku_id: str | None = "88001") -> dict:
             "id": "99001",
             "good_name": payload["good_name"],
             "good_type": 294884,
-            "state": 0,
+            "state": 1,
             "is_shelf": 0,
             "master_graph": payload["master_graph"],
             "broadcast": payload["broadcast"],
@@ -162,7 +162,7 @@ def mapping_state(items: list[dict]) -> dict:
 def test_resolved_payload_uses_only_cos_urls_and_is_off_shelf() -> None:
     item = mapped_item()
     payload = _resolve_payload(item, uploaded(item))
-    assert payload["state"] == "0"
+    assert payload["state"] == "1"
     assert payload["is_shelf"] == 0
     assert payload["good_type"] == 294884
     assert "cdn.shopify.com" not in json.dumps(payload)
@@ -170,7 +170,7 @@ def test_resolved_payload_uses_only_cos_urls_and_is_off_shelf() -> None:
     assert payload["master_graph"] == "https://cos.example.com/miki.jpg"
 
 
-def test_readback_requires_real_product_and_sku_ids() -> None:
+def test_readback_uses_product_id_and_exact_backend_sku_code_with_nullable_sku_id() -> None:
     item = mapped_item()
     payload = _resolve_payload(item, uploaded(item))
     valid = validate_product_readback(
@@ -178,19 +178,24 @@ def test_readback_requires_real_product_and_sku_ids() -> None:
         payload,
         "99001",
         detail_for(payload),
-        list_row={"id": "99001", "state": 0, "is_shelf": 0},
+        list_row={"id": "99001", "state": 1, "is_shelf": 0},
     )
     assert valid["passed"] is True
     assert valid["shijiu_product_id"] == "99001"
     assert valid["skus"][0]["shijiu_sku_id"] == "88001"
-    with pytest.raises(ContractMismatchError, match="no durable SKU ID"):
-        validate_product_readback(
-            item,
-            payload,
-            "99001",
-            detail_for(payload, sku_id=None),
-            list_row={"id": "99001", "state": 0, "is_shelf": 0},
-        )
+    without_sku_id = validate_product_readback(
+        item,
+        payload,
+        "99001",
+        detail_for(payload, sku_id=None),
+        list_row={"id": "99001", "state": 1, "is_shelf": 0},
+    )
+    assert without_sku_id["passed"] is True
+    assert without_sku_id["skus"][0]["shijiu_sku_id"] is None
+    assert without_sku_id["skus"][0]["stable_target_identity"] == {
+        "shijiu_product_id": "99001",
+        "backend_sku_code": backend_sku_code("sku-1"),
+    }
 
 
 def test_checkpoint_has_no_legacy_or_cleanup_actions() -> None:
@@ -230,7 +235,7 @@ class FakeClient:
             "code": 1,
             "msg": "查询成功",
             "count": 1 if self.created else 0,
-            "data": ([{"id": "99001", "state": 0, "is_shelf": 0}] if self.created else []),
+            "data": ([{"id": "99001", "state": 1, "is_shelf": 0}] if self.created else []),
         }
 
     def upload_image(self, source_url, *, confirmation):
@@ -240,7 +245,7 @@ class FakeClient:
 
     def create_product(self, payload, *, confirmation):
         assert confirmation == LIVE_WRITE_CONFIRMATION
-        assert payload["state"] == "0" and payload["is_shelf"] == 0
+        assert payload["state"] == "1" and payload["is_shelf"] == 0
         self._record("/shopapi/Goods/newAddGood", "write")
         self.created = True
         self.payload = copy.deepcopy(payload)
@@ -291,18 +296,22 @@ def test_runner_persists_verified_mapping_and_is_idempotent(tmp_path: Path) -> N
     assert json.loads(report_path.read_text())["legacy_cleanup_executed"] is False
 
 
-def test_runner_stops_after_first_readback_contract_mismatch(tmp_path: Path) -> None:
+def test_runner_accepts_nullable_sku_id_after_exact_code_readback(tmp_path: Path) -> None:
     runner, client, mapping_path, checkpoint_path, report_path = run_one(
         tmp_path, sku_id=None
     )
-    with pytest.raises(ContractMismatchError, match="no durable SKU ID"):
-        runner.run()
+    report = runner.run()
     checkpoint = json.loads(checkpoint_path.read_text())
     report = json.loads(report_path.read_text())
     mapping = json.loads(mapping_path.read_text())
-    assert checkpoint["status"] == "STOPPED_ON_FIRST_ERROR"
+    assert checkpoint["status"] == "COMPLETED"
     assert checkpoint["records"]["20-0001-001"]["shijiu_product_id"] == "99001"
-    assert mapping["products"]["20-0001-001"]["shijiu_product_id"] is None
+    assert mapping["products"]["20-0001-001"]["shijiu_product_id"] == "99001"
+    variant = mapping["products"]["20-0001-001"]["variants"]["sku-1"]
+    assert variant["shijiu_sku_id"] is None
+    assert variant["target_product_id"] == "99001"
+    assert variant["backend_sku_code_verified"] is True
+    assert report["verified_product_count"] == 1
     assert report["request_counts"]["product_create"] == 1
     assert report["legacy_reference_touched"] is False
     assert client.write_request_count == 2

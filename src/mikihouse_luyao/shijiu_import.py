@@ -513,7 +513,6 @@ def map_product_to_shijiu(
             "sku_code": backend_sku_code(sku),
             "sku_cost_price": _money(variant["tax_included_price_jpy"]),
             "sku_thumbnail": "",
-            "weight": "",
         }
         for field in MEMBER_LEVEL_FIELDS:
             row[field] = _money(price)
@@ -903,6 +902,8 @@ def load_mapping_state(path: Path) -> dict[str, Any]:
                 "source_product_id": "MIKIHOUSE:<product_number>",
                 "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
                 "backend_sku_code": "MIKI-<variant SKU>",
+                "target_variant_identity": "shijiu_product_id + exact backend_sku_code",
+                "shijiu_sku_id": "nullable; never guessed when official readback omits it",
                 "product_match": "persisted post-create/readback mapping only",
                 "product_name_matching": "forbidden",
                 "legacy_reference_binding": "forbidden",
@@ -972,6 +973,8 @@ def reconcile_mapping_state(
         "source_product_id": "MIKIHOUSE:<product_number>",
         "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
         "backend_sku_code": "MIKI-<variant SKU>",
+        "target_variant_identity": "shijiu_product_id + exact backend_sku_code",
+        "shijiu_sku_id": "nullable; never guessed when official readback omits it",
         "product_match": "persisted post-create/readback mapping only",
         "product_name_matching": "forbidden",
         "legacy_reference_binding": "forbidden",
@@ -1005,6 +1008,8 @@ def reconcile_mapping_state(
                 "source_present": True,
             })
             variant_mapping.setdefault("shijiu_sku_id", None)
+            variant_mapping.setdefault("target_product_id", None)
+            variant_mapping.setdefault("backend_sku_code_verified", False)
             variant_mapping.setdefault("last_verified_at", None)
     result["updated_at"] = now()
     return result
@@ -1022,9 +1027,17 @@ def mapping_summary(mapping_state: dict[str, Any]) -> dict[str, Any]:
         "product_rows": len(products),
         "variant_rows": len(variants),
         "bound_product_rows": sum(item.get("shijiu_product_id") not in (None, "") for item in products),
-        "bound_variant_rows": sum(item.get("shijiu_sku_id") not in (None, "") for item in variants),
+        "bound_variant_rows": sum(
+            item.get("target_product_id") not in (None, "")
+            and item.get("backend_sku_code_verified") is True
+            for item in variants
+        ),
         "unbound_product_rows": sum(item.get("shijiu_product_id") in (None, "") for item in products),
-        "unbound_variant_rows": sum(item.get("shijiu_sku_id") in (None, "") for item in variants),
+        "unbound_variant_rows": sum(
+            item.get("target_product_id") in (None, "")
+            or item.get("backend_sku_code_verified") is not True
+            for item in variants
+        ),
         "product_name_matching": "forbidden",
     }
 

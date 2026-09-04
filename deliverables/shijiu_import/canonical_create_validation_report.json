@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T05:11:30.074506+00:00",
+  "mode": "SINGLE_CANONICAL_CREATE_VALIDATION",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "status": "STOPPED_ON_FIRST_ERROR",
+  "product_number": "36-2001-572",
+  "source_product_id": "MIKIHOUSE:36-2001-572",
+  "shijiu_product_id": null,
+  "target_category_id": 294884,
+  "default_visibility": "OFF_SHELF_IS_SHELF_0",
+  "canonical_contract_verified_before_write": true,
+  "create_request_budget": 1,
+  "create_attempts": 1,
+  "create_request_count": 1,
+  "image_upload_count": 1,
+  "read_request_count": 21,
+  "mapping_persisted": false,
+  "create_response": {
+    "code": 200,
+    "msg": "success",
+    "data_shape": "empty_list",
+    "product_id_exposed": false
+  },
+  "exact_backend_sku_codes": [
+    "MIKI-36-2001-57200039999"
+  ],
+  "exact_backend_sku_match_count": 0,
+  "variant_identity_policy": "shijiu_product_id + exact backend_sku_code",
+  "shijiu_sku_id_policy": "nullable; never guessed",
+  "verified_variants": [],
+  "price_source": "mini_program_price_jpy",
+  "currency": "JPY",
+  "currency_conversion_applied": false,
+  "pdf_special_exclusion_count": 351,
+  "pdf_special_product_selected": false,
+  "legacy_reference_touched": false,
+  "legacy_cleanup_executed": false,
+  "batch_continuation": "STOP_AFTER_THIS_PRODUCT",
+  "additional_product_create_requests_allowed": false,
+  "error": {
+    "type": "ContractMismatchError",
+    "message": "exact backend SKU readback returned 0 product matches",
+    "at": "2026-09-04T05:11:30.071588+00:00"
+  },
+  "sensitive_values_included": false
+}

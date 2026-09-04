@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/shijiu_browser_exact_capture.mjs"
 REPORT = ROOT / "deliverables/shijiu_import/browser_exact_capture_readiness.json"
 ANALYSIS = ROOT / "deliverables/shijiu_import/browser_exact_capture_analysis.json"
+CONTRACT = ROOT / "config/shijiu_native_create_contract.json"
 
 
 @pytest.mark.skipif(shutil.which("node") is None, reason="Node.js is not installed")
@@ -68,6 +69,8 @@ def test_capture_source_uses_complete_headers_cdp_and_mikihouse_guard() -> None:
     assert 'context.on("page"' in source
     assert "context.pages().map" in source
     assert "await context.route" in source
+    assert 'process.env.SHIJIU_BROWSER_START_URL || ""' in source
+    assert "page.url() !== startUrl" in source
     assert "/shopapi/Goods/index" in source
     assert "/shopapi/goods/getFormatInfo" in source
     assert 'args.mode === "readback"' in source
@@ -79,19 +82,24 @@ def test_capture_source_uses_complete_headers_cdp_and_mikihouse_guard() -> None:
     assert "PENDING_READ_ONLY_RESUME" in source
     assert 'args.mode === "ui-readback"' in source
     assert '"NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME"' in source
+    assert '"NATIVE_UI_GOODS_INDEX_EXACT_CREATE_NAME"' in source
+    assert "sku_code_verified" in source
+    assert "resolvedProductId" in source
+    assert 'good_name: expectedName' in source
+    assert 'state: "LIST_SEARCH_COMPLETED"' in source
     assert ".click(" not in source
     assert ".fill(" not in source
 
 
 def test_checked_in_browser_exact_report_is_verified_and_sanitized() -> None:
     report = json.loads(REPORT.read_text(encoding="utf-8"))
-    assert report["state"] == "BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED"
+    assert report["state"] == "BROWSER_EXACT_CAPTURE_VERIFIED"
     assert report["readiness"]["playwright"]["available"] is True
     assert report["readiness"]["cdp"]["available"] is False
     assert report["readiness"]["existing_chrome_attachable"] is False
     assert report["readiness"]["chrome_extension_status"] == "missing"
     assert report["current_capture"]["readback"]["product_id"]
-    assert report["current_capture"]["operation_kind"] == "EDIT"
+    assert report["current_capture"]["operation_kind"] == "CREATE"
     assert report["current_capture"]["auth_context"]["query_body_token_equal"] is True
     assert report["current_capture"]["auth_context"]["values_included"] is False
     assert report["current_capture"]["readback"]["sku_ids"] == []
@@ -99,13 +107,12 @@ def test_checked_in_browser_exact_report_is_verified_and_sanitized() -> None:
     assert report["current_capture"]["readback"]["get_format_info_product_verified"] is True
     assert report["current_capture"]["readback"]["sku_structure_verified"] is True
     assert report["current_capture"]["readback"]["sku_id_exposed"] is False
-    assert report["current_capture"]["readback"]["get_format_info_verified"] is False
-    assert report["conclusion"]["missing_cookie_as_root_cause"] == "RULED_OUT_BY_PERSISTED_NATIVE_EDIT"
-    assert report["conclusion"]["create_contract_captured"] is False
+    assert report["current_capture"]["readback"]["get_format_info_verified"] is True
+    assert report["conclusion"]["create_contract_captured"] is True
     assert report["safety"]["mikihouse_product_write_requests"] == 0
     assert report["safety"]["automatic_test_product_write_requests"] == 0
     assert report["safety"]["captured_human_test_product_write_requests"] == 1
-    assert report["safety"]["read_only_requests"] == 2
+    assert report["safety"]["read_only_requests"] == 3
     assert report["safety"]["token_values_included"] is False
     assert report["safety"]["secret_values_included"] is False
     assert report["safety"]["cookie_values_included"] is False
@@ -123,16 +130,39 @@ def test_checked_in_browser_exact_report_is_verified_and_sanitized() -> None:
 
 def test_browser_exact_analysis_preserves_evidence_boundary() -> None:
     report = json.loads(ANALYSIS.read_text(encoding="utf-8"))
-    assert report["state"] == "BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED"
+    assert report["state"] == "BROWSER_EXACT_CREATE_VERIFIED"
     assert report["authentication_and_tenant_evidence"]["cookie_present"] is False
     assert report["authentication_and_tenant_evidence"]["query_body_token_equal"] is True
-    assert report["readback"]["product_id"] == "9357918"
+    assert report["readback"]["product_id"] == "9358232"
     assert report["readback"]["sku_structure_verified"] is True
     assert report["readback"]["sku_id_exposed"] is False
     assert report["readback"]["sku_id_policy"] == "KEEP_NULL_DO_NOT_GUESS"
-    assert report["evidence_boundary"]["current_request_is_edit_not_create"] is True
-    assert report["evidence_boundary"]["create_silent_rejection_root_cause_proven"] is False
+    assert report["capture"]["operation_kind"] == "CREATE"
+    assert report["capture"]["create_contract_captured"] is True
+    assert report["readback"]["sku_code_verified"] is True
     assert report["safety"]["mikihouse_product_write_requests"] == 0
     assert report["safety"]["automatic_product_write_requests"] == 0
     assert report["safety"]["token_values_included"] is False
     assert report["safety"]["secret_values_included"] is False
+
+
+def test_canonical_contract_exactly_matches_verified_browser_create_shape() -> None:
+    report = json.loads(REPORT.read_text(encoding="utf-8"))
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    request = report["current_capture"]["request"]
+    assert contract["browser_exact_private_evidence_sha256"] == report["current_capture"][
+        "private_evidence_sha256"
+    ]
+    assert contract["header_names"] == request["headers"]["names"]
+    assert contract["content_type"] == request["content_type"]
+    assert contract["query_parameter_names"] == request["url"]["query_parameter_names"]
+    assert contract["body_auth_key_order"] + contract["product_fields"] == request["body"][
+        "field_names_in_order"
+    ]
+    assert contract["product_field_types"] == {
+        key: value
+        for key, value in request["body"]["field_types"].items()
+        if key not in {"secret", "token"}
+    }
+    assert contract["sku_field_types"] == request["body"]["sku_field_types"]
+    assert contract["spec_field_types"] == request["body"]["specification_field_types"]

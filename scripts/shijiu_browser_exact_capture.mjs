@@ -46,6 +46,7 @@ function parseArgs(argv) {
     currentMikiDiff: DEFAULT_MIKI_DIFF,
     timeoutMs: 15 * 60 * 1000,
     chromeExtensionStatus: "unknown",
+    startUrl: process.env.SHIJIU_BROWSER_START_URL || "",
   };
   for (let index = 0; index < argv.length; index += 1) {
     const key = argv[index];
@@ -398,6 +399,7 @@ function sanitizeExactCapture(raw) {
       read_only_request_count: Number(raw.readback?.read_only_request_count || 0),
       get_format_info_product_verified: Boolean(raw.readback?.get_format_info_product_verified),
       sku_structure_verified: Boolean(raw.readback?.sku_structure_verified),
+      sku_code_verified: Boolean(raw.readback?.sku_code_verified),
       sku_id_exposed: Boolean(raw.readback?.sku_id_exposed),
       get_format_info_verified: Boolean(raw.readback?.get_format_info_verified),
     },
@@ -621,7 +623,10 @@ async function selectPage(context, startUrl) {
   const pages = context.pages();
   let page = pages.find((candidate) => candidate.url().includes("shijiu.wfcorp.cn"));
   if (!page) page = pages[0] || await context.newPage();
-  if (startUrl && !page.url().includes("shijiu.wfcorp.cn")) await page.goto(startUrl);
+  // A persistent profile can reopen a stale Shijiu tab. An explicitly supplied
+  // private login URL must therefore win even when that tab is already on the
+  // same host. The value is runtime-only and is never included in Git reports.
+  if (startUrl && page.url() !== startUrl) await page.goto(startUrl);
   await page.bringToFront();
   return page;
 }
@@ -793,8 +798,11 @@ async function resumeUiReadback(args, playwright) {
   const expectedProductId = String(payload.id || "");
   const expectedName = String(payload.good_name || "");
   const expectedSkuCount = Array.isArray(payload.sku_info) ? payload.sku_info.length : 0;
-  if (!expectedProductId || !expectedName || expectedSkuCount < 1) {
-    throw new Error("UI readback requires captured edit id, good_name, and sku_info");
+  const expectedSkuCodes = Array.isArray(payload.sku_info)
+    ? payload.sku_info.map((row) => String(row?.sku_code || ""))
+    : [];
+  if (!expectedName || expectedSkuCount < 1) {
+    throw new Error("UI readback requires captured good_name and sku_info");
   }
   const context = await playwright.chromium.launchPersistentContext(
     path.join(privateDir, "chrome-profile"),
@@ -815,24 +823,22 @@ async function resumeUiReadback(args, playwright) {
     const listRequest = listResponse.request();
     const listBodyText = await listResponse.text();
     const listJson = JSON.parse(listBodyText);
-    const matchingRows = responseRows(listJson).filter((row) => (
-      String(row?.id ?? row?.good_id ?? row?.goods_id ?? "") === expectedProductId
-      && String(row?.good_name ?? row?.goods_name ?? row?.name ?? "") === expectedName
-    ));
-    if (matchingRows.length !== 1) {
-      throw new Error(`native UI Goods.index returned ${matchingRows.length} exact captured product matches`);
-    }
     const listForm = Object.fromEntries(new URLSearchParams(listRequest.postData() || ""));
-    const token = String(listForm.token || payload.token || "");
-    const secret = String(listForm.secret || payload.secret || "");
-    const urlTokenMatch = listRequest.url().match(/[?&]token=([^&#]+)/);
-    const queryToken = urlTokenMatch ? decodeURIComponent(urlTokenMatch[1]) : token;
-    const prefix = listRequest.url().split("/shopapi/")[0];
-    const detailUrl = `${prefix}/shopapi/goods/getFormatInfo&token=${encodeURIComponent(queryToken)}`;
-    const detailForm = { secret, token, id: expectedProductId };
+    const searchForm = {
+      ...listForm,
+      page: "1",
+      page_size: "100",
+      good_name: expectedName,
+    };
+    const searchResult = await postReadOnlyForm(listRequest.url(), searchForm);
+    const matchingRows = responseRows(searchResult.json).filter((row) => {
+      const rowProductId = String(row?.id ?? row?.good_id ?? row?.goods_id ?? "");
+      const rowName = String(row?.good_name ?? row?.goods_name ?? row?.name ?? "");
+      return rowName === expectedName && (!expectedProductId || rowProductId === expectedProductId);
+    });
     raw.ui_readback = {
       captured_at: new Date().toISOString(),
-      state: "LIST_VERIFIED_DETAIL_PENDING",
+      state: "LIST_SEARCH_COMPLETED",
       list_request: {
         method: listRequest.method(),
         url: listRequest.url(),
@@ -844,17 +850,49 @@ async function resumeUiReadback(args, playwright) {
         headers: await listResponse.allHeaders(),
         body_text: listBodyText,
       },
+      search_request: {
+        method: "POST",
+        url: listRequest.url(),
+        post_data: new URLSearchParams(searchForm).toString(),
+      },
+      search_response: {
+        status: searchResult.status,
+        headers: searchResult.headers,
+        body_text: searchResult.body_text,
+      },
+    };
+    writeJsonSecure(rawPath, raw);
+    if (matchingRows.length !== 1) {
+      throw new Error(`native UI Goods.index returned ${matchingRows.length} exact captured product matches`);
+    }
+    const resolvedProductId = String(
+      matchingRows[0]?.id ?? matchingRows[0]?.good_id ?? matchingRows[0]?.goods_id ?? "",
+    );
+    if (!resolvedProductId) throw new Error("native UI Goods.index exact match has no product id");
+    const listMatchMethod = expectedProductId
+      ? "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME"
+      : "NATIVE_UI_GOODS_INDEX_EXACT_CREATE_NAME";
+    const token = String(listForm.token || payload.token || "");
+    const secret = String(listForm.secret || payload.secret || "");
+    const urlTokenMatch = listRequest.url().match(/[?&]token=([^&#]+)/);
+    const queryToken = urlTokenMatch ? decodeURIComponent(urlTokenMatch[1]) : token;
+    const prefix = listRequest.url().split("/shopapi/")[0];
+    const detailUrl = `${prefix}/shopapi/goods/getFormatInfo&token=${encodeURIComponent(queryToken)}`;
+    const detailForm = { secret, token, id: resolvedProductId };
+    raw.ui_readback = {
+      ...raw.ui_readback,
+      state: "LIST_VERIFIED_DETAIL_PENDING",
     };
     raw.readback = {
       state: "LIST_VERIFIED_DETAIL_PENDING",
       goods_index_unique: true,
-      product_id: expectedProductId,
+      product_id: resolvedProductId,
       sku_ids: [],
       expected_sku_count: expectedSkuCount,
       list_name_verified: true,
-      list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+      list_match_method: listMatchMethod,
       list_pages_scanned: 1,
-      read_only_request_count: 1,
+      read_only_request_count: 2,
       get_format_info_verified: false,
     };
     writeJsonSecure(rawPath, raw);
@@ -883,20 +921,28 @@ async function resumeUiReadback(args, playwright) {
     };
     const detailProductVerified = String(detailJson?.data?.good_name || "") === expectedName;
     const detailSkuRows = Array.isArray(detailJson?.data?.sku_info) ? detailJson.data.sku_info : [];
+    const detailSkuCodes = detailSkuRows.map((row) => String(row?.sku_code || ""));
+    const skuCodeVerified = JSON.stringify(detailSkuCodes) === JSON.stringify(expectedSkuCodes);
     raw.readback = {
       state: "COMPLETED",
       goods_index_unique: true,
-      product_id: expectedProductId,
+      product_id: resolvedProductId,
       sku_ids: skuIds,
+      sku_codes: detailSkuCodes,
       expected_sku_count: expectedSkuCount,
       list_name_verified: true,
-      list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+      list_match_method: listMatchMethod,
       list_pages_scanned: 1,
-      read_only_request_count: 2,
+      read_only_request_count: 3,
       get_format_info_product_verified: detailProductVerified,
       sku_structure_verified: detailSkuRows.length === expectedSkuCount,
+      sku_code_verified: skuCodeVerified,
       sku_id_exposed: skuIds.length > 0,
-      get_format_info_verified: detailProductVerified && skuIds.length === expectedSkuCount,
+      get_format_info_verified: (
+        detailProductVerified
+        && detailSkuRows.length === expectedSkuCount
+        && skuCodeVerified
+      ),
     };
     writeJsonSecure(rawPath, raw);
     const privateFileSha256 = sha256(fs.readFileSync(rawPath));
@@ -912,32 +958,53 @@ function finalizeStoredUiEvidence(args) {
   const rawPath = latestPrivateCapture(privateDir);
   const raw = readJson(rawPath);
   const payload = JSON.parse(raw.playwright_request?.post_data || "{}");
-  const listJson = JSON.parse(raw.ui_readback?.list_response?.body_text || "null");
+  const listJson = JSON.parse(
+    raw.ui_readback?.search_response?.body_text
+    || raw.ui_readback?.list_response?.body_text
+    || "null",
+  );
   const detailJson = JSON.parse(raw.ui_readback?.detail_response?.body_text || "null");
   const expectedProductId = String(payload.id || "");
   const expectedName = String(payload.good_name || "");
   const expectedSkuCount = Array.isArray(payload.sku_info) ? payload.sku_info.length : 0;
-  const matchingRows = responseRows(listJson).filter((row) => (
-    String(row?.id ?? row?.good_id ?? row?.goods_id ?? "") === expectedProductId
-    && String(row?.good_name ?? row?.goods_name ?? row?.name ?? "") === expectedName
-  ));
+  const expectedSkuCodes = Array.isArray(payload.sku_info)
+    ? payload.sku_info.map((row) => String(row?.sku_code || ""))
+    : [];
+  const matchingRows = responseRows(listJson).filter((row) => {
+    const rowProductId = String(row?.id ?? row?.good_id ?? row?.goods_id ?? "");
+    const rowName = String(row?.good_name ?? row?.goods_name ?? row?.name ?? "");
+    return rowName === expectedName && (!expectedProductId || rowProductId === expectedProductId);
+  });
+  const resolvedProductId = matchingRows.length === 1
+    ? String(matchingRows[0]?.id ?? matchingRows[0]?.good_id ?? matchingRows[0]?.goods_id ?? "")
+    : "";
   const skuIds = collectSkuIds(detailJson, String(payload.sku_info?.[0]?.sku_code || ""));
   const detailSkuRows = Array.isArray(detailJson?.data?.sku_info) ? detailJson.data.sku_info : [];
+  const detailSkuCodes = detailSkuRows.map((row) => String(row?.sku_code || ""));
+  const skuCodeVerified = JSON.stringify(detailSkuCodes) === JSON.stringify(expectedSkuCodes);
   const detailProductVerified = String(detailJson?.data?.good_name || "") === expectedName;
   raw.readback = {
     state: "COMPLETED",
     goods_index_unique: matchingRows.length === 1,
-    product_id: matchingRows.length === 1 ? expectedProductId : null,
+    product_id: resolvedProductId || null,
     sku_ids: skuIds,
+    sku_codes: detailSkuCodes,
     expected_sku_count: expectedSkuCount,
     list_name_verified: matchingRows.length === 1,
-    list_match_method: "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME",
+    list_match_method: expectedProductId
+      ? "NATIVE_UI_GOODS_INDEX_CAPTURED_EDIT_ID_AND_NAME"
+      : "NATIVE_UI_GOODS_INDEX_EXACT_CREATE_NAME",
     list_pages_scanned: 1,
-    read_only_request_count: 2,
+    read_only_request_count: raw.ui_readback?.search_response ? 3 : 2,
     get_format_info_product_verified: detailProductVerified,
     sku_structure_verified: detailSkuRows.length === expectedSkuCount,
+    sku_code_verified: skuCodeVerified,
     sku_id_exposed: skuIds.length > 0,
-    get_format_info_verified: detailProductVerified && skuIds.length === expectedSkuCount,
+    get_format_info_verified: (
+      detailProductVerified
+      && detailSkuRows.length === expectedSkuCount
+      && skuCodeVerified
+    ),
   };
   writeJsonSecure(rawPath, raw);
   const privateFileSha256 = sha256(fs.readFileSync(rawPath));

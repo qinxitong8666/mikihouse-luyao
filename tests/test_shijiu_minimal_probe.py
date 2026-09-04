@@ -329,7 +329,7 @@ def test_native_request_preview_matches_audited_transport() -> None:
     assert preview["serialization"]["ensure_ascii"] is False
     assert preview["serialization"]["separators"] == [",", ":"]
     assert preview["serialization"]["body_auth_key_order"] == ["secret", "token"]
-    assert "origin" not in preview["headers"]
+    assert preview["headers"]["origin"] == "https://shijiu.wfcorp.cn"
     assert "sec-ch-ua" in preview["headers"]
 
 

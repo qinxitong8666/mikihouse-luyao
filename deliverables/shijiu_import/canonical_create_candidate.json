@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "selection": {
+    "selection_policy": "active + currently sellable + positive verified 65%-JPY price + exactly one variant + official image + unbound mapping; then fewest ordered images, fewest product images, product_number",
+    "candidate_count": 617,
+    "rejected_counts": {
+      "previously_tested_product": 2,
+      "forbidden_or_missing_product_number": 1,
+      "not_single_variant": 1947,
+      "missing_official_image": 7,
+      "non_positive_price": 20,
+      "variant_not_currently_sellable": 260
+    },
+    "selected_product_number": "36-2001-572",
+    "selected_score": [
+      1,
+      1,
+      "36-2001-572"
+    ],
+    "top_candidates": [
+      {
+        "product_number": "36-2001-572",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2001-572"
+        ]
+      },
+      {
+        "product_number": "36-2002-575",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2002-575"
+        ]
+      },
+      {
+        "product_number": "45-6082-797",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "45-6082-797"
+        ]
+      },
+      {
+        "product_number": "46-7160-680",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-7160-680"
+        ]
+      },
+      {
+        "product_number": "46-8387-686",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-8387-686"
+        ]
+      },
+      {
+        "product_number": "99-9999-000",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "99-9999-000"
+        ]
+      },
+      {
+        "product_number": "15-4066-679",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "15-4066-679"
+        ]
+      },
+      {
+        "product_number": "16-2190-689",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2190-689"
+        ]
+      },
+      {
+        "product_number": "16-2191-682",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2191-682"
+        ]
+      },
+      {
+        "product_number": "16-2194-148",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2194-148"
+        ]
+      }
+    ]
+  },
+  "product_number": "36-2001-572",
+  "source_product_id": "MIKIHOUSE:36-2001-572",
+  "backend_sku_codes": [
+    "MIKI-36-2001-57200039999"
+  ],
+  "variant_count": 1,
+  "image_count": 1,
+  "fixed_target_category_id": 294884,
+  "pdf_special_excluded": false,
+  "previously_tested": false,
+  "source_verification": {
+    "passed": true,
+    "product_number": "36-2001-572",
+    "source_url": "https://www.mikihouse.co.jp/products/36-2001-572",
+    "variant_sku": "36-2001-57200039999",
+    "tax_included_price_jpy": 2200,
+    "mini_program_price_jpy": 1430,
+    "available_for_sale": true,
+    "currency": "JPY",
+    "currency_conversion_applied": false
+  },
+  "write_executed": true,
+  "result": "STOPPED_ON_FIRST_ERROR",
+  "shijiu_product_id": null
+}

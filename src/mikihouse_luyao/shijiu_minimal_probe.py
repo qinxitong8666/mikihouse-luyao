@@ -82,9 +82,12 @@ def select_minimal_probe_candidate(
     master: dict[str, Any],
     special: set[str],
     mapping: dict[str, Any],
+    *,
+    previously_tested: set[str] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     candidates = []
     rejected_counts: dict[str, int] = {}
+    tested = set(previously_tested or ())
 
     def reject(reason: str) -> None:
         rejected_counts[reason] = rejected_counts.get(reason, 0) + 1
@@ -97,6 +100,8 @@ def select_minimal_probe_candidate(
         reasons = []
         if not number or number == FORBIDDEN_RECOVERY_PRODUCT:
             reasons.append("forbidden_or_missing_product_number")
+        if number in tested:
+            reasons.append("previously_tested_product")
         if number in special:
             reasons.append(PDF_SPECIAL_EXCLUDED_REASON)
         if not product.get("active"):
@@ -198,7 +203,6 @@ def build_minimal_payload(
                     "sku_code": variant["backend_sku_code"],
                     "sku_cost_price": price_text,
                     "sku_thumbnail": image_placeholder,
-                    "weight": "1.00",
                     "first_level": price_text,
                     "second_level": price_text,
                     "third_level": price_text,

@@ -6,6 +6,8 @@
     "source_product_id": "MIKIHOUSE:<product_number>",
     "source_variant_id": "MIKIHOUSE:<product_number>:<variant SKU>",
     "backend_sku_code": "MIKI-<variant SKU>",
+    "target_variant_identity": "shijiu_product_id + exact backend_sku_code",
+    "shijiu_sku_id": "nullable; never guessed when official readback omits it",
     "product_match": "persisted post-create/readback mapping only",
     "product_name_matching": "forbidden",
     "legacy_reference_binding": "forbidden"

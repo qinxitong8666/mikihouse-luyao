@@ -26,6 +26,7 @@ from mikihouse_luyao.shijiu_import import (
     source_variant_id,
     validate_live_mikihouse_category,
 )
+from mikihouse_luyao.shijiu_live_import import validate_canonical_create_payload
 
 
 CATEGORY = {
@@ -119,6 +120,8 @@ def test_mapper_copies_existing_jpy_price_and_all_variant_fields() -> None:
     assert mapped["payload_ready_for_write"] is False
     assert source["color"] == "赤" and source["size"] == "12.5cm"
     assert source["stock_source"] == "storefront_availableForSale_boolean"
+    assert "weight" not in sku
+    validate_canonical_create_payload(mapped["shijiu_payload_preview"])
 
 
 def test_missing_image_is_unpublishable_and_skipped() -> None:
@@ -296,7 +299,12 @@ def test_mapping_state_creates_isolated_rows_for_every_mikihouse_identity(tmp_pa
     assert row["shijiu_product_id"] is None
     assert row["variants"]["sku-1"]["source_variant_id"] == "MIKIHOUSE:20-0001-001:sku-1"
     assert row["variants"]["sku-1"]["shijiu_sku_id"] is None
+    assert row["variants"]["sku-1"]["target_product_id"] is None
+    assert row["variants"]["sku-1"]["backend_sku_code_verified"] is False
     assert state["identity_contract"]["product_name_matching"] == "forbidden"
+    assert state["identity_contract"]["target_variant_identity"] == (
+        "shijiu_product_id + exact backend_sku_code"
+    )
 
 
 def test_cross_provider_mapping_is_rejected(tmp_path: Path) -> None:

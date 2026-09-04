@@ -236,7 +236,7 @@ MIKI HOUSE 是与 WAWU 平级且隔离的独立 provider，source 固定为 `MIK
 - `source_variant_id = MIKIHOUSE:<product_number>:<variant SKU>`；
 - 目标端 `sku_code = MIKI-<variant SKU>`。
 
-持久映射表为 `state/shijiu_mappings.json`，为每个新 product number 和 variant SKU 建立独立行；尚未完成未来“创建后回读”的 Shijiu `product_id`/`sku_id` 保持 `null`，不得猜测。目标商品 ID 只允许来自以后另行授权的新建成功回读，商品名匹配和对旧商品做 SKU reconciliation 均被明确禁止。
+持久映射表为 `state/shijiu_mappings.json`，为每个新 product number 和 variant SKU 建立独立行。目标 variant 的稳定身份固定为 `shijiu_product_id + 精确 backend_sku_code`；官方 `getFormatInfo` 当前不提供独立 `sku_id`，因此 `shijiu_sku_id` 允许永久保持 `null`，不得猜测。目标商品 ID 只允许来自另行授权的新建成功回读，商品名匹配和对旧商品做 SKU reconciliation 均被明确禁止。
 
 只读分类树确认 Shijiu 已有子类目 `MikiHouse`（ID `294884`，父类目 `母婴用品` ID `288338`）。所有可发布 MIKIHOUSE 商品固定使用 `good_type=294884`，不得按官网品牌或分类散落到其他 Shijiu 类目。官网 `brand`、`productType`、`category`、`tags` 只保存在 source metadata；由于没有已验证的 Shijiu 品牌 discovery 契约，`brand_id` 和 `supplier` 保持空值。
 
@@ -257,9 +257,9 @@ dry-run payload 本身仍不可执行：官网图片 URL 只保留在 `source_co
 - 在任何目标请求前重新校验 351 个 `PDF_SPECIAL_LIST` 排除项，命中即失败；
 - 固定 `source=MIKIHOUSE`、`good_type=294884`，不读取、绑定、更新或下架 legacy 286；
 - 每件商品先逐图上传 `/v1/cos/upload`，所有占位引用替换为 Shijiu/COS HTTPS URL 后才创建；
-- 首次批次执行器强制 `state=0`、`is_shelf=0`；受控恢复则严格采用已审计原生样例的 `state=1`、`is_shelf=0`，两者都不改变“默认下架/不可见”业务要求；
+- 新 canonical writer 固定采用 browser-exact 已验证的 `state=1`、`is_shelf=0`；`is_shelf=0` 是下架/不可见控制，不再使用失败首轮的 `state=0`；
 - 每个上传和创建请求前写 checkpoint；已完成上传可以恢复，结果不明的上传或创建禁止自动重试；
-- 创建后必须回读并验证商品 ID、SKU ID、类目、价格、库存、规格、主图、轮播和详情；验证通过后才原子更新 `state/shijiu_mappings.json`；
+- 创建后必须回读并验证商品 ID、精确后台 SKU 编码、类目、价格、库存、规格、主图、轮播和详情；验证通过后才原子更新 `state/shijiu_mappings.json`，独立 SKU ID 不存在时保持 `null`；
 - 首个传输、字段或回读偏差立即停止整个批次，后续商品不会写入。
 
 真实运行要求显式提供独立的目标端凭据文件和固定确认短语：
@@ -396,6 +396,11 @@ npm run capture:shijiu -- \
 
 浏览器打开后，人工登录 Shijiu，在原生后台只处理一个非 MIKIHOUSE 测试商品并点击一次保存，其余捕获、只读回读、脱敏比较和报告生成均自动完成。监听器现在作用于整个 browser context，覆盖登录后新开的后台标签页。不要复制或复用 Chrome 默认 profile。
 
+后台登录入口包含私有登录参数时，应只在本地运行时通过
+`SHIJIU_BROWSER_START_URL` 提供；工具会强制导航到该入口，即使持久 profile
+恢复了同域旧标签页。该环境变量的值不会进入 Git 报告、README 示例或捕获摘要，
+也不得写入仓库配置。
+
 若已有专用的、非默认 Chrome profile，可先用 `--remote-debugging-port=9222 --user-data-dir=/absolute/private/profile` 启动它，再用下面的 CDP 模式；端口只应监听本机：
 
 ```bash
@@ -409,11 +414,24 @@ npm run capture:shijiu -- \
 
 若希望 Codex 直接检查现有 Chrome 标签，需要先在 Codex 设置的 Computer use 页面安装并启用 ChatGPT Chrome 扩展；这与上述独立 profile/CDP 捕获路径二选一即可。
 
-2026-09-04 已完成一次真实 browser-exact 验证。首次新增请求因登录后在新标签打开后台而未被旧版单页监听器捕获；修复为 context 级监听后，只对同一非 MIKIHOUSE 一次性测试商品执行一次人工编辑保存并成功捕获。脱敏结果为 `BROWSER_EXACT_PRODUCT_VERIFIED_SKU_ID_NOT_EXPOSED`：
+2026-09-04 已完成一次真实 browser-exact CREATE 验证。工具通过运行时私有登录入口启动独立 profile，并在整个 browser context 捕获人工新增的非 MIKIHOUSE、非 294884 测试商品。原生请求返回 HTTP 200、`code=200/msg=success/data=[]`；随后 Goods.index 以精确商品名唯一取得 `product_id=9358232`，getFormatInfo 回读相同商品和 1 个 SKU 结构，证明该 CREATE 确实持久化。脱敏状态为 `BROWSER_EXACT_CAPTURE_VERIFIED`：
 
-- 当前持久化成功的原生编辑请求没有 Cookie/Authorization，query token 与 body token 均非空且完全相同；因此“MIKIHOUSE 请求缺少 Cookie”已被排除为充分根因；
-- `Goods.index` 在后台页面的真实读取上下文中唯一回读 `product_id=9357918` 和相同商品名，`getFormatInfo` 回读相同商品及 1 个 SKU 的完整价格、库存、规格和图片结构；
-- 当前 `getFormatInfo.data.sku_info[]` 不含 `id`、`sku_id`、`goods_sku_id` 或 `good_sku_id`。这一事实与 6 个 legacy 样本共 70 个 SKU 以及 `wawu-product-sync@a36c5ea` 的明确注释一致，故 `sku_id` 必须保持 null，绝不从数组位置、规格或商品 ID 猜测；
-- 当前原生编辑请求相对历史 WAWU/此前 MIKIHOUSE payload 新增 `id/orderby/virtual_sales`、缺少 `brand_id`，且 `original_price`、`tax_rate`、`sku_stock` 的类型不同；body 顺序不同，browser 请求还包含 `Origin`。由于捕获的是同一商品的 EDIT 而非首次 CREATE，这些是下一轮离线 mapper 审计的候选差异，不足以直接宣称 CREATE 静默拒绝根因。
+- 成功 CREATE 没有 Cookie/Authorization，query token 与 body token 均非空且相同；认证值只存在 Git 外私密证据；
+- 成功 CREATE 与此前失败 MIKIHOUSE create 的 endpoint、query 名、Content-Type、顶层字段名/类型/顺序一致；当前独有 `Origin` header，浏览器公开 UA/client-hint 值不同，且此前 MIKI `sku_info` 多出非 canonical 的 `weight`；
+- canonical writer 因此精确加入 `Origin` 和当前公开 browser header 形态、移除 `sku_info.weight`，并在发送前依据 `config/shijiu_native_create_contract.json` 强制校验字段顺序与类型；
+- getFormatInfo 仍不暴露独立 SKU ID。稳定 variant 身份改为 `shijiu_product_id + 精确 backend_sku_code`，`shijiu_sku_id=null` 是正式契约，不再导致回读失败。
 
-恢复回读支持 `--mode readback`（审计 client 直连）和 `--mode ui-readback`（复用私有后台页面的真实 `Goods.index` 身份）；`--mode finalize` 只从 Git 外已有证据重建脱敏报告，网络请求为零。最终证据见 `deliverables/shijiu_import/browser_exact_capture_readiness.json` 和 `browser_exact_capture_analysis.json`。本轮 MIKIHOUSE 写请求、自动商品写请求和 legacy 操作均为 0。
+恢复回读支持 `--mode readback`（审计 client 直连）和 `--mode ui-readback`（复用私有后台页面的真实 Goods.index 身份，并对 CREATE 使用精确商品名搜索）；`--mode finalize` 只从 Git 外已有证据重建脱敏报告。最终证据见 `deliverables/shijiu_import/browser_exact_capture_readiness.json` 和 `browser_exact_capture_analysis.json`。
+
+## Shijiu canonical 单商品真实验证
+
+`scripts/validate_shijiu_canonical_create.py` 是后续批量前的一次性 fail-closed 验证器。它排除 351 个 `PDF_SPECIAL_LIST` 品番、`00-1000-028`、`17-1366-244` 和已有映射，只选择当前可售、单 variant、图片最少的新商品；发送前必须验证上述 browser-exact 私密证据哈希和 canonical payload。它允许上传所选商品的全部官方图片，但整个 checkpoint 最多只能发送 1 次商品 CREATE，终止后禁止重试。
+
+本轮选中 `36-2001-572`：1 个 variant、1 张官网图片，官网税入价 2200 JPY，`mini_program_price_jpy=1430`，固定类目 294884、`state="1"/is_shelf=0`。图片上传成功，唯一 CREATE 返回与人工成功样本相同的空 `success` 响应；但之后 16 次按精确 `MIKI-36-2001-57200039999`、覆盖不同状态的 Goods.index 查询均为 0 条，因而不能取得 product_id，也不能调用该商品 getFormatInfo 完成强校验。执行器已停止且再次运行会在请求前拒绝：mapping 未写入、后续商品 CREATE 为 0、legacy 286 操作为 0、特殊品番操作为 0。
+
+证据文件：
+
+- `deliverables/shijiu_import/canonical_create_candidate.json`：候选选择、官网价格和特殊名单边界；
+- `deliverables/shijiu_import/canonical_create_validation_report.json`：唯一上传/CREATE 预算、空响应和精确 SKU 回读失败；
+- `state/shijiu_canonical_create_checkpoint.json`：已耗尽且终止的 checkpoint；
+- `config/shijiu_native_create_contract.json`：当前 browser-exact canonical 字段、类型、顺序和 header 契约。
