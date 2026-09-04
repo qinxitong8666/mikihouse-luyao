@@ -388,7 +388,8 @@ def prove_no_residual(
             "miki_sku_codes": sorted(code for code in codes if code.startswith("MIKI-")),
             "exact_expected_sku_set": codes == expected_codes,
         })
-    mapping = load_mapping_state(mapping_path)["products"][RECOVERY_PRODUCT_NUMBER]
+    product_number = str(item["product_number"])
+    mapping = load_mapping_state(mapping_path)["products"][product_number]
     default_scan = next(row for row in scans if row["label"] == "default")
     reasons = []
     if identity["exact_sku_result_ids"]:

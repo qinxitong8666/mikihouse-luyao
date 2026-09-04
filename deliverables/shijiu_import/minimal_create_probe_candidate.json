@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:07:18.426593+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "selection": {
+    "selection_policy": "active + currently sellable + positive verified 65%-JPY price + exactly one variant + official image + unbound mapping; then fewest ordered images, fewest product images, product_number",
+    "candidate_count": 618,
+    "rejected_counts": {
+      "forbidden_or_missing_product_number": 1,
+      "not_single_variant": 1947,
+      "non_positive_price": 20,
+      "missing_official_image": 7,
+      "variant_not_currently_sellable": 260
+    },
+    "selected_product_number": "17-1366-244",
+    "selected_score": [
+      1,
+      1,
+      "17-1366-244"
+    ],
+    "top_candidates": [
+      {
+        "product_number": "17-1366-244",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "17-1366-244"
+        ]
+      },
+      {
+        "product_number": "36-2001-572",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2001-572"
+        ]
+      },
+      {
+        "product_number": "36-2002-575",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2002-575"
+        ]
+      },
+      {
+        "product_number": "45-6082-797",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "45-6082-797"
+        ]
+      },
+      {
+        "product_number": "46-7160-680",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-7160-680"
+        ]
+      },
+      {
+        "product_number": "46-8387-686",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-8387-686"
+        ]
+      },
+      {
+        "product_number": "99-9999-000",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "99-9999-000"
+        ]
+      },
+      {
+        "product_number": "15-4066-679",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "15-4066-679"
+        ]
+      },
+      {
+        "product_number": "16-2190-689",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2190-689"
+        ]
+      },
+      {
+        "product_number": "16-2191-682",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2191-682"
+        ]
+      }
+    ]
+  },
+  "candidate": {
+    "product_number": "17-1366-244",
+    "product_name": "【ミキハウススタイル】惚れて通えば千里も一里",
+    "product_url": "https://www.mikihouse.co.jp/products/17-1366-244",
+    "active": true,
+    "variant_count": 1,
+    "ordered_image_count": 1,
+    "variant_sku": "17-1366-24400899999",
+    "available_for_sale": true,
+    "tax_included_price_jpy": 1650,
+    "mini_program_price_jpy": 1073,
+    "calculated_price_jpy": 1073,
+    "pdf_special": false,
+    "mapping_bound": false
+  },
+  "forbidden_recovery_product": "00-1000-028",
+  "forbidden_recovery_create_requests": 0
+}

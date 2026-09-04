@@ -1,0 +1,1529 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:07:18.427440+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "reference_scope": "sanitized shape projection of the audited Shijiu downstream fixture; no WAWU product values are submitted",
+  "wawu_upstream_semantics_reused": false,
+  "field_comparison": [
+    {
+      "field": "good_videos",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "video_cover",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_name",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 21,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 23,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 22,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "gyy_erp_code",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "hc_erp_code",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_describe",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 34,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "original_price",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_details",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 1847,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "state",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 1,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 1,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 1,
+        "form": "decimal_string"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "spec_name",
+      "native_fixture": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "failed_full_mikihouse": {
+        "type": "list",
+        "length": 2,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "minimal_probe": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "sku_info",
+      "native_fixture": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "failed_full_mikihouse": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "minimal_probe": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "vnarious",
+      "native_fixture": {
+        "type": "int",
+        "value": 1
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 1
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 1
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_type",
+      "native_fixture": {
+        "type": "int",
+        "value": 300895
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 294884
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 294884
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_detail_pics",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 846,
+        "form": "https_url"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "integral_type",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "integral_content",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "is_cumulative",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "mortgage_type",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "mortgage_content",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "distribution_set",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "distribution_type",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "first_commission",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "second_commisstion",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "freight_type",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "freight_id",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "member_type",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "advance_sale",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "is_border",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "spt1",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "name_ch",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "name_eh",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "brand_id",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "cargo_place",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 2,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "standard_place",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "buying_unit",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 1,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "cargo_ingredient",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "gross_weight",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "net_weight",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "cargo_function",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "tax_rate",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "code_ts",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "hs_code",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "length",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "weight",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "height",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "supplier",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 27,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 9,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "bus_region",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 2,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "description",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 31,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 95,
+        "form": "source_identity_marker"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 39,
+        "form": "source_identity_marker"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "is_shelf",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "is_collection",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "is_need_authentication",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "master_graph",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 76,
+        "form": "https_url"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 50,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "broadcast",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 923,
+        "form": "https_url"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 50,
+        "form": "text"
+      },
+      "same_type_all": true
+    },
+    {
+      "field": "good_group_id",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "same_type_all": true
+    }
+  ],
+  "sku_field_comparison": [
+    {
+      "field": "sku_price",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "sku_stock",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 5,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 4,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 4,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "spec_name",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "text"
+      }
+    },
+    {
+      "field": "sku_code",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 17,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 24,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 24,
+        "form": "text"
+      }
+    },
+    {
+      "field": "sku_cost_price",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "sku_thumbnail",
+      "native_fixture": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 76,
+        "form": "https_url"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 50,
+        "form": "text"
+      }
+    },
+    {
+      "field": "weight",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 4,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": true,
+        "length": 0,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 4,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "first_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "second_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "third_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "fourth_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "fifth_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    },
+    {
+      "field": "sixth_level",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 6,
+        "form": "decimal_string"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 7,
+        "form": "decimal_string"
+      }
+    }
+  ],
+  "specification_field_comparison": [
+    {
+      "field": "spec_name",
+      "native_fixture": {
+        "type": "str",
+        "empty": false,
+        "length": 2,
+        "form": "text"
+      },
+      "failed_full_mikihouse": {
+        "type": "str",
+        "empty": false,
+        "length": 2,
+        "form": "text"
+      },
+      "minimal_probe": {
+        "type": "str",
+        "empty": false,
+        "length": 2,
+        "form": "text"
+      }
+    },
+    {
+      "field": "id",
+      "native_fixture": {
+        "type": "int",
+        "value": 0
+      },
+      "failed_full_mikihouse": {
+        "type": "int",
+        "value": 0
+      },
+      "minimal_probe": {
+        "type": "int",
+        "value": 0
+      }
+    },
+    {
+      "field": "son_name",
+      "native_fixture": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "failed_full_mikihouse": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      },
+      "minimal_probe": {
+        "type": "list",
+        "length": 1,
+        "item_types": [
+          "dict"
+        ]
+      }
+    }
+  ],
+  "request_contract": {
+    "native_reference_fallback_headers": {
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json;charset=UTF-8",
+      "referer": "https://shijiu.wfcorp.cn/",
+      "sec-ch-ua": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"macOS\"",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+      "cookie": "<present-if-configured>"
+    },
+    "previous_mikihouse_headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json;charset=UTF-8",
+      "Origin": "https://shijiu.wfcorp.cn",
+      "Referer": "https://shijiu.wfcorp.cn/",
+      "User-Agent": "mikihouse-luyao custom importer UA",
+      "Cookie": "<present-if-configured>"
+    },
+    "minimal_probe_headers": {
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json;charset=UTF-8",
+      "referer": "https://shijiu.wfcorp.cn/",
+      "sec-ch-ua": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"macOS\"",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+    },
+    "header_differences_corrected_for_probe": [
+      "removed custom MIKIHOUSE User-Agent",
+      "removed Origin header absent from audited native fallback",
+      "added audited sec-ch-ua headers"
+    ],
+    "content_type": "application/json;charset=UTF-8",
+    "serialization": {
+      "format": "JSON",
+      "encoding": "UTF-8",
+      "ensure_ascii": false,
+      "separators": [
+        ",",
+        ":"
+      ],
+      "auth_fields_first_in_body": [
+        "secret",
+        "token"
+      ],
+      "token_also_in_query": true,
+      "payload_field_order_matches_native_fixture": true
+    }
+  },
+  "business_shape_decisions": {
+    "source": "MIKIHOUSE",
+    "target_category_id": 294884,
+    "state": "1",
+    "is_shelf": 0,
+    "sku_count": 1,
+    "specification": "DEFAULT",
+    "image_count": 1,
+    "sku_price_source": "mini_program_price_jpy",
+    "sku_cost_price_probe_shape": "same_as_sku_price_to_match_non-inverted_native_relation",
+    "currency": "JPY",
+    "currency_conversion_applied": false
+  },
+  "probe_state": "STOPPED_ON_PROBE_ERROR",
+  "candidate_product_number": "17-1366-244",
+  "minimal_payload_sha256": "bb5aef182192228d66f989778e466d17277acc65d28e5945a10ec6a23198d11c",
+  "probe_result": {
+    "state": "STOPPED_ON_PROBE_ERROR",
+    "candidate_product_number": "17-1366-244",
+    "image_upload_attempts": 1,
+    "create_attempts": 1,
+    "staged_update_attempts": 0,
+    "api_response": {
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "code": 200,
+      "msg": "success",
+      "data_shape": {
+        "type": "list",
+        "length": 0,
+        "item_types": []
+      }
+    },
+    "observable_product_ids": [],
+    "shijiu_product_id": null,
+    "shijiu_sku_id": null,
+    "mapping_persisted": false,
+    "legacy_products_modified": 0,
+    "forbidden_00_1000_028_create_requests": 0
+  },
+  "diagnostic_conclusion": {
+    "proven": "The native-shaped, one-SKU, one-image request was parsed and returned HTTP 200 / code 200, but no unique product or SKU became observable through Goods/index; therefore creation is not proven.",
+    "field_group_isolation_result": "Not reached: staged specification, gallery, and detail updates are permitted only after a verified minimal create.",
+    "remaining_unknown": "The available evidence does not identify the target-side validation, authorization, tenant, or workflow condition responsible for the silent rejection.",
+    "no_guessing_or_retry": true
+  }
+}

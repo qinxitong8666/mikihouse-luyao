@@ -286,3 +286,29 @@ PYTHONPATH=src python scripts/recover_shijiu_first_product.py \
 - `deliverables/shijiu_import/first_product_recovery_readback.json`：未取得唯一商品 ID、无法完成详情回读的明确失败记录；
 - `state/shijiu_first_product_recovery_checkpoint.json`：一次性恢复 checkpoint，写预算已耗尽且为终止状态；
 - `deliverables/shijiu_import/preflight_attempt_001_report.json`：首次使用错误分类 discovery 路径时的零写入预检记录，随后已改为仓库原先验证成功的 `Goodtype/typeindex`。
+
+## Shijiu 最小创建诊断
+
+`scripts/probe_shijiu_minimal_create.py` 是一次性、单候选、fail-closed 的契约诊断器。它永久拒绝 `00-1000-028`，从非 `PDF_SPECIAL_LIST` 商品池中按“当前可售、价格有效、未绑定、单 variant、图片最少、品番”稳定选择候选。新 checkpoint 只允许 1 次官方图片上传和 1 次新商品创建；只有同时从 `Goods/index` 与 `getFormatInfo` 取得唯一 product/SKU ID 并完成强校验，才允许对同一商品执行规格、轮播、详情三组渐进式 edit。终止 checkpoint 不能重试。
+
+2026-09-04 实际选择 `17-1366-244`：官网实时验证为 1 个可售 variant、税入价 1650 JPY、65 折向上取整价 1073 JPY、1 张官方图片，且不在 351 个特殊品番中。图片上传成功并取得 `cdn0.19mini.com` URL；随后唯一创建请求采用固定类目 `294884`、`state="1"`、`is_shelf=0`、1 个真实 MIKI SKU 和 1 张 COS 图片。
+
+本次还严格对齐了已审计 native fallback 的传输形态：移除旧 importer 的自定义 User-Agent 与 `Origin`，加入 `sec-ch-ua` 系列请求头，使用 `application/json;charset=UTF-8`，UTF-8 紧凑 JSON（`ensure_ascii=false`、分隔符 `,`/`:`），`secret`/`token` 位于 body 最前且 token 同时位于 query。服务端仍返回 HTTP 200、`code=200, msg=success, data=[]`，但创建后精确 SKU/名称查询均为空，MikiHouse 类目在所有完整过滤视图中仍是同一组 286 个 legacy ID，因此无法取得 product ID，也不能安全调用该商品的 `getFormatInfo`。结论是创建仍未被证明，不能把空 `success` 当作成功。
+
+执行器按约定立即停止：写入总数为 2（1 次图片上传、1 次创建），规格/图片/详情 edit 为 0，mapping 绑定为 0，批量商品处理为 0，legacy 修改为 0，`00-1000-028` 创建为 0。由于最小创建阶段就失败，不能将问题归因到后续完整规格、轮播或详情字段组；现有证据也不足以确定具体是服务端校验、权限、租户还是工作流条件，项目不作猜测、不再换商品试写。
+
+本轮证据见：
+
+- `deliverables/shijiu_import/minimal_create_probe_candidate.json`：确定性候选选择与官网值；
+- `deliverables/shijiu_import/minimal_create_payload_diff.json`：native 样例、旧完整 MIKI payload 与最小 payload 的逐字段名称、类型、值形态及传输差异；
+- `deliverables/shijiu_import/minimal_create_probe_report.json`：唯一写入窗口、响应、319 次只读核验和停止原因；
+- `deliverables/shijiu_import/minimal_create_probe_readback.json`：未取得唯一商品/SKU ID 的回读失败；
+- `state/shijiu_minimal_create_probe_checkpoint.json`：已耗尽的一次性终止 checkpoint。
+
+命令保留用于代码审计和全新、另行授权的 checkpoint；当前仓库 checkpoint 已终止，重新运行会在任何请求前拒绝：
+
+```bash
+PYTHONPATH=src python scripts/probe_shijiu_minimal_create.py \
+  --target-env-file /absolute/path/to/shijiu.env \
+  --confirm MIKIHOUSE_MINIMAL_CREATE_PROBE_ONE
+```

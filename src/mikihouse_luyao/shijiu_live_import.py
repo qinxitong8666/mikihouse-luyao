@@ -47,6 +47,18 @@ LIST_PATH = "/shopapi/Goods/index"
 CATEGORY_PATH = "/shopapi/Goodtype/typeindex"
 PLACEHOLDER_PATTERN = re.compile(r"\{\{SHIJIU_COS_URL:([^}]+)}}")
 TARGET_SKU_ID_FIELDS = ("sku_id", "goods_sku_id", "good_sku_id", "id")
+NATIVE_SAVE_FALLBACK_HEADERS = {
+    "accept": "application/json, text/plain, */*",
+    "content-type": "application/json;charset=UTF-8",
+    "referer": "https://shijiu.wfcorp.cn/",
+    "sec-ch-ua": '"Chromium";v="151", "Not=A?Brand";v="99"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"macOS"',
+    "user-agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+    ),
+}
 
 
 class LiveImportError(ImportPlanError):
@@ -389,6 +401,106 @@ class ShijiuLiveClient:
         with urllib.request.urlopen(request, timeout=max(self.timeout, 120)) as response:
             result = _parse_json_response(response, response.read(), "product create")
         return result
+
+    def native_save_headers(self, *, redact: bool = False) -> dict[str, str]:
+        """Return the audited Shijiu native-save fallback header contract."""
+        headers = dict(NATIVE_SAVE_FALLBACK_HEADERS)
+        if self.cookie:
+            headers["cookie"] = self.cookie
+        if redact and "cookie" in headers:
+            headers["cookie"] = "<redacted>"
+        return headers
+
+    def native_save_request_preview(self, payload: dict[str, Any]) -> dict[str, Any]:
+        body_payload = {"secret": self.secret, "token": self.token, **payload}
+        body = json.dumps(
+            body_payload, ensure_ascii=False, separators=(",", ":")
+        ).encode("utf-8")
+        return {
+            "endpoint": CREATE_PATH,
+            "method": "POST",
+            "headers": self.native_save_headers(redact=True),
+            "content_type": self.native_save_headers()["content-type"],
+            "serialization": {
+                "format": "JSON",
+                "encoding": "UTF-8",
+                "ensure_ascii": False,
+                "separators": [",", ":"],
+                "body_auth_key_order": ["secret", "token"],
+                "body_key_order_after_auth": list(payload),
+                "token_also_in_query": True,
+            },
+            "payload_sha256": content_sha256(payload),
+            "body_byte_count": len(body),
+        }
+
+    def _native_save_product(
+        self,
+        payload: dict[str, Any],
+        *,
+        confirmation: str,
+        operation: str,
+    ) -> dict[str, Any]:
+        self._require_write_confirmation(confirmation)
+        self._record(
+            CREATE_PATH,
+            "write",
+            {
+                "operation": operation,
+                "payload_sha256": content_sha256(payload),
+            },
+        )
+        preview = self.native_save_request_preview(payload)
+        body = json.dumps(
+            {"secret": self.secret, "token": self.token, **payload},
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        request = urllib.request.Request(
+            self._endpoint(CREATE_PATH),
+            data=body,
+            method="POST",
+            headers=self.native_save_headers(),
+        )
+        with urllib.request.urlopen(request, timeout=max(self.timeout, 120)) as response:
+            raw = response.read()
+            result = _parse_json_response(response, raw, operation)
+            response_contract = {
+                "http_status": getattr(response, "status", None),
+                "content_type": response.headers.get("Content-Type"),
+                "content_encoding": response.headers.get("Content-Encoding"),
+                "response_byte_count": len(raw),
+            }
+        result["_native_request"] = preview
+        result["_native_response"] = response_contract
+        return result
+
+    def create_product_native(
+        self, payload: dict[str, Any], *, confirmation: str
+    ) -> dict[str, Any]:
+        if "id" in payload:
+            raise LiveImportError("native create payload must not contain an existing product id")
+        return self._native_save_product(
+            payload,
+            confirmation=confirmation,
+            operation="native minimal MIKIHOUSE product create",
+        )
+
+    def update_product_native(
+        self, payload: dict[str, Any], *, confirmation: str
+    ) -> dict[str, Any]:
+        product_id = payload.get("id")
+        if isinstance(product_id, str) and product_id.isdigit():
+            product_id = int(product_id)
+        if not isinstance(product_id, int):
+            raise LiveImportError("native edit payload requires an integer product id")
+        normalized = copy.deepcopy(payload)
+        normalized["id"] = product_id
+        return self._native_save_product(
+            normalized,
+            confirmation=confirmation,
+            operation="native staged MIKIHOUSE product update",
+        )
 
     def _require_write_confirmation(self, confirmation: str) -> None:
         if confirmation != self.write_confirmation:

@@ -1,0 +1,83 @@
+{
+  "good_videos": "",
+  "video_cover": "",
+  "good_name": "<native-product-name>",
+  "gyy_erp_code": "",
+  "hc_erp_code": "",
+  "good_describe": "",
+  "original_price": 0,
+  "good_details": "",
+  "state": "1",
+  "spec_name": [
+    {
+      "spec_name": "规格",
+      "id": 0,
+      "son_name": [
+        {
+          "spec_name": "DEFAULT",
+          "id": 1
+        }
+      ]
+    }
+  ],
+  "sku_info": [
+    {
+      "sku_price": "101.00",
+      "sku_stock": "10.00",
+      "spec_name": "DEFAULT",
+      "sku_code": "<native-sku-code>",
+      "sku_cost_price": "100.00",
+      "sku_thumbnail": "",
+      "weight": "1.00",
+      "first_level": "101.00",
+      "second_level": "101.00",
+      "third_level": "101.00",
+      "fourth_level": "101.00",
+      "fifth_level": "101.00",
+      "sixth_level": "101.00"
+    }
+  ],
+  "vnarious": 1,
+  "good_type": 300895,
+  "good_detail_pics": "",
+  "integral_type": 0,
+  "integral_content": 0,
+  "is_cumulative": 0,
+  "mortgage_type": 0,
+  "mortgage_content": "",
+  "distribution_set": 0,
+  "distribution_type": "",
+  "first_commission": "",
+  "second_commisstion": "",
+  "freight_type": 0,
+  "freight_id": 0,
+  "member_type": 0,
+  "advance_sale": 0,
+  "is_border": 0,
+  "spt1": 0,
+  "name_ch": "",
+  "name_eh": "",
+  "brand_id": "",
+  "cargo_place": "",
+  "standard_place": "",
+  "buying_unit": "",
+  "cargo_ingredient": "",
+  "gross_weight": "",
+  "net_weight": "",
+  "cargo_function": "",
+  "tax_rate": 0,
+  "code_ts": "",
+  "hs_code": "",
+  "length": "",
+  "weight": "",
+  "height": "",
+  "supplier": "<native-non-empty-supplier>",
+  "bus_region": "",
+  "description": "<native-source-identity-marker>",
+  "is_shelf": 0,
+  "is_collection": 0,
+  "is_need_authentication": 0,
+  "master_graph": "",
+  "broadcast": "",
+  "good_group_id": ""
+}

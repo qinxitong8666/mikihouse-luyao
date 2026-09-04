@@ -48,3 +48,15 @@
 该类目现有 286 件商品只归类为 `legacy_reference_only`。本轮仅读取完整列表以形成未来独立下架目标，并均匀抽取 6 件读取详情结构；没有用商品名、SKU、价格或任何内容与 MIKI HOUSE 主库做关联。只读结果确认列表含 `good_name`、`master_graph`、`orderby` 等字段，详情含 `broadcast`、`good_detail_pics`、`good_details`、`spec_name`、`sku_info`，SKU 行实际使用 `spec_son_name`、`price`、`stock`、`sku_code`、`sku_thumbnail` 等字段，另观察到 `serial_number` 等排序字段。可追踪审计只保存字段名、类型、长度/数量统计和目标 ID，不复制旧商品名称、图片、详情或规格内容。
 
 `special_skus_2026aw.csv` 的 351 个品番另属 PDF 专用池，与 legacy 和新商品池均相互独立。Shijiu 计划在任何目标读取之前同时检查主库和增量事件，任一命中即以 `PDF_SPECIAL_LIST` fail closed；在线 311 件和当前离线 40 件采用同一永久规则，未来恢复上架也不能进入 CREATE、UPDATE、库存、图片、价格或恢复流程。
+
+## 单候选最小 native create 诊断
+
+在永久冻结 `00-1000-028` 后，诊断器从当前非特殊商品池的 618 个“单 variant、当前可售、有图、有正价且未绑定”候选中确定性选择图片最少且品番排序最前的 `17-1366-244`。官网在线回读确认商品名、唯一 SKU `17-1366-24400899999`、税入价 1650 JPY、当前可售和主图 URL 与 master catalog 一致；目标价为 `ceil(1650 × 0.65)=1073` JPY，没有人民币换算。
+
+最小 payload 以 `config/shijiu_native_create_shape_fixture.json` 的 54 个顶层字段、字段顺序、`spec_name` 与 `sku_info` 子字段为边界，只替换为 MIKIHOUSE 的真实商品名、固定类目 294884、DEFAULT 规格、一个真实 SKU、1073.00 JPY、库存 1、`state="1"`、`is_shelf=0` 和一张已上传 COS 的官方图片。fixture 只保存审计样例的字段/类型/值形态，不携带或提交 WAWU 商品内容与上游字段语义。
+
+传输也改为与参考仓库 native fallback 一致：请求头为 `accept`、`content-type`、`referer`、`sec-ch-ua`、`sec-ch-ua-mobile`、`sec-ch-ua-platform` 和 Chrome 151 User-Agent（有配置时另带 cookie），不再发送旧 MIKI importer 的 `Origin` 或自定义 User-Agent；Content-Type 为 `application/json;charset=UTF-8`；body 采用 UTF-8、`ensure_ascii=false`、紧凑分隔符序列化，`secret`/`token` 先于 payload，token 同时进入 query。逐字段差异保存在 `minimal_create_payload_diff.json`。
+
+目标 `/v1/cos/upload` 成功返回一张 `cdn0.19mini.com` 图片。唯一一次 `/shopapi/Goods/newAddGood` 返回 HTTP 200、JSON Content-Type、`code=200, msg=success, data=[]`。其后精确 SKU 和精确名称查询均未返回 ID，11 个 MikiHouse 分类过滤视图的完整分页仍为创建前同一组 286 个 ID。没有唯一 product ID，因而不存在可安全调用 `getFormatInfo` 的目标，也没有 SKU ID 或 mapping 可持久化。
+
+本轮总请求 321：319 次只读、1 次图片上传、1 次最小创建；渐进 edit 0、批量处理 0、legacy 修改 0、`00-1000-028` 请求 0。一次性 checkpoint 为 `STOPPED_ON_PROBE_ERROR`，禁止重试。规格、完整轮播和详情三组更新门禁均未到达，所以现有结果不能把静默拒绝归因于这些扩展字段。已证明的是“native-shaped 请求被解析并返回空 success，但没有可观测的持久实体”；尚不能证明具体由目标端校验、账号权限、租户上下文或其他后台工作流条件造成，禁止选择第二个商品继续试写或猜测 ID。

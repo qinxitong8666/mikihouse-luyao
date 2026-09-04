@@ -1,0 +1,745 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:04:10.519909+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "SINGLE_MINIMAL_CREATE_DIAGNOSTIC",
+  "state": "STOPPED_ON_PROBE_ERROR",
+  "candidate_product_number": "17-1366-244",
+  "forbidden_00_1000_028_create_requests": 0,
+  "pdf_special_exclusion_count": 351,
+  "legacy_products_modified": 0,
+  "batch_products_processed": 0,
+  "selection": {
+    "selection_policy": "active + currently sellable + positive verified 65%-JPY price + exactly one variant + official image + unbound mapping; then fewest ordered images, fewest product images, product_number",
+    "candidate_count": 618,
+    "rejected_counts": {
+      "forbidden_or_missing_product_number": 1,
+      "not_single_variant": 1947,
+      "missing_official_image": 7,
+      "non_positive_price": 20,
+      "variant_not_currently_sellable": 260
+    },
+    "selected_product_number": "17-1366-244",
+    "selected_score": [
+      1,
+      1,
+      "17-1366-244"
+    ],
+    "top_candidates": [
+      {
+        "product_number": "17-1366-244",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "17-1366-244"
+        ]
+      },
+      {
+        "product_number": "36-2001-572",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2001-572"
+        ]
+      },
+      {
+        "product_number": "36-2002-575",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "36-2002-575"
+        ]
+      },
+      {
+        "product_number": "45-6082-797",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "45-6082-797"
+        ]
+      },
+      {
+        "product_number": "46-7160-680",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-7160-680"
+        ]
+      },
+      {
+        "product_number": "46-8387-686",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "46-8387-686"
+        ]
+      },
+      {
+        "product_number": "99-9999-000",
+        "variant_count": 1,
+        "ordered_image_count": 1,
+        "score": [
+          1,
+          1,
+          "99-9999-000"
+        ]
+      },
+      {
+        "product_number": "15-4066-679",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "15-4066-679"
+        ]
+      },
+      {
+        "product_number": "16-2190-689",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2190-689"
+        ]
+      },
+      {
+        "product_number": "16-2191-682",
+        "variant_count": 1,
+        "ordered_image_count": 2,
+        "score": [
+          2,
+          2,
+          "16-2191-682"
+        ]
+      }
+    ]
+  },
+  "online_source_verification": {
+    "checked_product_url": "https://www.mikihouse.co.jp/products/17-1366-244",
+    "product_number": "17-1366-244",
+    "name": "【ミキハウススタイル】惚れて通えば千里も一里",
+    "variant_skus": [
+      "17-1366-24400899999"
+    ],
+    "tax_included_prices_jpy": [
+      1650
+    ],
+    "available_for_sale": [
+      true
+    ],
+    "main_image_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/17-1366-244-89-1_l.jpg?v=1634099220",
+    "main_image_matches": true,
+    "expected_mini_program_price_jpy": 1073,
+    "currency": "JPY",
+    "currency_conversion_applied": false,
+    "passed": true
+  },
+  "preflight": {
+    "performed_at": "2026-09-04T02:57:35.397901+00:00",
+    "mode": "READ_ONLY",
+    "category_id": 294884,
+    "baseline_legacy_count": 286,
+    "identity_queries": {
+      "query_count": 34,
+      "exact_sku_result_ids": [],
+      "exact_name_result_ids": []
+    },
+    "category_scans": [
+      {
+        "label": "default",
+        "filters": {
+          "push": "2",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "push_any",
+        "filters": {
+          "push": "",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_0",
+        "filters": {
+          "push": "2",
+          "status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_1",
+        "filters": {
+          "push": "2",
+          "status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_2",
+        "filters": {
+          "push": "2",
+          "status": "2"
+        },
+        "count_start": 0,
+        "count_end": 0,
+        "row_count": 0,
+        "unique_id_count": 0,
+        "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_2",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "2"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_3",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "3"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      }
+    ],
+    "exact_name_candidate_details": [],
+    "original_create_response": null,
+    "original_checkpoint_product_id": null,
+    "mapping_product_id": null,
+    "absence_proof_reasons": [],
+    "legacy_rows_modified": 0,
+    "legacy_mappings_created": 0,
+    "passed": true
+  },
+  "image": {
+    "source_url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/products/17-1366-244-89-1_l.jpg?v=1634099220",
+    "source_url_sha256": "4d430b2704a305494dcdf58ddcb48f09cd18b513cbcfab60811e2146944fc0c8",
+    "upload_reference": "MIKIHOUSE:17-1366-244:IMAGE:001",
+    "upload_attempts": 1,
+    "status": "UPLOADED",
+    "target_url": "https://cdn0.19mini.com/shop/2026-09-04/53a96ad6814e4b50a6409f99f5ce4e69.jpg",
+    "response": {
+      "code": 200,
+      "data": {
+        "url": "https://cdn0.19mini.com/shop/2026-09-04/53a96ad6814e4b50a6409f99f5ce4e69.jpg"
+      },
+      "msg": "Success"
+    }
+  },
+  "create_attempts": 1,
+  "create_response": {
+    "code": 200,
+    "data": [],
+    "msg": "success",
+    "_native_request": {
+      "endpoint": "/shopapi/Goods/newAddGood",
+      "method": "POST",
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "content-type": "application/json;charset=UTF-8",
+        "referer": "https://shijiu.wfcorp.cn/",
+        "sec-ch-ua": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+      },
+      "content_type": "application/json;charset=UTF-8",
+      "serialization": {
+        "format": "JSON",
+        "encoding": "UTF-8",
+        "ensure_ascii": false,
+        "separators": [
+          ",",
+          ":"
+        ],
+        "body_auth_key_order": [
+          "secret",
+          "token"
+        ],
+        "body_key_order_after_auth": [
+          "good_videos",
+          "video_cover",
+          "good_name",
+          "gyy_erp_code",
+          "hc_erp_code",
+          "good_describe",
+          "original_price",
+          "good_details",
+          "state",
+          "spec_name",
+          "sku_info",
+          "vnarious",
+          "good_type",
+          "good_detail_pics",
+          "integral_type",
+          "integral_content",
+          "is_cumulative",
+          "mortgage_type",
+          "mortgage_content",
+          "distribution_set",
+          "distribution_type",
+          "first_commission",
+          "second_commisstion",
+          "freight_type",
+          "freight_id",
+          "member_type",
+          "advance_sale",
+          "is_border",
+          "spt1",
+          "name_ch",
+          "name_eh",
+          "brand_id",
+          "cargo_place",
+          "standard_place",
+          "buying_unit",
+          "cargo_ingredient",
+          "gross_weight",
+          "net_weight",
+          "cargo_function",
+          "tax_rate",
+          "code_ts",
+          "hs_code",
+          "length",
+          "weight",
+          "height",
+          "supplier",
+          "bus_region",
+          "description",
+          "is_shelf",
+          "is_collection",
+          "is_need_authentication",
+          "master_graph",
+          "broadcast",
+          "good_group_id"
+        ],
+        "token_also_in_query": true
+      },
+      "payload_sha256": "d7b0d5ea87ab6b53fd5ebf331918ba46e89ed9484d48550fa98fa3bc71076b2d",
+      "body_byte_count": 1725
+    },
+    "_native_response": {
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "content_encoding": null,
+      "response_byte_count": 38
+    }
+  },
+  "shijiu_product_id": null,
+  "shijiu_sku_id": null,
+  "minimal_readback": null,
+  "mapping_persisted": false,
+  "staged_updates": [],
+  "post_failure_forensics": {
+    "performed_at": "2026-09-04T03:04:10.516246+00:00",
+    "mode": "READ_ONLY",
+    "category_id": 294884,
+    "baseline_legacy_count": 286,
+    "identity_queries": {
+      "query_count": 34,
+      "exact_sku_result_ids": [],
+      "exact_name_result_ids": []
+    },
+    "category_scans": [
+      {
+        "label": "default",
+        "filters": {
+          "push": "2",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "push_any",
+        "filters": {
+          "push": "",
+          "status": ""
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_0",
+        "filters": {
+          "push": "2",
+          "status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_1",
+        "filters": {
+          "push": "2",
+          "status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "status_2",
+        "filters": {
+          "push": "2",
+          "status": "2"
+        },
+        "count_start": 0,
+        "count_end": 0,
+        "row_count": 0,
+        "unique_id_count": 0,
+        "id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "is_delete_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "is_delete": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_0",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "0"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_1",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "1"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_2",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "2"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      },
+      {
+        "label": "audit_status_3",
+        "filters": {
+          "push": "2",
+          "status": "",
+          "audit_status": "3"
+        },
+        "count_start": 286,
+        "count_end": 286,
+        "row_count": 286,
+        "unique_id_count": 286,
+        "id_set_sha256": "cbdd03fbb60df7234208b47e4b2073cccf7554f5c9c7dea830f6bdc8040a9ed7",
+        "exact_name_match_ids": [],
+        "complete": true
+      }
+    ],
+    "exact_name_candidate_details": [],
+    "original_create_response": {
+      "code": 200,
+      "data": [],
+      "msg": "success",
+      "_native_request": {
+        "endpoint": "/shopapi/Goods/newAddGood",
+        "method": "POST",
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "content-type": "application/json;charset=UTF-8",
+          "referer": "https://shijiu.wfcorp.cn/",
+          "sec-ch-ua": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36"
+        },
+        "content_type": "application/json;charset=UTF-8",
+        "serialization": {
+          "format": "JSON",
+          "encoding": "UTF-8",
+          "ensure_ascii": false,
+          "separators": [
+            ",",
+            ":"
+          ],
+          "body_auth_key_order": [
+            "secret",
+            "token"
+          ],
+          "body_key_order_after_auth": [
+            "good_videos",
+            "video_cover",
+            "good_name",
+            "gyy_erp_code",
+            "hc_erp_code",
+            "good_describe",
+            "original_price",
+            "good_details",
+            "state",
+            "spec_name",
+            "sku_info",
+            "vnarious",
+            "good_type",
+            "good_detail_pics",
+            "integral_type",
+            "integral_content",
+            "is_cumulative",
+            "mortgage_type",
+            "mortgage_content",
+            "distribution_set",
+            "distribution_type",
+            "first_commission",
+            "second_commisstion",
+            "freight_type",
+            "freight_id",
+            "member_type",
+            "advance_sale",
+            "is_border",
+            "spt1",
+            "name_ch",
+            "name_eh",
+            "brand_id",
+            "cargo_place",
+            "standard_place",
+            "buying_unit",
+            "cargo_ingredient",
+            "gross_weight",
+            "net_weight",
+            "cargo_function",
+            "tax_rate",
+            "code_ts",
+            "hs_code",
+            "length",
+            "weight",
+            "height",
+            "supplier",
+            "bus_region",
+            "description",
+            "is_shelf",
+            "is_collection",
+            "is_need_authentication",
+            "master_graph",
+            "broadcast",
+            "good_group_id"
+          ],
+          "token_also_in_query": true
+        },
+        "payload_sha256": "d7b0d5ea87ab6b53fd5ebf331918ba46e89ed9484d48550fa98fa3bc71076b2d",
+        "body_byte_count": 1725
+      },
+      "_native_response": {
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "content_encoding": null,
+        "response_byte_count": 38
+      }
+    },
+    "original_checkpoint_product_id": null,
+    "mapping_product_id": null,
+    "absence_proof_reasons": [],
+    "legacy_rows_modified": 0,
+    "legacy_mappings_created": 0,
+    "passed": true
+  },
+  "error": {
+    "type": "ContractMismatchError",
+    "message": "post-create identity is not unique: exact verified IDs=[]",
+    "at": "2026-09-04T03:02:59.276265+00:00"
+  },
+  "requests": {
+    "total": 321,
+    "read": 319,
+    "write": 2,
+    "image_upload": 1,
+    "minimal_create": 1,
+    "staged_update": 0
+  },
+  "checkpoint": "state/shijiu_minimal_create_probe_checkpoint.json",
+  "candidate_report": "deliverables/shijiu_import/minimal_create_probe_candidate.json",
+  "difference_report": "deliverables/shijiu_import/minimal_create_payload_diff.json",
+  "readback_report": "deliverables/shijiu_import/minimal_create_probe_readback.json"
+}

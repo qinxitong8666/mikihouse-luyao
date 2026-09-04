@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:04:10.521094+00:00",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "product_number": "17-1366-244",
+  "state": "STOPPED_ON_PROBE_ERROR",
+  "product_id": null,
+  "sku_id": null,
+  "minimal_readback": null,
+  "staged_updates": [],
+  "passed": false,
+  "error": {
+    "type": "ContractMismatchError",
+    "message": "post-create identity is not unique: exact verified IDs=[]",
+    "at": "2026-09-04T03:02:59.276265+00:00"
+  }
+}
