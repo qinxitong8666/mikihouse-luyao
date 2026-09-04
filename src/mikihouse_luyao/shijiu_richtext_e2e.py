@@ -213,11 +213,15 @@ class RichtextContractE2ERunner(CompleteStagedMediaRunner):
         report_path: Path,
         readbacks_path: Path,
         confirmation: str,
+        mode: str = RICHTEXT_E2E_MODE,
+        expected_confirmation: str = RICHTEXT_E2E_WRITE_CONFIRMATION,
+        protected_frozen_files: tuple[str, ...] = RICHTEXT_E2E_PROTECTED_FILES,
     ) -> None:
         if not checkpoint_path.exists():
-            checkpoint = initial_checkpoint(item, selection, mode=RICHTEXT_E2E_MODE)
+            checkpoint = initial_checkpoint(item, selection, mode=mode)
             write_json_atomic(checkpoint_path, initialize_complete_checkpoint(checkpoint, item))
         self.complete_selection = selection
+        self.richtext_protected_files = protected_frozen_files
         StagedMediaRunner.__init__(
             self,
             client,
@@ -232,16 +236,16 @@ class RichtextContractE2ERunner(CompleteStagedMediaRunner):
             report_path=report_path,
             readbacks_path=readbacks_path,
             confirmation=confirmation,
-            mode=RICHTEXT_E2E_MODE,
-            expected_confirmation=RICHTEXT_E2E_WRITE_CONFIRMATION,
+            mode=mode,
+            expected_confirmation=expected_confirmation,
             prohibited_product_numbers=set(selection["historical_prohibited_product_numbers"]),
-            protected_frozen_files=RICHTEXT_E2E_PROTECTED_FILES,
+            protected_frozen_files=protected_frozen_files,
         )
 
     def _assert_protected_complete_boundary(self) -> None:
         current_files = {
             relative: _file_sha256(self.root / relative)
-            for relative in RICHTEXT_E2E_PROTECTED_FILES
+            for relative in self.richtext_protected_files
         }
         if current_files != self.complete_selection.get("protected_frozen_evidence"):
             raise LiveImportError("historical frozen/rich-text contract evidence changed")
@@ -296,13 +300,16 @@ class RichtextContractE2ERunner(CompleteStagedMediaRunner):
 
 
 def make_richtext_e2e_clients(
-    private_dir: Path, canonical_contract_path: Path
+    private_dir: Path,
+    canonical_contract_path: Path,
+    *,
+    write_confirmation: str = RICHTEXT_E2E_WRITE_CONFIRMATION,
 ) -> tuple[ShijiuLiveClient, UiContextReadClient, dict[str, Any]]:
     token, secret, evidence = load_verified_browser_credentials(private_dir, canonical_contract_path)
     client = ShijiuLiveClient(
         token,
         secret,
-        write_confirmation=RICHTEXT_E2E_WRITE_CONFIRMATION,
+        write_confirmation=write_confirmation,
     )
     ui = UiContextReadClient(private_dir, canonical_contract_path)
     if client.token != ui.query_token or client.secret != ui.base_form.get("secret"):

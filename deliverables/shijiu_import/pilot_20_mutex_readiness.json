@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T13:06:04.774021+00:00",
+  "status": "WAITING_OPERATOR_MUTEX_CONFIRMATION",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "frozen_plan_sha256": "8b7127d0047135a21efdf0d1a8609d2cd5f37ffdfac9d12566866c0f3efe79c8",
+  "product_count": 20,
+  "planned_stage_count": 85,
+  "completed_product_count": 0,
+  "current_next_sequence": 1,
+  "production_write_requests_this_preparation_round": 0,
+  "external_mutex_evidence_found": false,
+  "operator_action": "Run confirm_shijiu_writer_window.py once after confirming no other project, terminal, scheduler, or operator is writing the same Shijiu production tenant.",
+  "operator_confirmation_required": "我已确认当前SHIJIU正式租户没有其他生产写入任务",
+  "operator_confirmation_count": 1,
+  "operator_must_create_json_manually": false,
+  "execution_authorized_without_evidence": false,
+  "cross_source_writes": 0,
+  "legacy_reference_touched": false,
+  "pdf_special_exclusion_count": 351,
+  "sensitive_values_included": false
+}

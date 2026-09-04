@@ -7,8 +7,7 @@
     "repository",
     "branch",
     "head_sha",
-    "product_number",
-    "allowed_stage_keys",
+    "authorized_scopes",
     "concurrent_shijiu_writer_observed",
     "exclusive_window_confirmed",
     "confirmation_basis",
@@ -20,12 +19,24 @@
     "repository": {"const": "qinxitong8666/mikihouse-luyao"},
     "branch": {"const": "main"},
     "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-    "product_number": {"type": "string", "pattern": "^[0-9]{2}-[0-9]{4}-[0-9]{3}$"},
-    "allowed_stage_keys": {
+    "authorized_scopes": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": {"type": "string"}
+      "items": {
+        "type": "object",
+        "required": ["product_number", "allowed_stage_keys"],
+        "properties": {
+          "product_number": {"type": "string", "pattern": "^[0-9]{2}-[0-9]{4}-[0-9]{3}$"},
+          "allowed_stage_keys": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string"}
+          }
+        },
+        "additionalProperties": false
+      }
     },
     "concurrent_shijiu_writer_observed": {"const": false},
     "exclusive_window_confirmed": {"const": true},

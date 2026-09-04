@@ -63,16 +63,25 @@ def validate_writer_mutex_evidence(
         "repository": REPOSITORY,
         "branch": BRANCH,
         "head_sha": head,
-        "product_number": product_number,
         "concurrent_shijiu_writer_observed": False,
         "exclusive_window_confirmed": True,
     }
     for key, expected in required.items():
         if raw.get(key) != expected:
             raise LiveImportError(f"writer mutex evidence field mismatch: {key}")
-    allowed_stages = raw.get("allowed_stage_keys") or []
-    if stage_key not in allowed_stages:
-        raise LiveImportError("writer mutex evidence does not authorize the current stage")
+    authorized_scopes = raw.get("authorized_scopes") or []
+    legacy_scope_matches = (
+        raw.get("product_number") == product_number
+        and stage_key in (raw.get("allowed_stage_keys") or [])
+    )
+    explicit_scope_matches = any(
+        row.get("product_number") == product_number
+        and stage_key in (row.get("allowed_stage_keys") or [])
+        for row in authorized_scopes
+        if isinstance(row, dict)
+    )
+    if not (legacy_scope_matches or explicit_scope_matches):
+        raise LiveImportError("writer mutex evidence does not authorize the current product/stage")
     if raw.get("confirmation_basis") not in ALLOWED_CONFIRMATION_BASES:
         raise LiveImportError("writer mutex evidence lacks an accepted external confirmation basis")
     issued_at = _utc(str(raw.get("issued_at") or ""))
@@ -99,6 +108,24 @@ def validate_writer_mutex_evidence(
 
 
 @contextmanager
+def global_production_mutex() -> Iterator[None]:
+    """Hold the machine-wide Shijiu production mutex for a whole batch invocation."""
+    GLOBAL_MUTEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    descriptor = os.open(GLOBAL_MUTEX_PATH, os.O_CREAT | os.O_RDWR, 0o600)
+    try:
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise LiveImportError("another local Shijiu production writer holds the global mutex") from exc
+        yield
+    finally:
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_UN)
+        finally:
+            os.close(descriptor)
+
+
+@contextmanager
 def production_write_window(
     evidence_path: Path,
     *,
@@ -112,21 +139,12 @@ def production_write_window(
         product_number=product_number,
         stage_key=stage_key,
     )
-    GLOBAL_MUTEX_PATH.parent.mkdir(parents=True, exist_ok=True)
-    descriptor = os.open(GLOBAL_MUTEX_PATH, os.O_CREAT | os.O_RDWR, 0o600)
     try:
-        try:
-            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError as exc:
-            raise LiveImportError("another local Shijiu production writer holds the global mutex") from exc
-        evidence["production_write_window_started_at"] = now()
-        yield evidence
+        with global_production_mutex():
+            evidence["production_write_window_started_at"] = now()
+            yield evidence
     finally:
         evidence["production_write_window_ended_at"] = now()
-        try:
-            fcntl.flock(descriptor, fcntl.LOCK_UN)
-        finally:
-            os.close(descriptor)
 
 
 def mutex_evidence_satisfied(checkpoint: dict[str, Any]) -> bool:

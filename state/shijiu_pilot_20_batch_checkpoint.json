@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-04T13:05:29.528371+00:00",
+  "updated_at": "2026-09-04T13:06:04.772355+00:00",
+  "status": "WAITING_OPERATOR_MUTEX_CONFIRMATION",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "MIKIHOUSE_PRODUCTION_PILOT_20",
+  "plan_sha256": "8b7127d0047135a21efdf0d1a8609d2cd5f37ffdfac9d12566866c0f3efe79c8",
+  "product_count": 20,
+  "next_sequence": 1,
+  "products": {
+    "23-9403-490": {
+      "sequence": 1,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "13-9401-686": {
+      "sequence": 2,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "61-9303-493": {
+      "sequence": 3,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "10-9511-490": {
+      "sequence": 4,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "13-9403-149": {
+      "sequence": 5,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "11-3201-389": {
+      "sequence": 6,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "13-6603-490": {
+      "sequence": 7,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "30-3631-578": {
+      "sequence": 8,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "10-5675-491": {
+      "sequence": 9,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "30-3639-794": {
+      "sequence": 10,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "12-7503-497": {
+      "sequence": 11,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "30-9608-576": {
+      "sequence": 12,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "72-1203-496": {
+      "sequence": 13,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "12-7504-490": {
+      "sequence": 14,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "40-2917-490": {
+      "sequence": 15,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "16-2193-688": {
+      "sequence": 16,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "14-9909-491": {
+      "sequence": 17,
+      "status": "PLANNED",
+      "stage_count": 14,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "62-8101-790": {
+      "sequence": 18,
+      "status": "PLANNED",
+      "stage_count": 5,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "16-1655-688": {
+      "sequence": 19,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    },
+    "10-8348-781": {
+      "sequence": 20,
+      "status": "PLANNED",
+      "stage_count": 3,
+      "completed_stage_count": 0,
+      "shijiu_product_id": null,
+      "error": null
+    }
+  },
+  "stop_reason": "VALID_EXTERNAL_PRODUCTION_WRITER_MUTEX_EVIDENCE_REQUIRED",
+  "cross_source_writes": 0,
+  "legacy_reference_touched": false,
+  "pdf_special_exclusion_count": 351
+}

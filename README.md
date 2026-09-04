@@ -818,3 +818,34 @@ PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
 本轮技术取证结果：官网实时核验 `10-9332-796` 的6个variant全部一致，税入价均为55,000 JPY，65折价均为35,750 JPY；18张官方图片完成HTTPS/域名/重定向/MIME/完整下载/解码/尺寸/hash预检且预检阶段Shijiu请求为0。目标端 `shijiu_product_id=9358340`，5阶段均完成强回读：18张有序broadcast、16张有序`good_detail_pics`、6个精确backend SKU、颜色/尺码/价格/库存/规格/主图/类目294884一致，405字符`good_details`在每阶段保持同一SHA-256且无图片和URL。请求台账为18次COS上传、1次CREATE、4次UPDATE、38次只读、0 failure、0 transport-unknown、`cross_source_writes=0`；`shijiu_sku_id`继续为null。
 
 由于互斥证据缺失，`production_import_architecture_verified=false`。生成的20件代表性计划仅用于冻结审阅，状态为 `FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED`，不得执行。后续外部互斥证据的非敏感结构由 `config/shijiu_writer_mutex_evidence.schema.json` 定义；原值必须留在Git工作区外，并且每个写入阶段都要重新匹配当前仓库HEAD、商品和stage。一次性非MIKI富文本测试商品继续保留，不纳入本轮清理。
+
+## Shijiu 20件生产 pilot 与 writer mutex
+
+`scripts/import_shijiu_pilot_20.py` 只消费已经冻结的 `richtext_e2e_next_20_frozen_plan.json`，不得重新选品。20件共85个stage；每件先实时核验官网全部variant并完整预检全部图片，之后才允许按轻量CREATE、分段broadcast、分段`good_detail_pics`执行。每个商品有独立checkpoint，每个stage另存快照；每次mutation都重新校验外部evidence，整个执行进程同时持续持有 `/private/tmp/shijiu-production-write.lock`。首个异常冻结整个批次，upload/CREATE/UPDATE均不重试。
+
+没有外部独占证据时只能运行零网络、零写入准备：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/import_shijiu_pilot_20.py --prepare-only
+```
+
+操作者确认同一Shijiu正式租户没有其他项目、终端、调度器或人员执行生产写入后，运行辅助工具并只输入一次页面提示的完整确认句。工具会自动读取当前HEAD和冻结计划，将覆盖20件/85 stages且最长4小时的evidence以0600权限写到Git工作区外；不需要手工制作JSON：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/confirm_shijiu_writer_window.py \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-writer-mutex \
+  --confirmation-basis operator_confirmed_global_window \
+  --valid-minutes 120
+```
+
+辅助工具输出私密evidence路径后，执行器仍要求显式批次确认。evidence的HEAD、计划hash、当前product/stage、有效期或外部独占声明任一不符，都会在目标写入前停止：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/import_shijiu_pilot_20.py \
+  --execute \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --writer-mutex-evidence /absolute/outside/repo/.secrets/shijiu-writer-mutex/FILE.private.json \
+  --confirm MIKIHOUSE_PRODUCTION_PILOT_20_EXECUTE
+```
+
+20件全部完成前不会生成全量计划；全部成功后只生成 `remaining_mikihouse_initialization_plan.json`，不会自动启动2600+商品导入。
