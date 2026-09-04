@@ -29,6 +29,20 @@ python -m pip install -e '.[dev]'
 pytest -q
 ```
 
+## 开发与供应商同步安全验收
+
+默认分支是 `main`。开始开发前先读取仓库根目录的 `AGENTS.md`，并从根目录运行统一离线验收：
+
+```bash
+python scripts/verify_local.py
+```
+
+该入口会执行 Git whitespace check、tracked Python syntax、`pytest -q`、`config/*.json` 解析、Shijiu browser-exact Node helper syntax，以及 tracked `state/**` / `deliverables/**` 验收前后不变检查。
+
+修改 `scraper.py`、`catalog.py` 或 Storefront 合约时，仍须按任务执行真实官网 read-only smoke；不能从离线 pytest 推断在线成功。Shijiu planning/dry-run 与 live write 必须分层，默认验收绝不执行 CREATE、UPDATE、图片上传、下架或恢复等生产写入。任何 Shijiu live write 都必须获得任务级明确授权，并具备显式 write gate、写后 readback 和脱敏证据。
+
+Issue 驱动开发使用 `$issue-to-verified-push` 完成 feature branch、验证、push、remote SHA、PR evidence 和 final-CI gating；该 Skill 不自动 merge。
+
 ## 输入格式
 
 默认读取仓库根目录的 `special_skus.csv`。推荐表头为 `product_number`；也兼容 `sku`、`品番`、`商品番号`，以及无表头时的第一列。
