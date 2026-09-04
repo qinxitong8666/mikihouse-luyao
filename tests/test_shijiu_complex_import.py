@@ -417,4 +417,4 @@ def test_checked_in_complex_batch_evidence_is_fail_closed_and_sanitized() -> Non
     assert [
         number for number, row in mapping["products"].items()
         if row.get("shijiu_product_id")
-        ] == ["10-8375-578", "36-2001-572", "63-6602-492"]
+            ] == ["10-8375-578", "10-9129-792", "36-2001-572", "63-6602-492"]

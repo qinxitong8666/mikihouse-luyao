@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T08:28:18.133634+00:00",
+  "product_number": "10-9129-792",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9129-792",
+      "product_number": "10-9129-792",
+      "shijiu_product_id": "9358255",
+      "target_category_id": 294884,
+      "good_name": "キャップ（帽子）（大人用）",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+      "sku_count": 3,
+      "skus": [
+        {
+          "source_variant_sku": "10-9129-79200019998",
+          "backend_sku_code": "MIKI-10-9129-79200019998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200019998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "白,フリー(56-58cm)",
+          "color": "白",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200029998",
+          "backend_sku_code": "MIKI-10-9129-79200029998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200029998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "赤,フリー(56-58cm)",
+          "color": "赤",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200039998",
+          "backend_sku_code": "MIKI-10-9129-79200039998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200039998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "紺,フリー(56-58cm)",
+          "color": "紺",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T08:19:48.246720+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9129-792",
+      "product_number": "10-9129-792",
+      "shijiu_product_id": "9358255",
+      "target_category_id": 294884,
+      "good_name": "キャップ（帽子）（大人用）",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+      "sku_count": 3,
+      "skus": [
+        {
+          "source_variant_sku": "10-9129-79200019998",
+          "backend_sku_code": "MIKI-10-9129-79200019998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200019998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "白,フリー(56-58cm)",
+          "color": "白",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200029998",
+          "backend_sku_code": "MIKI-10-9129-79200029998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200029998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "赤,フリー(56-58cm)",
+          "color": "赤",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200039998",
+          "backend_sku_code": "MIKI-10-9129-79200039998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200039998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "紺,フリー(56-58cm)",
+          "color": "紺",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T08:20:36.258987+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9129-792",
+      "product_number": "10-9129-792",
+      "shijiu_product_id": "9358255",
+      "target_category_id": 294884,
+      "good_name": "キャップ（帽子）（大人用）",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+      "sku_count": 3,
+      "skus": [
+        {
+          "source_variant_sku": "10-9129-79200019998",
+          "backend_sku_code": "MIKI-10-9129-79200019998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200019998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "白,フリー(56-58cm)",
+          "color": "白",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200029998",
+          "backend_sku_code": "MIKI-10-9129-79200029998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200029998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "赤,フリー(56-58cm)",
+          "color": "赤",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200039998",
+          "backend_sku_code": "MIKI-10-9129-79200039998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200039998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "紺,フリー(56-58cm)",
+          "color": "紺",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T08:21:24.935143+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-9129-792",
+      "product_number": "10-9129-792",
+      "shijiu_product_id": "9358255",
+      "target_category_id": 294884,
+      "good_name": "キャップ（帽子）（大人用）",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/93d8677c1dd3033126a17ebb34b1a7d1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/9bbda7c9810c73c958e03c48254fb231.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/3a6565084e0beea9762ad3ce4d90da70.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/5f9b333b5c6ee7c1c6df3d2344947d04.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1647398d8c891a7dc5c531d1f8e77bfd.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+      "sku_count": 3,
+      "skus": [
+        {
+          "source_variant_sku": "10-9129-79200019998",
+          "backend_sku_code": "MIKI-10-9129-79200019998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200019998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "白,フリー(56-58cm)",
+          "color": "白",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200029998",
+          "backend_sku_code": "MIKI-10-9129-79200029998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200029998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "赤,フリー(56-58cm)",
+          "color": "赤",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-9129-79200039998",
+          "backend_sku_code": "MIKI-10-9129-79200039998",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358255",
+            "backend_sku_code": "MIKI-10-9129-79200039998"
+          },
+          "price_jpy": 10725,
+          "stock": 1,
+          "specification": "紺,フリー(56-58cm)",
+          "color": "紺",
+          "size": "フリー(56-58cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T08:22:16.268492+00:00"
+    }
+  ],
+  "verified_stage_count": 4,
+  "sensitive_values_included": false
+}

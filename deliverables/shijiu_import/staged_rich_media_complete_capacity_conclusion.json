@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T08:28:18.136965+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "10-9129-792",
+  "shijiu_product_id": "9358255",
+  "resource_preflight_status": "PASSED",
+  "verified_stage_keys": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_20",
+    "BROADCAST_21_27"
+  ],
+  "maximum_verified_broadcast_url_count": 27,
+  "maximum_verified_good_detail_pics_url_count": 0,
+  "final_good_details_html_verified": false,
+  "production_import_architecture_verified": false,
+  "first_failed_or_blocked_state": {
+    "stage": "DETAIL_PICS_1_8",
+    "operation": "UPDATE_DETAIL_PICS",
+    "planned_broadcast_count": 27,
+    "planned_detail_pic_count": 8,
+    "mutation_request_sent": false,
+    "failure_phase": "PRE_UPDATE_UI_CONTEXT_STRONG_READBACK",
+    "failure_scope": "PRE_UPDATE_READ_ONLY_GATE",
+    "target_state_changed_by_failed_stage": false,
+    "last_persisted_target_state": {
+      "broadcast_url_count": 27,
+      "good_detail_pics_url_count": 0,
+      "sku_count": 3,
+      "pre_update_snapshot_sha256": "0afbd8ea2425693f8c6498ebadb98c8405b439c6bea195a4d0add5eb7f755957"
+    }
+  },
+  "first_target_rejected_state": null,
+  "detail_update_requests_sent": 0,
+  "interpretation": "Twenty-seven ordered broadcast URLs were strongly verified. Before the first detail-picture save, the UI-context read-only gate returned HTTP 502; the checkpoint and request ledger prove that no detail-picture UPDATE was sent. Detail pictures and final HTML therefore remain untested, and no server hard limit is inferred.",
+  "server_hard_limit_proven": false,
+  "sensitive_values_included": false
+}

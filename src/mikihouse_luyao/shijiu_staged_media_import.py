@@ -199,6 +199,26 @@ def build_stage_payload(
     if stage["operation"] != "UPDATE_GOOD_DETAILS":
         payload["good_details"] = _minimal_text_details(item)
     payload = _resolve(payload, uploads)
+    uploaded_targets = {
+        str(row.get("target_url") or "")
+        for row in uploads.values()
+        if row.get("status") == "UPLOADED" and row.get("target_url")
+    }
+    formal_urls = re.findall(
+        r"https?://[^\s,\"'<>]+",
+        json.dumps(
+            {
+                "master_graph": payload.get("master_graph"),
+                "broadcast": payload.get("broadcast"),
+                "good_detail_pics": payload.get("good_detail_pics"),
+                "good_details": payload.get("good_details"),
+                "sku_info": payload.get("sku_info"),
+            },
+            ensure_ascii=False,
+        ),
+    )
+    if any(url.rstrip("\\") not in uploaded_targets for url in formal_urls):
+        raise LiveImportError("formal staged payload contains a URL not proven by COS upload")
     if product_id is not None:
         payload["id"] = int(product_id)
         validate_canonical_update_payload(payload)
@@ -310,12 +330,14 @@ def load_frozen_candidate(
     return item
 
 
-def initial_checkpoint(item: dict[str, Any], selection: dict[str, Any]) -> dict[str, Any]:
+def initial_checkpoint(
+    item: dict[str, Any], selection: dict[str, Any], *, mode: str = MODE
+) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "source": SOURCE_CODE,
         "target": "SHIJIU",
-        "mode": MODE,
+        "mode": mode,
         "created_at": now(),
         "updated_at": now(),
         "status": "READY_FOR_CREATE",
@@ -477,17 +499,31 @@ class StagedMediaRunner:
         report_path: Path,
         readbacks_path: Path,
         confirmation: str,
+        mode: str = MODE,
+        expected_confirmation: str = WRITE_CONFIRMATION,
+        prohibited_product_numbers: set[str] | None = None,
+        protected_frozen_files: tuple[str, ...] | None = None,
     ) -> None:
         self.client, self.ui, self.item = client, ui, item
         self.special, self.category, self.selection = special, category, selection
         self.root, self.checkpoint_path, self.mapping_path = root, checkpoint_path, mapping_path
         self.report_path, self.readbacks_path, self.confirmation = report_path, readbacks_path, confirmation
+        self.mode = mode
+        self.expected_confirmation = expected_confirmation
+        self.prohibited_product_numbers = set(
+            PERMANENTLY_PROHIBITED
+            if prohibited_product_numbers is None else prohibited_product_numbers
+        )
+        self.protected_frozen_files = tuple(
+            PROTECTED_FROZEN_FILES
+            if protected_frozen_files is None else protected_frozen_files
+        )
         self.checkpoint = (
             json.loads(checkpoint_path.read_text(encoding="utf-8"))
-            if checkpoint_path.exists() else initial_checkpoint(item, selection)
+            if checkpoint_path.exists() else initial_checkpoint(item, selection, mode=mode)
         )
         if (
-            self.checkpoint.get("mode") != MODE
+            self.checkpoint.get("mode") != self.mode
             or self.checkpoint.get("product_number") != item["product_number"]
             or self.checkpoint.get("selection_sha256") != content_sha256(selection)
         ):
@@ -544,7 +580,7 @@ class StagedMediaRunner:
         return {
             "schema_version": 1,
             "generated_at": now(),
-            "mode": MODE,
+            "mode": self.mode,
             "status": self.checkpoint["status"],
             "source": SOURCE_CODE,
             "target": "SHIJIU",
@@ -606,10 +642,13 @@ class StagedMediaRunner:
     def _protected_preflight(self) -> None:
         if len(self.special) != EXPECTED_SPECIAL_COUNT or self.item["product_number"] in self.special:
             raise LiveImportError(f"{PDF_SPECIAL_EXCLUDED_REASON}: staged candidate rejected")
-        if self.item["product_number"] in PERMANENTLY_PROHIBITED:
+        if self.item["product_number"] in self.prohibited_product_numbers:
             raise LiveImportError("historical attempted/verified product entered staged validation")
         expected = self.selection.get("protected_frozen_evidence") or {}
-        actual = {relative: _file_sha256(self.root / relative) for relative in PROTECTED_FROZEN_FILES}
+        actual = {
+            relative: _file_sha256(self.root / relative)
+            for relative in self.protected_frozen_files
+        }
         if actual != expected:
             raise LiveImportError("protected historical checkpoint/report changed")
         validate_live_mikihouse_category(self.category, self.client.categories())
@@ -694,7 +733,24 @@ class StagedMediaRunner:
             "planned_broadcast_count": stage["broadcast_count"],
             "planned_detail_pic_count": stage["detail_pic_count"],
             "mutation_request_sent": after_update,
+            "failure_phase": stage.get("execution_phase"),
         }
+        if (
+            not after_update
+            and stage.get("operation") != "CREATE"
+            and stage.get("attempts") == 0
+            and stage.get("pre_update_snapshot_sha256")
+        ):
+            stage["post_failure_readonly_confirmation"] = {
+                "status": "PRE_UPDATE_SNAPSHOT_REMAINS_CURRENT_NO_MUTATION_WAS_SENT",
+                "product_id": self.checkpoint.get("shijiu_product_id"),
+                "pre_update_snapshot_sha256": stage["pre_update_snapshot_sha256"],
+                "target_save_requests_after_snapshot": 0,
+            }
+            self.checkpoint["first_failed_state"].update({
+                "failure_scope": "PRE_UPDATE_READ_ONLY_GATE",
+                "target_state_changed_by_failed_stage": False,
+            })
         self._persist()
         if after_update:
             stage["post_failure_readonly_confirmation"] = self._readonly_confirm_after_failure()
@@ -732,7 +788,7 @@ class StagedMediaRunner:
         return result
 
     def run_next_step(self) -> dict[str, Any]:
-        if self.confirmation != WRITE_CONFIRMATION:
+        if self.confirmation != self.expected_confirmation:
             raise LiveImportError("exact staged-media single-step write confirmation missing")
         if self.checkpoint["status"] in {"FROZEN_ON_FIRST_ANOMALY", "COMPLETED"}:
             raise LiveImportError("staged-media checkpoint is terminal; retry is forbidden")
@@ -750,6 +806,8 @@ class StagedMediaRunner:
         try:
             self._protected_preflight()
             if stage["operation"] == "CREATE":
+                stage["execution_phase"] = "PRE_CREATE_UI_ABSENCE_GATE"
+                self._persist()
                 stage["precreate_ui_absence"] = ui_precreate_absence(self.ui, self.item)
             else:
                 product_id = str(self.checkpoint.get("shijiu_product_id") or "")
@@ -760,11 +818,19 @@ class StagedMediaRunner:
                     self.item, previous_stage, self.checkpoint["image_uploads"], product_id=product_id
                 )
                 # Complete getFormatInfo snapshot is persisted before any upload or edit.
+                stage["execution_phase"] = "PRE_UPDATE_GET_FORMAT_INFO_SNAPSHOT"
+                self._persist()
                 snapshot = self.ui.product_detail(product_id)
                 stage["pre_update_getFormatInfo_snapshot"] = _redacted_response(snapshot)
                 stage["pre_update_snapshot_sha256"] = content_sha256(snapshot)
                 self._persist()
+                stage["execution_phase"] = "PRE_UPDATE_UI_CONTEXT_STRONG_READBACK"
+                self._persist()
                 self._exact_readback({key: value for key, value in previous_payload.items() if key != "id"}, {})
+                stage["execution_phase"] = "PRE_UPDATE_UI_CONTEXT_STRONG_READBACK_VERIFIED"
+                self._persist()
+            stage["execution_phase"] = "STAGE_RESOURCE_UPLOAD"
+            self._persist()
             self._upload_missing(stage)
             product_id = self.checkpoint.get("shijiu_product_id")
             payload = build_stage_payload(
@@ -775,6 +841,7 @@ class StagedMediaRunner:
             )
             stage.update({
                 "state": "MUTATION_INTENT_PERSISTED",
+                "execution_phase": "MUTATION_INTENT_PERSISTED",
                 "attempts": 1,
                 "intent_at": now(),
                 "payload_sha256": content_sha256(payload),

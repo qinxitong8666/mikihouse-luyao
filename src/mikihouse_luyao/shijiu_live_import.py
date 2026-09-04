@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import gzip
 import hashlib
+import io
 import json
 import mimetypes
 import os
@@ -18,6 +19,8 @@ from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Callable
+
+from PIL import Image, UnidentifiedImageError
 
 from .csv_input import read_product_numbers
 from .shijiu_import import (
@@ -66,6 +69,16 @@ OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES = (
     # Detail media returned by the official MIKI HOUSE Storefront product data.
     "img.mksk.me",
 )
+MAX_OFFICIAL_IMAGE_BYTES = 25 * 1024 * 1024
+
+
+def is_official_mikihouse_image_url(url: str) -> bool:
+    parsed = urllib.parse.urlparse(str(url or ""))
+    hostname = (parsed.hostname or "").casefold()
+    return parsed.scheme == "https" and any(
+        hostname == suffix or hostname.endswith(f".{suffix}")
+        for suffix in OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES
+    )
 CANONICAL_CREATE_CONTRACT_PATH = (
     Path(__file__).resolve().parents[2] / "config/shijiu_native_create_contract.json"
 )
@@ -570,9 +583,7 @@ class ShijiuLiveClient:
 
     def _download_official_image(self, source_url: str) -> tuple[bytes, str, str]:
         parsed = urllib.parse.urlparse(source_url)
-        if parsed.scheme != "https" or not parsed.netloc.endswith(
-            OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES
-        ):
+        if not is_official_mikihouse_image_url(source_url):
             raise ContractMismatchError(f"image source is not an official HTTPS MIKI HOUSE host: {parsed.netloc}")
         request = urllib.request.Request(
             source_url,
@@ -582,8 +593,16 @@ class ShijiuLiveClient:
             },
         )
         with urllib.request.urlopen(request, timeout=max(self.timeout, 120)) as response:
-            data = response.read()
+            final_url = response.geturl()
+            if not is_official_mikihouse_image_url(final_url):
+                raise ContractMismatchError("official image redirected to an unapproved host")
+            declared_size = response.headers.get("Content-Length")
+            if declared_size and declared_size.isdigit() and int(declared_size) > MAX_OFFICIAL_IMAGE_BYTES:
+                raise ContractMismatchError("official image exceeds the preflight byte safety limit")
+            data = response.read(MAX_OFFICIAL_IMAGE_BYTES + 1)
             mime_type = (response.headers.get("Content-Type") or "").split(";", 1)[0].strip()
+        if len(data) > MAX_OFFICIAL_IMAGE_BYTES:
+            raise ContractMismatchError("official image exceeds the preflight byte safety limit")
         if len(data) < 100 or not mime_type.startswith("image/"):
             raise ContractMismatchError(
                 f"official image download invalid: mime={mime_type!r}, bytes={len(data)}"
@@ -592,6 +611,31 @@ class ShijiuLiveClient:
         if "." not in filename:
             filename += mimetypes.guess_extension(mime_type) or ".jpg"
         return data, filename, mime_type
+
+    def preflight_official_image(self, source_url: str) -> dict[str, Any]:
+        """Fully download and decode one source image without any Shijiu request."""
+        data, filename, mime_type = self._download_official_image(source_url)
+        try:
+            with Image.open(io.BytesIO(data)) as image:
+                image_format = str(image.format or "").upper()
+                width, height = image.size
+                image.verify()
+        except (OSError, ValueError, UnidentifiedImageError) as exc:
+            raise ContractMismatchError("official image MIME/content decoding failed") from exc
+        if width < 1 or height < 1 or not image_format:
+            raise ContractMismatchError("official image has invalid decoded dimensions or format")
+        return {
+            "source_url_sha256": hashlib.sha256(source_url.encode("utf-8")).hexdigest(),
+            "source_host": urllib.parse.urlparse(source_url).hostname,
+            "filename_extension": Path(filename).suffix.casefold(),
+            "response_mime_type": mime_type,
+            "detected_image_format": image_format,
+            "byte_count": len(data),
+            "content_sha256": hashlib.sha256(data).hexdigest(),
+            "width": width,
+            "height": height,
+            "shijiu_requests_sent": 0,
+        }
 
     @property
     def write_request_count(self) -> int:

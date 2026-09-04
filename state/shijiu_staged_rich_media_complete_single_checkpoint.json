@@ -1,0 +1,4374 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "STAGED_RICH_MEDIA_COMPLETE_SINGLE_REAL_VALIDATION",
+  "created_at": "2026-09-04T08:18:06.533014+00:00",
+  "updated_at": "2026-09-04T08:28:18.130674+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "10-9129-792",
+  "source_payload_sha256": "74aa702beebe9feed8103058a7d2a8b4d9a69747c20a7bb02f5b048fee48c89f",
+  "selection_sha256": "0bc78160e468f17da6f469763262526f965309a624c33675d44e08fce2f1fadd",
+  "stage_cursor": 4,
+  "stages": [
+    {
+      "sequence": 1,
+      "key": "CREATE_CORE",
+      "operation": "CREATE",
+      "broadcast_count": 4,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:001",
+        "MIKIHOUSE:10-9129-792:IMAGE:002",
+        "MIKIHOUSE:10-9129-792:IMAGE:003",
+        "MIKIHOUSE:10-9129-792:IMAGE:004",
+        "MIKIHOUSE:10-9129-792:IMAGE:025",
+        "MIKIHOUSE:10-9129-792:IMAGE:026"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "precreate_ui_absence": {
+        "passed": true,
+        "identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "candidate_product_ids": [],
+        "candidate_observations": [],
+        "expected_backend_sku_count": 3,
+        "expected_backend_sku_overlap": [],
+        "good_code_used_as_primary": false,
+        "ui_queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 3,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": []
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 132,
+            "page_size": 10,
+            "pages_read": 14,
+            "exact_match_product_ids": []
+          }
+        ]
+      },
+      "intent_at": "2026-09-04T08:19:34.270312+00:00",
+      "payload_sha256": "f60a3d040b8305c552fb4e94849e3e9ab4554db810abdd1063dab83bed599663",
+      "metrics": {
+        "payload_utf8_bytes": 3058,
+        "sku_count": 3,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 4,
+        "broadcast_characters": 307,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 86,
+        "good_details_utf8_bytes": 118,
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "f60a3d040b8305c552fb4e94849e3e9ab4554db810abdd1063dab83bed599663",
+          "body_byte_count": 3145
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-9129-792",
+        "product_number": "10-9129-792",
+        "shijiu_product_id": "9358255",
+        "target_category_id": 294884,
+        "good_name": "キャップ（帽子）（大人用）",
+        "off_shelf": null,
+        "is_shelf_exposed": false,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+        "sku_count": 3,
+        "skus": [
+          {
+            "source_variant_sku": "10-9129-79200019998",
+            "backend_sku_code": "MIKI-10-9129-79200019998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200019998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "白,フリー(56-58cm)",
+            "color": "白",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200029998",
+            "backend_sku_code": "MIKI-10-9129-79200029998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200029998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "赤,フリー(56-58cm)",
+            "color": "赤",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200039998",
+            "backend_sku_code": "MIKI-10-9129-79200039998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200039998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "紺,フリー(56-58cm)",
+            "color": "紺",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T08:19:48.246720+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "キャップ（帽子）（大人用）",
+        "candidate_product_ids": [
+          "9358255"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 4,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 133,
+            "page_size": 10,
+            "pages_read": 14,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358255",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 3,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358255"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T08:19:48.246720+00:00"
+    },
+    {
+      "sequence": 2,
+      "key": "BROADCAST_5_12",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 12,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:005",
+        "MIKIHOUSE:10-9129-792:IMAGE:006",
+        "MIKIHOUSE:10-9129-792:IMAGE:007",
+        "MIKIHOUSE:10-9129-792:IMAGE:008",
+        "MIKIHOUSE:10-9129-792:IMAGE:009",
+        "MIKIHOUSE:10-9129-792:IMAGE:010",
+        "MIKIHOUSE:10-9129-792:IMAGE:011",
+        "MIKIHOUSE:10-9129-792:IMAGE:012"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "キャップ（帽子）（大人用）",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg,https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg,https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg,https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-9129-792；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>キャップ（帽子）（大人用）</h2><p>品番：10-9129-792</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-9129-79200019998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "白,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200029998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "赤,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200039998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "紺,フリー(56-58cm)"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "白",
+              "赤",
+              "紺"
+            ],
+            [
+              "フリー(56-58cm)"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "ef726fbb062e35db6701cb47cfb12ec95a113cc0a1199751b242f2af1d46f1e4",
+      "intent_at": "2026-09-04T08:20:21.642146+00:00",
+      "payload_sha256": "e1964a1ef6cb8a0a00ed944ecba35d71ddd91159ac7c3fabf089be99d21231f7",
+      "metrics": {
+        "payload_utf8_bytes": 3674,
+        "sku_count": 3,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 12,
+        "broadcast_characters": 923,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 86,
+        "good_details_utf8_bytes": 118,
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id",
+              "id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "e1964a1ef6cb8a0a00ed944ecba35d71ddd91159ac7c3fabf089be99d21231f7",
+          "body_byte_count": 3774
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-9129-792",
+        "product_number": "10-9129-792",
+        "shijiu_product_id": "9358255",
+        "target_category_id": 294884,
+        "good_name": "キャップ（帽子）（大人用）",
+        "off_shelf": true,
+        "is_shelf_exposed": true,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+        "sku_count": 3,
+        "skus": [
+          {
+            "source_variant_sku": "10-9129-79200019998",
+            "backend_sku_code": "MIKI-10-9129-79200019998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200019998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "白,フリー(56-58cm)",
+            "color": "白",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200029998",
+            "backend_sku_code": "MIKI-10-9129-79200029998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200029998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "赤,フリー(56-58cm)",
+            "color": "赤",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200039998",
+            "backend_sku_code": "MIKI-10-9129-79200039998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200039998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "紺,フリー(56-58cm)",
+            "color": "紺",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T08:20:36.258987+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "キャップ（帽子）（大人用）",
+        "candidate_product_ids": [
+          "9358255"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 4,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 133,
+            "page_size": 10,
+            "pages_read": 14,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358255",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 3,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358255"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T08:20:36.258987+00:00"
+    },
+    {
+      "sequence": 3,
+      "key": "BROADCAST_13_20",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 20,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:013",
+        "MIKIHOUSE:10-9129-792:IMAGE:014",
+        "MIKIHOUSE:10-9129-792:IMAGE:015",
+        "MIKIHOUSE:10-9129-792:IMAGE:016",
+        "MIKIHOUSE:10-9129-792:IMAGE:017",
+        "MIKIHOUSE:10-9129-792:IMAGE:018",
+        "MIKIHOUSE:10-9129-792:IMAGE:019",
+        "MIKIHOUSE:10-9129-792:IMAGE:020"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "キャップ（帽子）（大人用）",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg,https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg,https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg,https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg,https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg,https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg,https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg,https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg,https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg,https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg,https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg,https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-9129-792；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>キャップ（帽子）（大人用）</h2><p>品番：10-9129-792</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "日本",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "件",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "0.00",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "日本",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "source_product_id=MIKIHOUSE:10-9129-792;source_brand=ミキハウス;source_category=カテゴリーなし;currency=JPY",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-9129-79200019998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "白,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200029998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "赤,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200039998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "紺,フリー(56-58cm)"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "白",
+              "赤",
+              "紺"
+            ],
+            [
+              "フリー(56-58cm)"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "3df0dc32f615bda435664f80fea1904f751dc081b5c2b15d19a92bf247b4b161",
+      "intent_at": "2026-09-04T08:21:10.840820+00:00",
+      "payload_sha256": "9d27fa291b1d7a3642699471912616e4767fe69ed84c96c96ffd92474f01fd67",
+      "metrics": {
+        "payload_utf8_bytes": 4290,
+        "sku_count": 3,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 20,
+        "broadcast_characters": 1539,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 86,
+        "good_details_utf8_bytes": 118,
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id",
+              "id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "9d27fa291b1d7a3642699471912616e4767fe69ed84c96c96ffd92474f01fd67",
+          "body_byte_count": 4390
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-9129-792",
+        "product_number": "10-9129-792",
+        "shijiu_product_id": "9358255",
+        "target_category_id": 294884,
+        "good_name": "キャップ（帽子）（大人用）",
+        "off_shelf": true,
+        "is_shelf_exposed": true,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+        "sku_count": 3,
+        "skus": [
+          {
+            "source_variant_sku": "10-9129-79200019998",
+            "backend_sku_code": "MIKI-10-9129-79200019998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200019998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "白,フリー(56-58cm)",
+            "color": "白",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200029998",
+            "backend_sku_code": "MIKI-10-9129-79200029998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200029998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "赤,フリー(56-58cm)",
+            "color": "赤",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200039998",
+            "backend_sku_code": "MIKI-10-9129-79200039998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200039998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "紺,フリー(56-58cm)",
+            "color": "紺",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T08:21:24.935143+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "キャップ（帽子）（大人用）",
+        "candidate_product_ids": [
+          "9358255"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 4,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 133,
+            "page_size": 10,
+            "pages_read": 14,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358255",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 3,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358255"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T08:21:24.935143+00:00"
+    },
+    {
+      "sequence": 4,
+      "key": "BROADCAST_21_27",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 27,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:021",
+        "MIKIHOUSE:10-9129-792:IMAGE:022",
+        "MIKIHOUSE:10-9129-792:IMAGE:023",
+        "MIKIHOUSE:10-9129-792:IMAGE:024",
+        "MIKIHOUSE:10-9129-792:IMAGE:025",
+        "MIKIHOUSE:10-9129-792:IMAGE:026",
+        "MIKIHOUSE:10-9129-792:IMAGE:027"
+      ],
+      "state": "VERIFIED",
+      "attempts": 1,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "キャップ（帽子）（大人用）",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg,https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg,https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg,https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg,https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg,https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg,https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg,https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg,https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg,https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg,https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg,https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg,https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg,https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg,https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg,https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg,https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg,https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg,https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg,https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-9129-792；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>キャップ（帽子）（大人用）</h2><p>品番：10-9129-792</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "日本",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "件",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "0.00",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "日本",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "source_product_id=MIKIHOUSE:10-9129-792;source_brand=ミキハウス;source_category=カテゴリーなし;currency=JPY",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-9129-79200019998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "白,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200029998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "赤,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200039998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "紺,フリー(56-58cm)"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "白",
+              "赤",
+              "紺"
+            ],
+            [
+              "フリー(56-58cm)"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "dcb91751fe94e074b1334bfed67c5fc53193b340fed56320203691df1e1009cd",
+      "intent_at": "2026-09-04T08:22:01.099757+00:00",
+      "payload_sha256": "759a8714343d561de97f72cb61eb27af74c3b25d7cd3844dbcc23e5cb0fe528c",
+      "metrics": {
+        "payload_utf8_bytes": 4829,
+        "sku_count": 3,
+        "spec_dimension_count": 2,
+        "broadcast_url_count": 27,
+        "broadcast_characters": 2078,
+        "good_detail_pics_url_count": 0,
+        "good_detail_pics_characters": 0,
+        "good_details_characters": 86,
+        "good_details_utf8_bytes": 118,
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07"
+      },
+      "response": {
+        "code": 200,
+        "data": [],
+        "msg": "success",
+        "_native_request": {
+          "endpoint": "/shopapi/Goods/newAddGood",
+          "method": "POST",
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json;charset=UTF-8",
+            "origin": "https://shijiu.wfcorp.cn",
+            "referer": "https://shijiu.wfcorp.cn/",
+            "sec-ch-ua": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          "content_type": "application/json;charset=UTF-8",
+          "serialization": {
+            "format": "JSON",
+            "encoding": "UTF-8",
+            "ensure_ascii": false,
+            "separators": [
+              ",",
+              ":"
+            ],
+            "body_auth_key_order": [
+              "secret",
+              "token"
+            ],
+            "body_key_order_after_auth": [
+              "good_videos",
+              "video_cover",
+              "good_name",
+              "gyy_erp_code",
+              "hc_erp_code",
+              "good_describe",
+              "original_price",
+              "good_details",
+              "state",
+              "spec_name",
+              "sku_info",
+              "vnarious",
+              "good_type",
+              "good_detail_pics",
+              "integral_type",
+              "integral_content",
+              "is_cumulative",
+              "mortgage_type",
+              "mortgage_content",
+              "distribution_set",
+              "distribution_type",
+              "first_commission",
+              "second_commisstion",
+              "freight_type",
+              "freight_id",
+              "member_type",
+              "advance_sale",
+              "is_border",
+              "spt1",
+              "name_ch",
+              "name_eh",
+              "brand_id",
+              "cargo_place",
+              "standard_place",
+              "buying_unit",
+              "cargo_ingredient",
+              "gross_weight",
+              "net_weight",
+              "cargo_function",
+              "tax_rate",
+              "code_ts",
+              "hs_code",
+              "length",
+              "weight",
+              "height",
+              "supplier",
+              "bus_region",
+              "description",
+              "is_shelf",
+              "is_collection",
+              "is_need_authentication",
+              "master_graph",
+              "broadcast",
+              "good_group_id",
+              "id"
+            ],
+            "token_also_in_query": true
+          },
+          "payload_sha256": "759a8714343d561de97f72cb61eb27af74c3b25d7cd3844dbcc23e5cb0fe528c",
+          "body_byte_count": 4929
+        },
+        "_native_response": {
+          "http_status": 200,
+          "content_type": "application/json; charset=utf-8",
+          "content_encoding": null,
+          "response_byte_count": 38
+        }
+      },
+      "readback": {
+        "source": "MIKIHOUSE",
+        "source_product_id": "MIKIHOUSE:10-9129-792",
+        "product_number": "10-9129-792",
+        "shijiu_product_id": "9358255",
+        "target_category_id": 294884,
+        "good_name": "キャップ（帽子）（大人用）",
+        "off_shelf": true,
+        "is_shelf_exposed": true,
+        "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+        "carousel_urls": [
+          "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/93d8677c1dd3033126a17ebb34b1a7d1.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/9bbda7c9810c73c958e03c48254fb231.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/3a6565084e0beea9762ad3ce4d90da70.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/5f9b333b5c6ee7c1c6df3d2344947d04.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+          "https://cdn0.19mini.com/shop/2026-09-04/1647398d8c891a7dc5c531d1f8e77bfd.jpg"
+        ],
+        "detail_image_urls": [],
+        "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07",
+        "sku_count": 3,
+        "skus": [
+          {
+            "source_variant_sku": "10-9129-79200019998",
+            "backend_sku_code": "MIKI-10-9129-79200019998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200019998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "白,フリー(56-58cm)",
+            "color": "白",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200029998",
+            "backend_sku_code": "MIKI-10-9129-79200029998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200029998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "赤,フリー(56-58cm)",
+            "color": "赤",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+            "passed": true
+          },
+          {
+            "source_variant_sku": "10-9129-79200039998",
+            "backend_sku_code": "MIKI-10-9129-79200039998",
+            "shijiu_sku_id": null,
+            "stable_target_identity": {
+              "shijiu_product_id": "9358255",
+              "backend_sku_code": "MIKI-10-9129-79200039998"
+            },
+            "price_jpy": 10725,
+            "stock": 1,
+            "specification": "紺,フリー(56-58cm)",
+            "color": "紺",
+            "size": "フリー(56-58cm)",
+            "color_size_verified_via_exact_specification": true,
+            "image_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verified_at": "2026-09-04T08:22:16.268492+00:00"
+      },
+      "ui_readback_discovery": {
+        "primary_identity_path": "browser-captured UI-context Goods.index exact good_name -> product_id -> getFormatInfo exact backend sku_code",
+        "exact_good_name": "キャップ（帽子）（大人用）",
+        "candidate_product_ids": [
+          "9358255"
+        ],
+        "queries": [
+          {
+            "label": "category_294884",
+            "good_type": "294884",
+            "declared_count": 4,
+            "page_size": 10,
+            "pages_read": 1,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          },
+          {
+            "label": "all_categories",
+            "good_type": "",
+            "declared_count": 133,
+            "page_size": 10,
+            "pages_read": 14,
+            "exact_match_product_ids": [
+              "9358255"
+            ]
+          }
+        ],
+        "filter_context": {
+          "page": "1",
+          "good_type": "",
+          "father_type": "",
+          "recommend": "2",
+          "good_name": "",
+          "good_code": "",
+          "push": "2",
+          "status": "",
+          "update_start_time": "",
+          "update_end_time": "",
+          "create_start_time": "",
+          "create_end_time": "",
+          "page_size": "10",
+          "group_id": ""
+        },
+        "auth_values_included": false,
+        "candidate_validations": [
+          {
+            "product_id": "9358255",
+            "exact_good_name": true,
+            "passed": true,
+            "verified_backend_sku_count": 3,
+            "prices_verified": true,
+            "stocks_verified": true,
+            "specifications_verified": true,
+            "images_verified": true
+          }
+        ],
+        "verified_product_ids": [
+          "9358255"
+        ],
+        "good_code_role": "not_used_for_primary_or_binding"
+      },
+      "verified_at": "2026-09-04T08:22:16.268492+00:00"
+    },
+    {
+      "sequence": 5,
+      "key": "DETAIL_PICS_1_8",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 8,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:002",
+        "MIKIHOUSE:10-9129-792:IMAGE:003",
+        "MIKIHOUSE:10-9129-792:IMAGE:004",
+        "MIKIHOUSE:10-9129-792:IMAGE:005",
+        "MIKIHOUSE:10-9129-792:IMAGE:006",
+        "MIKIHOUSE:10-9129-792:IMAGE:007",
+        "MIKIHOUSE:10-9129-792:IMAGE:008",
+        "MIKIHOUSE:10-9129-792:IMAGE:009"
+      ],
+      "state": "FROZEN_ON_ANOMALY",
+      "attempts": 0,
+      "pre_update_getFormatInfo_snapshot": {
+        "code": 200,
+        "data": {
+          "good_name": "キャップ（帽子）（大人用）",
+          "good_type": 294884,
+          "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+          "broadcast": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg,https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg,https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg,https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg,https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg,https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg,https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg,https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg,https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg,https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg,https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg,https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg,https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg,https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg,https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg,https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg,https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg,https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg,https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg,https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg,https://cdn0.19mini.com/shop/2026-09-04/93d8677c1dd3033126a17ebb34b1a7d1.jpg,https://cdn0.19mini.com/shop/2026-09-04/9bbda7c9810c73c958e03c48254fb231.jpg,https://cdn0.19mini.com/shop/2026-09-04/3a6565084e0beea9762ad3ce4d90da70.jpg,https://cdn0.19mini.com/shop/2026-09-04/5f9b333b5c6ee7c1c6df3d2344947d04.jpg,https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg,https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg,https://cdn0.19mini.com/shop/2026-09-04/1647398d8c891a7dc5c531d1f8e77bfd.jpg",
+          "good_describe": "品牌：ミキハウス；品番：10-9129-792；分类：カテゴリーなし",
+          "virtual_sales": 0,
+          "original_price": "0.00",
+          "state": 1,
+          "recommend": 0,
+          "good_details": "<section data-source=\"MIKIHOUSE\"><h2>キャップ（帽子）（大人用）</h2><p>品番：10-9129-792</p></section>",
+          "good_detail_pics": "",
+          "orderby": 0,
+          "mortgage_type": 0,
+          "is_cumulative": 0,
+          "integral_type": 0,
+          "integral_content": "0",
+          "distribution_set": 0,
+          "distribution_type": "",
+          "first_commission": "",
+          "second_commisstion": "",
+          "member_type": 0,
+          "mortgage_content": "",
+          "freight_id": 0,
+          "freight_type": 0,
+          "good_videos": "",
+          "advance_sale": 0,
+          "advance_state": 0,
+          "time_state": 0,
+          "advance_time": "1970-01-01 08:00:00",
+          "front_money": 0,
+          "front_start_time": 0,
+          "front_end_time": 0,
+          "tail_start_time": 0,
+          "tail_end_time": 0,
+          "is_border": 0,
+          "video_cover": "",
+          "is_collection": 0,
+          "is_need_authentication": 0,
+          "gyy_erp_code": "",
+          "hc_erp_code": "",
+          "spt1": 0,
+          "name_ch": "",
+          "name_eh": "",
+          "brand_id": 0,
+          "cargo_place": "日本",
+          "standard_place": "",
+          "border_good_type": "",
+          "buying_unit": "件",
+          "cargo_ingredient": "",
+          "gross_weight": "0.00",
+          "net_weight": "0.00",
+          "cargo_function": "",
+          "tax_rate": "0.00",
+          "lowest_price": "0.00",
+          "code_ts": "",
+          "hs_code": "",
+          "length": "0.00",
+          "weight": "0.00",
+          "height": "0.00",
+          "template": 0,
+          "trade": 0,
+          "supplier": "",
+          "port": 0,
+          "customs": 0,
+          "bus_region": "日本",
+          "is_id_info": 1,
+          "is_id_photo": 0,
+          "description": "source_product_id=MIKIHOUSE:10-9129-792;source_brand=ミキハウス;source_category=カテゴリーなし;currency=JPY",
+          "is_shelf": 0,
+          "appr_advice": "",
+          "appr_rtn": 0,
+          "appr_man": "",
+          "serial_number": "",
+          "parent_type_name": "母婴用品",
+          "parent_type_id": 288338,
+          "type_name": "MikiHouse",
+          "sku_info": [
+            {
+              "sku_code": "MIKI-10-9129-79200019998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "白,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200029998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "赤,フリー(56-58cm)"
+            },
+            {
+              "sku_code": "MIKI-10-9129-79200039998",
+              "price": "10725.00",
+              "stock": 1,
+              "sku_thumbnail": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+              "first_level": "10725.00",
+              "second_level": "10725.00",
+              "third_level": "10725.00",
+              "fourth_level": "10725.00",
+              "fifth_level": "10725.00",
+              "sixth_level": "10725.00",
+              "weight": "0.00",
+              "sku_cost_price": "16500.00",
+              "spec_son_name": "紺,フリー(56-58cm)"
+            }
+          ],
+          "spec_name": [
+            "颜色",
+            "尺码"
+          ],
+          "spec_son_name": [
+            [
+              "白",
+              "赤",
+              "紺"
+            ],
+            [
+              "フリー(56-58cm)"
+            ]
+          ],
+          "good_group_type": [],
+          "front_state": 0
+        },
+        "msg": "success"
+      },
+      "pre_update_snapshot_sha256": "0afbd8ea2425693f8c6498ebadb98c8405b439c6bea195a4d0add5eb7f755957",
+      "error": {
+        "type": "HTTPError",
+        "message": "HTTP Error 502: Bad Gateway",
+        "at": "2026-09-04T08:22:38.607195+00:00"
+      },
+      "execution_phase": "PRE_UPDATE_UI_CONTEXT_STRONG_READBACK",
+      "post_failure_readonly_confirmation": {
+        "status": "PRE_UPDATE_SNAPSHOT_REMAINS_CURRENT_NO_MUTATION_WAS_SENT",
+        "product_id": "9358255",
+        "pre_update_snapshot_sha256": "0afbd8ea2425693f8c6498ebadb98c8405b439c6bea195a4d0add5eb7f755957",
+        "verified_stage_save_request_count": 4,
+        "observed_total_save_request_count": 4,
+        "target_save_requests_after_snapshot": 0
+      }
+    },
+    {
+      "sequence": 6,
+      "key": "DETAIL_PICS_9_16",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 16,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:010",
+        "MIKIHOUSE:10-9129-792:IMAGE:011",
+        "MIKIHOUSE:10-9129-792:IMAGE:012",
+        "MIKIHOUSE:10-9129-792:IMAGE:013",
+        "MIKIHOUSE:10-9129-792:IMAGE:014",
+        "MIKIHOUSE:10-9129-792:IMAGE:015",
+        "MIKIHOUSE:10-9129-792:IMAGE:016",
+        "MIKIHOUSE:10-9129-792:IMAGE:017"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 7,
+      "key": "DETAIL_PICS_17_24",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 27,
+      "detail_pic_count": 24,
+      "new_references": [
+        "MIKIHOUSE:10-9129-792:IMAGE:018",
+        "MIKIHOUSE:10-9129-792:IMAGE:019",
+        "MIKIHOUSE:10-9129-792:IMAGE:020",
+        "MIKIHOUSE:10-9129-792:IMAGE:021",
+        "MIKIHOUSE:10-9129-792:IMAGE:022",
+        "MIKIHOUSE:10-9129-792:IMAGE:023",
+        "MIKIHOUSE:10-9129-792:IMAGE:024",
+        "MIKIHOUSE:10-9129-792:IMAGE:027"
+      ],
+      "state": "PLANNED",
+      "attempts": 0
+    },
+    {
+      "sequence": 8,
+      "key": "FINAL_GOOD_DETAILS_HTML",
+      "operation": "UPDATE_GOOD_DETAILS",
+      "broadcast_count": 27,
+      "detail_pic_count": 24,
+      "new_references": [],
+      "state": "PLANNED",
+      "attempts": 0
+    }
+  ],
+  "image_uploads": {
+    "MIKIHOUSE:10-9129-792:IMAGE:001": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:001",
+      "order": 1,
+      "role": "main",
+      "source_url_sha256": "dd7781706767894dd8e07e20a436daaf966ef9e76d2d9f5bd7b5de1db06610db",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:28.658174+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/438ec9d4d327a052804c06ef7cc31951.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:29.628745+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:002": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:002",
+      "order": 2,
+      "role": "product_gallery",
+      "source_url_sha256": "15c2d59d4a993ee129d738c41c510593c2dca1f96bd696e3632c4159c5972591",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:29.632214+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/819c56558f533a6ea8fec3d9e86e7344.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:30.654216+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:003": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:003",
+      "order": 3,
+      "role": "product_gallery",
+      "source_url_sha256": "1cca8d2faef671005b1583d1fba8f8665c957842c0330ab95bcafec8aa9e01fe",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:30.657111+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/db332a899d01505e087b9bcd09dbe934.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:31.404972+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:004": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:004",
+      "order": 4,
+      "role": "product_gallery",
+      "source_url_sha256": "92f8da77c6bb434a73b9038d53ea6603552448959c28aa991eaf58ffbad36ba5",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:31.407867+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/00f0ed77730b44415121d731f7f44f5a.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:32.597347+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:025": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:025",
+      "order": 25,
+      "role": "variant_color",
+      "source_url_sha256": "2db1e3c93175c96d5cab87739c127c6610d9932e93c53d87a50aa86be8686e01",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:32.601040+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/99399759cb2c26e5bcdac3b0973ec644.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:33.602027+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:026": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:026",
+      "order": 26,
+      "role": "variant_color",
+      "source_url_sha256": "ca3403e7c4d10d16469bf93e3ad2b32d7aa1e1718d716bb1798a659db68cb71f",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:19:33.605029+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/10e70f0d243e7f7746c8a9c082e8f2df.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:19:34.261619+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:005": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:005",
+      "order": 5,
+      "role": "product_gallery",
+      "source_url_sha256": "20bc11cb437b819c4f520e9924d3ca1830c52304468029f88add984869219099",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:15.401475+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/aacc0a2df0dc3944479da338fe0328dd.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:16.321860+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:006": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:006",
+      "order": 6,
+      "role": "product_gallery",
+      "source_url_sha256": "fee50da96af6edbf7718259c6cb60a72f1f70e5bf83e0119131e899fea3fa352",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:16.329905+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/df40a7ad12d712e5b6cc2859d6435741.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:16.880120+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:007": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:007",
+      "order": 7,
+      "role": "product_gallery",
+      "source_url_sha256": "1c9f1e522069377bb8a81ba0431c8ac63333b36bbd1dab9566b749f65d4912f6",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:16.885043+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/a10c80ab1e5ca1415dcf6990897b084c.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:17.777821+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:008": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:008",
+      "order": 8,
+      "role": "product_gallery",
+      "source_url_sha256": "2b09f2d3d4ef21382148a5b59d9579d176cad2299f8a69147e7776b115380aef",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:17.783414+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/fe4d04e1b3197346138c5294f783bbe5.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:18.612493+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:009": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:009",
+      "order": 9,
+      "role": "product_gallery",
+      "source_url_sha256": "3a45e464b138459b1f60b2f02f40cec18887e2c086b1eef8c0e44d45df41c69e",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:18.617594+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/5c08c73276231294e96c2e5da5912c4c.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:19.394175+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:010": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:010",
+      "order": 10,
+      "role": "product_gallery",
+      "source_url_sha256": "73209d8dcfc100a80d7e0bf4c35c7fbe7b3da7a67584e8a1a2f36d59af4498af",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:19.399012+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/37800a065da8cd9ece237ab1167a2032.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:19.909471+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:011": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:011",
+      "order": 11,
+      "role": "product_gallery",
+      "source_url_sha256": "ea79f60de94e9ac07463db7873ab44a131e0a4aec2db9e995a1a4c8d70349ef6",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:19.911980+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/f0d3091c192d534c9c10b39e126c8c71.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:21.054127+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:012": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:012",
+      "order": 12,
+      "role": "product_gallery",
+      "source_url_sha256": "2a8dc41d452cf464c75ea1a7979270812b0d17974d1b6f4533fe5d988a332ee0",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:20:21.057498+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/212405f98387a70ff577a6bbe3c7bd47.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:20:21.638892+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:013": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:013",
+      "order": 13,
+      "role": "product_gallery",
+      "source_url_sha256": "915e1a1f869964cbc65e4cef453533e9632374dcbeba527a9ad17c3d33906197",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:05.065709+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/cf988266c86af7326b6678a757a0fca9.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:06.048419+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:014": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:014",
+      "order": 14,
+      "role": "product_gallery",
+      "source_url_sha256": "f4c33bdb6ee09f5d33ba86f6de08832e6611794fb8e1ac247092f5d2bf4f41cc",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:06.054639+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/0a3f939c169622e289e913aade66b3d9.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:06.768203+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:015": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:015",
+      "order": 15,
+      "role": "product_gallery",
+      "source_url_sha256": "fa6ca5ac63e4ad329cb5230120426e5770facf4c24814a39538ad6645360fc74",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:06.774105+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/e04046a1abe4978c43dfa3d57417b0c3.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:07.625069+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:016": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:016",
+      "order": 16,
+      "role": "product_gallery",
+      "source_url_sha256": "3539ca56fdddfc406dbcf20a85d24dc5b56e79591bfdc73036e13175e16850ab",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:07.631385+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/252b86d6bc56caaa9e5a57f14ad09480.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:08.379599+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:017": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:017",
+      "order": 17,
+      "role": "product_gallery",
+      "source_url_sha256": "a690ee957dd9380b064994766d66fea46d99bcddfba5b969c4a9ba8df3f57dd0",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:08.386001+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/6674b39e0481c68b89d1c7f046555fc8.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:08.931431+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:018": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:018",
+      "order": 18,
+      "role": "product_gallery",
+      "source_url_sha256": "3618759753757055ed37867bec2c0c3ff61648539d7e05b537c3f10a165f0b5a",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:08.933907+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/35f7b7e4482195fdb160a894407e4124.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:09.685058+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:019": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:019",
+      "order": 19,
+      "role": "product_gallery",
+      "source_url_sha256": "fff83d11ddd0ad71ef6d5892817ece8e478c0ce426ddb388f89a291f5d88393a",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:09.692428+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/c111e32ede8578d1baf27e929b291d11.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:10.240523+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:020": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:020",
+      "order": 20,
+      "role": "product_gallery",
+      "source_url_sha256": "4514464f8e8574a5c99fe8597485c15d45b36fe9d186230a8d7396ae739bbc5a",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:10.242941+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/2ca1bf1c5ff9cace3c96a211f3bbe246.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:10.833280+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:021": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:021",
+      "order": 21,
+      "role": "product_gallery",
+      "source_url_sha256": "970bb3d5ea9abef20b84b7b682001e3d5cf4ffafaa0ae16794ff9b8142855604",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:57.151263+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/93d8677c1dd3033126a17ebb34b1a7d1.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/93d8677c1dd3033126a17ebb34b1a7d1.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:57.994656+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:022": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:022",
+      "order": 22,
+      "role": "product_gallery",
+      "source_url_sha256": "afeab6450d89595728914d48e94c7dda69b26c6c8fb9fd22fa1516abfb747ce2",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:58.004011+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/9bbda7c9810c73c958e03c48254fb231.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/9bbda7c9810c73c958e03c48254fb231.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:58.561853+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:023": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:023",
+      "order": 23,
+      "role": "product_gallery",
+      "source_url_sha256": "03ee4061eafbf0ccd1c50dc3c4f6031ad891135eae41c226d9292335981dcada",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:58.565035+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/3a6565084e0beea9762ad3ce4d90da70.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/3a6565084e0beea9762ad3ce4d90da70.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:21:59.492780+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:024": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:024",
+      "order": 24,
+      "role": "product_gallery",
+      "source_url_sha256": "56497fb210d8fb0bdd10447fc53a9f08205cb29bc89d8efd65c40b7c3c221139",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:21:59.502167+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/5f9b333b5c6ee7c1c6df3d2344947d04.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/5f9b333b5c6ee7c1c6df3d2344947d04.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:22:00.580221+00:00"
+    },
+    "MIKIHOUSE:10-9129-792:IMAGE:027": {
+      "upload_reference": "MIKIHOUSE:10-9129-792:IMAGE:027",
+      "order": 27,
+      "role": "detail",
+      "source_url_sha256": "2a75e8f4dc3ae33da98936ab0c426d643c9fc6a3226aa17a888cd0a969664238",
+      "status": "UPLOADED",
+      "intent_at": "2026-09-04T08:22:00.589111+00:00",
+      "target_url": "https://cdn0.19mini.com/shop/2026-09-04/1647398d8c891a7dc5c531d1f8e77bfd.jpg",
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://cdn0.19mini.com/shop/2026-09-04/1647398d8c891a7dc5c531d1f8e77bfd.jpg"
+        },
+        "msg": "Success"
+      },
+      "completed_at": "2026-09-04T08:22:01.091045+00:00"
+    }
+  },
+  "create_response": null,
+  "shijiu_product_id": "9358255",
+  "mapping_persisted": true,
+  "last_verified_payload_sha256": "7955f88297312f05eb218c9d10b87b9a71df8472ffd57f5cb19e7805649a17b4",
+  "last_verified_state": {
+    "stage": "BROADCAST_21_27",
+    "operation": "UPDATE_BROADCAST",
+    "payload_utf8_bytes": 4829,
+    "sku_count": 3,
+    "spec_dimension_count": 2,
+    "broadcast_url_count": 27,
+    "broadcast_characters": 2078,
+    "good_detail_pics_url_count": 0,
+    "good_detail_pics_characters": 0,
+    "good_details_characters": 86,
+    "good_details_utf8_bytes": 118,
+    "good_details_sha256": "f26eb53c5c58911d68312ec0d95e3d0f63acc6f4b99f08340fdafd2039065b07"
+  },
+  "first_failed_state": {
+    "stage": "DETAIL_PICS_1_8",
+    "operation": "UPDATE_DETAIL_PICS",
+    "planned_broadcast_count": 27,
+    "planned_detail_pic_count": 8,
+    "mutation_request_sent": false,
+    "failure_phase": "PRE_UPDATE_UI_CONTEXT_STRONG_READBACK",
+    "failure_scope": "PRE_UPDATE_READ_ONLY_GATE",
+    "target_state_changed_by_failed_stage": false,
+    "last_persisted_target_state": {
+      "broadcast_url_count": 27,
+      "good_detail_pics_url_count": 0,
+      "sku_count": 3,
+      "pre_update_snapshot_sha256": "0afbd8ea2425693f8c6498ebadb98c8405b439c6bea195a4d0add5eb7f755957"
+    }
+  },
+  "request_ledger": [
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:19:13.690161+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:19:17.583774+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:19:18.293574+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:19:18.908776+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:19:19.581930+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:19:20.278771+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:19:21.157141+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:19:21.818129+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:19:22.562341+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:19:23.278789+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:19:23.919701+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T08:19:24.576624+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T08:19:25.222929+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T08:19:25.955488+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T08:19:27.222117+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T08:19:27.971047+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:19:28.728657+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "dd7781706767894dd8e07e20a436daaf966ef9e76d2d9f5bd7b5de1db06610db",
+      "byte_count": 11950
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:19:29.681043+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "15c2d59d4a993ee129d738c41c510593c2dca1f96bd696e3632c4159c5972591",
+      "byte_count": 9818
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:19:30.704297+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "1cca8d2faef671005b1583d1fba8f8665c957842c0330ab95bcafec8aa9e01fe",
+      "byte_count": 45996
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:19:31.675049+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "92f8da77c6bb434a73b9038d53ea6603552448959c28aa991eaf58ffbad36ba5",
+      "byte_count": 5726
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:19:32.731163+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "2db1e3c93175c96d5cab87739c127c6610d9932e93c53d87a50aa86be8686e01",
+      "byte_count": 49552
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:19:33.738581+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "ca3403e7c4d10d16469bf93e3ad2b32d7aa1e1718d716bb1798a659db68cb71f",
+      "byte_count": 28070
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:19:34.277184+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native minimal MIKIHOUSE product create",
+      "payload_sha256": "f60a3d040b8305c552fb4e94849e3e9ab4554db810abdd1063dab83bed599663"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T08:19:36.793244+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T08:19:37.566072+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T08:19:38.229132+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T08:19:39.507586+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T08:19:40.149822+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T08:19:40.791847+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T08:19:41.508839+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T08:19:42.261133+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T08:19:42.893221+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T08:19:43.571490+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T08:19:44.309268+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T08:19:45.089342+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T08:19:45.797022+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T08:19:46.473161+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T08:19:47.177561+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T08:19:47.894040+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:20:02.940785+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:20:03.563746+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:20:03.984867+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:20:04.715754+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:20:05.305653+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:20:05.941312+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:20:06.608404+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:20:07.519362+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:20:08.178814+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:20:08.949582+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:20:09.666185+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T08:20:10.792246+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T08:20:11.509667+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T08:20:12.157795+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T08:20:12.823655+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T08:20:13.463517+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T08:20:14.214111+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T08:20:14.993652+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:20:15.474443+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "20bc11cb437b819c4f520e9924d3ca1830c52304468029f88add984869219099",
+      "byte_count": 8350
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:20:16.399581+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "fee50da96af6edbf7718259c6cb60a72f1f70e5bf83e0119131e899fea3fa352",
+      "byte_count": 19538
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:20:17.047957+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "1c9f1e522069377bb8a81ba0431c8ac63333b36bbd1dab9566b749f65d4912f6",
+      "byte_count": 38058
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:20:17.846304+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "2b09f2d3d4ef21382148a5b59d9579d176cad2299f8a69147e7776b115380aef",
+      "byte_count": 115072
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:20:18.666323+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "3a45e464b138459b1f60b2f02f40cec18887e2c086b1eef8c0e44d45df41c69e",
+      "byte_count": 18804
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:20:19.447197+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "73209d8dcfc100a80d7e0bf4c35c7fbe7b3da7a67584e8a1a2f36d59af4498af",
+      "byte_count": 23950
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:20:19.972850+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "ea79f60de94e9ac07463db7873ab44a131e0a4aec2db9e995a1a4c8d70349ef6",
+      "byte_count": 86892
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:20:21.106884+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "2a8dc41d452cf464c75ea1a7979270812b0d17974d1b6f4533fe5d988a332ee0",
+      "byte_count": 21984
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:20:21.645789+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native staged MIKIHOUSE product update",
+      "payload_sha256": "e1964a1ef6cb8a0a00ed944ecba35d71ddd91159ac7c3fabf089be99d21231f7"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T08:20:24.806818+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T08:20:25.504455+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T08:20:26.258270+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T08:20:26.972096+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T08:20:27.623583+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T08:20:28.323887+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T08:20:29.047845+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T08:20:30.363877+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T08:20:31.070806+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T08:20:31.749654+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T08:20:32.458170+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T08:20:33.218741+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T08:20:33.863409+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T08:20:34.555105+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T08:20:35.247326+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T08:20:35.901587+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:20:52.033363+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:20:52.631508+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:20:52.989607+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:20:53.688949+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:20:54.279262+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:20:55.247652+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:20:55.902831+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:20:56.574678+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:20:57.229384+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:20:57.896670+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:20:58.720482+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T08:20:59.424784+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T08:21:00.627014+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T08:21:01.432534+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T08:21:02.099250+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T08:21:03.191372+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T08:21:03.915832+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T08:21:04.586412+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:21:05.135372+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "915e1a1f869964cbc65e4cef453533e9632374dcbeba527a9ad17c3d33906197",
+      "byte_count": 139482
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:21:06.111837+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "f4c33bdb6ee09f5d33ba86f6de08832e6611794fb8e1ac247092f5d2bf4f41cc",
+      "byte_count": 11204
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:21:06.941249+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "fa6ca5ac63e4ad329cb5230120426e5770facf4c24814a39538ad6645360fc74",
+      "byte_count": 22458
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:21:07.683288+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "3539ca56fdddfc406dbcf20a85d24dc5b56e79591bfdc73036e13175e16850ab",
+      "byte_count": 69348
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:21:08.437672+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "a690ee957dd9380b064994766d66fea46d99bcddfba5b969c4a9ba8df3f57dd0",
+      "byte_count": 21784
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:21:08.984520+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "3618759753757055ed37867bec2c0c3ff61648539d7e05b537c3f10a165f0b5a",
+      "byte_count": 18602
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:21:09.741250+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "fff83d11ddd0ad71ef6d5892817ece8e478c0ce426ddb388f89a291f5d88393a",
+      "byte_count": 15734
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:21:10.290478+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "4514464f8e8574a5c99fe8597485c15d45b36fe9d186230a8d7396ae739bbc5a",
+      "byte_count": 25884
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:21:10.846600+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native staged MIKIHOUSE product update",
+      "payload_sha256": "9d27fa291b1d7a3642699471912616e4767fe69ed84c96c96ffd92474f01fd67"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T08:21:13.791930+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T08:21:14.929210+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T08:21:15.513745+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T08:21:16.531065+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T08:21:17.163405+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T08:21:17.817947+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T08:21:18.484276+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T08:21:19.232344+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T08:21:19.866057+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T08:21:20.487845+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T08:21:21.128402+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T08:21:21.850470+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T08:21:22.487589+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T08:21:23.125767+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T08:21:23.839155+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T08:21:24.568349+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:21:40.832374+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:21:41.435573+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:21:41.801189+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:21:42.542751+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:21:43.239602+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:21:43.865530+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:21:44.521376+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:21:45.559442+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:21:46.605795+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:21:47.257036+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:21:47.958194+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T08:21:48.692154+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-09-04T08:21:49.407630+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-09-04T08:21:53.287469+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-09-04T08:21:53.962927+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-09-04T08:21:54.773630+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-09-04T08:21:55.510623+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-09-04T08:21:56.345290+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:21:57.218593+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "970bb3d5ea9abef20b84b7b682001e3d5cf4ffafaa0ae16794ff9b8142855604",
+      "byte_count": 24704
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:21:58.054343+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "afeab6450d89595728914d48e94c7dda69b26c6c8fb9fd22fa1516abfb747ce2",
+      "byte_count": 21782
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:21:58.711625+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "03ee4061eafbf0ccd1c50dc3c4f6031ad891135eae41c226d9292335981dcada",
+      "byte_count": 49124
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:21:59.552352+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "56497fb210d8fb0bdd10447fc53a9f08205cb29bc89d8efd65c40b7c3c221139",
+      "byte_count": 32166
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:22:00.639787+00:00",
+      "method": "POST",
+      "path": "/v1/cos/upload",
+      "semantic_operation": "write",
+      "operation": "official image upload",
+      "source_url_sha256": "2a75e8f4dc3ae33da98936ab0c426d643c9fc6a3226aa17a888cd0a969664238",
+      "byte_count": 11996
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:22:01.106758+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/newAddGood",
+      "semantic_operation": "write",
+      "operation": "native staged MIKIHOUSE product update",
+      "payload_sha256": "759a8714343d561de97f72cb61eb27af74c3b25d7cd3844dbcc23e5cb0fe528c"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-09-04T08:22:03.610612+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-09-04T08:22:04.388254+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-09-04T08:22:05.071842+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-09-04T08:22:05.792791+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-09-04T08:22:06.419730+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-09-04T08:22:07.065836+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-09-04T08:22:07.725408+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-09-04T08:22:08.760625+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-09-04T08:22:09.475662+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-09-04T08:22:10.654039+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-09-04T08:22:11.318754+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 10",
+      "body_sha256": "b0520cfdbac946834516bf35e25796fd21df62dbddac36c4b82bafadaf700a56"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-09-04T08:22:11.946313+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 11",
+      "body_sha256": "22d898e8fa23d95662e043d4669a7fad6e972a0b0e7874c46a8821b8d7f6a3cd"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-09-04T08:22:12.693826+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 12",
+      "body_sha256": "e38f5305da7e28745529b944e61199a51bfbd972aa7721a4fc2ff5e100eba45a"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-09-04T08:22:13.339172+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 13",
+      "body_sha256": "906d9e0e80cb7305eb02b8697fc9e9e656c748c7a8c25eb7fdacc44b4f27e7db"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-09-04T08:22:14.694902+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 14",
+      "body_sha256": "6a9c315250dd620d649e7991d1e1ae469c80961277f149a6308ea630ce4f34c8"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-09-04T08:22:15.415008+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:22:30.995978+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goodtype/typeindex",
+      "semantic_operation": "read",
+      "operation": "category discovery"
+    },
+    {
+      "sequence": 1,
+      "at": "2026-09-04T08:22:31.722716+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context getFormatInfo strong readback",
+      "body_sha256": "099c83183ba8749ddd3d79ba1bf6cd3f833e72aae54d455f00a3fba6de5a88c0"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-09-04T08:22:32.091933+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context category_294884 exact-name query",
+      "body_sha256": "6098cfd63d2968b616599aac02aaa8c3839b8f37d53199fd8ae96b715a88ec87"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-09-04T08:22:32.746835+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query",
+      "body_sha256": "44b801abe74f98d756c4dae288c7c0ae160f532a5059be6fe03b8ae3d5a87c70"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-09-04T08:22:33.320537+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 2",
+      "body_sha256": "e6d7c96f8800807687ba5133ee52ed72b0a7efc81bc06bc22ddb091ba77558fc"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-09-04T08:22:33.948327+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 3",
+      "body_sha256": "24b153a0f5dec68f5f12dba5b563665022dbf1482024f76d7f4f31820fd37d33"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-09-04T08:22:34.618381+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 4",
+      "body_sha256": "55b152b7c041919775f288c1cf245fa91fb1f77c7bced984b144053ea6e4ae34"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-09-04T08:22:35.334925+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 5",
+      "body_sha256": "058ca4efdf655a9beeed73c56c47f4fe8404f872014ccfeacf1ee8b5d057f5b8"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-09-04T08:22:35.996234+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 6",
+      "body_sha256": "c20f9cd47d14a19fd700453a5885d57d1a1e631824aa1ff128773710a6a3fe43"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-09-04T08:22:36.614603+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 7",
+      "body_sha256": "ce3e6bcd454ee86dcb1053269b46f34acefa5eee9f154e9eaa14dea8694e3ffa"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-09-04T08:22:37.764531+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 8",
+      "body_sha256": "bf8b5ff2075f74b5e6ef4444483f1e36598045a4c16cb084a230c5495db53e20"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-09-04T08:22:38.457545+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "UI-context all_categories exact-name query page 9",
+      "body_sha256": "b1ad7f2edd9cbde44cc5eed4688e500009238171b0f30198b8c0a456fcfebcb4"
+    }
+  ],
+  "stop_reason": {
+    "type": "HTTPError",
+    "message": "HTTP Error 502: Bad Gateway",
+    "at": "2026-09-04T08:22:38.607195+00:00"
+  },
+  "legacy_reference_touched": false,
+  "bulk_20_generated_or_executed": false,
+  "resource_preflight": {
+    "status": "PASSED",
+    "required_reference_count": 27,
+    "results": {
+      "MIKIHOUSE:10-9129-792:IMAGE:001": {
+        "status": "VERIFIED",
+        "order": 1,
+        "role": "main",
+        "source_url_sha256": "dd7781706767894dd8e07e20a436daaf966ef9e76d2d9f5bd7b5de1db06610db",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 11950,
+        "content_sha256": "deef28cc0ec9d43c66ace9433801feecee673317349fb097881cdbae6bffeb33",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:002": {
+        "status": "VERIFIED",
+        "order": 2,
+        "role": "product_gallery",
+        "source_url_sha256": "15c2d59d4a993ee129d738c41c510593c2dca1f96bd696e3632c4159c5972591",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 9818,
+        "content_sha256": "90e647cf1dd3a3b1dca49408dddf15e60f2822e2ed21946aaed283e363b57057",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:003": {
+        "status": "VERIFIED",
+        "order": 3,
+        "role": "product_gallery",
+        "source_url_sha256": "1cca8d2faef671005b1583d1fba8f8665c957842c0330ab95bcafec8aa9e01fe",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 45996,
+        "content_sha256": "0a45c8bab290d8345c524b404e609f9f050931a9a8a18e98f30c7befb144fb53",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:004": {
+        "status": "VERIFIED",
+        "order": 4,
+        "role": "product_gallery",
+        "source_url_sha256": "92f8da77c6bb434a73b9038d53ea6603552448959c28aa991eaf58ffbad36ba5",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 5726,
+        "content_sha256": "ba3349dca639a2ee0db7b6f8e533225e1c18b0214b3fda4b8222874e19b8abbd",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:005": {
+        "status": "VERIFIED",
+        "order": 5,
+        "role": "product_gallery",
+        "source_url_sha256": "20bc11cb437b819c4f520e9924d3ca1830c52304468029f88add984869219099",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 8350,
+        "content_sha256": "b09c0438504744f1dca1cd8974152546acd0739fe0e38282df6cb432c113ba7f",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:006": {
+        "status": "VERIFIED",
+        "order": 6,
+        "role": "product_gallery",
+        "source_url_sha256": "fee50da96af6edbf7718259c6cb60a72f1f70e5bf83e0119131e899fea3fa352",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 19538,
+        "content_sha256": "1252ca668c368d733b64dc126023cc0bfa974ca8ee83ca2f12949594aa0e9ea7",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:007": {
+        "status": "VERIFIED",
+        "order": 7,
+        "role": "product_gallery",
+        "source_url_sha256": "1c9f1e522069377bb8a81ba0431c8ac63333b36bbd1dab9566b749f65d4912f6",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 38058,
+        "content_sha256": "c5ab2eb1ab7dd24b491cd68e494e1f0950ddacccca7cc1bfa8bf8bdecd0d66f2",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:008": {
+        "status": "VERIFIED",
+        "order": 8,
+        "role": "product_gallery",
+        "source_url_sha256": "2b09f2d3d4ef21382148a5b59d9579d176cad2299f8a69147e7776b115380aef",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 115072,
+        "content_sha256": "cf251d50b5af7514c0e5de0c276da31193393a63c1d6b4cf2185d6602774d8c6",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:009": {
+        "status": "VERIFIED",
+        "order": 9,
+        "role": "product_gallery",
+        "source_url_sha256": "3a45e464b138459b1f60b2f02f40cec18887e2c086b1eef8c0e44d45df41c69e",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 18804,
+        "content_sha256": "07de3591cbb9c572fea74071e95a1da82c6433586e5a1bdd9b0ccff16552c2aa",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:010": {
+        "status": "VERIFIED",
+        "order": 10,
+        "role": "product_gallery",
+        "source_url_sha256": "73209d8dcfc100a80d7e0bf4c35c7fbe7b3da7a67584e8a1a2f36d59af4498af",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 23950,
+        "content_sha256": "3c1ecfb1c9b72885fdfed281a142979c05b71bf321aa86a84afa3c8d59c1600f",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:011": {
+        "status": "VERIFIED",
+        "order": 11,
+        "role": "product_gallery",
+        "source_url_sha256": "ea79f60de94e9ac07463db7873ab44a131e0a4aec2db9e995a1a4c8d70349ef6",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 86892,
+        "content_sha256": "c0ed83cfa0d7e91d397a3b1ab2dd0e4023d302b10c22e5a574a805bf8cfe7ef0",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:012": {
+        "status": "VERIFIED",
+        "order": 12,
+        "role": "product_gallery",
+        "source_url_sha256": "2a8dc41d452cf464c75ea1a7979270812b0d17974d1b6f4533fe5d988a332ee0",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 21984,
+        "content_sha256": "ef511d58e395f64b52fb5a29f7ec1bdd8912d551bd787737af3b36d3549ec41e",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:013": {
+        "status": "VERIFIED",
+        "order": 13,
+        "role": "product_gallery",
+        "source_url_sha256": "915e1a1f869964cbc65e4cef453533e9632374dcbeba527a9ad17c3d33906197",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/jpeg",
+        "detected_image_format": "JPEG",
+        "byte_count": 139482,
+        "content_sha256": "87df547015e6532ff24c6a0f20e78d74cbaa6a1807b5b44a18afa86f852535b6",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:014": {
+        "status": "VERIFIED",
+        "order": 14,
+        "role": "product_gallery",
+        "source_url_sha256": "f4c33bdb6ee09f5d33ba86f6de08832e6611794fb8e1ac247092f5d2bf4f41cc",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 11204,
+        "content_sha256": "07d78dddb0c192dd3eec2ba68a78ef7248345356bcc080e4c45aadf78d8ed622",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:015": {
+        "status": "VERIFIED",
+        "order": 15,
+        "role": "product_gallery",
+        "source_url_sha256": "fa6ca5ac63e4ad329cb5230120426e5770facf4c24814a39538ad6645360fc74",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 22458,
+        "content_sha256": "3045537da602fb27abc8f4c65dc73c096fe4628c6295dacdb192006bcc412597",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:016": {
+        "status": "VERIFIED",
+        "order": 16,
+        "role": "product_gallery",
+        "source_url_sha256": "3539ca56fdddfc406dbcf20a85d24dc5b56e79591bfdc73036e13175e16850ab",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/jpeg",
+        "detected_image_format": "JPEG",
+        "byte_count": 69348,
+        "content_sha256": "14658440b7b447a97767e993fd66d05272f93d50128cab81fbc66d7b091bf7ce",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:017": {
+        "status": "VERIFIED",
+        "order": 17,
+        "role": "product_gallery",
+        "source_url_sha256": "a690ee957dd9380b064994766d66fea46d99bcddfba5b969c4a9ba8df3f57dd0",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 21784,
+        "content_sha256": "91c43611dabee3c5243a38dac5e95283b570cc876c0ccf89240c7e15bafcb455",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:018": {
+        "status": "VERIFIED",
+        "order": 18,
+        "role": "product_gallery",
+        "source_url_sha256": "3618759753757055ed37867bec2c0c3ff61648539d7e05b537c3f10a165f0b5a",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 18602,
+        "content_sha256": "09d4712c14cf1990e80e931585a2753502bd9d9eff9f3087cb1be8644af5a819",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:019": {
+        "status": "VERIFIED",
+        "order": 19,
+        "role": "product_gallery",
+        "source_url_sha256": "fff83d11ddd0ad71ef6d5892817ece8e478c0ce426ddb388f89a291f5d88393a",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 15734,
+        "content_sha256": "af70527a3151759f4b24e6f7e1168c88b4e76214e71a98c4e8004d9aec19ee6f",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:020": {
+        "status": "VERIFIED",
+        "order": 20,
+        "role": "product_gallery",
+        "source_url_sha256": "4514464f8e8574a5c99fe8597485c15d45b36fe9d186230a8d7396ae739bbc5a",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 25884,
+        "content_sha256": "bbf470ba33d90800c7df7ca0dbbda4f5d27bc4fa3418c12cac38526bac1806ae",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:021": {
+        "status": "VERIFIED",
+        "order": 21,
+        "role": "product_gallery",
+        "source_url_sha256": "970bb3d5ea9abef20b84b7b682001e3d5cf4ffafaa0ae16794ff9b8142855604",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 24704,
+        "content_sha256": "656bd7b8d8a673e25835cc46a6baef9b3b5a981ac5ea135d8d4840bd2bf87c1b",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:022": {
+        "status": "VERIFIED",
+        "order": 22,
+        "role": "product_gallery",
+        "source_url_sha256": "afeab6450d89595728914d48e94c7dda69b26c6c8fb9fd22fa1516abfb747ce2",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 21782,
+        "content_sha256": "59f53967f4e6c029fdc6ce4bc75332b85571528fbb07c0d9b4ec01e24118b3bd",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:023": {
+        "status": "VERIFIED",
+        "order": 23,
+        "role": "product_gallery",
+        "source_url_sha256": "03ee4061eafbf0ccd1c50dc3c4f6031ad891135eae41c226d9292335981dcada",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 49124,
+        "content_sha256": "d0ab9ff8d03f31853afb746f0eb40e6a409cb51fd50058a348b82fbb567e1609",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:024": {
+        "status": "VERIFIED",
+        "order": 24,
+        "role": "product_gallery",
+        "source_url_sha256": "56497fb210d8fb0bdd10447fc53a9f08205cb29bc89d8efd65c40b7c3c221139",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 32166,
+        "content_sha256": "9e8876543cfdd41b9f6c9da9692f463fc13dbc206f449a2272a33fc6ba3f0f8a",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:025": {
+        "status": "VERIFIED",
+        "order": 25,
+        "role": "variant_color",
+        "source_url_sha256": "2db1e3c93175c96d5cab87739c127c6610d9932e93c53d87a50aa86be8686e01",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 49552,
+        "content_sha256": "db4706567793906580185f15c93562814c82f85c7e84bdc52fb484ef12668b63",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:026": {
+        "status": "VERIFIED",
+        "order": 26,
+        "role": "variant_color",
+        "source_url_sha256": "ca3403e7c4d10d16469bf93e3ad2b32d7aa1e1718d716bb1798a659db68cb71f",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 28070,
+        "content_sha256": "045feabbe625be139e2bf374ba85ca80f4ced82d1afa6a584967df23be5ca7cc",
+        "width": 700,
+        "height": 700,
+        "shijiu_requests_sent": 0
+      },
+      "MIKIHOUSE:10-9129-792:IMAGE:027": {
+        "status": "VERIFIED",
+        "order": 27,
+        "role": "detail",
+        "source_url_sha256": "2a75e8f4dc3ae33da98936ab0c426d643c9fc6a3226aa17a888cd0a969664238",
+        "source_host": "cdn.shopify.com",
+        "filename_extension": ".jpg",
+        "response_mime_type": "image/webp",
+        "detected_image_format": "WEBP",
+        "byte_count": 11996,
+        "content_sha256": "cba659ace1d127e33da9987d293daddc0ce54cfa86d11c16ff7e414e3fdf11b1",
+        "width": 1080,
+        "height": 1080,
+        "shijiu_requests_sent": 0
+      }
+    },
+    "shijiu_requests_sent": 0,
+    "shijiu_write_requests_sent": 0,
+    "error": null,
+    "started_at": "2026-09-04T08:18:19.740501+00:00",
+    "approved_source_host_suffixes": [
+      "shopify.com",
+      "mikihouse.co.jp",
+      "img.mksk.me"
+    ],
+    "enumerated_reference_count": 27,
+    "all_domains_approved_before_download": true,
+    "completed_at": "2026-09-04T08:18:37.991897+00:00",
+    "verified_reference_count": 27,
+    "verified_content_sha256": "7a43b54e8be35d60989d455e1922df5f0d5300c68faa8127a45109bcd2d9db1e"
+  }
+}

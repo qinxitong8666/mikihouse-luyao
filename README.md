@@ -653,3 +653,45 @@ PYTHONPATH=src python scripts/import_shijiu_staged_rich_media.py \
 - `deliverables/shijiu_import/staged_rich_media_candidate.json`：官网在线核验及脱敏 browser-exact 证据；
 - `deliverables/shijiu_import/staged_rich_media_validation_report.json` 与 `staged_rich_media_validation_readbacks.json`：逐阶段结果和完整强回读；
 - `deliverables/shijiu_import/staged_rich_media_capacity_conclusion.json`：最后成功状态、未发送的首个阻断状态及经验容量边界。
+
+## Shijiu 全资源预检与完整富媒体验证
+
+本轮将上一件 `10-8375-578` 永久保持在已验证状态：`shijiu_product_id=9358250`、20张有序轮播和原 mapping 均未改动，旧 checkpoint 没有恢复。所有历史失败或冻结商品仍在候选前置排除集合中，351 个 `PDF_SPECIAL_LIST` 品番仍不可进入 Shijiu 任何阶段。
+
+新的确定性候选是 `10-9129-792`（`キャップ（帽子）（大人用）`）：名称在当前 source 中唯一，3 variants，27 张有序官方图，同时含 gallery 和 detail。在任何 COS 或商品写入之前，工具先枚举 main/gallery/variant/detail 全部去重资源，先整体检查 HTTPS 与精确域名边界，再逐张完整下载并验证 MIME、图片解码、尺寸、字节数和内容 hash。实际 27/27 全部通过，预检期间 Shijiu 请求与写请求都是0。官方资源域支持精确域或子域匹配，包括 Storefront 已发现的 `img.mksk.me`；HTTP、伪后缀域、未知域、跨域重定向、过大文件或无法解码图片均在零目标写入状态下阻断。
+
+真实运行的轻量 CREATE 使用完整规格与3个 SKU、4张轮播、空 `good_detail_pics` 和无图片 URL 的最小 HTML，成功创建不可见商品 `shijiu_product_id=9358255`。三个 backend SKU 均以 `ceil(16500×0.65)=10725 JPY`、库存1、对应颜色/尺码/图片和类目294884通过 UI-context 精确名称 + `getFormatInfo` 强回读；mapping 已落库，`shijiu_sku_id=null`。随后三次 native full-payload UPDATE 将轮播按序4→12→20→27全部补齐，每步 SKU、JPY价格、库存、规格和图片顺序均通过强回读。因此27张有序轮播是新的已观察稳定值，但仍不是服务器硬上限。
+
+在首个详情图阶段，完整 `getFormatInfo` 写前快照已持久化，但后续只读 UI-context `Goods.index` 全类目扫描第9页返回 HTTP 502。此时该阶段 `attempts=0`、不存在 payload hash，请求账本也只有1次 CREATE 和前述3次轮播 UPDATE；所以可证明详情图 UPDATE 没有发送，目标状态仍是写前快照中的27张轮播、0张详情图和3个正确 SKU。按 fail-closed 规则，商品已永久冻结，没有重试、回滚或替换候选。该异常不是详情容量拒绝，详情图和最终 HTML 尚未验证，不能标记为生产架构已验证。因此本轮不生成、不执行下一批20件计划。
+
+```bash
+# 首次冻结候选；只在写前生成候选与在线 source 核验
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media_complete.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 完整官方图片可读/MIME/解码预检；严格零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media_complete.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --preflight-resources
+
+# 每次最多消耗一个 CREATE/UPDATE；终态 checkpoint 永久拒绝继续
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media_complete.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --next-step \
+  --confirm MIKIHOUSE_STAGED_RICH_MEDIA_COMPLETE_SINGLE_STEP
+
+# 只从已有 checkpoint 归一化脱敏证据；零网络、零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_staged_rich_media_complete.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --finalize-evidence-only
+```
+
+本阶段脱敏证据：
+
+- `config/shijiu_staged_rich_media_complete_single.json`：确定性候选、全历史禁用集合和旧证据/mapping hash；
+- `state/shijiu_staged_rich_media_complete_single_checkpoint.json`：27张全资源预检、逐图 COS、逐阶段快照、请求账本与冻结边界；
+- `deliverables/shijiu_import/staged_rich_media_complete_candidate.json` 与 `staged_rich_media_complete_resource_preflight.json`：候选与完整资源可读证据；
+- `deliverables/shijiu_import/staged_rich_media_complete_validation_report.json` 与 `staged_rich_media_complete_readbacks.json`：CREATE、三次 UPDATE 和强回读；
+- `deliverables/shijiu_import/staged_rich_media_complete_capacity_conclusion.json`：27轮播已验证、详情阶段未发送及非硬上限结论；
+- `deliverables/shijiu_import/staged_rich_media_complete_readiness.json`：生产架构未完整验证，下一20件计划未生成/未执行。
