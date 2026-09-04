@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:21:16.453232+00:00",
+  "status": "FROZEN_ON_FIRST_ANOMALY",
+  "product_number": "10-5292-148",
+  "shijiu_product_id": "9358309",
+  "resource_preflight_status": "PASSED",
+  "verified_stage_keys": [
+    "CREATE_CORE",
+    "BROADCAST_5_12",
+    "BROADCAST_13_18"
+  ],
+  "maximum_verified_broadcast_url_count": 18,
+  "maximum_verified_good_detail_pics_url_count": 0,
+  "minimum_required_good_detail_pics_satisfied": false,
+  "maximum_forensically_verified_good_detail_pics_url_count": 8,
+  "minimum_required_good_detail_pics_forensically_verified": true,
+  "final_good_details_html_verified": false,
+  "production_import_architecture_verified": false,
+  "post_failure_forensic_readback": {
+    "status": "POST_MUTATION_SNAPSHOT_PASSES_CORRECTED_STAGE_CONTRACT",
+    "observed_good_detail_pics_count": 8,
+    "all_skus_prices_stocks_specs_and_images_verified": true,
+    "checkpoint_remains_frozen": true
+  },
+  "first_failed_or_blocked_state": {
+    "stage": "DETAIL_PICS_1_8",
+    "operation": "UPDATE_DETAIL_PICS",
+    "planned_broadcast_count": 18,
+    "planned_detail_pic_count": 8,
+    "mutation_request_sent": true,
+    "failure_phase": "MUTATION_INTENT_PERSISTED"
+  },
+  "ui_read_retry_attempt_count": 0,
+  "ui_transient_read_error_count": 0,
+  "mutation_auto_retry_count": 0,
+  "interpretation": "The first 8-detail-pic UPDATE returned success and its saved post-failure snapshot passes the corrected staged contract, but the original false-negative freeze is preserved. The 16-detail and final-HTML stages were not executed, so production readiness remains false.",
+  "server_hard_limit_proven": false,
+  "sensitive_values_included": false
+}

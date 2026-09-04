@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import copy
 import json
+import urllib.error
 from pathlib import Path
 
 import pytest
+
+import mikihouse_luyao.shijiu_live_import as live
 
 from mikihouse_luyao.shijiu_import import (
     backend_sku_code,
@@ -16,6 +19,7 @@ from mikihouse_luyao.shijiu_live_import import (
     LIVE_WRITE_CONFIRMATION,
     ContractMismatchError,
     FirstLiveBatchRunner,
+    ShijiuLiveClient,
     _resolve_payload,
     initial_checkpoint,
     validate_product_readback,
@@ -196,6 +200,59 @@ def test_readback_uses_product_id_and_exact_backend_sku_code_with_nullable_sku_i
         "shijiu_product_id": "99001",
         "backend_sku_code": backend_sku_code("sku-1"),
     }
+
+
+def test_staged_detail_pics_allow_exact_minimal_html_until_final_html_stage() -> None:
+    item = mapped_item()
+    payload = _resolve_payload(item, uploaded(item))
+    payload["good_details"] = "<section><p>minimal text only</p></section>"
+    detail = detail_for(payload)
+    valid = validate_product_readback(
+        item,
+        payload,
+        "99001",
+        detail,
+        list_row={"id": "99001", "state": 1, "is_shelf": 0},
+        require_exact_good_details=True,
+    )
+    assert valid["passed"] is True
+    assert valid["detail_image_urls"] == ["https://cos.example.com/miki.jpg"]
+
+
+class _ReadResponse:
+    headers: dict[str, str] = {}
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def read(self) -> bytes:
+        return b'{"code":1,"data":{}}'
+
+
+def test_live_client_get_format_info_retries_only_the_read(monkeypatch) -> None:
+    outcomes = [
+        urllib.error.HTTPError("https://example.invalid", 504, "timeout", {}, None),
+        _ReadResponse(),
+    ]
+    sleeps: list[float] = []
+
+    def next_outcome(*_args, **_kwargs):
+        outcome = outcomes.pop(0)
+        if isinstance(outcome, BaseException):
+            raise outcome
+        return outcome
+
+    monkeypatch.setattr(live.urllib.request, "urlopen", next_outcome)
+    monkeypatch.setattr(live.time, "sleep", sleeps.append)
+    client = ShijiuLiveClient("token", "secret", timeout=1)
+    result = client.product_detail("123")
+    assert result["code"] == 1
+    assert sleeps == [0.5]
+    assert [row["attempt"] for row in client.requests] == [1, 2]
+    assert all(row["semantic_operation"] == "read" for row in client.requests)
 
 
 def test_checkpoint_has_no_legacy_or_cleanup_actions() -> None:

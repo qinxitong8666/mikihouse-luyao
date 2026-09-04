@@ -6,6 +6,7 @@ import json
 import math
 import re
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -36,9 +37,13 @@ from .shijiu_live_import import (
     DuplicateRiskError,
     LiveImportError,
     ShijiuLiveClient,
+    UI_READ_INITIAL_BACKOFF_SECONDS,
+    UI_READ_MAX_RETRIES,
+    UI_TRANSIENT_HTTP_STATUS_CODES,
     _parse_json_response,
     _redacted_response,
     _resolve_payload,
+    is_transient_ui_read_error as _is_transient_ui_read_error,
     persist_verified_mapping,
     response_rows,
     validate_canonical_create_payload,
@@ -133,8 +138,8 @@ class UiContextReadClient:
         self.evidence_sha256 = _sha256_bytes(raw_bytes)
         self.canonical_create_evidence_sha256 = canonical_hash
 
-    def _record(self, path: str, operation: str, metadata: dict[str, Any]) -> None:
-        self.requests.append({
+    def _record(self, path: str, operation: str, metadata: dict[str, Any]) -> dict[str, Any]:
+        record = {
             "sequence": len(self.requests) + 1,
             "at": now(),
             "method": "POST",
@@ -142,16 +147,45 @@ class UiContextReadClient:
             "semantic_operation": "read",
             "operation": operation,
             **metadata,
-        })
+        }
+        self.requests.append(record)
+        return record
 
     def _post(self, url: str, pairs: list[tuple[str, str]], *, path: str, operation: str) -> dict[str, Any]:
         if path not in UI_ALLOWED_PATHS or CREATE_PATH in url or IMAGE_UPLOAD_PATH in url:
             raise LiveImportError("UI-context client blocked a non-read endpoint")
         body = urllib.parse.urlencode(pairs).encode("utf-8")
-        self._record(path, operation, {"body_sha256": _sha256_bytes(body)})
-        request = urllib.request.Request(url, data=body, method="POST", headers=self.headers)
-        with urllib.request.urlopen(request, timeout=self.timeout) as response:
-            result = _parse_json_response(response, response.read(), operation)
+        result: dict[str, Any] | None = None
+        for retry_index in range(UI_READ_MAX_RETRIES + 1):
+            record = self._record(path, operation, {
+                "body_sha256": _sha256_bytes(body),
+                "attempt": retry_index + 1,
+                "retry_index": retry_index,
+                "maximum_read_retries": UI_READ_MAX_RETRIES,
+            })
+            request = urllib.request.Request(url, data=body, method="POST", headers=self.headers)
+            try:
+                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                    result = _parse_json_response(response, response.read(), operation)
+            except Exception as error:
+                transient = _is_transient_ui_read_error(error)
+                record.update({
+                    "outcome": "TRANSIENT_READ_ERROR" if transient else "NON_RETRYABLE_ERROR",
+                    "error_type": type(error).__name__,
+                    "http_status": error.code if isinstance(error, urllib.error.HTTPError) else None,
+                    "retry_scheduled": transient and retry_index < UI_READ_MAX_RETRIES,
+                })
+                if not transient or retry_index >= UI_READ_MAX_RETRIES:
+                    raise
+                time.sleep(UI_READ_INITIAL_BACKOFF_SECONDS * (2 ** retry_index))
+                continue
+            record.update({
+                "outcome": "SUCCESS",
+                "retry_scheduled": False,
+            })
+            break
+        if result is None:
+            raise LiveImportError("UI-context read retry loop ended without a result")
         if str(result.get("code")) not in {"1", "200"}:
             raise ContractMismatchError(
                 f"{operation} failed: code={result.get('code')!r}, msg={result.get('msg')!r}"

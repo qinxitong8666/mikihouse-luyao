@@ -208,6 +208,21 @@ class FakeWriteClient:
         return {"code": 200, "msg": "success", "data": []}
 
 
+class FailingUpdateClient(FakeWriteClient):
+    def __init__(self, target: FakeTarget) -> None:
+        super().__init__(target)
+        self.update_calls = 0
+
+    def update_product_native(self, payload: dict, *, confirmation: str):
+        self.update_calls += 1
+        self.requests.append({
+            "path": "/shopapi/Goods/newAddGood",
+            "semantic_operation": "write",
+            "operation": "native staged update",
+        })
+        raise TimeoutError("fixture mutation result unknown")
+
+
 class FakeUiClient:
     def __init__(self, target: FakeTarget) -> None:
         self.target = target
@@ -274,6 +289,45 @@ def test_runner_advances_exactly_one_save_per_invocation(tmp_path: Path, monkeyp
     assert second_report["request_counts"]["update"] == 1
     assert second.checkpoint["stage_cursor"] == 2
     assert second.checkpoint["stages"][1]["pre_update_getFormatInfo_snapshot"]
+
+
+def test_runner_never_retries_a_mutation_and_records_sent_state(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(staged.time, "sleep", lambda _: None)
+    monkeypatch.setattr(staged, "PROTECTED_FROZEN_FILES", ("frozen.json",))
+    (tmp_path / "frozen.json").write_text("{}")
+    item = mapped_item()
+    selection = {
+        "mode": staged.MODE,
+        "fixed_target_category_id": 294884,
+        "product": {"product_number": item["product_number"]},
+        "stages": staged.stage_plan(item),
+        "protected_frozen_evidence": {
+            "frozen.json": hashlib.sha256(b"{}").hexdigest(),
+        },
+    }
+    mapping_path = tmp_path / "mapping.json"
+    mapping_path.write_text(json.dumps(mapping_state(item)), encoding="utf-8")
+    target = FakeTarget()
+    paths = {
+        "checkpoint_path": tmp_path / "checkpoint.json",
+        "mapping_path": mapping_path,
+        "report_path": tmp_path / "report.json",
+        "readbacks_path": tmp_path / "readbacks.json",
+    }
+    staged.StagedMediaRunner(
+        FakeWriteClient(target), FakeUiClient(target), item, exclusions(), CATEGORY, selection,
+        root=tmp_path, confirmation=staged.WRITE_CONFIRMATION, **paths,
+    ).run_next_step()
+    failing = FailingUpdateClient(target)
+    runner = staged.StagedMediaRunner(
+        failing, FakeUiClient(target), item, exclusions(), CATEGORY, selection,
+        root=tmp_path, confirmation=staged.WRITE_CONFIRMATION, **paths,
+    )
+    with pytest.raises(TimeoutError, match="result unknown"):
+        runner.run_next_step()
+    assert failing.update_calls == 1
+    assert runner.checkpoint["status"] == "FROZEN_ON_FIRST_ANOMALY"
+    assert runner.checkpoint["first_failed_state"]["mutation_request_sent"] is True
 
 
 def test_pdf_special_is_rejected_before_any_target_request(tmp_path: Path, monkeypatch) -> None:

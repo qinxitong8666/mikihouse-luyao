@@ -3,13 +3,17 @@ from __future__ import annotations
 import copy
 import gzip
 import hashlib
+import http.client
 import io
 import json
 import mimetypes
 import os
 import re
+import socket
+import ssl
 import string
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
@@ -70,6 +74,30 @@ OFFICIAL_MIKIHOUSE_IMAGE_HOST_SUFFIXES = (
     "img.mksk.me",
 )
 MAX_OFFICIAL_IMAGE_BYTES = 25 * 1024 * 1024
+UI_READ_MAX_RETRIES = 3
+UI_READ_INITIAL_BACKOFF_SECONDS = 0.5
+UI_TRANSIENT_HTTP_STATUS_CODES = {502, 503, 504}
+
+
+def is_transient_ui_read_error(error: BaseException) -> bool:
+    """Return true only for transient failures safe to retry on read endpoints."""
+    if isinstance(error, urllib.error.HTTPError):
+        return error.code in UI_TRANSIENT_HTTP_STATUS_CODES
+    if isinstance(error, urllib.error.URLError):
+        reason = error.reason
+        if isinstance(reason, ssl.SSLError):
+            return False
+        return isinstance(reason, (TimeoutError, socket.timeout, ConnectionError, OSError))
+    return isinstance(
+        error,
+        (
+            TimeoutError,
+            socket.timeout,
+            ConnectionError,
+            http.client.RemoteDisconnected,
+            http.client.IncompleteRead,
+        ),
+    )
 
 
 def is_official_mikihouse_image_url(url: str) -> bool:
@@ -317,7 +345,9 @@ class ShijiuLiveClient:
     def _endpoint(self, path: str) -> str:
         return f"{self.base_url}{path}&token={urllib.parse.quote(self.token)}"
 
-    def _record(self, path: str, semantic_operation: str, metadata: dict[str, Any]) -> None:
+    def _record(
+        self, path: str, semantic_operation: str, metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         item = {
             "sequence": len(self.requests) + 1,
             "at": _utc_now(),
@@ -329,24 +359,49 @@ class ShijiuLiveClient:
         self.requests.append(item)
         if self.request_observer:
             self.request_observer(copy.deepcopy(item))
+        return item
 
     def _post_form(self, path: str, payload: dict[str, Any], *, operation: str) -> dict[str, Any]:
-        self._record(path, "read", {"operation": operation})
         body = urllib.parse.urlencode({"secret": self.secret, "token": self.token, **payload}).encode()
-        request = urllib.request.Request(
-            self._endpoint(path),
-            data=body,
-            method="POST",
-            headers={
-                "Accept": "application/json, text/plain, */*",
-                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                "Origin": "https://shijiu.wfcorp.cn",
-                "Referer": "https://shijiu.wfcorp.cn/",
-                "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.8; Shijiu validation)",
-            },
-        )
-        with urllib.request.urlopen(request, timeout=self.timeout) as response:
-            result = _parse_json_response(response, response.read(), operation)
+        result: dict[str, Any] | None = None
+        for retry_index in range(UI_READ_MAX_RETRIES + 1):
+            record = self._record(path, "read", {
+                "operation": operation,
+                "attempt": retry_index + 1,
+                "retry_index": retry_index,
+                "maximum_read_retries": UI_READ_MAX_RETRIES,
+            })
+            request = urllib.request.Request(
+                self._endpoint(path),
+                data=body,
+                method="POST",
+                headers={
+                    "Accept": "application/json, text/plain, */*",
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                    "Origin": "https://shijiu.wfcorp.cn",
+                    "Referer": "https://shijiu.wfcorp.cn/",
+                    "User-Agent": "Mozilla/5.0 (compatible; mikihouse-luyao/0.8; Shijiu validation)",
+                },
+            )
+            try:
+                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                    result = _parse_json_response(response, response.read(), operation)
+            except Exception as error:
+                transient = is_transient_ui_read_error(error)
+                record.update({
+                    "outcome": "TRANSIENT_READ_ERROR" if transient else "NON_RETRYABLE_ERROR",
+                    "error_type": type(error).__name__,
+                    "http_status": error.code if isinstance(error, urllib.error.HTTPError) else None,
+                    "retry_scheduled": transient and retry_index < UI_READ_MAX_RETRIES,
+                })
+                if not transient or retry_index >= UI_READ_MAX_RETRIES:
+                    raise
+                time.sleep(UI_READ_INITIAL_BACKOFF_SECONDS * (2 ** retry_index))
+                continue
+            record.update({"outcome": "SUCCESS", "retry_scheduled": False})
+            break
+        if result is None:
+            raise LiveImportError("Shijiu read retry loop ended without a result")
         _assert_success(result, operation)
         return result
 
@@ -980,6 +1035,7 @@ def validate_product_readback(
             f"broadcast readback mismatch: expected {len(expected_broadcast)}, got {len(actual_broadcast)}"
         )
     actual_details = str(_first_observation(detail, ("good_details",)) or "")
+    expected_details = str(payload.get("good_details") or "")
     expected_detail_urls = _split_urls(payload.get("good_detail_pics"))
     actual_detail_urls = _split_urls(_first_observation(detail, ("good_detail_pics",)))
     if actual_detail_urls != expected_detail_urls:
@@ -987,9 +1043,10 @@ def validate_product_readback(
             "good_detail_pics readback mismatch: "
             f"expected {len(expected_detail_urls)}, got {len(actual_detail_urls)}"
         )
-    if not actual_details or any(url not in actual_details for url in expected_detail_urls):
-        raise ContractMismatchError("good_details readback is empty or missing uploaded detail images")
-    if require_exact_good_details and actual_details != str(payload.get("good_details") or ""):
+    expected_embedded_urls = [url for url in expected_detail_urls if url in expected_details]
+    if not actual_details or any(url not in actual_details for url in expected_embedded_urls):
+        raise ContractMismatchError("good_details readback is empty or missing expected embedded images")
+    if require_exact_good_details and actual_details != expected_details:
         raise ContractMismatchError("good_details exact content/hash readback mismatch")
     actual_skus = recursively_find_skus(detail)
     by_code = {str(row.get("sku_code") or "").strip(): row for row in actual_skus}

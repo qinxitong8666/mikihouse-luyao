@@ -722,7 +722,7 @@ class StagedMediaRunner:
             result.update({"status": "READ_ONLY_CONFIRMATION_FAILED", "error": {"type": type(error).__name__, "message": str(error)}})
         return result
 
-    def _freeze(self, stage: dict[str, Any], error: Exception, *, after_update: bool) -> None:
+    def _freeze(self, stage: dict[str, Any], error: Exception, *, mutation_sent: bool) -> None:
         stage["state"] = "FROZEN_ON_ANOMALY"
         stage["error"] = {"type": type(error).__name__, "message": str(error), "at": now()}
         self.checkpoint["status"] = "FROZEN_ON_FIRST_ANOMALY"
@@ -732,11 +732,11 @@ class StagedMediaRunner:
             "operation": stage["operation"],
             "planned_broadcast_count": stage["broadcast_count"],
             "planned_detail_pic_count": stage["detail_pic_count"],
-            "mutation_request_sent": after_update,
+            "mutation_request_sent": mutation_sent,
             "failure_phase": stage.get("execution_phase"),
         }
         if (
-            not after_update
+            not mutation_sent
             and stage.get("operation") != "CREATE"
             and stage.get("attempts") == 0
             and stage.get("pre_update_snapshot_sha256")
@@ -752,7 +752,7 @@ class StagedMediaRunner:
                 "target_state_changed_by_failed_stage": False,
             })
         self._persist()
-        if after_update:
+        if mutation_sent:
             stage["post_failure_readonly_confirmation"] = self._readonly_confirm_after_failure()
             self._persist()
 
@@ -859,9 +859,12 @@ class StagedMediaRunner:
                 raise
             stage["response"] = _redacted_response(response)
             stage["state"] = "MUTATION_RESPONSE_RECEIVED"
+            stage["execution_phase"] = "MUTATION_RESPONSE_RECEIVED"
             self._persist()
             time.sleep(2)
             business_payload = {key: value for key, value in payload.items() if key != "id"}
+            stage["execution_phase"] = "POST_MUTATION_UI_CONTEXT_STRONG_READBACK"
+            self._persist()
             try:
                 readback, discovery = self._exact_readback(business_payload, response)
             except UiStrongReadbackError as error:
@@ -896,5 +899,5 @@ class StagedMediaRunner:
             mutation_sent = stage.get("state") in {
                 "MUTATION_RESPONSE_RECEIVED", "MUTATION_RESULT_UNKNOWN"
             }
-            self._freeze(stage, error, after_update=mutation_sent and stage["operation"] != "CREATE")
+            self._freeze(stage, error, mutation_sent=mutation_sent)
             raise

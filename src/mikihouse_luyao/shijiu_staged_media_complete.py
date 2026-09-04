@@ -55,6 +55,7 @@ def _configured_product_numbers(root: Path) -> set[str]:
         "config/shijiu_complexity_bisection_batch.json",
         "config/shijiu_high_sku_14_probe.json",
         "config/shijiu_staged_rich_media_single.json",
+        "config/shijiu_staged_rich_media_complete_single.json",
     ):
         payload = json.loads((root / relative).read_text(encoding="utf-8"))
         numbers.update(str(value) for value in payload.get("product_numbers") or [] if value)

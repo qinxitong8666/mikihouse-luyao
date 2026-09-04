@@ -1,0 +1,409 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:21:16.378478+00:00",
+  "product_number": "10-5292-148",
+  "results": [
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-5292-148",
+      "product_number": "10-5292-148",
+      "shijiu_product_id": "9358309",
+      "target_category_id": 294884,
+      "good_name": "【WEB限定】ワッペンロゴ長袖Ｔシャツ（大人用）【WebLimited】",
+      "off_shelf": null,
+      "is_shelf_exposed": false,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8729c2ed8c730d11932763e9b10c8b74.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/69b93ae791694ed25d116e9273f12506.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/16341f6bdd22aa641a9d3b2dd681c4e1.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "1db89b45ac591dc46c22561f8d5d672901e1e4c8f12d98d8ee4a0c7286ede6db",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-5292-14800013400",
+          "backend_sku_code": "MIKI-10-5292-14800013400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,S(155-165cm)",
+          "color": "白",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013600",
+          "backend_sku_code": "MIKI-10-5292-14800013600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,M(165-175cm)",
+          "color": "白",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013700",
+          "backend_sku_code": "MIKI-10-5292-14800013700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,L(175-185cm)",
+          "color": "白",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033400",
+          "backend_sku_code": "MIKI-10-5292-14800033400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,S(155-165cm)",
+          "color": "紺",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033600",
+          "backend_sku_code": "MIKI-10-5292-14800033600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,M(165-175cm)",
+          "color": "紺",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033700",
+          "backend_sku_code": "MIKI-10-5292-14800033700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,L(175-185cm)",
+          "color": "紺",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:02:23.551603+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-5292-148",
+      "product_number": "10-5292-148",
+      "shijiu_product_id": "9358309",
+      "target_category_id": 294884,
+      "good_name": "【WEB限定】ワッペンロゴ長袖Ｔシャツ（大人用）【WebLimited】",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8729c2ed8c730d11932763e9b10c8b74.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/69b93ae791694ed25d116e9273f12506.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/16341f6bdd22aa641a9d3b2dd681c4e1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/028afdd733a753b302313638b359297b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/983941eb71786d2a32399f46e2851814.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/486e24f9008c440fa8038a19dc45e782.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd5ba61dea39fe90738dacda8dea6b68.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ece27f898773f3cd76189d7bab958439.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/24e667651ff23d6d50532aaf4a5e3826.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/87cb6ca9457dd8a56e49bb50506e1d1b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bcb4509908b08b32ec407314ced63dec.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "1db89b45ac591dc46c22561f8d5d672901e1e4c8f12d98d8ee4a0c7286ede6db",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-5292-14800013400",
+          "backend_sku_code": "MIKI-10-5292-14800013400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,S(155-165cm)",
+          "color": "白",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013600",
+          "backend_sku_code": "MIKI-10-5292-14800013600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,M(165-175cm)",
+          "color": "白",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013700",
+          "backend_sku_code": "MIKI-10-5292-14800013700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,L(175-185cm)",
+          "color": "白",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033400",
+          "backend_sku_code": "MIKI-10-5292-14800033400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,S(155-165cm)",
+          "color": "紺",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033600",
+          "backend_sku_code": "MIKI-10-5292-14800033600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,M(165-175cm)",
+          "color": "紺",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033700",
+          "backend_sku_code": "MIKI-10-5292-14800033700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,L(175-185cm)",
+          "color": "紺",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:06:36.823392+00:00"
+    },
+    {
+      "source": "MIKIHOUSE",
+      "source_product_id": "MIKIHOUSE:10-5292-148",
+      "product_number": "10-5292-148",
+      "shijiu_product_id": "9358309",
+      "target_category_id": 294884,
+      "good_name": "【WEB限定】ワッペンロゴ長袖Ｔシャツ（大人用）【WebLimited】",
+      "off_shelf": true,
+      "is_shelf_exposed": true,
+      "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+      "carousel_urls": [
+        "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/8729c2ed8c730d11932763e9b10c8b74.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/69b93ae791694ed25d116e9273f12506.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/16341f6bdd22aa641a9d3b2dd681c4e1.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/028afdd733a753b302313638b359297b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/983941eb71786d2a32399f46e2851814.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/486e24f9008c440fa8038a19dc45e782.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/cd5ba61dea39fe90738dacda8dea6b68.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ece27f898773f3cd76189d7bab958439.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/24e667651ff23d6d50532aaf4a5e3826.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/87cb6ca9457dd8a56e49bb50506e1d1b.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/bcb4509908b08b32ec407314ced63dec.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/f898e969e92c130bd1d5542c9d30c6c9.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/ff9aed00c21af9cf993e76b94b7e559f.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/91856b89064a905d3676c93a876b64e2.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/1f8b463cf7eb5af8d6bcd95da1d73c3a.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+        "https://cdn0.19mini.com/shop/2026-09-04/98eb4728223d6fb98263bc79e4452ccb.jpg"
+      ],
+      "detail_image_urls": [],
+      "good_details_sha256": "1db89b45ac591dc46c22561f8d5d672901e1e4c8f12d98d8ee4a0c7286ede6db",
+      "sku_count": 6,
+      "skus": [
+        {
+          "source_variant_sku": "10-5292-14800013400",
+          "backend_sku_code": "MIKI-10-5292-14800013400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,S(155-165cm)",
+          "color": "白",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013600",
+          "backend_sku_code": "MIKI-10-5292-14800013600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,M(165-175cm)",
+          "color": "白",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800013700",
+          "backend_sku_code": "MIKI-10-5292-14800013700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800013700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "白,L(175-185cm)",
+          "color": "白",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/95377e42c3e8c3c47d9f5a5a5595b762.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033400",
+          "backend_sku_code": "MIKI-10-5292-14800033400",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033400"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,S(155-165cm)",
+          "color": "紺",
+          "size": "S(155-165cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033600",
+          "backend_sku_code": "MIKI-10-5292-14800033600",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033600"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,M(165-175cm)",
+          "color": "紺",
+          "size": "M(165-175cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        },
+        {
+          "source_variant_sku": "10-5292-14800033700",
+          "backend_sku_code": "MIKI-10-5292-14800033700",
+          "shijiu_sku_id": null,
+          "stable_target_identity": {
+            "shijiu_product_id": "9358309",
+            "backend_sku_code": "MIKI-10-5292-14800033700"
+          },
+          "price_jpy": 4290,
+          "stock": 1,
+          "specification": "紺,L(175-185cm)",
+          "color": "紺",
+          "size": "L(175-185cm)",
+          "color_size_verified_via_exact_specification": true,
+          "image_url": "https://cdn0.19mini.com/shop/2026-09-04/0f52b8877b943437549ab66c1cbc9c09.jpg",
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "verified_at": "2026-09-04T11:10:54.385244+00:00"
+    }
+  ],
+  "verified_stage_count": 3,
+  "sensitive_values_included": false
+}

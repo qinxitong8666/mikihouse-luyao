@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T11:21:16.452173+00:00",
+  "status": "POST_MUTATION_SNAPSHOT_PASSES_CORRECTED_STAGE_CONTRACT",
+  "product_number": "10-5292-148",
+  "checkpoint_remains_frozen": true,
+  "target_requests_sent_by_analysis": 0,
+  "target_mutations_sent_by_analysis": 0,
+  "sensitive_values_included": false,
+  "root_cause": "historical validator incorrectly required every good_detail_pics URL to already appear in the intentionally minimal pre-final good_details HTML",
+  "original_freeze_preserved": true,
+  "original_mutation_was_not_retried": true,
+  "observed_shijiu_product_id": "9358309",
+  "observed_broadcast_count": 18,
+  "observed_good_detail_pics_count": 8,
+  "observed_sku_count": 6,
+  "observed_good_details_sha256": "1db89b45ac591dc46c22561f8d5d672901e1e4c8f12d98d8ee4a0c7286ede6db",
+  "all_skus_prices_stocks_specs_and_images_verified": true,
+  "category_verified": true,
+  "readback_snapshot_sha256": "32bb59b03024c8de57c2ea175ea785f4179f23797497bfde4222624e899dd9af"
+}

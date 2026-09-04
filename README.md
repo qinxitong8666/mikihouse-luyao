@@ -695,3 +695,40 @@ PYTHONPATH=src python scripts/import_shijiu_staged_rich_media_complete.py \
 - `deliverables/shijiu_import/staged_rich_media_complete_validation_report.json` 与 `staged_rich_media_complete_readbacks.json`：CREATE、三次 UPDATE 和强回读；
 - `deliverables/shijiu_import/staged_rich_media_complete_capacity_conclusion.json`：27轮播已验证、详情阶段未发送及非硬上限结论；
 - `deliverables/shijiu_import/staged_rich_media_complete_readiness.json`：生产架构未完整验证，下一20件计划未生成/未执行。
+
+## Shijiu 详情图与最终 HTML 单商品验证
+
+本阶段永久保留 `10-9129-792→9358255` 的27张已验证有序 broadcast 和 mapping，不恢复其冻结 checkpoint，也不对任何历史失败/冻结品番重试。新的独立模式使用 `config/shijiu_staged_detail_html_single.json` 和 `state/shijiu_staged_detail_html_single_checkpoint.json`，在选品时前置排除351个 `PDF_SPECIAL_LIST`、已映射商品与全部历史尝试品番。
+
+UI-context 的 `Goods.index` / `getFormatInfo` 现在仅对 HTTP 502/503/504、连接超时和临时网络错误允许初次请求后最多3次重试，按0.5、1、2秒指数退避；每次尝试均在账本中标记为只读。HTTP 400、业务合约失配或响应结构异常不重试。CREATE、UPDATE 和 COS 上传始终零自动重试；写后读取失败时也只重试读取，不会重发 mutation。
+
+确定性候选为 `10-5292-148`（`【WEB限定】ワッペンロゴ長袖Ｔシャツ（大人用）【WebLimited】`）：名称唯一、6 variants（2色×3尺码）、18张 broadcast、16张 detail pics，并同时含官方 gallery/detail 资源和带图片的最终 HTML。写前在零 Shijiu 请求状态下完成18/18张去重官方图的 HTTPS、域名、重定向、MIME、完整下载、解码与尺寸预检；官网6个 SKU 的6600 JPY、65折4290 JPY、库存、颜色、尺码和 variant 图也全部实时一致。
+
+轻量 CREATE 成功建立不可见商品 `shijiu_product_id=9358309`，6个精确 backend SKU 均强回读通过并写入 mapping，`shijiu_sku_id=null`。随后broadcast 4→12→18的两次 full-payload UPDATE 均通过有序图片与所有SKU/价格/库存/规格不变校验。`good_detail_pics 0→8` 的唯一 UPDATE 也返回成功，随后脱敏快照确认目标端实际保存了8张有序详情图、18张broadcast、6个正确SKU及原价格/库存/规格。
+
+但当次在线强回读被旧本地校验器误判：它要求分阶段 `good_detail_pics` 必须立即出现在当时仍按设计保持为最小文本的 `good_details` 中。根因修正后，已保存快照离线通过完整SKU、价格、库存、规格、主图、broadcast、detail pics、最小HTML和类目合约。但遵守首次异常即停规则，原 checkpoint 继续永久冻结，不重试 mutation、不继续16张详情图、不安装最终 HTML。因此生产架构仍为未完整验证，本轮不生成也不执行下一20件计划。实际请求账本为18次COS上传、1次CREATE、3次UPDATE，没有瞬时读错误或读重试，mutation重试为0。
+
+```bash
+# 冻结候选并实时核验官网；零 Shijiu 请求
+PYTHONPATH=src python scripts/import_shijiu_staged_detail_html.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --prepare-only
+
+# 全资源预检；严格零 Shijiu 请求/写入
+PYTHONPATH=src python scripts/import_shijiu_staged_detail_html.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --preflight-resources
+
+# 一次最多推进一个商品保存；终态checkpoint永久拒绝继续
+PYTHONPATH=src python scripts/import_shijiu_staged_detail_html.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --next-step \
+  --confirm MIKIHOUSE_STAGED_DETAIL_HTML_SINGLE_STEP
+
+# 仅从既有快照重建脱敏取证/结论；零网络、零写入
+PYTHONPATH=src python scripts/import_shijiu_staged_detail_html.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --finalize-evidence-only
+```
+
+脱敏证据位于 `deliverables/shijiu_import/staged_detail_html_*.json`，包括候选、全资源预检、逐阶段回读、容量结论、假失败根因和 readiness。

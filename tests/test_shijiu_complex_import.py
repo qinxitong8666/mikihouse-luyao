@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import copy
+import io
 import json
+import urllib.error
 from pathlib import Path
 
 import pytest
@@ -224,6 +226,127 @@ def test_ui_context_query_changes_only_name_category_and_page() -> None:
     }
 
 
+class _JsonResponse:
+    headers: dict[str, str] = {}
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def read(self) -> bytes:
+        return b'{"code":200,"data":[]}'
+
+
+def _bare_ui_client() -> UiContextReadClient:
+    client = object.__new__(UiContextReadClient)
+    client.headers = {}
+    client.timeout = 1
+    client.requests = []
+    return client
+
+
+def test_ui_context_retries_only_transient_read_errors(monkeypatch) -> None:
+    outcomes = [
+        urllib.error.HTTPError("https://example.invalid", 502, "bad gateway", {}, None),
+        urllib.error.HTTPError("https://example.invalid", 503, "unavailable", {}, None),
+        _JsonResponse(),
+    ]
+    sleeps: list[float] = []
+
+    def next_outcome(*_args, **_kwargs):
+        outcome = outcomes.pop(0)
+        if isinstance(outcome, BaseException):
+            raise outcome
+        return outcome
+
+    monkeypatch.setattr(complex_import.urllib.request, "urlopen", next_outcome)
+    monkeypatch.setattr(complex_import.time, "sleep", sleeps.append)
+    client = _bare_ui_client()
+    result = client._post(
+        "https://example.invalid/shopapi/Goods/index&token=masked",
+        [("good_name", "x")],
+        path=complex_import.LIST_PATH,
+        operation="fixture read",
+    )
+    assert result["code"] == 200
+    assert sleeps == [0.5, 1.0]
+    assert [row["attempt"] for row in client.requests] == [1, 2, 3]
+    assert all(row["semantic_operation"] == "read" for row in client.requests)
+    assert [row["outcome"] for row in client.requests] == [
+        "TRANSIENT_READ_ERROR", "TRANSIENT_READ_ERROR", "SUCCESS"
+    ]
+
+
+def test_ui_context_does_not_retry_non_transient_http_error(monkeypatch) -> None:
+    error = urllib.error.HTTPError(
+        "https://example.invalid", 400, "bad request", {}, io.BytesIO()
+    )
+    calls = 0
+
+    def fail(*_args, **_kwargs):
+        nonlocal calls
+        calls += 1
+        raise error
+
+    monkeypatch.setattr(complex_import.urllib.request, "urlopen", fail)
+    monkeypatch.setattr(
+        complex_import.time,
+        "sleep",
+        lambda _seconds: pytest.fail("non-transient read must not back off"),
+    )
+    client = _bare_ui_client()
+    with pytest.raises(urllib.error.HTTPError) as captured:
+        client._post(
+            "https://example.invalid/shopapi/goods/getFormatInfo&token=masked",
+            [("id", "1")],
+            path=complex_import.DETAIL_PATH,
+            operation="fixture read",
+        )
+    assert captured.value.code == 400
+    assert calls == 1
+    assert len(client.requests) == 1
+    assert client.requests[0]["retry_scheduled"] is False
+
+
+def test_ui_context_transient_retry_classifier_and_maximum(monkeypatch) -> None:
+    for status in (502, 503, 504):
+        assert complex_import._is_transient_ui_read_error(
+            urllib.error.HTTPError("https://example.invalid", status, "temporary", {}, None)
+        )
+    assert complex_import._is_transient_ui_read_error(TimeoutError())
+    assert complex_import._is_transient_ui_read_error(
+        urllib.error.URLError(ConnectionResetError())
+    )
+    assert not complex_import._is_transient_ui_read_error(
+        urllib.error.HTTPError("https://example.invalid", 500, "server error", {}, None)
+    )
+
+    calls = 0
+    sleeps: list[float] = []
+
+    def always_timeout(*_args, **_kwargs):
+        nonlocal calls
+        calls += 1
+        raise TimeoutError("temporary")
+
+    monkeypatch.setattr(complex_import.urllib.request, "urlopen", always_timeout)
+    monkeypatch.setattr(complex_import.time, "sleep", sleeps.append)
+    client = _bare_ui_client()
+    with pytest.raises(TimeoutError):
+        client._post(
+            "https://example.invalid/shopapi/Goods/index&token=masked",
+            [("good_name", "x")],
+            path=complex_import.LIST_PATH,
+            operation="fixture read",
+        )
+    assert calls == 4
+    assert sleeps == [0.5, 1.0, 2.0]
+    assert [row["attempt"] for row in client.requests] == [1, 2, 3, 4]
+    assert all(row["semantic_operation"] == "read" for row in client.requests)
+
+
 def test_selection_requires_all_five_roles_and_never_special(monkeypatch) -> None:
     roles = [
         ("footwear", 24, 4, 6, 42),
@@ -417,4 +540,7 @@ def test_checked_in_complex_batch_evidence_is_fail_closed_and_sanitized() -> Non
     assert [
         number for number, row in mapping["products"].items()
         if row.get("shijiu_product_id")
-            ] == ["10-8375-578", "10-9129-792", "36-2001-572", "63-6602-492"]
+                ] == [
+                    "10-5292-148", "10-8375-578", "10-9129-792",
+                    "36-2001-572", "63-6602-492",
+                ]
