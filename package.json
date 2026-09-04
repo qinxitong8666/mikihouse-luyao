@@ -1,0 +1,11 @@
+{
+  "name": "mikihouse-luyao-local-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture:shijiu": "node scripts/shijiu_browser_exact_capture.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}

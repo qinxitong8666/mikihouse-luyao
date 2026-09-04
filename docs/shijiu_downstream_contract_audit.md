@@ -70,3 +70,11 @@
 同时，历史 WAWU programmatic direct loop 的请求预览也不含 Cookie，却完成商品创建、SKU 回读校验和删除后确认。这一反证说明 Cookie 缺失不是当前静默拒绝的充分原因。现有 token/secret 仍能完成 MIKIHOUSE 的只读列表和分类扫描，说明读取认证有效，但创建授权、当期浏览器会话及租户工作流仍未得到 browser-exact 证据。
 
 浏览器只读环境检查没有发现应用内 Shijiu 标签；Chrome 正在运行但无可连接的 ChatGPT 浏览器扩展，未读取 Cookie、storage 或密码。由于缺少当前登录会话、完整受保护请求头和当期成功保存/回读对，审计严格停止在 `BLOCKED_MISSING_BROWSER_EXACT_SESSION_EVIDENCE`。本轮没有发 Shijiu read/upload/create/update 请求，没有选择另一件商品，也没有修改 legacy 286。缺失私有证据和安全存放方式详见 `deliverables/shijiu_import/session_auth_audit.json`；所有 token、secret、Cookie、cURL/HAR 与原始 body 必须留在 Git 工作区之外。
+
+## Browser-exact 捕获工具与当前门禁
+
+新增的 `scripts/shijiu_browser_exact_capture.mjs` 是严格本地的证据工具，不是商品 importer。它以 Playwright `request.allHeaders()` 和 CDP `Network.requestWillBeSentExtraInfo` 双路径记录一次人工原生保存，并在同一已登录页面中只读执行 `Goods/index` 与 `getFormatInfo`，只有唯一回读得到 `product_id`/`sku_id` 才将证据标为 verified。脚本自身不填写、不点击、不创建；只有人工在浏览器中保存一次非 MIKIHOUSE、非类目 294884 的一次性测试商品。任何识别为 MIKIHOUSE 的 `newAddGood` payload 均在网络传输前中止。
+
+原始 endpoint/query、完整 headers、Cookie/token/secret、body、响应及回读原文只允许写入 Git 工作区外的 `--private-dir`，目录/文件权限分别为 `0700`/`0600`。可提交的 `browser_exact_capture_readiness.json` 只包含字段名、类型、布尔存在性、哈希以及成功后可公开的目标 ID；私有路径本身也不写入报告。
+
+2026-09-04 本机预检发现 Chrome 152 已运行，但没有 ChatGPT Chrome 扩展且未开放 `127.0.0.1:9222` CDP，因此无法附着当前默认会话，状态保持 `BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE`。可行的最少路径是由脚本启动 Git 外的独立私有 Chrome profile 后人工登录并保存一次，或人工启动一个带本地 CDP 端口的专用非默认 profile；禁止复制默认 Chrome profile。当前历史 WAWU 与此前 MIKIHOUSE 的脱敏比较在 method、endpoint、query/header 名称、Content-Type、body/sku/spec 字段和类型上均未发现差异，故尚无证据支持修改认证或 payload。必须先取得当期成功 browser-exact 请求和唯一回读对，再根据自动差异报告决定下一步修复。

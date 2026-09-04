@@ -12,3 +12,7 @@ output/*
 *.har
 *native_save_request.private.json
 *browser_exact_request.private.json
+node_modules/
+playwright-user-data/
+private/
+*.private.json

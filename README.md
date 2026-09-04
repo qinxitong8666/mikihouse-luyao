@@ -342,3 +342,55 @@ PYTHONPATH=src python scripts/audit_shijiu_session.py \
   --native-result /outside/git/native_ui_result.json \
   --direct-loop-result /outside/git/direct_loop_result.json
 ```
+
+## Shijiu browser-exact 本地捕获助手
+
+`scripts/shijiu_browser_exact_capture.mjs` 用于解除上述 browser-exact 证据门禁。它同时监听 Playwright `request.allHeaders()` 与 CDP `Network.requestWillBeSentExtraInfo`，捕获人工在 Shijiu 原生后台执行一次“新增测试商品→保存”时的完整请求和响应；保存后只读调用 `Goods/index` 与 `getFormatInfo`，要求取得唯一 `product_id` 和对应 `sku_id`。工具不会填写表单、不会点击保存，也不会自动创建测试商品。
+
+该助手有两层强制安全边界：
+
+- `--private-dir` 必须位于 Git 工作区之外，否则在启动浏览器或发送请求之前直接拒绝；完整 URL/query 值、headers、Cookie、token、secret、原始 body、响应和回读原文只写入该目录，权限为目录 `0700`、文件 `0600`；
+- 捕获期间如发现 `good_type=294884`、`source=MIKIHOUSE` 语义或 `MIKI-` SKU，`newAddGood` 请求会在传输前被中止。人工样本必须是一个非 MIKIHOUSE、非 294884 类目的可删除测试商品；工具不会删除它，后续处置须由人工确认。
+
+Git 中的 `deliverables/shijiu_import/browser_exact_capture_readiness.json` 只保存 endpoint/query/header 字段名、字段类型、公开 header 值的 SHA-256、私有证据文件 SHA-256、响应哈希和允许公开的 product/SKU ID，不保存任何认证值、原始 body 或响应值。报告会自动比较 browser-exact、历史 WAWU 成功请求和此前 MIKIHOUSE 请求的认证存在性、租户字段、headers、query、body 字段及类型，并只根据新证据给出修复结论。
+
+安装本地依赖（`node_modules/` 已忽略）：
+
+```bash
+npm install
+```
+
+先运行零网络写入的预检：
+
+```bash
+npm run capture:shijiu -- \
+  --mode preflight \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --historical-wawu-template /absolute/outside/repo/native_save_request.json
+```
+
+本机现状为 `BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE`：Chrome 152 正在运行，但没有启用 ChatGPT Chrome 扩展，且当前进程没有开放本地 CDP 端口；不能在不重启的情况下附着现有默认 profile，也未读取其 Cookie、storage 或密码。最少人工路径是让脚本启动一个独立私有 profile：
+
+```bash
+npm run capture:shijiu -- \
+  --mode capture \
+  --launch-private-profile \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --historical-wawu-template /absolute/outside/repo/native_save_request.json \
+  --confirm-capture SHIJIU_BROWSER_EXACT_HUMAN_SAVE_CAPTURE
+```
+
+浏览器打开后，人工登录 Shijiu，在原生后台只新增一个非 MIKIHOUSE 测试商品并点击一次保存，其余捕获、只读回读、脱敏比较和报告生成均自动完成。不要复制或复用 Chrome 默认 profile。
+
+若已有专用的、非默认 Chrome profile，可先用 `--remote-debugging-port=9222 --user-data-dir=/absolute/private/profile` 启动它，再用下面的 CDP 模式；端口只应监听本机：
+
+```bash
+npm run capture:shijiu -- \
+  --mode capture \
+  --cdp-url http://127.0.0.1:9222 \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
+  --historical-wawu-template /absolute/outside/repo/native_save_request.json \
+  --confirm-capture SHIJIU_BROWSER_EXACT_HUMAN_SAVE_CAPTURE
+```
+
+若希望 Codex 直接检查现有 Chrome 标签，需要先在 Codex 设置的 Computer use 页面安装并启用 ChatGPT Chrome 扩展；这与上述独立 profile/CDP 捕获路径二选一即可。当前脱敏预检确认：历史 WAWU 样例与此前 MIKIHOUSE 请求在已知 method、endpoint、query 名称、header 名称、Content-Type、body 字段及类型上均无差异；因此现阶段结论仍是 `WAITING_FOR_BROWSER_EXACT_CAPTURE`，不修改 writer，也不发任何新的 MIKIHOUSE 请求。

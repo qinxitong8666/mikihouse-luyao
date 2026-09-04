@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T03:43:14.942Z",
+  "mode": "preflight",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "state": "BLOCKED_EXISTING_CHROME_NOT_ATTACHABLE",
+  "safety": {
+    "mikihouse_product_write_requests": 0,
+    "mikihouse_payload_guard": "ABORT_BEFORE_TRANSMISSION",
+    "automatic_test_product_write_requests": 0,
+    "human_native_save_only": true,
+    "token_values_included": false,
+    "secret_values_included": false,
+    "cookie_values_included": false,
+    "body_values_included": false,
+    "private_capture_inside_git": false
+  },
+  "readiness": {
+    "playwright": {
+      "available": true
+    },
+    "cdp": {
+      "available": false,
+      "error_type": "TypeError"
+    },
+    "chrome_extension_status": "missing",
+    "private_directory": {
+      "configured": true,
+      "outside_git_worktree": true,
+      "value_in_report": false
+    },
+    "existing_chrome_attachable": false,
+    "launch_private_profile_requested": false
+  },
+  "current_capture": null,
+  "comparisons": {
+    "browser_exact_vs_historical_wawu": {
+      "available": false,
+      "left": "browser_exact",
+      "right": "historical_wawu"
+    },
+    "browser_exact_vs_previous_mikihouse": {
+      "available": false,
+      "left": "browser_exact",
+      "right": "previous_mikihouse"
+    },
+    "historical_wawu_vs_previous_mikihouse": {
+      "available": true,
+      "left": "historical_wawu",
+      "right": "previous_mikihouse",
+      "method_equal": true,
+      "endpoint_path_equal": true,
+      "query_names_only_in_left": [],
+      "query_names_only_in_right": [],
+      "header_names_only_in_left": [],
+      "header_names_only_in_right": [],
+      "public_header_value_hash_differences": [],
+      "cookie_presence": {
+        "left": false,
+        "right": false
+      },
+      "auth_presence": {
+        "left": {
+          "token_body_field_present": true,
+          "secret_body_field_present": true,
+          "token_value_included": false,
+          "secret_value_included": false
+        },
+        "right": {
+          "token_body_field_present": true,
+          "secret_body_field_present": true,
+          "token_value_included": false,
+          "secret_value_included": false
+        }
+      },
+      "tenant_marker_presence": {
+        "left": {
+          "pro_id": false,
+          "tenant_id": false,
+          "shop_id": false,
+          "merchant_id": false
+        },
+        "right": {
+          "pro_id": false,
+          "tenant_id": false,
+          "shop_id": false,
+          "merchant_id": false
+        }
+      },
+      "content_type_equal": true,
+      "body_field_order_equal": true,
+      "body_fields_only_in_left": [],
+      "body_fields_only_in_right": [],
+      "body_type_differences": [],
+      "sku_type_differences": [],
+      "specification_type_differences": []
+    }
+  },
+  "conclusion": {
+    "state": "WAITING_FOR_BROWSER_EXACT_CAPTURE",
+    "proven_root_cause": null,
+    "next_fix": "capture a current successful native save before changing the MIKIHOUSE writer"
+  },
+  "minimum_human_steps": [
+    "Install/enable the ChatGPT Chrome extension if Codex must inspect the existing Chrome tab; current Chrome cannot be attached through that bridge.",
+    "Preferred standalone path: run capture mode with --launch-private-profile and a --private-dir outside Git, then log in to Shijiu in the opened dedicated Chrome profile.",
+    "Alternative CDP path: start a dedicated non-default Chrome user-data directory with remote debugging, then pass its local --cdp-url. Chrome 152 cannot retroactively expose the already-running default profile.",
+    "In the armed browser, manually create exactly one non-MIKIHOUSE disposable test product outside category 294884 and click Save once. The helper never fills or clicks Save and aborts MIKIHOUSE-shaped payloads before transmission.",
+    "Keep the raw private JSON/profile outside Git. Commit only this sanitized report after checking unique Goods/index product_id and getFormatInfo sku_id."
+  ]
+}
