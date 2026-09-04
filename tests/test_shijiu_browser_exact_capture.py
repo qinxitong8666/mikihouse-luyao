@@ -10,6 +10,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/shijiu_browser_exact_capture.mjs"
+UI_RECONCILE_SCRIPT = ROOT / "scripts/shijiu_ui_context_reconcile.mjs"
 REPORT = ROOT / "deliverables/shijiu_import/browser_exact_capture_readiness.json"
 ANALYSIS = ROOT / "deliverables/shijiu_import/browser_exact_capture_analysis.json"
 CONTRACT = ROOT / "config/shijiu_native_create_contract.json"
@@ -33,6 +34,40 @@ def test_capture_helper_syntax_and_sensitive_shape_self_test() -> None:
     )
     output = json.loads(result.stdout)
     assert output == {"status": "PASS", "sensitive_values_included": False}
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node.js is not installed")
+def test_ui_context_reconciliation_helper_is_read_only_and_preserves_browser_request() -> None:
+    syntax = subprocess.run(
+        ["node", "--check", str(UI_RECONCILE_SCRIPT)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert syntax.returncode == 0, syntax.stderr
+    result = subprocess.run(
+        ["node", str(UI_RECONCILE_SCRIPT), "--self-test"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert json.loads(result.stdout) == {
+        "status": "PASS",
+        "target_mutation_requests_sent": 0,
+    }
+    source = UI_RECONCILE_SCRIPT.read_text(encoding="utf-8")
+    assert "listRequest.allHeaders()" in source
+    assert "listRequest.postData()" in source
+    assert "context.request.fetch" in source
+    assert 'firstForm.set("good_name", TARGET_NAME)' in source
+    assert 'firstForm.set("good_type", goodType)' in source
+    assert '"category_294884"' in source
+    assert '"all_categories"' in source
+    assert "MUTATION_FRAGMENTS" in source
+    assert "target_mutation_requests_sent: 0" in source
+    assert ".click(" not in source
+    assert ".fill(" not in source
 
 
 @pytest.mark.skipif(shutil.which("node") is None, reason="Node.js is not installed")

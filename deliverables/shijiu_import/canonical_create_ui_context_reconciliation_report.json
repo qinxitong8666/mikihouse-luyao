@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T05:49:53.928690+00:00",
+  "mode": "MIKIHOUSE_UI_CONTEXT_STRICT_READ_ONLY_RECONCILIATION",
+  "status": "RECONCILED_READBACK_VERIFIED_UI_CONTEXT",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "product_number": "36-2001-572",
+  "exact_good_name": "ヘアゴム（2個セット）",
+  "target_category_id": 294884,
+  "expected_backend_sku_code": "MIKI-36-2001-57200039999",
+  "expected_price_jpy": 1430,
+  "currency": "JPY",
+  "historical_create_attempts": 1,
+  "ui_context": {
+    "method": "POST",
+    "endpoint": {
+      "scheme": "https",
+      "host": "api.wfcorp.cn",
+      "path": "/shijiu/shopapi/Goods/index",
+      "query_parameter_names": [
+        "token"
+      ],
+      "query_values_included": false
+    },
+    "header_names": [
+      "accept",
+      "content-type",
+      "origin",
+      "referer",
+      "sec-ch-ua",
+      "sec-ch-ua-mobile",
+      "sec-ch-ua-platform",
+      "user-agent"
+    ],
+    "cookie_present": false,
+    "authorization_present": false,
+    "content_type": "application/x-www-form-urlencoded",
+    "form_field_names_in_order": [
+      "secret",
+      "page",
+      "good_type",
+      "father_type",
+      "recommend",
+      "good_name",
+      "good_code",
+      "push",
+      "status",
+      "update_start_time",
+      "update_end_time",
+      "create_start_time",
+      "create_end_time",
+      "page_size",
+      "group_id"
+    ],
+    "filter_context": {
+      "page": "1",
+      "good_type": "",
+      "father_type": "",
+      "recommend": "2",
+      "good_name": "",
+      "good_code": "",
+      "push": "2",
+      "status": "",
+      "update_start_time": "",
+      "update_end_time": "",
+      "create_start_time": "",
+      "create_end_time": "",
+      "page_size": "10",
+      "group_id": ""
+    },
+    "auth_context": {
+      "query_token_present": true,
+      "body_token_present": false,
+      "body_secret_present": true,
+      "query_body_token_equal": null,
+      "values_included": false
+    },
+    "queries": [
+      {
+        "label": "all_categories",
+        "good_type": "",
+        "changed_fields_from_ui_request": [
+          "good_name"
+        ],
+        "declared_count": 334,
+        "pages_read": 34,
+        "exact_match_product_ids": [
+          "9358233"
+        ]
+      },
+      {
+        "label": "category_294884",
+        "good_type": "294884",
+        "changed_fields_from_ui_request": [
+          "good_name",
+          "good_type"
+        ],
+        "declared_count": 1,
+        "pages_read": 1,
+        "exact_match_product_ids": [
+          "9358233"
+        ]
+      }
+    ],
+    "sensitive_values_included": false
+  },
+  "private_evidence_sha256": "e4ee2045ef238f61480d45ac73cc113e5291acb125128084f18318ef3d5e78ac",
+  "private_evidence_path_included": false,
+  "canonical_browser_create_evidence_sha256": "b6796ebec303c116bbebbd6146efb6c51289877e3b9f831f5bc5c65be610fa9f",
+  "candidate_product_ids": [
+    "9358233"
+  ],
+  "candidate_validations": [
+    {
+      "product_id": "9358233",
+      "passed": true,
+      "ui_detail_success_contract": {
+        "code": 200,
+        "msg": "success"
+      },
+      "backend_sku_code": "MIKI-36-2001-57200039999",
+      "price_jpy": 1430,
+      "category_id": 294884,
+      "specification_verified": true,
+      "images_verified": true,
+      "is_shelf_exposed": false,
+      "is_shelf_policy": "missing accepted only for UI-context; explicit nonzero rejected"
+    }
+  ],
+  "verified_product_ids": [
+    "9358233"
+  ],
+  "mapping_persisted": true,
+  "shijiu_product_id": "9358233",
+  "shijiu_sku_id": null,
+  "not_persisted_confirmed": false,
+  "business_value_difference": {
+    "scope": "business values only; auth values, raw headers and raw image URLs excluded",
+    "scalar_values": [
+      {
+        "field": "good_type",
+        "browser_success_value": 294880,
+        "canonical_mikihouse_value": 294884,
+        "equal": false
+      },
+      {
+        "field": "good_name",
+        "browser_success_value": "codex测试商品200",
+        "canonical_mikihouse_value": "ヘアゴム（2個セット）",
+        "equal": false
+      },
+      {
+        "field": "supplier",
+        "browser_success_value": "",
+        "canonical_mikihouse_value": "",
+        "equal": true
+      },
+      {
+        "field": "cargo_place",
+        "browser_success_value": "",
+        "canonical_mikihouse_value": "日本",
+        "equal": false
+      },
+      {
+        "field": "bus_region",
+        "browser_success_value": "",
+        "canonical_mikihouse_value": "日本",
+        "equal": false
+      }
+    ],
+    "text_values": [
+      {
+        "field": "good_describe",
+        "browser_success": {
+          "empty": true,
+          "length": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "preview": ""
+        },
+        "canonical_mikihouse": {
+          "empty": false,
+          "length": 37,
+          "sha256": "20453314ee0a180e6cff0a613d0bad4cab9c561ca2963b189fb53b8f83d7c398",
+          "preview": "品牌：ミキハウス フォーマル；品番：36-2001-572；分类：通常商品"
+        },
+        "equal": false
+      },
+      {
+        "field": "description",
+        "browser_success": {
+          "empty": true,
+          "length": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "preview": ""
+        },
+        "canonical_mikihouse": {
+          "empty": false,
+          "length": 98,
+          "sha256": "c8b29380b923c55f094dc8b9e9cc6eceec9aff331cc14fdd79816051896d4de1",
+          "preview": "source_product_id=MIKIHOUSE:36-2001-572;source_brand=ミキハウス フォーマル;source_category=通常商品;currency=JPY"
+        },
+        "equal": false
+      },
+      {
+        "field": "good_details",
+        "browser_success": {
+          "empty": true,
+          "length": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "preview": ""
+        },
+        "canonical_mikihouse": {
+          "empty": false,
+          "length": 235,
+          "sha256": "43410b0ff27bbd1e46b204c51107f229e496b6bc7cf9f889dde4eb6eb87e040c",
+          "preview": "<section data-source=\"MIKIHOUSE\"><h2>ヘアゴム（2個セット）</h2><p>品番：36-2001-572</p><p>品牌：ミキハウス フォーマル</p><p>颜色：紺</p><p>尺码：---</p><…"
+        },
+        "equal": false
+      }
+    ],
+    "spec_name_and_son_name": {
+      "browser_success": [
+        {
+          "spec_name": "g重",
+          "id": 0,
+          "son_name": [
+            {
+              "spec_name": "170g",
+              "id": 1
+            }
+          ]
+        }
+      ],
+      "canonical_mikihouse": [
+        {
+          "spec_name": "颜色",
+          "id": 0,
+          "son_name": [
+            {
+              "spec_name": "紺",
+              "id": 1
+            }
+          ]
+        },
+        {
+          "spec_name": "尺码",
+          "id": 1,
+          "son_name": [
+            {
+              "spec_name": "---",
+              "id": 1
+            }
+          ]
+        }
+      ],
+      "equal": false
+    },
+    "sku_values": {
+      "browser_success": [
+        {
+          "sku_code": "",
+          "sku_price": "100.00",
+          "sku_cost_price": "100.00",
+          "sku_stock": "140.00",
+          "spec_name": "170g",
+          "first_level": "100.00",
+          "second_level": "100.00",
+          "third_level": "100.00",
+          "fourth_level": "100.00",
+          "fifth_level": "100.00",
+          "sixth_level": "100.00",
+          "sku_thumbnail": {
+            "empty": true,
+            "url_count": 0,
+            "hosts": [],
+            "comma_separated": false,
+            "value_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "raw_urls_included": false
+          }
+        }
+      ],
+      "canonical_mikihouse": [
+        {
+          "sku_code": "MIKI-36-2001-57200039999",
+          "sku_price": "1430.00",
+          "sku_cost_price": "2200.00",
+          "sku_stock": "1.00",
+          "spec_name": "紺,---",
+          "first_level": "1430.00",
+          "second_level": "1430.00",
+          "third_level": "1430.00",
+          "fourth_level": "1430.00",
+          "fifth_level": "1430.00",
+          "sixth_level": "1430.00",
+          "sku_thumbnail": {
+            "empty": false,
+            "url_count": 1,
+            "hosts": [
+              "cdn0.19mini.com"
+            ],
+            "comma_separated": false,
+            "value_sha256": "e463387609f7536afa00e36d71988eae9a691befe22df867b462ba3b0a03f7e0",
+            "raw_urls_included": false
+          }
+        }
+      ],
+      "equal": false
+    },
+    "image_values": [
+      {
+        "field": "master_graph",
+        "browser_success": {
+          "empty": false,
+          "url_count": 1,
+          "hosts": [
+            "cdn0.19mini.com"
+          ],
+          "comma_separated": false,
+          "value_sha256": "5b535c272ad78528450457204eb76265b9bf91b2f07e9b4a72e38d5f1f82d361",
+          "raw_urls_included": false
+        },
+        "canonical_mikihouse": {
+          "empty": false,
+          "url_count": 1,
+          "hosts": [
+            "cdn0.19mini.com"
+          ],
+          "comma_separated": false,
+          "value_sha256": "e463387609f7536afa00e36d71988eae9a691befe22df867b462ba3b0a03f7e0",
+          "raw_urls_included": false
+        },
+        "equal": false
+      },
+      {
+        "field": "broadcast",
+        "browser_success": {
+          "empty": false,
+          "url_count": 1,
+          "hosts": [
+            "cdn0.19mini.com"
+          ],
+          "comma_separated": false,
+          "value_sha256": "5b535c272ad78528450457204eb76265b9bf91b2f07e9b4a72e38d5f1f82d361",
+          "raw_urls_included": false
+        },
+        "canonical_mikihouse": {
+          "empty": false,
+          "url_count": 1,
+          "hosts": [
+            "cdn0.19mini.com"
+          ],
+          "comma_separated": false,
+          "value_sha256": "e463387609f7536afa00e36d71988eae9a691befe22df867b462ba3b0a03f7e0",
+          "raw_urls_included": false
+        },
+        "equal": false
+      },
+      {
+        "field": "good_detail_pics",
+        "browser_success": {
+          "empty": true,
+          "url_count": 0,
+          "hosts": [],
+          "comma_separated": false,
+          "value_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_urls_included": false
+        },
+        "canonical_mikihouse": {
+          "empty": true,
+          "url_count": 0,
+          "hosts": [],
+          "comma_separated": false,
+          "value_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_urls_included": false
+        },
+        "equal": true
+      }
+    ],
+    "sensitive_values_included": false
+  },
+  "diagnostic_conclusion": {
+    "historical_create_persisted": true,
+    "prior_direct_client_result_was_false_negative": true,
+    "ui_context_difference": "real Goods.index uses its captured endpoint/auth/form/filter context; notably the captured safe filter values are preserved in ui_context.filter_context",
+    "business_value_differences_are_causal": "NOT_PROVEN",
+    "additional_write_authorized": false
+  },
+  "safety": {
+    "read_only_requests": 36,
+    "create_requests": 0,
+    "image_upload_requests": 0,
+    "update_requests": 0,
+    "other_target_mutations": 0,
+    "legacy_product_mutations": 0,
+    "additional_mikihouse_products_touched": 0,
+    "pdf_special_exclusion_count": 351
+  },
+  "sensitive_values_included": false
+}

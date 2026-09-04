@@ -101,14 +101,19 @@ def main() -> int:
 
     print("\n[5/6] Node helper syntax check")
     node = shutil.which("node")
-    helper = ROOT / "scripts" / "shijiu_browser_exact_capture.mjs"
-    if node and helper.exists():
-        run([node, "--check", str(helper)])
-        print("PASS: Shijiu browser-exact helper syntax")
-    elif helper.exists():
-        print("NOT CAPTURED: node is unavailable; helper syntax check skipped")
+    helpers = [
+        ROOT / "scripts" / "shijiu_browser_exact_capture.mjs",
+        ROOT / "scripts" / "shijiu_ui_context_reconcile.mjs",
+    ]
+    existing_helpers = [helper for helper in helpers if helper.exists()]
+    if node:
+        for helper in existing_helpers:
+            run([node, "--check", str(helper)])
+        print(f"PASS: Shijiu browser helper syntax ({len(existing_helpers)} files)")
+    elif existing_helpers:
+        print("NOT CAPTURED: node is unavailable; browser helper syntax checks skipped")
     else:
-        print("NOT APPLICABLE: browser-exact helper not present")
+        print("NOT APPLICABLE: Shijiu browser helpers not present")
 
     print("\n[6/6] Protected state / deliverables check")
     after = protected_snapshot()

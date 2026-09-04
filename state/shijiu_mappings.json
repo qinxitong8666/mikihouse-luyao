@@ -109909,8 +109909,8 @@
       "product_number": "36-2001-572",
       "source_present": true,
       "target_category_id": 294884,
-      "shijiu_product_id": null,
-      "last_verified_at": null,
+      "shijiu_product_id": "9358233",
+      "last_verified_at": "2026-09-04T05:49:53.842059+00:00",
       "variants": {
         "36-2001-57200039999": {
           "source": "MIKIHOUSE",
@@ -109919,9 +109919,15 @@
           "backend_sku_code": "MIKI-36-2001-57200039999",
           "source_present": true,
           "shijiu_sku_id": null,
-          "last_verified_at": null
+          "last_verified_at": "2026-09-04T05:49:53.842059+00:00",
+          "target_product_id": "9358233",
+          "backend_sku_code_verified": true,
+          "match_method": "post_create_product_id_and_backend_sku_code_readback"
         }
-      }
+      },
+      "match_method": "post_create_detail_readback",
+      "target_active": false,
+      "last_payload_sha256": "e6a09b224da94a090b29f8507994e89f374e6b3280b0dc0f868df43b52ac2576"
     },
     "36-2002-575": {
       "source": "MIKIHOUSE",
@@ -171749,5 +171755,5 @@
     "name": "MikiHouse",
     "parent_id": 288338
   },
-  "updated_at": "2026-09-04T01:51:24.880343+00:00"
+  "updated_at": "2026-09-04T05:49:53.859109+00:00"
 }

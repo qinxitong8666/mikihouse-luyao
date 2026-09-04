@@ -884,6 +884,7 @@ def validate_product_readback(
     create_response: dict[str, Any] | None = None,
     list_row: dict[str, Any] | None = None,
     expected_state: str = "1",
+    require_is_shelf: bool = True,
 ) -> dict[str, Any]:
     _assert_success(detail, "product readback")
     detail_data = detail.get("data") if isinstance(detail.get("data"), dict) else {}
@@ -959,7 +960,13 @@ def validate_product_readback(
     if list_row:
         actual_state = list_row.get("state", actual_state)
         actual_is_shelf = list_row.get("is_shelf", actual_is_shelf)
-    if str(actual_state) != str(expected_state) or str(actual_is_shelf) not in {"0", "False", "false"}:
+    shelf_value_exposed = actual_is_shelf not in (None, "")
+    shelf_value_off = str(actual_is_shelf) in {"0", "False", "false"}
+    if (
+        str(actual_state) != str(expected_state)
+        or (require_is_shelf and not shelf_value_off)
+        or (not require_is_shelf and shelf_value_exposed and not shelf_value_off)
+    ):
         raise ContractMismatchError(
             f"off-shelf readback mismatch: state={actual_state!r}, is_shelf={actual_is_shelf!r}"
         )
@@ -970,7 +977,8 @@ def validate_product_readback(
         "shijiu_product_id": str(product_id),
         "target_category_id": 294884,
         "good_name": payload["good_name"],
-        "off_shelf": True,
+        "off_shelf": True if shelf_value_off else None,
+        "is_shelf_exposed": shelf_value_exposed,
         "master_graph": payload["master_graph"],
         "carousel_urls": expected_broadcast,
         "detail_image_urls": expected_detail_urls,

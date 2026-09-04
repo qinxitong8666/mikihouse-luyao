@@ -433,10 +433,26 @@ npm run capture:shijiu -- \
 
 2026-09-04 已对历史唯一 CREATE 做一次严格只读 reconciliation。精确名称 `ヘアゴム（2個セット）` 在类目 294884 和全类目名称查询中均为 0；随后完整分页扫描 MikiHouse 类目，286 条记录在扫描前后计数一致且 product_id 全部唯一，仍无同名候选；`good_code` 辅助搜索也为 0。结论为 `RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE`：mapping 继续未绑定，`shijiu_product_id/shijiu_sku_id` 均为 `null`。本次只读核验发送 18 个 Goods.index 请求，CREATE、图片上传、更新和其他目标端 mutation 全部为 0；没有调用任何候选 getFormatInfo，因为没有候选 product_id。
 
+随后使用 `scripts/shijiu_ui_context_reconcile.mjs` 完成了更严格的 UI-context reconciliation。工具从当前已登录的私有 Chrome profile 捕获商品列表页面真实 Goods.index 请求，完整复用实际 endpoint、headers、URL token、form secret、字段顺序及安全过滤上下文；全类目查询只改 `good_name`，MikiHouse 查询只额外设置必要的 `good_type=294884`。页面真实上下文包含 `recommend=2`、`push=2`，与前述独立客户端查询上下文不同。
+
+UI-context 在类目 294884 和无类目限制两条路径都唯一找到 `product_id=9358233`。同一 BrowserContext 的 getFormatInfo 随后确认精确 `MIKI-36-2001-57200039999`、1430 JPY、类目 294884、规格 `紺,---` 及历史上传的主图/轮播/详情/SKU 图片全部一致，因此历史唯一 CREATE 已正式认定为成功持久化；mapping 已补写 `shijiu_product_id=9358233`，`shijiu_sku_id=null`。UI 回读没有暴露 `is_shelf`，仅在本 UI-context 校验中允许该字段缺失；若它明确返回非 0 仍会失败。36 个目标请求全部只读，新增 CREATE、上传、更新、legacy 操作和其他商品操作均为 0。
+
+成功 browser CREATE 与 canonical MIKIHOUSE CREATE 的业务值脱敏比较也已记录：类目为 294880/294884；商品名为测试名/官网商品名；supplier 均为空；测试商品描述为空而 MIKI 带 source metadata 和详情模板；规格为 `g重=170g`/`颜色=紺、尺码=---`；SKU code 为空/精确 MIKI code；售价、成本、会员价和库存为 `100/100/100/140` 与 `1430/2200/1430/1`；两者主图和轮播均为 1 张 COS 图片但哈希不同。上述是观察到的业务值差异，不证明其中任一是拒绝原因——UI-context 已证明 MIKIHOUSE CREATE 实际成功。
+
 只读 reconciliation 入口如下。它只接受 Git 外已验证的 private capture 目录，不需要也不接受写入确认词；代码会拒绝任何非 read 请求：
 
 ```bash
 python scripts/reconcile_shijiu_canonical_create.py \
+  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
+```
+
+UI-context 流程分两步，原始请求、响应和认证值只写入 Git 外 private 目录；第二步仅离线验证及更新本地 state/report：
+
+```bash
+node scripts/shijiu_ui_context_reconcile.mjs \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
+
+python scripts/finalize_shijiu_ui_context_reconciliation.py \
   --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
 ```
 
@@ -445,5 +461,6 @@ python scripts/reconcile_shijiu_canonical_create.py \
 - `deliverables/shijiu_import/canonical_create_candidate.json`：候选选择、官网价格和特殊名单边界；
 - `deliverables/shijiu_import/canonical_create_validation_report.json`：历史唯一上传/CREATE、空响应及当前 reconciliation 汇总；
 - `deliverables/shijiu_import/canonical_create_reconciliation_report.json`：精确名称、完整类目扫描、辅助 good_code 查询及零 mutation 的脱敏证据；
+- `deliverables/shijiu_import/canonical_create_ui_context_reconciliation_report.json`：真实 UI 请求上下文、强回读、业务值差异及最终 mapping 证据；
 - `state/shijiu_canonical_create_checkpoint.json`：已耗尽且终止的 checkpoint；
 - `config/shijiu_native_create_contract.json`：当前 browser-exact canonical 字段、类型、顺序和 header 契约。

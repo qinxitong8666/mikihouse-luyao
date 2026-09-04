@@ -158,7 +158,7 @@ def test_single_canonical_create_persists_product_plus_exact_code_identity(tmp_p
     assert len(client.requests) == before
 
 
-def test_checked_in_single_create_reconciliation_is_read_only_unbound_and_non_special() -> None:
+def test_checked_in_ui_context_reconciliation_binds_only_verified_historical_create() -> None:
     report = json.loads(
         (ROOT / "deliverables/shijiu_import/canonical_create_validation_report.json").read_text()
     )
@@ -171,23 +171,26 @@ def test_checked_in_single_create_reconciliation_is_read_only_unbound_and_non_sp
     reconciliation = json.loads(
         (ROOT / "deliverables/shijiu_import/canonical_create_reconciliation_report.json").read_text()
     )
+    ui_reconciliation = json.loads(
+        (ROOT / "deliverables/shijiu_import/canonical_create_ui_context_reconciliation_report.json").read_text()
+    )
     mapping = json.loads((ROOT / "state/shijiu_mappings.json").read_text())
     with (ROOT / "special_skus_2026aw.csv").open(newline="", encoding="utf-8-sig") as handle:
         special = {row["product_number"] for row in csv.DictReader(handle)}
     number = report["product_number"]
-    assert report["status"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
+    assert report["status"] == "RECONCILED_READBACK_VERIFIED_UI_CONTEXT"
     assert report["create_request_count"] == report["create_attempts"] == 1
     assert report["image_upload_count"] == 1
-    assert report["exact_backend_sku_match_count"] == 0
-    assert report["mapping_persisted"] is False
+    assert report["exact_backend_sku_match_count"] == 1
+    assert report["mapping_persisted"] is True
     assert report["additional_product_create_requests_allowed"] is False
     assert report["legacy_reference_touched"] is False
     assert report["pdf_special_exclusion_count"] == len(special) == 351
     assert number not in special
     assert candidate["write_executed"] is True
-    assert candidate["result"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
+    assert candidate["result"] == "RECONCILED_READBACK_VERIFIED_UI_CONTEXT"
     assert candidate["additional_write_executed"] is False
-    assert checkpoint["status"] == "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE"
+    assert checkpoint["status"] == "RECONCILED_READBACK_VERIFIED_UI_CONTEXT"
     assert checkpoint["scope"]["product_numbers"] == [number]
     assert checkpoint["create_attempts"] == 1
     assert reconciliation["create_requests_this_run"] == 0
@@ -200,7 +203,15 @@ def test_checked_in_single_create_reconciliation_is_read_only_unbound_and_non_sp
     assert reconciliation["auxiliary_good_code_product_ids"] == []
     assert reconciliation["good_code_role"] == "auxiliary_only_never_binding"
     assert reconciliation["sensitive_values_included"] is False
-    assert mapping["products"][number]["shijiu_product_id"] is None
+    assert ui_reconciliation["status"] == "RECONCILED_READBACK_VERIFIED_UI_CONTEXT"
+    assert ui_reconciliation["candidate_product_ids"] == ["9358233"]
+    assert ui_reconciliation["verified_product_ids"] == ["9358233"]
+    assert ui_reconciliation["safety"]["read_only_requests"] == 36
+    assert ui_reconciliation["safety"]["create_requests"] == 0
+    assert ui_reconciliation["safety"]["image_upload_requests"] == 0
+    assert ui_reconciliation["safety"]["update_requests"] == 0
+    assert ui_reconciliation["sensitive_values_included"] is False
+    assert mapping["products"][number]["shijiu_product_id"] == "9358233"
     assert all(
         row["shijiu_sku_id"] is None
         for row in mapping["products"][number]["variants"].values()

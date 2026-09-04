@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T05:32:33.299479+00:00",
+  "generated_at": "2026-09-04T05:49:53.931261+00:00",
   "mode": "SINGLE_CANONICAL_CREATE_VALIDATION",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
-  "status": "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE",
+  "status": "RECONCILED_READBACK_VERIFIED_UI_CONTEXT",
   "product_number": "36-2001-572",
   "source_product_id": "MIKIHOUSE:36-2001-572",
-  "shijiu_product_id": null,
+  "shijiu_product_id": "9358233",
   "target_category_id": 294884,
   "default_visibility": "OFF_SHELF_IS_SHELF_0",
   "canonical_contract_verified_before_write": true,
@@ -15,8 +15,8 @@
   "create_attempts": 1,
   "create_request_count": 1,
   "image_upload_count": 1,
-  "read_request_count": 41,
-  "mapping_persisted": false,
+  "read_request_count": 77,
+  "mapping_persisted": true,
   "create_response": {
     "code": 200,
     "msg": "success",
@@ -26,12 +26,27 @@
   "exact_backend_sku_codes": [
     "MIKI-36-2001-57200039999"
   ],
-  "exact_backend_sku_match_count": 0,
+  "exact_backend_sku_match_count": 1,
   "product_identity_readback_policy": "Goods.index exact good_name -> product_id -> getFormatInfo exact backend_sku_code",
   "good_code_search_role": "auxiliary_only_never_binding",
   "variant_identity_policy": "shijiu_product_id + exact backend_sku_code",
   "shijiu_sku_id_policy": "nullable; never guessed",
-  "verified_variants": [],
+  "verified_variants": [
+    {
+      "source_variant_sku": "36-2001-57200039999",
+      "backend_sku_code": "MIKI-36-2001-57200039999",
+      "shijiu_sku_id": null,
+      "stable_target_identity": {
+        "shijiu_product_id": "9358233",
+        "backend_sku_code": "MIKI-36-2001-57200039999"
+      },
+      "price_jpy": 1430,
+      "stock": 1,
+      "specification": "紺,---",
+      "image_url": "https://cdn0.19mini.com/shop/2026-09-04/3275ebd04b2b56a6bdabb6d58c63de31.jpg",
+      "passed": true
+    }
+  ],
   "price_source": "mini_program_price_jpy",
   "currency": "JPY",
   "currency_conversion_applied": false,
@@ -41,16 +56,17 @@
   "legacy_cleanup_executed": false,
   "batch_continuation": "STOP_AFTER_THIS_PRODUCT",
   "additional_product_create_requests_allowed": false,
-  "error": {
-    "type": "ReconciliationNoUniqueStrongEvidence",
-    "message": "exact good_name queries and complete category scans produced no uniquely verified product; mapping remains unbound",
-    "at": "2026-09-04T05:32:33.294673+00:00"
-  },
+  "error": null,
   "sensitive_values_included": false,
   "reconciliation": {
     "report": "canonical_create_reconciliation_report.json",
     "primary_identity_path": "Goods.index exact good_name -> product_id -> getFormatInfo exact sku_code",
     "target_mutations": 0,
     "good_code_role": "auxiliary_only_never_binding"
+  },
+  "ui_context_reconciliation": {
+    "report": "canonical_create_ui_context_reconciliation_report.json",
+    "status": "RECONCILED_READBACK_VERIFIED_UI_CONTEXT",
+    "target_mutations": 0
   }
 }

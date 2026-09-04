@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mikihouse-luyao"
-version = "0.13.1"
+version = "0.13.2"
 description = "MIKI HOUSE product scraper and PDF price-list generator"
 readme = "README.md"
 requires-python = ">=3.10"

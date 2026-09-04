@@ -4,8 +4,8 @@
   "target": "SHIJIU",
   "mode": "SINGLE_CANONICAL_CREATE_VALIDATION",
   "created_at": "2026-09-04T05:10:41.459411+00:00",
-  "updated_at": "2026-09-04T05:32:33.294975+00:00",
-  "status": "RECONCILIATION_NO_UNIQUE_STRONG_EVIDENCE",
+  "updated_at": "2026-09-04T05:49:53.929588+00:00",
+  "status": "RECONCILED_READBACK_VERIFIED_UI_CONTEXT",
   "scope": {
     "product_numbers": [
       "36-2001-572"
@@ -166,9 +166,42 @@
     "data": [],
     "msg": "success"
   },
-  "shijiu_product_id": null,
-  "readback": null,
-  "mapping_persisted": false,
+  "shijiu_product_id": "9358233",
+  "readback": {
+    "source": "MIKIHOUSE",
+    "source_product_id": "MIKIHOUSE:36-2001-572",
+    "product_number": "36-2001-572",
+    "shijiu_product_id": "9358233",
+    "target_category_id": 294884,
+    "good_name": "ヘアゴム（2個セット）",
+    "off_shelf": null,
+    "is_shelf_exposed": false,
+    "master_graph": "https://cdn0.19mini.com/shop/2026-09-04/3275ebd04b2b56a6bdabb6d58c63de31.jpg",
+    "carousel_urls": [
+      "https://cdn0.19mini.com/shop/2026-09-04/3275ebd04b2b56a6bdabb6d58c63de31.jpg"
+    ],
+    "detail_image_urls": [],
+    "sku_count": 1,
+    "skus": [
+      {
+        "source_variant_sku": "36-2001-57200039999",
+        "backend_sku_code": "MIKI-36-2001-57200039999",
+        "shijiu_sku_id": null,
+        "stable_target_identity": {
+          "shijiu_product_id": "9358233",
+          "backend_sku_code": "MIKI-36-2001-57200039999"
+        },
+        "price_jpy": 1430,
+        "stock": 1,
+        "specification": "紺,---",
+        "image_url": "https://cdn0.19mini.com/shop/2026-09-04/3275ebd04b2b56a6bdabb6d58c63de31.jpg",
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "verified_at": "2026-09-04T05:49:53.842059+00:00"
+  },
+  "mapping_persisted": true,
   "request_ledger": [
     {
       "sequence": 1,
@@ -500,13 +533,298 @@
       "path": "/shopapi/Goods/index",
       "semantic_operation": "read",
       "operation": "exact MIKIHOUSE SKU search"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "category_294884"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 56,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 62,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 66,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 68,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 69,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 70,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 71,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 72,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 73,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 75,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 76,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/Goods/index",
+      "semantic_operation": "read",
+      "operation": "all_categories"
+    },
+    {
+      "sequence": 77,
+      "at": "2026-09-04T05:48:33.002870+00:00",
+      "method": "POST",
+      "path": "/shopapi/goods/getFormatInfo",
+      "semantic_operation": "read",
+      "operation": "UI-context candidate strong verification",
+      "product_id": "9358233"
     }
   ],
-  "error": {
-    "type": "ReconciliationNoUniqueStrongEvidence",
-    "message": "exact good_name queries and complete category scans produced no uniquely verified product; mapping remains unbound",
-    "at": "2026-09-04T05:32:33.294673+00:00"
-  },
+  "error": null,
   "preflight": {
     "passed": true,
     "fixed_category_id": 294884,
@@ -526,6 +844,24 @@
     "primary_identity_path": "Goods.index exact good_name -> product_id -> getFormatInfo exact sku_code",
     "verified_product_ids": [],
     "auxiliary_good_code_product_ids": [],
+    "target_mutations": 0
+  },
+  "prior_ui_reconciliation_error": {
+    "type": "UiContextNoUniqueStrongEvidence",
+    "message": "UI-context candidates did not produce exactly one full readback match",
+    "at": "2026-09-04T05:49:18.840777+00:00"
+  },
+  "ui_context_reconciliation": {
+    "status": "RECONCILED_READBACK_VERIFIED_UI_CONTEXT",
+    "at": "2026-09-04T05:49:53.928690+00:00",
+    "report": "canonical_create_ui_context_reconciliation_report.json",
+    "private_evidence_sha256": "e4ee2045ef238f61480d45ac73cc113e5291acb125128084f18318ef3d5e78ac",
+    "candidate_product_ids": [
+      "9358233"
+    ],
+    "verified_product_ids": [
+      "9358233"
+    ],
     "target_mutations": 0
   }
 }
