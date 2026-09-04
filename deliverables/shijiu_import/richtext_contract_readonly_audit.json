@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:00:07.741744+00:00",
+  "status": "COMPLETED_READ_ONLY",
+  "mode": "SHIJIU_RICHTEXT_CONTRACT_READ_ONLY_AUDIT",
+  "target": "SHIJIU",
+  "scope": {
+    "minimum_required_nonempty_good_details_samples": 3,
+    "nonempty_good_details_samples_collected": 3,
+    "get_format_info_products_inspected": 9,
+    "list_sampling": {
+      "good_type": "",
+      "declared_count": 3845,
+      "declared_page_count": 385,
+      "page_size": 10,
+      "sampled_page_count": 32,
+      "sampled_pages": [
+        1,
+        13,
+        26,
+        38,
+        51,
+        63,
+        75,
+        88,
+        100,
+        112,
+        125,
+        137,
+        150,
+        162,
+        174,
+        187,
+        199,
+        212,
+        224,
+        236,
+        249,
+        261,
+        274,
+        286,
+        298,
+        311,
+        323,
+        335,
+        348,
+        360,
+        373,
+        385
+      ],
+      "sampled_unique_product_count": 315,
+      "sampling_policy": "deterministic_evenly_spaced_pages_including_first_and_last",
+      "sampling_is_deterministic": true,
+      "all_declared_rows_enumerated": false,
+      "preserved_filter_context": {
+        "father_type": "",
+        "recommend": "2",
+        "good_code": "",
+        "push": "2",
+        "status": "",
+        "update_start_time": "",
+        "update_end_time": "",
+        "create_start_time": "",
+        "create_end_time": "",
+        "page_size": "10",
+        "group_id": ""
+      },
+      "auth_values_included": false
+    },
+    "legacy_reference_mode": "READ_ONLY_NO_MODIFICATION_NO_IDENTITY_BINDING"
+  },
+  "samples": [
+    {
+      "product_identity_sha256": "d61470ed44756f2f01ee6d8e726f7f521260fb4e6b216bd2ad8ed42863309078",
+      "cohort": "OTHER_READ_ONLY_TARGET_SAMPLE",
+      "fields": {
+        "good_details": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 1021,
+          "utf8_byte_count": 2302,
+          "sha256": "b98fe336fae76df4d30f1c2f52fadafc34f490906d51811dce19eda4cd739d2d",
+          "format": "HTML_OR_LIGHT_MARKUP",
+          "tag_counts": {
+            "p": 46
+          },
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 744,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_detail_pics": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 86,
+          "utf8_byte_count": 86,
+          "sha256": "cb94180ec290db8a6e97682780faa54561ec137abdd2061aa9ad697825587cb7",
+          "url_count": 1,
+          "max_url_character_count": 86,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "description": {
+          "value_type": "NoneType",
+          "present": false,
+          "character_count": 0,
+          "utf8_byte_count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "format": "EMPTY",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 0,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_describe": {
+          "value_type": "NoneType",
+          "present": false,
+          "character_count": 0,
+          "utf8_byte_count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "format": "EMPTY",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 0,
+          "raw_value_included": false,
+          "url_values_included": false
+        }
+      }
+    },
+    {
+      "product_identity_sha256": "21e81afca5e70018571a837a27439f3c0998acc8749c18c780aa2fb0c7dc5876",
+      "cohort": "OTHER_READ_ONLY_TARGET_SAMPLE",
+      "fields": {
+        "good_details": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 81,
+          "utf8_byte_count": 103,
+          "sha256": "78563f24d6b7256b70b7c116da6c101bf05f04a6fd5c55f687bf64c3bb0a21b7",
+          "format": "HTML_OR_LIGHT_MARKUP",
+          "tag_counts": {
+            "h2": 1,
+            "p": 1,
+            "section": 1
+          },
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 23,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_detail_pics": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 1231,
+          "utf8_byte_count": 1231,
+          "sha256": "2ca8c6ba190c24427f570c4ab79fba39114593e132e5321b2fda2ecda8364ffc",
+          "url_count": 16,
+          "max_url_character_count": 76,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "description": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 94,
+          "utf8_byte_count": 114,
+          "sha256": "425c22dfca70b3cbeee6d004c1e5a5e239138f0732b770e494c1095d65b35bac",
+          "format": "PLAIN_TEXT",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 94,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_describe": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 33,
+          "utf8_byte_count": 75,
+          "sha256": "f259387a8f4c70c8eda138c226297bb50b3d32f52e3ec77f726979b22fc2468c",
+          "format": "PLAIN_TEXT",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 33,
+          "raw_value_included": false,
+          "url_values_included": false
+        }
+      }
+    },
+    {
+      "product_identity_sha256": "3545c0ac469ad6aa371587bc734348b0b31ecba7c3682c54fe12a80a2ceb5e7f",
+      "cohort": "OTHER_READ_ONLY_TARGET_SAMPLE",
+      "fields": {
+        "good_details": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 327,
+          "utf8_byte_count": 867,
+          "sha256": "12509204f4eefab582ac9b2f44a380b336a72efa690b84f4a129b8ba5428edf5",
+          "format": "HTML_OR_LIGHT_MARKUP",
+          "tag_counts": {
+            "p": 7
+          },
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 284,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_detail_pics": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 86,
+          "utf8_byte_count": 86,
+          "sha256": "cb94180ec290db8a6e97682780faa54561ec137abdd2061aa9ad697825587cb7",
+          "url_count": 1,
+          "max_url_character_count": 86,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "description": {
+          "value_type": "NoneType",
+          "present": false,
+          "character_count": 0,
+          "utf8_byte_count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "format": "EMPTY",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 0,
+          "raw_value_included": false,
+          "url_values_included": false
+        },
+        "good_describe": {
+          "value_type": "str",
+          "present": true,
+          "character_count": 25,
+          "utf8_byte_count": 75,
+          "sha256": "447fb5b1f1b82c90b454957834400341f1857a02a5655eb250ae3a3355cb55f7",
+          "format": "PLAIN_TEXT",
+          "tag_counts": {},
+          "image_tag_count": 0,
+          "embedded_image_source_count": 0,
+          "url_count": 0,
+          "text_character_count_after_tag_parse": 25,
+          "raw_value_included": false,
+          "url_values_included": false
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "good_details_format_counts": {
+      "HTML_OR_LIGHT_MARKUP": 3
+    },
+    "tag_sample_presence_counts": {
+      "h2": 1,
+      "p": 3,
+      "section": 1
+    },
+    "good_details_with_img_count": 0,
+    "good_details_with_urls_count": 0,
+    "good_detail_pics_nonempty_count": 3
+  },
+  "request_counts": {
+    "read": 41,
+    "goods_index": 32,
+    "get_format_info": 9,
+    "write": 0,
+    "image_upload": 0,
+    "create": 0,
+    "update": 0
+  },
+  "safety": {
+    "target_mutation_requests_sent": 0,
+    "product_ids_persisted": false,
+    "product_names_persisted": false,
+    "raw_field_values_persisted": false,
+    "raw_urls_persisted": false,
+    "authentication_values_persisted": false
+  },
+  "static_contract_evidence": {
+    "repository_heads": {
+      "mikihouse_luyao_audited_main_baseline": "a339379cb0f2dac98d170939e9bcc1f3ce3a5fb5",
+      "wawu_product_sync_current_main": "1d688a220228a952e732e39dc4310a3200e4a961"
+    },
+    "evidence": [
+      {
+        "label": "MIKI_BROWSER_CAPTURE",
+        "path_role": "shijiu_browser_exact_capture.mjs",
+        "sha256": "cb130c37e3f5e06adf791a843930c3b52601fb9deba92dad371926fcd48714cf",
+        "byte_count": 52551,
+        "raw_content_included": false
+      },
+      {
+        "label": "MIKI_NATIVE_WRITER",
+        "path_role": "shijiu_live_import.py",
+        "sha256": "bd9348922a3923142a9b5d221694ac92ea392b4ef37bcbf21e595b2ff246f245",
+        "byte_count": 69262,
+        "raw_content_included": false
+      },
+      {
+        "label": "MIKI_FAILED_FINAL_HTML",
+        "path_role": "shijiu_production_architecture_verification_checkpoint.json",
+        "sha256": "fe5dbd4d8b146002048ca26dd4a0902f3a349dc429c33bec2311fd31cd804941",
+        "byte_count": 190531,
+        "raw_content_included": false
+      },
+      {
+        "label": "WAWU_SHIJIU_CLIENT",
+        "path_role": "backend_client.py",
+        "sha256": "e8c66771ba648829dc2c9d0c8130baaa2853cd63b4cbc3fbd5ff7f0b44e3897e",
+        "byte_count": 35042,
+        "raw_content_included": false
+      },
+      {
+        "label": "WAWU_SHIJIU_TRANSFORMER",
+        "path_role": "transformer.py",
+        "sha256": "56f0df96b10aecd7ffa629fb2c169c0226e8279f37c6587ae92e0dcf1e1083d6",
+        "byte_count": 25075,
+        "raw_content_included": false
+      },
+      {
+        "label": "WAWU_DETAIL_TRANSFORMER",
+        "path_role": "detail_transformer.py",
+        "sha256": "0b14354d5a2ca624bdd78968c1596186e4235191875ae6cbcbdd838df1374077",
+        "byte_count": 10323,
+        "raw_content_included": false
+      }
+    ],
+    "observed_contract": {
+      "save_endpoint": "/shopapi/Goods/newAddGood",
+      "readback_endpoint": "/shopapi/goods/getFormatInfo",
+      "separate_detail_save_endpoint_observed": false,
+      "good_details_semantics": "TEXT_OR_LIGHT_HTML",
+      "good_detail_pics_semantics": "ORDERED_COMMA_SEPARATED_DETAIL_IMAGE_URLS",
+      "good_describe_semantics": "SHORT_CUSTOMER_FACING_SUMMARY",
+      "description_semantics": "INTERNAL_OR_PROVENANCE_DESCRIPTION",
+      "wawu_reference_good_details_character_guard": 1024,
+      "wawu_reference_embedded_img_policy": "EXTRACT_TO_GOOD_DETAIL_PICS"
+    },
+    "evidence_boundary": {
+      "separate_detail_endpoint_absence": "No separate endpoint was found in the audited current source/captures; this is not proof that no server endpoint exists.",
+      "html_filter_or_hard_length_limit": "Not claimed until a native browser edit is captured and read back.",
+      "wawu_semantics_reused": "SHIJIU_DOWNSTREAM_ONLY"
+    }
+  }
+}

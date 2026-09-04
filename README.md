@@ -767,3 +767,26 @@ PYTHONPATH=src python scripts/import_shijiu_production_architecture_verification
 ```
 
 脱敏证据使用 `deliverables/shijiu_import/production_architecture_*.json`；其中 `production_architecture_final_html_forensics.json` 明确区分“API确认保存请求”与“目标端实际持久化状态”。只有完整HTML强回读通过时才会生成 `production_architecture_next_20_frozen_plan.json`，计划生成不代表获得执行授权。
+
+## Shijiu 详情富文本保存契约（最新）
+
+2026-09-04 已完成独立专项审计，不恢复或重试 `63-3210-146`，不创建任何 MIKIHOUSE 商品，不执行20件批次。严格只读抽样通过真实 UI-context Goods.index/getFormatInfo 检查了3件 `good_details` 非空商品：3件均为文本/轻量HTML（仅观察到 `p`/`section`/`h2`），`img` 和URL数均为0，而3件均使用独立 `good_detail_pics`。41次目标请求全部是只读，写入、上传和 legacy 修改均为0。
+
+同一个新建的非 MIKI、非294884一次性测试商品完成了2次人工原生 EDIT 验证：
+
+- 后台“详情介绍”以8字符纯文本进入 `good_details`，`/shopapi/Goods/newAddGood` 保存后 getFormatInfo 回读的类型、长度和 SHA-256 完全一致；
+- 后台“详情图”添加1张已上传 Shijiu/COS 的图片时，`good_details` 哈希保持不变，图片只进入逗号分隔的 `good_detail_pics`，回读URL数、字符数和 SHA-256 完全一致；
+- 两次都使用同一 `newAddGood` 完整保存 payload，未观察到独立详情保存接口；`good_describe` 是后台“简述”，`description` 未参与这两次详情编辑。
+
+与冻结的 `63-3210-146` 精确对比显示：endpoint/query/headers/Content-Type 一致；原生 EDIT 与旧 MIKI writer 还存在 `virtual_sales`/`orderby`/`brand_id`、`id`/`original_price`/`tax_rate` 类型及顶层顺序差异，已如实记录，未将它们错当为已证明的拒绝原因。决定性业务值差异是旧最终 `good_details` 为2,250字符/3,156 bytes/16张内嵌图片，而原生图片流程始终保持轻量 `good_details`，并将图片单独存入 `good_detail_pics`。这证明可支持的生产表示，但不把1024或标签行为宣称为服务器硬限制。
+
+新生产契约固定为：`good_details` 仅文本/轻量HTML，最多1024字符，禁止 `img` 和URL；全部详情图按序由 `good_detail_pics` 承载。生产 stage plan 已删除图片型 `FINAL_GOOD_DETAILS_HTML` UPDATE，保留轻量 CREATE、分段 broadcast 和分段 `good_detail_pics` full-payload UPDATE。`config/shijiu_richtext_contract.json` 是新的必查契约；脱敏证据为：
+
+- `deliverables/shijiu_import/richtext_contract_readonly_audit.json`；
+- `deliverables/shijiu_import/richtext_native_test_create_capture.json`；
+- `deliverables/shijiu_import/richtext_native_text_edit_capture.json`；
+- `deliverables/shijiu_import/richtext_native_image_edit_capture.json`；
+- `deliverables/shijiu_import/richtext_contract_comparison.json`；
+- `deliverables/shijiu_import/richtext_contract_readiness.json`。
+
+readiness 仅冻结下一个新 MIKIHOUSE 端到端验证计划，不代表获得执行授权；本轮 MIKIHOUSE 写请求为0，351特殊品番仍在所有 Shijiu 阶段前置排除，legacy 286仅只读，所有历史冻结商品不重试，`shijiu_sku_id` 仍 nullable。

@@ -65,12 +65,12 @@ def product(number: str = "20-9000-016") -> dict:
     }
 
 
-def test_stage_contract_keeps_detail_pics_out_of_minimal_html_until_final_stage() -> None:
+def test_stage_contract_keeps_detail_pics_out_of_target_light_html() -> None:
     item = map_product_to_shijiu(product(), CATEGORY, excluded_product_numbers=exclusions())
     stages = stage_plan(item)
     detail = [row for row in stages if row["operation"] == "UPDATE_DETAIL_PICS"]
     assert [row["detail_pic_count"] for row in detail][:2] == [8, 16]
-    assert stages[-1]["operation"] == "UPDATE_GOOD_DETAILS"
+    assert stages[-1]["operation"] == "UPDATE_DETAIL_PICS"
     uploads = {
         row["upload_reference"]: {"status": "UPLOADED", "target_url": f"https://cdn0.19mini.com/{row['order']}.jpg"}
         for row in item["image_upload_plan"]
@@ -79,8 +79,10 @@ def test_stage_contract_keeps_detail_pics_out_of_minimal_html_until_final_stage(
     assert intermediate["good_detail_pics"].count(",") + 1 == MINIMUM_DETAIL_PICS
     assert "cdn0.19mini.com" not in intermediate["good_details"]
     final = build_stage_payload(item, stages[-1], uploads, product_id="1")
-    assert "cdn0.19mini.com" in final["good_details"]
+    assert "cdn0.19mini.com" not in final["good_details"]
+    assert "<img" not in final["good_details"]
     assert "shopify" not in final["good_details"]
+    assert final["good_detail_pics"].count(",") + 1 >= MINIMUM_DETAIL_PICS
 
 
 def test_loader_rejects_frozen_selection_below_sixteen_detail_pics() -> None:
@@ -101,7 +103,7 @@ def test_loader_rejects_frozen_selection_below_sixteen_detail_pics() -> None:
         load_final_e2e_candidate({"products": [source]}, exclusions(), CATEGORY, selection)
 
 
-def test_production_conclusion_requires_completed_final_html_and_sixteen_details() -> None:
+def test_production_conclusion_requires_light_details_and_sixteen_detail_pics() -> None:
     checkpoint = {
         "status": "COMPLETED",
         "product_number": "20-9000-016",
@@ -110,11 +112,12 @@ def test_production_conclusion_requires_completed_final_html_and_sixteen_details
         "request_ledger": [],
         "first_failed_state": None,
         "stages": [
-            {"key": "DETAIL_PICS_9_16", "operation": "UPDATE_DETAIL_PICS", "state": "VERIFIED", "metrics": {"broadcast_url_count": 16, "good_detail_pics_url_count": 16}},
-            {"key": "FINAL_GOOD_DETAILS_HTML", "operation": "UPDATE_GOOD_DETAILS", "state": "VERIFIED", "metrics": {"broadcast_url_count": 16, "good_detail_pics_url_count": 16}},
+            {"key": "DETAIL_PICS_9_16", "operation": "UPDATE_DETAIL_PICS", "state": "VERIFIED", "metrics": {"broadcast_url_count": 16, "good_detail_pics_url_count": 16, "good_details_characters": 80, "good_details_image_count": 0, "good_details_url_count": 0}},
         ],
     }
     conclusion = build_final_e2e_conclusion(checkpoint)
     assert conclusion["production_import_architecture_verified"] is True
+    assert conclusion["good_details_text_or_light_html_verified"] is True
+    assert conclusion["final_good_details_html_verified"] is False
     checkpoint["status"] = "FROZEN_ON_FIRST_ANOMALY"
     assert build_final_e2e_conclusion(checkpoint)["production_import_architecture_verified"] is False

@@ -122,6 +122,10 @@ def test_capture_source_uses_complete_headers_cdp_and_mikihouse_guard() -> None:
     assert "resolvedProductId" in source
     assert 'good_name: expectedName' in source
     assert 'state: "LIST_SEARCH_COMPLETED"' in source
+    assert "richTextContractShape" in source
+    assert "json_serialized_utf8_byte_count" in source
+    assert 'for (const field of ["good_details", "good_detail_pics", "description", "good_describe"])' in source
+    assert "exact_sha256_match" in source
     assert ".click(" not in source
     assert ".fill(" not in source
 

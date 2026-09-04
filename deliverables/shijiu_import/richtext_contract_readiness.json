@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_LAST_ONE_PRODUCT_MIKIHOUSE_E2E_VALIDATION",
+  "production_contract": {
+    "good_details": "TEXT_OR_LIGHT_HTML_NO_IMAGE_OR_URL_MAX_1024",
+    "detail_images": "GOOD_DETAIL_PICS_ORDERED_SHIJIU_COS_URLS",
+    "final_image_html_update_stage": "REMOVED",
+    "save_path": "NATIVE_FULL_PAYLOAD_NEW_ADD_GOOD",
+    "readback": "UI_CONTEXT_EXACT_GOOD_NAME_THEN_GET_FORMAT_INFO"
+  },
+  "frozen_next_product": {
+    "product_number": "10-9332-796",
+    "good_name": "牛革セカンドベビーシューズ",
+    "name_unique_in_source": true,
+    "variant_count": 6,
+    "available_variant_count": 6,
+    "color_count": 2,
+    "size_count": 3,
+    "official_image_count": 18,
+    "role_counts": {
+      "detail": 1,
+      "main": 1,
+      "product_gallery": 15,
+      "variant_color": 1
+    },
+    "broadcast_count": 18,
+    "detail_pic_count": 16,
+    "good_details_contract": "TEXT_OR_LIGHT_HTML_NO_IMAGE_OR_URL_MAX_1024",
+    "source_payload_sha256": "9ed689db3d55d8178bdbea570c07e0f02086b5b7ce947ca0eef5ee82c3fe2c8e"
+  },
+  "planned_stages": [
+    {
+      "sequence": 1,
+      "key": "CREATE_CORE",
+      "operation": "CREATE",
+      "broadcast_count": 4,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:001",
+        "MIKIHOUSE:10-9332-796:IMAGE:002",
+        "MIKIHOUSE:10-9332-796:IMAGE:003",
+        "MIKIHOUSE:10-9332-796:IMAGE:004",
+        "MIKIHOUSE:10-9332-796:IMAGE:017"
+      ]
+    },
+    {
+      "sequence": 2,
+      "key": "BROADCAST_5_12",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 12,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:005",
+        "MIKIHOUSE:10-9332-796:IMAGE:006",
+        "MIKIHOUSE:10-9332-796:IMAGE:007",
+        "MIKIHOUSE:10-9332-796:IMAGE:008",
+        "MIKIHOUSE:10-9332-796:IMAGE:009",
+        "MIKIHOUSE:10-9332-796:IMAGE:010",
+        "MIKIHOUSE:10-9332-796:IMAGE:011",
+        "MIKIHOUSE:10-9332-796:IMAGE:012"
+      ]
+    },
+    {
+      "sequence": 3,
+      "key": "BROADCAST_13_18",
+      "operation": "UPDATE_BROADCAST",
+      "broadcast_count": 18,
+      "detail_pic_count": 0,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:013",
+        "MIKIHOUSE:10-9332-796:IMAGE:014",
+        "MIKIHOUSE:10-9332-796:IMAGE:015",
+        "MIKIHOUSE:10-9332-796:IMAGE:016",
+        "MIKIHOUSE:10-9332-796:IMAGE:017",
+        "MIKIHOUSE:10-9332-796:IMAGE:018"
+      ]
+    },
+    {
+      "sequence": 4,
+      "key": "DETAIL_PICS_1_8",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 18,
+      "detail_pic_count": 8,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:002",
+        "MIKIHOUSE:10-9332-796:IMAGE:003",
+        "MIKIHOUSE:10-9332-796:IMAGE:004",
+        "MIKIHOUSE:10-9332-796:IMAGE:005",
+        "MIKIHOUSE:10-9332-796:IMAGE:006",
+        "MIKIHOUSE:10-9332-796:IMAGE:007",
+        "MIKIHOUSE:10-9332-796:IMAGE:008",
+        "MIKIHOUSE:10-9332-796:IMAGE:009"
+      ]
+    },
+    {
+      "sequence": 5,
+      "key": "DETAIL_PICS_9_16",
+      "operation": "UPDATE_DETAIL_PICS",
+      "broadcast_count": 18,
+      "detail_pic_count": 16,
+      "new_references": [
+        "MIKIHOUSE:10-9332-796:IMAGE:010",
+        "MIKIHOUSE:10-9332-796:IMAGE:011",
+        "MIKIHOUSE:10-9332-796:IMAGE:012",
+        "MIKIHOUSE:10-9332-796:IMAGE:013",
+        "MIKIHOUSE:10-9332-796:IMAGE:014",
+        "MIKIHOUSE:10-9332-796:IMAGE:015",
+        "MIKIHOUSE:10-9332-796:IMAGE:016",
+        "MIKIHOUSE:10-9332-796:IMAGE:018"
+      ]
+    }
+  ],
+  "execution_authorized": false,
+  "maximum_future_product_create_requests_after_new_authorization": 1,
+  "pdf_special_exclusion_count": 351,
+  "pdf_special_selected": false,
+  "legacy_286_mode": "READ_ONLY_UNCHANGED",
+  "historical_frozen_products_retried": false,
+  "shijiu_sku_id_policy": "nullable",
+  "bulk_20_generated_or_executed": false,
+  "current_round": {
+    "mikihouse_write_requests": 0,
+    "non_mikihouse_disposable_test_product_create_requests": 1,
+    "non_mikihouse_disposable_test_product_edit_requests": 2
+  },
+  "sensitive_values_included": false
+}

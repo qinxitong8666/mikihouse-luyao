@@ -109,11 +109,15 @@ def select_final_e2e_candidate(
         refs = image_reference_sets(item)
         broadcast_count = len(refs["all_broadcast"])
         detail_count = len(refs["all_detail"])
-        full_html = str(item["shijiu_payload_preview"].get("good_details") or "")
+        light_details = str(item["shijiu_payload_preview"].get("good_details") or "")
         if (
             not 12 <= broadcast_count <= 20
             or not MINIMUM_DETAIL_PICS <= detail_count <= 20
-            or "{{SHIJIU_COS_URL:" not in full_html
+            or not light_details
+            or "<img" in light_details.lower()
+            or "http://" in light_details.lower()
+            or "https://" in light_details.lower()
+            or len(light_details) > 1024
         ):
             continue
         metrics = _metrics(product)
@@ -137,7 +141,7 @@ def select_final_e2e_candidate(
         "selection_policy": (
             "deterministic: active, publishable, unmapped, non-special, absent from every prior "
             "attempt/freeze, source-unique name, 2-8 variants, explicit gallery+detail roles, "
-            "12-20 broadcast URLs, 16-20 detail-pic URLs, image-bearing final HTML; then closest "
+            "12-20 broadcast URLs, 16-20 detail-pic URLs, target-supported text/light HTML; then closest "
             "to 16 details/16 broadcast/4 variants and product_number"
         ),
         "fixed_target_category_id": TARGET_CATEGORY_ID,
@@ -172,7 +176,7 @@ def select_final_e2e_candidate(
             "role_counts": dict(sorted(roles.items())),
             "broadcast_count": len(refs["all_broadcast"]),
             "detail_pic_count": len(refs["all_detail"]),
-            "full_good_details_contains_images": True,
+            "good_details_contract": "TEXT_OR_LIGHT_HTML_NO_IMAGE_OR_URL_MAX_1024",
             "source_payload_sha256": item["payload_sha256"],
         },
         "stages": stage_plan(item),
@@ -313,11 +317,19 @@ def build_final_e2e_conclusion(
         (int((row.get("metrics") or {}).get("good_detail_pics_url_count") or 0) for row in verified),
         default=0,
     )
-    html_verified = bool(verified and verified[-1].get("operation") == "UPDATE_GOOD_DETAILS")
+    light_details_verified = bool(
+        verified
+        and all(
+            int((row.get("metrics") or {}).get("good_details_characters") or 0) <= 1024
+            and int((row.get("metrics") or {}).get("good_details_image_count") or 0) == 0
+            and int((row.get("metrics") or {}).get("good_details_url_count") or 0) == 0
+            for row in verified
+        )
+    )
     architecture_verified = (
         checkpoint.get("status") == "COMPLETED"
         and max_details >= MINIMUM_DETAIL_PICS
-        and html_verified
+        and light_details_verified
     )
     ledger = checkpoint.get("request_ledger") or []
     forensic = forensic or {}
@@ -333,7 +345,9 @@ def build_final_e2e_conclusion(
         "maximum_verified_good_detail_pics_url_count": max_details,
         "minimum_required_good_detail_pics_count": MINIMUM_DETAIL_PICS,
         "minimum_required_good_detail_pics_satisfied": max_details >= MINIMUM_DETAIL_PICS,
-        "final_good_details_html_verified": html_verified,
+        "final_good_details_html_verified": False,
+        "good_details_text_or_light_html_verified": light_details_verified,
+        "detail_images_carried_by": "good_detail_pics",
         "production_import_architecture_verified": architecture_verified,
         "first_failed_or_blocked_state": checkpoint.get("first_failed_state"),
         "post_failure_forensic_readback": {
@@ -352,7 +366,8 @@ def build_final_e2e_conclusion(
         "mutation_auto_retry_count": 0,
         "interpretation": (
             "Lightweight CREATE plus staged native full-payload broadcast, at least 16 ordered "
-            "detail pictures, and final COS-only image-bearing HTML all passed strong UI-context "
+            "detail pictures in good_detail_pics, and target-supported text/light good_details "
+            "all passed strong UI-context "
             "readback; the MIKIHOUSE production import architecture is VERIFIED."
             if architecture_verified else
             "The final-HTML save was acknowledged but the target retained the prior minimal HTML; "

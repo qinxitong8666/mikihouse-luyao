@@ -50,7 +50,7 @@ def mapped_item(number: str = "20-0001-001", sku: str = "sku-1") -> dict:
         "master_graph": placeholder,
         "broadcast": placeholder,
         "good_detail_pics": placeholder,
-        "good_details": f'<section><img src="{placeholder}"></section>',
+        "good_details": f"<section><p>商品 {number}</p></section>",
         "spec_name": [{"spec_name": "颜色", "id": 0, "son_name": []}],
         "sku_info": [{
             "sku_code": backend_sku_code(sku),
@@ -202,7 +202,7 @@ def test_readback_uses_product_id_and_exact_backend_sku_code_with_nullable_sku_i
     }
 
 
-def test_staged_detail_pics_allow_exact_minimal_html_until_final_html_stage() -> None:
+def test_staged_detail_pics_are_independent_from_exact_light_html() -> None:
     item = mapped_item()
     payload = _resolve_payload(item, uploaded(item))
     payload["good_details"] = "<section><p>minimal text only</p></section>"
@@ -217,6 +217,21 @@ def test_staged_detail_pics_allow_exact_minimal_html_until_final_html_stage() ->
     )
     assert valid["passed"] is True
     assert valid["detail_image_urls"] == ["https://cos.example.com/miki.jpg"]
+
+
+def test_readback_validator_rejects_image_bearing_good_details() -> None:
+    item = mapped_item()
+    payload = _resolve_payload(item, uploaded(item))
+    payload["good_details"] = '<p><img src="https://cos.example.com/miki.jpg"></p>'
+    with pytest.raises(ContractMismatchError, match="text/light-HTML"):
+        validate_product_readback(
+            item,
+            payload,
+            "99001",
+            detail_for(payload),
+            list_row={"id": "99001", "state": 1, "is_shelf": 0},
+            require_exact_good_details=True,
+        )
 
 
 class _ReadResponse:

@@ -31,6 +31,7 @@ from .shijiu_import import (
     DEFAULT_SHIJIU_BASE_URL,
     EXPECTED_SPECIAL_COUNT,
     PDF_SPECIAL_EXCLUDED_REASON,
+    SHIJIU_GOOD_DETAILS_MAX_CHARACTERS,
     SOURCE_CODE,
     ImportPlanError,
     canonical_json,
@@ -1036,6 +1037,22 @@ def validate_product_readback(
         )
     actual_details = str(_first_observation(detail, ("good_details",)) or "")
     expected_details = str(payload.get("good_details") or "")
+    if require_exact_good_details:
+        if (
+            not expected_details
+            or len(expected_details) > SHIJIU_GOOD_DETAILS_MAX_CHARACTERS
+            or re.search(r"<img\b|https?://", expected_details, flags=re.I)
+        ):
+            raise ContractMismatchError(
+                "expected good_details violates text/light-HTML target contract"
+            )
+        if (
+            len(actual_details) > SHIJIU_GOOD_DETAILS_MAX_CHARACTERS
+            or re.search(r"<img\b|https?://", actual_details, flags=re.I)
+        ):
+            raise ContractMismatchError(
+                "readback good_details violates text/light-HTML target contract"
+            )
     expected_detail_urls = _split_urls(payload.get("good_detail_pics"))
     actual_detail_urls = _split_urls(_first_observation(detail, ("good_detail_pics",)))
     if actual_detail_urls != expected_detail_urls:

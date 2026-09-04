@@ -125,13 +125,13 @@ def test_stage_plan_chunks_broadcast_and_details_without_exceeding_eight() -> No
     assert plan[0]["operation"] == "CREATE"
     assert plan[0]["broadcast_count"] == 4
     assert plan[0]["detail_pic_count"] == 0
-    assert plan[-1]["operation"] == "UPDATE_GOOD_DETAILS"
+    assert plan[-1]["operation"] == "UPDATE_DETAIL_PICS"
     assert all(len(row["new_references"]) <= 8 for row in plan[1:])
     assert [row["broadcast_count"] for row in plan if row["operation"] == "UPDATE_BROADCAST"] == [12, 20, 27]
     assert [row["detail_pic_count"] for row in plan if row["operation"] == "UPDATE_DETAIL_PICS"] == [8, 16, 24, 26]
 
 
-def test_stage_payload_is_full_canonical_and_final_html_uses_only_cos() -> None:
+def test_stage_payload_is_full_canonical_and_details_images_stay_separate() -> None:
     item = mapped_item()
     plan = staged.stage_plan(item)
     resolved = uploads(item)
@@ -145,7 +145,10 @@ def test_stage_payload_is_full_canonical_and_final_html_uses_only_cos() -> None:
     validate_canonical_update_payload(final)
     assert final["id"] == 12345
     assert "cdn.shopify.com" not in json.dumps(final)
-    assert "https://cos.example.com" in final["good_details"]
+    assert "https://cos.example.com" not in final["good_details"]
+    assert "<img" not in final["good_details"]
+    assert len(final["good_details"]) <= 1024
+    assert "https://cos.example.com" in final["good_detail_pics"]
 
 
 def test_update_validator_rejects_patch_shape_and_non_terminal_id() -> None:

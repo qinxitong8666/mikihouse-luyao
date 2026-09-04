@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "target": "SHIJIU",
+  "save_endpoint": "/shopapi/Goods/newAddGood",
+  "readback_endpoint": "/shopapi/goods/getFormatInfo",
+  "good_details": {
+    "type": "string",
+    "semantics": "text_or_light_html",
+    "maximum_characters": 1024,
+    "embedded_image_tags_allowed": false,
+    "embedded_urls_allowed": false
+  },
+  "good_detail_pics": {
+    "type": "string",
+    "semantics": "ordered_comma_separated_shijiu_cos_urls"
+  },
+  "good_describe": {
+    "type": "string",
+    "semantics": "short_customer_facing_summary"
+  },
+  "description": {
+    "type": "string",
+    "semantics": "internal_or_provenance_description"
+  },
+  "evidence": {
+    "native_text_edit_capture": "deliverables/shijiu_import/richtext_native_text_edit_capture.json",
+    "native_image_edit_capture": "deliverables/shijiu_import/richtext_native_image_edit_capture.json",
+    "read_only_samples": "deliverables/shijiu_import/richtext_contract_readonly_audit.json",
+    "wawu_reference_scope": "shijiu_downstream_only"
+  }
+}

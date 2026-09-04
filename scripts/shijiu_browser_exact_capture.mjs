@@ -194,6 +194,100 @@ function bodyShape(bodyText) {
 }
 
 
+function htmlFieldShape(value) {
+  const text = value == null ? "" : String(value);
+  const tags = {};
+  for (const match of text.matchAll(/<\s*([a-zA-Z][\w:-]*)\b[^>]*>/g)) {
+    const tag = String(match[1]).toLowerCase();
+    tags[tag] = Number(tags[tag] || 0) + 1;
+  }
+  const urls = [...text.matchAll(/https?:\/\/[^"'<>\s,]+/gi)].map((row) => row[0]);
+  const imageSources = [...text.matchAll(/<img\b[^>]*?\bsrc=["']([^"']+)["']/gi)]
+    .map((row) => row[1]);
+  return {
+    value_type: valueType(value),
+    present: Boolean(text),
+    character_count: text.length,
+    utf8_byte_count: Buffer.byteLength(text),
+    sha256: sha256(text),
+    json_serialized_utf8_byte_count: Buffer.byteLength(JSON.stringify(text)),
+    format: /<\s*\/?\s*[a-zA-Z][^>]*>/.test(text)
+      ? "HTML_OR_LIGHT_MARKUP"
+      : (text ? "PLAIN_TEXT" : "EMPTY"),
+    tag_counts: Object.fromEntries(Object.entries(tags).sort(([left], [right]) => left.localeCompare(right))),
+    image_tag_count: Number(tags.img || 0),
+    embedded_image_source_count: imageSources.length,
+    url_count: urls.length,
+    escaped_open_tag_count: (text.match(/&lt;/gi) || []).length,
+    raw_value_included: false,
+    url_values_included: false,
+  };
+}
+
+
+function commaMediaFieldShape(value) {
+  const text = value == null ? "" : String(value);
+  const urls = text.split(",").map((row) => row.trim()).filter(Boolean);
+  return {
+    value_type: valueType(value),
+    present: Boolean(text),
+    character_count: text.length,
+    utf8_byte_count: Buffer.byteLength(text),
+    sha256: sha256(text),
+    url_count: urls.length,
+    max_url_character_count: Math.max(0, ...urls.map((row) => row.length)),
+    raw_value_included: false,
+    url_values_included: false,
+  };
+}
+
+
+function responseDetailData(raw) {
+  const bodyText = raw?.ui_readback?.detail_response?.body_text;
+  if (!bodyText) return null;
+  try {
+    const parsed = JSON.parse(bodyText);
+    return parsed?.data && typeof parsed.data === "object" ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+
+function richTextContractShape(raw) {
+  let payload = null;
+  try {
+    payload = JSON.parse(raw?.playwright_request?.post_data || "{}");
+  } catch {
+    payload = null;
+  }
+  const detail = responseDetailData(raw);
+  const fieldOrder = payload && typeof payload === "object" ? Object.keys(payload) : [];
+  const fields = {};
+  for (const field of ["good_details", "good_detail_pics", "description", "good_describe"]) {
+    const requestValue = payload?.[field];
+    const readbackValue = detail?.[field];
+    const shape = field === "good_detail_pics" ? commaMediaFieldShape : htmlFieldShape;
+    const requestShape = shape(requestValue);
+    const readbackShape = shape(readbackValue);
+    fields[field] = {
+      request_field_present: Boolean(payload && Object.hasOwn(payload, field)),
+      request_field_index: fieldOrder.indexOf(field),
+      request: requestShape,
+      readback_field_present: Boolean(detail && Object.hasOwn(detail, field)),
+      readback: readbackShape,
+      exact_sha256_match: requestShape.sha256 === readbackShape.sha256,
+    };
+  }
+  return {
+    fields,
+    get_format_info_body_available: Boolean(detail),
+    raw_values_included: false,
+    url_values_included: false,
+  };
+}
+
+
 function isMikihousePayload(bodyText) {
   try {
     const payload = JSON.parse(String(bodyText || ""));
@@ -403,6 +497,7 @@ function sanitizeExactCapture(raw) {
       sku_id_exposed: Boolean(raw.readback?.sku_id_exposed),
       get_format_info_verified: Boolean(raw.readback?.get_format_info_verified),
     },
+    rich_text_contract: richTextContractShape(raw),
     sensitive_values_included: false,
   };
 }
@@ -1093,6 +1188,33 @@ async function selfTest() {
   if (!headers.cookie_present || body.field_types.state !== "string") throw new Error("shape self-test failed");
   if (!isMikihousePayload(JSON.stringify({ good_type: 294884, sku_info: [] }))) throw new Error("MIKIHOUSE guard self-test failed");
   if (isMikihousePayload(JSON.stringify({ good_type: 123, sku_info: [{ sku_code: "TEST-1" }] }))) throw new Error("non-MIKIHOUSE guard self-test failed");
+  const richText = richTextContractShape({
+    playwright_request: {
+      post_data: JSON.stringify({
+        good_details: '<p>private text</p><img src="https://private.example/image.jpg">',
+        good_detail_pics: "https://private.example/image.jpg",
+        description: "private description",
+        good_describe: "private summary",
+      }),
+    },
+    ui_readback: {
+      detail_response: {
+        body_text: JSON.stringify({ data: {
+          good_details: '<p>private text</p><img src="https://private.example/image.jpg">',
+          good_detail_pics: "https://private.example/image.jpg",
+          description: "private description",
+          good_describe: "private summary",
+        } }),
+      },
+    },
+  });
+  const richSerialized = JSON.stringify(richText);
+  if (richSerialized.includes("private text") || richSerialized.includes("private.example")) {
+    throw new Error("rich-text self-test value leaked");
+  }
+  if (!richText.fields.good_details.exact_sha256_match || richText.fields.good_details.request.image_tag_count !== 1) {
+    throw new Error("rich-text shape self-test failed");
+  }
   process.stdout.write(`${JSON.stringify({ status: "PASS", sensitive_values_included: false })}\n`);
 }
 

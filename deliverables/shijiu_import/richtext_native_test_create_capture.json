@@ -1,0 +1,504 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-04T12:07:01.789Z",
+  "mode": "ui-readback",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "state": "BROWSER_EXACT_CAPTURE_VERIFIED",
+  "safety": {
+    "mikihouse_product_write_requests": 0,
+    "mikihouse_payload_guard": "ABORT_BEFORE_TRANSMISSION",
+    "automatic_test_product_write_requests": 0,
+    "captured_human_test_product_write_requests": 1,
+    "read_only_requests": 3,
+    "human_native_save_only": true,
+    "token_values_included": false,
+    "secret_values_included": false,
+    "cookie_values_included": false,
+    "body_values_included": false,
+    "private_capture_inside_git": false
+  },
+  "readiness": {
+    "playwright": {
+      "available": true
+    },
+    "cdp": {
+      "available": false,
+      "error_type": "TypeError"
+    },
+    "chrome_extension_status": "unknown",
+    "private_directory": {
+      "configured": true,
+      "outside_git_worktree": true,
+      "value_in_report": false
+    },
+    "existing_chrome_attachable": false,
+    "launch_private_profile_requested": true
+  },
+  "current_capture": {
+    "captured_at": "2026-09-04T12:04:07.515Z",
+    "private_evidence_sha256": "3a6a3fcb002b76deee12c7af3395a77740add5ef48ba4394f52a030096e6c568",
+    "operation_kind": "CREATE",
+    "auth_context": {
+      "query_token_present": true,
+      "body_token_present": true,
+      "body_secret_present": true,
+      "query_body_token_equal": true,
+      "values_included": false
+    },
+    "request": {
+      "method": "POST",
+      "url": {
+        "scheme": "https",
+        "host": "api.wfcorp.cn",
+        "path": "/shopapi/Goods/newAddGood",
+        "query_parameter_names": [
+          "token"
+        ],
+        "query_values_in_report": false
+      },
+      "headers": {
+        "names": [
+          "accept",
+          "content-type",
+          "origin",
+          "referer",
+          "sec-ch-ua",
+          "sec-ch-ua-mobile",
+          "sec-ch-ua-platform",
+          "user-agent"
+        ],
+        "cookie_present": false,
+        "authorization_present": false,
+        "public_value_sha256": {
+          "accept": "8d9680ede08d1742cb5d3b89606b93a55cb564a95507d42f05d945a23c11d34b",
+          "content-type": "868b11b334fa838a513109557d1d481a48d7ff32e90e5a51834405dd03e90a06",
+          "origin": "1b51ad2abb0d827a0a959f486374add58aaec5f1b8455da82fb3e2b9d6f5438b",
+          "referer": "fa5f914585ac7faa16755125b7c107d44124ea8a765bfacd23015b1d17c56275",
+          "sec-ch-ua": "3de7fe940d024f8cab9d047668ee98298b29d28c68e9a4d36f40cc883e4538ac",
+          "sec-ch-ua-mobile": "36100dcc5adbcee0b8d9480dda9be2a0cd192e33af3a6933caad3a09fd50c1c0",
+          "sec-ch-ua-platform": "4861ab82ea2fe7f3d3266b276a20623ec8721d1abb249628dbdf34487ed937e7",
+          "user-agent": "27ba1dde5da41f255eb10ad5d794e52fd8f81ae723eb3badf5ea7da0dce5c980"
+        },
+        "sensitive_values_included": false
+      },
+      "content_type": "application/json;charset=UTF-8",
+      "body": {
+        "format": "json",
+        "field_names_in_order": [
+          "secret",
+          "token",
+          "good_videos",
+          "video_cover",
+          "good_name",
+          "gyy_erp_code",
+          "hc_erp_code",
+          "good_describe",
+          "original_price",
+          "good_details",
+          "state",
+          "spec_name",
+          "sku_info",
+          "vnarious",
+          "good_type",
+          "good_detail_pics",
+          "integral_type",
+          "integral_content",
+          "is_cumulative",
+          "mortgage_type",
+          "mortgage_content",
+          "distribution_set",
+          "distribution_type",
+          "first_commission",
+          "second_commisstion",
+          "freight_type",
+          "freight_id",
+          "member_type",
+          "advance_sale",
+          "is_border",
+          "spt1",
+          "name_ch",
+          "name_eh",
+          "brand_id",
+          "cargo_place",
+          "standard_place",
+          "buying_unit",
+          "cargo_ingredient",
+          "gross_weight",
+          "net_weight",
+          "cargo_function",
+          "tax_rate",
+          "code_ts",
+          "hs_code",
+          "length",
+          "weight",
+          "height",
+          "supplier",
+          "bus_region",
+          "description",
+          "is_shelf",
+          "is_collection",
+          "is_need_authentication",
+          "master_graph",
+          "broadcast",
+          "good_group_id"
+        ],
+        "field_types": {
+          "secret": "string",
+          "token": "string",
+          "good_videos": "string",
+          "video_cover": "string",
+          "good_name": "string",
+          "gyy_erp_code": "string",
+          "hc_erp_code": "string",
+          "good_describe": "string",
+          "original_price": "number",
+          "good_details": "string",
+          "state": "string",
+          "spec_name": "array",
+          "sku_info": "array",
+          "vnarious": "number",
+          "good_type": "number",
+          "good_detail_pics": "string",
+          "integral_type": "number",
+          "integral_content": "number",
+          "is_cumulative": "number",
+          "mortgage_type": "number",
+          "mortgage_content": "string",
+          "distribution_set": "number",
+          "distribution_type": "string",
+          "first_commission": "string",
+          "second_commisstion": "string",
+          "freight_type": "number",
+          "freight_id": "number",
+          "member_type": "number",
+          "advance_sale": "number",
+          "is_border": "number",
+          "spt1": "number",
+          "name_ch": "string",
+          "name_eh": "string",
+          "brand_id": "string",
+          "cargo_place": "string",
+          "standard_place": "string",
+          "buying_unit": "string",
+          "cargo_ingredient": "string",
+          "gross_weight": "string",
+          "net_weight": "string",
+          "cargo_function": "string",
+          "tax_rate": "number",
+          "code_ts": "string",
+          "hs_code": "string",
+          "length": "string",
+          "weight": "string",
+          "height": "string",
+          "supplier": "string",
+          "bus_region": "string",
+          "description": "string",
+          "is_shelf": "number",
+          "is_collection": "number",
+          "is_need_authentication": "number",
+          "master_graph": "string",
+          "broadcast": "string",
+          "good_group_id": "string"
+        },
+        "sku_count": 1,
+        "sku_field_types": {
+          "sku_price": "string",
+          "sku_stock": "string",
+          "spec_name": "string",
+          "sku_cost_price": "string",
+          "sku_thumbnail": "string",
+          "first_level": "string",
+          "second_level": "string",
+          "third_level": "string",
+          "fourth_level": "string",
+          "fifth_level": "string",
+          "sixth_level": "string"
+        },
+        "specification_count": 1,
+        "specification_field_types": {
+          "spec_name": "string",
+          "id": "number",
+          "son_name": "array"
+        },
+        "auth": {
+          "token_body_field_present": true,
+          "secret_body_field_present": true,
+          "token_value_included": false,
+          "secret_value_included": false
+        },
+        "tenant_marker_presence": {
+          "pro_id": false,
+          "tenant_id": false,
+          "shop_id": false,
+          "merchant_id": false
+        }
+      }
+    },
+    "response": {
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "body_sha256": "8b029f15e62784f0d5cfa51d2707d3032716a1660e5ed38d696fc75b72b9758a",
+      "body_value_included": false
+    },
+    "readback": {
+      "product_id": "9358333",
+      "sku_ids": [],
+      "goods_index_unique": true,
+      "list_name_verified": true,
+      "list_match_method": "NATIVE_UI_GOODS_INDEX_EXACT_CREATE_NAME",
+      "list_pages_scanned": 1,
+      "read_only_request_count": 3,
+      "get_format_info_product_verified": true,
+      "sku_structure_verified": true,
+      "sku_code_verified": true,
+      "sku_id_exposed": false,
+      "get_format_info_verified": true
+    },
+    "rich_text_contract": {
+      "fields": {
+        "good_details": {
+          "request_field_present": true,
+          "request_field_index": 9,
+          "request": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "readback_field_present": true,
+          "readback": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "exact_sha256_match": true
+        },
+        "good_detail_pics": {
+          "request_field_present": true,
+          "request_field_index": 15,
+          "request": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "url_count": 0,
+            "max_url_character_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "readback_field_present": true,
+          "readback": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "url_count": 0,
+            "max_url_character_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "exact_sha256_match": true
+        },
+        "description": {
+          "request_field_present": true,
+          "request_field_index": 49,
+          "request": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "readback_field_present": true,
+          "readback": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "exact_sha256_match": true
+        },
+        "good_describe": {
+          "request_field_present": true,
+          "request_field_index": 7,
+          "request": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "readback_field_present": true,
+          "readback": {
+            "value_type": "string",
+            "present": false,
+            "character_count": 0,
+            "utf8_byte_count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "json_serialized_utf8_byte_count": 2,
+            "format": "EMPTY",
+            "tag_counts": {},
+            "image_tag_count": 0,
+            "embedded_image_source_count": 0,
+            "url_count": 0,
+            "escaped_open_tag_count": 0,
+            "raw_value_included": false,
+            "url_values_included": false
+          },
+          "exact_sha256_match": true
+        }
+      },
+      "get_format_info_body_available": true,
+      "raw_values_included": false,
+      "url_values_included": false
+    },
+    "sensitive_values_included": false
+  },
+  "comparisons": {
+    "browser_exact_vs_historical_wawu": {
+      "available": false,
+      "left": "browser_exact",
+      "right": "historical_wawu"
+    },
+    "browser_exact_vs_previous_mikihouse": {
+      "available": true,
+      "left": "browser_exact",
+      "right": "previous_mikihouse",
+      "method_equal": true,
+      "endpoint_path_equal": true,
+      "query_names_only_in_left": [],
+      "query_names_only_in_right": [],
+      "header_names_only_in_left": [
+        "origin"
+      ],
+      "header_names_only_in_right": [],
+      "public_header_value_hash_differences": [
+        "origin",
+        "sec-ch-ua",
+        "user-agent"
+      ],
+      "cookie_presence": {
+        "left": false,
+        "right": false
+      },
+      "auth_presence": {
+        "left": {
+          "token_body_field_present": true,
+          "secret_body_field_present": true,
+          "token_value_included": false,
+          "secret_value_included": false
+        },
+        "right": {
+          "token_body_field_present": true,
+          "secret_body_field_present": true,
+          "token_value_included": false,
+          "secret_value_included": false
+        }
+      },
+      "tenant_marker_presence": {
+        "left": {
+          "pro_id": false,
+          "tenant_id": false,
+          "shop_id": false,
+          "merchant_id": false
+        },
+        "right": {
+          "pro_id": false,
+          "tenant_id": false,
+          "shop_id": false,
+          "merchant_id": false
+        }
+      },
+      "content_type_equal": true,
+      "body_field_order_equal": true,
+      "body_fields_only_in_left": [],
+      "body_fields_only_in_right": [],
+      "body_type_differences": [],
+      "sku_type_differences": [
+        {
+          "field": "sku_code",
+          "left_type": null,
+          "right_type": "string"
+        },
+        {
+          "field": "weight",
+          "left_type": null,
+          "right_type": "string"
+        }
+      ],
+      "specification_type_differences": []
+    },
+    "historical_wawu_vs_previous_mikihouse": {
+      "available": false,
+      "left": "historical_wawu",
+      "right": "previous_mikihouse"
+    }
+  },
+  "conclusion": {
+    "state": "BROWSER_EXACT_CAPTURE_VERIFIED",
+    "fixes": [
+      "ALIGN_BROWSER_REQUEST_HEADER_SET",
+      "ALIGN_BROWSER_PUBLIC_HEADER_VALUES",
+      "ALIGN_BODY_VALUE_TYPES"
+    ],
+    "missing_cookie_as_root_cause": "RULED_OUT_BY_PERSISTED_NATIVE_EDIT",
+    "create_contract_captured": true,
+    "operation_kind": "CREATE",
+    "sku_id_contract": "NOT_EXPOSED_BY_GET_FORMAT_INFO",
+    "historical_comparison_available": false,
+    "no_automatic_product_write_authorized": true
+  },
+  "minimum_human_steps": []
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import re
 from pathlib import Path
+from typing import Dict, Union
 
 from PIL import Image as PILImage
 from reportlab.lib import colors
@@ -27,7 +28,7 @@ INK = colors.HexColor("#20242A")
 MUTED = colors.HexColor("#656C76")
 LIGHT_LINE = colors.HexColor("#E3E5E8")
 SHOE_TINT = colors.HexColor("#FAF7F3")
-ImageSet = Path | dict[str, Path]
+ImageSet = Union[Path, Dict[str, Path]]
 
 
 def _register_font() -> str:

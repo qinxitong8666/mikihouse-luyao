@@ -27,6 +27,7 @@ EXPECTED_LEGACY_REFERENCE_COUNT = 286
 DEFAULT_LEGACY_AUDIT_SAMPLE_SIZE = 6
 DECLARED_STOREFRONT_BASELINE_COUNT = 2914
 DECLARED_CANDIDATE_BASELINE_COUNT = 2603
+SHIJIU_GOOD_DETAILS_MAX_CHARACTERS = 1024
 WAWU_REFERENCE_COMMIT = "a36c5eab40bf419562ba03d15c090151698d582a"
 SHIJIU_CONTRACT_AUDIT_PATH = "docs/shijiu_downstream_contract_audit.md"
 DEFAULT_SHIJIU_BASE_URL = "https://api.wfcorp.cn/shijiu"
@@ -461,29 +462,53 @@ def _cos_placeholder(upload_reference: str) -> str:
 
 
 def _details_template(product: dict[str, Any], detail_placeholders: list[str]) -> str:
+    """Build target-supported text/light HTML; images live in good_detail_pics.
+
+    `detail_placeholders` remains in the signature for compatibility with the
+    stable mapper call site, but browser-native evidence proves that Shijiu's
+    editor stores detail images in the separate `good_detail_pics` field.
+    """
+    del detail_placeholders
     product_number = html.escape(str(product.get("product_number") or ""))
     name = html.escape(str(product.get("name") or ""))
     brand = html.escape(str(product.get("brand") or ""))
     # Source descriptions occasionally contain collection/product links. The
     # Shijiu detail must be self-contained and may only reference images after
     # they have been uploaded to COS, so no source-host URL is carried over.
-    source_description = re.sub(
-        r"https?://[^\s<]+", "", str(product.get("description") or "")
-    ).strip()
-    description = html.escape(source_description).replace("\n", "<br>")
+    source_description = html.unescape(str(product.get("description") or ""))
+    source_description = re.sub(r"<[^>]+>", " ", source_description)
+    source_description = re.sub(r"https?://\S+", "", source_description)
+    source_description = re.sub(r"\s+", " ", source_description).strip()
     colors = sorted({str(item.get("color") or "") for item in product.get("variants") or [] if item.get("color")})
     sizes = sorted({str(item.get("size") or "") for item in product.get("variants") or [] if item.get("size")})
-    image_html = "".join(
-        f'<p><img src="{html.escape(reference)}" alt="{name}"></p>'
-        for reference in detail_placeholders
-    )
-    return (
+    prefix = (
         '<section data-source="MIKIHOUSE">'
         f"<h2>{name}</h2><p>品番：{product_number}</p><p>品牌：{brand}</p>"
         f"<p>颜色：{html.escape('、'.join(colors))}</p>"
         f"<p>尺码：{html.escape('、'.join(sizes))}</p>"
-        f"<div>{description}</div>{image_html}</section>"
     )
+    suffix = "</section>"
+    if len(prefix + suffix) > SHIJIU_GOOD_DETAILS_MAX_CHARACTERS:
+        # Extremely long source names/options still fail closed at validation;
+        # do not silently discard core product identity fields here.
+        return prefix + suffix
+    if source_description:
+        low, high = 0, len(source_description)
+        while low < high:
+            middle = (low + high + 1) // 2
+            candidate = prefix + f"<p>{html.escape(source_description[:middle])}</p>" + suffix
+            if len(candidate) <= SHIJIU_GOOD_DETAILS_MAX_CHARACTERS:
+                low = middle
+            else:
+                high = middle - 1
+        if low:
+            prefix += f"<p>{html.escape(source_description[:low])}</p>"
+    result = prefix + suffix
+    if re.search(r"<img\b|https?://", result, flags=re.I):
+        raise ImportPlanError("Shijiu good_details must not contain images or URLs")
+    if len(result) > SHIJIU_GOOD_DETAILS_MAX_CHARACTERS:
+        raise ImportPlanError("Shijiu good_details exceeds the observed 1024-character contract")
+    return result
 
 
 def map_product_to_shijiu(

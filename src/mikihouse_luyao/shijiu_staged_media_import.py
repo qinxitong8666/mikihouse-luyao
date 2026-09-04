@@ -24,6 +24,7 @@ from .shijiu_import import (
     EXPECTED_SPECIAL_COUNT,
     PDF_SPECIAL_EXCLUDED_REASON,
     SOURCE_CODE,
+    SHIJIU_GOOD_DETAILS_MAX_CHARACTERS,
     content_sha256,
     load_mapping_state,
     map_product_to_shijiu,
@@ -110,6 +111,21 @@ def _minimal_text_details(item: dict[str, Any]) -> str:
     return f'<section data-source="MIKIHOUSE"><h2>{name}</h2><p>品番：{number}</p></section>'
 
 
+def validate_good_details_contract(value: Any) -> str:
+    details = str(value or "")
+    if not details:
+        raise LiveImportError("Shijiu good_details must contain target-supported text")
+    if len(details) > SHIJIU_GOOD_DETAILS_MAX_CHARACTERS:
+        raise LiveImportError(
+            f"Shijiu good_details exceeds {SHIJIU_GOOD_DETAILS_MAX_CHARACTERS} characters"
+        )
+    if re.search(r"<img\b|https?://", details, flags=re.I):
+        raise LiveImportError(
+            "Shijiu good_details must be text/light HTML; detail images belong in good_detail_pics"
+        )
+    return details
+
+
 def _placeholder_for(reference: str) -> str:
     return f"{{{{SHIJIU_COS_URL:{reference}}}}}"
 
@@ -166,14 +182,6 @@ def stage_plan(item: dict[str, Any]) -> list[dict[str, Any]]:
             "new_references": refs["all_detail"][current:next_count],
         })
         current = next_count
-    stages.append({
-        "sequence": len(stages) + 1,
-        "key": "FINAL_GOOD_DETAILS_HTML",
-        "operation": "UPDATE_GOOD_DETAILS",
-        "broadcast_count": len(refs["all_broadcast"]),
-        "detail_pic_count": len(refs["all_detail"]),
-        "new_references": [],
-    })
     return stages
 
 
@@ -196,8 +204,9 @@ def build_stage_payload(
         _placeholder_for(reference)
         for reference in refs["all_detail"][: int(stage["detail_pic_count"])]
     )
-    if stage["operation"] != "UPDATE_GOOD_DETAILS":
-        payload["good_details"] = _minimal_text_details(item)
+    payload["good_details"] = validate_good_details_contract(
+        item["shijiu_payload_preview"].get("good_details") or _minimal_text_details(item)
+    )
     payload = _resolve(payload, uploads)
     uploaded_targets = {
         str(row.get("target_url") or "")
@@ -377,6 +386,8 @@ def payload_metrics(payload: dict[str, Any]) -> dict[str, Any]:
         "good_details_characters": len(details),
         "good_details_utf8_bytes": len(details.encode("utf-8")),
         "good_details_sha256": hashlib.sha256(details.encode("utf-8")).hexdigest(),
+        "good_details_url_count": len(re.findall(r"https?://", details, flags=re.I)),
+        "good_details_image_count": len(re.findall(r"<img\b", details, flags=re.I)),
     }
 
 
