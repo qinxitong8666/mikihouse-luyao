@@ -72,14 +72,15 @@ class FakeCanonicalClient:
     def search_products(self, sku_code="", **kwargs):
         self._record("/shopapi/Goods/index", "read")
         exact_name = kwargs.get("good_name") == (self.payload or {}).get("good_name")
-        return {
-            "code": 1,
-            "data": ([{
+        rows = ([{
                 "id": "99077",
                 "good_name": self.payload["good_name"],
                 "state": 1,
                 "is_shelf": 0,
-            }] if self.created and exact_name else []),
+            }] if self.created and exact_name else [])
+        return {
+            "code": 1,
+            "data": {"count": len(rows), "list": rows},
         }
 
     def upload_image(self, source_url, *, confirmation):

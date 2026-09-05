@@ -18,7 +18,8 @@
     "fail_closed_if_any_top_level_hash_changes": true,
     "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
     "stability_reclassification_before_any_target_mutation": true,
-    "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28"
+    "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
+    "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543"
   },
   "new_pilot_plan": {
     "product_count": 20,
@@ -32,12 +33,12 @@
   },
   "full_initialization": {
     "stable_catalog_product_count": 2461,
-    "planned_initial_create_product_count": 795,
-    "already_mapped_handoff_count": 5,
-    "historical_frozen_count": 32,
-    "initialization_review_required_count": 1629,
+    "planned_initial_create_product_count": 2385,
+    "already_mapped_handoff_count": 6,
+    "historical_frozen_count": 43,
+    "initialization_review_required_count": 27,
     "accounted_product_count": 2461,
-    "batch_count": 52
+    "batch_count": 170
   },
   "handoff_contract": {
     "after_verified_mapping": "mark INITIALIZED_HANDOFF_INCREMENTAL in initialization checkpoint and source sync state",
@@ -194,6 +195,21 @@
       "62-8101-790",
       "72-1203-496"
     ]
+  },
+  "duplicate_good_name_identity": {
+    "contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
+    "source_duplicate_name_group_count": 254,
+    "source_duplicate_name_product_count": 1603,
+    "source_unique_complete_sku_sets": true,
+    "create_readback_outcome_required": "UNIQUE_STRONG_MATCH",
+    "shijiu_readonly_validation": {
+      "status": "READ_ONLY_DUPLICATE_GOOD_NAME_VALIDATION_PASSED",
+      "selected_group_count": 10,
+      "mapped_unique_strong_match_count": 1,
+      "unmapped_not_found_count": 325,
+      "shijiu_read_request_count": 21,
+      "evidence_logical_sha256": "5f8b30a6e158bad5d3954b81b54256e0ab891688e2c3638531779941b6b030e5"
+    }
   },
   "execution_prerequisites_not_satisfied_this_round": [
     "WAWU or any other writer must be confirmed stopped in a future task",

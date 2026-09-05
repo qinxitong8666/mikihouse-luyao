@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import gzip
+import hashlib
 import json
 from pathlib import Path
 
@@ -65,6 +66,11 @@ def test_new_pilot_is_stable_only_unmapped_and_frozen() -> None:
     assert not set(numbers) & bound
     assert pilot["coverage"] == {"apparel": 5, "baby": 5, "footwear": 5, "goods": 5}
     assert pilot["freshness_guard"]["stable_catalog_logical_sha256"] == content_sha256(stable)
+    assert all(
+        row["create_readback_identity_contract"]["accepted_outcome"]
+        == "UNIQUE_STRONG_MATCH_ONLY"
+        for row in pilot["products"]
+    )
 
 
 def test_full_plan_accounts_for_all_stable_products_and_has_no_target_requests() -> None:
@@ -74,6 +80,11 @@ def test_full_plan_accounts_for_all_stable_products_and_has_no_target_requests()
     assert plan["write_status"] == WRITE_BLOCKED_STATUS
     assert counts["stable_catalog_product_count"] == 2461
     assert counts["accounted_product_count"] == 2461
+    assert counts["planned_initial_create_product_count"] == 2385
+    assert counts["already_mapped_handoff_count"] == 6
+    assert counts["historical_frozen_count"] == 43
+    assert counts["initialization_review_required_count"] == 27
+    assert counts["batch_count"] == 170
     assert (
         counts["planned_initial_create_product_count"]
         + counts["already_mapped_handoff_count"]
@@ -124,7 +135,11 @@ def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> N
     assert audit["stable_catalog_product_count"] == 2461
     assert audit["stable_catalog_variant_count"] == 13782
     assert audit["stable_catalog_image_resource_count"] == 30172
-    assert audit["quality_issue_counts"]["DUPLICATE_PRODUCT_NAME"] == 1603
+    assert "DUPLICATE_PRODUCT_NAME" not in audit["quality_issue_counts"]
+    assert audit["duplicate_good_name_identity_audit"]["duplicate_name_product_count"] == 1603
+    assert audit["duplicate_good_name_identity_audit"][
+        "all_duplicate_name_products_have_source_unique_complete_sku_sets"
+    ] is True
     assert audit["missing_image_product_count"] == 7
     assert audit["missing_sku_product_count"] == 0
     assert audit["variant_identity_anomaly_product_count"] == 0
@@ -133,6 +148,11 @@ def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> N
     assert capacity["estimated_unique_cos_resource_upload_count"] > 0
     assert capacity["safety"]["official_image_download_count"] == 0
     assert capacity["safety"]["shijiu_cos_upload_requests"] == 0
+    price = load("deliverables/shijiu_initialization/price_outside_configured_range_audit.json")
+    assert price["outside_range_variant_count"] == 37
+    assert price["outside_range_product_count"] == 21
+    assert price["guard_changed"] is False
+    assert price["automatic_import_release_count"] == 0
 
 
 def _fixture_product() -> dict:
@@ -280,3 +300,23 @@ def test_verified_mapping_hands_initialization_to_incremental_once() -> None:
     assert handoff_initialized_product(
         handed, source_state, mapping, "20-0001-001", "2026-09-05T01:00:00+00:00"
     ) == (handed, source_state)
+
+
+def test_protected_state_replan_is_zero_mutation_and_audited() -> None:
+    audit = load("deliverables/shijiu_initialization/protected_state_change_audit.json")
+    mapping = load("state/shijiu_mappings.json")
+    checkpoint = load("state/mikihouse_initialization_checkpoint.json.gz")
+    by_path = {row["path"]: row for row in audit["affected_state"]}
+    for relative, row in by_path.items():
+        digest = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+        assert digest == row["after_sha256"]
+    assert mapping["identity_contract"]["good_name_candidate_scope"] == (
+        "exact only; never binding proof"
+    )
+    assert mapping["identity_contract"]["multiple_strong_matches"] == (
+        "AMBIGUOUS_FAIL_CLOSED"
+    )
+    assert checkpoint["status"] == "FROZEN_PLANNING_ONLY"
+    assert checkpoint["shijiu_mutation_count"] == 0
+    assert checkpoint["writer_mutex_evidence_generated"] is False
+    assert audit["historical_stale_plan"]["changed"] is False

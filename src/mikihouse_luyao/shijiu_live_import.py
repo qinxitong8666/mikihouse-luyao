@@ -44,6 +44,10 @@ from .shijiu_import import (
     validate_live_mikihouse_category,
     write_json_atomic,
 )
+from .shijiu_duplicate_name_identity import (
+    UNIQUE_STRONG_MATCH,
+    resolve_duplicate_good_name_candidates,
+)
 
 
 LIVE_BATCH_SCHEMA_VERSION = 1
@@ -868,7 +872,13 @@ def _unique_exact_name_product_matches(
             page_size=page_size,
         )
         declared = _response_count(first)
-        pages = max(1, ((declared or 0) + page_size - 1) // page_size)
+        if declared is None:
+            raise LiveImportError(
+                "exact-name query lacks a declared count; candidate set is incomplete"
+            )
+        pages = max(1, (declared + page_size - 1) // page_size)
+        if pages > 100:
+            raise LiveImportError("exact-name candidate set exceeds the 100-page safety ceiling")
         query_rows = response_rows(first)
         for page in range(2, pages + 1):
             query_rows.extend(response_rows(client.search_products(
@@ -890,6 +900,7 @@ def _unique_exact_name_product_matches(
             "good_type": str(good_type),
             "declared_count": declared,
             "pages_read": pages,
+            "all_declared_pages_read": True,
             "returned_row_count": len(query_rows),
             "exact_name_match_ids": sorted({
                 _row_product_id(row) for row in exact_rows if _row_product_id(row)
@@ -917,28 +928,41 @@ def verify_exact_name_create_candidates(
     proves product id, name, category, prices, specifications and all images.
     """
     verified: list[dict[str, Any]] = []
-    observations: list[dict[str, Any]] = []
     response_id = _product_id_from_value(create_response or {})
+    eligible_rows = [
+        row for row in rows
+        if not response_id or _row_product_id(row) == str(response_id)
+    ]
+    detail_by_id = {
+        _row_product_id(row): client.product_detail(_row_product_id(row))
+        for row in eligible_rows if _row_product_id(row)
+    }
+    identity = resolve_duplicate_good_name_candidates(
+        good_name=payload["good_name"],
+        sku_info=payload["sku_info"],
+        candidate_rows=eligible_rows,
+        detail_by_product_id=detail_by_id,
+        category_id=294884,
+    )
+    observations: list[dict[str, Any]] = list(identity["candidate_observations"])
+    if identity["status"] != UNIQUE_STRONG_MATCH:
+        return verified, observations
+    selected_id = str(identity["shijiu_product_id"])
     for row in rows:
         product_id = _row_product_id(row)
-        if not product_id:
+        if not product_id or product_id != selected_id:
             continue
         observation: dict[str, Any] = {
             "product_id": product_id,
             "list_good_name_exact": _row_good_name(row) == str(payload["good_name"]).strip(),
             "passed": False,
         }
-        if response_id and str(response_id) != product_id:
-            observation["mismatch"] = "create response product_id mismatch"
-            observations.append(observation)
-            continue
-        detail = client.product_detail(product_id)
         try:
             readback = validate_product_readback(
                 item,
                 payload,
                 product_id,
-                detail,
+                detail_by_id[product_id],
                 create_response=create_response,
                 list_row=row,
             )
@@ -950,7 +974,7 @@ def verify_exact_name_create_candidates(
                 sku["backend_sku_code"] for sku in readback["skus"]
             ]
             verified.append({"list_row": row, "readback": readback})
-        observations.append(observation)
+        observations.append({"full_payload_validation": observation})
     return verified, observations
 
 

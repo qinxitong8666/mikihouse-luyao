@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "target_category_id": 294884,
+  "candidate_discovery": {
+    "endpoint": "/shopapi/Goods/index",
+    "method": "UI_CONTEXT_EXACT_GOOD_NAME",
+    "good_name_role": "CANDIDATE_SCOPE_ONLY_NOT_BINDING_PROOF"
+  },
+  "candidate_verification": {
+    "endpoint": "/shopapi/goods/getFormatInfo",
+    "primary_identity": "EXACT_COMPLETE_BACKEND_SKU_CODE_SET",
+    "backend_sku_code_format": "MIKI-<variant SKU>",
+    "required_auxiliary_conditions": [
+      "CATEGORY_294884",
+      "EXACT_VARIANT_COUNT",
+      "EXACT_SPECIFICATION_STRUCTURE",
+      "EXACT_VARIANT_PRICES"
+    ],
+    "stable_target_variant_identity": "shijiu_product_id + exact backend_sku_code",
+    "shijiu_sku_id": null
+  },
+  "outcomes": {
+    "one_complete_match": "UNIQUE_STRONG_MATCH",
+    "zero_complete_matches": "NOT_FOUND",
+    "multiple_complete_matches": "AMBIGUOUS"
+  },
+  "forbidden_identity_inputs": [
+    "LIST_ORDER",
+    "CREATED_AT",
+    "FUZZY_NAME",
+    "PRICE_SIMILARITY",
+    "SINGLE_SKU_OVERLAP"
+  ],
+  "fail_closed": true
+}

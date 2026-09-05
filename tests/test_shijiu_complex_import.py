@@ -13,7 +13,9 @@ from mikihouse_luyao.shijiu_complex_import import (
     COMPLEX_WRITE_CONFIRMATION,
     ComplexLiveBatchRunner,
     UiContextReadClient,
+    UiStrongReadbackError,
     select_complex_batch,
+    ui_strong_readback,
 )
 from mikihouse_luyao.shijiu_import import load_mapping_state, map_product_to_shijiu
 from mikihouse_luyao.shijiu_live_import import LiveImportError
@@ -79,6 +81,46 @@ def test_details_template_does_not_carry_source_links_into_formal_payload() -> N
     item = map_product_to_shijiu(product, CATEGORY, excluded_product_numbers=exclusions())
     assert "https://www.mikihouse.co.jp" not in item["shijiu_payload_preview"]["good_details"]
     assert "官网说明" in item["shijiu_payload_preview"]["good_details"]
+
+
+def test_duplicate_good_name_readback_binds_only_complete_sku_set_match() -> None:
+    item = map_product_to_shijiu(
+        source_product("20-9001-001", "パンツ"),
+        CATEGORY,
+        excluded_product_numbers=exclusions(),
+    )
+    payload = copy.deepcopy(item["shijiu_payload_preview"])
+    payload.update({"state": "1", "is_shelf": 0})
+    target = FakeTarget()
+    target.products["100"] = copy.deepcopy(payload)
+    foreign = copy.deepcopy(payload)
+    foreign["sku_info"] = [{**foreign["sku_info"][0], "sku_code": "WAWU-FOREIGN"}]
+    target.products["101"] = foreign
+    readback, discovery = ui_strong_readback(
+        FakeUiClient(target), item, payload, {"code": 200, "msg": "success", "data": []}
+    )
+    assert readback["shijiu_product_id"] == "100"
+    assert discovery["identity_resolution"]["status"] == "UNIQUE_STRONG_MATCH"
+    assert discovery["identity_resolution"]["exact_name_candidate_count"] == 2
+
+
+def test_duplicate_good_name_readback_fails_closed_on_two_complete_matches() -> None:
+    item = map_product_to_shijiu(
+        source_product("20-9002-002", "カバーオール"),
+        CATEGORY,
+        excluded_product_numbers=exclusions(),
+    )
+    payload = copy.deepcopy(item["shijiu_payload_preview"])
+    payload.update({"state": "1", "is_shelf": 0})
+    target = FakeTarget()
+    target.products["100"] = copy.deepcopy(payload)
+    target.products["101"] = copy.deepcopy(payload)
+    with pytest.raises(UiStrongReadbackError) as captured:
+        ui_strong_readback(
+            FakeUiClient(target), item, payload, {"code": 200, "msg": "success", "data": []}
+        )
+    assert captured.value.evidence["identity_resolution"]["status"] == "AMBIGUOUS"
+    assert captured.value.evidence["identity_resolution"]["binding_allowed"] is False
 
 
 def mapping_state(items: list[dict]) -> dict:

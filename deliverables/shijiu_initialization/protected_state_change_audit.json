@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T04:25:16Z",
+  "status": "PROTECTED_STATE_INTENTIONALLY_UPDATED_OFFLINE",
+  "mode": "PLANNING_ONLY",
+  "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+  "parent_commit": "33ba6145030801ce5b4a00d4ff7a7db51d5f91ad",
+  "affected_state": [
+    {
+      "path": "state/shijiu_mappings.json",
+      "reason": "record the duplicate-good-name candidate-scope and complete-SKU-set binding contract; product and variant mapping rows are unchanged",
+      "before_sha256": "ffe3c1af49547d4fcc1037895be13ea0b58f6a243c751bc14fb9073ecb75af44",
+      "after_sha256": "988abde4febf1677e5e677a02890e5ed97a467a01a015d2349402330f2ad5324",
+      "mapping_product_row_count": 2615,
+      "bound_product_row_count": 7
+    },
+    {
+      "path": "state/mikihouse_initialization_checkpoint.json.gz",
+      "reason": "atomically replace the prior zero-mutation planning checkpoint after duplicate-name products were released from review",
+      "before_sha256": "8555fa3798d54ff22a452fee39e3e0034ba213908f05bc82fd25a0ac094e51be",
+      "after_sha256": "9363a5bc5a686ebc3723ed90d8931679c5cf2b2b210cdffd70aa0df94557873e",
+      "status": "FROZEN_PLANNING_ONLY",
+      "planned_product_count": 2385,
+      "batch_count": 170,
+      "shijiu_mutation_count": 0,
+      "writer_mutex_evidence_generated": false
+    }
+  ],
+  "backup_evidence": {
+    "git_parent_commit_preserves_all_before_values": true,
+    "initialization_artifacts_also_copied_to_git_external_private_tmp_before_replan": true,
+    "sensitive_values_included": false
+  },
+  "historical_stale_plan": {
+    "path": "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json",
+    "sha256": "89a41fa6edcec2f4a19d21e78397044e6a35e6dacdaf68bdf2d45bc08318769f",
+    "changed": false
+  },
+  "safety": {
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "legacy_products_modified": 0
+  }
+}

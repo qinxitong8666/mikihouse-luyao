@@ -965,6 +965,12 @@ def load_mapping_state(path: Path) -> dict[str, Any]:
                 "shijiu_sku_id": "nullable; never guessed when official readback omits it",
                 "product_match": "persisted post-create/readback mapping only",
                 "product_name_matching": "forbidden",
+                "good_name_candidate_scope": "exact only; never binding proof",
+                "post_create_binding_proof": (
+                    "exactly one getFormatInfo candidate matching complete MIKI backend SKU set, "
+                    "category, variant count, specifications and prices"
+                ),
+                "multiple_strong_matches": "AMBIGUOUS_FAIL_CLOSED",
                 "legacy_reference_binding": "forbidden",
             },
             "products": {},
@@ -1036,6 +1042,12 @@ def reconcile_mapping_state(
         "shijiu_sku_id": "nullable; never guessed when official readback omits it",
         "product_match": "persisted post-create/readback mapping only",
         "product_name_matching": "forbidden",
+        "good_name_candidate_scope": "exact only; never binding proof",
+        "post_create_binding_proof": (
+            "exactly one getFormatInfo candidate matching complete MIKI backend SKU set, "
+            "category, variant count, specifications and prices"
+        ),
+        "multiple_strong_matches": "AMBIGUOUS_FAIL_CLOSED",
         "legacy_reference_binding": "forbidden",
     }
     mappings = result.setdefault("products", {})
@@ -1098,6 +1110,7 @@ def mapping_summary(mapping_state: dict[str, Any]) -> dict[str, Any]:
             for item in variants
         ),
         "product_name_matching": "forbidden",
+        "good_name_candidate_scope": "exact only; never binding proof",
     }
 
 

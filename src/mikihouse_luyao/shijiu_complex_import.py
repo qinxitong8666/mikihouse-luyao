@@ -28,6 +28,10 @@ from .shijiu_import import (
     validate_live_mikihouse_category,
     write_json_atomic,
 )
+from .shijiu_duplicate_name_identity import (
+    UNIQUE_STRONG_MATCH,
+    resolve_duplicate_good_name_candidates,
+)
 from .shijiu_live_import import (
     CREATE_PATH,
     DETAIL_PATH,
@@ -217,7 +221,15 @@ class UiContextReadClient:
             )
             page_size = max(1, int(dict(first_pairs).get("page_size") or 20))
             declared = _response_count(first)
-            page_count = min(100, max(1, math.ceil((declared or 0) / page_size)))
+            if declared is None:
+                raise LiveImportError(
+                    "UI-context exact-name query lacks a declared count; candidate set is incomplete"
+                )
+            page_count = max(1, math.ceil(declared / page_size))
+            if page_count > 100:
+                raise LiveImportError(
+                    "UI-context exact-name candidate set exceeds the 100-page safety ceiling"
+                )
             rows = response_rows(first)
             for page in range(2, page_count + 1):
                 rows.extend(response_rows(self._post(
@@ -235,6 +247,7 @@ class UiContextReadClient:
                 "declared_count": declared,
                 "page_size": page_size,
                 "pages_read": page_count,
+                "all_declared_pages_read": True,
                 "exact_match_product_ids": sorted({_row_id(row) for row in exact_rows}),
             })
         return list(matches.values()), {
@@ -647,50 +660,65 @@ def ui_strong_readback(
     require_exact_good_details: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     rows, evidence = ui.exact_name_candidates(payload["good_name"])
-    verified = []
-    observations = []
-    for row in rows:
-        product_id = _row_id(row)
-        observation = {"product_id": product_id, "exact_good_name": True, "passed": False}
-        try:
-            readback = validate_product_readback(
-                item,
-                payload,
-                product_id,
-                _normalize_ui_detail(ui.product_detail(product_id)),
-                create_response=create_response,
-                list_row=row,
-                require_is_shelf=False,
-                require_exact_good_details=require_exact_good_details,
-            )
-        except ContractMismatchError as error:
-            observation["mismatch"] = str(error)
-        else:
-            for sku in readback["skus"]:
-                sku["shijiu_sku_id"] = None
-            observation.update({
-                "passed": True,
-                "verified_backend_sku_count": readback["sku_count"],
-                "prices_verified": True,
-                "stocks_verified": True,
-                "specifications_verified": True,
-                "images_verified": True,
-            })
-            verified.append(readback)
-        observations.append(observation)
+    detail_by_id = {
+        _row_id(row): _normalize_ui_detail(ui.product_detail(_row_id(row)))
+        for row in rows if _row_id(row)
+    }
+    identity = resolve_duplicate_good_name_candidates(
+        good_name=payload["good_name"],
+        sku_info=payload["sku_info"],
+        candidate_rows=rows,
+        detail_by_product_id=detail_by_id,
+        category_id=TARGET_CATEGORY_ID,
+    )
     discovery = {
         **evidence,
-        "candidate_validations": observations,
-        "verified_product_ids": [row["shijiu_product_id"] for row in verified],
+        "identity_resolution": identity,
+        "verified_product_ids": (
+            [identity["shijiu_product_id"]]
+            if identity["status"] == UNIQUE_STRONG_MATCH else []
+        ),
         "good_code_role": "not_used_for_primary_or_binding",
     }
-    if len(verified) != 1:
+    if identity["status"] != UNIQUE_STRONG_MATCH:
         raise UiStrongReadbackError(
-            "UI-context exact good_name -> getFormatInfo produced "
-            f"{len(verified)} full matches",
+            "UI-context exact good_name candidate set -> getFormatInfo complete SKU-set "
+            f"resolver returned {identity['status']}",
             discovery,
         )
-    return verified[0], discovery
+    product_id = str(identity["shijiu_product_id"])
+    list_row = next(row for row in rows if _row_id(row) == product_id)
+    try:
+        readback = validate_product_readback(
+            item,
+            payload,
+            product_id,
+            detail_by_id[product_id],
+            create_response=create_response,
+            list_row=list_row,
+            require_is_shelf=False,
+            require_exact_good_details=require_exact_good_details,
+        )
+    except ContractMismatchError as error:
+        discovery["full_payload_readback"] = {
+            "passed": False,
+            "mismatch": str(error),
+        }
+        raise UiStrongReadbackError(
+            "unique strong SKU identity candidate failed full payload readback",
+            discovery,
+        ) from error
+    for sku in readback["skus"]:
+        sku["shijiu_sku_id"] = None
+    discovery["full_payload_readback"] = {
+        "passed": True,
+        "verified_backend_sku_count": readback["sku_count"],
+        "prices_verified": True,
+        "stocks_verified": True,
+        "specifications_verified": True,
+        "images_verified": True,
+    }
+    return readback, discovery
 
 
 def build_next_20_plan(

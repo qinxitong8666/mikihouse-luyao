@@ -20,6 +20,10 @@ from .shijiu_import import (
     load_category_map,
     map_product_to_shijiu,
 )
+from .shijiu_duplicate_name_identity import (
+    analyze_duplicate_names,
+    audit_price_outside_configured_range,
+)
 from .shijiu_staged_media_import import image_reference_sets, stage_plan
 from .stable_catalog import PDF_SPECIAL, REVIEW_REQUIRED, STABLE, assess_product_stability
 from .stable_sync import IncompleteCrawlError, validate_complete_snapshot
@@ -249,7 +253,6 @@ def _quality_issues(
     product: dict[str, Any],
     *,
     special: set[str],
-    name_count: int,
     global_sku_counts: Counter[str],
     minimum_price: int,
     maximum_price: int,
@@ -265,8 +268,6 @@ def _quality_issues(
         add("INVALID_PRODUCT_NUMBER", number)
     if not str(product.get("name") or "").strip():
         add("MISSING_PRODUCT_NAME")
-    elif name_count != 1:
-        add("DUPLICATE_PRODUCT_NAME", {"count": name_count})
     decision = assess_product_stability(product, special)
     if decision.get("status") != STABLE:
         add("NOT_STABLE_AT_PLAN_TIME", decision.get("excluded_reason") or decision.get("status"))
@@ -422,6 +423,22 @@ def _product_stage_plan(product: dict[str, Any], item: dict[str, Any], source_pr
         "sanitized_base_payload_sha256": item["payload_sha256"],
         "good_details_sha256": content_sha256(item["shijiu_payload_preview"]["good_details"]),
         "good_details_contract": "TEXT_OR_LIGHT_HTML_NO_IMG_NO_URL_MAX_1024",
+        "create_readback_identity_contract": {
+            "good_name_role": "CANDIDATE_SCOPE_ONLY_NOT_BINDING_PROOF",
+            "candidate_discovery": "UI_CONTEXT_GOODS_INDEX_EXACT_GOOD_NAME",
+            "candidate_verification": "GET_FORMAT_INFO_FOR_EVERY_EXACT_NAME_CANDIDATE",
+            "primary_identity": "EXACT_COMPLETE_BACKEND_SKU_CODE_SET",
+            "required_auxiliary_conditions": [
+                "CATEGORY_294884",
+                "EXACT_VARIANT_COUNT",
+                "EXACT_SPECIFICATION_STRUCTURE",
+                "EXACT_VARIANT_PRICES",
+            ],
+            "accepted_outcome": "UNIQUE_STRONG_MATCH_ONLY",
+            "zero_matches": "NOT_FOUND_FAIL_CLOSED",
+            "multiple_matches": "AMBIGUOUS_FAIL_CLOSED",
+            "shijiu_sku_id": None,
+        },
         "variant_count": len(variants),
         "available_variant_count": sum(row["available_for_sale"] for row in variants),
         "color_count": len(colors),
@@ -597,6 +614,8 @@ def build_initialization_plans(
     category: dict[str, Any],
     price_guard: dict[str, Any],
     richtext_contract: dict[str, Any],
+    duplicate_name_identity_contract: dict[str, Any],
+    duplicate_name_readonly_validation: dict[str, Any] | None,
     *,
     generated_at: str,
     stable_file_sha256: str,
@@ -627,6 +646,31 @@ def build_initialization_plans(
         or (richtext_contract.get("good_details") or {}).get("semantics") != "text_or_light_html"
     ):
         raise InitializationPlanError("invalid Shijiu richtext contract")
+    if (
+        duplicate_name_identity_contract.get("source") != SOURCE
+        or duplicate_name_identity_contract.get("target") != TARGET
+        or duplicate_name_identity_contract.get("target_category_id") != TARGET_CATEGORY_ID
+        or duplicate_name_identity_contract.get("fail_closed") is not True
+    ):
+        raise InitializationPlanError("invalid duplicate good_name identity contract")
+    if duplicate_name_readonly_validation is not None:
+        validation_safety = duplicate_name_readonly_validation.get("safety") or {}
+        if (
+            duplicate_name_readonly_validation.get("status")
+            != "READ_ONLY_DUPLICATE_GOOD_NAME_VALIDATION_PASSED"
+            or duplicate_name_readonly_validation.get("unexpected_outcome_count") != 0
+            or validation_safety.get("shijiu_create_requests") != 0
+            or validation_safety.get("shijiu_update_requests") != 0
+            or validation_safety.get("shijiu_cos_upload_requests") != 0
+            or validation_safety.get("writer_mutex_evidence_generated") is not False
+        ):
+            raise InitializationPlanError("duplicate good_name read-only evidence is not safe/passed")
+    duplicate_name_audit = analyze_duplicate_names(stable_catalog)
+    price_range_audit = audit_price_outside_configured_range(
+        stable_catalog,
+        minimum_tax_included_price_jpy=minimum_price,
+        maximum_tax_included_price_jpy=maximum_price,
+    )
 
     product_plans: list[dict[str, Any]] = []
     disposition_rows: list[dict[str, Any]] = []
@@ -653,7 +697,6 @@ def build_initialization_plans(
         issues = _quality_issues(
             product,
             special=special,
-            name_count=names[str(product.get("name") or "").strip()],
             global_sku_counts=all_skus,
             minimum_price=minimum_price,
             maximum_price=maximum_price,
@@ -730,6 +773,9 @@ def build_initialization_plans(
         "per_product_regeneration_required_for_price_stock_variant_or_image_change": True,
         "stability_reclassification_before_any_target_mutation": True,
         "richtext_contract_logical_sha256": content_sha256(richtext_contract),
+        "duplicate_name_identity_contract_logical_sha256": content_sha256(
+            duplicate_name_identity_contract
+        ),
     }
     common_safety = {
         "mode": PLANNING_STATUS,
@@ -801,7 +847,8 @@ def build_initialization_plans(
         "freshness_guard": freshness,
         "selection_policy": (
             "exactly five deterministic representatives per footwear/apparel/baby/goods; "
-            "stable-only, unique name, publishable, unmapped, non-special, non-historical, "
+            "stable-only, publishable, unmapped, non-special, non-historical; duplicate names "
+            "use exact-name candidate scope plus complete SKU-set strong identity; "
             "cover simple/multi-SKU/rich-media/multi-color-size/balanced archetypes"
         ),
         "products": pilot_products,
@@ -857,6 +904,20 @@ def build_initialization_plans(
             {"name": name, "count": count}
             for name, count in sorted(names.items()) if name and count > 1
         ],
+        "duplicate_good_name_identity_audit": {
+            key: duplicate_name_audit[key]
+            for key in (
+                "duplicate_name_group_count",
+                "duplicate_name_product_count",
+                "group_size_distribution",
+                "maximum_group_size",
+                "maximum_groups",
+                "globally_duplicated_backend_sku_code_count",
+                "identical_complete_backend_sku_set_group_count",
+                "all_duplicate_name_products_have_source_unique_complete_sku_sets",
+                "theoretical_duplicate_name_review_release_count",
+            )
+        },
         "review_required_products": review_rows,
         "missing_image_product_count": sum(
             any(issue["code"] in {"MISSING_MAIN_IMAGE", "MISSING_ORDERED_IMAGE", "MISSING_VARIANT_IMAGE"} for issue in row.get("issues") or [])
@@ -938,6 +999,37 @@ def build_initialization_plans(
         "historical_prohibited_product_count": len(historical),
         "historical_prohibited_sources": historical_sources,
         "historical_plan": old_plan,
+        "duplicate_good_name_identity": {
+            "contract_logical_sha256": content_sha256(duplicate_name_identity_contract),
+            "source_duplicate_name_group_count": duplicate_name_audit["duplicate_name_group_count"],
+            "source_duplicate_name_product_count": duplicate_name_audit["duplicate_name_product_count"],
+            "source_unique_complete_sku_sets": duplicate_name_audit[
+                "all_duplicate_name_products_have_source_unique_complete_sku_sets"
+            ],
+            "create_readback_outcome_required": "UNIQUE_STRONG_MATCH",
+            "shijiu_readonly_validation": (
+                {
+                    "status": duplicate_name_readonly_validation["status"],
+                    "selected_group_count": duplicate_name_readonly_validation[
+                        "selected_group_count"
+                    ],
+                    "mapped_unique_strong_match_count": duplicate_name_readonly_validation[
+                        "mapped_unique_strong_match_count"
+                    ],
+                    "unmapped_not_found_count": duplicate_name_readonly_validation[
+                        "unmapped_not_found_count"
+                    ],
+                    "shijiu_read_request_count": duplicate_name_readonly_validation["safety"][
+                        "shijiu_read_requests"
+                    ],
+                    "evidence_logical_sha256": content_sha256(
+                        duplicate_name_readonly_validation
+                    ),
+                }
+                if duplicate_name_readonly_validation is not None
+                else {"status": "NOT_CAPTURED"}
+            ),
+        },
         "execution_prerequisites_not_satisfied_this_round": [
             "WAWU or any other writer must be confirmed stopped in a future task",
             "new complete Storefront crawl and plan freshness validation",
@@ -953,6 +1045,31 @@ def build_initialization_plans(
         "batch_plan": batch_plan,
         "pilot_plan": pilot_plan,
         "quality_audit": quality_audit,
+        "duplicate_name_audit": {
+            "schema_version": PLAN_SCHEMA_VERSION,
+            "generated_at": generated_at,
+            "status": "COMPLETED_OFFLINE_DUPLICATE_GOOD_NAME_AUDIT",
+            "mode": PLANNING_STATUS,
+            "write_status": WRITE_BLOCKED_STATUS,
+            "source": SOURCE,
+            "target": TARGET,
+            **duplicate_name_audit,
+            "identity_contract_logical_sha256": content_sha256(
+                duplicate_name_identity_contract
+            ),
+            "safety": common_safety,
+        },
+        "price_range_audit": {
+            "schema_version": PLAN_SCHEMA_VERSION,
+            "generated_at": generated_at,
+            "status": "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_GUARD_UNCHANGED",
+            "mode": PLANNING_STATUS,
+            "write_status": WRITE_BLOCKED_STATUS,
+            "source": SOURCE,
+            "target": TARGET,
+            **price_range_audit,
+            "safety": common_safety,
+        },
         "capacity": capacity,
         "readiness": readiness,
     }
@@ -1116,8 +1233,26 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--category", type=Path, default=Path("config/shijiu_category_map.json"))
     parser.add_argument("--price-guard", type=Path, default=Path("config/shijiu_price_guard.json"))
     parser.add_argument("--richtext-contract", type=Path, default=Path("config/shijiu_richtext_contract.json"))
+    parser.add_argument(
+        "--duplicate-name-identity-contract",
+        type=Path,
+        default=Path("config/shijiu_duplicate_good_name_identity_contract.json"),
+    )
+    parser.add_argument(
+        "--duplicate-name-readonly-validation",
+        type=Path,
+        default=Path(
+            "deliverables/shijiu_initialization/"
+            "duplicate_good_name_shijiu_readonly_validation.json"
+        ),
+    )
     parser.add_argument("--output", type=Path, default=Path("deliverables/shijiu_initialization"))
     parser.add_argument("--checkpoint", type=Path, default=Path("state/mikihouse_initialization_checkpoint.json.gz"))
+    parser.add_argument(
+        "--replace-planning-only-checkpoint",
+        action="store_true",
+        help="replace only a zero-mutation FROZEN_PLANNING_ONLY checkpoint after replanning",
+    )
     return parser
 
 
@@ -1131,6 +1266,12 @@ def main(argv: list[str] | None = None) -> int:
     category = load_category_map(args.category)
     price_guard = _read_json(args.price_guard)
     richtext_contract = _read_json(args.richtext_contract)
+    duplicate_name_identity_contract = _read_json(args.duplicate_name_identity_contract)
+    duplicate_name_readonly_validation = (
+        _read_json(args.duplicate_name_readonly_validation)
+        if args.duplicate_name_readonly_validation.exists()
+        else None
+    )
     generated_at = str(source_snapshot.get("captured_at"))
     result = build_initialization_plans(
         root,
@@ -1141,6 +1282,8 @@ def main(argv: list[str] | None = None) -> int:
         category,
         price_guard,
         richtext_contract,
+        duplicate_name_identity_contract,
+        duplicate_name_readonly_validation,
         generated_at=generated_at,
         stable_file_sha256=_file_sha256(args.stable),
         source_file_sha256=_file_sha256(args.source),
@@ -1153,12 +1296,33 @@ def main(argv: list[str] | None = None) -> int:
         for key in ("schema_version", "generated_at", "status", "write_status", "counts", "batch_policy", "batches", "safety")
     })
     _write_json_atomic(args.output / "stable_initialization_data_quality_audit.json", result["quality_audit"])
+    _write_json_atomic(
+        args.output / "duplicate_good_name_offline_audit.json",
+        result["duplicate_name_audit"],
+    )
+    _write_json_atomic(
+        args.output / "price_outside_configured_range_audit.json",
+        result["price_range_audit"],
+    )
     _write_json_atomic(args.output / "stable_initialization_capacity_estimate.json", result["capacity"])
     _write_json_atomic(args.output / "stable_initialization_readiness.json", result["readiness"])
     checkpoint = initialize_checkpoint(result["batch_plan"])
     if args.checkpoint.exists():
         existing = _read_json(args.checkpoint)
-        checkpoint = initialize_checkpoint(result["batch_plan"], existing)
+        if existing.get("plan_sha256") == checkpoint["plan_sha256"]:
+            checkpoint = initialize_checkpoint(result["batch_plan"], existing)
+        elif (
+            args.replace_planning_only_checkpoint
+            and existing.get("status") == "FROZEN_PLANNING_ONLY"
+            and existing.get("shijiu_mutation_count") == 0
+            and existing.get("writer_mutex_evidence_generated") is False
+        ):
+            _write_json_atomic(args.checkpoint, checkpoint)
+        else:
+            raise InitializationPlanError(
+                "initialization checkpoint changed; replacement requires the explicit planning-only "
+                "flag and a zero-mutation frozen checkpoint"
+            )
     else:
         _write_json_atomic(args.checkpoint, checkpoint)
     print(json.dumps(result["readiness"], ensure_ascii=False, indent=2))

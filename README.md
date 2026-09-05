@@ -878,7 +878,7 @@ PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
 PYTHONPATH=src .venv/bin/python scripts/plan_shijiu_stable_initialization.py
 ```
 
-入口执行以下 fail-closed 检查：完整官网分页证明；stable/source 单商品价格、库存、variant和图片指纹一致；351特殊名单数量；固定类目294884；`ceil(tax_included_price_jpy × 0.65)`；`availableForSale` 到0/1库存；`good_details` 文字/轻HTML且无图片、无URL；已映射与全部历史尝试/冻结品番禁止 CREATE。每件可计划商品保存 `CREATE_CORE`、每步最多8张的broadcast UPDATE、每步最多8张的`good_detail_pics` UPDATE、nullable `shijiu_sku_id`、脱敏payload SHA-256及只含官方source URL/hash/顺序的资源manifest。规划过程不下载图片、不上传COS、不读取Shijiu，也不生成mutex evidence。
+入口执行以下 fail-closed 检查：完整官网分页证明；stable/source 单商品价格、库存、variant和图片指纹一致；351特殊名单数量；固定类目294884；`ceil(tax_included_price_jpy × 0.65)`；`availableForSale` 到0/1库存；`good_details` 文字/轻HTML且无图片、无URL；已映射与全部历史尝试/冻结品番禁止 CREATE。每件可计划商品保存 `CREATE_CORE`、每步最多8张的broadcast UPDATE、每步最多8张的`good_detail_pics` UPDATE、nullable `shijiu_sku_id`、脱敏payload SHA-256及只含官方source URL/hash/顺序的资源manifest。规划过程不下载图片、不上传COS，也不生成mutex evidence。
 
 新输出位于 `deliverables/shijiu_initialization/`：
 
@@ -886,12 +886,28 @@ PYTHONPATH=src .venv/bin/python scripts/plan_shijiu_stable_initialization.py
 - `stable_initialization_batch_plan.json.gz`：逐商品stage、variant、资源manifest及分层批次的完整计划；
 - `stable_initialization_batch_summary.json`：按简单、普通、多SKU、富媒体、高复杂度排序的批次摘要；
 - `stable_initialization_data_quality_audit.json`：2461件的价格、variant、图片、名称、SKU与identity审计；
+- `duplicate_good_name_offline_audit.json`：重复名称组、完整backend SKU集合唯一性及理论解锁数量；
+- `duplicate_good_name_shijiu_readonly_validation.json`：10组真实UI-context只读候选和强身份验证；
+- `price_outside_configured_range_audit.json`：37个越界variant的0价/真实高价分类，保持guard不变；
 - `stable_initialization_capacity_estimate.json`：未来CREATE/UPDATE/COS/readback工作量估算；
 - `stable_initialization_readiness.json`：freshness、交接和写入阻塞结论；
 - `state/mikihouse_initialization_checkpoint.json.gz`：只含 `FROZEN_PLANNING_ONLY` 的批次/商品初始checkpoint，mutation计数为0。
 
-当前2461件全部有且仅有一个初始化处置：795件通过数据质量门禁并被拆为52个隔离批次；5件已有经过验证的MIKIHOUSE mapping，禁止再次CREATE并交给增量引擎；32件属于历史尝试/冻结集合；1629件进入初始化复核。复核中1603件使用重复的官网通用名称，不能满足当前强回读的“精确good_name唯一定位”身份契约；另有7件缺图及37件价格超出现有guard（问题可重叠）。规划器不会为了凑足2461件而放宽这些门禁。
+`good_name` 重复不再被当成不可导入条件。新契约固定为：真实UI-context Goods.index的精确名称查询只缩小候选product ID集合；随后对每个候选调用getFormatInfo，完整 `MIKI-<variant SKU>` 集合是主要强身份，同时要求类目294884、variant数量、规格结构和逐variant价格一致。只有一个完整匹配才返回 `UNIQUE_STRONG_MATCH`；零匹配返回 `NOT_FOUND`，多个完整匹配返回 `AMBIGUOUS`，后二者都禁止binding。列表顺序、创建时间、模糊名称、相似价格及单SKU重合永远不能作为身份依据。正式目标variant身份仍为 `shijiu_product_id + exact backend_sku_code`，`shijiu_sku_id=null`。
+
+当前stable catalog的1603件重复名商品分属254组，最大组“半袖Ｔシャツ”为76件；所有backend SKU在source内全局唯一，且不存在两个不同product_number拥有完全相同完整SKU集合，理论可解除仅由重名造成的1603件复核。真实Shijiu只读验证覆盖10组，包括2件小组、“セーター”及“トレーナー”“カバーオール”“セカンドベビーシューズ”“パンツ”“半袖Ｔシャツ”等大组：21次请求全部仅为 Goods.index/getFormatInfo；已映射 `63-6602-492` 在9件同名source商品中取得唯一完整SKU强匹配，其余325件未创建商品均正确返回 `NOT_FOUND`，没有误绑legacy/foreign商品。CREATE/UPDATE/COS/上下架/价格库存写入和mapping修改均为0。
+
+重新规划后，2461件全部有且仅有一个初始化处置：2385件通过数据质量门禁并拆为170个隔离批次；6件已有经过验证的MIKIHOUSE mapping，禁止再次CREATE并交给增量引擎；43件属于历史尝试/冻结集合；27件保留初始化复核。真正剩余问题仅为7件缺图和21件价格越界商品（集合有1件重叠），不再包含 `DUPLICATE_PRODUCT_NAME`。新20件pilot仍全部来自当前STABLE、未映射、非历史冻结池，footwear/apparel/baby/goods各5件且每件都携带新强身份回读契约。
+
+价格越界审计保持原guard `1..1,000,000 JPY` 不变：34个variant/20件商品的官网税入价为0，继续禁止凭空生成售价；另3个variant属于同一件稳定的143万JPY金标高价商品，分类为“可能是真实高价、旧上限可能过窄，但必须单独人工确认和业务授权”。本轮自动释放数量为0，没有为了增加可导入数调整guard。
+
+只读验证命令（只接受 Git 工作区外的既有browser证据目录）：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/audit_shijiu_duplicate_good_name.py \
+  --private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact
+```
 
 未来执行任一pilot或批次前，必须完成新的全站crawl并用 stable catalog/source snapshot 顶层hash及逐商品指纹检查 freshness。商品若变为特殊、WEB限定、促销、稳定性待复核或inactive，在任何目标动作前冻结；价格、库存、variant或图片变化则整件重新生成stage payload。初始化完成并取得 verified MIKIHOUSE mapping 后，由交接函数将商品登记到现有 source sync state，此后只接受增量事件，禁止定时任务再次CREATE。同一checkpoint重跑幂等；批次失败只冻结当前批次，后续批次不被污染。
 
-2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮 Shijiu请求、CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0；legacy286也未访问或修改。
+2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮只执行了上述21次明确授权的Shijiu只读请求；CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0，legacy286未被修改。
