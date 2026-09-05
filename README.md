@@ -930,3 +930,15 @@ PYTHONPATH=src .venv/bin/python scripts/audit_shijiu_duplicate_good_name.py \
 未来执行任一pilot或批次前，必须完成新的全站crawl并用 stable catalog/source snapshot 顶层hash及逐商品指纹检查 freshness。商品若变为特殊、WEB限定、促销、稳定性待复核或inactive，在任何目标动作前冻结；价格、库存、variant或图片变化则整件重新生成stage payload。初始化完成并取得 verified MIKIHOUSE mapping 后，由交接函数将商品登记到现有 source sync state，此后只接受增量事件，禁止定时任务再次CREATE。同一checkpoint重跑幂等；批次失败只冻结当前批次，后续批次不被污染。
 
 2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮仅执行完整Storefront只读分页和2次官方图片等价性GET，没有新增Shijiu请求；CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0，legacy286未被修改。
+
+### MIKIHOUSE production handoff 单入口
+
+`scripts/prepare_mikihouse_production_handoff.py` 是 WAWU 停止后使用的唯一准备入口。它固定为 `PREPARATION_ONLY`，没有 live-write、force、mutex 或门禁绕过参数，也不导入 Shijiu client。入口会从干净的当前 `main` HEAD 开始，在 Git 工作区外备份受保护状态，然后依次完成全站官网刷新与分页完整性校验、stable/exclusion重建、source增量planning、170批初始化重新规划、当前20件pilot freshness、每件全部官方资源的HTTPS/域名/重定向/MIME/完整下载/图片解码/尺寸/hash预检，以及 HEAD、stable/source、richtext、重复名称强身份和price policy哈希校验。
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/prepare_mikihouse_production_handoff.py
+```
+
+规划CREATE与已mapping、历史冻结、legacy286、351特殊、WEB限定、期间限定价、服务附加项及稳定性复核池的交集必须全部为0；否则 fail closed。入口最终只输出 `READY_TO_REQUEST_EXCLUSIVE_WRITER_WINDOW` 或 `BLOCKED`，并在请求writer mutex之前硬停止。即使READY，仍保持 `SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，不生成mutex evidence，不执行pilot。
+
+机器证据位于 `deliverables/shijiu_initialization/production_handoff_readiness.json` 与 `production_handoff_resource_preflight.json`；简短人工流程见 `production_handoff_runbook.md`。未来只需告知 Codex“WAWU已停止”，不需要人工编辑JSON、hash或商品清单；Codex刷新并检查成功后只能返回“等待独占写入授权”。之后如另有明确授权，执行协议仍固定为fresh 20件、逐商品/逐stage checkpoint、mutation零自动重试、精确名称候选集加getFormatInfo完整MIKI SKU集合的唯一强匹配、每stage强回读、任一异常冻结整个pilot。20件全部通过前禁止启动2387件全量；通过后只生成最新全量执行清单而不自动开始，170批继续隔离，legacy286清理另案处理，成功初始化商品立即移交增量状态并永久禁止重复CREATE。

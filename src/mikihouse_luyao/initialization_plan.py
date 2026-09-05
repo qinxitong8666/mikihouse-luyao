@@ -873,6 +873,7 @@ def build_initialization_plans(
         "duplicate_name_identity_contract_logical_sha256": content_sha256(
             duplicate_name_identity_contract
         ),
+        "price_policy_logical_sha256": content_sha256(price_guard),
     }
     common_safety = {
         "mode": PLANNING_STATUS,

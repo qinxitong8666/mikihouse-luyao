@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "mode": "PREPARATION_ONLY",
+  "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+  "target_category_id": 294884,
+  "pilot_product_count": 20,
+  "full_initialization_batch_count": 170,
+  "preparation_terminal_decisions": [
+    "READY_TO_REQUEST_EXCLUSIVE_WRITER_WINDOW",
+    "BLOCKED"
+  ],
+  "hard_stop_before_writer_mutex": true,
+  "writer_mutex_evidence_generation_allowed": false,
+  "shijiu_requests_allowed": false,
+  "future_execution_protocol": {
+    "pilot_scope": "current fresh frozen 20-product plan only",
+    "per_product_checkpoint_required": true,
+    "per_stage_checkpoint_required": true,
+    "mutation_automatic_retry_count": 0,
+    "create_readback": "exact good_name candidate set then getFormatInfo complete MIKI backend SKU set UNIQUE_STRONG_MATCH",
+    "strong_readback_after_every_stage": true,
+    "freeze_entire_pilot_on": [
+      "AMBIGUOUS",
+      "TRANSPORT_UNKNOWN",
+      "SOURCE_FRESHNESS_CHANGED",
+      "RESOURCE_PREFLIGHT_FAILED",
+      "TARGET_CONTENT_MISMATCH"
+    ],
+    "full_initialization_before_pilot_passed": "FORBIDDEN",
+    "after_pilot_passed": "generate a fresh full-batch execution manifest only; do not auto-start",
+    "batch_isolation_required": true,
+    "checkpoint_resume_fail_closed": true,
+    "legacy_286_cleanup": "separate future task only",
+    "successful_initialization_handoff": "immediately enter incremental sync state; future CREATE forbidden"
+  }
+}
