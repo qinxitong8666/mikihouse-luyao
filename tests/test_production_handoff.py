@@ -175,6 +175,21 @@ def test_mapped_and_historical_products_can_never_be_planned_create(
     assert result["handoff_decision"] == BLOCKED
 
 
+def test_mapped_precedence_matches_initialization_disposition_counts() -> None:
+    inputs = fixture_inputs()
+    mapped_stable = {
+        number
+        for number, row in inputs["mapping"]["products"].items()
+        if row.get("shijiu_product_id") not in (None, "")
+        and number in {
+            product["product_number"] for product in inputs["stable_catalog"]["products"]
+        }
+    }
+    inputs["historical_frozen"].update(mapped_stable)
+    result = evaluate_handoff(**inputs)
+    assert result["handoff_decision"] == READY
+
+
 def test_incomplete_crawl_blocks_and_never_becomes_inactive_evidence() -> None:
     inputs = fixture_inputs()
     inputs["source_snapshot"] = copy.deepcopy(inputs["source_snapshot"])

@@ -417,7 +417,8 @@ def evaluate_handoff(
     )
     _append_check(checks, "PREPARATION_ONLY_PROTOCOL", protocol_ok, protocol)
 
-    category_id = int((category.get("target_category") or {}).get("id") or 0)
+    category_value = category.get("target_category") or category
+    category_id = int(category_value.get("id") or 0)
     contract_hashes = {
         "richtext_contract_logical_sha256": content_sha256(richtext_contract),
         "duplicate_name_identity_contract_logical_sha256": content_sha256(
@@ -512,7 +513,10 @@ def evaluate_handoff(
     })
     all_leaks = sorted({number for rows in leaks.values() for number in rows})
     counts = batch_plan.get("counts") or {}
-    stable_historical = historical_frozen & set(stable_by_number)
+    # Initialization disposition deliberately gives a verified mapping precedence over
+    # historical-attempt evidence: an already mapped product is handed to incremental
+    # sync and is never counted as a new-create frozen row.
+    stable_historical = (historical_frozen & set(stable_by_number)) - mapped_numbers
     stable_mapped = mapped_numbers & set(stable_by_number)
     batch_shape_ok = (
         counts.get("stable_catalog_product_count") == len(stable_by_number)
@@ -653,6 +657,103 @@ def backup_protected_inputs(root: Path, head_sha: str) -> dict[str, Any]:
     return manifest
 
 
+def write_protected_state_audit(
+    root: Path,
+    *,
+    head_sha: str,
+    captured_at: str,
+    backup: dict[str, Any],
+    stable_audit: dict[str, Any],
+    pilot_preflight_source_get_count: int,
+) -> dict[str, Any]:
+    before = {row["path"]: row["sha256"] for row in backup.get("files") or []}
+    state_paths = [
+        "state/mikihouse_initialization_checkpoint.json.gz",
+        "state/mikihouse_source_sync_state.json.gz",
+    ]
+    deliverable_paths = [
+        "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
+        "deliverables/shijiu_initialization/stable_initialization_batch_plan.json.gz",
+    ]
+    affected_state = []
+    for relative in state_paths:
+        path = root / relative
+        affected_state.append({
+            "path": relative,
+            "reason": "atomically refresh complete-source planning state for production handoff preparation",
+            "before_sha256": before.get(relative),
+            "after_sha256": file_sha256(path),
+            "status": _read_json(path).get("status"),
+            "shijiu_mutation_count": _read_json(path).get("shijiu_mutation_count", 0),
+            "writer_mutex_evidence_generated": False,
+        })
+    affected_deliverables = []
+    for relative in deliverable_paths:
+        path = root / relative
+        affected_deliverables.append({
+            "path": relative,
+            "reason": "rebuild from the newly completed official Storefront crawl",
+            "before_sha256": before.get(relative),
+            "after_sha256": file_sha256(path),
+        })
+    unchanged = []
+    for relative in (
+        "state/shijiu_mappings.json",
+        "deliverables/mikihouse_2026AW_price_catalog.pdf",
+    ):
+        path = root / relative
+        unchanged.append({
+            "path": relative,
+            "sha256": file_sha256(path),
+            "matches_preparation_backup": before.get(relative) == file_sha256(path),
+            "mapping_rows_modified": 0 if relative.endswith("shijiu_mappings.json") else None,
+        })
+    audit = {
+        "schema_version": 1,
+        "generated_at": captured_at,
+        "status": "PROTECTED_STATE_INTENTIONALLY_UPDATED_OFFLINE",
+        "mode": MODE,
+        "write_status": WRITE_BLOCKED_STATUS,
+        "parent_commit": head_sha,
+        "affected_state": affected_state,
+        "affected_protected_deliverables": affected_deliverables,
+        "unchanged_protected_artifacts": unchanged,
+        "backup_evidence": {
+            "changed_state_and_deliverables_copied_before_refresh": True,
+            "git_external_backup_directory": backup.get("backup_location"),
+            "backup_manifest_sha256": file_sha256(
+                Path(str(backup["backup_location"])) / "backup_manifest.json"
+            ),
+            "sensitive_values_included": False,
+        },
+        "historical_stale_plan": {
+            "path": "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json",
+            "sha256": file_sha256(
+                root / "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json"
+            ),
+            "changed": False,
+        },
+        "safety": {
+            "official_storefront_api_read_requests": (
+                stable_audit.get("crawl") or {}
+            ).get("api_request_count"),
+            "official_pilot_resource_read_requests": pilot_preflight_source_get_count,
+            "shijiu_read_requests": 0,
+            "shijiu_create_requests": 0,
+            "shijiu_update_requests": 0,
+            "shijiu_cos_upload_requests": 0,
+            "shijiu_shelf_price_inventory_writes": 0,
+            "writer_mutex_evidence_generated": False,
+            "legacy_products_modified": 0,
+        },
+    }
+    _write_json_atomic(
+        root / "deliverables/shijiu_initialization/protected_state_change_audit.json",
+        audit,
+    )
+    return audit
+
+
 def orchestrate(root: Path) -> dict[str, Any]:
     head_sha = _git(root, "rev-parse", "HEAD")
     branch = _git(root, "branch", "--show-current")
@@ -729,6 +830,16 @@ def orchestrate(root: Path) -> dict[str, Any]:
     })
     preflight["evidence_logical_sha256"] = content_sha256(
         {key: value for key, value in preflight.items() if key != "evidence_logical_sha256"}
+    )
+    write_protected_state_audit(
+        root,
+        head_sha=head_sha,
+        captured_at=str(source.get("captured_at")),
+        backup=backup,
+        stable_audit=stable_audit,
+        pilot_preflight_source_get_count=int(
+            (preflight.get("safety") or {}).get("source_http_get_count") or 0
+        ),
     )
     legacy = _read_json(
         root / "deliverables/shijiu_import/legacy_reference_audit.json"

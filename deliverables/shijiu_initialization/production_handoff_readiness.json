@@ -1,0 +1,490 @@
+{
+  "schema_version": 1,
+  "status": "PREPARATION_ONLY",
+  "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+  "handoff_decision": "BLOCKED",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "repo": "qinxitong8666/mikihouse-luyao",
+  "branch": "main",
+  "head_sha": "27608d8f9e05c570d9521213607c7b26218a38a7",
+  "blocked_reason_codes": [
+    "CATEGORY_AND_CONTRACT_HASHES",
+    "INITIALIZATION_PLAN_DISJOINTNESS"
+  ],
+  "checks": [
+    {
+      "id": "COMPLETE_STOREFRONT_CRAWL",
+      "status": "PASSED",
+      "evidence_logical_sha256": "971723a23fa86ad95c86f974ab042a1e429d8c577697f8f61a60c40d0efc09a6",
+      "evidence": {
+        "complete_pagination_validated": true,
+        "product_count": 2961
+      }
+    },
+    {
+      "id": "STABLE_AND_EXCLUSION_POOLS_REBUILT",
+      "status": "PASSED",
+      "evidence_logical_sha256": "a3491a8feee79571de3c38c903bc9f0ff63188425166729db14730f8a6afdbd1",
+      "evidence": {
+        "counts": {
+          "storefront_total_product_count": 2961,
+          "pdf_special_list_manifest_count": 351,
+          "pdf_special_list_online_excluded_count": 311,
+          "pdf_special_list_offline_remembered_count": 40,
+          "web_exclusive_excluded_count": 186,
+          "limited_time_price_excluded_count": 2,
+          "non_sellable_service_or_addon_excluded_count": 27,
+          "review_required_stability_count": 0,
+          "stable_catalog_product_count": 2435,
+          "stable_catalog_variant_count": 13742,
+          "stable_catalog_image_resource_count": 30145
+        },
+        "stable_forbidden_intersection": [],
+        "audit_logical_sha256": "90e97cee2aa8738ed23af8c3d0da75aa4057b5dff43924889d07d9774c11b3ac"
+      }
+    },
+    {
+      "id": "SOURCE_INCREMENTAL_PLANNING_ONLY",
+      "status": "PASSED",
+      "evidence_logical_sha256": "7086c165477a0607bc96660d29d6f041b2de62525b1691487d93c427281af9d7",
+      "evidence": {
+        "status": "SYNC_CYCLE_PLANNED_NO_WRITE",
+        "mode": "PLANNING_ONLY",
+        "captured_at": "2026-09-05T07:30:46.449748+00:00",
+        "complete_crawl_required_and_validated": true,
+        "actions_are_non_executable": true,
+        "counts": {
+          "source_product_count": 2961,
+          "source_variant_count": 18533,
+          "stable_product_count": 2435,
+          "pdf_special_count_online": 311,
+          "pdf_special_count_offline_remembered": 40,
+          "web_exclusive_count": 186,
+          "limited_time_price_count": 2,
+          "non_sellable_service_or_addon_count": 27,
+          "review_required_stability_count": 0,
+          "new_event_count": 0,
+          "new_action_count": 0,
+          "event_counts": {},
+          "pending_action_counts": {
+            "CREATE_PRODUCT": 1
+          },
+          "pending_action_event_count": 1
+        },
+        "safety": {
+          "shijiu_requests": 0,
+          "shijiu_create_requests": 0,
+          "shijiu_update_requests": 0,
+          "shijiu_cos_upload_requests": 0,
+          "shijiu_shelf_price_inventory_writes": 0,
+          "legacy_286_touched": false,
+          "writer_mutex_evidence_generated": false,
+          "operator_reported_wawu_may_be_active": true,
+          "planning_only_hard_stop": true
+        }
+      }
+    },
+    {
+      "id": "REPOSITORY_IDENTITY",
+      "status": "PASSED",
+      "evidence_logical_sha256": "4d04b9ba2edc82a2066281eda05c64f87711b6983079fdf87501787bcdbc92da",
+      "evidence": {
+        "repo": "qinxitong8666/mikihouse-luyao",
+        "branch": "main",
+        "head_sha": "27608d8f9e05c570d9521213607c7b26218a38a7"
+      }
+    },
+    {
+      "id": "AGENTS_SECTION_14_GOVERNANCE",
+      "status": "PASSED",
+      "evidence_logical_sha256": "51ecd2e9246fb7b24a6963a10e927a934487a0855fd3a412cba893e1e4cf7c0c",
+      "evidence": {
+        "agents_file_sha256": "0b7d643f296e42ad979f17b1ee0356acddad5847cd2e934e10f547dd09e28121",
+        "source_ownership_rule_present": true,
+        "production_writer_mutex_rule_present": true
+      }
+    },
+    {
+      "id": "PREPARATION_ONLY_PROTOCOL",
+      "status": "PASSED",
+      "evidence_logical_sha256": "816519610a68f3b23aae0117e9b68160d5692e862917da467fa72475ebb52875",
+      "evidence": {
+        "schema_version": 1,
+        "source": "MIKIHOUSE",
+        "target": "SHIJIU",
+        "mode": "PREPARATION_ONLY",
+        "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+        "target_category_id": 294884,
+        "pilot_product_count": 20,
+        "full_initialization_batch_count": 170,
+        "preparation_terminal_decisions": [
+          "READY_TO_REQUEST_EXCLUSIVE_WRITER_WINDOW",
+          "BLOCKED"
+        ],
+        "hard_stop_before_writer_mutex": true,
+        "writer_mutex_evidence_generation_allowed": false,
+        "shijiu_requests_allowed": false,
+        "future_execution_protocol": {
+          "pilot_scope": "current fresh frozen 20-product plan only",
+          "per_product_checkpoint_required": true,
+          "per_stage_checkpoint_required": true,
+          "mutation_automatic_retry_count": 0,
+          "create_readback": "exact good_name candidate set then getFormatInfo complete MIKI backend SKU set UNIQUE_STRONG_MATCH",
+          "strong_readback_after_every_stage": true,
+          "freeze_entire_pilot_on": [
+            "AMBIGUOUS",
+            "TRANSPORT_UNKNOWN",
+            "SOURCE_FRESHNESS_CHANGED",
+            "RESOURCE_PREFLIGHT_FAILED",
+            "TARGET_CONTENT_MISMATCH"
+          ],
+          "full_initialization_before_pilot_passed": "FORBIDDEN",
+          "after_pilot_passed": "generate a fresh full-batch execution manifest only; do not auto-start",
+          "batch_isolation_required": true,
+          "checkpoint_resume_fail_closed": true,
+          "legacy_286_cleanup": "separate future task only",
+          "successful_initialization_handoff": "immediately enter incremental sync state; future CREATE forbidden"
+        }
+      }
+    },
+    {
+      "id": "CATEGORY_AND_CONTRACT_HASHES",
+      "status": "FAILED",
+      "evidence_logical_sha256": "bb244428b45de2391df2b77f5bc69b06964364abd6eccc2d95e107fef8e33162",
+      "evidence": {
+        "target_category_id": 0,
+        "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
+        "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
+        "price_policy_logical_sha256": "662a5cae44fba6506780ec2c9af775651fd8c10025d1b90c3b70538fb28a3076",
+        "pilot_freshness": {
+          "stable_catalog_file_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d",
+          "stable_catalog_logical_sha256": "980cc2a66913506bfabb394923ca689ed2d9586efabc6787d162654e5be501c1",
+          "source_snapshot_file_sha256": "c9f9c5059ecd9f9340522f83556f70b264fafe416aa3522abeabc7327bcf1142",
+          "source_snapshot_logical_sha256": "76970f51c3db3f8b08af91bdae80d80255e98e5b7911a3a825fc0bcb488afa18",
+          "source_snapshot_captured_at": "2026-09-05T07:30:46.449748+00:00",
+          "stable_catalog_synced_at": "2026-09-05T07:30:46.449748+00:00",
+          "requires_new_complete_storefront_crawl_after_generated_at": true,
+          "fail_closed_if_any_top_level_hash_changes": true,
+          "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
+          "stability_reclassification_before_any_target_mutation": true,
+          "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
+          "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
+          "price_policy_logical_sha256": "662a5cae44fba6506780ec2c9af775651fd8c10025d1b90c3b70538fb28a3076"
+        }
+      }
+    },
+    {
+      "id": "PILOT_SOURCE_FRESHNESS",
+      "status": "PASSED",
+      "evidence_logical_sha256": "f451feaea8ae384d0f26e5228fc7c776c68e26d13d4b3fff8d399109c77a92cf",
+      "evidence": {
+        "valid": true,
+        "status": "FRESH",
+        "reasons": [],
+        "target_requests": 0,
+        "mutation_allowed": false
+      }
+    },
+    {
+      "id": "CURRENT_FROZEN_PILOT_20",
+      "status": "PASSED",
+      "evidence_logical_sha256": "cc5b626350b89e2568dd9fc7ed7810933cd745c1a0e7c806e9e3407b97f710c3",
+      "evidence": {
+        "product_count": 20,
+        "product_numbers": [
+          "17-1125-566",
+          "13-9404-494",
+          "72-9307-149",
+          "12-9306-142",
+          "70-9414-142",
+          "64-1106-682",
+          "62-5202-144",
+          "10-3129-688",
+          "10-5229-577",
+          "11-7302-796",
+          "17-1349-225",
+          "70-5210-683",
+          "10-3339-492",
+          "70-5209-683",
+          "40-1501-144",
+          "26-1003-682",
+          "16-1671-796",
+          "10-8232-145",
+          "10-8254-794",
+          "10-8251-795"
+        ]
+      }
+    },
+    {
+      "id": "INITIALIZATION_PLAN_DISJOINTNESS",
+      "status": "FAILED",
+      "evidence_logical_sha256": "11de0ff6e3e83b6e597f639be100d66e32549954bb8c456f11263220a882b951",
+      "evidence": {
+        "counts": {
+          "stable_catalog_product_count": 2435,
+          "planned_initial_create_product_count": 2387,
+          "already_mapped_handoff_count": 6,
+          "historical_frozen_count": 42,
+          "initialization_review_required_count": 0,
+          "accounted_product_count": 2435,
+          "batch_count": 170
+        },
+        "leaks": {
+          "PDF_SPECIAL_LIST": [],
+          "WEB_EXCLUSIVE": [],
+          "LIMITED_TIME_PRICE": [],
+          "NON_SELLABLE_SERVICE_OR_ADDON": [],
+          "REVIEW_REQUIRED_STABILITY": [],
+          "ALREADY_MAPPED": [],
+          "HISTORICAL_FROZEN": [],
+          "NOT_STABLE": []
+        },
+        "all_leak_product_numbers": []
+      }
+    },
+    {
+      "id": "LEGACY_286_REFERENCE_ONLY",
+      "status": "PASSED",
+      "evidence_logical_sha256": "06a8e0eef606685cccbcb3f79a551b740259a3682938d353412b82c2f5d3772e",
+      "evidence": {
+        "legacy_product_count": 286,
+        "legacy_reference_only": null,
+        "status": null,
+        "planned_target_ids": []
+      }
+    },
+    {
+      "id": "PILOT_RESOURCE_PREFLIGHT",
+      "status": "PASSED",
+      "evidence_logical_sha256": "ed9d0c1e52e70a5fdd28b73c0cc13a2c0bbce61a49ecca606125068385b5b9ab",
+      "evidence": {
+        "status": "PASSED",
+        "pilot_product_count": 20,
+        "resource_reference_count": 613,
+        "unique_source_url_count": 613,
+        "passed_unique_source_url_count": 613,
+        "failed_unique_source_url_count": 0,
+        "evidence_logical_sha256": "0743561a91aaa2d52b623810fd3a3f895e74e088a4224dec3146ea6559865394"
+      }
+    },
+    {
+      "id": "ZERO_SHIJIU_MUTATION_BOUNDARY",
+      "status": "PASSED",
+      "evidence_logical_sha256": "79cb97add09728e291380f4fa1f92237a8031326ad2cb92b238e6d8b31d14181",
+      "evidence": {
+        "shijiu_requests": 0,
+        "shijiu_create_requests": 0,
+        "shijiu_update_requests": 0,
+        "shijiu_cos_upload_requests": 0,
+        "shijiu_shelf_price_inventory_writes": 0,
+        "writer_mutex_evidence_generated": false,
+        "writer_mutex_evidence_generation_allowed": false,
+        "legacy_286_touched": false,
+        "pilot_execution_count": 0,
+        "full_initialization_execution_count": 0
+      }
+    }
+  ],
+  "counts": {
+    "stable_catalog_product_count": 2435,
+    "planned_initial_create_product_count": 2387,
+    "already_mapped_handoff_count": 6,
+    "historical_frozen_count": 42,
+    "initialization_review_required_count": 0,
+    "accounted_product_count": 2435,
+    "batch_count": 170
+  },
+  "pilot": {
+    "product_count": 20,
+    "product_numbers": [
+      "17-1125-566",
+      "13-9404-494",
+      "72-9307-149",
+      "12-9306-142",
+      "70-9414-142",
+      "64-1106-682",
+      "62-5202-144",
+      "10-3129-688",
+      "10-5229-577",
+      "11-7302-796",
+      "17-1349-225",
+      "70-5210-683",
+      "10-3339-492",
+      "70-5209-683",
+      "40-1501-144",
+      "26-1003-682",
+      "16-1671-796",
+      "10-8232-145",
+      "10-8254-794",
+      "10-8251-795"
+    ],
+    "resource_reference_count": 613,
+    "unique_source_url_count": 613
+  },
+  "contracts": {
+    "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
+    "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
+    "price_policy_logical_sha256": "662a5cae44fba6506780ec2c9af775651fd8c10025d1b90c3b70538fb28a3076"
+  },
+  "future_execution_protocol": {
+    "pilot_scope": "current fresh frozen 20-product plan only",
+    "per_product_checkpoint_required": true,
+    "per_stage_checkpoint_required": true,
+    "mutation_automatic_retry_count": 0,
+    "create_readback": "exact good_name candidate set then getFormatInfo complete MIKI backend SKU set UNIQUE_STRONG_MATCH",
+    "strong_readback_after_every_stage": true,
+    "freeze_entire_pilot_on": [
+      "AMBIGUOUS",
+      "TRANSPORT_UNKNOWN",
+      "SOURCE_FRESHNESS_CHANGED",
+      "RESOURCE_PREFLIGHT_FAILED",
+      "TARGET_CONTENT_MISMATCH"
+    ],
+    "full_initialization_before_pilot_passed": "FORBIDDEN",
+    "after_pilot_passed": "generate a fresh full-batch execution manifest only; do not auto-start",
+    "batch_isolation_required": true,
+    "checkpoint_resume_fail_closed": true,
+    "legacy_286_cleanup": "separate future task only",
+    "successful_initialization_handoff": "immediately enter incremental sync state; future CREATE forbidden"
+  },
+  "terminal_boundary": "Preparation is blocked. No writer window may be requested until all failed checks pass.",
+  "safety": {
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "writer_mutex_evidence_generation_allowed": false,
+    "legacy_286_touched": false,
+    "pilot_execution_count": 0,
+    "full_initialization_execution_count": 0
+  },
+  "decision_evidence_logical_sha256": "6d220f2a28a91a4fd64b169ebe0da71d646d86bf7bfd78676509b1d61d5dc134",
+  "machine_auditable_evidence_complete": true,
+  "generated_at": "2026-09-05T07:30:46.449748+00:00",
+  "protected_state_backup": {
+    "location": "/private/tmp/mikihouse-production-handoff-backups/20260905T073046Z-27608d8f9e05",
+    "git_external": true,
+    "file_count": 24,
+    "manifest_sha256": "63aa31e7908129022c7127b78a109ca966e272e4eba77f8b9f625a5543890dd6"
+  },
+  "historical_frozen_sources": [
+    {
+      "path": "config/shijiu_complex_live_batch.json",
+      "sha256": "8c557ba3dfc2665cb9311139b3f32269d5171ed8ccc0499a8209d4ebbb8730c9",
+      "product_number_count": 5
+    },
+    {
+      "path": "config/shijiu_complexity_bisection_batch.json",
+      "sha256": "2b682ccd0fa6d97165173b21ef7ac0f3ffa2dbf802f11db125d104173f3237d5",
+      "product_number_count": 10
+    },
+    {
+      "path": "config/shijiu_first_live_batch.json",
+      "sha256": "2df39983fded9c14b710c0ef24f381c9764e4e9b60b0027a6635aa67a5e2c39b",
+      "product_number_count": 20
+    },
+    {
+      "path": "config/shijiu_high_sku_14_probe.json",
+      "sha256": "a4a1694cf5f1e6061ae4f6259e51fa3d9cf46a0749963b0dbf5ee2dbb45e73b3",
+      "product_number_count": 10
+    },
+    {
+      "path": "config/shijiu_production_architecture_verification_single.json",
+      "sha256": "7a97d083563251ed0843736931cefe9017c8def28d517e5461ac6257282ac2d3",
+      "product_number_count": 28
+    },
+    {
+      "path": "config/shijiu_richtext_e2e_single.json",
+      "sha256": "5a561d6273a51b47502b0b1b74c5a2cd89d73d13c963574488611258fe700e24",
+      "product_number_count": 29
+    },
+    {
+      "path": "config/shijiu_staged_detail_html_single.json",
+      "sha256": "6837b7fb2a8d61c78668e0de92c9ee9b7258315afaab6330152bd923095ec47c",
+      "product_number_count": 27
+    },
+    {
+      "path": "config/shijiu_staged_rich_media_complete_single.json",
+      "sha256": "10b92967f59949c0dc89bd3a87ca57a5935105470f46b90d278acbe1702974e0",
+      "product_number_count": 26
+    },
+    {
+      "path": "config/shijiu_staged_rich_media_single.json",
+      "sha256": "7886fe4ccbdfa97c23eb8ae78d16c46d454b1e4994de325e1996a0f043b1cad3",
+      "product_number_count": 11
+    },
+    {
+      "path": "state/shijiu_canonical_create_checkpoint.json",
+      "sha256": "2e9ca267870c7a9169490608ebaf75a26cb03718a67d06202d9bb80c275e1132",
+      "product_number_count": 10
+    },
+    {
+      "path": "state/shijiu_complex_live_batch_checkpoint.json",
+      "sha256": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+      "product_number_count": 5
+    },
+    {
+      "path": "state/shijiu_complexity_bisection_checkpoint.json",
+      "sha256": "a4b2d04e1bc83f8e01a186be398e2e82d353dc848679d39303bd9790fe302a47",
+      "product_number_count": 2
+    },
+    {
+      "path": "state/shijiu_first_live_batch_checkpoint.json",
+      "sha256": "698946f001d8296a03500a24fe2b92306c259cd2668df830d25aeafc0d3a971d",
+      "product_number_count": 20
+    },
+    {
+      "path": "state/shijiu_first_product_recovery_checkpoint.json",
+      "sha256": "3424ef2f12eddce69003210b4518b99331d8c911578b75597b1fe20db09afc94",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_high_sku_14_probe_checkpoint.json",
+      "sha256": "fa6f0b06e701765f2ce1b99f1068db99cb1f8e81293a0457791f658f8c614ef3",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_minimal_create_probe_checkpoint.json",
+      "sha256": "d84c2b7c7188e10fff6b24d0c8893f0cb75d8e22ad37378c0dba91ae5adc629b",
+      "product_number_count": 10
+    },
+    {
+      "path": "state/shijiu_production_architecture_verification_checkpoint.json",
+      "sha256": "fe5dbd4d8b146002048ca26dd4a0902f3a349dc429c33bec2311fd31cd804941",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_richtext_e2e_checkpoint.json",
+      "sha256": "5428e6c776860370b06b24067424ebf80838a55e00d286511596fbd3f6fcb2ff",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_detail_html_single_checkpoint.json",
+      "sha256": "253cb21039f9856712f94133156375a93ccdd593300d49e4a5cdd75106f9aa29",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_rich_media_complete_single_checkpoint.json",
+      "sha256": "c66853d784872157f7a9c66f5dda970e1860a4cdb2131529ec87863d98fd8e16",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_rich_media_single_checkpoint.json",
+      "sha256": "6e9438ca457113d00823f726895b14cd9317a1f2755100c3b99f36797247c244",
+      "product_number_count": 1
+    },
+    {
+      "path": "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json",
+      "sha256": "89a41fa6edcec2f4a19d21e78397044e6a35e6dacdaf68bdf2d45bc08318769f",
+      "product_number_count": 20
+    }
+  ],
+  "outputs": {
+    "readiness": "deliverables/shijiu_initialization/production_handoff_readiness.json",
+    "resource_preflight": "deliverables/shijiu_initialization/production_handoff_resource_preflight.json",
+    "runbook": "deliverables/shijiu_initialization/production_handoff_runbook.md"
+  }
+}

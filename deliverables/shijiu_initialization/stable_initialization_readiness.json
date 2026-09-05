@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "generated_at": "2026-09-05T07:30:46.449748+00:00",
   "status": "INITIALIZATION_PLANS_READY_OFFLINE_EXECUTION_BLOCKED",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
@@ -8,18 +8,19 @@
   "target": "SHIJIU",
   "stable_catalog_is_only_source_of_truth": true,
   "freshness_guard": {
-    "stable_catalog_file_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac",
-    "stable_catalog_logical_sha256": "d1570ff10a997ff8e8183fa121c589538af6d10612ea3ccbebc73a15e2a2ed9a",
-    "source_snapshot_file_sha256": "0238345c30e276f4f26a062405c2091a56d6257c8d7e7690f6fda141d2a57bdc",
-    "source_snapshot_logical_sha256": "6f2c7b8ce4f46be6d432fcb246667cd2b19c19838283d79a83e706a6ae45b2f0",
-    "source_snapshot_captured_at": "2026-09-05T07:04:02.799287+00:00",
-    "stable_catalog_synced_at": "2026-09-05T07:04:02.799287+00:00",
+    "stable_catalog_file_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d",
+    "stable_catalog_logical_sha256": "980cc2a66913506bfabb394923ca689ed2d9586efabc6787d162654e5be501c1",
+    "source_snapshot_file_sha256": "c9f9c5059ecd9f9340522f83556f70b264fafe416aa3522abeabc7327bcf1142",
+    "source_snapshot_logical_sha256": "76970f51c3db3f8b08af91bdae80d80255e98e5b7911a3a825fc0bcb488afa18",
+    "source_snapshot_captured_at": "2026-09-05T07:30:46.449748+00:00",
+    "stable_catalog_synced_at": "2026-09-05T07:30:46.449748+00:00",
     "requires_new_complete_storefront_crawl_after_generated_at": true,
     "fail_closed_if_any_top_level_hash_changes": true,
     "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
     "stability_reclassification_before_any_target_mutation": true,
     "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
-    "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543"
+    "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
+    "price_policy_logical_sha256": "662a5cae44fba6506780ec2c9af775651fd8c10025d1b90c3b70538fb28a3076"
   },
   "new_pilot_plan": {
     "product_count": 20,

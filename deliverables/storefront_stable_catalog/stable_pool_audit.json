@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "generated_at": "2026-09-05T07:30:46.449748+00:00",
   "status": "COMPLETED_READ_ONLY_STOREFRONT",
   "source": "MIKIHOUSE_STOREFRONT",
   "target_write_status": "NOT_ATTEMPTED_PROHIBITED_CONCURRENT_WAWU_WRITER",
@@ -10366,7 +10366,7 @@
     "all_required_exclusions_passed": true
   },
   "crawl": {
-    "synced_at": "2026-09-05T07:04:02.799287+00:00",
+    "synced_at": "2026-09-05T07:30:46.449748+00:00",
     "api_request_count": 34,
     "product_page_count": 30,
     "extra_variant_page_count": 0,
@@ -10430,11 +10430,11 @@
     "stable_non_https_image_count": 0
   },
   "outputs": {
-    "local_stable_catalog": "output/storefront-stable/stable_catalog.json",
-    "tracked_stable_catalog_gzip": "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
-    "tracked_stable_catalog_gzip_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac",
-    "tracked_stable_catalog_gzip_size_bytes": 6345795,
-    "local_source_snapshot": "output/storefront-stable/source_catalog.json",
-    "local_incremental_changes": "output/storefront-stable/stable_incremental_changes.json"
+    "local_stable_catalog": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-stable/stable_catalog.json",
+    "tracked_stable_catalog_gzip": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/deliverables/storefront_stable_catalog/stable_catalog.json.gz",
+    "tracked_stable_catalog_gzip_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d",
+    "tracked_stable_catalog_gzip_size_bytes": 6345815,
+    "local_source_snapshot": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-stable/source_catalog.json",
+    "local_incremental_changes": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-stable/stable_incremental_changes.json"
   }
 }
