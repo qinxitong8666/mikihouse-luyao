@@ -32,7 +32,7 @@ GUARD = {
     "source": "MIKIHOUSE",
     "target": "SHIJIU",
     "minimum_tax_included_price_jpy": 1,
-    "maximum_tax_included_price_jpy": 1_000_000,
+    "maximum_tax_included_price_jpy": 2_000_000,
     "maximum_absolute_change_jpy": 50_000,
     "maximum_relative_change_ratio": 0.5,
 }
@@ -155,6 +155,22 @@ def test_normal_price_change_uses_65_percent_jpy_and_no_change_is_explicit() -> 
     _, _, unchanged, unchanged_actions = transition([before], [copy.deepcopy(before)])
     assert types(unchanged) == [NO_CHANGE]
     assert unchanged_actions == []
+
+
+def test_verified_1430000_source_price_is_valid_but_large_delta_still_requires_review() -> None:
+    unchanged = product(price=1_430_000)
+    _, _, events, actions = transition([unchanged], [copy.deepcopy(unchanged)])
+    assert types(events) == [NO_CHANGE]
+    assert actions == []
+
+    before = product(price=100_000)
+    after = product(price=1_430_000)
+    _, _, events, actions = transition([before], [after])
+    review = next(row for row in events if row["event_type"] == REVIEW_EVENT)
+    reasons = review["details"]["price_assessment"]["reasons"]
+    assert "absolute_price_change_exceeds_threshold" in reasons
+    assert "relative_price_change_exceeds_threshold" in reasons
+    assert not any(row["action_type"] == "UPDATE_PRICE" for row in actions)
 
 
 def test_new_stable_product_and_variant_plan_create_but_never_execute() -> None:

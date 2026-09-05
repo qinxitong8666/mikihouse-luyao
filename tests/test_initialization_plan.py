@@ -79,19 +79,19 @@ def test_full_plan_accounts_for_all_stable_products_and_has_no_target_requests()
     counts = plan["counts"]
     assert plan["status"] == "PLANNING_ONLY"
     assert plan["write_status"] == WRITE_BLOCKED_STATUS
-    assert counts["stable_catalog_product_count"] == 2434
-    assert counts["accounted_product_count"] == 2434
-    assert counts["planned_initial_create_product_count"] == 2385
+    assert counts["stable_catalog_product_count"] == 2435
+    assert counts["accounted_product_count"] == 2435
+    assert counts["planned_initial_create_product_count"] == 2387
     assert counts["already_mapped_handoff_count"] == 6
     assert counts["historical_frozen_count"] == 42
-    assert counts["initialization_review_required_count"] == 1
+    assert counts["initialization_review_required_count"] == 0
     assert counts["batch_count"] == 170
     assert (
         counts["planned_initial_create_product_count"]
         + counts["already_mapped_handoff_count"]
         + counts["historical_frozen_count"]
         + counts["initialization_review_required_count"]
-        == 2434
+        == 2435
     )
     assert sum(row["product_count"] for row in plan["batches"]) == len(plan["products"])
     assert plan["safety"]["shijiu_requests"] == 0
@@ -133,9 +133,9 @@ def test_every_planned_product_has_bounded_stages_and_variant_contract() -> None
 def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> None:
     audit = load("deliverables/shijiu_initialization/stable_initialization_data_quality_audit.json")
     capacity = load("deliverables/shijiu_initialization/stable_initialization_capacity_estimate.json")
-    assert audit["stable_catalog_product_count"] == 2434
-    assert audit["stable_catalog_variant_count"] == 13741
-    assert audit["stable_catalog_image_resource_count"] == 30138
+    assert audit["stable_catalog_product_count"] == 2435
+    assert audit["stable_catalog_variant_count"] == 13742
+    assert audit["stable_catalog_image_resource_count"] == 30145
     assert "DUPLICATE_PRODUCT_NAME" not in audit["quality_issue_counts"]
     assert audit["duplicate_good_name_identity_audit"]["duplicate_name_product_count"] == 1602
     assert audit["duplicate_good_name_identity_audit"][
@@ -150,10 +150,13 @@ def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> N
     assert capacity["safety"]["official_image_download_count"] == 0
     assert capacity["safety"]["shijiu_cos_upload_requests"] == 0
     price = load("deliverables/shijiu_initialization/price_outside_configured_range_audit.json")
-    assert price["outside_range_variant_count"] == 3
-    assert price["outside_range_product_count"] == 1
-    assert price["guard_changed"] is False
-    assert price["automatic_import_release_count"] == 0
+    assert price["outside_range_variant_count"] == 0
+    assert price["outside_range_product_count"] == 0
+    assert price["guard_changed"] is True
+    assert price["guard_change_scope"] == "SOURCE_ABSOLUTE_ELIGIBILITY_ONLY"
+    assert price["price_change_absolute_and_relative_guards_changed"] is False
+    assert price["automatic_import_release_count"] == 1
+    assert price["released_product_numbers"] == ["13-6671-684"]
 
 
 def _fixture_product() -> dict:

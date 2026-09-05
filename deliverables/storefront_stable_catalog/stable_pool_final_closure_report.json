@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "status": "COMPLETED_PLANNING_ONLY_STABLE_POOL_CLOSURE",
+  "mode": "PLANNING_ONLY",
+  "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "counts": {
+    "storefront_total_product_count": 2961,
+    "final_sellable_stable_product_count": 2435,
+    "stable_variant_count": 13742,
+    "stable_image_resource_count": 30145,
+    "pdf_special_list_manifest_count": 351,
+    "pdf_special_list_online_excluded_count": 311,
+    "pdf_special_list_offline_remembered_count": 40,
+    "web_exclusive_excluded_count": 186,
+    "limited_time_price_excluded_count": 2,
+    "non_sellable_service_or_addon_excluded_count": 27,
+    "review_required_stability_count": 0,
+    "initialization_review_required_count": 0,
+    "planned_initial_create_product_count": 2387,
+    "mapped_handoff_count": 6,
+    "historical_frozen_count": 42,
+    "initialization_batch_count": 170
+  },
+  "price_policy": {
+    "absolute_source_minimum_jpy": 1,
+    "absolute_source_maximum_jpy": 2000000,
+    "absolute_change_review_threshold_jpy": 50000,
+    "relative_change_review_threshold_ratio": 0.5,
+    "absolute_source_eligibility_and_change_guards_are_independent": true,
+    "verified_1430000_source_price_target_jpy": 929500
+  },
+  "resource_closure": {
+    "product_number": "46-8299-611",
+    "status": "VERIFIED_HTTPS_EQUIVALENT_APPLIED_TO_COMPLETE_CRAWL",
+    "content_hash_equal": true,
+    "current_non_https_ordered_resource_count": 0,
+    "mechanical_scheme_rewrite_allowed": false
+  },
+  "pilot_20": {
+    "product_count": 20,
+    "coverage": {
+      "apparel": 5,
+      "baby": 5,
+      "footwear": 5,
+      "goods": 5
+    },
+    "fresh_and_valid": true,
+    "execution_authorized": false,
+    "execution_count": 0
+  },
+  "initialization_plan_leak_audit": {
+    "pdf_special_product_numbers": [],
+    "web_exclusive_product_numbers": [],
+    "limited_time_price_product_numbers": [],
+    "review_required_stability_product_numbers": [],
+    "non_sellable_service_or_addon_product_numbers": [],
+    "zero_or_invalid_price_product_numbers": [],
+    "missing_required_media_product_numbers": [],
+    "all_forbidden_leak_product_numbers": [],
+    "passed": true
+  },
+  "safety": {
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "pilot_executed": false,
+    "legacy_286_touched": false
+  }
+}

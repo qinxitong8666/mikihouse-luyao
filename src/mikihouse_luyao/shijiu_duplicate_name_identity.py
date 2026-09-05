@@ -320,6 +320,7 @@ def audit_price_outside_configured_range(
     minimum_tax_included_price_jpy: int,
     maximum_tax_included_price_jpy: int,
 ) -> dict[str, Any]:
+    previous_absolute_maximum = 1_000_000
     rows: list[dict[str, Any]] = []
     products_by_number = {
         str(product.get("product_number")): product
@@ -365,6 +366,21 @@ def audit_price_outside_configured_range(
                 "interpretation": interpretation,
             })
     classifications = Counter(row["classification"] for row in rows)
+    source_ceiling_changed = (
+        minimum_tax_included_price_jpy == 1
+        and maximum_tax_included_price_jpy == 2_000_000
+    )
+    released_product_numbers = sorted({
+        str(product.get("product_number") or "")
+        for product in products_by_number.values()
+        if source_ceiling_changed
+        and any(
+            previous_absolute_maximum < int(variant["tax_included_price_jpy"])
+            <= maximum_tax_included_price_jpy
+            for variant in product.get("variants") or []
+            if variant.get("active", True)
+        )
+    })
     return {
         "configured_range": {
             "minimum_tax_included_price_jpy": minimum_tax_included_price_jpy,
@@ -373,7 +389,13 @@ def audit_price_outside_configured_range(
         "outside_range_variant_count": len(rows),
         "outside_range_product_count": len({row["product_number"] for row in rows}),
         "classification_counts": dict(sorted(classifications.items())),
-        "guard_changed": False,
-        "automatic_import_release_count": 0,
+        "guard_changed": source_ceiling_changed,
+        "guard_change_scope": "SOURCE_ABSOLUTE_ELIGIBILITY_ONLY" if source_ceiling_changed else "NONE",
+        "previous_maximum_tax_included_price_jpy": (
+            previous_absolute_maximum if source_ceiling_changed else maximum_tax_included_price_jpy
+        ),
+        "price_change_absolute_and_relative_guards_changed": False,
+        "automatic_import_release_count": len(released_product_numbers),
+        "released_product_numbers": released_product_numbers,
         "rows": rows,
     }

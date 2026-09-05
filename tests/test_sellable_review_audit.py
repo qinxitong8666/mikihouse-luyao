@@ -30,9 +30,10 @@ def test_non_sellable_manifest_matches_code_and_official_evidence_report() -> No
     assert set(report["non_sellable_service_or_addon_product_numbers"]) == expected
     assert report["official_page_audit_product_count"] == 28
     assert report["non_sellable_service_or_addon_count"] == 27
-    assert report["remaining_review_required_product_numbers"] == ["13-6671-684"]
+    assert report["status"] == "COMPLETED_OFFICIAL_READ_ONLY_STABLE_POOL_CLOSURE"
+    assert report["remaining_review_required_product_numbers"] == []
     assert report["stable_non_sellable_leak_product_numbers"] == []
-    assert report["final_sellable_stable_product_count"] == 2434
+    assert report["final_sellable_stable_product_count"] == 2435
     resolution = report["prior_27_review_resolution"]
     assert resolution["zero_price_source_data_product_count"] == 20
     assert resolution["zero_price_products_confirmed_non_sellable_count"] == 20
@@ -70,7 +71,7 @@ def test_non_sellable_manifest_matches_code_and_official_evidence_report() -> No
         assert row["disposition"] == "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
 
 
-def test_high_price_product_is_verified_but_guard_stays_unchanged() -> None:
+def test_high_price_product_is_verified_and_only_absolute_source_ceiling_changes() -> None:
     report = load(
         "deliverables/storefront_stable_catalog/sellable_review_resolution_audit.json"
     )
@@ -85,9 +86,39 @@ def test_high_price_product_is_verified_but_guard_stays_unchanged() -> None:
     assert high["official_page_has_normal_purchase_surface"] is True
     assert high["official_page_visible_promotion_markers"] == []
     assert high["official_page_visible_promotion_absent"] is True
-    assert high["source_price_upper_bound_current_jpy"] == 1_000_000
+    assert high["source_price_upper_bound_previous_jpy"] == 1_000_000
+    assert high["source_price_upper_bound_current_jpy"] == 2_000_000
     assert high["source_price_upper_bound_recommended_jpy"] == 2_000_000
-    assert high["guard_changed_this_round"] is False
+    assert high["guard_changed_this_round"] is True
+    assert high["released_from_initialization_review"] is True
+    assert high["price_change_guards_unchanged"] is True
+    assert high["absolute_price_change_guard_jpy"] == 50_000
+    assert high["relative_price_change_guard_ratio"] == 0.5
+    guard = load("config/shijiu_price_guard.json")
+    assert guard["minimum_tax_included_price_jpy"] == 1
+    assert guard["maximum_tax_included_price_jpy"] == 2_000_000
+    assert guard["maximum_absolute_change_jpy"] == 50_000
+    assert guard["maximum_relative_change_ratio"] == 0.5
+
+
+def test_verified_https_resource_equivalence_is_exact_and_zero_write() -> None:
+    report = load(
+        "deliverables/storefront_stable_catalog/verified_https_resource_audit_46-8299-611.json"
+    )
+    assert report["status"] == "VERIFIED_HTTPS_EQUIVALENT_APPLIED_TO_COMPLETE_CRAWL"
+    assert report["product_number"] == "46-8299-611"
+    assert report["entered_stable_sellable_catalog"] is True
+    assert report["current_non_https_ordered_resource_count"] == 0
+    assert report["mechanical_scheme_rewrite_allowed"] is False
+    evidence = report["equivalence_evidence"]
+    assert evidence["http_observation"]["status"] == 200
+    assert evidence["https_observation"]["status"] == 200
+    assert evidence["http_observation"]["content_type"] == "image/gif"
+    assert evidence["http_observation"]["content_sha256"] == evidence[
+        "https_observation"
+    ]["content_sha256"]
+    assert evidence["content_hash_equal"] is True
+    assert report["safety"]["shijiu_requests"] == 0
 
 
 def test_visible_promotion_parser_ignores_generic_shopify_sale_css_classes() -> None:
@@ -125,12 +156,10 @@ def test_resolution_summary_and_initialization_plan_are_zero_leak_planning_only(
     )
     plan = load("deliverables/shijiu_initialization/stable_initialization_batch_plan.json.gz")
     assert summary["status"] == "COMPLETED_PLANNING_ONLY_SELLABLE_INITIALIZATION_RESOLUTION"
-    assert summary["final_sellable_stable_product_count"] == 2434
+    assert summary["final_sellable_stable_product_count"] == 2435
     assert summary["non_sellable_service_or_addon"]["count"] == 27
-    assert summary["remaining_initialization_review_required"]["count"] == 1
-    assert summary["remaining_initialization_review_required"]["products"][0][
-        "product_number"
-    ] == "13-6671-684"
+    assert summary["remaining_initialization_review_required"]["count"] == 0
+    assert summary["remaining_initialization_review_required"]["products"] == []
     assert summary["initialization_counts"] == plan["counts"]
     assert summary["pilot_20"] == {
         "product_count": 20,
@@ -152,3 +181,34 @@ def test_resolution_summary_and_initialization_plan_are_zero_leak_planning_only(
     assert safety["shijiu_update_requests"] == 0
     assert safety["shijiu_cos_upload_requests"] == 0
     assert safety["writer_mutex_evidence_generated"] is False
+
+
+def test_final_stable_pool_closure_report_is_complete_and_write_blocked() -> None:
+    report = load(
+        "deliverables/storefront_stable_catalog/stable_pool_final_closure_report.json"
+    )
+    assert report["status"] == "COMPLETED_PLANNING_ONLY_STABLE_POOL_CLOSURE"
+    assert report["mode"] == "PLANNING_ONLY"
+    assert report["write_status"] == "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER"
+    assert report["counts"] == {
+        "storefront_total_product_count": 2961,
+        "final_sellable_stable_product_count": 2435,
+        "stable_variant_count": 13742,
+        "stable_image_resource_count": 30145,
+        "pdf_special_list_manifest_count": 351,
+        "pdf_special_list_online_excluded_count": 311,
+        "pdf_special_list_offline_remembered_count": 40,
+        "web_exclusive_excluded_count": 186,
+        "limited_time_price_excluded_count": 2,
+        "non_sellable_service_or_addon_excluded_count": 27,
+        "review_required_stability_count": 0,
+        "initialization_review_required_count": 0,
+        "planned_initial_create_product_count": 2387,
+        "mapped_handoff_count": 6,
+        "historical_frozen_count": 42,
+        "initialization_batch_count": 170,
+    }
+    assert report["pilot_20"]["fresh_and_valid"] is True
+    assert report["initialization_plan_leak_audit"]["passed"] is True
+    assert report["safety"]["shijiu_requests"] == 0
+    assert report["safety"]["writer_mutex_evidence_generated"] is False

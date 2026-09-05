@@ -680,20 +680,22 @@ def build_initialization_plans(
             raise InitializationPlanError("duplicate good_name read-only evidence is not safe/passed")
     if sellable_review_audit is not None:
         sellable_safety = sellable_review_audit.get("safety") or {}
+        high_price_evidence = sellable_review_audit.get("high_price_verification") or {}
+        resource_evidence = sellable_review_audit.get("verified_https_resource_closure") or {}
         if (
             sellable_review_audit.get("status")
-            != "COMPLETED_OFFICIAL_READ_ONLY_REVIEW_RESOLUTION"
+            != "COMPLETED_OFFICIAL_READ_ONLY_STABLE_POOL_CLOSURE"
             or sellable_review_audit.get("non_sellable_service_or_addon_count") != 27
-            or sellable_review_audit.get("remaining_review_required_count") != 1
+            or sellable_review_audit.get("remaining_review_required_count") != 0
             or sellable_review_audit.get("stable_non_sellable_leak_product_numbers") != []
-            or (sellable_review_audit.get("high_price_verification") or {}).get(
-                "verified_real_high_price_product"
-            )
-            is not True
-            or (sellable_review_audit.get("high_price_verification") or {}).get(
-                "guard_changed_this_round"
-            )
-            is not False
+            or high_price_evidence.get("verified_real_high_price_product") is not True
+            or high_price_evidence.get("guard_changed_this_round") is not True
+            or high_price_evidence.get("released_from_initialization_review") is not True
+            or high_price_evidence.get("price_change_guards_unchanged") is not True
+            or high_price_evidence.get("source_price_upper_bound_current_jpy") != 2_000_000
+            or resource_evidence.get("status")
+            != "VERIFIED_HTTPS_EQUIVALENT_APPLIED_TO_COMPLETE_CRAWL"
+            or resource_evidence.get("entered_stable_sellable_catalog") is not True
             or sellable_safety.get("shijiu_create_requests") != 0
             or sellable_safety.get("shijiu_update_requests") != 0
             or sellable_safety.get("shijiu_cos_upload_requests") != 0
@@ -1246,7 +1248,11 @@ def build_initialization_plans(
         "price_range_audit": {
             "schema_version": PLAN_SCHEMA_VERSION,
             "generated_at": generated_at,
-            "status": "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_GUARD_UNCHANGED",
+            "status": (
+                "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_SOURCE_CEILING_UPDATED"
+                if price_range_audit.get("guard_changed")
+                else "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_GUARD_UNCHANGED"
+            ),
             "mode": PLANNING_STATUS,
             "write_status": WRITE_BLOCKED_STATUS,
             "source": SOURCE,

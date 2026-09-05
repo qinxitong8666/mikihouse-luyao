@@ -30,7 +30,7 @@ def test_checked_in_stable_catalog_matches_online_audit_and_has_zero_rule_leaks(
     assert catalog["schema_version"] == 3
     assert catalog["catalog_kind"] == "MIKIHOUSE_STABLE_REGULAR_PRODUCT_POOL"
     assert catalog["shijiu_action_source_required"] == "stable_catalog"
-    assert len(products) == counts["stable_catalog_product_count"] == 2434
+    assert len(products) == counts["stable_catalog_product_count"] == 2435
     assert sum(len(row["variants"]) for row in products) == counts["stable_catalog_variant_count"]
     assert sum(len(row["image_resources"]) for row in products) == counts["stable_catalog_image_resource_count"]
     assert not ({row["product_number"] for row in products} & special)
@@ -74,8 +74,8 @@ def test_audit_counts_partition_complete_storefront_and_record_zero_shijiu_write
     assert counts["pdf_special_list_manifest_count"] == 351
     assert counts["pdf_special_list_offline_remembered_count"] == 40
     assert report["old_candidate_pool_comparison"]["actual_old_active_pool_count"] == 2615
-    assert report["old_candidate_pool_comparison"]["stable_count_delta_vs_2615"] == -181
-    assert report["old_candidate_pool_comparison"]["stable_count_delta_vs_2608"] == -174
+    assert report["old_candidate_pool_comparison"]["stable_count_delta_vs_2615"] == -180
+    assert report["old_candidate_pool_comparison"]["stable_count_delta_vs_2608"] == -173
     safety = report["shijiu_safety"]
     assert safety["operator_reported_concurrent_writer"] == "WAWU"
     assert safety["writer_mutex_evidence_generated"] is False

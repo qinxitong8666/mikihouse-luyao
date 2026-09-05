@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
   "status": "COMPLETED_OFFLINE_DUPLICATE_GOOD_NAME_AUDIT",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
-  "stable_catalog_product_count": 2434,
+  "stable_catalog_product_count": 2435,
   "duplicate_name_group_count": 254,
   "duplicate_name_product_count": 1602,
   "group_size_distribution": {

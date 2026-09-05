@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
   "status": "COMPLETED_READ_ONLY_STOREFRONT",
   "source": "MIKIHOUSE_STOREFRONT",
   "target_write_status": "NOT_ATTEMPTED_PROHIBITED_CONCURRENT_WAWU_WRITER",
@@ -36,10 +36,10 @@
     "web_exclusive_excluded_count": 186,
     "limited_time_price_excluded_count": 2,
     "non_sellable_service_or_addon_excluded_count": 27,
-    "review_required_stability_count": 1,
-    "stable_catalog_product_count": 2434,
-    "stable_catalog_variant_count": 13741,
-    "stable_catalog_image_resource_count": 30138
+    "review_required_stability_count": 0,
+    "stable_catalog_product_count": 2435,
+    "stable_catalog_variant_count": 13742,
+    "stable_catalog_image_resource_count": 30145
   },
   "excluded": {
     "PDF_SPECIAL_LIST": [
@@ -9191,28 +9191,7 @@
         "product_url": "https://www.mikihouse.co.jp/products/99-9999-122"
       }
     ],
-    "REVIEW_REQUIRED_STABILITY": [
-      {
-        "product_number": "46-8299-611",
-        "name": "ゴア羽毛ふとんセット",
-        "status": "REVIEW_REQUIRED_STABILITY",
-        "excluded_reason": "REVIEW_REQUIRED_STABILITY",
-        "evidence": [
-          {
-            "reason": "REVIEW_REQUIRED_STABILITY",
-            "matched_fields": [
-              "ordered_images.image.url"
-            ],
-            "signal": "non_https_or_unqualified_official_image_resource",
-            "affected_resource_count": 1,
-            "source_url_sha256": [
-              "5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9"
-            ]
-          }
-        ],
-        "product_url": "https://www.mikihouse.co.jp/products/46-8299-611"
-      }
-    ]
+    "REVIEW_REQUIRED_STABILITY": []
   },
   "potential_unstable_labels_not_excluded": [
     {
@@ -9248,10 +9227,10 @@
       2615,
       2608
     ],
-    "stable_count_delta_vs_2615": -181,
-    "stable_count_delta_vs_2608": -174,
+    "stable_count_delta_vs_2615": -180,
+    "stable_count_delta_vs_2608": -173,
     "actual_old_active_pool_count": 2615,
-    "removed_from_old_pool_count": 215,
+    "removed_from_old_pool_count": 214,
     "removed_from_old_pool": [
       {
         "product_number": "00-1000-028",
@@ -10062,10 +10041,6 @@
         "reason": "WEB_EXCLUSIVE"
       },
       {
-        "product_number": "46-8299-611",
-        "reason": "REVIEW_REQUIRED_STABILITY"
-      },
-      {
         "product_number": "49-1029-737",
         "reason": "NON_SELLABLE_SERVICE_OR_ADDON"
       },
@@ -10391,7 +10366,7 @@
     "all_required_exclusions_passed": true
   },
   "crawl": {
-    "synced_at": "2026-09-05T05:06:17.371853+00:00",
+    "synced_at": "2026-09-05T07:04:02.799287+00:00",
     "api_request_count": 34,
     "product_page_count": 30,
     "extra_variant_page_count": 0,
@@ -10401,7 +10376,23 @@
     "excluded_special_product_count": 0,
     "excluded_special_product_numbers": [],
     "excluded_special_not_present_count": 0,
-    "excluded_special_not_present_product_numbers": []
+    "excluded_special_not_present_product_numbers": [],
+    "verified_https_image_normalization": {
+      "policy": "exact_product_and_source_url_allowlist_only",
+      "arbitrary_scheme_rewrite_forbidden": true,
+      "verified_entry_count": 1,
+      "applied_product_count": 1,
+      "results": [
+        {
+          "product_number": "46-8299-611",
+          "source_url_sha256": "5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9",
+          "canonical_https_url_sha256": "d6785fad369eb63bd2ad2125f43417acaaadd625a88a93a134d5d3d360154ecc",
+          "verified_content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+          "status": "APPLIED_EXACT_VERIFIED_EQUIVALENT",
+          "replacement_occurrence_count": 3
+        }
+      ]
+    }
   },
   "storefront_contract": {
     "product_fields_inspected": [
@@ -10432,7 +10423,8 @@
     "product_source_content_sha256": "sha256 of normalized nonvolatile product data",
     "shijiu_cos_upload_count": 0,
     "stable_source_image_domain_counts": {
-      "cdn.shopify.com": 30114,
+      "cdn.shopify.com": 30120,
+      "image.rakuten.co.jp": 1,
       "img.mksk.me": 24
     },
     "stable_non_https_image_count": 0
@@ -10440,8 +10432,8 @@
   "outputs": {
     "local_stable_catalog": "output/storefront-stable/stable_catalog.json",
     "tracked_stable_catalog_gzip": "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
-    "tracked_stable_catalog_gzip_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82",
-    "tracked_stable_catalog_gzip_size_bytes": 6343149,
+    "tracked_stable_catalog_gzip_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac",
+    "tracked_stable_catalog_gzip_size_bytes": 6345795,
     "local_source_snapshot": "output/storefront-stable/source_catalog.json",
     "local_incremental_changes": "output/storefront-stable/stable_incremental_changes.json"
   }

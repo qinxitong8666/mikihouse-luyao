@@ -26,6 +26,7 @@ from .scraper import ScrapeError
 
 
 STABLE_CATALOG_SCHEMA_VERSION = 2
+VERIFIED_HTTPS_EQUIVALENTS_SCHEMA_VERSION = 1
 STABLE = "STABLE"
 EXCLUDED = "EXCLUDED"
 REVIEW_REQUIRED = "REVIEW_REQUIRED_STABILITY"
@@ -100,6 +101,141 @@ _AMBIGUOUS_WEB_TAGS = frozenset({"webitem", "webアイテム"})
 _AMBIGUOUS_LIMITED_RE = re.compile(r"期間\s*限定|キャンペーン|値下げ", re.IGNORECASE)
 _POTENTIAL_UNSTABLE_RE = re.compile(r"予約|受注|オーダー|pre[\s_-]*order", re.IGNORECASE)
 _URL_RE = re.compile(r"https?://\S+", re.IGNORECASE)
+
+
+def load_verified_https_image_equivalents(path: Path) -> dict[str, dict[str, Any]]:
+    """Load exact, content-verified HTTP resource replacements.
+
+    This is intentionally not a generic scheme upgrader.  Every replacement is
+    bound to one product number and one exact source URL, and its checked-in
+    evidence must prove byte, MIME and decoded-dimension equivalence.
+    """
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != VERIFIED_HTTPS_EQUIVALENTS_SCHEMA_VERSION:
+        raise ValueError("unsupported verified HTTPS image-equivalent schema")
+    if payload.get("status") != "VERIFIED_OFFICIAL_READ_ONLY_CONTENT_EQUIVALENCE":
+        raise ValueError("HTTPS image-equivalent evidence is not verified")
+    result: dict[str, dict[str, Any]] = {}
+    for row in payload.get("entries") or []:
+        product_number = str(row.get("product_number") or "").strip()
+        source = str(row.get("source_url") or "").strip()
+        target = str(row.get("canonical_https_url") or "").strip()
+        source_parsed = urllib.parse.urlparse(source)
+        target_parsed = urllib.parse.urlparse(target)
+        source_observation = row.get("http_observation") or {}
+        target_observation = row.get("https_observation") or {}
+        valid = all((
+            product_number,
+            source_parsed.scheme.casefold() == "http",
+            target_parsed.scheme.casefold() == "https",
+            source_parsed.hostname == target_parsed.hostname,
+            source_parsed.path == target_parsed.path,
+            row.get("same_official_host_and_path") is True,
+            row.get("official_storefront_structured_resource_observed") is True,
+            row.get("content_hash_equal") is True,
+            row.get("mime_equal") is True,
+            row.get("decoded_dimensions_equal") is True,
+            source_observation.get("status") == 200,
+            target_observation.get("status") == 200,
+            str(source_observation.get("content_type") or "").startswith("image/"),
+            source_observation.get("content_type") == target_observation.get("content_type"),
+            source_observation.get("byte_count") == target_observation.get("byte_count"),
+            source_observation.get("content_sha256") == target_observation.get("content_sha256"),
+            source_observation.get("decoded_width") == target_observation.get("decoded_width"),
+            source_observation.get("decoded_height") == target_observation.get("decoded_height"),
+            hashlib.sha256(source.encode("utf-8")).hexdigest() == row.get("source_url_sha256"),
+            hashlib.sha256(target.encode("utf-8")).hexdigest()
+            == row.get("canonical_https_url_sha256"),
+        ))
+        if not valid:
+            raise ValueError(f"invalid HTTPS image-equivalent evidence: {product_number or source}")
+        key = f"{product_number}\n{source}"
+        if key in result:
+            raise ValueError(f"duplicate HTTPS image-equivalent evidence: {product_number}")
+        result[key] = copy.deepcopy(row)
+    return result
+
+
+def apply_verified_https_image_equivalents(
+    products: list[dict[str, Any]], equivalents: dict[str, dict[str, Any]]
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Apply only exact pre-verified replacements and retain provenance."""
+    normalized = copy.deepcopy(products)
+    applied: list[dict[str, Any]] = []
+
+    def replace(value: Any, source: str, target: str) -> tuple[Any, int]:
+        if isinstance(value, dict):
+            count = 0
+            updated = {}
+            for key, child in value.items():
+                if key == "verified_https_image_normalizations":
+                    updated[key] = child
+                    continue
+                updated[key], child_count = replace(child, source, target)
+                count += child_count
+            return updated, count
+        if isinstance(value, list):
+            count = 0
+            updated_list = []
+            for child in value:
+                updated_child, child_count = replace(child, source, target)
+                updated_list.append(updated_child)
+                count += child_count
+            return updated_list, count
+        if isinstance(value, str) and source in value:
+            return value.replace(source, target), value.count(source)
+        return value, 0
+
+    by_number = {str(row.get("product_number") or ""): row for row in normalized}
+    for key, evidence in sorted(equivalents.items()):
+        product_number, source = key.split("\n", 1)
+        product = by_number.get(product_number)
+        if product is None:
+            applied.append({
+                "product_number": product_number,
+                "source_url_sha256": evidence["source_url_sha256"],
+                "status": "NOT_PRESENT_IN_CURRENT_COMPLETE_CRAWL",
+                "replacement_occurrence_count": 0,
+            })
+            continue
+        target = evidence["canonical_https_url"]
+        updated, count = replace(product, source, target)
+        if count <= 0:
+            applied.append({
+                "product_number": product_number,
+                "source_url_sha256": evidence["source_url_sha256"],
+                "status": "SOURCE_URL_NOT_PRESENT_NO_REWRITE_NEEDED",
+                "replacement_occurrence_count": 0,
+            })
+            continue
+        updated.setdefault("verified_https_image_normalizations", []).append({
+            "source_url_sha256": evidence["source_url_sha256"],
+            "canonical_https_url": target,
+            "canonical_https_url_sha256": evidence["canonical_https_url_sha256"],
+            "verified_content_sha256": evidence["https_observation"]["content_sha256"],
+            "replacement_occurrence_count": count,
+        })
+        product.clear()
+        product.update(updated)
+        applied.append({
+            "product_number": product_number,
+            "source_url_sha256": evidence["source_url_sha256"],
+            "canonical_https_url_sha256": evidence["canonical_https_url_sha256"],
+            "verified_content_sha256": evidence["https_observation"]["content_sha256"],
+            "status": "APPLIED_EXACT_VERIFIED_EQUIVALENT",
+            "replacement_occurrence_count": count,
+        })
+    return normalized, {
+        "policy": "exact_product_and_source_url_allowlist_only",
+        "arbitrary_scheme_rewrite_forbidden": True,
+        "verified_entry_count": len(equivalents),
+        "applied_product_count": sum(
+            row["status"] == "APPLIED_EXACT_VERIFIED_EQUIVALENT" for row in applied
+        ),
+        "results": applied,
+    }
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -731,6 +867,9 @@ def run_stable_catalog_sync(
     timeout: float = 30,
     retries: int = 2,
     max_pages: int = 1000,
+    verified_https_equivalents_path: Path | None = Path(
+        "config/mikihouse_verified_https_image_equivalents.json"
+    ),
 ) -> dict[str, Any]:
     special = set(read_product_numbers(special_path))
     if len(special) != 351:
@@ -746,6 +885,15 @@ def run_stable_catalog_sync(
         set(), page_size=page_size, delay=delay, timeout=timeout, retries=retries,
         max_pages=max_pages,
     )
+    equivalents = (
+        load_verified_https_image_equivalents(verified_https_equivalents_path)
+        if verified_https_equivalents_path is not None
+        else {}
+    )
+    source_products, normalization_report = apply_verified_https_image_equivalents(
+        source_products, equivalents
+    )
+    fetch_stats["verified_https_image_normalization"] = normalization_report
     captured_at = fetch_stats["synced_at"]
     partition = partition_stable_catalog(source_products, special, captured_at)
     stable_current = partition["stable_products"]
@@ -795,6 +943,7 @@ def run_stable_catalog_sync(
         "catalog_kind": "MIKIHOUSE_COMPLETE_STOREFRONT_SOURCE_SNAPSHOT",
         "captured_at": captured_at,
         "complete_pagination_validated": True,
+        "verified_https_image_normalization": normalization_report,
         "products": source_products,
     }
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -845,6 +994,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--timeout", type=float, default=30)
     parser.add_argument("--retries", type=int, default=2)
     parser.add_argument("--max-pages", type=int, default=1000)
+    parser.add_argument(
+        "--verified-https-equivalents",
+        type=Path,
+        default=Path("config/mikihouse_verified_https_image_equivalents.json"),
+        help="exact content-verified official HTTP-to-HTTPS image equivalence manifest",
+    )
     return parser
 
 
@@ -861,6 +1016,7 @@ def main(argv: list[str] | None = None) -> int:
             timeout=args.timeout,
             retries=args.retries,
             max_pages=args.max_pages,
+            verified_https_equivalents_path=args.verified_https_equivalents,
         )
     except (OSError, ValueError, ScrapeError) as exc:
         raise SystemExit(f"stable catalog sync failed: {exc}") from exc

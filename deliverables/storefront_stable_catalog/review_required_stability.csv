@@ -1,2 +1,1 @@
 ﻿product_number,name,status,excluded_reason,evidence_json,product_url
-46-8299-611,ゴア羽毛ふとんセット,REVIEW_REQUIRED_STABILITY,REVIEW_REQUIRED_STABILITY,"[{""reason"":""REVIEW_REQUIRED_STABILITY"",""matched_fields"":[""ordered_images.image.url""],""signal"":""non_https_or_unqualified_official_image_resource"",""affected_resource_count"":1,""source_url_sha256"":[""5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9""]}]",https://www.mikihouse.co.jp/products/46-8299-611

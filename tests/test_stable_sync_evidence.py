@@ -25,12 +25,11 @@ def test_persisted_source_state_matches_complete_stable_catalog_baseline() -> No
     assert len(state["products"]) == 2961
     statuses = Counter(row["stability_status"] for row in state["products"].values())
     assert statuses == {
-        "STABLE": 2434,
+        "STABLE": 2435,
         "PDF_SPECIAL_LIST": 311,
         "WEB_EXCLUSIVE": 186,
         "LIMITED_TIME_PRICE": 2,
         "NON_SELLABLE_SERVICE_OR_ADDON": 27,
-        "REVIEW_REQUIRED_STABILITY": 1,
     }
     assert sum(len(row["variants"]) for row in state["products"].values()) == 18533
     assert state["permanent_exclusions"]["PDF_SPECIAL_LIST"]["count"] == 351
@@ -49,7 +48,8 @@ def test_real_offline_replay_and_target_write_safety_are_recorded() -> None:
     assert report["idempotent_replay_produced_no_new_events"] is True
     assert report["counts"]["new_event_count"] == 0
     assert report["counts"]["new_action_count"] == 0
-    assert report["counts"]["pending_action_event_count"] == 0
+    assert report["counts"]["pending_action_event_count"] == 1
+    assert report["counts"]["pending_action_counts"] == {"CREATE_PRODUCT": 1}
     assert all(value == 0 for key, value in report["safety"].items() if key.endswith("requests") or key.endswith("writes"))
     assert report["safety"]["legacy_286_touched"] is False
     assert report["safety"]["writer_mutex_evidence_generated"] is False

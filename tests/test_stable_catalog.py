@@ -12,7 +12,9 @@ from mikihouse_luyao.stable_catalog import (
     REVIEW_REQUIRED,
     STABLE,
     WEB_EXCLUSIVE,
+    apply_verified_https_image_equivalents,
     assess_product_stability,
+    load_verified_https_image_equivalents,
     partition_stable_catalog,
 )
 
@@ -103,6 +105,61 @@ def test_non_https_image_resource_requires_review_before_shijiu_planning() -> No
     decision = assess_product_stability(item, set())
     assert decision["status"] == REVIEW_REQUIRED
     assert decision["evidence"][0]["signal"] == "non_https_or_unqualified_official_image_resource"
+
+
+def test_only_exact_content_verified_http_resource_is_normalized(tmp_path) -> None:
+    source = "http://image.example.invalid/detail.gif"
+    target = "https://image.example.invalid/detail.gif"
+    import hashlib
+    import json
+
+    content_hash = "a" * 64
+    evidence = {
+        "schema_version": 1,
+        "status": "VERIFIED_OFFICIAL_READ_ONLY_CONTENT_EQUIVALENCE",
+        "entries": [{
+            "product_number": "20-0001-001",
+            "source_url": source,
+            "canonical_https_url": target,
+            "source_url_sha256": hashlib.sha256(source.encode()).hexdigest(),
+            "canonical_https_url_sha256": hashlib.sha256(target.encode()).hexdigest(),
+            "same_official_host_and_path": True,
+            "official_storefront_structured_resource_observed": True,
+            "http_observation": {
+                "status": 200, "content_type": "image/gif", "byte_count": 10,
+                "content_sha256": content_hash, "decoded_width": 20, "decoded_height": 10,
+            },
+            "https_observation": {
+                "status": 200, "content_type": "image/gif", "byte_count": 10,
+                "content_sha256": content_hash, "decoded_width": 20, "decoded_height": 10,
+            },
+            "content_hash_equal": True,
+            "mime_equal": True,
+            "decoded_dimensions_equal": True,
+        }],
+    }
+    path = tmp_path / "verified.json"
+    path.write_text(json.dumps(evidence), encoding="utf-8")
+    item = product()
+    item["ordered_images"][0]["image"]["url"] = source
+    item["description_html"] = f'<img src="{source}">'
+    normalized, report = apply_verified_https_image_equivalents(
+        [item], load_verified_https_image_equivalents(path)
+    )
+    assert normalized[0]["ordered_images"][0]["image"]["url"] == target
+    assert target in normalized[0]["description_html"]
+    assert report["applied_product_count"] == 1
+    assert assess_product_stability(normalized[0], set())["status"] == STABLE
+
+
+def test_unverified_http_resource_is_never_mechanically_upgraded() -> None:
+    item = product()
+    source = "http://image.example.invalid/detail.gif"
+    item["ordered_images"][0]["image"]["url"] = source
+    normalized, report = apply_verified_https_image_equivalents([item], {})
+    assert normalized[0]["ordered_images"][0]["image"]["url"] == source
+    assert report["applied_product_count"] == 0
+    assert assess_product_stability(normalized[0], set())["status"] == REVIEW_REQUIRED
 
 
 def test_pdf_special_has_highest_priority() -> None:

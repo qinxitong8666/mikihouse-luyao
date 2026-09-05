@@ -237,9 +237,9 @@ PYTHONPATH=src .venv/bin/python scripts/sync_stable_catalog.py
 
 主库 schema 从2升级为3，只新增 nullable `compare_at_price_jpy`。读取旧schema 2时缺失值按 `null` 兼容；第一次用新抓取结果合并会明确记录 compare-at 字段变化，不会改变 `product_number`、`product_number::variant SKU`、历史 active/inactive 或65折JPY语义。
 
-每个稳定商品保留全部 variant 的税入JPY、65折JPY、颜色、尺码、库存、variant图，完整有序主图/gallery/详情资源，符合 Shijiu richtext contract 的轻量 `shijiu_good_details`，抓取时间和规范化内容 SHA-256。图片本轮不下载到 Git、不上传 COS；资源清单保存官方 source URL、URL SHA-256 和有序描述符 SHA-256，明确不把它们冒充图片文件内容 hash。
+每个稳定商品保留全部 variant 的税入JPY、65折JPY、颜色、尺码、库存、variant图，完整有序主图/gallery/详情资源，符合 Shijiu richtext contract 的轻量 `shijiu_good_details`，抓取时间和规范化内容 SHA-256。图片不批量下载到 Git、不上传 COS；资源清单保存官方 source URL、URL SHA-256 和有序描述符 SHA-256，明确不把它们冒充图片文件内容 hash。唯一旧HTTP资源只能通过 `config/mikihouse_verified_https_image_equivalents.json` 的“精确品番+精确URL+已验证内容hash”白名单规范化，禁止通用字符串替换。
 
-2026-09-05 的真实只读全站结果为：官网2961件；在线PDF特殊311件、离线永久记忆40件；另排除WEB限定186件、明确促销价格2件、非独立销售服务/附加项27件；`46-8299-611` 因官网详情仍含一个非HTTPS旧图片资源进入稳定性复核。最终可售稳定池2434件/13741 variants/30138个有序去重图片资源，相对旧2615件候选池减少181件。全部禁止类型、0价和缺图商品均为初始化计划零泄漏；完整证据见 `deliverables/storefront_stable_catalog/stable_pool_audit.json` 及 `sellable_review_resolution_audit.json`。
+2026-09-05 最新真实只读全站结果为：官网2961件；在线PDF特殊311件、离线永久记忆40件；另排除WEB限定186件、明确促销价格2件、非独立销售服务/附加项27件，稳定性复核0件。`46-8299-611` 的唯一旧HTTP详情图与同host/path的HTTPS响应均为200 `image/gif`、4925 bytes、可解码200×71，内容SHA-256完全一致，因此仅该精确资源被规范化并回归稳定池。最终可售稳定池2435件/13742 variants/30145个有序去重图片资源，相对旧2615件候选池减少180件。全部禁止类型、0价和缺图商品均为初始化计划零泄漏；完整证据见 `deliverables/storefront_stable_catalog/stable_pool_audit.json`、`sellable_review_resolution_audit.json` 及 `verified_https_resource_audit_46-8299-611.json`。
 
 ### 稳定池自动增量规划
 
@@ -253,7 +253,7 @@ PYTHONPATH=src .venv/bin/python scripts/sync_mikihouse_cycle.py --trigger manual
 
 真实定时运行与手动运行共用同一核心，只需增加 `--refresh-storefront` 先完成官网全量只读 crawl。无论 trigger 为何，当前实现都在 `PLANNING_ONLY` 硬停止，没有 action execution 开关。输出为 `normalized_events.json`、`shijiu_action_plan.json` 和 `sync_cycle_report.json`，所有 action 均标记 `execution_allowed=false`。
 
-本轮用上述2961件完整快照建立基线，包含18533个variants。对同一快照连续重放后是0个新事件、0个动作，`idempotent_replay_produced_no_new_events=true`。Shijiu/COS/上下架/价格库存写入均为0，未生成writer mutex evidence，未触碰legacy286。脱敏结果见 `deliverables/storefront_stable_catalog/sync_cycle_planning_report.json`、`future_automatic_sync_readiness.json` 和 `offline_incremental_sync_rehearsal.json`。
+本轮用上述2961件完整快照刷新状态，包含18533个variants。对同一快照连续重放后是0个新事件、0个新动作，`idempotent_replay_produced_no_new_events=true`；`46-8299-611` 新进入稳定池所产生的1个 `CREATE_PRODUCT` 仍只是不可执行的pending离线计划。Shijiu/COS/上下架/价格库存写入均为0，未生成writer mutex evidence，未触碰legacy286。脱敏结果见 `deliverables/storefront_stable_catalog/sync_cycle_planning_report.json`、`future_automatic_sync_readiness.json` 和 `offline_incremental_sync_rehearsal.json`。
 
 ## Shijiu importer discovery 与 dry-run
 
@@ -886,22 +886,32 @@ PYTHONPATH=src .venv/bin/python scripts/plan_shijiu_stable_initialization.py
 - `stable_pilot_20_frozen_plan.json`：当前stable pool中新选的20件代表性冻结pilot，footwear/apparel/baby/goods各5件；
 - `stable_initialization_batch_plan.json.gz`：逐商品stage、variant、资源manifest及分层批次的完整计划；
 - `stable_initialization_batch_summary.json`：按简单、普通、多SKU、富媒体、高复杂度排序的批次摘要；
-- `stable_initialization_data_quality_audit.json`：2434件可售稳定商品的价格、variant、图片、名称、SKU与identity审计；
+- `stable_initialization_data_quality_audit.json`：2435件可售稳定商品的价格、variant、图片、名称、SKU与identity审计；
 - `duplicate_good_name_offline_audit.json`：重复名称组、完整backend SKU集合唯一性及理论解锁数量；
 - `duplicate_good_name_shijiu_readonly_validation.json`：10组真实UI-context只读候选和强身份验证；
-- `price_outside_configured_range_audit.json`：排除服务项后3个越界variant的真实高价分类，保持guard不变；
+- `price_outside_configured_range_audit.json`：绝对source价格上限独立调整后的越界审计及高价商品解除复核证据；
 - `sellable_initialization_resolution_report.json`：27件永久非销售项、剩余复核、计划零泄漏及20件pilot有效性汇总；
 - `stable_initialization_capacity_estimate.json`：未来CREATE/UPDATE/COS/readback工作量估算；
 - `stable_initialization_readiness.json`：freshness、交接和写入阻塞结论；
+- `../storefront_stable_catalog/stable_pool_final_closure_report.json`：最终全站、排除、稳定池、初始化、pilot freshness及零泄漏汇总；
 - `state/mikihouse_initialization_checkpoint.json.gz`：只含 `FROZEN_PLANNING_ONLY` 的批次/商品初始checkpoint，mutation计数为0。
 
 `good_name` 重复不再被当成不可导入条件。新契约固定为：真实UI-context Goods.index的精确名称查询只缩小候选product ID集合；随后对每个候选调用getFormatInfo，完整 `MIKI-<variant SKU>` 集合是主要强身份，同时要求类目294884、variant数量、规格结构和逐variant价格一致。只有一个完整匹配才返回 `UNIQUE_STRONG_MATCH`；零匹配返回 `NOT_FOUND`，多个完整匹配返回 `AMBIGUOUS`，后二者都禁止binding。列表顺序、创建时间、模糊名称、相似价格及单SKU重合永远不能作为身份依据。正式目标variant身份仍为 `shijiu_product_id + exact backend_sku_code`，`shijiu_sku_id=null`。
 
 当前stable catalog的1602件重复名商品分属254组，最大组“半袖Ｔシャツ”为76件；所有backend SKU在source内全局唯一，且不存在两个不同product_number拥有完全相同完整SKU集合，理论可解除仅由重名造成的1602件复核。上一轮真实Shijiu只读验证覆盖10组，包括2件小组、“セーター”及“トレーナー”“カバーオール”“セカンドベビーシューズ”“パンツ”“半袖Ｔシャツ”等大组：21次请求全部仅为 Goods.index/getFormatInfo；已映射 `63-6602-492` 在9件同名source商品中取得唯一完整SKU强匹配，其余325件未创建商品均正确返回 `NOT_FOUND`，没有误绑legacy/foreign商品。本轮未增加Shijiu请求；CREATE/UPDATE/COS/上下架/价格库存写入和mapping修改均为0。
 
-重新规划后，2434件可售稳定商品全部有且仅有一个初始化处置：2385件通过数据质量门禁并拆为170个隔离批次；6件已有经过验证的MIKIHOUSE mapping，禁止再次CREATE并交给增量引擎；42件属于历史尝试/冻结集合；仅1件 `13-6671-684` 因当前价格上限保留初始化复核。新20件pilot仍全部有效，来自当前STABLE、未映射、非历史冻结池，footwear/apparel/baby/goods各5件。
+重新规划后，2435件可售稳定商品全部有且仅有一个初始化处置：2387件通过数据质量门禁并拆为170个隔离批次；6件已有经过验证的MIKIHOUSE mapping，禁止再次CREATE并交给增量引擎；42件属于历史尝试/冻结集合；初始化复核为0件。新20件pilot仍全部fresh且有效，来自当前STABLE、未映射、非历史冻结池，footwear/apparel/baby/goods各5件。
 
-价格越界审计保持原guard `1..1,000,000 JPY` 不变。官网逐项证据将27件非独立销售项与价格guard分离：其中包含非0价的名入れ费和礼品包装，证明分类并非仅依赖0价。`13-6671-684`的3个variant均为1,430,000 JPY，SKU、商品页、正常购买界面及 `compareAtPrice==price` 一致，无可见促销标记；65折目标价为929,500 JPY。审计建议未来可在单独授权下仅将绝对source price上限提至2,000,000 JPY，但不应放宽价格变化异常guard；本轮两者都未修改。
+价格规则已拆为两个互不联动的门禁：合法source绝对范围为 `1..2,000,000 JPY`，单次变化异常guard仍严格保持绝对50,000 JPY、相对50%。官网证据确认 `13-6671-684` 的3个variant均为1,430,000 JPY，商品页、正常购买界面及 `compareAtPrice==price` 一致，无促销信号；65折目标价为929,500 JPY，现已解除初始化复核。测试同时证明1,430,000 JPY稳定价格合法，但从100,000 JPY异常跳至1,430,000 JPY仍只产生 `REVIEW_REQUIRED`，不会生成价格更新。
+
+稳定池最终收口命令（在完整官网crawl后使用，只写本地脱敏报告）：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/close_stable_pool.py
+PYTHONPATH=src .venv/bin/python scripts/sync_mikihouse_cycle.py --trigger manual
+PYTHONPATH=src .venv/bin/python scripts/plan_shijiu_stable_initialization.py \
+  --replace-planning-only-checkpoint
+```
 
 官网逐项只读复核命令（会发出28次官方商品页GET，不访问Shijiu）：
 
@@ -919,4 +929,4 @@ PYTHONPATH=src .venv/bin/python scripts/audit_shijiu_duplicate_good_name.py \
 
 未来执行任一pilot或批次前，必须完成新的全站crawl并用 stable catalog/source snapshot 顶层hash及逐商品指纹检查 freshness。商品若变为特殊、WEB限定、促销、稳定性待复核或inactive，在任何目标动作前冻结；价格、库存、variant或图片变化则整件重新生成stage payload。初始化完成并取得 verified MIKIHOUSE mapping 后，由交接函数将商品登记到现有 source sync state，此后只接受增量事件，禁止定时任务再次CREATE。同一checkpoint重跑幂等；批次失败只冻结当前批次，后续批次不被污染。
 
-2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮新增28次MIKIHOUSE官方商品页只读GET，没有新增Shijiu请求；CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0，legacy286未被修改。
+2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮仅执行完整Storefront只读分页和2次官方图片等价性GET，没有新增Shijiu请求；CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0，legacy286未被修改。

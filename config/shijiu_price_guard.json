@@ -3,8 +3,8 @@
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "minimum_tax_included_price_jpy": 1,
-  "maximum_tax_included_price_jpy": 1000000,
+  "maximum_tax_included_price_jpy": 2000000,
   "maximum_absolute_change_jpy": 50000,
   "maximum_relative_change_ratio": 0.5,
-  "policy": "a price change is review_required if either the absolute or relative threshold is exceeded, or if the new price is outside the valid range"
+  "policy": "source absolute eligibility is 1..2000000 JPY; independently, a price change is review_required if either the unchanged absolute or relative delta threshold is exceeded; zero and promotional prices remain forbidden"
 }

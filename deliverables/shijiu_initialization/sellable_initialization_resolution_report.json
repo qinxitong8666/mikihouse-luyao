@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
   "status": "COMPLETED_PLANNING_ONLY_SELLABLE_INITIALIZATION_RESOLUTION",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "storefront_total_product_count": 2961,
-  "final_sellable_stable_product_count": 2434,
+  "final_sellable_stable_product_count": 2435,
   "non_sellable_service_or_addon": {
     "count": 27,
     "product_numbers": [
@@ -49,56 +49,20 @@
     ]
   },
   "remaining_initialization_review_required": {
-    "count": 1,
-    "products": [
-      {
-        "product_number": "13-6671-684",
-        "name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
-        "classification": "baby",
-        "variant_count": 3,
-        "broadcast_count": 8,
-        "good_detail_pics_count": 7,
-        "source_content_sha256": "b1b9832b0d58390100edef62fd88ce4e68928130008f3c6e9b70bd2b8a363640",
-        "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-        "issues": [
-          {
-            "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-            "detail": {
-              "sku": "13-6671-68400223400",
-              "tax_included_price_jpy": 1430000
-            }
-          },
-          {
-            "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-            "detail": {
-              "sku": "13-6671-68400223600",
-              "tax_included_price_jpy": 1430000
-            }
-          },
-          {
-            "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-            "detail": {
-              "sku": "13-6671-68400223700",
-              "tax_included_price_jpy": 1430000
-            }
-          }
-        ]
-      }
-    ]
+    "count": 0,
+    "products": []
   },
   "separate_stability_review_outside_sellable_catalog": {
-    "count": 1,
-    "product_numbers": [
-      "46-8299-611"
-    ]
+    "count": 0,
+    "product_numbers": []
   },
   "initialization_counts": {
-    "stable_catalog_product_count": 2434,
-    "planned_initial_create_product_count": 2385,
+    "stable_catalog_product_count": 2435,
+    "planned_initial_create_product_count": 2387,
     "already_mapped_handoff_count": 6,
     "historical_frozen_count": 42,
-    "initialization_review_required_count": 1,
-    "accounted_product_count": 2434,
+    "initialization_review_required_count": 0,
+    "accounted_product_count": 2435,
     "batch_count": 170
   },
   "pilot_20": {
@@ -146,13 +110,18 @@
     "explicit_sale_or_limited_price_signal_present": false,
     "target_price_jpy": 929500,
     "target_price_formula": "ceil(tax_included_price_jpy * 0.65)",
-    "source_price_upper_bound_current_jpy": 1000000,
+    "source_price_upper_bound_current_jpy": 2000000,
     "source_price_upper_bound_recommended_jpy": 2000000,
-    "recommendation": "Separate the absolute valid source-price ceiling from price-change anomaly guards; a future separately authorized change may raise only the source ceiling to JPY 2,000,000.",
-    "guard_changed_this_round": false,
+    "recommendation": "APPLIED: source absolute eligibility ceiling raised independently.",
+    "guard_changed_this_round": true,
     "official_page_has_normal_purchase_surface": true,
     "official_page_visible_promotion_markers": [],
-    "official_page_visible_promotion_absent": true
+    "official_page_visible_promotion_absent": true,
+    "source_price_upper_bound_previous_jpy": 1000000,
+    "released_from_initialization_review": true,
+    "absolute_price_change_guard_jpy": 50000,
+    "relative_price_change_guard_ratio": 0.5,
+    "price_change_guards_unchanged": true
   },
   "safety": {
     "mode": "PLANNING_ONLY",

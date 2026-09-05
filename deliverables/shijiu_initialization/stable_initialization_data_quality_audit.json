@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
   "status": "COMPLETED_OFFLINE_DATA_QUALITY_AUDIT",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
-  "stable_catalog_product_count": 2434,
-  "stable_catalog_variant_count": 13741,
-  "stable_catalog_image_resource_count": 30138,
+  "stable_catalog_product_count": 2435,
+  "stable_catalog_variant_count": 13742,
+  "stable_catalog_image_resource_count": 30145,
   "price_jpy_distribution": {
     "min": 275,
     "p50": 15950,
@@ -15,10 +15,10 @@
     "p95": 49500,
     "max": 1430000
   },
-  "price_outside_configured_range_product_count": 1,
+  "price_outside_configured_range_product_count": 0,
   "variant_count_distribution": {
     "0": 0,
-    "1": 616,
+    "1": 617,
     "2_4": 674,
     "5_8": 665,
     "9_16": 385,
@@ -40,7 +40,7 @@
     "0": 0,
     "1": 7,
     "2_4": 175,
-    "5_8": 737,
+    "5_8": 738,
     "9_16": 984,
     "17_32": 444,
     "33_64": 87,
@@ -60,7 +60,7 @@
     "0": 9,
     "1": 28,
     "2_4": 302,
-    "5_8": 851,
+    "5_8": 852,
     "9_16": 859,
     "17_32": 329,
     "33_64": 56,
@@ -78,7 +78,7 @@
   ],
   "classification_counts": {
     "apparel": 657,
-    "baby": 999,
+    "baby": 1000,
     "footwear": 155,
     "goods": 206,
     "other": 417
@@ -103,9 +103,7 @@
     "all_forbidden_leak_product_numbers": [],
     "passed": true
   },
-  "quality_issue_counts": {
-    "PRICE_OUTSIDE_CONFIGURED_RANGE": 3
-  },
+  "quality_issue_counts": {},
   "duplicate_name_groups": [
     {
       "name": "5分丈オーバーオール",
@@ -1175,41 +1173,7 @@
     "all_duplicate_name_products_have_source_unique_complete_sku_sets": true,
     "theoretical_duplicate_name_review_release_count": 1602
   },
-  "review_required_products": [
-    {
-      "product_number": "13-6671-684",
-      "name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
-      "classification": "baby",
-      "variant_count": 3,
-      "broadcast_count": 8,
-      "good_detail_pics_count": 7,
-      "source_content_sha256": "b1b9832b0d58390100edef62fd88ce4e68928130008f3c6e9b70bd2b8a363640",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "13-6671-68400223400",
-            "tax_included_price_jpy": 1430000
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "13-6671-68400223600",
-            "tax_included_price_jpy": 1430000
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "13-6671-68400223700",
-            "tax_included_price_jpy": 1430000
-          }
-        }
-      ]
-    }
-  ],
+  "review_required_products": [],
   "missing_image_product_count": 0,
   "missing_sku_product_count": 0,
   "variant_identity_anomaly_product_count": 0,

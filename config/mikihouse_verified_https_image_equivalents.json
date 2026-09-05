@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "VERIFIED_OFFICIAL_READ_ONLY_CONTENT_EQUIVALENCE",
+  "policy": "Exact product-and-URL allowlist only; arbitrary HTTP-to-HTTPS rewriting is forbidden.",
+  "verified_at": "2026-09-05T06:59:46Z",
+  "entries": [
+    {
+      "product_number": "46-8299-611",
+      "source_url": "http://image.rakuten.co.jp/mikihouse/cabinet/mhf-rsf4/gore_umo.gif",
+      "canonical_https_url": "https://image.rakuten.co.jp/mikihouse/cabinet/mhf-rsf4/gore_umo.gif",
+      "source_url_sha256": "5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9",
+      "canonical_https_url_sha256": "d6785fad369eb63bd2ad2125f43417acaaadd625a88a93a134d5d3d360154ecc",
+      "same_official_host_and_path": true,
+      "official_storefront_structured_resource_observed": true,
+      "http_observation": {
+        "status": 200,
+        "content_type": "image/gif",
+        "byte_count": 4925,
+        "content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+        "decoded_format": "GIF",
+        "decoded_width": 200,
+        "decoded_height": 71,
+        "decoded_frame_count": 1
+      },
+      "https_observation": {
+        "status": 200,
+        "content_type": "image/gif",
+        "byte_count": 4925,
+        "content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+        "decoded_format": "GIF",
+        "decoded_width": 200,
+        "decoded_height": 71,
+        "decoded_frame_count": 1
+      },
+      "content_hash_equal": true,
+      "mime_equal": true,
+      "decoded_dimensions_equal": true,
+      "raw_image_bytes_committed": false,
+      "shijiu_requests": 0,
+      "shijiu_cos_upload_requests": 0
+    }
+  ]
+}

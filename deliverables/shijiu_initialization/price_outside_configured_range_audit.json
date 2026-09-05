@@ -1,66 +1,27 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
-  "status": "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_GUARD_UNCHANGED",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "status": "COMPLETED_OFFLINE_PRICE_RANGE_AUDIT_SOURCE_CEILING_UPDATED",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "configured_range": {
     "minimum_tax_included_price_jpy": 1,
-    "maximum_tax_included_price_jpy": 1000000
+    "maximum_tax_included_price_jpy": 2000000
   },
-  "outside_range_variant_count": 3,
-  "outside_range_product_count": 1,
-  "classification_counts": {
-    "PLAUSIBLE_REAL_HIGH_PRICE_REQUIRES_MANUAL_APPROVAL": 3
-  },
-  "guard_changed": false,
-  "automatic_import_release_count": 0,
-  "rows": [
-    {
-      "product_number": "13-6671-684",
-      "product_name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
-      "variant_sku": "13-6671-68400223400",
-      "tax_included_price_jpy": 1430000,
-      "product_variant_count": 3,
-      "product_price_min_jpy": 1430000,
-      "product_price_max_jpy": 1430000,
-      "all_product_variants_same_price": true,
-      "compare_at_price_jpy": 1430000,
-      "classification": "PLAUSIBLE_REAL_HIGH_PRICE_REQUIRES_MANUAL_APPROVAL",
-      "recommendation": "KEEP_REVIEW_AND_EVALUATE_GUARD_IN_SEPARATE_BUSINESS_CHANGE",
-      "interpretation": "All observed variants are positive and the product is stable; the existing maximum guard may be narrower than this genuine high-price product, but this audit does not change the guard or authorize import."
-    },
-    {
-      "product_number": "13-6671-684",
-      "product_name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
-      "variant_sku": "13-6671-68400223600",
-      "tax_included_price_jpy": 1430000,
-      "product_variant_count": 3,
-      "product_price_min_jpy": 1430000,
-      "product_price_max_jpy": 1430000,
-      "all_product_variants_same_price": true,
-      "compare_at_price_jpy": 1430000,
-      "classification": "PLAUSIBLE_REAL_HIGH_PRICE_REQUIRES_MANUAL_APPROVAL",
-      "recommendation": "KEEP_REVIEW_AND_EVALUATE_GUARD_IN_SEPARATE_BUSINESS_CHANGE",
-      "interpretation": "All observed variants are positive and the product is stable; the existing maximum guard may be narrower than this genuine high-price product, but this audit does not change the guard or authorize import."
-    },
-    {
-      "product_number": "13-6671-684",
-      "product_name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
-      "variant_sku": "13-6671-68400223700",
-      "tax_included_price_jpy": 1430000,
-      "product_variant_count": 3,
-      "product_price_min_jpy": 1430000,
-      "product_price_max_jpy": 1430000,
-      "all_product_variants_same_price": true,
-      "compare_at_price_jpy": 1430000,
-      "classification": "PLAUSIBLE_REAL_HIGH_PRICE_REQUIRES_MANUAL_APPROVAL",
-      "recommendation": "KEEP_REVIEW_AND_EVALUATE_GUARD_IN_SEPARATE_BUSINESS_CHANGE",
-      "interpretation": "All observed variants are positive and the product is stable; the existing maximum guard may be narrower than this genuine high-price product, but this audit does not change the guard or authorize import."
-    }
+  "outside_range_variant_count": 0,
+  "outside_range_product_count": 0,
+  "classification_counts": {},
+  "guard_changed": true,
+  "guard_change_scope": "SOURCE_ABSOLUTE_ELIGIBILITY_ONLY",
+  "previous_maximum_tax_included_price_jpy": 1000000,
+  "price_change_absolute_and_relative_guards_changed": false,
+  "automatic_import_release_count": 1,
+  "released_product_numbers": [
+    "13-6671-684"
   ],
+  "rows": [],
   "safety": {
     "mode": "PLANNING_ONLY",
     "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",

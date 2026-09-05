@@ -1,47 +1,48 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:15:28.413963+00:00",
+  "generated_at": "2026-09-05T07:07:56.455466+00:00",
   "status": "PROTECTED_STATE_INTENTIONALLY_UPDATED_OFFLINE",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
-  "parent_commit": "4119e6abcc2f8f1da72502ebeea0cecef3b1774e",
+  "parent_commit": "44f71da6c2abb2967c6cacfde62efe1af6903674",
   "affected_state": [
     {
       "path": "state/mikihouse_initialization_checkpoint.json.gz",
-      "reason": "atomically replace the prior zero-mutation planning checkpoint after permanent non-sellable service/addon exclusion and sellable-quality replanning",
-      "before_sha256": "9363a5bc5a686ebc3723ed90d8931679c5cf2b2b210cdffd70aa0df94557873e",
-      "after_sha256": "a4be75196a9c043e44c00cc981182fbd779393162146daf66f1d52a2e5316d81",
+      "reason": "atomically replace the prior zero-mutation planning checkpoint after verified high-price eligibility and exact HTTPS resource closure",
+      "before_sha256": "a4be75196a9c043e44c00cc981182fbd779393162146daf66f1d52a2e5316d81",
+      "after_sha256": "825c33caf03011c2f4e08eaf622fc6c3692347fa1142cd3abf5d3d9bb80d4d81",
       "status": "FROZEN_PLANNING_ONLY",
-      "planned_product_count": 2385,
+      "planned_product_count": 2387,
       "batch_count": 170,
       "shijiu_mutation_count": 0,
       "writer_mutex_evidence_generated": false
     },
     {
       "path": "state/mikihouse_source_sync_state.json.gz",
-      "reason": "atomically persist the complete official source snapshot, permanent non-sellable classification and converged idempotent offline event ledger",
-      "before_sha256": "5bce7c2f7c3d33e99d200c5a5653c6a46ef38dfac2950d90162e781ce60c7fad",
-      "after_sha256": "e231d63c979abc498907fb07d8f301e3f673ae4c3443a353adbfcccf087a976a",
+      "reason": "atomically persist the refreshed complete official source snapshot, exact HTTPS resource closure and converged idempotent offline event ledger",
+      "before_sha256": "e231d63c979abc498907fb07d8f301e3f673ae4c3443a353adbfcccf087a976a",
+      "after_sha256": "fc7011607a36d780b79c69bba3dfdc643b3491668aa7418a87894f97a3cfd47b",
       "storefront_product_count": 2961,
-      "stable_sellable_product_count": 2434,
+      "stable_sellable_product_count": 2435,
       "non_sellable_service_or_addon_count": 27,
-      "latest_cycle_number": 13,
+      "latest_cycle_number": 16,
       "latest_cycle_new_event_count": 0,
-      "latest_cycle_new_action_count": 0
+      "latest_cycle_new_action_count": 0,
+      "pending_planning_only_create_action_count": 1
     }
   ],
   "affected_protected_deliverables": [
     {
       "path": "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
-      "reason": "replace with the complete-crawl-derived sellable stable catalog after permanent non-sellable filtering",
-      "before_sha256": "67de6b6166704558e8ef46bd19414a92280eb466e4cb9fbd23c652774f9d1182",
-      "after_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82"
+      "reason": "replace with the complete-crawl-derived sellable stable catalog after exact verified HTTPS resource closure",
+      "before_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82",
+      "after_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac"
     },
     {
       "path": "deliverables/shijiu_initialization/stable_initialization_batch_plan.json.gz",
-      "reason": "replace with the fail-closed sellable-only 2385-product initialization plan",
-      "before_sha256": "758a576b49c7971ff268e18b93d710f193e7018545a3e2d762f16478e79c1294",
-      "after_sha256": "315b6e232d5d3c506760aecf7dbdcf2d8ea100bee343e100742345192d45111f"
+      "reason": "replace with the fail-closed sellable-only 2387-product initialization plan",
+      "before_sha256": "315b6e232d5d3c506760aecf7dbdcf2d8ea100bee343e100742345192d45111f",
+      "after_sha256": "5268a124cdf5f06433c4c9f545600a0c8792664561f82237d71161cf852b19cd"
     }
   ],
   "unchanged_protected_artifacts": [
@@ -58,7 +59,7 @@
   "backup_evidence": {
     "git_parent_commit_preserves_all_before_values": true,
     "changed_state_and_deliverables_copied_before_refresh": true,
-    "git_external_backup_directory": "/private/tmp/mikihouse-sellable-audit-backup-4119e6a",
+    "git_external_backup_directory": "/private/tmp/mikihouse-stability-closure-backup-44f71da",
     "sensitive_values_included": false
   },
   "historical_stale_plan": {
@@ -68,7 +69,8 @@
   },
   "safety": {
     "official_storefront_api_read_requests": 34,
-    "official_product_page_read_requests": 28,
+    "official_product_page_read_requests": 0,
+    "official_image_equivalence_read_requests": 2,
     "shijiu_read_requests": 0,
     "shijiu_create_requests": 0,
     "shijiu_update_requests": 0,

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "status": "VERIFIED_HTTPS_EQUIVALENT_APPLIED_TO_COMPLETE_CRAWL",
+  "mode": "PLANNING_ONLY",
+  "source": "MIKIHOUSE",
+  "product_number": "46-8299-611",
+  "product_name": "ゴア羽毛ふとんセット",
+  "original_non_https_resource_count": 1,
+  "current_ordered_resource_count": 7,
+  "current_non_https_ordered_resource_count": 0,
+  "equivalence_evidence": {
+    "product_number": "46-8299-611",
+    "source_url": "http://image.rakuten.co.jp/mikihouse/cabinet/mhf-rsf4/gore_umo.gif",
+    "canonical_https_url": "https://image.rakuten.co.jp/mikihouse/cabinet/mhf-rsf4/gore_umo.gif",
+    "source_url_sha256": "5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9",
+    "canonical_https_url_sha256": "d6785fad369eb63bd2ad2125f43417acaaadd625a88a93a134d5d3d360154ecc",
+    "same_official_host_and_path": true,
+    "official_storefront_structured_resource_observed": true,
+    "http_observation": {
+      "status": 200,
+      "content_type": "image/gif",
+      "byte_count": 4925,
+      "content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+      "decoded_format": "GIF",
+      "decoded_width": 200,
+      "decoded_height": 71,
+      "decoded_frame_count": 1
+    },
+    "https_observation": {
+      "status": 200,
+      "content_type": "image/gif",
+      "byte_count": 4925,
+      "content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+      "decoded_format": "GIF",
+      "decoded_width": 200,
+      "decoded_height": 71,
+      "decoded_frame_count": 1
+    },
+    "content_hash_equal": true,
+    "mime_equal": true,
+    "decoded_dimensions_equal": true,
+    "raw_image_bytes_committed": false,
+    "shijiu_requests": 0,
+    "shijiu_cos_upload_requests": 0
+  },
+  "complete_crawl_normalization_result": {
+    "product_number": "46-8299-611",
+    "source_url_sha256": "5c997089a77467d3d1a9cf46e8483ac8074f24fca53e58ca082b1dee84297da9",
+    "canonical_https_url_sha256": "d6785fad369eb63bd2ad2125f43417acaaadd625a88a93a134d5d3d360154ecc",
+    "verified_content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178",
+    "status": "APPLIED_EXACT_VERIFIED_EQUIVALENT",
+    "replacement_occurrence_count": 3
+  },
+  "entered_stable_sellable_catalog": true,
+  "mechanical_scheme_rewrite_allowed": false,
+  "exact_product_url_and_content_hash_allowlist_required": true,
+  "safety": {
+    "official_image_read_requests": 2,
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "writer_mutex_evidence_generated": false,
+    "legacy_286_touched": false
+  }
+}

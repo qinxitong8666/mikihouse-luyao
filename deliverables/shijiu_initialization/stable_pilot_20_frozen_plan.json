@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
   "status": "FROZEN_PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
@@ -14,12 +14,12 @@
     "goods": 5
   },
   "freshness_guard": {
-    "stable_catalog_file_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82",
-    "stable_catalog_logical_sha256": "534976f21bb9d3c397c8a760d07394ce717d3596521e7ec62117a50cfb0ef372",
-    "source_snapshot_file_sha256": "be0b00c029e2a6570c208829e847d8640b196cd3c73e26709638dff70006dced",
-    "source_snapshot_logical_sha256": "6b31b26f96ce391073d882b703b67ce757ad64cbaf59355ceb29841cec640578",
-    "source_snapshot_captured_at": "2026-09-05T05:06:17.371853+00:00",
-    "stable_catalog_synced_at": "2026-09-05T05:06:17.371853+00:00",
+    "stable_catalog_file_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac",
+    "stable_catalog_logical_sha256": "d1570ff10a997ff8e8183fa121c589538af6d10612ea3ccbebc73a15e2a2ed9a",
+    "source_snapshot_file_sha256": "0238345c30e276f4f26a062405c2091a56d6257c8d7e7690f6fda141d2a57bdc",
+    "source_snapshot_logical_sha256": "6f2c7b8ce4f46be6d432fcb246667cd2b19c19838283d79a83e706a6ae45b2f0",
+    "source_snapshot_captured_at": "2026-09-05T07:04:02.799287+00:00",
+    "stable_catalog_synced_at": "2026-09-05T07:04:02.799287+00:00",
     "requires_new_complete_storefront_crawl_after_generated_at": true,
     "fail_closed_if_any_top_level_hash_changes": true,
     "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,

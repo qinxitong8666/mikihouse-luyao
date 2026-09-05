@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-09-05T05:06:17.371853+00:00",
-  "status": "COMPLETED_OFFICIAL_READ_ONLY_REVIEW_RESOLUTION",
+  "schema_version": 2,
+  "generated_at": "2026-09-05T07:04:02.799287+00:00",
+  "status": "COMPLETED_OFFICIAL_READ_ONLY_STABLE_POOL_CLOSURE",
   "mode": "PLANNING_ONLY",
   "source": "MIKIHOUSE",
   "initial_review_product_count": 27,
@@ -37,10 +37,8 @@
     "99-9999-121",
     "99-9999-122"
   ],
-  "remaining_review_required_count": 1,
-  "remaining_review_required_product_numbers": [
-    "13-6671-684"
-  ],
+  "remaining_review_required_count": 0,
+  "remaining_review_required_product_numbers": [],
   "prior_27_review_resolution": {
     "zero_price_source_data_product_count": 20,
     "zero_price_source_data_product_numbers": [
@@ -109,15 +107,20 @@
     "explicit_sale_or_limited_price_signal_present": false,
     "target_price_jpy": 929500,
     "target_price_formula": "ceil(tax_included_price_jpy * 0.65)",
-    "source_price_upper_bound_current_jpy": 1000000,
+    "source_price_upper_bound_current_jpy": 2000000,
     "source_price_upper_bound_recommended_jpy": 2000000,
-    "recommendation": "Separate the absolute valid source-price ceiling from price-change anomaly guards; a future separately authorized change may raise only the source ceiling to JPY 2,000,000.",
-    "guard_changed_this_round": false,
+    "recommendation": "APPLIED: source absolute eligibility ceiling raised independently.",
+    "guard_changed_this_round": true,
     "official_page_has_normal_purchase_surface": true,
     "official_page_visible_promotion_markers": [],
-    "official_page_visible_promotion_absent": true
+    "official_page_visible_promotion_absent": true,
+    "source_price_upper_bound_previous_jpy": 1000000,
+    "released_from_initialization_review": true,
+    "absolute_price_change_guard_jpy": 50000,
+    "relative_price_change_guard_ratio": 0.5,
+    "price_change_guards_unchanged": true
   },
-  "final_sellable_stable_product_count": 2434,
+  "final_sellable_stable_product_count": 2435,
   "stable_non_sellable_leak_product_numbers": [],
   "products": [
     {
@@ -860,7 +863,7 @@
         "excluded_reason": null,
         "evidence": []
       },
-      "disposition": "REVIEW_REQUIRED_REAL_HIGH_PRICE_GUARD_UNCHANGED"
+      "disposition": "STABLE_ELIGIBLE_ABSOLUTE_SOURCE_PRICE_VERIFIED"
     },
     {
       "product_number": "19-1680-494",
@@ -2789,6 +2792,13 @@
     "shijiu_cos_upload_requests": 0,
     "shijiu_shelf_price_inventory_writes": 0,
     "writer_mutex_evidence_generated": false,
-    "legacy_286_touched": false
+    "legacy_286_touched": false,
+    "official_image_read_requests": 2
+  },
+  "verified_https_resource_closure": {
+    "status": "VERIFIED_HTTPS_EQUIVALENT_APPLIED_TO_COMPLETE_CRAWL",
+    "product_number": "46-8299-611",
+    "entered_stable_sellable_catalog": true,
+    "evidence_content_sha256": "325ec89adf75d2b2458b933a9e210a4a572b7af028b0731c3d9a56a7079fc178"
   }
 }
