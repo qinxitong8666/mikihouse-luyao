@@ -33,6 +33,7 @@ from .shijiu_live_import import (
     _resolve_payload,
     validate_product_readback,
 )
+from .shijiu_shadow import ShadowControlPlaneClient, mutation_context
 
 
 RECOVERY_PRODUCT_NUMBER = "00-1000-028"
@@ -498,6 +499,16 @@ def persist_mapping_after_recovery(
     readback: dict[str, Any],
     payload_hash: str,
 ) -> None:
+    ShadowControlPlaneClient.from_env().emit(
+        operation="OWNERSHIP_SEED_PROPOSAL",
+        target_type="PRODUCT",
+        context=mutation_context(
+            item["product_number"],
+            backend_product_id=readback["shijiu_product_id"],
+            variant_ids=[row["source_variant_id"] for row in item["source_variants"]],
+        ),
+        scope={"mapping_receipt": "RECOVERY_READBACK_VERIFIED"},
+    )
     state = load_mapping_state(path)
     row = state["products"][RECOVERY_PRODUCT_NUMBER]
     if row.get("shijiu_product_id") not in (None, "", readback["shijiu_product_id"]):

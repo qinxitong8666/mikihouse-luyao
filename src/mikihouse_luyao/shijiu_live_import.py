@@ -24,6 +24,8 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Callable
 
+from .shijiu_shadow import ShadowControlPlaneClient, mutation_context
+
 from PIL import Image, UnidentifiedImageError
 
 from .csv_input import read_product_numbers
@@ -333,6 +335,7 @@ class ShijiuLiveClient:
         timeout: float = 90,
         write_confirmation: str = LIVE_WRITE_CONFIRMATION,
         request_observer: Callable[[dict[str, Any]], None] | None = None,
+        shadow_client: ShadowControlPlaneClient | None = None,
     ) -> None:
         if not token or not secret:
             raise LiveImportError("missing SHIJIU_TOKEN/SHIJIU_SECRET credentials")
@@ -345,10 +348,27 @@ class ShijiuLiveClient:
         self.timeout = timeout
         self.write_confirmation = write_confirmation
         self.request_observer = request_observer
+        self.shadow_client = shadow_client or ShadowControlPlaneClient.from_env()
         self.requests: list[dict[str, Any]] = []
 
     def _endpoint(self, path: str) -> str:
         return f"{self.base_url}{path}&token={urllib.parse.quote(self.token)}"
+
+    @staticmethod
+    def _payload_shadow_context(payload: dict[str, Any]) -> dict[str, Any]:
+        codes = sorted(
+            str(row.get("sku_code"))
+            for row in payload.get("sku_info", [])
+            if row.get("sku_code")
+        )
+        return {
+            "backend_product_hash": (
+                hashlib.sha256(f"SHIJIU:{payload['id']}".encode()).hexdigest()
+                if payload.get("id") not in (None, "")
+                else None
+            ),
+            "variant_mapping_proof_hash": hashlib.sha256("\n".join(codes).encode()).hexdigest(),
+        }
 
     def _record(
         self, path: str, semantic_operation: str, metadata: dict[str, Any]
@@ -454,8 +474,9 @@ class ShijiuLiveClient:
     def product_detail(self, product_id: str | int) -> dict[str, Any]:
         return self._post_form(DETAIL_PATH, {"id": product_id}, operation="product readback")
 
-    def upload_image(self, source_url: str, *, confirmation: str) -> tuple[str, dict[str, Any]]:
+    def upload_image(self, source_url: str, *, confirmation: str, shadow_context: dict[str, Any] | None = None) -> tuple[str, dict[str, Any]]:
         self._require_write_confirmation(confirmation)
+        self.shadow_client.emit(operation="UPLOAD", target_type="IMAGE", context=shadow_context, scope={"source_url_hash": hashlib.sha256(source_url.encode()).hexdigest()})
         image_data, filename, mime_type = self._download_official_image(source_url)
         boundary_seed = uuid.uuid4().hex + uuid.uuid4().hex
         alphabet = string.ascii_letters + string.digits
@@ -509,9 +530,10 @@ class ShijiuLiveClient:
             raise ContractMismatchError("COS upload returned the original MIKI HOUSE image host")
         return target_url, result
 
-    def create_product(self, payload: dict[str, Any], *, confirmation: str) -> dict[str, Any]:
+    def create_product(self, payload: dict[str, Any], *, confirmation: str, shadow_context: dict[str, Any] | None = None) -> dict[str, Any]:
         self._require_write_confirmation(confirmation)
         validate_canonical_create_payload(payload)
+        self.shadow_client.emit(operation="CREATE", target_type="PRODUCT", context=shadow_context or self._payload_shadow_context(payload), scope={"payload_sha256": content_sha256(payload)})
         self._record(
             CREATE_PATH,
             "write",
@@ -573,8 +595,10 @@ class ShijiuLiveClient:
         *,
         confirmation: str,
         operation: str,
+        shadow_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         self._require_write_confirmation(confirmation)
+        self.shadow_client.emit(operation="UPDATE" if "update" in operation else "CREATE", target_type="PRODUCT", context=shadow_context or self._payload_shadow_context(payload), scope={"payload_sha256": content_sha256(payload)})
         self._record(
             CREATE_PATH,
             "write",
@@ -609,7 +633,7 @@ class ShijiuLiveClient:
         return result
 
     def create_product_native(
-        self, payload: dict[str, Any], *, confirmation: str
+        self, payload: dict[str, Any], *, confirmation: str, shadow_context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         if "id" in payload:
             raise LiveImportError("native create payload must not contain an existing product id")
@@ -618,10 +642,11 @@ class ShijiuLiveClient:
             payload,
             confirmation=confirmation,
             operation="native minimal MIKIHOUSE product create",
+            shadow_context=shadow_context,
         )
 
     def update_product_native(
-        self, payload: dict[str, Any], *, confirmation: str
+        self, payload: dict[str, Any], *, confirmation: str, shadow_context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         product_id = payload.get("id")
         if isinstance(product_id, str) and product_id.isdigit():
@@ -635,6 +660,7 @@ class ShijiuLiveClient:
             normalized,
             confirmation=confirmation,
             operation="native staged MIKIHOUSE product update",
+            shadow_context=shadow_context,
         )
 
     def _require_write_confirmation(self, confirmation: str) -> None:
@@ -1200,6 +1226,18 @@ def persist_verified_mapping(
     readback: dict[str, Any],
     resolved_payload_sha256: str,
 ) -> None:
+    # Shadow-only owner seed proposal.  It is intentionally emitted before the
+    # unchanged local mapping transaction and its result is never consulted.
+    ShadowControlPlaneClient.from_env().emit(
+        operation="OWNERSHIP_SEED_PROPOSAL",
+        target_type="PRODUCT",
+        context=mutation_context(
+            item["product_number"],
+            backend_product_id=readback["shijiu_product_id"],
+            variant_ids=[row["source_variant_id"] for row in item["source_variants"]],
+        ),
+        scope={"mapping_receipt": "POST_CREATE_READBACK_VERIFIED"},
+    )
     state = load_mapping_state(mapping_path)
     row = state["products"].get(item["product_number"])
     if not row or row.get("source") != SOURCE_CODE:
