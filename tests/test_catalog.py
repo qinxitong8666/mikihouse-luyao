@@ -61,6 +61,7 @@ def raw_product(handle: str = "20-0001-001", price: str = "11001.0") -> dict:
                     ],
                     "image": {"url": "https://cdn/red.jpg", "width": 2400, "height": 2400, "altText": "red"},
                     "price": {"amount": price, "currencyCode": "JPY"},
+                    "compareAtPrice": None,
                 }
             ],
         },
@@ -86,6 +87,7 @@ def test_normalize_product_preserves_storefront_variant_fields_and_image_mapping
     assert variant["size"] == "12.5cm"
     assert variant["available_for_sale"] is True
     assert variant["tax_included_price_jpy"] == 11_001
+    assert variant["compare_at_price_jpy"] is None
     assert variant["mini_program_price_jpy"] == 7_151
     assert variant["variant_image"]["url"] == "https://cdn/red.jpg"
     assert product["color_images"][0]["color"] == "赤"
@@ -97,6 +99,16 @@ def test_normalize_product_preserves_storefront_variant_fields_and_image_mapping
     ]
     ordered_urls = [item["image"]["url"] for item in product["ordered_images"]]
     assert len(ordered_urls) == len(set(ordered_urls))
+
+
+def test_normalize_product_preserves_structured_compare_at_price() -> None:
+    raw = raw_product(price="11000.0")
+    raw["variants"]["nodes"][0]["compareAtPrice"] = {
+        "amount": "13200.0",
+        "currencyCode": "JPY",
+    }
+    product = normalize_product(raw, "2026-09-05T00:00:00+00:00")
+    assert product["variants"][0]["compare_at_price_jpy"] == 13_200
 
 
 def test_full_catalog_fetch_paginates_products_variants_and_excludes_special(monkeypatch) -> None:

@@ -48,11 +48,20 @@ def _head() -> str:
     ).stdout.strip()
 
 
+def assert_executable_plan(plan: dict) -> None:
+    if (
+        plan.get("status") != "FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED"
+        or plan.get("must_never_execute")
+        or plan.get("product_count") != 20
+        or plan.get("execution_authorized") is not False
+    ):
+        raise ValueError("expected the frozen, not-yet-executed 20-product plan")
+
+
 def build_evidence(plan: dict, *, basis: str, minutes: int) -> dict:
     if not 5 <= minutes <= 240:
         raise ValueError("exclusive window must be between 5 and 240 minutes")
-    if plan.get("product_count") != 20 or plan.get("execution_authorized") is not False:
-        raise ValueError("expected the frozen, not-yet-executed 20-product plan")
+    assert_executable_plan(plan)
     issued = datetime.now(timezone.utc)
     scopes = [
         {
@@ -92,13 +101,17 @@ def main(argv: list[str] | None = None) -> int:
     private_dir = args.private_dir.expanduser().resolve()
     if ROOT.resolve() == private_dir or ROOT.resolve() in private_dir.parents:
         raise SystemExit("private evidence directory must be outside the Git workspace")
+    plan = json.loads(args.plan.read_text(encoding="utf-8"))
+    try:
+        assert_executable_plan(plan)
+    except ValueError as exc:
+        raise SystemExit(f"FAIL_CLOSED_NO_CONFIRMATION: {exc}") from exc
     print("在继续前，请确认所有其他项目/终端/自动任务均未向同一 Shijiu 正式租户写入。")
     print(f"如已通过真实协调确认独占窗口，请完整输入：{CONFIRMATION}")
     entered = input("> ").strip()
     if entered != CONFIRMATION:
         print("未取得人工独占确认；没有生成 evidence，也不会执行生产写入。")
         return 2
-    plan = json.loads(args.plan.read_text(encoding="utf-8"))
     evidence = build_evidence(plan, basis=args.confirmation_basis, minutes=args.valid_minutes)
     private_dir.mkdir(parents=True, exist_ok=True)
     os.chmod(private_dir, 0o700)

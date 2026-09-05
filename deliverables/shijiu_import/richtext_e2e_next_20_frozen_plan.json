@@ -1,7 +1,18 @@
 {
   "schema_version": 1,
   "generated_at": "2026-09-04T12:44:41.382414+00:00",
-  "status": "FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED",
+  "status": "STALE_BUSINESS_RULE_CHANGED",
+  "stale_reason": "Stable regular-product pool now permanently excludes WEB_EXCLUSIVE and LIMITED_TIME_PRICE products and quarantines REVIEW_REQUIRED_STABILITY; this historical plan predates that boundary.",
+  "superseded_plan_sha256": "7a4cd2d2e8e351b84e5638f3fa81097211ee785ed9a6adb0eec373f29890820d",
+  "historical_evidence_only": true,
+  "must_never_execute": true,
+  "stale_business_rule_conflicts": [
+    {
+      "sequence": 17,
+      "product_number": "14-9909-491",
+      "excluded_reason": "WEB_EXCLUSIVE"
+    }
+  ],
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "fixed_target_category_id": 294884,

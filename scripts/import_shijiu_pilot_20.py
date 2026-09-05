@@ -113,7 +113,10 @@ def main(argv: list[str] | None = None) -> int:
         for number, row in checkpoint["products"].items()
         if row.get("status") in {"IN_PROGRESS", "COMPLETED"}
     }
-    rows = validate_frozen_pilot_plan(plan, special, mapping, allow_mapped=allow_mapped)
+    try:
+        rows = validate_frozen_pilot_plan(plan, special, mapping, allow_mapped=allow_mapped)
+    except LiveImportError as exc:
+        raise SystemExit(f"FAIL_CLOSED_NO_WRITE: {exc}") from exc
     if checkpoint.get("plan_sha256") != content_sha256(plan):
         raise SystemExit("pilot batch checkpoint plan hash mismatch")
 

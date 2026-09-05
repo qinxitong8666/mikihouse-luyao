@@ -205,6 +205,41 @@ Storefront 现在同时分页抓取 `images` 和 `media`，并解析描述中的
 
 为便于 GitHub 审核，脚本同时把体积较小的抓取统计、增量变化摘要和分类验证报告写入 `deliverables/storefront_catalog/`；摘要包含完整变化文件的路径、大小、SHA-256 及代表样例。完整主库、逐条变化 JSON/CSV 和同步 CSV 属于运行数据，继续由 `.gitignore` 排除；本模块不会调用 PDF 生成器，也不会修改现有 2026AW PDF 成品。
 
+### 稳定常规商品池（Shijiu 唯一允许的数据边界）
+
+旧的“官网全站 − 351个PDF特殊品番”候选口径已经废弃。任何未来 Shijiu dry-run、增量事件或 live write 都必须使用 `output/storefront-stable/stable_catalog.json`，并在动作层再次运行相同过滤器；旧 `output/storefront-master/master_catalog.json` 只能作为历史候选池和差异基线，不能再直接生成 Shijiu 动作。
+
+稳定池按以下互斥优先级分类：
+
+1. `special_skus_2026aw.csv` 精确命中：`PDF_SPECIAL_LIST`；
+2. title/name、tags、商品说明中明确出现 `WEB限定`、`WebLimited`、`WEB LIMITED`、`オンラインショップ限定/Online Exclusive` 等同义形式：`WEB_EXCLUSIVE`；
+3. variant 的 `compareAtPrice > price`，或名称、标签、说明明确标注 `期間限定価格`、`特別価格`、`SALE/セール` 等促销价格：`LIMITED_TIME_PRICE`；
+4. 只有 `webitem/WEBアイテム`、`期間限定` 等不足以证明前述规则的信号，或 compare-at 结构异常：`REVIEW_REQUIRED_STABILITY`；
+5. 其余才进入 `STABLE`。
+
+预约、受注等其它潜在不稳定标签只单独统计，不在没有新业务授权时扩大为永久排除。任何排除或复核商品即使在线，也不能产生 `NEW_PRODUCT`、`NEW_VARIANT`、`PRICE_CHANGED`、`INVENTORY_CHANGED`、`IMAGE_CHANGED`、下架或恢复动作。
+
+只读全站刷新命令：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/sync_stable_catalog.py
+```
+
+脚本完整分页读取 products、variants、images 和 media，并读取 variant `price/compareAtPrice`。只有全站分页成功才原子生成：
+
+- `output/storefront-stable/source_catalog.json`：完整官网只读快照；
+- `output/storefront-stable/stable_catalog.json`：Shijiu 唯一允许的稳定商品主库；
+- `stable_products.csv`、`stable_variants.csv`、`excluded_products.csv`、`review_required_stability.csv`；
+- `stable_incremental_changes.json`：只在稳定池内部产生的增量事件；
+- `deliverables/storefront_stable_catalog/stable_catalog.json.gz`：可由 Git 跟踪的完整压缩稳定主库；
+- `stable_pool_audit.json` 及排除/复核 CSV：计数、品番清单、旧池差异和显式信号零泄漏检查。
+
+主库 schema 从2升级为3，只新增 nullable `compare_at_price_jpy`。读取旧schema 2时缺失值按 `null` 兼容；第一次用新抓取结果合并会明确记录 compare-at 字段变化，不会改变 `product_number`、`product_number::variant SKU`、历史 active/inactive 或65折JPY语义。
+
+每个稳定商品保留全部 variant 的税入JPY、65折JPY、颜色、尺码、库存、variant图，完整有序主图/gallery/详情资源，符合 Shijiu richtext contract 的轻量 `shijiu_good_details`，抓取时间和规范化内容 SHA-256。图片本轮不下载到 Git、不上传 COS；资源清单保存官方 source URL、URL SHA-256 和有序描述符 SHA-256，明确不把它们冒充图片文件内容 hash。
+
+2026-09-05 的真实只读全站结果为：官网2961件；在线PDF特殊311件、离线永久记忆40件；另排除WEB限定186件、明确促销价格2件；`46-8299-611` 因官网详情仍含一个非HTTPS旧图片资源进入复核。最终稳定池2461件/13782 variants/30172个有序去重图片资源。相对旧2615件候选池剔除188件、加入34件。全部商品名及其它可靠字段中的WEB限定/促销信号均为稳定池零泄漏，稳定池图片资源也实现零非HTTPS；完整证据见 `deliverables/storefront_stable_catalog/stable_pool_audit.json`。
+
 ## Shijiu importer discovery 与 dry-run
 
 本项目的最终目标端是 **Shijiu（世九）小程序后台**。`qinxitong8666/wawu-product-sync` 仅作为其中可明确定位到 Shijiu 的下游 client、字段样例、回读、checkpoint/resume、回滚和批处理安全机制的参考；瓦屋上游 API、瓦屋 mapper、瓦屋价格/分类/SKU 语义均未复用。证据边界和当前 main 缺失的真实成功写入证据详见 `docs/shijiu_downstream_contract_audit.md`。
@@ -819,33 +854,8 @@ PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
 
 由于互斥证据缺失，`production_import_architecture_verified=false`。生成的20件代表性计划仅用于冻结审阅，状态为 `FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED`，不得执行。后续外部互斥证据的非敏感结构由 `config/shijiu_writer_mutex_evidence.schema.json` 定义；原值必须留在Git工作区外，并且每个写入阶段都要重新匹配当前仓库HEAD、商品和stage。一次性非MIKI富文本测试商品继续保留，不纳入本轮清理。
 
-## Shijiu 20件生产 pilot 与 writer mutex
+## Shijiu 20件生产 pilot（历史计划已失效）
 
-`scripts/import_shijiu_pilot_20.py` 只消费已经冻结的 `richtext_e2e_next_20_frozen_plan.json`，不得重新选品。20件共85个stage；每件先实时核验官网全部variant并完整预检全部图片，之后才允许按轻量CREATE、分段broadcast、分段`good_detail_pics`执行。每个商品有独立checkpoint，每个stage另存快照；每次mutation都重新校验外部evidence，整个执行进程同时持续持有 `/private/tmp/shijiu-production-write.lock`。首个异常冻结整个批次，upload/CREATE/UPDATE均不重试。
+`richtext_e2e_next_20_frozen_plan.json` 产生于稳定池新规则之前，现仅作为历史证据保留，状态固定为 `STALE_BUSINESS_RULE_CHANGED`、`must_never_execute=true`。相应 checkpoint 不得恢复，旧计划不能生成 writer 独占确认，`scripts/import_shijiu_pilot_20.py` 会在任何网络或目标请求前 fail closed。
 
-没有外部独占证据时只能运行零网络、零写入准备：
-
-```bash
-PYTHONPATH=src .venv/bin/python scripts/import_shijiu_pilot_20.py --prepare-only
-```
-
-操作者确认同一Shijiu正式租户没有其他项目、终端、调度器或人员执行生产写入后，运行辅助工具并只输入一次页面提示的完整确认句。工具会自动读取当前HEAD和冻结计划，将覆盖20件/85 stages且最长4小时的evidence以0600权限写到Git工作区外；不需要手工制作JSON：
-
-```bash
-PYTHONPATH=src .venv/bin/python scripts/confirm_shijiu_writer_window.py \
-  --private-dir /absolute/outside/repo/.secrets/shijiu-writer-mutex \
-  --confirmation-basis operator_confirmed_global_window \
-  --valid-minutes 120
-```
-
-辅助工具输出私密evidence路径后，执行器仍要求显式批次确认。evidence的HEAD、计划hash、当前product/stage、有效期或外部独占声明任一不符，都会在目标写入前停止：
-
-```bash
-PYTHONPATH=src .venv/bin/python scripts/import_shijiu_pilot_20.py \
-  --execute \
-  --browser-private-dir /absolute/outside/repo/.secrets/shijiu-browser-exact \
-  --writer-mutex-evidence /absolute/outside/repo/.secrets/shijiu-writer-mutex/FILE.private.json \
-  --confirm MIKIHOUSE_PRODUCTION_PILOT_20_EXECUTE
-```
-
-20件全部完成前不会生成全量计划；全部成功后只生成 `remaining_mikihouse_initialization_plan.json`，不会自动启动2600+商品导入。
+2026-09-05 已知 WAWU 正在同一 Shijiu 正式租户执行生产写入，因此本轮没有生成 MIKIHOUSE writer evidence，也没有执行 Shijiu CREATE/UPDATE、COS生产上传、上下架或价格库存写入。只有稳定池被业务验收且未来另行授权后，才能从当时最新 `stable_catalog` 重新生成一份新的20件计划；本轮不会提前生成该计划。

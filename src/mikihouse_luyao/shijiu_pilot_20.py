@@ -62,6 +62,8 @@ def validate_frozen_pilot_plan(
     *,
     allow_mapped: set[str] | None = None,
 ) -> list[dict[str, Any]]:
+    if plan.get("status") == "STALE_BUSINESS_RULE_CHANGED" or plan.get("must_never_execute"):
+        raise LiveImportError("STALE_BUSINESS_RULE_CHANGED: historical 20-product plan must never execute")
     allow_mapped = allow_mapped or set()
     products = plan.get("products") or []
     numbers = [str(row.get("product_number") or "") for row in products]
@@ -159,6 +161,8 @@ def build_pilot_product_selection(
 
 
 def initial_pilot_checkpoint(plan: dict[str, Any]) -> dict[str, Any]:
+    if plan.get("status") == "STALE_BUSINESS_RULE_CHANGED" or plan.get("must_never_execute"):
+        raise LiveImportError("STALE_BUSINESS_RULE_CHANGED: no checkpoint may be created")
     return {
         "schema_version": 1,
         "created_at": now(),
@@ -189,6 +193,8 @@ def initial_pilot_checkpoint(plan: dict[str, Any]) -> dict[str, Any]:
 
 
 def waiting_operator_report(plan: dict[str, Any], checkpoint: dict[str, Any]) -> dict[str, Any]:
+    if plan.get("status") == "STALE_BUSINESS_RULE_CHANGED" or plan.get("must_never_execute"):
+        raise LiveImportError("STALE_BUSINESS_RULE_CHANGED: no mutex confirmation may be requested")
     stage_count = sum(len(row.get("required_stages") or []) for row in plan["products"])
     return {
         "schema_version": 1,

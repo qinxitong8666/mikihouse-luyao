@@ -83,7 +83,7 @@ def test_checked_in_media_and_light_details_are_exactly_preserved() -> None:
     assert final["good_details_url_count"] == 0
 
 
-def test_next_20_is_representative_but_frozen_and_not_executed() -> None:
+def test_historical_next_20_is_stale_and_must_never_execute() -> None:
     plan = load(BASE / "richtext_e2e_next_20_frozen_plan.json")
     special = {
         row.split(",", 1)[0].lstrip("\ufeff")
@@ -92,7 +92,9 @@ def test_next_20_is_representative_but_frozen_and_not_executed() -> None:
         ).splitlines()[1:]
         if row
     }
-    assert plan["status"] == "FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED"
+    assert plan["status"] == "STALE_BUSINESS_RULE_CHANGED"
+    assert plan["historical_evidence_only"] is True
+    assert plan["must_never_execute"] is True
     assert plan["product_count"] == 20
     assert plan["coverage"]["classification_counts"] == {
         "footwear": 5,

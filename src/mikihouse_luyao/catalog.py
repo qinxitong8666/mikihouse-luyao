@@ -28,7 +28,7 @@ from .scraper import (
 )
 
 
-CATALOG_SCHEMA_VERSION = 2
+CATALOG_SCHEMA_VERSION = 3
 MINI_PROGRAM_DISCOUNT_RATE = Decimal("0.65")
 CATALOG_QUERY = """
 query CatalogPage($first: Int!, $after: String) {
@@ -73,6 +73,7 @@ query CatalogPage($first: Int!, $after: String) {
           selectedOptions { name value }
           image { url width height altText }
           price { amount currencyCode }
+          compareAtPrice { amount currencyCode }
         }
       }
     }
@@ -124,6 +125,7 @@ query CatalogVariantPage($handle: String!, $after: String) {
         selectedOptions { name value }
         image { url width height altText }
         price { amount currencyCode }
+        compareAtPrice { amount currencyCode }
       }
     }
   }
@@ -149,6 +151,12 @@ def _parse_jpy_price(raw: dict[str, Any]) -> int:
     if amount < 0 or amount != amount.to_integral_value():
         raise ScrapeError(f"JPY price must be a non-negative integer: {amount}")
     return int(amount)
+
+
+def _parse_optional_jpy_price(raw: dict[str, Any] | None) -> int | None:
+    if not raw:
+        return None
+    return _parse_jpy_price(raw)
 
 
 def _image(raw: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -293,6 +301,7 @@ def _normalize_variant(
     title = str(raw.get("title") or "").strip()
     selected_options, color, size = _options(raw.get("selectedOptions"), title)
     price = _parse_jpy_price(raw.get("price") or {})
+    compare_at_price = _parse_optional_jpy_price(raw.get("compareAtPrice"))
     variant_image = _image(raw.get("image"))
     resolved_image = variant_image or featured_image
     return {
@@ -306,6 +315,7 @@ def _normalize_variant(
         "color": color,
         "size": size,
         "tax_included_price_jpy": price,
+        "compare_at_price_jpy": compare_at_price,
         "mini_program_price_jpy": calculate_mini_program_price_jpy(price),
         "variant_image": variant_image,
         "resolved_image": resolved_image,
@@ -600,6 +610,7 @@ def _variant_summary(variant: dict[str, Any]) -> dict[str, Any]:
         "active": variant["active"],
         "available_for_sale": variant["available_for_sale"],
         "tax_included_price_jpy": variant["tax_included_price_jpy"],
+        "compare_at_price_jpy": variant.get("compare_at_price_jpy"),
         "mini_program_price_jpy": variant["mini_program_price_jpy"],
         "color": variant["color"],
         "size": variant["size"],
@@ -754,6 +765,18 @@ def merge_catalog(
                         "tax_included_price_jpy": current_variant["tax_included_price_jpy"],
                         "mini_program_price_jpy": current_variant["mini_program_price_jpy"],
                     },
+                )
+            if old_variant.get("compare_at_price_jpy") != current_variant.get("compare_at_price_jpy"):
+                _change(
+                    changes,
+                    synced_at,
+                    "variant",
+                    "compare_at_price_changed",
+                    stable_id,
+                    product_number,
+                    current_variant["sku"],
+                    before=old_variant.get("compare_at_price_jpy"),
+                    after=current_variant.get("compare_at_price_jpy"),
                 )
             if old_variant.get("available_for_sale") != current_variant["available_for_sale"]:
                 _change(
@@ -962,6 +985,7 @@ def variant_rows(master: dict[str, Any]) -> tuple[list[str], list[list[Any]]]:
         "color",
         "size",
         "tax_included_price_jpy",
+        "compare_at_price_jpy",
         "mini_program_price_jpy",
         "variant_image_url",
         "resolved_image_url",
@@ -996,6 +1020,7 @@ def variant_rows(master: dict[str, Any]) -> tuple[list[str], list[list[Any]]]:
                 variant["color"],
                 variant["size"],
                 variant["tax_included_price_jpy"],
+                variant.get("compare_at_price_jpy") if variant.get("compare_at_price_jpy") is not None else "",
                 variant["mini_program_price_jpy"],
                 variant_image.get("url", ""),
                 resolved_image.get("url", ""),

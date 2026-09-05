@@ -17,6 +17,7 @@ from typing import Any, Callable
 
 from .catalog import _classification, calculate_mini_program_price_jpy
 from .csv_input import read_product_numbers
+from .stable_catalog import STABLE, assess_product_stability
 
 
 ADAPTER_SCHEMA_VERSION = 2
@@ -396,6 +397,17 @@ def assert_not_pdf_special(product_number: str, excluded_product_numbers: set[st
         )
 
 
+def assert_stable_for_shijiu(
+    product: dict[str, Any], excluded_product_numbers: set[str]
+) -> None:
+    decision = assess_product_stability(product, excluded_product_numbers)
+    if decision["status"] != STABLE:
+        reason = decision.get("excluded_reason") or decision["status"]
+        raise ImportPlanError(
+            f"{reason}: {product.get('product_number')} is outside the stable regular-product pool"
+        )
+
+
 def assert_shijiu_pool_boundary(
     products: list[dict[str, Any]],
     changes: dict[str, Any],
@@ -413,6 +425,21 @@ def assert_shijiu_pool_boundary(
     if leaked:
         raise ImportPlanError(
             f"{PDF_SPECIAL_EXCLUDED_REASON}: forbidden product numbers reached Shijiu planning: {leaked[:20]}"
+        )
+    unstable = []
+    for product in products:
+        decision = assess_product_stability(product, excluded_product_numbers)
+        if decision["status"] != STABLE:
+            unstable.append((str(product.get("product_number") or ""), decision["excluded_reason"]))
+    if unstable:
+        raise ImportPlanError(
+            f"non-stable products reached Shijiu planning: {unstable[:20]}"
+        )
+    changes_without_stable_product = sorted(change_numbers - product_numbers)
+    if changes_without_stable_product:
+        raise ImportPlanError(
+            "incremental changes reference products outside stable_catalog: "
+            f"{changes_without_stable_product[:20]}"
         )
 
 
@@ -519,6 +546,7 @@ def map_product_to_shijiu(
 ) -> dict[str, Any]:
     product_number = str(product["product_number"])
     assert_not_pdf_special(product_number, excluded_product_numbers)
+    assert_stable_for_shijiu(product, excluded_product_numbers)
     classification = _classification_name(product)
     variants = list(product.get("variants") or [])
     if not variants:
@@ -1141,6 +1169,7 @@ CHANGE_TYPE_NAMES = {
     "variant_reactivated": "VARIANT_REACTIVATED",
     "product_metadata_changed": "PRODUCT_METADATA_CHANGED",
     "variant_metadata_changed": "VARIANT_METADATA_CHANGED",
+    "compare_at_price_changed": "COMPARE_AT_PRICE_CHANGED",
 }
 
 
@@ -1538,6 +1567,14 @@ def run_dry_run_import(
         raise WriteProhibitedError("write-enabling environment variables are forbidden in this adapter")
     master = json.loads(master_path.read_text(encoding="utf-8"))
     changes = json.loads(changes_path.read_text(encoding="utf-8"))
+    if (
+        master.get("catalog_kind") != "MIKIHOUSE_STABLE_REGULAR_PRODUCT_POOL"
+        or master.get("shijiu_action_source_required") != "stable_catalog"
+    ):
+        raise ImportPlanError(
+            "Shijiu planning requires output/storefront-stable/stable_catalog.json; "
+            "legacy all-non-special candidate catalogs are not executable"
+        )
     products = list(master.get("products") or [])
     exclusion_snapshot = master.get("special_exclusion") or {}
     online_special_count = int(exclusion_snapshot.get("online_excluded_count", 311))
@@ -1988,8 +2025,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Plan a fail-closed, read-only MIKI HOUSE import into the Shijiu backend"
     )
-    parser.add_argument("--master", type=Path, default=Path("output/storefront-master/master_catalog.json"))
-    parser.add_argument("--changes", type=Path, default=Path("output/storefront-master/incremental_changes.json"))
+    parser.add_argument("--master", type=Path, default=Path("output/storefront-stable/stable_catalog.json"))
+    parser.add_argument("--changes", type=Path, default=Path("output/storefront-stable/stable_incremental_changes.json"))
     parser.add_argument("--special", type=Path, default=Path("special_skus_2026aw.csv"))
     parser.add_argument("--category-map", type=Path, default=Path("config/shijiu_category_map.json"))
     parser.add_argument("--price-guard", type=Path, default=Path("config/shijiu_price_guard.json"))

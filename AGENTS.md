@@ -22,6 +22,11 @@
 - variant SKU、颜色、尺码、价格、库存必须保持逐 variant 语义；
 - `special_skus_2026aw.csv` 是 PDF 专用池，同时是 Shijiu 永久排除集合；
 - 特殊品番不得因为官网重新上架、增量同步、性能优化或恢复逻辑而重新进入 Shijiu 候选；
+- Shijiu 的唯一正式上游池是 `stable_catalog`，不是“官网全站减特殊品番”的旧候选池；
+- 官网明确 `WEB限定/WebLimited/WEB LIMITED` 商品必须以 `WEB_EXCLUSIVE` 前置排除；
+- `compareAtPrice > price` 或明确限时/促销价格商品必须以 `LIMITED_TIME_PRICE` 前置排除；
+- 无法可靠判定上述两类状态的商品必须进入 `REVIEW_REQUIRED_STABILITY`，不得生成任何 Shijiu 动作；
+- PDF特殊、WEB限定、促销价格及稳定性复核过滤必须发生在所有 Shijiu CREATE/UPDATE/库存/图片/价格/下架/恢复 planning 之前；
 - active / inactive / restored 的语义不得用“本次请求没看到”代替；
 - 官网抓取失败、分页不完整、网络失败、响应结构异常不得静默解释为下架；
 - 只有全站采集完整成功并通过校验后，才能提交新的主库/增量状态；
