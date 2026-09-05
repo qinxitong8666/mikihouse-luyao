@@ -14,6 +14,7 @@ from mikihouse_luyao.production_handoff import (
     evaluate_handoff,
     preflight_pilot_resources,
 )
+from mikihouse_luyao.initialization_plan import _source_product_fingerprint
 from mikihouse_luyao.shijiu_import import content_sha256
 
 
@@ -28,7 +29,6 @@ def load(relative: str) -> dict:
 
 
 def fixture_inputs() -> dict:
-    source = load("output/storefront-stable/source_catalog.json")
     stable = load("deliverables/storefront_stable_catalog/stable_catalog.json.gz")
     pilot = load("deliverables/shijiu_initialization/stable_pilot_20_frozen_plan.json")
     batch = load(
@@ -38,6 +38,23 @@ def fixture_inputs() -> dict:
     richtext = load("config/shijiu_richtext_contract.json")
     duplicate = load("config/shijiu_duplicate_good_name_identity_contract.json")
     price = load("config/shijiu_price_guard.json")
+    # The complete raw source snapshot is intentionally not tracked. CI builds a
+    # complete deterministic fixture from the tracked normalized stable products;
+    # online evidence is tested separately through the committed readiness report.
+    source = {
+        "schema_version": 1,
+        "catalog_kind": "MIKIHOUSE_COMPLETE_STOREFRONT_SOURCE_SNAPSHOT",
+        "captured_at": stable.get("synced_at"),
+        "complete_pagination_validated": True,
+        "products": copy.deepcopy(stable["products"]),
+    }
+    source_by_number = {row["product_number"]: row for row in source["products"]}
+    pilot["freshness_guard"]["source_snapshot_logical_sha256"] = content_sha256(source)
+    pilot["freshness_guard"]["source_snapshot_captured_at"] = source["captured_at"]
+    for planned in pilot["products"]:
+        planned["source_snapshot_product_fingerprint_sha256"] = (
+            _source_product_fingerprint(source_by_number[planned["product_number"]])
+        )
     pilot["freshness_guard"]["price_policy_logical_sha256"] = content_sha256(price)
     historical = {
         row["product_number"]
@@ -69,12 +86,17 @@ def fixture_inputs() -> dict:
         "branch": "main",
         "source_snapshot": source,
         "stable_catalog": stable,
-        "stable_audit": load(
-            "deliverables/storefront_stable_catalog/stable_pool_audit.json"
-        ),
-        "sync_cycle_report": load(
-            "output/storefront-sync-cycle/sync_cycle_report.json"
-        ),
+        "stable_audit": {
+            **load("deliverables/storefront_stable_catalog/stable_pool_audit.json"),
+            "counts": {
+                **load("deliverables/storefront_stable_catalog/stable_pool_audit.json")["counts"],
+                "storefront_total_product_count": len(source["products"]),
+            },
+        },
+        "sync_cycle_report": {
+            **load("deliverables/storefront_stable_catalog/sync_cycle_planning_report.json"),
+            "captured_at": source["captured_at"],
+        },
         "pilot": pilot,
         "batch_plan": batch,
         "mapping": mapping,
