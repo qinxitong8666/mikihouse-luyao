@@ -240,6 +240,20 @@ PYTHONPATH=src .venv/bin/python scripts/sync_stable_catalog.py
 
 2026-09-05 的真实只读全站结果为：官网2961件；在线PDF特殊311件、离线永久记忆40件；另排除WEB限定186件、明确促销价格2件；`46-8299-611` 因官网详情仍含一个非HTTPS旧图片资源进入复核。最终稳定池2461件/13782 variants/30172个有序去重图片资源。相对旧2615件候选池剔除188件、加入34件。全部商品名及其它可靠字段中的WEB限定/促销信号均为稳定池零泄漏，稳定池图片资源也实现零非HTTPS；完整证据见 `deliverables/storefront_stable_catalog/stable_pool_audit.json`。
 
+### 稳定池自动增量规划
+
+`scripts/sync_mikihouse_cycle.py` 是未来定时与人工“立即同步”的唯一共享入口。它保存 `state/mikihouse_source_sync_state.json.gz`，将官网真正下架/恢复与 WEB限定、限时促销、稳定性待复核隔离/恢复分别建模，并以规范化事件 ID + ledger 保证重跑幂等。详细转换和动作语义见 `docs/mikihouse_incremental_sync.md`。
+
+离线运行（不重抓官网）：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/sync_mikihouse_cycle.py --trigger manual
+```
+
+真实定时运行与手动运行共用同一核心，只需增加 `--refresh-storefront` 先完成官网全量只读 crawl。无论 trigger 为何，当前实现都在 `PLANNING_ONLY` 硬停止，没有 action execution 开关。输出为 `normalized_events.json`、`shijiu_action_plan.json` 和 `sync_cycle_report.json`，所有 action 均标记 `execution_allowed=false`。
+
+本轮用上述2961件完整快照建立基线，包含18533个variants。对同一快照连续重放后是0个新事件、0个动作，`idempotent_replay_produced_no_new_events=true`。Shijiu/COS/上下架/价格库存写入均为0，未生成writer mutex evidence，未触碰legacy286。脱敏结果见 `deliverables/storefront_stable_catalog/sync_cycle_planning_report.json`、`future_automatic_sync_readiness.json` 和 `offline_incremental_sync_rehearsal.json`。
+
 ## Shijiu importer discovery 与 dry-run
 
 本项目的最终目标端是 **Shijiu（世九）小程序后台**。`qinxitong8666/wawu-product-sync` 仅作为其中可明确定位到 Shijiu 的下游 client、字段样例、回读、checkpoint/resume、回滚和批处理安全机制的参考；瓦屋上游 API、瓦屋 mapper、瓦屋价格/分类/SKU 语义均未复用。证据边界和当前 main 缺失的真实成功写入证据详见 `docs/shijiu_downstream_contract_audit.md`。

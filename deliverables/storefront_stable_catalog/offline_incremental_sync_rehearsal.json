@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T02:27:17.239084+00:00",
+  "status": "PASS_PLANNING_ONLY",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "source_of_truth": "output/storefront-stable/stable_catalog.json",
+  "real_snapshot_rehearsal": {
+    "complete_pagination_validated": true,
+    "storefront_product_count": 2961,
+    "source_variant_count": 18533,
+    "stable_product_count": 2461,
+    "pdf_special_online_count": 311,
+    "web_exclusive_count": 186,
+    "limited_time_price_count": 2,
+    "review_required_stability_count": 1,
+    "identical_snapshot_replay": true,
+    "new_event_count_on_final_replay": 0,
+    "new_action_count_on_final_replay": 0,
+    "pending_action_count_on_final_replay": 0,
+    "idempotent_replay_passed": true
+  },
+  "fixture_transition_coverage": [
+    {
+      "scenario": "normal stable price change",
+      "expected": "PRICE_CHANGED with ceil(normal JPY * 0.65)",
+      "result": "PASS"
+    },
+    {
+      "scenario": "normal stable no change",
+      "expected": "NO_CHANGE",
+      "result": "PASS"
+    },
+    {
+      "scenario": "available true to false",
+      "expected": "INVENTORY_CHANGED target_stock=0",
+      "result": "PASS"
+    },
+    {
+      "scenario": "available false to true",
+      "expected": "INVENTORY_CHANGED target_stock=1",
+      "result": "PASS"
+    },
+    {
+      "scenario": "new exact variant SKU",
+      "expected": "NEW_VARIANT",
+      "result": "PASS"
+    },
+    {
+      "scenario": "variant absent from complete product crawl and later returns",
+      "expected": "VARIANT_INACTIVE then VARIANT_REACTIVATED",
+      "result": "PASS"
+    },
+    {
+      "scenario": "product absent from complete full crawl and later returns",
+      "expected": "PRODUCT_INACTIVE then PRODUCT_REACTIVATED",
+      "result": "PASS"
+    },
+    {
+      "scenario": "incomplete crawl",
+      "expected": "fail closed before state advancement; no inactive event",
+      "result": "PASS"
+    },
+    {
+      "scenario": "stable to compare-at limited-time promotion",
+      "expected": "STABILITY_QUARANTINE; no PRICE_CHANGED",
+      "result": "PASS"
+    },
+    {
+      "scenario": "promotion ends and normal price returns",
+      "expected": "guarded STABILITY_RESTORED",
+      "result": "PASS"
+    },
+    {
+      "scenario": "stable to WEB exclusive",
+      "expected": "STABILITY_QUARANTINE",
+      "result": "PASS"
+    },
+    {
+      "scenario": "new WEB exclusive",
+      "expected": "no CREATE action",
+      "result": "PASS"
+    },
+    {
+      "scenario": "stable to REVIEW_REQUIRED_STABILITY",
+      "expected": "STABILITY_QUARANTINE for bound MIKIHOUSE product",
+      "result": "PASS"
+    },
+    {
+      "scenario": "PDF_SPECIAL_LIST product",
+      "expected": "no Shijiu event or action, including restoration",
+      "result": "PASS"
+    },
+    {
+      "scenario": "previously planned product later becomes PDF_SPECIAL_LIST",
+      "expected": "all pending Shijiu actions cancelled before planning output",
+      "result": "PASS"
+    },
+    {
+      "scenario": "abnormal price jump",
+      "expected": "REVIEW_REQUIRED; no UPDATE_PRICE",
+      "result": "PASS"
+    },
+    {
+      "scenario": "official ordered image set only changes",
+      "expected": "IMAGE_CHANGED only",
+      "result": "PASS"
+    },
+    {
+      "scenario": "unconsumed CREATE then product becomes WEB exclusive",
+      "expected": "stale CREATE superseded and removed from pending plan",
+      "result": "PASS"
+    },
+    {
+      "scenario": "consumed event and identical input replay",
+      "expected": "no duplicate event or action",
+      "result": "PASS"
+    },
+    {
+      "scenario": "stable catalog membership or variant data is stale",
+      "expected": "fail closed before state write",
+      "result": "PASS"
+    }
+  ],
+  "target_safety": {
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "legacy_286_touched": false,
+    "new_20_product_plan_generated": false
+  },
+  "verification": {
+    "command": "PYTHONPYCACHEPREFIX=/tmp/miki-pyc .venv/bin/python -m pytest -q tests/test_stable_sync.py tests/test_stable_sync_evidence.py",
+    "result": "21 passed",
+    "full_suite_command": "PYTHONPYCACHEPREFIX=/tmp/miki-pyc .venv/bin/python -m pytest -q",
+    "full_suite_result": "202 passed",
+    "unified_verification": "PASS",
+    "sensitive_values_recorded": false
+  }
+}

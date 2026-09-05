@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "SYNC_CYCLE_PLANNED_NO_WRITE",
+  "mode": "PLANNING_ONLY",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "captured_at": "2026-09-05T01:37:07.388424+00:00",
+  "cycle_number": 9,
+  "baseline_initialization": false,
+  "complete_crawl_required_and_validated": true,
+  "stable_catalog_is_only_eligible_source_of_truth": true,
+  "counts": {
+    "source_product_count": 2961,
+    "source_variant_count": 18533,
+    "stable_product_count": 2461,
+    "pdf_special_count_online": 311,
+    "pdf_special_count_offline_remembered": 40,
+    "web_exclusive_count": 186,
+    "limited_time_price_count": 2,
+    "review_required_stability_count": 1,
+    "new_event_count": 0,
+    "new_action_count": 0,
+    "event_counts": {},
+    "pending_action_counts": {},
+    "pending_action_event_count": 0
+  },
+  "safety": {
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "legacy_286_touched": false,
+    "writer_mutex_evidence_generated": false,
+    "operator_reported_wawu_may_be_active": true,
+    "planning_only_hard_stop": true
+  },
+  "event_file_contains_only_new_unique_events": true,
+  "action_file_contains_all_unconsumed_pending_actions": true,
+  "identical_snapshot_replay": true,
+  "idempotent_replay_produced_no_new_events": true,
+  "actions_are_non_executable": true,
+  "trigger": "manual",
+  "outputs": {
+    "source_state": "state/mikihouse_source_sync_state.json.gz",
+    "source_state_file_sha256": "5bce7c2f7c3d33e99d200c5a5653c6a46ef38dfac2950d90162e781ce60c7fad",
+    "source_state_logical_sha256": "be631e4934bc05f705020b4e6c94c2be98be0b63035c297a1c3ea900eb294904",
+    "normalized_events": "output/storefront-sync-cycle/normalized_events.json",
+    "shijiu_action_plan": "output/storefront-sync-cycle/shijiu_action_plan.json",
+    "local_sync_cycle_report": "output/storefront-sync-cycle/sync_cycle_report.json"
+  },
+  "protected_state_update": {
+    "reason": "persist last complete MIKIHOUSE source snapshot and idempotent event ledger",
+    "atomic_replace": true,
+    "previous_snapshot_kept_outside_git": true
+  }
+}

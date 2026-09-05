@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mikihouse-luyao"
-version = "0.17.0"
+version = "0.18.0"
 description = "MIKI HOUSE product scraper and PDF price-list generator"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -17,6 +17,7 @@ dev = ["pytest>=8.0"]
 mikihouse-luyao = "mikihouse_luyao.cli:main"
 mikihouse-storefront-sync = "mikihouse_luyao.catalog:main"
 mikihouse-stable-sync = "mikihouse_luyao.stable_catalog:main"
+mikihouse-sync-cycle = "mikihouse_luyao.stable_sync:main"
 mikihouse-shijiu-plan = "mikihouse_luyao.shijiu_import:main"
 
 [tool.setuptools.packages.find]
