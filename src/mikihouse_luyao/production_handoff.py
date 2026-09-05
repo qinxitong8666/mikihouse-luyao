@@ -352,6 +352,8 @@ def evaluate_handoff(
         and sync_cycle_report.get("mode") == "PLANNING_ONLY"
         and sync_cycle_report.get("complete_crawl_required_and_validated") is True
         and sync_cycle_report.get("actions_are_non_executable") is True
+        and sync_cycle_report.get("identical_snapshot_replay") is True
+        and sync_cycle_report.get("idempotent_replay_produced_no_new_events") is True
         and sync_cycle_report.get("captured_at") == source_snapshot.get("captured_at")
         and sync_safety.get("shijiu_requests") == 0
         and sync_safety.get("shijiu_create_requests") == 0
@@ -373,6 +375,12 @@ def evaluate_handoff(
             ),
             "actions_are_non_executable": sync_cycle_report.get(
                 "actions_are_non_executable"
+            ),
+            "identical_snapshot_replay": sync_cycle_report.get(
+                "identical_snapshot_replay"
+            ),
+            "idempotent_replay_produced_no_new_events": sync_cycle_report.get(
+                "idempotent_replay_produced_no_new_events"
             ),
             "counts": sync_cycle_report.get("counts"),
             "safety": sync_safety,
@@ -793,6 +801,24 @@ def orchestrate(root: Path) -> dict[str, Any]:
         initialize_baseline=False,
         trigger="production_handoff_preparation",
     )
+    first_incremental_pass = _read_json(
+        root / "output/storefront-sync-cycle/sync_cycle_report.json"
+    )
+    # A second pass over the exact same completed snapshot is deliberately part of
+    # preparation. It proves the event ledger/checkpoint is idempotent and must not
+    # perform another Storefront crawl or any target request.
+    run_cycle(
+        source_path=source_dir / "source_catalog.json",
+        stable_path=source_dir / "stable_catalog.json",
+        special_path=special_path,
+        mapping_path=root / "state/shijiu_mappings.json",
+        price_guard_path=root / "config/shijiu_price_guard.json",
+        state_path=root / "state/mikihouse_source_sync_state.json.gz",
+        output_dir=root / "output/storefront-sync-cycle",
+        report_dir=stable_reports,
+        initialize_baseline=False,
+        trigger="production_handoff_idempotency_replay",
+    )
     build_initialization_plan(["--replace-planning-only-checkpoint"])
 
     source = _read_json(source_dir / "source_catalog.json")
@@ -877,6 +903,16 @@ def orchestrate(root: Path) -> dict[str, Any]:
             ),
         },
         "historical_frozen_sources": historical_sources,
+        "source_incremental_first_pass": {
+            "status": first_incremental_pass.get("status"),
+            "captured_at": first_incremental_pass.get("captured_at"),
+            "counts": first_incremental_pass.get("counts"),
+            "actions_are_non_executable": first_incremental_pass.get(
+                "actions_are_non_executable"
+            ),
+            "safety": first_incremental_pass.get("safety"),
+            "evidence_logical_sha256": content_sha256(first_incremental_pass),
+        },
         "outputs": {
             "readiness": str(REPORT_RELATIVE_PATH),
             "resource_preflight": str(PREFLIGHT_RELATIVE_PATH),

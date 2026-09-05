@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T07:32:48.617341+00:00",
+  "generated_at": "2026-09-05T07:45:00.473173+00:00",
   "status": "READY_FOR_REPEATABLE_OFFLINE_PLANNING_TARGET_WRITES_BLOCKED",
   "production_write_status": "PROHIBITED_WAWU_MAY_BE_ACTIVE",
   "source_of_truth": "output/storefront-stable/stable_catalog.json",
   "last_successful_source_state": {
-    "captured_at": "2026-09-05T07:30:46.449748+00:00",
+    "captured_at": "2026-09-05T07:39:28.460192+00:00",
     "complete_pagination_validated": true,
     "storefront_product_count": 2961,
-    "source_snapshot_sha256": "76970f51c3db3f8b08af91bdae80d80255e98e5b7911a3a825fc0bcb488afa18",
+    "source_snapshot_sha256": "5d2d19321f7c279f1be43fc260274629bae3d67d5c7aac21954819db543f6782",
     "stable_catalog_active_product_count": 2435
   },
   "recognized_event_types": [
@@ -59,8 +59,8 @@
     "mode": "PLANNING_ONLY",
     "source": "MIKIHOUSE",
     "target": "SHIJIU",
-    "captured_at": "2026-09-05T07:30:46.449748+00:00",
-    "cycle_number": 17,
+    "captured_at": "2026-09-05T07:39:28.460192+00:00",
+    "cycle_number": 19,
     "baseline_initialization": false,
     "complete_crawl_required_and_validated": true,
     "stable_catalog_is_only_eligible_source_of_truth": true,
@@ -95,14 +95,14 @@
     },
     "event_file_contains_only_new_unique_events": true,
     "action_file_contains_all_unconsumed_pending_actions": true,
-    "identical_snapshot_replay": false,
-    "idempotent_replay_produced_no_new_events": false,
+    "identical_snapshot_replay": true,
+    "idempotent_replay_produced_no_new_events": true,
     "actions_are_non_executable": true,
-    "trigger": "production_handoff_preparation",
+    "trigger": "production_handoff_idempotency_replay",
     "outputs": {
       "source_state": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/state/mikihouse_source_sync_state.json.gz",
-      "source_state_file_sha256": "c66d0a51a10a0a4e258cef971532f5d26014e5b753193dc1a4ef3323fa56ccf4",
-      "source_state_logical_sha256": "69f0b980a2ff380138377ffaf372fd20f2d2dc12c9aa06cb95906b3b697ad36e",
+      "source_state_file_sha256": "e9050c62df41e99c0aed3892b7129917d9c6622e64e6005ef882fc0b94610586",
+      "source_state_logical_sha256": "f92eda2f69ee7fe677067fc827e230d1d1ef9f31128d16650f4c48ce077999c5",
       "normalized_events": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-sync-cycle/normalized_events.json",
       "shijiu_action_plan": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-sync-cycle/shijiu_action_plan.json",
       "local_sync_cycle_report": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/storefront-sync-cycle/sync_cycle_report.json"

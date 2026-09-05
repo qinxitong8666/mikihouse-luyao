@@ -209,6 +209,16 @@ def test_same_inputs_are_idempotent() -> None:
     ]
 
 
+def test_sync_cycle_evidence_requires_an_identical_snapshot_replay() -> None:
+    inputs = fixture_inputs()
+    inputs["sync_cycle_report"] = copy.deepcopy(inputs["sync_cycle_report"])
+    inputs["sync_cycle_report"]["identical_snapshot_replay"] = False
+    inputs["sync_cycle_report"]["idempotent_replay_produced_no_new_events"] = False
+    result = evaluate_handoff(**inputs)
+    assert result["handoff_decision"] == BLOCKED
+    assert "SOURCE_INCREMENTAL_PLANNING_ONLY" in result["blocked_reason_codes"]
+
+
 def test_resource_preflight_is_source_only_and_deduplicates_urls() -> None:
     calls = []
 

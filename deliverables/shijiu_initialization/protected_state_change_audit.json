@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T07:30:46.449748+00:00",
+  "generated_at": "2026-09-05T07:39:28.460192+00:00",
   "status": "PROTECTED_STATE_INTENTIONALLY_UPDATED_OFFLINE",
   "mode": "PREPARATION_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
-  "parent_commit": "27608d8f9e05c570d9521213607c7b26218a38a7",
+  "parent_commit": "dc180d0a5ff22ec352de8cdf660c2f2596900361",
   "affected_state": [
     {
       "path": "state/mikihouse_initialization_checkpoint.json.gz",
       "reason": "atomically refresh complete-source planning state for production handoff preparation",
-      "before_sha256": "825c33caf03011c2f4e08eaf622fc6c3692347fa1142cd3abf5d3d9bb80d4d81",
-      "after_sha256": "98ae40f57b926cb434f78bbcd12a7a5527eb682846dcd69c01c4bf036b49fcc2",
+      "before_sha256": "98ae40f57b926cb434f78bbcd12a7a5527eb682846dcd69c01c4bf036b49fcc2",
+      "after_sha256": "ba838320a18eb25c9f5ba97765af3e3d09c504edc013f3735097f00f4e9dac1e",
       "status": "FROZEN_PLANNING_ONLY",
       "shijiu_mutation_count": 0,
       "writer_mutex_evidence_generated": false
@@ -18,8 +18,8 @@
     {
       "path": "state/mikihouse_source_sync_state.json.gz",
       "reason": "atomically refresh complete-source planning state for production handoff preparation",
-      "before_sha256": "fc7011607a36d780b79c69bba3dfdc643b3491668aa7418a87894f97a3cfd47b",
-      "after_sha256": "c66d0a51a10a0a4e258cef971532f5d26014e5b753193dc1a4ef3323fa56ccf4",
+      "before_sha256": "c66d0a51a10a0a4e258cef971532f5d26014e5b753193dc1a4ef3323fa56ccf4",
+      "after_sha256": "e9050c62df41e99c0aed3892b7129917d9c6622e64e6005ef882fc0b94610586",
       "status": null,
       "shijiu_mutation_count": 0,
       "writer_mutex_evidence_generated": false
@@ -29,14 +29,14 @@
     {
       "path": "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
       "reason": "rebuild from the newly completed official Storefront crawl",
-      "before_sha256": "dc926da5b2543bf2c79a14f8096b28047cdb4d2e98c4e25054292a4811a632ac",
-      "after_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d"
+      "before_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d",
+      "after_sha256": "9c02e16709b72fc05b17b1d2c77714dcdb7af8d6f8b1b95d7fecc9b68b4d90cb"
     },
     {
       "path": "deliverables/shijiu_initialization/stable_initialization_batch_plan.json.gz",
       "reason": "rebuild from the newly completed official Storefront crawl",
-      "before_sha256": "5268a124cdf5f06433c4c9f545600a0c8792664561f82237d71161cf852b19cd",
-      "after_sha256": "ce98e7c7c9f904129d0c228c0476c44472717978afd12861c702749b58f01634"
+      "before_sha256": "ce98e7c7c9f904129d0c228c0476c44472717978afd12861c702749b58f01634",
+      "after_sha256": "8bb0ba5891c15d53cf7b8f2fe3ba11c418b262e73c145ead8dd3669d7244c5bf"
     }
   ],
   "unchanged_protected_artifacts": [
@@ -55,8 +55,8 @@
   ],
   "backup_evidence": {
     "changed_state_and_deliverables_copied_before_refresh": true,
-    "git_external_backup_directory": "/private/tmp/mikihouse-production-handoff-backups/20260905T073046Z-27608d8f9e05",
-    "backup_manifest_sha256": "63aa31e7908129022c7127b78a109ca966e272e4eba77f8b9f625a5543890dd6",
+    "git_external_backup_directory": "/private/tmp/mikihouse-production-handoff-backups/20260905T073928Z-dc180d0a5ff2",
+    "backup_manifest_sha256": "0f0adadbc4178f957ad38e78bb108dd08f2e8728211693ad594f99b93d1bfab8",
     "sensitive_values_included": false
   },
   "historical_stale_plan": {

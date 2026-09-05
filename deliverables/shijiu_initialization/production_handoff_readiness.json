@@ -2,16 +2,13 @@
   "schema_version": 1,
   "status": "PREPARATION_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
-  "handoff_decision": "BLOCKED",
+  "handoff_decision": "READY_TO_REQUEST_EXCLUSIVE_WRITER_WINDOW",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
   "repo": "qinxitong8666/mikihouse-luyao",
   "branch": "main",
-  "head_sha": "27608d8f9e05c570d9521213607c7b26218a38a7",
-  "blocked_reason_codes": [
-    "CATEGORY_AND_CONTRACT_HASHES",
-    "INITIALIZATION_PLAN_DISJOINTNESS"
-  ],
+  "head_sha": "dc180d0a5ff22ec352de8cdf660c2f2596900361",
+  "blocked_reason_codes": [],
   "checks": [
     {
       "id": "COMPLETE_STOREFRONT_CRAWL",
@@ -25,7 +22,7 @@
     {
       "id": "STABLE_AND_EXCLUSION_POOLS_REBUILT",
       "status": "PASSED",
-      "evidence_logical_sha256": "a3491a8feee79571de3c38c903bc9f0ff63188425166729db14730f8a6afdbd1",
+      "evidence_logical_sha256": "0580d51cac66fd3640c3b924e4c635e11ca23aff9114f5a460314e7b1933b2aa",
       "evidence": {
         "counts": {
           "storefront_total_product_count": 2961,
@@ -41,19 +38,21 @@
           "stable_catalog_image_resource_count": 30145
         },
         "stable_forbidden_intersection": [],
-        "audit_logical_sha256": "90e97cee2aa8738ed23af8c3d0da75aa4057b5dff43924889d07d9774c11b3ac"
+        "audit_logical_sha256": "93eeba8bfa95b874b11d72cd653e1c7a6932c042ad3b5db445ca2e64136d980b"
       }
     },
     {
       "id": "SOURCE_INCREMENTAL_PLANNING_ONLY",
       "status": "PASSED",
-      "evidence_logical_sha256": "7086c165477a0607bc96660d29d6f041b2de62525b1691487d93c427281af9d7",
+      "evidence_logical_sha256": "c5e4ebc9cfbdf5b0a30a16a8ae9562609acfbf49587450e75feb4f0ed8602aea",
       "evidence": {
         "status": "SYNC_CYCLE_PLANNED_NO_WRITE",
         "mode": "PLANNING_ONLY",
-        "captured_at": "2026-09-05T07:30:46.449748+00:00",
+        "captured_at": "2026-09-05T07:39:28.460192+00:00",
         "complete_crawl_required_and_validated": true,
         "actions_are_non_executable": true,
+        "identical_snapshot_replay": true,
+        "idempotent_replay_produced_no_new_events": true,
         "counts": {
           "source_product_count": 2961,
           "source_variant_count": 18533,
@@ -88,11 +87,11 @@
     {
       "id": "REPOSITORY_IDENTITY",
       "status": "PASSED",
-      "evidence_logical_sha256": "4d04b9ba2edc82a2066281eda05c64f87711b6983079fdf87501787bcdbc92da",
+      "evidence_logical_sha256": "4cd0148dfea4b8e0ccdadb845906333091d62b07aff4154356edd08434402feb",
       "evidence": {
         "repo": "qinxitong8666/mikihouse-luyao",
         "branch": "main",
-        "head_sha": "27608d8f9e05c570d9521213607c7b26218a38a7"
+        "head_sha": "dc180d0a5ff22ec352de8cdf660c2f2596900361"
       }
     },
     {
@@ -150,20 +149,20 @@
     },
     {
       "id": "CATEGORY_AND_CONTRACT_HASHES",
-      "status": "FAILED",
-      "evidence_logical_sha256": "bb244428b45de2391df2b77f5bc69b06964364abd6eccc2d95e107fef8e33162",
+      "status": "PASSED",
+      "evidence_logical_sha256": "5564d624b5e67249b2aae7db7421e65ec9e8b06548f5f00b0ad27d39055ea573",
       "evidence": {
-        "target_category_id": 0,
+        "target_category_id": 294884,
         "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28",
         "duplicate_name_identity_contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
         "price_policy_logical_sha256": "662a5cae44fba6506780ec2c9af775651fd8c10025d1b90c3b70538fb28a3076",
         "pilot_freshness": {
-          "stable_catalog_file_sha256": "c9e17ebfbc0c92ce9acc6ff2d8b013fd3c7c993ddf7d41851847c1ff3792067d",
-          "stable_catalog_logical_sha256": "980cc2a66913506bfabb394923ca689ed2d9586efabc6787d162654e5be501c1",
-          "source_snapshot_file_sha256": "c9f9c5059ecd9f9340522f83556f70b264fafe416aa3522abeabc7327bcf1142",
-          "source_snapshot_logical_sha256": "76970f51c3db3f8b08af91bdae80d80255e98e5b7911a3a825fc0bcb488afa18",
-          "source_snapshot_captured_at": "2026-09-05T07:30:46.449748+00:00",
-          "stable_catalog_synced_at": "2026-09-05T07:30:46.449748+00:00",
+          "stable_catalog_file_sha256": "9c02e16709b72fc05b17b1d2c77714dcdb7af8d6f8b1b95d7fecc9b68b4d90cb",
+          "stable_catalog_logical_sha256": "58d00abcfa9e47c34b4cc3e1c9e0622584223e0943cbf5356578517bd8400e25",
+          "source_snapshot_file_sha256": "ef4f64d9443616794e455f9d4f58c18a301150ee9737452863c35f0c4a434001",
+          "source_snapshot_logical_sha256": "5d2d19321f7c279f1be43fc260274629bae3d67d5c7aac21954819db543f6782",
+          "source_snapshot_captured_at": "2026-09-05T07:39:28.460192+00:00",
+          "stable_catalog_synced_at": "2026-09-05T07:39:28.460192+00:00",
           "requires_new_complete_storefront_crawl_after_generated_at": true,
           "fail_closed_if_any_top_level_hash_changes": true,
           "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
@@ -218,7 +217,7 @@
     },
     {
       "id": "INITIALIZATION_PLAN_DISJOINTNESS",
-      "status": "FAILED",
+      "status": "PASSED",
       "evidence_logical_sha256": "11de0ff6e3e83b6e597f639be100d66e32549954bb8c456f11263220a882b951",
       "evidence": {
         "counts": {
@@ -257,7 +256,7 @@
     {
       "id": "PILOT_RESOURCE_PREFLIGHT",
       "status": "PASSED",
-      "evidence_logical_sha256": "ed9d0c1e52e70a5fdd28b73c0cc13a2c0bbce61a49ecca606125068385b5b9ab",
+      "evidence_logical_sha256": "54b0a94ad5b974742df7942a0c4055186254eb940cc3176d7aec63632667ee57",
       "evidence": {
         "status": "PASSED",
         "pilot_product_count": 20,
@@ -265,7 +264,7 @@
         "unique_source_url_count": 613,
         "passed_unique_source_url_count": 613,
         "failed_unique_source_url_count": 0,
-        "evidence_logical_sha256": "0743561a91aaa2d52b623810fd3a3f895e74e088a4224dec3146ea6559865394"
+        "evidence_logical_sha256": "52d7fef867ad081e5b9db88781dc73ad3531827a816e93a793cf0cd014ede409"
       }
     },
     {
@@ -348,7 +347,7 @@
     "legacy_286_cleanup": "separate future task only",
     "successful_initialization_handoff": "immediately enter incremental sync state; future CREATE forbidden"
   },
-  "terminal_boundary": "Preparation is blocked. No writer window may be requested until all failed checks pass.",
+  "terminal_boundary": "Preparation checks passed. A separate explicitly authorized future task must confirm all other writers stopped and request the exclusive writer window.",
   "safety": {
     "shijiu_requests": 0,
     "shijiu_create_requests": 0,
@@ -361,14 +360,14 @@
     "pilot_execution_count": 0,
     "full_initialization_execution_count": 0
   },
-  "decision_evidence_logical_sha256": "6d220f2a28a91a4fd64b169ebe0da71d646d86bf7bfd78676509b1d61d5dc134",
+  "decision_evidence_logical_sha256": "108cdad48be7bddedafb8359fdc53e4a3aac01bf98df3032235e3f645846b591",
   "machine_auditable_evidence_complete": true,
-  "generated_at": "2026-09-05T07:30:46.449748+00:00",
+  "generated_at": "2026-09-05T07:39:28.460192+00:00",
   "protected_state_backup": {
-    "location": "/private/tmp/mikihouse-production-handoff-backups/20260905T073046Z-27608d8f9e05",
+    "location": "/private/tmp/mikihouse-production-handoff-backups/20260905T073928Z-dc180d0a5ff2",
     "git_external": true,
-    "file_count": 24,
-    "manifest_sha256": "63aa31e7908129022c7127b78a109ca966e272e4eba77f8b9f625a5543890dd6"
+    "file_count": 26,
+    "manifest_sha256": "0f0adadbc4178f957ad38e78bb108dd08f2e8728211693ad594f99b93d1bfab8"
   },
   "historical_frozen_sources": [
     {
@@ -482,6 +481,43 @@
       "product_number_count": 20
     }
   ],
+  "source_incremental_first_pass": {
+    "status": "SYNC_CYCLE_PLANNED_NO_WRITE",
+    "captured_at": "2026-09-05T07:39:28.460192+00:00",
+    "counts": {
+      "source_product_count": 2961,
+      "source_variant_count": 18533,
+      "stable_product_count": 2435,
+      "pdf_special_count_online": 311,
+      "pdf_special_count_offline_remembered": 40,
+      "web_exclusive_count": 186,
+      "limited_time_price_count": 2,
+      "non_sellable_service_or_addon_count": 27,
+      "review_required_stability_count": 0,
+      "new_event_count": 17,
+      "new_action_count": 0,
+      "event_counts": {
+        "INVENTORY_CHANGED": 17
+      },
+      "pending_action_counts": {
+        "CREATE_PRODUCT": 1
+      },
+      "pending_action_event_count": 1
+    },
+    "actions_are_non_executable": true,
+    "safety": {
+      "shijiu_requests": 0,
+      "shijiu_create_requests": 0,
+      "shijiu_update_requests": 0,
+      "shijiu_cos_upload_requests": 0,
+      "shijiu_shelf_price_inventory_writes": 0,
+      "legacy_286_touched": false,
+      "writer_mutex_evidence_generated": false,
+      "operator_reported_wawu_may_be_active": true,
+      "planning_only_hard_stop": true
+    },
+    "evidence_logical_sha256": "a5d990ef27e05299352252125df05a23a2101b2e4d65e7d1554928aa2c97fea7"
+  },
   "outputs": {
     "readiness": "deliverables/shijiu_initialization/production_handoff_readiness.json",
     "resource_preflight": "deliverables/shijiu_initialization/production_handoff_resource_preflight.json",

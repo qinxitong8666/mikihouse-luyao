@@ -14854,9 +14854,9 @@
     "shijiu_cos_upload_requests": 0,
     "writer_mutex_evidence_generated": false
   },
-  "evidence_logical_sha256": "0743561a91aaa2d52b623810fd3a3f895e74e088a4224dec3146ea6559865394",
-  "generated_at": "2026-09-05T07:30:46.449748+00:00",
-  "head_sha": "27608d8f9e05c570d9521213607c7b26218a38a7",
-  "source_snapshot_logical_sha256": "76970f51c3db3f8b08af91bdae80d80255e98e5b7911a3a825fc0bcb488afa18",
-  "stable_catalog_logical_sha256": "980cc2a66913506bfabb394923ca689ed2d9586efabc6787d162654e5be501c1"
+  "evidence_logical_sha256": "52d7fef867ad081e5b9db88781dc73ad3531827a816e93a793cf0cd014ede409",
+  "generated_at": "2026-09-05T07:39:28.460192+00:00",
+  "head_sha": "dc180d0a5ff22ec352de8cdf660c2f2596900361",
+  "source_snapshot_logical_sha256": "5d2d19321f7c279f1be43fc260274629bae3d67d5c7aac21954819db543f6782",
+  "stable_catalog_logical_sha256": "58d00abcfa9e47c34b4cc3e1c9e0622584223e0943cbf5356578517bd8400e25"
 }
