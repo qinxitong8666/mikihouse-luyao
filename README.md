@@ -868,8 +868,30 @@ PYTHONPATH=src python scripts/import_shijiu_richtext_e2e.py \
 
 由于互斥证据缺失，`production_import_architecture_verified=false`。生成的20件代表性计划仅用于冻结审阅，状态为 `FROZEN_BLOCKED_MUTEX_EVIDENCE_NOT_CAPTURED`，不得执行。后续外部互斥证据的非敏感结构由 `config/shijiu_writer_mutex_evidence.schema.json` 定义；原值必须留在Git工作区外，并且每个写入阶段都要重新匹配当前仓库HEAD、商品和stage。一次性非MIKI富文本测试商品继续保留，不纳入本轮清理。
 
-## Shijiu 20件生产 pilot（历史计划已失效）
+## Shijiu 首次初始化离线规划（当前）
 
 `richtext_e2e_next_20_frozen_plan.json` 产生于稳定池新规则之前，现仅作为历史证据保留，状态固定为 `STALE_BUSINESS_RULE_CHANGED`、`must_never_execute=true`。相应 checkpoint 不得恢复，旧计划不能生成 writer 独占确认，`scripts/import_shijiu_pilot_20.py` 会在任何网络或目标请求前 fail closed。
 
-2026-09-05 已知 WAWU 正在同一 Shijiu 正式租户执行生产写入，因此本轮没有生成 MIKIHOUSE writer evidence，也没有执行 Shijiu CREATE/UPDATE、COS生产上传、上下架或价格库存写入。只有稳定池被业务验收且未来另行授权后，才能从当时最新 `stable_catalog` 重新生成一份新的20件计划；本轮不会提前生成该计划。
+`scripts/plan_shijiu_stable_initialization.py` 是首次初始化的纯离线规划入口。它只读取已完成的完整官网 source snapshot、压缩 `stable_catalog`、351特殊名单、mapping、历史冻结状态及已验证价格/富文本配置，不创建网络 client，也没有 live-write 参数：
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/plan_shijiu_stable_initialization.py
+```
+
+入口执行以下 fail-closed 检查：完整官网分页证明；stable/source 单商品价格、库存、variant和图片指纹一致；351特殊名单数量；固定类目294884；`ceil(tax_included_price_jpy × 0.65)`；`availableForSale` 到0/1库存；`good_details` 文字/轻HTML且无图片、无URL；已映射与全部历史尝试/冻结品番禁止 CREATE。每件可计划商品保存 `CREATE_CORE`、每步最多8张的broadcast UPDATE、每步最多8张的`good_detail_pics` UPDATE、nullable `shijiu_sku_id`、脱敏payload SHA-256及只含官方source URL/hash/顺序的资源manifest。规划过程不下载图片、不上传COS、不读取Shijiu，也不生成mutex evidence。
+
+新输出位于 `deliverables/shijiu_initialization/`：
+
+- `stable_pilot_20_frozen_plan.json`：当前stable pool中新选的20件代表性冻结pilot，footwear/apparel/baby/goods各5件；
+- `stable_initialization_batch_plan.json.gz`：逐商品stage、variant、资源manifest及分层批次的完整计划；
+- `stable_initialization_batch_summary.json`：按简单、普通、多SKU、富媒体、高复杂度排序的批次摘要；
+- `stable_initialization_data_quality_audit.json`：2461件的价格、variant、图片、名称、SKU与identity审计；
+- `stable_initialization_capacity_estimate.json`：未来CREATE/UPDATE/COS/readback工作量估算；
+- `stable_initialization_readiness.json`：freshness、交接和写入阻塞结论；
+- `state/mikihouse_initialization_checkpoint.json.gz`：只含 `FROZEN_PLANNING_ONLY` 的批次/商品初始checkpoint，mutation计数为0。
+
+当前2461件全部有且仅有一个初始化处置：795件通过数据质量门禁并被拆为52个隔离批次；5件已有经过验证的MIKIHOUSE mapping，禁止再次CREATE并交给增量引擎；32件属于历史尝试/冻结集合；1629件进入初始化复核。复核中1603件使用重复的官网通用名称，不能满足当前强回读的“精确good_name唯一定位”身份契约；另有7件缺图及37件价格超出现有guard（问题可重叠）。规划器不会为了凑足2461件而放宽这些门禁。
+
+未来执行任一pilot或批次前，必须完成新的全站crawl并用 stable catalog/source snapshot 顶层hash及逐商品指纹检查 freshness。商品若变为特殊、WEB限定、促销、稳定性待复核或inactive，在任何目标动作前冻结；价格、库存、variant或图片变化则整件重新生成stage payload。初始化完成并取得 verified MIKIHOUSE mapping 后，由交接函数将商品登记到现有 source sync state，此后只接受增量事件，禁止定时任务再次CREATE。同一checkpoint重跑幂等；批次失败只冻结当前批次，后续批次不被污染。
+
+2026-09-05 当前 WAWU 仍可能在同一正式租户写入，因此所有新计划状态均为 `PLANNING_ONLY / SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER`，`execution_authorized=false`。本轮 Shijiu请求、CREATE、UPDATE、COS生产上传、上下架、价格库存写入及writer mutex evidence生成均为0；legacy286也未访问或修改。

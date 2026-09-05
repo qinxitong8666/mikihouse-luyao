@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T01:37:07.388424+00:00",
+  "status": "INITIALIZATION_PLANS_READY_OFFLINE_EXECUTION_BLOCKED",
+  "mode": "PLANNING_ONLY",
+  "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+  "source": "MIKIHOUSE",
+  "target": "SHIJIU",
+  "stable_catalog_is_only_source_of_truth": true,
+  "freshness_guard": {
+    "stable_catalog_file_sha256": "67de6b6166704558e8ef46bd19414a92280eb466e4cb9fbd23c652774f9d1182",
+    "stable_catalog_logical_sha256": "1e37a1570a28e230199007efc755c7c42961def479168f6a978cf0440d973be0",
+    "source_snapshot_file_sha256": "f9c3d7ae8c70fdaeb5167763426605336bd2bf5c4b1b623bfd8df010aab34092",
+    "source_snapshot_logical_sha256": "53f0ceda455711b1484eed390a48cfdb46439bc44edf9cd40f6772383841a2a6",
+    "source_snapshot_captured_at": "2026-09-05T01:37:07.388424+00:00",
+    "stable_catalog_synced_at": "2026-09-05T01:37:07.388424+00:00",
+    "requires_new_complete_storefront_crawl_after_generated_at": true,
+    "fail_closed_if_any_top_level_hash_changes": true,
+    "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
+    "stability_reclassification_before_any_target_mutation": true,
+    "richtext_contract_logical_sha256": "a0439b622fb19822d94cddb03b543f0381de5101cb20f044121823415e941a28"
+  },
+  "new_pilot_plan": {
+    "product_count": 20,
+    "coverage": {
+      "apparel": 5,
+      "baby": 5,
+      "footwear": 5,
+      "goods": 5
+    },
+    "execution_authorized": false
+  },
+  "full_initialization": {
+    "stable_catalog_product_count": 2461,
+    "planned_initial_create_product_count": 795,
+    "already_mapped_handoff_count": 5,
+    "historical_frozen_count": 32,
+    "initialization_review_required_count": 1629,
+    "accounted_product_count": 2461,
+    "batch_count": 52
+  },
+  "handoff_contract": {
+    "after_verified_mapping": "mark INITIALIZED_HANDOFF_INCREMENTAL in initialization checkpoint and source sync state",
+    "future_create_for_mapped_product": "FORBIDDEN",
+    "subsequent_maintenance_events": [
+      "PRICE_CHANGED",
+      "INVENTORY_CHANGED",
+      "IMAGE_CHANGED",
+      "PRODUCT_INACTIVE",
+      "VARIANT_INACTIVE",
+      "PRODUCT_REACTIVATED",
+      "VARIANT_REACTIVATED",
+      "STABILITY_QUARANTINE",
+      "STABILITY_RESTORED"
+    ]
+  },
+  "historical_prohibited_product_count": 60,
+  "historical_prohibited_sources": [
+    {
+      "path": "config/shijiu_complex_live_batch.json",
+      "sha256": "8c557ba3dfc2665cb9311139b3f32269d5171ed8ccc0499a8209d4ebbb8730c9",
+      "product_number_count": 5
+    },
+    {
+      "path": "config/shijiu_complexity_bisection_batch.json",
+      "sha256": "2b682ccd0fa6d97165173b21ef7ac0f3ffa2dbf802f11db125d104173f3237d5",
+      "product_number_count": 10
+    },
+    {
+      "path": "config/shijiu_first_live_batch.json",
+      "sha256": "2df39983fded9c14b710c0ef24f381c9764e4e9b60b0027a6635aa67a5e2c39b",
+      "product_number_count": 20
+    },
+    {
+      "path": "config/shijiu_high_sku_14_probe.json",
+      "sha256": "a4a1694cf5f1e6061ae4f6259e51fa3d9cf46a0749963b0dbf5ee2dbb45e73b3",
+      "product_number_count": 10
+    },
+    {
+      "path": "config/shijiu_production_architecture_verification_single.json",
+      "sha256": "7a97d083563251ed0843736931cefe9017c8def28d517e5461ac6257282ac2d3",
+      "product_number_count": 28
+    },
+    {
+      "path": "config/shijiu_richtext_e2e_single.json",
+      "sha256": "5a561d6273a51b47502b0b1b74c5a2cd89d73d13c963574488611258fe700e24",
+      "product_number_count": 29
+    },
+    {
+      "path": "config/shijiu_staged_detail_html_single.json",
+      "sha256": "6837b7fb2a8d61c78668e0de92c9ee9b7258315afaab6330152bd923095ec47c",
+      "product_number_count": 27
+    },
+    {
+      "path": "config/shijiu_staged_rich_media_complete_single.json",
+      "sha256": "10b92967f59949c0dc89bd3a87ca57a5935105470f46b90d278acbe1702974e0",
+      "product_number_count": 26
+    },
+    {
+      "path": "config/shijiu_staged_rich_media_single.json",
+      "sha256": "7886fe4ccbdfa97c23eb8ae78d16c46d454b1e4994de325e1996a0f043b1cad3",
+      "product_number_count": 11
+    },
+    {
+      "path": "state/shijiu_canonical_create_checkpoint.json",
+      "sha256": "2e9ca267870c7a9169490608ebaf75a26cb03718a67d06202d9bb80c275e1132",
+      "product_number_count": 10
+    },
+    {
+      "path": "state/shijiu_complex_live_batch_checkpoint.json",
+      "sha256": "cdbb941d6dfc013a62fb80f0ba697088b897e91dfa1a6eaaf302e65fdad63d5e",
+      "product_number_count": 5
+    },
+    {
+      "path": "state/shijiu_complexity_bisection_checkpoint.json",
+      "sha256": "a4b2d04e1bc83f8e01a186be398e2e82d353dc848679d39303bd9790fe302a47",
+      "product_number_count": 2
+    },
+    {
+      "path": "state/shijiu_first_live_batch_checkpoint.json",
+      "sha256": "698946f001d8296a03500a24fe2b92306c259cd2668df830d25aeafc0d3a971d",
+      "product_number_count": 20
+    },
+    {
+      "path": "state/shijiu_first_product_recovery_checkpoint.json",
+      "sha256": "3424ef2f12eddce69003210b4518b99331d8c911578b75597b1fe20db09afc94",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_high_sku_14_probe_checkpoint.json",
+      "sha256": "fa6f0b06e701765f2ce1b99f1068db99cb1f8e81293a0457791f658f8c614ef3",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_minimal_create_probe_checkpoint.json",
+      "sha256": "d84c2b7c7188e10fff6b24d0c8893f0cb75d8e22ad37378c0dba91ae5adc629b",
+      "product_number_count": 10
+    },
+    {
+      "path": "state/shijiu_production_architecture_verification_checkpoint.json",
+      "sha256": "fe5dbd4d8b146002048ca26dd4a0902f3a349dc429c33bec2311fd31cd804941",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_richtext_e2e_checkpoint.json",
+      "sha256": "5428e6c776860370b06b24067424ebf80838a55e00d286511596fbd3f6fcb2ff",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_detail_html_single_checkpoint.json",
+      "sha256": "253cb21039f9856712f94133156375a93ccdd593300d49e4a5cdd75106f9aa29",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_rich_media_complete_single_checkpoint.json",
+      "sha256": "c66853d784872157f7a9c66f5dda970e1860a4cdb2131529ec87863d98fd8e16",
+      "product_number_count": 1
+    },
+    {
+      "path": "state/shijiu_staged_rich_media_single_checkpoint.json",
+      "sha256": "6e9438ca457113d00823f726895b14cd9317a1f2755100c3b99f36797247c244",
+      "product_number_count": 1
+    },
+    {
+      "path": "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json",
+      "sha256": "89a41fa6edcec2f4a19d21e78397044e6a35e6dacdaf68bdf2d45bc08318769f",
+      "product_number_count": 20
+    }
+  ],
+  "historical_plan": {
+    "path": "deliverables/shijiu_import/richtext_e2e_next_20_frozen_plan.json",
+    "sha256": "89a41fa6edcec2f4a19d21e78397044e6a35e6dacdaf68bdf2d45bc08318769f",
+    "status": "STALE_BUSINESS_RULE_CHANGED",
+    "must_never_execute": true,
+    "product_numbers": [
+      "10-5675-491",
+      "10-8348-781",
+      "10-9511-490",
+      "11-3201-389",
+      "12-7503-497",
+      "12-7504-490",
+      "13-6603-490",
+      "13-9401-686",
+      "13-9403-149",
+      "14-9909-491",
+      "16-1655-688",
+      "16-2193-688",
+      "23-9403-490",
+      "30-3631-578",
+      "30-3639-794",
+      "30-9608-576",
+      "40-2917-490",
+      "61-9303-493",
+      "62-8101-790",
+      "72-1203-496"
+    ]
+  },
+  "execution_prerequisites_not_satisfied_this_round": [
+    "WAWU or any other writer must be confirmed stopped in a future task",
+    "new complete Storefront crawl and plan freshness validation",
+    "per-product immediate resource preflight",
+    "valid external writer mutex evidence and local global mutex",
+    "separate explicit live-write authorization"
+  ],
+  "new_20_plan_execution_count": 0,
+  "full_batch_execution_count": 0,
+  "safety": {
+    "mode": "PLANNING_ONLY",
+    "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
+    "execution_authorized": false,
+    "shijiu_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "writer_mutex_evidence_generation_allowed_this_round": false,
+    "official_image_download_count": 0,
+    "legacy_286_touched": false
+  }
+}
