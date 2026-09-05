@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T02:27:17.239084+00:00",
+  "generated_at": "2026-09-05T05:15:28.413963+00:00",
   "status": "PASS_PLANNING_ONLY",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
@@ -9,10 +9,11 @@
     "complete_pagination_validated": true,
     "storefront_product_count": 2961,
     "source_variant_count": 18533,
-    "stable_product_count": 2461,
+    "stable_product_count": 2434,
     "pdf_special_online_count": 311,
     "web_exclusive_count": 186,
     "limited_time_price_count": 2,
+    "non_sellable_service_or_addon_count": 27,
     "review_required_stability_count": 1,
     "identical_snapshot_replay": true,
     "new_event_count_on_final_replay": 0,
@@ -117,6 +118,11 @@
       "result": "PASS"
     },
     {
+      "scenario": "officially evidenced non-sellable service/addon",
+      "expected": "permanent exclusion and no CREATE/PRICE/INVENTORY/IMAGE/reactivation action",
+      "result": "PASS"
+    },
+    {
       "scenario": "stable catalog membership or variant data is stale",
       "expected": "fail closed before state write",
       "result": "PASS"
@@ -134,9 +140,9 @@
   },
   "verification": {
     "command": "PYTHONPYCACHEPREFIX=/tmp/miki-pyc .venv/bin/python -m pytest -q tests/test_stable_sync.py tests/test_stable_sync_evidence.py",
-    "result": "21 passed",
+    "result": "22 passed",
     "full_suite_command": "PYTHONPYCACHEPREFIX=/tmp/miki-pyc .venv/bin/python -m pytest -q",
-    "full_suite_result": "202 passed",
+    "full_suite_result": "238 passed",
     "unified_verification": "PASS",
     "sensitive_values_recorded": false
   }

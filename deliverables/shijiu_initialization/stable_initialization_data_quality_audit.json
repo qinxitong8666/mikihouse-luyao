@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T01:37:07.388424+00:00",
+  "generated_at": "2026-09-05T05:06:17.371853+00:00",
   "status": "COMPLETED_OFFLINE_DATA_QUALITY_AUDIT",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
-  "stable_catalog_product_count": 2461,
-  "stable_catalog_variant_count": 13782,
-  "stable_catalog_image_resource_count": 30172,
+  "stable_catalog_product_count": 2434,
+  "stable_catalog_variant_count": 13741,
+  "stable_catalog_image_resource_count": 30138,
   "price_jpy_distribution": {
-    "min": 0,
-    "p50": 15400,
+    "min": 275,
+    "p50": 15950,
     "p90": 38500,
     "p95": 49500,
     "max": 1430000
   },
-  "price_outside_configured_range_product_count": 21,
+  "price_outside_configured_range_product_count": 1,
   "variant_count_distribution": {
     "0": 0,
-    "1": 639,
-    "2_4": 677,
-    "5_8": 666,
+    "1": 616,
+    "2_4": 674,
+    "5_8": 665,
     "9_16": 385,
     "17_32": 83,
     "33_64": 11,
@@ -37,17 +37,17 @@
     "62-5202-144"
   ],
   "broadcast_count_distribution": {
-    "0": 7,
-    "1": 23,
-    "2_4": 178,
-    "5_8": 738,
+    "0": 0,
+    "1": 7,
+    "2_4": 175,
+    "5_8": 737,
     "9_16": 984,
     "17_32": 444,
     "33_64": 87,
     "65_PLUS": 0
   },
   "broadcast_count_statistics": {
-    "min": 0,
+    "min": 1,
     "p50": 10,
     "p90": 24,
     "p95": 30,
@@ -57,7 +57,7 @@
     "10-3129-688"
   ],
   "good_detail_pics_count_distribution": {
-    "0": 36,
+    "0": 9,
     "1": 28,
     "2_4": 302,
     "5_8": 851,
@@ -78,16 +78,33 @@
   ],
   "classification_counts": {
     "apparel": 657,
-    "baby": 1002,
+    "baby": 999,
     "footwear": 155,
-    "goods": 209,
-    "other": 438
+    "goods": 206,
+    "other": 417
+  },
+  "sellable_quality_policy": {
+    "positive_tax_included_price_required": true,
+    "active_variant_required": true,
+    "valid_variant_sku_required": true,
+    "main_ordered_and_variant_media_required": true,
+    "non_sellable_service_or_addon_forbidden": true,
+    "non_sellable_permanent_manifest_count": 27,
+    "non_sellable_leaks_in_initialization_plan": []
+  },
+  "initialization_plan_leak_audit": {
+    "pdf_special_product_numbers": [],
+    "web_exclusive_product_numbers": [],
+    "limited_time_price_product_numbers": [],
+    "review_required_stability_product_numbers": [],
+    "non_sellable_service_or_addon_product_numbers": [],
+    "zero_or_invalid_price_product_numbers": [],
+    "missing_required_media_product_numbers": [],
+    "all_forbidden_leak_product_numbers": [],
+    "passed": true
   },
   "quality_issue_counts": {
-    "MISSING_MAIN_IMAGE": 7,
-    "MISSING_ORDERED_IMAGE": 7,
-    "MISSING_VARIANT_IMAGE": 7,
-    "PRICE_OUTSIDE_CONFIGURED_RANGE": 37
+    "PRICE_OUTSIDE_CONFIGURED_RANGE": 3
   },
   "duplicate_name_groups": [
     {
@@ -808,7 +825,7 @@
     },
     {
       "name": "ミニタオル",
-      "count": 4
+      "count": 3
     },
     {
       "name": "ラッシュガード",
@@ -1109,11 +1126,11 @@
   ],
   "duplicate_good_name_identity_audit": {
     "duplicate_name_group_count": 254,
-    "duplicate_name_product_count": 1603,
+    "duplicate_name_product_count": 1602,
     "group_size_distribution": {
       "2": 108,
-      "3": 30,
-      "4": 29,
+      "3": 31,
+      "4": 28,
       "5": 23,
       "6": 9,
       "7": 2,
@@ -1156,184 +1173,9 @@
     "globally_duplicated_backend_sku_code_count": 0,
     "identical_complete_backend_sku_set_group_count": 0,
     "all_duplicate_name_products_have_source_unique_complete_sku_sets": true,
-    "theoretical_duplicate_name_review_release_count": 1603
+    "theoretical_duplicate_name_review_release_count": 1602
   },
   "review_required_products": [
-    {
-      "product_number": "00-9999-002",
-      "name": "名入れ代（無料）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "722535f129ad20e71b08288cecbe025ef31ae01f8c39c507316169662d182685",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "00-9999-00200999999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-00200999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-004",
-      "name": "名入れ代（500円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "3ffc436834596050dbfc80a32fc9de9d5820d37b802b3a17a3bf5f38e51c1e6a",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-00400999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-006",
-      "name": "名入れ代（1000円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "e1fd2a3b3036e8ce0c63b40bf693c00259b6870f729e50157dccf1d411e2166c",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-00600999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-008",
-      "name": "名入れ代（1500円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "7e0cddf5f126899fb233be21e523fa456c5c795b136d6b3077e3247eb0056845",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-00800999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-010",
-      "name": "名入れ代（1800円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "47c6eb8a3a5b3a0a1bc79727932669ef7c50509967da83f2d92b15db6917961c",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-01000999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-012",
-      "name": "名入れ代（2000円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "5b3007641cd6c92ee557c16eb487dbb5c5187a91407a1511c555b0a2ad1fa17f",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-01200999999"
-        }
-      ]
-    },
-    {
-      "product_number": "00-9999-014",
-      "name": "名入れ代（3000円）",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 0,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "b8aa91454b1b2d14509a217a568e18c465543c03606f8ee21527bd57ee05112a",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "MISSING_MAIN_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_ORDERED_IMAGE",
-          "detail": null
-        },
-        {
-          "code": "MISSING_VARIANT_IMAGE",
-          "detail": "00-9999-01400999999"
-        }
-      ]
-    },
     {
       "product_number": "13-6671-684",
       "name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
@@ -1341,7 +1183,7 @@
       "variant_count": 3,
       "broadcast_count": 8,
       "good_detail_pics_count": 7,
-      "source_content_sha256": "93634a48cdbb907a71856efb0b2513f4a54673d8ca79f0546feaf335e617af63",
+      "source_content_sha256": "b1b9832b0d58390100edef62fd88ce4e68928130008f3c6e9b70bd2b8a363640",
       "disposition": "INITIALIZATION_REVIEW_REQUIRED",
       "issues": [
         {
@@ -1366,468 +1208,9 @@
           }
         }
       ]
-    },
-    {
-      "product_number": "19-1680-494",
-      "name": "オリジナルピクニックバスケット",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "4fb17f88d0e29ab512115f182d6bf61da91b4f2f68b359b871ef2e23f200a158",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1680-49400879999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1683-493",
-      "name": "オーナメント＆缶",
-      "classification": "other",
-      "variant_count": 4,
-      "broadcast_count": 4,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "02c50bb9f65c092431711760d5e0f6631bb1568b4c2419f7ad5e679fb44940c1",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1683-49300019999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1683-49300029999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1683-49300059999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1683-49300099999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1685-499",
-      "name": "てくてく計測シート",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "8078ba2f33edc1fcb067b5573aa79f4021a245886c6cc86cc859768f9f59d241",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1685-49900899999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1685-680",
-      "name": "ミニタオル",
-      "classification": "goods",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "0fee66ba1b84e61d7a8fa9b86883b418eac33f6087fe11492a3ef905c12c4fb7",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1685-68000139999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1689-682",
-      "name": "エコバッグ付きランチボックス",
-      "classification": "goods",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "d6e51bb6ee1eddd191d607e029d829892dce4c23efc6d9789624c314ef3bda27",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1689-68200879999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1693-681",
-      "name": "五彩織りタオルブランケット",
-      "classification": "goods",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "02628d5f90af2069b8df9e3389d55ee633a9c3ebe97af6555ffba0dbaaba6553",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1693-68100029999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1714-687",
-      "name": "ミキハウスメイト",
-      "classification": "other",
-      "variant_count": 4,
-      "broadcast_count": 4,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "d676e8edf65873610fee40d18de0f0d506fedb7edb592ec7e6d6415afa78ca22",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1714-68700019999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1714-68700049999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1714-68700059999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1714-68700099999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1716-140",
-      "name": "オリジナルピクニックシート",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "8a605c977e9bbb2c881b02b2fe3e0ca38bd541d2f6378ceb1f2b1048baa4d690",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1716-14000879999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "19-1986-680",
-      "name": "ロゴステッカー",
-      "classification": "other",
-      "variant_count": 2,
-      "broadcast_count": 2,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "76a57eb671b294b4bd58fe42473be7c889a1e9879bf1486c8d69b99f31273f68",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1986-68000469999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "19-1986-68000879999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "29-1034-571",
-      "name": "チエコバルーン",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "aa01ca309944fd7e920b4acb644eeab48c9cbf969062cdc9e7470af17f4d89a8",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "29-1034-57100029999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "49-1029-737",
-      "name": "バスケット",
-      "classification": "baby",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "b95bceb6e063d95e39a7395dd9ca6da9a00433387c8e6ff3f90fa183dfbdf692",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "49-1029-73700019999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "49-1040-956",
-      "name": "命名紙",
-      "classification": "baby",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "3b6aca9b0192329de8ace6312eeb656410a02f0ecb919373d8f77f3176a54730",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "49-1040-95600899999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "49-1043-788",
-      "name": "おむつストッカー",
-      "classification": "baby",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "ce800773d3c978e64d3defeb5806c2720ae515ddef54c05aaf63f1345ef303a2",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "49-1043-78800319999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "69-1085-148",
-      "name": "アクリルキーホルダー",
-      "classification": "other",
-      "variant_count": 8,
-      "broadcast_count": 8,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "2017c749681e7028d2071c94764d2b8f2ccc5526d16d7e2aa37c34cc55f81cd7",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800019999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800029999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800049999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800059999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800099999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800119999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800339999",
-            "tax_included_price_jpy": 0
-          }
-        },
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "69-1085-14800379999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "99-9999-118",
-      "name": "①ご出産祝い",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "e2fb30d1e644dc14d6036cc255fe0b99a0f692e3cfdac74040403c2aca02aa04",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "99-9999-11800999999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "99-9999-119",
-      "name": "②Baby Gift",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "ca781f75c89f6bae5f2fe75110c00008014aabdefa9974d266ba958e3a9d1c35",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "99-9999-11900999999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "99-9999-120",
-      "name": "③おめでとう",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "7466b3695aaf16f0a9b894b152929c89650ea79026aeb54581c06c11e2097ae9",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "99-9999-12000999999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "99-9999-121",
-      "name": "④お誕生日祝い",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "81de2a9e0d7423f16b787c04e9430cb3360dffe3c4a6cd4ca38d82d79c7a3858",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "99-9999-12100999999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
-    },
-    {
-      "product_number": "99-9999-122",
-      "name": "⑤無地",
-      "classification": "other",
-      "variant_count": 1,
-      "broadcast_count": 1,
-      "good_detail_pics_count": 0,
-      "source_content_sha256": "8e5de3dad4d3e6971d44cfa79c28aaa76b9e0624ef9036da819c958408b19b68",
-      "disposition": "INITIALIZATION_REVIEW_REQUIRED",
-      "issues": [
-        {
-          "code": "PRICE_OUTSIDE_CONFIGURED_RANGE",
-          "detail": {
-            "sku": "99-9999-12200999999",
-            "tax_included_price_jpy": 0
-          }
-        }
-      ]
     }
   ],
-  "missing_image_product_count": 7,
+  "missing_image_product_count": 0,
   "missing_sku_product_count": 0,
   "variant_identity_anomaly_product_count": 0,
   "all_stable_products_accounted": true,

@@ -64,6 +64,9 @@ def product(number: str = "20-0001-001", image: bool = True) -> dict:
         "category": {"id": "source", "name": "Baby Shoes"},
         "tags": ["shoes"],
         "main_image": picture,
+        "ordered_images": (
+            [{"order": 1, "role": "main", "image": picture}] if image else []
+        ),
         "color_images": ([{"color": "赤", "images": [{"image": picture}]}] if image else []),
         "product_url": f"https://www.mikihouse.co.jp/products/{number}",
         "active": True,
@@ -125,12 +128,10 @@ def test_mapper_copies_existing_jpy_price_and_all_variant_fields() -> None:
 
 
 def test_missing_image_is_unpublishable_and_skipped() -> None:
-    mapped = map_product_to_shijiu(
-        product(image=False), CATEGORY, excluded_product_numbers=exclusions()
-    )
-    assert mapped["publish_ready"] is False
-    assert mapped["publish_blockers"] == ["missing_official_image"]
-    assert choose_action(mapped, None) == ("skip", "missing_official_image")
+    with pytest.raises(ImportPlanError, match="REVIEW_REQUIRED_STABILITY"):
+        map_product_to_shijiu(
+            product(image=False), CATEGORY, excluded_product_numbers=exclusions()
+        )
 
 
 def test_mapper_preserves_ordered_gallery_roles_and_requires_cos_urls() -> None:
@@ -422,6 +423,17 @@ def test_every_pdf_special_is_rejected_from_map_plan_and_incremental(tmp_path: P
         build_incremental_sync_operations(
             changes, state, {}, PRICE_GUARD, excluded_product_numbers=special,
         )
+
+
+def test_permanent_non_sellable_addon_is_rejected_before_every_shijiu_plan() -> None:
+    item = product("99-9999-000")
+    item["name"] = "ギフトラッピング"
+    item["product_type"] = "ギフトラッピング商品"
+    item["tags"] = ["ギフトラッピング商品", "手数料商品"]
+    with pytest.raises(ImportPlanError, match="NON_SELLABLE_SERVICE_OR_ADDON"):
+        map_product_to_shijiu(item, CATEGORY, excluded_product_numbers=exclusions())
+    with pytest.raises(ImportPlanError, match="NON_SELLABLE_SERVICE_OR_ADDON"):
+        assert_shijiu_pool_boundary([item], {"changes": []}, exclusions())
 
 
 def test_all_351_exclusions_fail_closed_if_any_enters_candidate_pool() -> None:

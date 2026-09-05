@@ -1,34 +1,64 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T04:25:16Z",
+  "generated_at": "2026-09-05T05:15:28.413963+00:00",
   "status": "PROTECTED_STATE_INTENTIONALLY_UPDATED_OFFLINE",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
-  "parent_commit": "33ba6145030801ce5b4a00d4ff7a7db51d5f91ad",
+  "parent_commit": "4119e6abcc2f8f1da72502ebeea0cecef3b1774e",
   "affected_state": [
     {
-      "path": "state/shijiu_mappings.json",
-      "reason": "record the duplicate-good-name candidate-scope and complete-SKU-set binding contract; product and variant mapping rows are unchanged",
-      "before_sha256": "ffe3c1af49547d4fcc1037895be13ea0b58f6a243c751bc14fb9073ecb75af44",
-      "after_sha256": "988abde4febf1677e5e677a02890e5ed97a467a01a015d2349402330f2ad5324",
-      "mapping_product_row_count": 2615,
-      "bound_product_row_count": 7
-    },
-    {
       "path": "state/mikihouse_initialization_checkpoint.json.gz",
-      "reason": "atomically replace the prior zero-mutation planning checkpoint after duplicate-name products were released from review",
-      "before_sha256": "8555fa3798d54ff22a452fee39e3e0034ba213908f05bc82fd25a0ac094e51be",
-      "after_sha256": "9363a5bc5a686ebc3723ed90d8931679c5cf2b2b210cdffd70aa0df94557873e",
+      "reason": "atomically replace the prior zero-mutation planning checkpoint after permanent non-sellable service/addon exclusion and sellable-quality replanning",
+      "before_sha256": "9363a5bc5a686ebc3723ed90d8931679c5cf2b2b210cdffd70aa0df94557873e",
+      "after_sha256": "a4be75196a9c043e44c00cc981182fbd779393162146daf66f1d52a2e5316d81",
       "status": "FROZEN_PLANNING_ONLY",
       "planned_product_count": 2385,
       "batch_count": 170,
       "shijiu_mutation_count": 0,
       "writer_mutex_evidence_generated": false
+    },
+    {
+      "path": "state/mikihouse_source_sync_state.json.gz",
+      "reason": "atomically persist the complete official source snapshot, permanent non-sellable classification and converged idempotent offline event ledger",
+      "before_sha256": "5bce7c2f7c3d33e99d200c5a5653c6a46ef38dfac2950d90162e781ce60c7fad",
+      "after_sha256": "e231d63c979abc498907fb07d8f301e3f673ae4c3443a353adbfcccf087a976a",
+      "storefront_product_count": 2961,
+      "stable_sellable_product_count": 2434,
+      "non_sellable_service_or_addon_count": 27,
+      "latest_cycle_number": 13,
+      "latest_cycle_new_event_count": 0,
+      "latest_cycle_new_action_count": 0
+    }
+  ],
+  "affected_protected_deliverables": [
+    {
+      "path": "deliverables/storefront_stable_catalog/stable_catalog.json.gz",
+      "reason": "replace with the complete-crawl-derived sellable stable catalog after permanent non-sellable filtering",
+      "before_sha256": "67de6b6166704558e8ef46bd19414a92280eb466e4cb9fbd23c652774f9d1182",
+      "after_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82"
+    },
+    {
+      "path": "deliverables/shijiu_initialization/stable_initialization_batch_plan.json.gz",
+      "reason": "replace with the fail-closed sellable-only 2385-product initialization plan",
+      "before_sha256": "758a576b49c7971ff268e18b93d710f193e7018545a3e2d762f16478e79c1294",
+      "after_sha256": "315b6e232d5d3c506760aecf7dbdcf2d8ea100bee343e100742345192d45111f"
+    }
+  ],
+  "unchanged_protected_artifacts": [
+    {
+      "path": "state/shijiu_mappings.json",
+      "sha256": "988abde4febf1677e5e677a02890e5ed97a467a01a015d2349402330f2ad5324",
+      "mapping_rows_modified": 0
+    },
+    {
+      "path": "deliverables/mikihouse_2026AW_price_catalog.pdf",
+      "sha256": "2d1701723ea8301ae075117c70c5874aaf74c00c6f8eb970afa309deb0797929"
     }
   ],
   "backup_evidence": {
     "git_parent_commit_preserves_all_before_values": true,
-    "initialization_artifacts_also_copied_to_git_external_private_tmp_before_replan": true,
+    "changed_state_and_deliverables_copied_before_refresh": true,
+    "git_external_backup_directory": "/private/tmp/mikihouse-sellable-audit-backup-4119e6a",
     "sensitive_values_included": false
   },
   "historical_stale_plan": {
@@ -37,6 +67,9 @@
     "changed": false
   },
   "safety": {
+    "official_storefront_api_read_requests": 34,
+    "official_product_page_read_requests": 28,
+    "shijiu_read_requests": 0,
     "shijiu_create_requests": 0,
     "shijiu_update_requests": 0,
     "shijiu_cos_upload_requests": 0,

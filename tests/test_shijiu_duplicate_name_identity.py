@@ -131,12 +131,12 @@ def test_real_stable_catalog_duplicate_sku_sets_are_naturally_unique() -> None:
         stable = json.load(stream)
     audit = analyze_duplicate_names(stable)
     assert audit["duplicate_name_group_count"] == 254
-    assert audit["duplicate_name_product_count"] == 1603
+    assert audit["duplicate_name_product_count"] == 1602
     assert audit["maximum_group_size"] == 76
     assert audit["globally_duplicated_backend_sku_code_count"] == 0
     assert audit["identical_complete_backend_sku_set_group_count"] == 0
     assert audit["all_duplicate_name_products_have_source_unique_complete_sku_sets"] is True
-    assert audit["theoretical_duplicate_name_review_release_count"] == 1603
+    assert audit["theoretical_duplicate_name_review_release_count"] == 1602
 
 
 def test_real_price_audit_classifies_zero_and_high_price_without_changing_guard() -> None:
@@ -151,11 +151,10 @@ def test_real_price_audit_classifies_zero_and_high_price_without_changing_guard(
         minimum_tax_included_price_jpy=1,
         maximum_tax_included_price_jpy=1_000_000,
     )
-    assert audit["outside_range_variant_count"] == 37
-    assert audit["outside_range_product_count"] == 21
+    assert audit["outside_range_variant_count"] == 3
+    assert audit["outside_range_product_count"] == 1
     assert audit["classification_counts"] == {
         "PLAUSIBLE_REAL_HIGH_PRICE_REQUIRES_MANUAL_APPROVAL": 3,
-        "ZERO_PRICE_SOURCE_DATA": 34,
     }
     assert audit["guard_changed"] is False
     assert audit["automatic_import_release_count"] == 0

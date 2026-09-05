@@ -61,6 +61,7 @@ def product(
         "description_html": "<p>公式商品説明</p>",
         "product_url": f"https://www.mikihouse.co.jp/products/{number}",
         "active": True,
+        "main_image": image_row,
         "ordered_images": [{"order": 1, "role": "main", "image": image_row}],
         "variants": [{
             "stable_id": f"{number}::{sku}",
@@ -171,6 +172,23 @@ def test_new_stable_product_and_variant_plan_create_but_never_execute() -> None:
         f"MIKIHOUSE:{item['product_number']}:{item['variants'][0]['sku']}"
     )
     assert report["safety"]["shijiu_requests"] == 0
+
+
+def test_new_non_sellable_addon_never_generates_create_or_variant_action() -> None:
+    item = product("99-9999-000", price=550)
+    item["name"] = "ギフトラッピング"
+    item["product_type"] = "ギフトラッピング商品"
+    item["tags"] = ["ギフトラッピング商品", "手数料商品"]
+    special = special_set()
+    state, _, events, actions = plan_sync_cycle(
+        empty_sync_state(), source([item]), stable_catalog([item], special), special,
+        mapping_for(item, bound=False), GUARD,
+    )
+    assert types(events, item["product_number"]) == [NO_CHANGE]
+    assert events[0]["reason"] == "NEW_NON_SELLABLE_SERVICE_OR_ADDON_CREATE_SUPPRESSED"
+    assert actions == []
+    permanent = state["permanent_exclusions"]["NON_SELLABLE_SERVICE_OR_ADDON"]
+    assert item["product_number"] in permanent["product_numbers"]
 
 
 def test_stable_catalog_membership_mismatch_fails_closed() -> None:

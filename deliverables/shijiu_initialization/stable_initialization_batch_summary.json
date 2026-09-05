@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T01:37:07.388424+00:00",
+  "generated_at": "2026-09-05T05:06:17.371853+00:00",
   "status": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "counts": {
-    "stable_catalog_product_count": 2461,
+    "stable_catalog_product_count": 2434,
     "planned_initial_create_product_count": 2385,
     "already_mapped_handoff_count": 6,
-    "historical_frozen_count": 43,
-    "initialization_review_required_count": 27,
-    "accounted_product_count": 2461,
+    "historical_frozen_count": 42,
+    "initialization_review_required_count": 1,
+    "accounted_product_count": 2434,
     "batch_count": 170
   },
   "batch_policy": {

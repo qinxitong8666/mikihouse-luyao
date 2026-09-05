@@ -17,7 +17,11 @@ from typing import Any, Callable
 
 from .catalog import _classification, calculate_mini_program_price_jpy
 from .csv_input import read_product_numbers
-from .stable_catalog import STABLE, assess_product_stability
+from .stable_catalog import (
+    PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS,
+    STABLE,
+    assess_product_stability,
+)
 
 
 ADAPTER_SCHEMA_VERSION = 2
@@ -399,13 +403,14 @@ def assert_not_pdf_special(product_number: str, excluded_product_numbers: set[st
 
 def assert_stable_for_shijiu(
     product: dict[str, Any], excluded_product_numbers: set[str]
-) -> None:
+) -> dict[str, Any]:
     decision = assess_product_stability(product, excluded_product_numbers)
     if decision["status"] != STABLE:
         reason = decision.get("excluded_reason") or decision["status"]
         raise ImportPlanError(
             f"{reason}: {product.get('product_number')} is outside the stable regular-product pool"
         )
+    return decision
 
 
 def assert_shijiu_pool_boundary(
@@ -426,8 +431,36 @@ def assert_shijiu_pool_boundary(
         raise ImportPlanError(
             f"{PDF_SPECIAL_EXCLUDED_REASON}: forbidden product numbers reached Shijiu planning: {leaked[:20]}"
         )
+    non_sellable_leaks = sorted(
+        (product_numbers | change_numbers) & set(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS)
+    )
+    if non_sellable_leaks:
+        raise ImportPlanError(
+            "NON_SELLABLE_SERVICE_OR_ADDON: forbidden product numbers reached "
+            f"Shijiu planning: {non_sellable_leaks[:20]}"
+        )
     unstable = []
     for product in products:
+        if product.get("adapter_schema_version"):
+            decision = product.get("source_stability_decision") or {}
+            adapter_valid = all((
+                product.get("source") == SOURCE_CODE,
+                product.get("publish_ready") is True,
+                bool(product.get("image_upload_plan")),
+                bool(product.get("source_variants")),
+                all(
+                    str(row.get("source_variant_sku") or "").strip()
+                    and int(row.get("tax_included_price_jpy") or 0) > 0
+                    and str(row.get("image_url") or "").strip()
+                    for row in product.get("source_variants") or []
+                ),
+            ))
+            if decision.get("status") != STABLE or not adapter_valid:
+                unstable.append((
+                    str(product.get("product_number") or ""),
+                    decision.get("excluded_reason") or "INVALID_STABLE_ADAPTER",
+                ))
+            continue
         decision = assess_product_stability(product, excluded_product_numbers)
         if decision["status"] != STABLE:
             unstable.append((str(product.get("product_number") or ""), decision["excluded_reason"]))
@@ -546,7 +579,7 @@ def map_product_to_shijiu(
 ) -> dict[str, Any]:
     product_number = str(product["product_number"])
     assert_not_pdf_special(product_number, excluded_product_numbers)
-    assert_stable_for_shijiu(product, excluded_product_numbers)
+    stability_decision = assert_stable_for_shijiu(product, excluded_product_numbers)
     classification = _classification_name(product)
     variants = list(product.get("variants") or [])
     if not variants:
@@ -691,6 +724,7 @@ def map_product_to_shijiu(
     return {
         "adapter_schema_version": ADAPTER_SCHEMA_VERSION,
         "source": SOURCE_CODE,
+        "source_stability_decision": stability_decision,
         "source_product_id": source_product_id(product_number),
         "product_number": product_number,
         "source_url": product.get("product_url"),

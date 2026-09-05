@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T01:37:07.388424+00:00",
+  "generated_at": "2026-09-05T05:06:17.371853+00:00",
   "status": "INITIALIZATION_PLANS_READY_OFFLINE_EXECUTION_BLOCKED",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
@@ -8,12 +8,12 @@
   "target": "SHIJIU",
   "stable_catalog_is_only_source_of_truth": true,
   "freshness_guard": {
-    "stable_catalog_file_sha256": "67de6b6166704558e8ef46bd19414a92280eb466e4cb9fbd23c652774f9d1182",
-    "stable_catalog_logical_sha256": "1e37a1570a28e230199007efc755c7c42961def479168f6a978cf0440d973be0",
-    "source_snapshot_file_sha256": "f9c3d7ae8c70fdaeb5167763426605336bd2bf5c4b1b623bfd8df010aab34092",
-    "source_snapshot_logical_sha256": "53f0ceda455711b1484eed390a48cfdb46439bc44edf9cd40f6772383841a2a6",
-    "source_snapshot_captured_at": "2026-09-05T01:37:07.388424+00:00",
-    "stable_catalog_synced_at": "2026-09-05T01:37:07.388424+00:00",
+    "stable_catalog_file_sha256": "b2203708ce5503f58a5c173e92c12b36c7666543432ce942eda70b2804ec8e82",
+    "stable_catalog_logical_sha256": "534976f21bb9d3c397c8a760d07394ce717d3596521e7ec62117a50cfb0ef372",
+    "source_snapshot_file_sha256": "be0b00c029e2a6570c208829e847d8640b196cd3c73e26709638dff70006dced",
+    "source_snapshot_logical_sha256": "6b31b26f96ce391073d882b703b67ce757ad64cbaf59355ceb29841cec640578",
+    "source_snapshot_captured_at": "2026-09-05T05:06:17.371853+00:00",
+    "stable_catalog_synced_at": "2026-09-05T05:06:17.371853+00:00",
     "requires_new_complete_storefront_crawl_after_generated_at": true,
     "fail_closed_if_any_top_level_hash_changes": true,
     "per_product_regeneration_required_for_price_stock_variant_or_image_change": true,
@@ -32,12 +32,12 @@
     "execution_authorized": false
   },
   "full_initialization": {
-    "stable_catalog_product_count": 2461,
+    "stable_catalog_product_count": 2434,
     "planned_initial_create_product_count": 2385,
     "already_mapped_handoff_count": 6,
-    "historical_frozen_count": 43,
-    "initialization_review_required_count": 27,
-    "accounted_product_count": 2461,
+    "historical_frozen_count": 42,
+    "initialization_review_required_count": 1,
+    "accounted_product_count": 2434,
     "batch_count": 170
   },
   "handoff_contract": {
@@ -199,7 +199,7 @@
   "duplicate_good_name_identity": {
     "contract_logical_sha256": "396d77d48c6f5cfa0ef14339f9eee4582d3c1c6eabd8b245effcca5e1ce18543",
     "source_duplicate_name_group_count": 254,
-    "source_duplicate_name_product_count": 1603,
+    "source_duplicate_name_product_count": 1602,
     "source_unique_complete_sku_sets": true,
     "create_readback_outcome_required": "UNIQUE_STRONG_MATCH",
     "shijiu_readonly_validation": {
@@ -210,6 +210,28 @@
       "shijiu_read_request_count": 21,
       "evidence_logical_sha256": "5f8b30a6e158bad5d3954b81b54256e0ab891688e2c3638531779941b6b030e5"
     }
+  },
+  "sellable_review_resolution": {
+    "status": "COMPLETED_OFFICIAL_READ_ONLY_REVIEW_RESOLUTION",
+    "official_page_audit_product_count": 28,
+    "non_sellable_service_or_addon_count": 27,
+    "remaining_review_required_count": 1,
+    "remaining_review_required_product_numbers": [
+      "13-6671-684"
+    ],
+    "high_price_guard_changed": false,
+    "evidence_logical_sha256": "b17d70d0746b971106731ad5db456ffb73ff2ec0d0ac25b99b6acda653baab76"
+  },
+  "initialization_plan_leak_audit": {
+    "pdf_special_product_numbers": [],
+    "web_exclusive_product_numbers": [],
+    "limited_time_price_product_numbers": [],
+    "review_required_stability_product_numbers": [],
+    "non_sellable_service_or_addon_product_numbers": [],
+    "zero_or_invalid_price_product_numbers": [],
+    "missing_required_media_product_numbers": [],
+    "all_forbidden_leak_product_numbers": [],
+    "passed": true
   },
   "execution_prerequisites_not_satisfied_this_round": [
     "WAWU or any other writer must be confirmed stopped in a future task",

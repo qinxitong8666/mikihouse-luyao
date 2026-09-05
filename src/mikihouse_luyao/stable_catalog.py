@@ -25,13 +25,66 @@ from .csv_input import read_product_numbers
 from .scraper import ScrapeError
 
 
-STABLE_CATALOG_SCHEMA_VERSION = 1
+STABLE_CATALOG_SCHEMA_VERSION = 2
 STABLE = "STABLE"
 EXCLUDED = "EXCLUDED"
 REVIEW_REQUIRED = "REVIEW_REQUIRED_STABILITY"
 PDF_SPECIAL = "PDF_SPECIAL_LIST"
 WEB_EXCLUSIVE = "WEB_EXCLUSIVE"
 LIMITED_TIME_PRICE = "LIMITED_TIME_PRICE"
+NON_SELLABLE_SERVICE_OR_ADDON = "NON_SELLABLE_SERVICE_OR_ADDON"
+
+# These values come from the official Storefront productType field.  They are
+# cart-support entities, fees, free novelties, or message/wrapping choices, not
+# independent retail merchandise.  The rule deliberately does not infer this
+# classification from a zero price alone.
+_NON_SELLABLE_PRODUCT_TYPE_RULES = {
+    "名入れ代商品": {
+        "kind": "PERSONALIZATION_FEE",
+        "corroborating_tags": {"名入れ代", "手数料商品"},
+    },
+    "ノベルティ商品": {
+        "kind": "NOVELTY_OR_FREE_ITEM",
+        "corroborating_tags": {"ノベルティ商品"},
+    },
+    "メッセージカード商品": {
+        "kind": "MESSAGE_CARD_ADDON",
+        "corroborating_tags": {"メッセージカード", "手数料商品"},
+    },
+    "ギフトラッピング商品": {
+        "kind": "GIFT_WRAPPING_ADDON",
+        "corroborating_tags": {"ギフトラッピング商品", "手数料商品"},
+    },
+}
+PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS = frozenset({
+    "00-9999-002",
+    "00-9999-004",
+    "00-9999-006",
+    "00-9999-008",
+    "00-9999-010",
+    "00-9999-012",
+    "00-9999-014",
+    "19-1680-494",
+    "19-1683-493",
+    "19-1685-499",
+    "19-1685-680",
+    "19-1689-682",
+    "19-1693-681",
+    "19-1714-687",
+    "19-1716-140",
+    "19-1986-680",
+    "29-1034-571",
+    "49-1029-737",
+    "49-1040-956",
+    "49-1043-788",
+    "69-1085-148",
+    "99-9999-000",
+    "99-9999-118",
+    "99-9999-119",
+    "99-9999-120",
+    "99-9999-121",
+    "99-9999-122",
+})
 
 _WEB_EXCLUSIVE_RE = re.compile(
     r"(?:web(?:\s*(?:shop|store|通販))?\s*限定|web\s*limited|weblimited|"
@@ -82,6 +135,47 @@ def _evidence(reason: str, fields: Iterable[str], signal: str) -> dict[str, Any]
     }
 
 
+def _non_sellable_service_or_addon_evidence(
+    product: dict[str, Any],
+) -> dict[str, Any] | None:
+    product_number = str(product.get("product_number") or product.get("handle") or "").strip()
+    product_type = str(product.get("product_type") or "").strip()
+    rule = _NON_SELLABLE_PRODUCT_TYPE_RULES.get(product_type)
+    permanently_confirmed = product_number in PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS
+    if rule is None and not permanently_confirmed:
+        return None
+    if rule is None:
+        return {
+            "reason": NON_SELLABLE_SERVICE_OR_ADDON,
+            "matched_fields": ["product_number"],
+            "signal": "permanent_officially_audited_non_sellable_product_number",
+            "service_or_addon_kind": "PERMANENTLY_CONFIRMED_SERVICE_OR_ADDON",
+            "official_product_type": product_type,
+            "corroborating_tags": [],
+            "corroboration_status": "PERMANENT_PRODUCT_NUMBER_MANIFEST",
+            "classification_does_not_depend_on_zero_price": True,
+        }
+    tags = {str(value).strip() for value in product.get("tags") or [] if str(value).strip()}
+    corroborating = sorted(tags & set(rule["corroborating_tags"]))
+    if not corroborating:
+        # An exact cart-support productType is strong enough to prevent a sale,
+        # but missing its normal corroborating tag is retained for auditability.
+        corroboration_status = "OFFICIAL_PRODUCT_TYPE_ONLY"
+    else:
+        corroboration_status = "OFFICIAL_PRODUCT_TYPE_AND_TAG"
+    return {
+        "reason": NON_SELLABLE_SERVICE_OR_ADDON,
+        "matched_fields": ["product_type", *(["tags"] if corroborating else [])],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": rule["kind"],
+        "official_product_type": product_type,
+        "corroborating_tags": corroborating,
+        "corroboration_status": corroboration_status,
+        "permanent_product_number_match": permanently_confirmed,
+        "classification_does_not_depend_on_zero_price": True,
+    }
+
+
 def assess_product_stability(
     product: dict[str, Any], special_product_numbers: set[str]
 ) -> dict[str, Any]:
@@ -103,6 +197,14 @@ def assess_product_stability(
             "status": EXCLUDED,
             "excluded_reason": PDF_SPECIAL,
             "evidence": [_evidence(PDF_SPECIAL, ["product_number"], "exact_manifest_match")],
+        }
+
+    non_sellable_evidence = _non_sellable_service_or_addon_evidence(product)
+    if non_sellable_evidence is not None:
+        return {
+            "status": EXCLUDED,
+            "excluded_reason": NON_SELLABLE_SERVICE_OR_ADDON,
+            "evidence": [non_sellable_evidence],
         }
 
     fields = _search_fields(product)
@@ -207,6 +309,72 @@ def assess_product_stability(
                     hashlib.sha256(url.encode("utf-8")).hexdigest() for url in unsafe_image_urls
                 ),
             }],
+        }
+
+
+    variants = [row for row in product.get("variants") or [] if row.get("active", True)]
+    quality_evidence: list[dict[str, Any]] = []
+    if not variants:
+        quality_evidence.append({
+            "reason": REVIEW_REQUIRED,
+            "matched_fields": ["variants"],
+            "signal": "missing_active_sellable_variant",
+        })
+    else:
+        missing_sku = sorted(
+            str(row.get("stable_id") or "") for row in variants if not str(row.get("sku") or "").strip()
+        )
+        if missing_sku:
+            quality_evidence.append({
+                "reason": REVIEW_REQUIRED,
+                "matched_fields": ["variants.sku"],
+                "signal": "missing_stable_variant_sku",
+                "affected_variant_count": len(missing_sku),
+            })
+        invalid_prices = []
+        for row in variants:
+            try:
+                price = int(row.get("tax_included_price_jpy"))
+            except (TypeError, ValueError):
+                price = 0
+            if price <= 0:
+                invalid_prices.append(str(row.get("sku") or ""))
+        if invalid_prices:
+            quality_evidence.append({
+                "reason": REVIEW_REQUIRED,
+                "matched_fields": ["variants.tax_included_price_jpy"],
+                "signal": "zero_or_invalid_sellable_price_requires_review",
+                "affected_variant_count": len(invalid_prices),
+                "affected_variant_skus": sorted(invalid_prices),
+                "not_automatically_classified_as_service_from_price": True,
+            })
+
+    missing_media_fields: list[str] = []
+    if not str((product.get("main_image") or {}).get("url") or "").strip():
+        missing_media_fields.append("main_image.url")
+    ordered_images = product.get("ordered_images") or []
+    if not ordered_images or any(
+        not str(((row.get("image") or {}).get("url")) or "").strip()
+        for row in ordered_images
+    ):
+        missing_media_fields.append("ordered_images.image.url")
+    if variants and any(
+        not str((row.get("resolved_image") or {}).get("url") or "").strip()
+        for row in variants
+    ):
+        missing_media_fields.append("variants.resolved_image.url")
+    if missing_media_fields:
+        quality_evidence.append({
+            "reason": REVIEW_REQUIRED,
+            "matched_fields": sorted(missing_media_fields),
+            "signal": "missing_required_sellable_media",
+            "replacement_with_other_product_image_forbidden": True,
+        })
+    if quality_evidence:
+        return {
+            "status": REVIEW_REQUIRED,
+            "excluded_reason": REVIEW_REQUIRED,
+            "evidence": quality_evidence,
         }
 
     return {"status": STABLE, "excluded_reason": None, "evidence": []}
@@ -400,7 +568,38 @@ def build_stability_audit(
                 stable_non_https_images.append(resource["source_url"])
     leaked_web = sorted(fields_with_web & stable_numbers)
     leaked_limited = sorted(fields_with_limited_price & stable_numbers)
-    if leaked_web or leaked_limited or stable_numbers & special_product_numbers:
+    non_sellable_source_numbers = {
+        row["product_number"]
+        for row in source_products
+        if _non_sellable_service_or_addon_evidence(row) is not None
+    }
+    leaked_non_sellable = sorted(non_sellable_source_numbers & stable_numbers)
+    zero_or_invalid_price_leaks = sorted(
+        row["product_number"]
+        for row in stable
+        if any(
+            int(variant.get("tax_included_price_jpy") or 0) <= 0
+            for variant in row.get("variants") or []
+        )
+    )
+    missing_media_leaks = sorted(
+        row["product_number"]
+        for row in stable
+        if not str((row.get("main_image") or {}).get("url") or "").strip()
+        or not row.get("ordered_images")
+        or any(
+            not str((variant.get("resolved_image") or {}).get("url") or "").strip()
+            for variant in row.get("variants") or []
+        )
+    )
+    if (
+        leaked_web
+        or leaked_limited
+        or leaked_non_sellable
+        or zero_or_invalid_price_leaks
+        or missing_media_leaks
+        or stable_numbers & special_product_numbers
+    ):
         raise ScrapeError("stability exclusion validation failed")
     counts = Counter(row["excluded_reason"] for row in excluded)
     return {
@@ -436,6 +635,9 @@ def build_stability_audit(
             "pdf_special_list_offline_remembered_count": len(special_product_numbers - current_numbers),
             "web_exclusive_excluded_count": counts.get(WEB_EXCLUSIVE, 0),
             "limited_time_price_excluded_count": counts.get(LIMITED_TIME_PRICE, 0),
+            "non_sellable_service_or_addon_excluded_count": counts.get(
+                NON_SELLABLE_SERVICE_OR_ADDON, 0
+            ),
             "review_required_stability_count": len(review),
             "stable_catalog_product_count": len(stable),
             "stable_catalog_variant_count": sum(len(row.get("variants") or []) for row in stable),
@@ -445,6 +647,9 @@ def build_stability_audit(
             PDF_SPECIAL: by_reason.get(PDF_SPECIAL, []),
             WEB_EXCLUSIVE: by_reason.get(WEB_EXCLUSIVE, []),
             LIMITED_TIME_PRICE: by_reason.get(LIMITED_TIME_PRICE, []),
+            NON_SELLABLE_SERVICE_OR_ADDON: by_reason.get(
+                NON_SELLABLE_SERVICE_OR_ADDON, []
+            ),
             REVIEW_REQUIRED: review,
         },
         "potential_unstable_labels_not_excluded": partition["potential_unstable_labels"],
@@ -471,8 +676,25 @@ def build_stability_audit(
             "product_name_period_limited_price_signal_products_in_stable_catalog": sorted(names_with_period_limited_price & stable_numbers),
             "limited_price_signal_products_in_stable_catalog": leaked_limited,
             "limited_price_exclusion_passed": not leaked_limited,
+            "non_sellable_service_or_addon_signal_product_count": len(
+                non_sellable_source_numbers
+            ),
+            "non_sellable_service_or_addon_product_numbers": sorted(
+                non_sellable_source_numbers
+            ),
+            "non_sellable_service_or_addon_products_in_stable_catalog": leaked_non_sellable,
+            "non_sellable_service_or_addon_exclusion_passed": not leaked_non_sellable,
+            "zero_or_invalid_price_products_in_stable_catalog": zero_or_invalid_price_leaks,
+            "missing_required_media_products_in_stable_catalog": missing_media_leaks,
+            "sellable_quality_guard_passed": not zero_or_invalid_price_leaks
+            and not missing_media_leaks,
             "pdf_special_products_in_stable_catalog": sorted(stable_numbers & special_product_numbers),
-            "all_required_exclusions_passed": not leaked_web and not leaked_limited and not (stable_numbers & special_product_numbers),
+            "all_required_exclusions_passed": not leaked_web
+            and not leaked_limited
+            and not leaked_non_sellable
+            and not zero_or_invalid_price_leaks
+            and not missing_media_leaks
+            and not (stable_numbers & special_product_numbers),
         },
         "crawl": fetch_stats,
         "storefront_contract": {
@@ -558,6 +780,9 @@ def run_stable_catalog_sync(
         "policy": "pre_filter_before_all_shijiu_planning_and_live_stages",
         "web_exclusive_product_numbers": sorted(excluded_by_reason.get(WEB_EXCLUSIVE, [])),
         "limited_time_price_product_numbers": sorted(excluded_by_reason.get(LIMITED_TIME_PRICE, [])),
+        "non_sellable_service_or_addon_product_numbers": sorted(
+            excluded_by_reason.get(NON_SELLABLE_SERVICE_OR_ADDON, [])
+        ),
         "review_required_product_numbers": sorted(
             row["product_number"] for row in partition["review_required"]
         ),

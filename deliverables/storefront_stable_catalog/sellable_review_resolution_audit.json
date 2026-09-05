@@ -1,0 +1,2794 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-05T05:06:17.371853+00:00",
+  "status": "COMPLETED_OFFICIAL_READ_ONLY_REVIEW_RESOLUTION",
+  "mode": "PLANNING_ONLY",
+  "source": "MIKIHOUSE",
+  "initial_review_product_count": 27,
+  "official_page_audit_product_count": 28,
+  "official_page_audit_includes_previously_hidden_wrapping_addon": true,
+  "non_sellable_service_or_addon_count": 27,
+  "non_sellable_service_or_addon_product_numbers": [
+    "00-9999-002",
+    "00-9999-004",
+    "00-9999-006",
+    "00-9999-008",
+    "00-9999-010",
+    "00-9999-012",
+    "00-9999-014",
+    "19-1680-494",
+    "19-1683-493",
+    "19-1685-499",
+    "19-1685-680",
+    "19-1689-682",
+    "19-1693-681",
+    "19-1714-687",
+    "19-1716-140",
+    "19-1986-680",
+    "29-1034-571",
+    "49-1029-737",
+    "49-1040-956",
+    "49-1043-788",
+    "69-1085-148",
+    "99-9999-000",
+    "99-9999-118",
+    "99-9999-119",
+    "99-9999-120",
+    "99-9999-121",
+    "99-9999-122"
+  ],
+  "remaining_review_required_count": 1,
+  "remaining_review_required_product_numbers": [
+    "13-6671-684"
+  ],
+  "prior_27_review_resolution": {
+    "zero_price_source_data_product_count": 20,
+    "zero_price_source_data_product_numbers": [
+      "00-9999-002",
+      "19-1680-494",
+      "19-1683-493",
+      "19-1685-499",
+      "19-1685-680",
+      "19-1689-682",
+      "19-1693-681",
+      "19-1714-687",
+      "19-1716-140",
+      "19-1986-680",
+      "29-1034-571",
+      "49-1029-737",
+      "49-1040-956",
+      "49-1043-788",
+      "69-1085-148",
+      "99-9999-118",
+      "99-9999-119",
+      "99-9999-120",
+      "99-9999-121",
+      "99-9999-122"
+    ],
+    "zero_price_products_confirmed_non_sellable_count": 20,
+    "zero_price_independent_sellable_products_remaining_review_count": 0,
+    "missing_media_product_count": 7,
+    "missing_media_product_numbers": [
+      "00-9999-002",
+      "00-9999-004",
+      "00-9999-006",
+      "00-9999-008",
+      "00-9999-010",
+      "00-9999-012",
+      "00-9999-014"
+    ],
+    "missing_media_overlap_zero_price_product_numbers": [
+      "00-9999-002"
+    ],
+    "missing_media_confirmed_non_sellable_count": 7,
+    "sellable_missing_media_remaining_review_count": 0,
+    "high_price_review_product_numbers": [
+      "13-6671-684"
+    ]
+  },
+  "high_price_verification": {
+    "verified_real_high_price_product": true,
+    "variant_count": 3,
+    "variant_skus": [
+      "13-6671-68400223400",
+      "13-6671-68400223600",
+      "13-6671-68400223700"
+    ],
+    "variant_tax_included_price_jpy": [
+      1430000,
+      1430000,
+      1430000
+    ],
+    "variant_compare_at_price_jpy": [
+      1430000,
+      1430000,
+      1430000
+    ],
+    "all_three_variants_exactly_1430000_jpy": true,
+    "structured_compare_at_promotion_present": false,
+    "explicit_sale_or_limited_price_signal_present": false,
+    "target_price_jpy": 929500,
+    "target_price_formula": "ceil(tax_included_price_jpy * 0.65)",
+    "source_price_upper_bound_current_jpy": 1000000,
+    "source_price_upper_bound_recommended_jpy": 2000000,
+    "recommendation": "Separate the absolute valid source-price ceiling from price-change anomaly guards; a future separately authorized change may raise only the source ceiling to JPY 2,000,000.",
+    "guard_changed_this_round": false,
+    "official_page_has_normal_purchase_surface": true,
+    "official_page_visible_promotion_markers": [],
+    "official_page_visible_promotion_absent": true
+  },
+  "final_sellable_stable_product_count": 2434,
+  "stable_non_sellable_leak_product_numbers": [],
+  "products": [
+    {
+      "product_number": "00-9999-002",
+      "name": "名入れ代（無料）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-002",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-00200999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-002"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-002",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 848743,
+        "response_sha256": "afba506ab4675e9cf41ebb4691aa1d8fe55610cfb5989dbafc922316d0820fa4",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-004",
+      "name": "名入れ代（500円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-004",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-00400999999"
+        ],
+        "variant_prices_jpy": [
+          550
+        ],
+        "variant_compare_at_prices_jpy": [
+          550
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-004"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-004",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849115,
+        "response_sha256": "f8f60be8b743bc99a6ce6ff8da1e152cfa6a06531a24929d6b20f371689996d7",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥550"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-006",
+      "name": "名入れ代（1000円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-006",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-00600999999"
+        ],
+        "variant_prices_jpy": [
+          1100
+        ],
+        "variant_compare_at_prices_jpy": [
+          1100
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-006"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-006",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849158,
+        "response_sha256": "50ac2ffaf17e2b911e41d8b4cb184b2c980a5705f51c529bc14ee01e2e183ff2",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥1,100"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-008",
+      "name": "名入れ代（1500円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-008",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-00800999999"
+        ],
+        "variant_prices_jpy": [
+          1650
+        ],
+        "variant_compare_at_prices_jpy": [
+          1650
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-008"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-008",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849158,
+        "response_sha256": "db7df7be75dc9d0f44f39775c5af8707ca577f08e9e60ddaba960e7875bebf0e",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥1,650"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-010",
+      "name": "名入れ代（1800円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-010",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-01000999999"
+        ],
+        "variant_prices_jpy": [
+          1980
+        ],
+        "variant_compare_at_prices_jpy": [
+          1980
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-010"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-010",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849158,
+        "response_sha256": "86fadc6b377558e82991497d022b25f0eda456347befe58d2c317ed308bbe894",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥1,980"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-012",
+      "name": "名入れ代（2000円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-012",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-01200999999"
+        ],
+        "variant_prices_jpy": [
+          2200
+        ],
+        "variant_compare_at_prices_jpy": [
+          2200
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-012"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-012",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849158,
+        "response_sha256": "a15044b16a98ed663af34a509f4c049e01dd2994567bd08b5c10f343993529c4",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥2,200"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "00-9999-014",
+      "name": "名入れ代（3000円）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "名入れ代商品",
+        "tags": [
+          "00-9999-014",
+          "名入れ代",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "00-9999-01400999999"
+        ],
+        "variant_prices_jpy": [
+          3300
+        ],
+        "variant_compare_at_prices_jpy": [
+          3300
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": false,
+        "ordered_image_count": 0,
+        "resolved_variant_image_count": 0,
+        "product_url": "https://www.mikihouse.co.jp/products/00-9999-014"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/00-9999-014",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 849158,
+        "response_sha256": "87614f54cfd5f543c51057400d1bf4fa3b34f4bc29777a8e2d8a2f885475cd0e",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥3,300"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "PERSONALIZATION_FEE",
+        "official_product_type": "名入れ代商品",
+        "corroborating_tags": [
+          "名入れ代",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "PERSONALIZATION_FEE",
+            "official_product_type": "名入れ代商品",
+            "corroborating_tags": [
+              "名入れ代",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "13-6671-684",
+      "name": "【ゴールドレーベル】ビキューナ×ベビーカシミヤ セーター（大人用）",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "通常商品",
+        "tags": [
+          "13-6671-684",
+          "adult",
+          "cashmere",
+          "goldlabel",
+          "knit-wear",
+          "mikihouse",
+          "sweater",
+          "tops",
+          "ウエア | トップス | セーター",
+          "カシミヤ",
+          "ゴールドレーベル",
+          "セーター",
+          "トップス",
+          "ニットウエア",
+          "ミキハウス",
+          "冬",
+          "大人用",
+          "大人用 | ウエア",
+          "日本製"
+        ],
+        "description_character_count": 769,
+        "variant_count": 3,
+        "variant_skus": [
+          "13-6671-68400223400",
+          "13-6671-68400223600",
+          "13-6671-68400223700"
+        ],
+        "variant_prices_jpy": [
+          1430000,
+          1430000,
+          1430000
+        ],
+        "variant_compare_at_prices_jpy": [
+          1430000,
+          1430000,
+          1430000
+        ],
+        "variant_available_for_sale": [
+          true,
+          true,
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 8,
+        "resolved_variant_image_count": 3,
+        "product_url": "https://www.mikihouse.co.jp/products/13-6671-684"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/13-6671-684",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 931287,
+        "response_sha256": "d9ecb06d9f892c4aa27564b858bf532766efd2ef50d41c8501cba944b5f7d831",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": true,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": true,
+        "add_button_count": 1,
+        "any_enabled_add_button": true,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥1,430,000"
+        ],
+        "all_expected_display_price_tokens_present": true,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": null,
+      "stable_catalog_decision": {
+        "status": "STABLE",
+        "excluded_reason": null,
+        "evidence": []
+      },
+      "disposition": "REVIEW_REQUIRED_REAL_HIGH_PRICE_GUARD_UNCHANGED"
+    },
+    {
+      "product_number": "19-1680-494",
+      "name": "オリジナルピクニックバスケット",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1680-494",
+          "mikihouse",
+          "ノベルティ商品",
+          "ミキハウス"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1680-49400879999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1680-494"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1680-494",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 851023,
+        "response_sha256": "74cfb537f058208eacb70e44155637073c2928cce161b723b0d42c8613344e1f",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1683-493",
+      "name": "オーナメント＆缶",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1683-493",
+          "mikihouse",
+          "ノベルティ商品",
+          "ミキハウス"
+        ],
+        "description_character_count": 0,
+        "variant_count": 4,
+        "variant_skus": [
+          "19-1683-49300019999",
+          "19-1683-49300029999",
+          "19-1683-49300059999",
+          "19-1683-49300099999"
+        ],
+        "variant_prices_jpy": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_available_for_sale": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 4,
+        "resolved_variant_image_count": 4,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1683-493"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1683-493",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 858958,
+        "response_sha256": "dde9032e0c3fa1374119323f35f1aa33b0eb75123c95952ad850efb729a053dd",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1685-499",
+      "name": "てくてく計測シート",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1685-499",
+          "mikihouse",
+          "ノベルティ商品",
+          "ミキハウス"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1685-49900899999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1685-499"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1685-499",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850440,
+        "response_sha256": "316954318cdf329aeb1cee02b59f993273e065edb11a8f97d13e9ffa66daa97b",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1685-680",
+      "name": "ミニタオル",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1685-680",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1685-68000139999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1685-680"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1685-680",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850263,
+        "response_sha256": "64b67c1afd4d385eb6582df0279361d4b5271622eb6bb7ba4effff63736c5db2",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1689-682",
+      "name": "エコバッグ付きランチボックス",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1689-682",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1689-68200879999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1689-682"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1689-682",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850933,
+        "response_sha256": "2122ac26c9f54b595b6ceeff28b6cd28f5266c641367b1b9e82ed7e567cb3134",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1693-681",
+      "name": "五彩織りタオルブランケット",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1693-681",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1693-68100029999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1693-681"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1693-681",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850520,
+        "response_sha256": "55473460c381cc3b922f34d1dfabcd504361222c355626290865a9f29766b346",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1714-687",
+      "name": "ミキハウスメイト",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1714-687",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 4,
+        "variant_skus": [
+          "19-1714-68700019999",
+          "19-1714-68700049999",
+          "19-1714-68700059999",
+          "19-1714-68700099999"
+        ],
+        "variant_prices_jpy": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_available_for_sale": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 4,
+        "resolved_variant_image_count": 4,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1714-687"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1714-687",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 858928,
+        "response_sha256": "f5b6f1477b1d402fd0aaa12fc8f99b9f9fdb9b312b30d3ec5e158124f09f92cf",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1716-140",
+      "name": "オリジナルピクニックシート",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1716-140",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "19-1716-14000879999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1716-140"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1716-140",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850855,
+        "response_sha256": "642af3653133dd1571977fb3d4c7d7e49cd892f6df8fe79b4cfbee1b0ac2a8a4",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "19-1986-680",
+      "name": "ロゴステッカー",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "19-1986-680",
+          "mikihouse",
+          "ノベルティ商品",
+          "ミキハウス"
+        ],
+        "description_character_count": 0,
+        "variant_count": 2,
+        "variant_skus": [
+          "19-1986-68000469999",
+          "19-1986-68000879999"
+        ],
+        "variant_prices_jpy": [
+          0,
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0,
+          0
+        ],
+        "variant_available_for_sale": [
+          false,
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 2,
+        "resolved_variant_image_count": 2,
+        "product_url": "https://www.mikihouse.co.jp/products/19-1986-680"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/19-1986-680",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 853791,
+        "response_sha256": "dc300dce1f1b2a2ca54f8d0208aff7371cc26e18692d2e1e027da75814c8dbb6",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "29-1034-571",
+      "name": "チエコバルーン",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "29-1034-571",
+          "chiecosaku",
+          "チエコサク",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "29-1034-57100029999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/29-1034-571"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/29-1034-571",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850310,
+        "response_sha256": "84f4ac181ae97db371f664969f5f9d22ce1f994d21a18a6149ada5f7baa34278",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "49-1029-737",
+      "name": "バスケット",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "49-1029-737",
+          "mikihousebaby",
+          "ノベルティ商品",
+          "ミキハウスベビー"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "49-1029-73700019999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/49-1029-737"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/49-1029-737",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850181,
+        "response_sha256": "9c773deca99d421fb44609ab91c3eb7908c56187deee852d5d1d518d79ad38db",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "49-1040-956",
+      "name": "命名紙",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "49-1040-956",
+          "mikihousebaby",
+          "ノベルティ商品",
+          "ミキハウスベビー"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "49-1040-95600899999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/49-1040-956"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/49-1040-956",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850222,
+        "response_sha256": "67e0ef5a96640c977264395bd30c6b858747dac430f40303e2949795a5b3d67b",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "49-1043-788",
+      "name": "おむつストッカー",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "49-1043-788",
+          "mikihousebaby",
+          "ノベルティ商品",
+          "ミキハウスベビー"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "49-1043-78800319999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/49-1043-788"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/49-1043-788",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850627,
+        "response_sha256": "63593c83e24a12dd22a76600d2b53362c6065359ade5702a8e922c66b0094d9d",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "69-1085-148",
+      "name": "アクリルキーホルダー",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "ノベルティ商品",
+        "tags": [
+          "69-1085-148",
+          "ノベルティ商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 8,
+        "variant_skus": [
+          "69-1085-14800019999",
+          "69-1085-14800029999",
+          "69-1085-14800049999",
+          "69-1085-14800059999",
+          "69-1085-14800099999",
+          "69-1085-14800119999",
+          "69-1085-14800339999",
+          "69-1085-14800379999"
+        ],
+        "variant_prices_jpy": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "variant_available_for_sale": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 8,
+        "resolved_variant_image_count": 8,
+        "product_url": "https://www.mikihouse.co.jp/products/69-1085-148"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/69-1085-148",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 873532,
+        "response_sha256": "e56fe32548ab4a6668ca06b118511f77bb0c366f68642850804eaf650f11fba0",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+        "official_product_type": "ノベルティ商品",
+        "corroborating_tags": [
+          "ノベルティ商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "NOVELTY_OR_FREE_ITEM",
+            "official_product_type": "ノベルティ商品",
+            "corroborating_tags": [
+              "ノベルティ商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-000",
+      "name": "ギフトラッピング",
+      "was_in_prior_27_initialization_reviews": false,
+      "official_storefront_evidence": {
+        "product_type": "ギフトラッピング商品",
+        "tags": [
+          "99-9999-000",
+          "ギフトラッピング商品",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-00000999999"
+        ],
+        "variant_prices_jpy": [
+          550
+        ],
+        "variant_compare_at_prices_jpy": [
+          550
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-000"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-000",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850498,
+        "response_sha256": "f6352e877d1ddbc02d1dacb811c19c5bbc931bcd3813913e7e687178a1857a08",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥550"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "GIFT_WRAPPING_ADDON",
+        "official_product_type": "ギフトラッピング商品",
+        "corroborating_tags": [
+          "ギフトラッピング商品",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "GIFT_WRAPPING_ADDON",
+            "official_product_type": "ギフトラッピング商品",
+            "corroborating_tags": [
+              "ギフトラッピング商品",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-118",
+      "name": "①ご出産祝い",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "メッセージカード商品",
+        "tags": [
+          "99-9999-118",
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-11800999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-118"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-118",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850322,
+        "response_sha256": "07838d66dd859afdacf2b0ae14805652c82a925585099974b9bc368271ac0408",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+        "official_product_type": "メッセージカード商品",
+        "corroborating_tags": [
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+            "official_product_type": "メッセージカード商品",
+            "corroborating_tags": [
+              "メッセージカード",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-119",
+      "name": "②Baby Gift",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "メッセージカード商品",
+        "tags": [
+          "99-9999-119",
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-11900999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-119"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-119",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850200,
+        "response_sha256": "c6512bf2cbeaa5f072ce87ff2403f10320899eea3a1151b88ae8728db23e17f4",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+        "official_product_type": "メッセージカード商品",
+        "corroborating_tags": [
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+            "official_product_type": "メッセージカード商品",
+            "corroborating_tags": [
+              "メッセージカード",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-120",
+      "name": "③おめでとう",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "メッセージカード商品",
+        "tags": [
+          "99-9999-120",
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-12000999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-120"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-120",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850322,
+        "response_sha256": "21b58d64ce1c0f47fab8ce475292e6357fb0269895a05cf9a52798f3ed84bcc9",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+        "official_product_type": "メッセージカード商品",
+        "corroborating_tags": [
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+            "official_product_type": "メッセージカード商品",
+            "corroborating_tags": [
+              "メッセージカード",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-121",
+      "name": "④お誕生日祝い",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "メッセージカード商品",
+        "tags": [
+          "99-9999-121",
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-12100999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-121"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-121",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850382,
+        "response_sha256": "ac7b58f2eed23f2e809e57fe2672bae6f1453d668374c3cc23c81695639ee4ae",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+        "official_product_type": "メッセージカード商品",
+        "corroborating_tags": [
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+            "official_product_type": "メッセージカード商品",
+            "corroborating_tags": [
+              "メッセージカード",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    },
+    {
+      "product_number": "99-9999-122",
+      "name": "⑤無地",
+      "was_in_prior_27_initialization_reviews": true,
+      "official_storefront_evidence": {
+        "product_type": "メッセージカード商品",
+        "tags": [
+          "99-9999-122",
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "description_character_count": 0,
+        "variant_count": 1,
+        "variant_skus": [
+          "99-9999-12200999999"
+        ],
+        "variant_prices_jpy": [
+          0
+        ],
+        "variant_compare_at_prices_jpy": [
+          0
+        ],
+        "variant_available_for_sale": [
+          true
+        ],
+        "main_image_present": true,
+        "ordered_image_count": 1,
+        "resolved_variant_image_count": 1,
+        "product_url": "https://www.mikihouse.co.jp/products/99-9999-122"
+      },
+      "official_page_evidence": {
+        "http_status": 200,
+        "final_url": "https://www.mikihouse.co.jp/products/99-9999-122",
+        "final_url_matches_product": true,
+        "response_utf8_byte_count": 850142,
+        "response_sha256": "27660612adbc53564197829d58b491af604e5fbc076defdf010a34d954835652",
+        "exact_product_number_marker_present": true,
+        "normal_product_detail_section_present": false,
+        "exact_product_name_present": true,
+        "official_product_type_present": true,
+        "all_exact_variant_skus_present": true,
+        "cart_add_form_present": false,
+        "add_button_count": 0,
+        "any_enabled_add_button": false,
+        "all_add_buttons_disabled": false,
+        "expected_display_price_tokens": [
+          "¥0"
+        ],
+        "all_expected_display_price_tokens_present": false,
+        "product_section_promotional_text_markers": [],
+        "raw_html_committed": false
+      },
+      "classification_evidence": {
+        "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "matched_fields": [
+          "product_type",
+          "tags"
+        ],
+        "signal": "explicit_official_cart_support_product_type",
+        "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+        "official_product_type": "メッセージカード商品",
+        "corroborating_tags": [
+          "メッセージカード",
+          "手数料商品"
+        ],
+        "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+        "permanent_product_number_match": true,
+        "classification_does_not_depend_on_zero_price": true
+      },
+      "stable_catalog_decision": {
+        "status": "EXCLUDED",
+        "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+        "evidence": [
+          {
+            "reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+            "matched_fields": [
+              "product_type",
+              "tags"
+            ],
+            "signal": "explicit_official_cart_support_product_type",
+            "service_or_addon_kind": "MESSAGE_CARD_ADDON",
+            "official_product_type": "メッセージカード商品",
+            "corroborating_tags": [
+              "メッセージカード",
+              "手数料商品"
+            ],
+            "corroboration_status": "OFFICIAL_PRODUCT_TYPE_AND_TAG",
+            "permanent_product_number_match": true,
+            "classification_does_not_depend_on_zero_price": true
+          }
+        ]
+      },
+      "disposition": "EXCLUDED_NON_SELLABLE_SERVICE_OR_ADDON"
+    }
+  ],
+  "classification_policy": {
+    "zero_price_alone_is_never_non_sellable_proof": true,
+    "official_product_type_and_tags_are_primary_evidence": true,
+    "official_product_page_identity_and_cart_structure_checked": true,
+    "normal_sellable_requires_positive_price_valid_sku_variant_and_required_media": true,
+    "reservation_or_made_to_order_not_newly_excluded": true
+  },
+  "safety": {
+    "official_storefront_complete_crawl_used": true,
+    "official_product_page_get_requests": 28,
+    "shijiu_read_requests": 0,
+    "shijiu_create_requests": 0,
+    "shijiu_update_requests": 0,
+    "shijiu_cos_upload_requests": 0,
+    "shijiu_shelf_price_inventory_writes": 0,
+    "writer_mutex_evidence_generated": false,
+    "legacy_286_touched": false
+  }
+}

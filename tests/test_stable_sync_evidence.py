@@ -25,14 +25,16 @@ def test_persisted_source_state_matches_complete_stable_catalog_baseline() -> No
     assert len(state["products"]) == 2961
     statuses = Counter(row["stability_status"] for row in state["products"].values())
     assert statuses == {
-        "STABLE": 2461,
+        "STABLE": 2434,
         "PDF_SPECIAL_LIST": 311,
         "WEB_EXCLUSIVE": 186,
         "LIMITED_TIME_PRICE": 2,
+        "NON_SELLABLE_SERVICE_OR_ADDON": 27,
         "REVIEW_REQUIRED_STABILITY": 1,
     }
     assert sum(len(row["variants"]) for row in state["products"].values()) == 18533
     assert state["permanent_exclusions"]["PDF_SPECIAL_LIST"]["count"] == 351
+    assert state["permanent_exclusions"]["NON_SELLABLE_SERVICE_OR_ADDON"]["count"] == 27
     for number, product in state["products"].items():
         for sku, variant in product["variants"].items():
             assert variant["source_variant_id"] == f"MIKIHOUSE:{number}:{sku}"
@@ -54,3 +56,6 @@ def test_real_offline_replay_and_target_write_safety_are_recorded() -> None:
     assert readiness["production_write_status"] == "PROHIBITED_WAWU_MAY_BE_ACTIVE"
     assert readiness["implementation_boundary"]["current_terminal_stage"] == "PLANNING_ONLY"
     assert readiness["hard_guards"]["special_351_never_emit_shijiu_action"] is True
+    assert readiness["hard_guards"][
+        "non_sellable_services_never_emit_create_price_inventory_image_or_reactivation_action"
+    ] is True

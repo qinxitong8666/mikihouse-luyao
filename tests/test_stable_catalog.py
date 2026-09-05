@@ -7,6 +7,7 @@ from mikihouse_luyao.shijiu_import import ImportPlanError, build_parser, map_pro
 from mikihouse_luyao.stable_catalog import (
     EXCLUDED,
     LIMITED_TIME_PRICE,
+    NON_SELLABLE_SERVICE_OR_ADDON,
     PDF_SPECIAL,
     REVIEW_REQUIRED,
     STABLE,
@@ -109,6 +110,51 @@ def test_pdf_special_has_highest_priority() -> None:
     item["name"] = "【WEB限定】【期間限定価格】商品"
     decision = assess_product_stability(item, {"10-1105-495"})
     assert decision["excluded_reason"] == PDF_SPECIAL
+
+
+@pytest.mark.parametrize(
+    "product_type,tags",
+    [
+        ("名入れ代商品", ["名入れ代", "手数料商品"]),
+        ("ノベルティ商品", ["ノベルティ商品"]),
+        ("メッセージカード商品", ["メッセージカード", "手数料商品"]),
+        ("ギフトラッピング商品", ["ギフトラッピング商品", "手数料商品"]),
+    ],
+)
+def test_explicit_official_service_or_addon_types_are_permanently_excluded(
+    product_type: str, tags: list[str]
+) -> None:
+    item = product()
+    item["product_type"] = product_type
+    item["tags"] = tags
+    decision = assess_product_stability(item, set())
+    assert decision["status"] == EXCLUDED
+    assert decision["excluded_reason"] == NON_SELLABLE_SERVICE_OR_ADDON
+    assert decision["evidence"][0]["classification_does_not_depend_on_zero_price"] is True
+
+
+def test_zero_price_alone_requires_review_and_never_implies_service() -> None:
+    item = product()
+    item["variants"][0]["tax_included_price_jpy"] = 0
+    item["variants"][0]["mini_program_price_jpy"] = 0
+    decision = assess_product_stability(item, set())
+    assert decision["status"] == REVIEW_REQUIRED
+    assert decision["excluded_reason"] == REVIEW_REQUIRED
+    assert decision["evidence"][0]["not_automatically_classified_as_service_from_price"] is True
+
+
+@pytest.mark.parametrize("field", ["main", "ordered", "variant"])
+def test_sellable_missing_required_media_requires_review(field: str) -> None:
+    item = product()
+    if field == "main":
+        item["main_image"] = None
+    elif field == "ordered":
+        item["ordered_images"] = []
+    else:
+        item["variants"][0]["resolved_image"] = None
+    decision = assess_product_stability(item, set())
+    assert decision["status"] == REVIEW_REQUIRED
+    assert any(row["signal"] == "missing_required_sellable_media" for row in decision["evidence"])
 
 
 def test_partition_adds_content_and_resource_hashes_only_to_stable_products() -> None:

@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T01:37:07.388424+00:00",
+  "generated_at": "2026-09-05T05:06:17.371853+00:00",
   "status": "COMPLETED_OFFLINE_DUPLICATE_GOOD_NAME_AUDIT",
   "mode": "PLANNING_ONLY",
   "write_status": "SHIJIU_WRITE_BLOCKED_CONCURRENT_WRITER",
   "source": "MIKIHOUSE",
   "target": "SHIJIU",
-  "stable_catalog_product_count": 2461,
+  "stable_catalog_product_count": 2434,
   "duplicate_name_group_count": 254,
-  "duplicate_name_product_count": 1603,
+  "duplicate_name_product_count": 1602,
   "group_size_distribution": {
     "2": 108,
-    "3": 30,
-    "4": 29,
+    "3": 31,
+    "4": 28,
     "5": 23,
     "6": 9,
     "7": 2,
@@ -57,7 +57,7 @@
   "identical_complete_backend_sku_set_group_count": 0,
   "identical_complete_backend_sku_set_groups": [],
   "all_duplicate_name_products_have_source_unique_complete_sku_sets": true,
-  "theoretical_duplicate_name_review_release_count": 1603,
+  "theoretical_duplicate_name_review_release_count": 1602,
   "groups": [
     {
       "good_name": "半袖Ｔシャツ",
@@ -8482,38 +8482,6 @@
       ]
     },
     {
-      "good_name": "ミニタオル",
-      "product_count": 4,
-      "product_numbers": [
-        "10-8107-492",
-        "13-8102-689",
-        "15-4161-680",
-        "19-1685-680"
-      ],
-      "products": [
-        {
-          "product_number": "10-8107-492",
-          "variant_count": 5,
-          "backend_sku_code_set_sha256": "476b283a93a6d56fdc928eb69d7be803db14e90d1644d15e82d4a8084d0ee412"
-        },
-        {
-          "product_number": "13-8102-689",
-          "variant_count": 5,
-          "backend_sku_code_set_sha256": "1663b384169a77721d64068a67e0640d773bd20afcf1e6bec6078e8d9245fab9"
-        },
-        {
-          "product_number": "15-4161-680",
-          "variant_count": 2,
-          "backend_sku_code_set_sha256": "b9103688bc035d14d796e5f27a1c273389066097b0f8df919b9d283238ae688f"
-        },
-        {
-          "product_number": "19-1685-680",
-          "variant_count": 1,
-          "backend_sku_code_set_sha256": "6df20b892b6cbf46060431f961091577577dc8abc1d43ca87b9386d2b3351acd"
-        }
-      ]
-    },
-    {
       "good_name": "レインコート",
       "product_count": 4,
       "product_numbers": [
@@ -9390,6 +9358,32 @@
           "product_number": "13-1901-571",
           "variant_count": 12,
           "backend_sku_code_set_sha256": "6cb96d6eea9ad97bf78ce972e4b2045bee251ed4f2b7459af0e9615506518a23"
+        }
+      ]
+    },
+    {
+      "good_name": "ミニタオル",
+      "product_count": 3,
+      "product_numbers": [
+        "10-8107-492",
+        "13-8102-689",
+        "15-4161-680"
+      ],
+      "products": [
+        {
+          "product_number": "10-8107-492",
+          "variant_count": 5,
+          "backend_sku_code_set_sha256": "476b283a93a6d56fdc928eb69d7be803db14e90d1644d15e82d4a8084d0ee412"
+        },
+        {
+          "product_number": "13-8102-689",
+          "variant_count": 5,
+          "backend_sku_code_set_sha256": "1663b384169a77721d64068a67e0640d773bd20afcf1e6bec6078e8d9245fab9"
+        },
+        {
+          "product_number": "15-4161-680",
+          "variant_count": 2,
+          "backend_sku_code_set_sha256": "b9103688bc035d14d796e5f27a1c273389066097b0f8df919b9d283238ae688f"
         }
       ]
     },

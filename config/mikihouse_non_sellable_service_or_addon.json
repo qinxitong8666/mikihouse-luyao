@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "source": "MIKIHOUSE",
+  "excluded_reason": "NON_SELLABLE_SERVICE_OR_ADDON",
+  "permanent": true,
+  "classification_principle": "official productType/tags and per-product official page evidence; never price=0 alone",
+  "recognized_official_product_types": {
+    "名入れ代商品": "PERSONALIZATION_FEE",
+    "ノベルティ商品": "NOVELTY_OR_FREE_ITEM",
+    "メッセージカード商品": "MESSAGE_CARD_ADDON",
+    "ギフトラッピング商品": "GIFT_WRAPPING_ADDON"
+  },
+  "product_numbers": [
+    "00-9999-002",
+    "00-9999-004",
+    "00-9999-006",
+    "00-9999-008",
+    "00-9999-010",
+    "00-9999-012",
+    "00-9999-014",
+    "19-1680-494",
+    "19-1683-493",
+    "19-1685-499",
+    "19-1685-680",
+    "19-1689-682",
+    "19-1693-681",
+    "19-1714-687",
+    "19-1716-140",
+    "19-1986-680",
+    "29-1034-571",
+    "49-1029-737",
+    "49-1040-956",
+    "49-1043-788",
+    "69-1085-148",
+    "99-9999-000",
+    "99-9999-118",
+    "99-9999-119",
+    "99-9999-120",
+    "99-9999-121",
+    "99-9999-122"
+  ],
+  "shijiu_actions_permanently_forbidden": [
+    "CREATE",
+    "PRICE_CHANGED",
+    "INVENTORY_CHANGED",
+    "IMAGE_CHANGED",
+    "PRODUCT_REACTIVATED",
+    "VARIANT_REACTIVATED"
+  ]
+}

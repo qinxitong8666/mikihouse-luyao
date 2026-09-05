@@ -47,6 +47,7 @@ def test_new_pilot_is_stable_only_unmapped_and_frozen() -> None:
         | set(stable["special_exclusion"]["offline_product_numbers"])
         | set(stable["stability_exclusion"]["web_exclusive_product_numbers"])
         | set(stable["stability_exclusion"]["limited_time_price_product_numbers"])
+        | set(stable["stability_exclusion"]["non_sellable_service_or_addon_product_numbers"])
         | set(stable["stability_exclusion"]["review_required_product_numbers"])
     )
     numbers = [row["product_number"] for row in pilot["products"]]
@@ -78,19 +79,19 @@ def test_full_plan_accounts_for_all_stable_products_and_has_no_target_requests()
     counts = plan["counts"]
     assert plan["status"] == "PLANNING_ONLY"
     assert plan["write_status"] == WRITE_BLOCKED_STATUS
-    assert counts["stable_catalog_product_count"] == 2461
-    assert counts["accounted_product_count"] == 2461
+    assert counts["stable_catalog_product_count"] == 2434
+    assert counts["accounted_product_count"] == 2434
     assert counts["planned_initial_create_product_count"] == 2385
     assert counts["already_mapped_handoff_count"] == 6
-    assert counts["historical_frozen_count"] == 43
-    assert counts["initialization_review_required_count"] == 27
+    assert counts["historical_frozen_count"] == 42
+    assert counts["initialization_review_required_count"] == 1
     assert counts["batch_count"] == 170
     assert (
         counts["planned_initial_create_product_count"]
         + counts["already_mapped_handoff_count"]
         + counts["historical_frozen_count"]
         + counts["initialization_review_required_count"]
-        == 2461
+        == 2434
     )
     assert sum(row["product_count"] for row in plan["batches"]) == len(plan["products"])
     assert plan["safety"]["shijiu_requests"] == 0
@@ -132,15 +133,15 @@ def test_every_planned_product_has_bounded_stages_and_variant_contract() -> None
 def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> None:
     audit = load("deliverables/shijiu_initialization/stable_initialization_data_quality_audit.json")
     capacity = load("deliverables/shijiu_initialization/stable_initialization_capacity_estimate.json")
-    assert audit["stable_catalog_product_count"] == 2461
-    assert audit["stable_catalog_variant_count"] == 13782
-    assert audit["stable_catalog_image_resource_count"] == 30172
+    assert audit["stable_catalog_product_count"] == 2434
+    assert audit["stable_catalog_variant_count"] == 13741
+    assert audit["stable_catalog_image_resource_count"] == 30138
     assert "DUPLICATE_PRODUCT_NAME" not in audit["quality_issue_counts"]
-    assert audit["duplicate_good_name_identity_audit"]["duplicate_name_product_count"] == 1603
+    assert audit["duplicate_good_name_identity_audit"]["duplicate_name_product_count"] == 1602
     assert audit["duplicate_good_name_identity_audit"][
         "all_duplicate_name_products_have_source_unique_complete_sku_sets"
     ] is True
-    assert audit["missing_image_product_count"] == 7
+    assert audit["missing_image_product_count"] == 0
     assert audit["missing_sku_product_count"] == 0
     assert audit["variant_identity_anomaly_product_count"] == 0
     assert capacity["status"] == "PLANNING_ONLY"
@@ -149,8 +150,8 @@ def test_quality_audit_fail_closed_counts_and_source_resource_only_policy() -> N
     assert capacity["safety"]["official_image_download_count"] == 0
     assert capacity["safety"]["shijiu_cos_upload_requests"] == 0
     price = load("deliverables/shijiu_initialization/price_outside_configured_range_audit.json")
-    assert price["outside_range_variant_count"] == 37
-    assert price["outside_range_product_count"] == 21
+    assert price["outside_range_variant_count"] == 3
+    assert price["outside_range_product_count"] == 1
     assert price["guard_changed"] is False
     assert price["automatic_import_release_count"] == 0
 
@@ -310,6 +311,12 @@ def test_protected_state_replan_is_zero_mutation_and_audited() -> None:
     for relative, row in by_path.items():
         digest = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
         assert digest == row["after_sha256"]
+    for row in audit["affected_protected_deliverables"]:
+        digest = hashlib.sha256((ROOT / row["path"]).read_bytes()).hexdigest()
+        assert digest == row["after_sha256"]
+    for row in audit["unchanged_protected_artifacts"]:
+        digest = hashlib.sha256((ROOT / row["path"]).read_bytes()).hexdigest()
+        assert digest == row["sha256"]
     assert mapping["identity_contract"]["good_name_candidate_scope"] == (
         "exact only; never binding proof"
     )

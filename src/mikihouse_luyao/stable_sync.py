@@ -15,7 +15,9 @@ from .catalog import calculate_mini_program_price_jpy
 from .csv_input import read_product_numbers
 from .stable_catalog import (
     LIMITED_TIME_PRICE,
+    NON_SELLABLE_SERVICE_OR_ADDON,
     PDF_SPECIAL,
+    PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS,
     REVIEW_REQUIRED,
     STABLE,
     WEB_EXCLUSIVE,
@@ -61,7 +63,12 @@ ALL_EVENT_TYPES = (
     REVIEW_EVENT,
 )
 
-UNSTABLE_STATUSES = frozenset({WEB_EXCLUSIVE, LIMITED_TIME_PRICE, REVIEW_REQUIRED})
+UNSTABLE_STATUSES = frozenset({
+    WEB_EXCLUSIVE,
+    LIMITED_TIME_PRICE,
+    REVIEW_REQUIRED,
+    NON_SELLABLE_SERVICE_OR_ADDON,
+})
 
 
 class SyncCycleError(RuntimeError):
@@ -890,6 +897,11 @@ def plan_sync_cycle(
                 "count": len(special),
                 "product_numbers": sorted(special),
                 "policy": "never emit any Shijiu create/update/stock/image/price/reactivation action",
+            },
+            NON_SELLABLE_SERVICE_OR_ADDON: {
+                "count": len(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS),
+                "product_numbers": sorted(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS),
+                "policy": "never emit Shijiu create/price/inventory/image/reactivation actions",
             }
         },
     })
@@ -919,6 +931,10 @@ def plan_sync_cycle(
             ),
             "web_exclusive_count": sum(row["stability_status"] == WEB_EXCLUSIVE for row in current_records.values()),
             "limited_time_price_count": sum(row["stability_status"] == LIMITED_TIME_PRICE for row in current_records.values()),
+            "non_sellable_service_or_addon_count": sum(
+                row["stability_status"] == NON_SELLABLE_SERVICE_OR_ADDON
+                for row in current_records.values()
+            ),
             "review_required_stability_count": sum(row["stability_status"] == REVIEW_REQUIRED for row in current_records.values()),
             "new_event_count": len(new_events),
             "new_action_count": len(newly_planned_actions),
@@ -994,6 +1010,7 @@ def build_readiness_report(cycle_report: dict[str, Any], state: dict[str, Any]) 
         },
         "hard_guards": {
             "special_351_never_emit_shijiu_action": True,
+            "non_sellable_services_never_emit_create_price_inventory_image_or_reactivation_action": True,
             "new_unstable_products_never_create": True,
             "promo_price_never_emits_price_update": True,
             "incomplete_crawl_never_advances_state_or_inactivates": True,

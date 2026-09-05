@@ -25,7 +25,14 @@ from .shijiu_duplicate_name_identity import (
     audit_price_outside_configured_range,
 )
 from .shijiu_staged_media_import import image_reference_sets, stage_plan
-from .stable_catalog import PDF_SPECIAL, REVIEW_REQUIRED, STABLE, assess_product_stability
+from .stable_catalog import (
+    NON_SELLABLE_SERVICE_OR_ADDON,
+    PDF_SPECIAL,
+    PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS,
+    REVIEW_REQUIRED,
+    STABLE,
+    assess_product_stability,
+)
 from .stable_sync import IncompleteCrawlError, validate_complete_snapshot
 
 
@@ -588,6 +595,11 @@ def _validate_top_level_inputs(
     stable_numbers = {str(row.get("product_number")) for row in stable_products}
     if len(stable_numbers) != len(stable_products) or stable_numbers & special:
         raise InitializationPlanError("stable catalog contains duplicate or PDF-special product numbers")
+    non_sellable_leaks = sorted(stable_numbers & set(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS))
+    if non_sellable_leaks:
+        raise InitializationPlanError(
+            f"stable catalog contains permanent non-sellable products: {non_sellable_leaks}"
+        )
     source_by_number = {str(row.get("product_number")): row for row in source_products}
     if not stable_numbers <= set(source_by_number):
         raise InitializationPlanError("stable catalog references a product absent from the complete source snapshot")
@@ -617,6 +629,7 @@ def build_initialization_plans(
     duplicate_name_identity_contract: dict[str, Any],
     duplicate_name_readonly_validation: dict[str, Any] | None,
     *,
+    sellable_review_audit: dict[str, Any] | None = None,
     generated_at: str,
     stable_file_sha256: str,
     source_file_sha256: str,
@@ -665,6 +678,28 @@ def build_initialization_plans(
             or validation_safety.get("writer_mutex_evidence_generated") is not False
         ):
             raise InitializationPlanError("duplicate good_name read-only evidence is not safe/passed")
+    if sellable_review_audit is not None:
+        sellable_safety = sellable_review_audit.get("safety") or {}
+        if (
+            sellable_review_audit.get("status")
+            != "COMPLETED_OFFICIAL_READ_ONLY_REVIEW_RESOLUTION"
+            or sellable_review_audit.get("non_sellable_service_or_addon_count") != 27
+            or sellable_review_audit.get("remaining_review_required_count") != 1
+            or sellable_review_audit.get("stable_non_sellable_leak_product_numbers") != []
+            or (sellable_review_audit.get("high_price_verification") or {}).get(
+                "verified_real_high_price_product"
+            )
+            is not True
+            or (sellable_review_audit.get("high_price_verification") or {}).get(
+                "guard_changed_this_round"
+            )
+            is not False
+            or sellable_safety.get("shijiu_create_requests") != 0
+            or sellable_safety.get("shijiu_update_requests") != 0
+            or sellable_safety.get("shijiu_cos_upload_requests") != 0
+            or sellable_safety.get("writer_mutex_evidence_generated") is not False
+        ):
+            raise InitializationPlanError("sellable review audit is not safe/passed")
     duplicate_name_audit = analyze_duplicate_names(stable_catalog)
     price_range_audit = audit_price_outside_configured_range(
         stable_catalog,
@@ -756,6 +791,66 @@ def build_initialization_plans(
         plan["disposition"] = "PLANNED_INITIAL_CREATE"
         product_plans.append(plan)
         disposition_rows.append({**base_disposition, "disposition": "PLANNED_INITIAL_CREATE"})
+
+    planned_numbers = {row["product_number"] for row in product_plans}
+    stable_by_number = {str(row["product_number"]): row for row in stable_products}
+    stability_exclusion = stable_catalog.get("stability_exclusion") or {}
+    planning_leak_audit = {
+        "pdf_special_product_numbers": sorted(planned_numbers & special),
+        "web_exclusive_product_numbers": sorted(
+            planned_numbers
+            & set(stability_exclusion.get("web_exclusive_product_numbers") or [])
+        ),
+        "limited_time_price_product_numbers": sorted(
+            planned_numbers
+            & set(stability_exclusion.get("limited_time_price_product_numbers") or [])
+        ),
+        "review_required_stability_product_numbers": sorted(
+            planned_numbers
+            & set(stability_exclusion.get("review_required_product_numbers") or [])
+        ),
+        "non_sellable_service_or_addon_product_numbers": sorted(
+            planned_numbers & set(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS)
+        ),
+        "zero_or_invalid_price_product_numbers": sorted(
+            number
+            for number in planned_numbers
+            if any(
+                int(variant.get("tax_included_price_jpy") or 0) <= 0
+                for variant in stable_by_number[number].get("variants") or []
+                if variant.get("active", True)
+            )
+        ),
+        "missing_required_media_product_numbers": sorted(
+            number
+            for number in planned_numbers
+            if (
+                not str(
+                    (stable_by_number[number].get("main_image") or {}).get("url") or ""
+                ).strip()
+                or not (stable_by_number[number].get("ordered_images") or [])
+                or any(
+                    not str((variant.get("resolved_image") or {}).get("url") or "").strip()
+                    for variant in stable_by_number[number].get("variants") or []
+                    if variant.get("active", True)
+                )
+            )
+        ),
+    }
+    planning_leak_audit["all_forbidden_leak_product_numbers"] = sorted({
+        number
+        for key, numbers in planning_leak_audit.items()
+        if key.endswith("_product_numbers")
+        for number in numbers
+    })
+    planning_leak_audit["passed"] = not planning_leak_audit[
+        "all_forbidden_leak_product_numbers"
+    ]
+    if not planning_leak_audit["passed"]:
+        raise InitializationPlanError(
+            "forbidden or non-sellable product leaked into initialization plan: "
+            f"{planning_leak_audit['all_forbidden_leak_product_numbers']}"
+        )
 
     batches = _batch_products(product_plans)
     pilot_products = select_pilot_20(product_plans)
@@ -899,6 +994,20 @@ def build_initialization_plans(
             ) == max(detail_counts, default=0)
         ],
         "classification_counts": dict(sorted(classifications.items())),
+        "sellable_quality_policy": {
+            "positive_tax_included_price_required": True,
+            "active_variant_required": True,
+            "valid_variant_sku_required": True,
+            "main_ordered_and_variant_media_required": True,
+            "non_sellable_service_or_addon_forbidden": True,
+            "non_sellable_permanent_manifest_count": len(
+                PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS
+            ),
+            "non_sellable_leaks_in_initialization_plan": planning_leak_audit[
+                "non_sellable_service_or_addon_product_numbers"
+            ],
+        },
+        "initialization_plan_leak_audit": planning_leak_audit,
         "quality_issue_counts": dict(sorted(issue_counts.items())),
         "duplicate_name_groups": [
             {"name": name, "count": count}
@@ -1030,6 +1139,30 @@ def build_initialization_plans(
                 else {"status": "NOT_CAPTURED"}
             ),
         },
+        "sellable_review_resolution": (
+            {
+                "status": sellable_review_audit["status"],
+                "official_page_audit_product_count": sellable_review_audit[
+                    "official_page_audit_product_count"
+                ],
+                "non_sellable_service_or_addon_count": sellable_review_audit[
+                    "non_sellable_service_or_addon_count"
+                ],
+                "remaining_review_required_count": sellable_review_audit[
+                    "remaining_review_required_count"
+                ],
+                "remaining_review_required_product_numbers": sellable_review_audit[
+                    "remaining_review_required_product_numbers"
+                ],
+                "high_price_guard_changed": sellable_review_audit[
+                    "high_price_verification"
+                ]["guard_changed_this_round"],
+                "evidence_logical_sha256": content_sha256(sellable_review_audit),
+            }
+            if sellable_review_audit is not None
+            else {"status": "NOT_CAPTURED"}
+        ),
+        "initialization_plan_leak_audit": planning_leak_audit,
         "execution_prerequisites_not_satisfied_this_round": [
             "WAWU or any other writer must be confirmed stopped in a future task",
             "new complete Storefront crawl and plan freshness validation",
@@ -1039,6 +1172,57 @@ def build_initialization_plans(
         ],
         "new_20_plan_execution_count": 0,
         "full_batch_execution_count": 0,
+        "safety": common_safety,
+    }
+    sellable_resolution_summary = {
+        "schema_version": PLAN_SCHEMA_VERSION,
+        "generated_at": generated_at,
+        "status": "COMPLETED_PLANNING_ONLY_SELLABLE_INITIALIZATION_RESOLUTION",
+        "mode": PLANNING_STATUS,
+        "write_status": WRITE_BLOCKED_STATUS,
+        "source": SOURCE,
+        "target": TARGET,
+        "storefront_total_product_count": (
+            (stable_catalog.get("stability_audit_summary") or {}).get(
+                "storefront_total_product_count"
+            )
+        ),
+        "final_sellable_stable_product_count": len(stable_products),
+        "non_sellable_service_or_addon": {
+            "count": len(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS),
+            "product_numbers": sorted(PERMANENT_NON_SELLABLE_PRODUCT_NUMBERS),
+            "permanently_forbidden_actions": [
+                "CREATE",
+                "PRICE_CHANGED",
+                "INVENTORY_CHANGED",
+                "IMAGE_CHANGED",
+                "PRODUCT_REACTIVATED",
+                "VARIANT_REACTIVATED",
+            ],
+        },
+        "remaining_initialization_review_required": {
+            "count": len(review_rows),
+            "products": review_rows,
+        },
+        "separate_stability_review_outside_sellable_catalog": {
+            "count": len(stability_exclusion.get("review_required_product_numbers") or []),
+            "product_numbers": sorted(
+                stability_exclusion.get("review_required_product_numbers") or []
+            ),
+        },
+        "initialization_counts": batch_plan["counts"],
+        "pilot_20": {
+            "product_count": len(pilot_products),
+            "coverage": pilot_plan["coverage"],
+            "all_still_valid": len(pilot_products) == NEW_PILOT_PRODUCT_COUNT,
+            "execution_count": 0,
+        },
+        "initialization_plan_leak_audit": planning_leak_audit,
+        "high_price_verification": (
+            sellable_review_audit.get("high_price_verification")
+            if sellable_review_audit is not None
+            else {"status": "NOT_CAPTURED"}
+        ),
         "safety": common_safety,
     }
     return {
@@ -1072,6 +1256,7 @@ def build_initialization_plans(
         },
         "capacity": capacity,
         "readiness": readiness,
+        "sellable_resolution_summary": sellable_resolution_summary,
     }
 
 
@@ -1246,6 +1431,14 @@ def build_parser() -> argparse.ArgumentParser:
             "duplicate_good_name_shijiu_readonly_validation.json"
         ),
     )
+    parser.add_argument(
+        "--sellable-review-audit",
+        type=Path,
+        default=Path(
+            "deliverables/storefront_stable_catalog/"
+            "sellable_review_resolution_audit.json"
+        ),
+    )
     parser.add_argument("--output", type=Path, default=Path("deliverables/shijiu_initialization"))
     parser.add_argument("--checkpoint", type=Path, default=Path("state/mikihouse_initialization_checkpoint.json.gz"))
     parser.add_argument(
@@ -1272,6 +1465,11 @@ def main(argv: list[str] | None = None) -> int:
         if args.duplicate_name_readonly_validation.exists()
         else None
     )
+    sellable_review_audit = (
+        _read_json(args.sellable_review_audit)
+        if args.sellable_review_audit.exists()
+        else None
+    )
     generated_at = str(source_snapshot.get("captured_at"))
     result = build_initialization_plans(
         root,
@@ -1284,6 +1482,7 @@ def main(argv: list[str] | None = None) -> int:
         richtext_contract,
         duplicate_name_identity_contract,
         duplicate_name_readonly_validation,
+        sellable_review_audit=sellable_review_audit,
         generated_at=generated_at,
         stable_file_sha256=_file_sha256(args.stable),
         source_file_sha256=_file_sha256(args.source),
@@ -1306,6 +1505,10 @@ def main(argv: list[str] | None = None) -> int:
     )
     _write_json_atomic(args.output / "stable_initialization_capacity_estimate.json", result["capacity"])
     _write_json_atomic(args.output / "stable_initialization_readiness.json", result["readiness"])
+    _write_json_atomic(
+        args.output / "sellable_initialization_resolution_report.json",
+        result["sellable_resolution_summary"],
+    )
     checkpoint = initialize_checkpoint(result["batch_plan"])
     if args.checkpoint.exists():
         existing = _read_json(args.checkpoint)
