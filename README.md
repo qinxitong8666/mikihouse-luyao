@@ -49,6 +49,7 @@ outputs/daily_quote/YYYY-MM-DD/
 ├── wechat_pdf_favorite_runtime_validation.json
 ├── wechat_text_favorite_runtime_validation.json
 ├── wechat_compact_text_experiment.json
+├── wechat_runtime_readback_diagnosis.json
 └── wechat_runtime_readiness.json
 ```
 
@@ -56,7 +57,7 @@ outputs/daily_quote/YYYY-MM-DD/
 
 详细设计、安全边界、输出契约与样例验收见 [`docs/daily_quote.md`](docs/daily_quote.md)；Mac 微信收藏的强回读、容量阶梯和双重开关见 [`docs/wechat_favorite_runtime.md`](docs/wechat_favorite_runtime.md)。
 
-2026-09-22 真实微信验收结果：23.28MB 全集 PDF 收藏在同步完成后可精确搜索、重开，标题、正文与附件文件名全部存在，状态 `PASS`。文字笔记 10,000 和 30,000 字符分段保存/重开哈希通过；60,000 阶梯在已证明 51,649 个正文字符前缀后出现无法强回读的未知状态，因此 90,000 和完整 104,006 按“首次失败即停”未测试。“每天恰好两个收藏”正式 readiness 仍为 `BLOCKED_TEXT_CAPACITY_NOT_FULLY_VERIFIED`，正式保存开关保持关闭。
+2026-09-22 真实微信验收结果：23.28MB 全集 PDF 收藏在同步完成后可精确搜索、重开，标题、正文与附件文件名全部存在，状态 `PASS`。文字笔记 10,000 和 30,000 字符分段保存/重开哈希通过。后续纯只读复核证明原 60,000 阶梯笔记实际保存了与源文完全一致的 55,544 字正文前缀，而非完整 60,000 字；延长选区稳定等待后 `Cmd+A/Cmd+C` 可重复回读 75,966 bytes，旧失败主要是编辑器渲染/选区时序与窗口识别问题，但这不能证明 60,000 字已完整保存。因先决条件不成立，70,661 字无损紧凑版没有新建测试收藏；“每天恰好两个收藏”正式 readiness 仍为 `BLOCKED_TEXT_CAPACITY_NOT_FULLY_VERIFIED`，正式保存开关保持关闭。
 
 ## 历史 351 特殊品番 PDF 链路
 

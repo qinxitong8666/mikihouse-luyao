@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-22T06:00:02Z",
+  "status": "READ_ONLY_DIAGNOSIS_COMPLETE_COMPACT_TEST_NOT_RUN",
+  "quote_date": "2026-09-22",
+  "test_note_title": "MIKIHOUSE_TEST_2026-09-22_CAPACITY",
+  "scope": "READ_ONLY_EXISTING_FAVORITE",
+  "existing_note_modified": false,
+  "existing_note_rewritten": false,
+  "new_test_note_created": false,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "expected_ladder_body_characters": 60000,
+  "observed": {
+    "saved_reopened_note_raw_character_count": 55580,
+    "saved_reopened_note_normalized_character_count": 55579,
+    "saved_reopened_body_normalized_character_count": 55544,
+    "saved_reopened_note_utf8_bytes": 75966,
+    "saved_reopened_note_raw_sha256": "413f9477e00f58438c555c915af01625ca52de853a111bba7d7b07b4c4846b13",
+    "saved_reopened_note_normalized_sha256": "b657827ccf93e94d4a16e7f6def57da054b321350753257b557cf78542bff6e4",
+    "saved_reopened_body_normalized_sha256": "1f0742155516319d80d46fab3bdbf3c12b3d0de7e1205f45d21453e7bd82f3fd",
+    "expected_source_prefix_sha256": "1f0742155516319d80d46fab3bdbf3c12b3d0de7e1205f45d21453e7bd82f3fd",
+    "source_prefix_exact": true,
+    "full_60000_body_present": false,
+    "repeat_delayed_copy_stable": true
+  },
+  "classification": {
+    "wechat_actual_storage_limit": {
+      "result": "NOT_PROVEN",
+      "reason": "The saved note contains an exact 55544-character source prefix with no truncation inside that prefix, but it never received the remaining characters required to reach 60000."
+    },
+    "editor_rendering_or_selection_delay": {
+      "result": "LIKELY_CONTRIBUTOR",
+      "reason": "The legacy 0.2-second select delay failed, while a 1.5-second select delay followed by clipboard polling copied the same saved content repeatedly after reopen."
+    },
+    "cmd_a_cmd_c_clipboard_limit": {
+      "result": "NOT_OBSERVED_THROUGH_75966_BYTES",
+      "reason": "Cmd+A/Cmd+C returned 55580 characters and 75966 UTF-8 bytes with stable hashes on repeated read-only attempts."
+    },
+    "accessibility_direct_read_limit": {
+      "result": "NOTE_BODY_NOT_EXPOSED",
+      "reason": "The note window accessibility tree exposed the window chrome but not the rich-text body, so direct AX text cannot be used as the authoritative body readback."
+    },
+    "window_reopen_identification": {
+      "result": "SEARCH_REOPEN_PASS_LEGACY_RESOLVER_FALSE_AMBIGUOUS",
+      "reason": "Exact Favorites search returned one note and reopened it, but the legacy resolver also counted the unrelated Software Update window as a note candidate."
+    }
+  },
+  "compact_70661_decision": {
+    "precondition": "Run only if the existing 60000-character note is proven complete and the failure is readback-only.",
+    "precondition_met": false,
+    "test_status": "NOT_RUN",
+    "reason": "The existing note contains only 55544 body characters, not the complete 60000-character target."
+  },
+  "production_readiness": {
+    "status": "BLOCKED_TEXT_CAPACITY_NOT_FULLY_VERIFIED",
+    "daily_exactly_two_favorites_production_ready": false,
+    "production_save_enabled": false
+  },
+  "privacy": "No note body, screenshot, clipboard value, token, chat content, or unrelated Favorite content is committed; only counts and hashes are retained."
+}

@@ -5,7 +5,9 @@
   "runtime_validation_status": "BLOCKED_TEXT_CAPACITY",
   "validated_quote_date": "2026-09-22",
   "validated_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
-  "max_verified_text_characters": 30000,
+  "max_verified_text_characters": 55544,
+  "max_completed_capacity_ladder_characters": 30000,
+  "readback_diagnosis_status": "PARTIAL_60000_NOTE_CONFIRMED_55544_COMPACT_TEST_NOT_RUN",
   "production_save_enabled": false,
   "chat_send_enabled": false,
   "automatic_test_note_delete_enabled": false

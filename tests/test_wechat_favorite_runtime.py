@@ -135,15 +135,24 @@ def test_tracked_2026_09_22_runtime_evidence_is_fail_closed() -> None:
     compact = json.loads((root / "wechat_compact_text_experiment.json").read_text())
     readiness = json.loads((root / "wechat_runtime_readiness.json").read_text())
 
-    assert capacity["maximum_verified_body_characters"] == 30000
+    diagnosis = json.loads((root / "wechat_runtime_readback_diagnosis.json").read_text())
+
+    assert capacity["maximum_verified_body_characters"] == 55544
+    assert capacity["maximum_completed_capacity_ladder_body_characters"] == 30000
     assert capacity["full_text_status"] == "NOT_TESTED_STOP_ON_FIRST_FAILURE"
     assert capacity["truncation_observed"] is False
+    assert capacity["compact_70661_test_status"] == "NOT_RUN_PRECONDITION_FALSE_60000_NOT_FULLY_SAVED"
     assert pdf["status"] == "PASS"
     assert pdf["attachment_filename"] == "MIKIHOUSE_2026-09-22_报价全集.pdf"
     assert pdf["final_sync_indicator_cleared"] is True
     assert text["full_104006_status"] == "NOT_TESTED_STOP_ON_FIRST_FAILURE"
     assert compact["original"]["unicode_character_count"] == 104006
     assert compact["lossless_compact"]["unicode_character_count"] == 70661
+    assert diagnosis["observed"]["saved_reopened_body_normalized_character_count"] == 55544
+    assert diagnosis["observed"]["source_prefix_exact"] is True
+    assert diagnosis["observed"]["full_60000_body_present"] is False
+    assert diagnosis["compact_70661_decision"]["test_status"] == "NOT_RUN"
+    assert diagnosis["new_test_note_created"] is False
     assert readiness["daily_exactly_two_favorites_production_ready"] is False
     assert readiness["production_save_enabled"] is False
     assert readiness["chat_send_count"] == 0
