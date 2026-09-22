@@ -726,6 +726,59 @@ def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[
 
 
 def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[WindowIdentity, dict[str, Any]]:
+    search_evidence = search_saved_note_candidates(pid, bundle_id, marker)
+    candidate_lines = search_evidence["candidate_lines"]
+    if len(candidate_lines) != 1:
+        raise WeChatRuntimeError(f"saved note search is not unique: {len(candidate_lines)} candidates")
+    before = get_windows(pid)
+    opened = _osascript(
+        f'''
+        tell application "System Events"
+            {_process_selector(pid)}
+            tell targetProc
+                key code 125
+                delay 0.15
+                key code 36
+                delay 1
+                return "UNIQUE_RESULT_OPEN_SENT"
+            end tell
+        end tell
+        '''
+    )
+    if opened["returncode"] != 0 or opened["stdout"] != "UNIQUE_RESULT_OPEN_SENT":
+        raise WeChatRuntimeError("cannot open unique saved-note search result")
+    after = get_windows(pid)
+    before_non_main = len([row for row in before if _is_note_window(row)])
+    after_notes = [row for row in after if _is_note_window(row)]
+    if len(after_notes) != before_non_main + 1:
+        raise WeChatRuntimeError("saved note did not open as a new window")
+    matching_notes = [
+        row for row in after_notes
+        if row.title and (marker.startswith(row.title) or row.title.startswith(marker))
+    ]
+    if len(matching_notes) != 1:
+        raise WeChatRuntimeError(
+            f"reopened note window is not uniquely identified: {len(matching_notes)}"
+        )
+    note = matching_notes[0]
+    return note, {
+        "status": "SAVED_NOTE_REOPENED_UNIQUE",
+        "favorites": search_evidence["favorites"],
+        "search_marker_sha256": search_evidence["search_marker_sha256"],
+        "search_candidate_count": len(candidate_lines),
+        "search_tree_sha256": search_evidence["search_tree_sha256"],
+        "windows_before": [asdict(row) for row in before],
+        "windows_after": [asdict(row) for row in after],
+    }
+
+
+def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[str, Any]:
+    """Return a read-only exact-title search candidate inventory.
+
+    It deliberately does not open, edit, or delete a result.  The same search
+    semantics are shared by production collision preflight and post-save reopen.
+    """
+
     favorites = navigate_to_favorites(pid, bundle_id)
     original = _clipboard_text()
     try:
@@ -756,47 +809,13 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
             line for line in tree.splitlines()
             if marker in line and not line.startswith("AXTextField|||")
         ]
-        if len(candidate_lines) != 1:
-            raise WeChatRuntimeError(f"saved note search is not unique: {len(candidate_lines)} candidates")
-        before = get_windows(pid)
-        opened = _osascript(
-            f'''
-            tell application "System Events"
-                {_process_selector(pid)}
-                tell targetProc
-                    key code 125
-                    delay 0.15
-                    key code 36
-                    delay 1
-                    return "UNIQUE_RESULT_OPEN_SENT"
-                end tell
-            end tell
-            '''
-        )
-        if opened["returncode"] != 0 or opened["stdout"] != "UNIQUE_RESULT_OPEN_SENT":
-            raise WeChatRuntimeError("cannot open unique saved-note search result")
-        after = get_windows(pid)
-        before_non_main = len([row for row in before if _is_note_window(row)])
-        after_notes = [row for row in after if _is_note_window(row)]
-        if len(after_notes) != before_non_main + 1:
-            raise WeChatRuntimeError("saved note did not open as a new window")
-        matching_notes = [
-            row for row in after_notes
-            if row.title and (marker.startswith(row.title) or row.title.startswith(marker))
-        ]
-        if len(matching_notes) != 1:
-            raise WeChatRuntimeError(
-                f"reopened note window is not uniquely identified: {len(matching_notes)}"
-            )
-        note = matching_notes[0]
-        return note, {
-            "status": "SAVED_NOTE_REOPENED_UNIQUE",
+        return {
+            "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
             "favorites": favorites,
             "search_marker_sha256": hashlib.sha256(marker.encode("utf-8")).hexdigest(),
             "search_candidate_count": len(candidate_lines),
             "search_tree_sha256": hashlib.sha256(tree.encode("utf-8")).hexdigest(),
-            "windows_before": [asdict(row) for row in before],
-            "windows_after": [asdict(row) for row in after],
+            "candidate_lines": candidate_lines,
         }
     finally:
         _set_clipboard_text(original)
@@ -827,6 +846,7 @@ def validate_runtime_write_gate(
     *,
     production: bool,
     confirmation: str | None = None,
+    authorized_manifest_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Fail-closed authorization gate for the WeChat-only runtime sink.
 
@@ -844,6 +864,14 @@ def validate_runtime_write_gate(
         if confirmation != PRODUCTION_CONFIRMATION:
             raise WeChatRuntimeError("production save blocked: exact confirmation is missing")
         expected_manifest = str(runtime_config.get("validated_manifest_sha256") or "")
+        manifest_binding_mode = "VALIDATED_RUNTIME_SAMPLE"
+        if authorized_manifest_sha256 is not None:
+            if runtime_config.get("allow_fresh_daily_manifest_binding") is not True:
+                raise WeChatRuntimeError("production save blocked: fresh manifest binding is disabled")
+            if not re.fullmatch(r"[0-9a-f]{64}", authorized_manifest_sha256):
+                raise WeChatRuntimeError("production save blocked: authorized manifest hash is invalid")
+            expected_manifest = authorized_manifest_sha256
+            manifest_binding_mode = "FRESH_DAILY_PRODUCTION_BUNDLE"
         if not expected_manifest or payload.get("source_manifest_sha256") != expected_manifest:
             raise WeChatRuntimeError("production save blocked: payload manifest is not validated")
         mode = "PRODUCTION"
@@ -857,6 +885,7 @@ def validate_runtime_write_gate(
         "mode": mode,
         "title_sha256": hashlib.sha256(title.encode("utf-8")).hexdigest(),
         "source_manifest_sha256": payload.get("source_manifest_sha256"),
+        "manifest_binding_mode": manifest_binding_mode if production else "DISPOSABLE_TEST",
         "attachment_filenames": attachments,
         "chat_send_allowed": False,
         "existing_favorite_mutation_allowed": False,
@@ -881,6 +910,7 @@ class MacWeChatFavoriteSink:
         *,
         production: bool = False,
         confirmation: str | None = None,
+        authorized_manifest_sha256: str | None = None,
         chunk_chars: int = 5500,
         reuse_existing_blank_test_note: bool = False,
     ) -> dict[str, Any]:
@@ -889,10 +919,20 @@ class MacWeChatFavoriteSink:
             self.runtime_config,
             production=production,
             confirmation=confirmation,
+            authorized_manifest_sha256=authorized_manifest_sha256,
         )
         process = select_target_process()
         pid = int(process["pid"])
         bundle_id = str(process["bundle_id"])
+        collision_preflight = None
+        if production:
+            collision_preflight = search_saved_note_candidates(
+                pid, bundle_id, str(payload["title"])
+            )
+            if collision_preflight["search_candidate_count"] != 0:
+                raise WeChatRuntimeError(
+                    "production favorite title already exists or is ambiguous; refusing duplicate create"
+                )
         if reuse_existing_blank_test_note:
             if production:
                 raise WeChatRuntimeError("an existing blank note can only be reused for a runtime test")
@@ -948,6 +988,7 @@ class MacWeChatFavoriteSink:
             raise WeChatRuntimeError(
                 f"reopened note is missing attachment filenames: {missing_attachments}"
             )
+        verification_close = close_and_save_note(pid, bundle_id, reopened)
         return {
             "status": "PASS",
             "gate": gate,
@@ -957,12 +998,14 @@ class MacWeChatFavoriteSink:
                 "version": process["version"],
             },
             "creation": creation,
+            "collision_preflight": collision_preflight,
             "write": write_evidence,
             "attachments": attachment_evidence,
             "close": closed,
             "reopen": reopen_evidence,
             "readback": readback_evidence,
             "comparison": comparison,
+            "verification_close": verification_close,
             "reopened_page_fingerprint_sha256": hashlib.sha256(
                 reopened_tree.encode("utf-8")
             ).hexdigest(),

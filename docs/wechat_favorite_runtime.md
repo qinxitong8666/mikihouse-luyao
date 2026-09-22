@@ -67,6 +67,39 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 默认 `production_save_enabled=false`。运行验收即使 PASS，也不会自动保存后续每日收藏。
 
+## 正式每日双收藏编排
+
+`scripts/run_mikihouse_daily_production.py` 是生成与微信保存的唯一正式组合入口。它不会消费任意旧 preview：每次先运行完整官网 crawl、冻结一次 FX、生成同一份 `DailyQuoteManifest`、PDF 和 `LOSSLESS_COMPACT` 文字 payload，然后进行零写入 preflight：
+
+- manifest 自哈希、日期目录与两个 payload 的 manifest hash 必须完全一致；
+- 当日生成阶段必须记录两个 preview 且微信/Shijiu/mutex 写入计数均为 0；
+- PDF 自动检索/结构验收必须 PASS；
+- PDF 附件必须存在并与单全集/三分类策略一致；
+- 文字格式固定为 `LOSSLESS_COMPACT`，逐商品品番不得遗漏，字符数/UTF-8 bytes/行数不得超过真实保存重开验证过的 70,661 / 96,870 / 1,794；
+- tracked runtime evidence 必须仍为 `PRODUCTION_READY_TWO_FAVORITES`；
+- 当前 payload 只通过 invocation-time fresh manifest hash 绑定进入 Sink，历史 2026-09-22 manifest 只作为能力验收样本，不会被误当成每日 payload。
+
+写入顺序固定为 PDF→文字。`wechat_daily_production_checkpoint.json` 在每次 mutation 前原子落盘；成功 stage 的 payload hash 与回读 evidence 被持久记录。若进程在两条之间正常中断，可在 bundle 完全未变时跳过已 PASS 的 PDF；若任一 mutation 已发送后返回异常或回读不一致，checkpoint 标记 `FROZEN_RECONCILIATION_REQUIRED`，后续运行 fail closed，不自动重发 mutation，也不继续下一条。整轮 PASS 后重复运行只返回幂等结果，微信 mutation 为 0。
+
+生产 Sink 在创建前使用与重开相同的收藏页精确标题搜索做只读 collision preflight；任何既有/歧义候选都禁止新建。每条保存后强回读并关闭已验证笔记窗口，下一条从干净窗口状态开始。全过程不进入聊天、不发送、不修改/删除既有收藏、不访问 Shijiu。
+
+默认安全状态：
+
+- `config/wechat_favorite_runtime.json` 的 `production_save_enabled=false`；
+- 普通 `scripts/生成MIKIHOUSE每日报价.command` 和 GUI“生成今日报价”永远 preview-only；
+- `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command` 与 GUI 正式按钮只有在另一个明确授权任务启用开关后才可运行；
+- 正式运行还必须显式选择 production mode 并输入精确确认语句；开关关闭或确认不匹配时在官网 crawl 前停止，微信写入为 0。
+
+CLI（当前默认会 fail closed，不会写微信）：
+
+```bash
+PYTHONPATH=src python scripts/run_mikihouse_daily_production.py \
+  --production-save \
+  --confirm CONFIRM_MIKIHOUSE_WECHAT_FAVORITE_PRODUCTION_SAVE
+```
+
+仓库不提供跳过 runtime evidence、容量、manifest、collision、checkpoint 或回读门禁的参数。
+
 ## 命令
 
 生成无写入的压缩实验和容量计划：

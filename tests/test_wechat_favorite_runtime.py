@@ -153,6 +153,32 @@ def test_production_gate_rejects_stale_manifest() -> None:
         )
 
 
+def test_production_gate_accepts_only_explicit_fresh_manifest_binding() -> None:
+    current = "b" * 64
+    config = {
+        "runtime_validation_status": "PASS",
+        "production_save_enabled": True,
+        "validated_manifest_sha256": "a" * 64,
+        "allow_fresh_daily_manifest_binding": True,
+    }
+    evidence = validate_runtime_write_gate(
+        {"title": "MIKI", "source_manifest_sha256": current},
+        config,
+        production=True,
+        confirmation=PRODUCTION_CONFIRMATION,
+        authorized_manifest_sha256=current,
+    )
+    assert evidence["manifest_binding_mode"] == "FRESH_DAILY_PRODUCTION_BUNDLE"
+    with pytest.raises(WeChatRuntimeError, match="not validated"):
+        validate_runtime_write_gate(
+            {"title": "MIKI", "source_manifest_sha256": current},
+            config,
+            production=True,
+            confirmation=PRODUCTION_CONFIRMATION,
+            authorized_manifest_sha256="c" * 64,
+        )
+
+
 def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() -> None:
     capacity = {
         "status": "PASS",

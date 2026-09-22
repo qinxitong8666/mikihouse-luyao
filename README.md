@@ -16,7 +16,11 @@ mikihouse-daily-quote
 PYTHONPATH=src python scripts/generate_daily_quote.py
 ```
 
-macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调用 Python 核心，成功后打开当天输出目录；简单 GUI 为 `scripts/mikihouse_daily_quote_gui.py`，真实微信保存按钮保持禁用。
+macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调用 Python 核心，成功后打开当天输出目录；简单 GUI 为 `scripts/mikihouse_daily_quote_gui.py`。
+
+已验证通过的“PDF版 + LOSSLESS_COMPACT文字版”现已接入统一正式编排器 `scripts/run_mikihouse_daily_production.py`。普通运行仍然只生成 preview；显式生产模式会重新完整抓取官网、生成当天同一 manifest 的全部产物，然后严格按 PDF→文字顺序创建恰好两条收藏，每条保存后都关闭、唯一标题重开并强回读。每个 stage 先写 checkpoint，mutation 不自动 retry；任一未知结果会冻结整轮，重跑不得重复创建已完成收藏。
+
+正式 Mac 入口为 `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command`，GUI 中也提供同一动作。两者默认均不可写：仓库配置保持 `production_save_enabled=false`，并且即使未来得到明确授权启用，也仍要求输入精确确认语句、fresh manifest 绑定、容量上限、PDF自动验收与历史 runtime evidence 全部通过。该入口不进入聊天、不修改或删除已有收藏，也不访问 Shijiu。
 
 每次 run 只抓一次完整 Storefront 快照、只冻结一次 FX，并建立唯一 `DailyQuoteManifest`。PDF、文字版、两个收藏 preview 与内部变化报告都只消费该 manifest，不会分别重抓官网或汇率。默认汇率源为 ECB 官方 euro foreign exchange reference rates，使用 CNY/EUR ÷ JPY/EUR 推导 1 JPY 对应 CNY；周末与节假日使用最近一个仍在 freshness 阈值内的已发布交易日。紧急离线运行可显式传入 `--fx-rate 0.048`，manifest 会明确记录 `MANUAL_OVERRIDE`，不会伪装成官方实时汇率。
 
@@ -53,7 +57,7 @@ outputs/daily_quote/YYYY-MM-DD/
 └── wechat_runtime_readiness.json
 ```
 
-`outputs/daily_quote/最新/` 指向最后一次完整成功运行。完整 crawl、资源预检、PDF/文字生成或验收任一失败，都不会覆盖 `last_successful_manifest.json`。微信运行时能力由独立 fail-closed Sink 和 `config/wechat_favorite_runtime.json` 管理；默认正式保存开关始终关闭。容量、PDF 附件和重开回读的实测结果以当日 `wechat_*_runtime_*.json` 为准；不会擅自删商品、拆成更多收藏或进入聊天。
+`outputs/daily_quote/最新/` 指向最后一次完整成功运行。完整 crawl、资源预检、PDF/文字生成或验收任一失败，都不会覆盖 `last_successful_manifest.json`。微信运行时能力由独立 fail-closed Sink 和 `config/wechat_favorite_runtime.json` 管理；默认正式保存开关始终关闭。容量、PDF 附件和重开回读的实测结果以当日 `wechat_*_runtime_*.json` 为准；正式保存另生成 `wechat_daily_production_checkpoint.json`、总报告和逐收藏回读 evidence，不会擅自删商品、拆成更多收藏或进入聊天。
 
 详细设计、安全边界、输出契约与样例验收见 [`docs/daily_quote.md`](docs/daily_quote.md)；Mac 微信收藏的强回读、容量阶梯和双重开关见 [`docs/wechat_favorite_runtime.md`](docs/wechat_favorite_runtime.md)。
 
