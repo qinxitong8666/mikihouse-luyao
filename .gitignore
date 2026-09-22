@@ -18,4 +18,5 @@ node_modules/
 playwright-user-data/
 private/
 *.private.json
+.DS_Store
 state/*.previous.json.gz

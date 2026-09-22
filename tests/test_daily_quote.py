@@ -35,6 +35,7 @@ from mikihouse_luyao.daily_quote_pdf import generate_daily_quote_pdf, validate_d
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, _validate_crawl
 from mikihouse_luyao.daily_quote_text import (
     build_favorite_payloads,
+    render_compact_text_quote,
     render_text_quote,
     text_stats,
 )
@@ -185,6 +186,25 @@ def test_text_quote_uses_manifest_only_and_contains_no_internal_pricing() -> Non
     for forbidden in ("16500", "0.68", "0.048", "JPY", "税入"):
         assert forbidden not in text
     assert text_stats(text, 1)["product_count"] == 1
+
+
+def test_compact_text_is_lossless_for_price_color_and_in_stock_sizes() -> None:
+    manifest = build_daily_quote_manifest(
+        [product("10-0001-011", "ベビーシューズ", tags=["first-shoes"], variants=[
+            {"sku": "A", "color": "赤", "size": "13cm", "available_for_sale": True, "tax_included_price_jpy": 10000, "compare_at_price_jpy": 10000},
+            {"sku": "B", "color": "赤", "size": "13.5cm", "available_for_sale": True, "tax_included_price_jpy": 10000, "compare_at_price_jpy": 10000},
+            {"sku": "C", "color": "紺", "size": "13cm", "available_for_sale": True, "tax_included_price_jpy": 10000, "compare_at_price_jpy": 10000},
+            {"sku": "D", "color": "紺", "size": "13.5cm", "available_for_sale": True, "tax_included_price_jpy": 10000, "compare_at_price_jpy": 10000},
+            {"sku": "E", "color": "赤", "size": "14cm", "available_for_sale": True, "tax_included_price_jpy": 12000, "compare_at_price_jpy": 12000},
+        ])],
+        special_numbers=special_set(), fx=frozen_fx(), quote_date="2026-09-20",
+        generated_at="2026-09-20T10:00:00+09:00",
+    )
+    compact = render_compact_text_quote(manifest)
+    assert "10-0001-011" in compact
+    assert "327元 赤/紺:13/13.5" in compact
+    assert "392元 赤:14" in compact
+    assert "16500" not in compact and "0.68" not in compact and "JPY" not in compact
 
 
 def test_pdf_and_text_share_manifest_variant_price_groups() -> None:

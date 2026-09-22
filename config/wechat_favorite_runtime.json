@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "target_app_path": "/Applications/微信2.app",
+  "runtime_validation_status": "BLOCKED_TEXT_CAPACITY",
+  "validated_quote_date": "2026-09-22",
+  "validated_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+  "max_verified_text_characters": 30000,
+  "production_save_enabled": false,
+  "chat_send_enabled": false,
+  "automatic_test_note_delete_enabled": false
+}

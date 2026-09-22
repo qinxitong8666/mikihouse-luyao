@@ -44,12 +44,19 @@ outputs/daily_quote/YYYY-MM-DD/
 ├── failures.json
 ├── source_snapshot.json.gz
 ├── wechat_pdf_favorite_preview.txt/json
-└── wechat_text_favorite_preview.txt/json
+├── wechat_text_favorite_preview.txt/json
+├── wechat_runtime_capacity_audit.json
+├── wechat_pdf_favorite_runtime_validation.json
+├── wechat_text_favorite_runtime_validation.json
+├── wechat_compact_text_experiment.json
+└── wechat_runtime_readiness.json
 ```
 
-`outputs/daily_quote/最新/` 指向最后一次完整成功运行。完整 crawl、资源预检、PDF/文字生成或验收任一失败，都不会覆盖 `last_successful_manifest.json`。微信文字收藏的真实容量目前没有足够运行时证据，因此 payload 明确保持 `REAL_WECHAT_TEXT_CAPACITY_NOT_YET_VERIFIED`；完整文字文件与单条 preview 会生成，但不会擅自删商品、拆成更多收藏或执行 GUI 保存。
+`outputs/daily_quote/最新/` 指向最后一次完整成功运行。完整 crawl、资源预检、PDF/文字生成或验收任一失败，都不会覆盖 `last_successful_manifest.json`。微信运行时能力由独立 fail-closed Sink 和 `config/wechat_favorite_runtime.json` 管理；默认正式保存开关始终关闭。容量、PDF 附件和重开回读的实测结果以当日 `wechat_*_runtime_*.json` 为准；不会擅自删商品、拆成更多收藏或进入聊天。
 
-详细设计、安全边界、输出契约与样例验收见 [`docs/daily_quote.md`](docs/daily_quote.md)。
+详细设计、安全边界、输出契约与样例验收见 [`docs/daily_quote.md`](docs/daily_quote.md)；Mac 微信收藏的强回读、容量阶梯和双重开关见 [`docs/wechat_favorite_runtime.md`](docs/wechat_favorite_runtime.md)。
+
+2026-09-22 真实微信验收结果：23.28MB 全集 PDF 收藏在同步完成后可精确搜索、重开，标题、正文与附件文件名全部存在，状态 `PASS`。文字笔记 10,000 和 30,000 字符分段保存/重开哈希通过；60,000 阶梯在已证明 51,649 个正文字符前缀后出现无法强回读的未知状态，因此 90,000 和完整 104,006 按“首次失败即停”未测试。“每天恰好两个收藏”正式 readiness 仍为 `BLOCKED_TEXT_CAPACITY_NOT_FULLY_VERIFIED`，正式保存开关保持关闭。
 
 ## 历史 351 特殊品番 PDF 链路
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import re
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +39,62 @@ def render_text_quote(manifest: dict[str, Any], *, include_product_name: bool = 
         products = [row for row in manifest["products"] if row["category"] == category]
         for product in products:
             lines.extend(format_product_quote(product, include_product_name=include_product_name))
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+_SIZE_NUMBER_RE = re.compile(r"^([0-9]+(?:\.[0-9]+)?)\s*(?:cm)?$", re.IGNORECASE)
+
+
+def _compact_size_sequence(sizes: list[str], *, category: str) -> str:
+    cleaned = [str(value or "").strip() for value in sizes]
+    if not cleaned or all(value in {"", "-", "--", "---"} for value in cleaned):
+        return "—"
+    without_cm = [re.sub(r"\s*cm$", "", value, flags=re.IGNORECASE) for value in cleaned]
+    if category != "footwear" or len(without_cm) < 4:
+        return "/".join(without_cm)
+    try:
+        numbers = [Decimal(_SIZE_NUMBER_RE.fullmatch(value).group(1)) for value in without_cm]
+    except (AttributeError, InvalidOperation):
+        return "/".join(without_cm)
+    if len(set(numbers)) != len(numbers):
+        return "/".join(without_cm)
+    if all(numbers[index] - numbers[index - 1] == Decimal("0.5") for index in range(1, len(numbers))):
+        return f"{without_cm[0]}-{without_cm[-1]}(0.5间隔)"
+    return "/".join(without_cm)
+
+
+def _compact_colors(group: dict[str, Any], *, category: str) -> str:
+    by_sizes: dict[str, list[str]] = {}
+    order: list[str] = []
+    for row in group.get("colors") or []:
+        sizes = _compact_size_sequence(list(row.get("sizes") or []), category=category)
+        color = str(row.get("color") or "").strip()
+        if color in {"", "-", "色なし", "カラーなし"}:
+            color = "无色"
+        if sizes not in by_sizes:
+            by_sizes[sizes] = []
+            order.append(sizes)
+        if color not in by_sizes[sizes]:
+            by_sizes[sizes].append(color)
+    return "；".join(f"{'/'.join(by_sizes[sizes])}:{sizes}" for sizes in order)
+
+
+def render_compact_text_quote(manifest: dict[str, Any]) -> str:
+    """Lossless compact experiment; never replaces the production text implicitly."""
+    lines = ["MIKI HOUSE当日报价", f"更新:{manifest['quote_date']}", "仅列官网有货规格", ""]
+    for category in ALLOWED_CATEGORIES:
+        label = CATEGORY_LABELS[category]
+        if category == "footwear":
+            label += "｜鞋码单位cm"
+        lines.append(f"【{label}】")
+        for product in (row for row in manifest["products"] if row["category"] == category):
+            segments = []
+            for group in product.get("variant_price_groups") or []:
+                segments.append(
+                    f"{int(group['customer_price_cny'])}元 {_compact_colors(group, category=category)}"
+                )
+            lines.append(f"{product['product_number']}｜" + "｜".join(segments))
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 

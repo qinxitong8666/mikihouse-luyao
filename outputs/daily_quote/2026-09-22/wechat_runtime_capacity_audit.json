@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-22T03:53:07.833597+00:00",
+  "status": "BLOCKED_AT_60000_READBACK",
+  "quote_date": "2026-09-22",
+  "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+  "full_text_character_count": 104006,
+  "full_text_utf8_bytes": 135145,
+  "full_text_sha256": "2a1533123dcfc38e7ae79551b9688a23335d2b56ee3f765db8e7a20f0749d031",
+  "full_text_status": "NOT_TESTED_STOP_ON_FIRST_FAILURE",
+  "planned_ladder": [
+    10000,
+    30000,
+    60000,
+    90000,
+    104006
+  ],
+  "levels": [
+    {
+      "body_character_count": 10000,
+      "note_character_count": 10035,
+      "status": "PASS",
+      "save_closed": true,
+      "unique_search_candidate_count": 1,
+      "reopened": true,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "head_sha256_match": true,
+      "tail_sha256_match": true,
+      "expected_normalized_sha256": "fc947e698728419709e1eb145bed3096bdf1afea5b862785cc07e26a5bd504ed",
+      "actual_normalized_sha256": "fc947e698728419709e1eb145bed3096bdf1afea5b862785cc07e26a5bd504ed"
+    },
+    {
+      "body_character_count": 30000,
+      "note_character_count": 30035,
+      "status": "PASS",
+      "save_closed": true,
+      "unique_search_candidate_count": 1,
+      "reopened": true,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "head_sha256_match": true,
+      "tail_sha256_match": true,
+      "expected_normalized_sha256": "6be7c437f96ba0416dafe1cd219db6a339a1083b31a4b5284d302d595224e765",
+      "actual_normalized_sha256": "6be7c437f96ba0416dafe1cd219db6a339a1083b31a4b5284d302d595224e765"
+    },
+    {
+      "body_character_count": 60000,
+      "status": "FAILED_READBACK_INDETERMINATE",
+      "save_closed": true,
+      "unique_search_candidate_count": 1,
+      "reopened": false,
+      "normalized_hash_match": null,
+      "truncated": null,
+      "last_proven_exact_note_prefix_characters": 51684,
+      "last_proven_exact_body_prefix_characters": 51649,
+      "last_proven_exact_prefix_normalized_sha256": "248dd1f1dac650ea504b4dd7935b1d02937b7d9afe05a6c2f7e561dea460ad73",
+      "failure": "After the next never-before-sent chunk, two safe readback attempts returned no clipboard text; no mutation was resent."
+    },
+    {
+      "body_character_count": 90000,
+      "status": "NOT_TESTED_STOP_ON_FIRST_FAILURE"
+    },
+    {
+      "body_character_count": 104006,
+      "status": "NOT_TESTED_STOP_ON_FIRST_FAILURE"
+    }
+  ],
+  "maximum_verified_body_characters": 30000,
+  "maximum_verified_saved_reopened_note_characters": 30035,
+  "maximum_pre_save_exact_body_prefix_characters": 51649,
+  "single_paste_probe": {
+    "body_character_count": 10000,
+    "status": "NATIVE_REJECTED",
+    "dialog_text": "粘贴的内容长度超出限制",
+    "note_remained_empty": true,
+    "resolution": "Retested using audited 4000-character chunked writes; 10000 then passed."
+  },
+  "chunked_write_character_limit": 4000,
+  "truncation_observed": false,
+  "indeterminate_readback_failure_observed": true,
+  "test_note_title": "MIKIHOUSE_TEST_2026-09-22_CAPACITY",
+  "test_note_retained": true,
+  "test_note_deleted": false,
+  "stop_on_first_failure_honored": true,
+  "chat_send_count": 0,
+  "existing_favorite_mutation_count": 0,
+  "shijiu_request_count": 0,
+  "evidence_privacy": "Screenshots were inspected in the live Codex UI transcript; raw screenshots containing unrelated Favorites were not committed.",
+  "target": {
+    "bundle_id": "com.tencent.xinWeChot2",
+    "app_path": "/Applications/微信2.app",
+    "version": "4.1.6"
+  }
+}

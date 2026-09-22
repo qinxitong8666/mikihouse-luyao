@@ -47,7 +47,9 @@ JPY_TO_CNY = CNY_PER_EUR / JPY_PER_EUR
 1. PDF 版：全集不超过 50MB 时附全集；超过时附三个分类 PDF；
 2. 文字版：默认不显示商品名，按分类输出品番、人民币价、颜色与当日有货尺码。
 
-对 `qinxitong8666/luyao-quote-assistant` 的只读参考只复用了通用 Favorite preview/Sink 安全理念。该参考实现没有提供足以证明一条微信收藏可容纳完整 MIKI HOUSE 当日报价的硬容量契约，因此本仓库只生成完整文本与单条 preview，并记录 `REAL_WECHAT_TEXT_CAPACITY_NOT_YET_VERIFIED`。本阶段不执行真实微信 GUI 操作。详细证据见 [`luyao_quote_assistant_readonly_reference.md`](luyao_quote_assistant_readonly_reference.md)。
+对 `qinxitong8666/luyao-quote-assistant` 的只读参考只复用通用 Favorite Sink 的页面识别、分段写入、累计回读和 fail-closed 思路，不复制其报价业务。真实 Mac 微信验收的容量、PDF 附件与重开回读结果以当日 `wechat_*_runtime_*.json` 为准；实现契约见 [`wechat_favorite_runtime.md`](wechat_favorite_runtime.md)。正式保存仍受独立默认关闭的双重开关限制。只读参考证据见 [`luyao_quote_assistant_readonly_reference.md`](luyao_quote_assistant_readonly_reference.md)。
+
+2026-09-22 运行时样例中，PDF 收藏实测 PASS；文字容量仅证明 30,000 字符可保存后重开并完整回读，完整 104,006 字符依据 stop-on-first-failure 规则未测试。默认生产开关保持关闭，本轮没有创建正式文字收藏，也没有拆分第三、第四条收藏。
 
 ## 命令
 

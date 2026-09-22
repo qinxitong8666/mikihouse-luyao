@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "EXPERIMENT_ONLY_NOT_PRODUCTION_FORMAT",
+  "quote_date": "2026-09-22",
+  "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+  "original": {
+    "unicode_character_count": 104006,
+    "utf8_byte_count": 135145,
+    "line_count": 1843,
+    "product_count": 1785,
+    "longest_line_character_count": 357,
+    "sha256": "2a1533123dcfc38e7ae79551b9688a23335d2b56ee3f765db8e7a20f0749d031"
+  },
+  "lossless_compact": {
+    "unicode_character_count": 70661,
+    "utf8_byte_count": 96870,
+    "line_count": 1794,
+    "product_count": 1785,
+    "longest_line_character_count": 131,
+    "sha256": "014f807fa7c7bfbdec5ee57dd627444a6c12a186070f30309782562a5b7af5cf"
+  },
+  "savings": {
+    "unicode_characters": 33345,
+    "utf8_bytes": 38275,
+    "character_percent": 32.06
+  },
+  "lossless_rules": [
+    "product number, CNY price, color, and in-stock size are always retained",
+    "footwear cm suffix is declared once in the category header",
+    "only exact consecutive 0.5cm sequences are represented as an explicit range",
+    "colors are merged only when their complete size sequence and price are identical",
+    "production text remains unchanged until runtime capacity evidence requires a decision"
+  ]
+}
