@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-22T08:22:18Z",
+  "status": "PASS",
+  "quote_date": "2026-09-22",
+  "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+  "test_note_title": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+  "body": {
+    "raw_character_count": 70661,
+    "normalized_character_count": 70660,
+    "utf8_byte_count": 96870,
+    "line_count": 1794,
+    "raw_sha256": "014f807fa7c7bfbdec5ee57dd627444a6c12a186070f30309782562a5b7af5cf",
+    "normalized_sha256": "e669a4f253707902cf73458d9d498385b79ab04ccc8aff6a095c54717c4a07b7",
+    "head_sha256": "c74df0bc54954f44ac9c89f51f7a730b92d12b33e9c35667a7873fab53d482a0",
+    "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+    "first_line": "MIKI HOUSE当日报价",
+    "last_line": "74-9956-149｜488元 サーモンピンク:80"
+  },
+  "stats": {
+    "unicode_character_count": 70661,
+    "utf8_byte_count": 96870,
+    "line_count": 1794,
+    "product_count": 1785,
+    "longest_line_character_count": 131
+  },
+  "chunk_character_limit": 4000,
+  "saved_closed": true,
+  "unique_search_reopened": true,
+  "full_body_hash_match": true,
+  "truncation_observed": false,
+  "runtime": {
+    "status": "PASS",
+    "target_process": {
+      "pid": 33548,
+      "executable": "/Applications/微信2.app/Contents/MacOS/WeChat",
+      "app_path": "/Applications/微信2.app",
+      "bundle_id": "com.tencent.xinWeChot2",
+      "version": "4.1.6"
+    },
+    "manual_workflow": {
+      "saved_closed": true,
+      "exact_title_search_candidate_count": 1,
+      "unique_search_reopened": true
+    },
+    "readback": {
+      "status": "EXPECTED_TEXT_STABLE",
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "readback": {
+            "copy_status": "COPY_READ",
+            "attempt_count": 1,
+            "selection_delay_seconds": 1.5,
+            "clipboard_timeout_seconds": 8.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "copy_action_status": "COPY_SENT",
+                "copy_action_returncode": 0,
+                "clipboard_changed": true,
+                "fingerprint": {
+                  "raw_character_count": 70701,
+                  "normalized_character_count": 70700,
+                  "utf8_byte_count": 96910,
+                  "line_count": 1795,
+                  "raw_sha256": "a6c482f44c34ff4ba2cdaa559cb3166e4afdf5fd2dbf8c1b1e5c2331204a247b",
+                  "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+                  "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+                  "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+                  "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+                  "last_line": "74-9956-149｜488元 サーモンピンク:80"
+                }
+              }
+            ],
+            "fingerprint": {
+              "raw_character_count": 70701,
+              "normalized_character_count": 70700,
+              "utf8_byte_count": 96910,
+              "line_count": 1795,
+              "raw_sha256": "a6c482f44c34ff4ba2cdaa559cb3166e4afdf5fd2dbf8c1b1e5c2331204a247b",
+              "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+              "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+              "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+              "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+              "last_line": "74-9956-149｜488元 サーモンピンク:80"
+            }
+          },
+          "comparison": {
+            "status": "NORMALIZED_READBACK_MATCH",
+            "exact_hash_match": false,
+            "normalized_hash_match": true,
+            "truncated": false,
+            "expected": {
+              "raw_character_count": 70701,
+              "normalized_character_count": 70700,
+              "utf8_byte_count": 96910,
+              "line_count": 1795,
+              "raw_sha256": "a15154d016bbf8d4b523565cc0dca8b7dc9157e45188caa971d3a5fed2b68c0c",
+              "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+              "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+              "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+              "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+              "last_line": "74-9956-149｜488元 サーモンピンク:80"
+            },
+            "actual": {
+              "raw_character_count": 70701,
+              "normalized_character_count": 70700,
+              "utf8_byte_count": 96910,
+              "line_count": 1795,
+              "raw_sha256": "a6c482f44c34ff4ba2cdaa559cb3166e4afdf5fd2dbf8c1b1e5c2331204a247b",
+              "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+              "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+              "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+              "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+              "last_line": "74-9956-149｜488元 サーモンピンク:80"
+            }
+          }
+        }
+      ]
+    },
+    "comparison": {
+      "status": "NORMALIZED_READBACK_MATCH",
+      "exact_hash_match": false,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 70701,
+        "normalized_character_count": 70700,
+        "utf8_byte_count": 96910,
+        "line_count": 1795,
+        "raw_sha256": "a15154d016bbf8d4b523565cc0dca8b7dc9157e45188caa971d3a5fed2b68c0c",
+        "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+        "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+        "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+        "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+        "last_line": "74-9956-149｜488元 サーモンピンク:80"
+      },
+      "actual": {
+        "raw_character_count": 70701,
+        "normalized_character_count": 70700,
+        "utf8_byte_count": 96910,
+        "line_count": 1795,
+        "raw_sha256": "a6c482f44c34ff4ba2cdaa559cb3166e4afdf5fd2dbf8c1b1e5c2331204a247b",
+        "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+        "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+        "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+        "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+        "last_line": "74-9956-149｜488元 サーモンピンク:80"
+      }
+    },
+    "actual": {
+      "raw_character_count": 70701,
+      "normalized_character_count": 70700,
+      "utf8_byte_count": 96910,
+      "line_count": 1795,
+      "raw_sha256": "a6c482f44c34ff4ba2cdaa559cb3166e4afdf5fd2dbf8c1b1e5c2331204a247b",
+      "normalized_sha256": "51956c4ae7e29a825308e83407ce10e835c6abc17db38499a2d7f76a5d7bd451",
+      "head_sha256": "f6f2eacc474c8710f0896a423497386021eacd3d424e4631a5c35d4a255dc3f2",
+      "tail_sha256": "7f2ea621245b326eb227a54e361f01c9b4cc6735050cb04d75d68a458aeec550",
+      "first_line": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+      "last_line": "74-9956-149｜488元 サーモンピンク:80"
+    }
+  },
+  "test_note_retained": true,
+  "automatic_delete_performed": false,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

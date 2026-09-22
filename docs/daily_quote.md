@@ -49,7 +49,7 @@ JPY_TO_CNY = CNY_PER_EUR / JPY_PER_EUR
 
 对 `qinxitong8666/luyao-quote-assistant` 的只读参考只复用通用 Favorite Sink 的页面识别、分段写入、累计回读和 fail-closed 思路，不复制其报价业务。真实 Mac 微信验收的容量、PDF 附件与重开回读结果以当日 `wechat_*_runtime_*.json` 为准；实现契约见 [`wechat_favorite_runtime.md`](wechat_favorite_runtime.md)。正式保存仍受独立默认关闭的双重开关限制。只读参考证据见 [`luyao_quote_assistant_readonly_reference.md`](luyao_quote_assistant_readonly_reference.md)。
 
-2026-09-22 运行时样例中，PDF 收藏实测 PASS；10,000 和 30,000 字阶梯完整通过。纯只读复核后，原 60,000 阶梯笔记实际是已保存的 55,544 字源文精确前缀；它能在延长选区等待后稳定回读，但不是完整 60,000 字。因此仍未验证 70,661 字无损紧凑版或完整 104,006 字正文；本轮没有新建收藏。默认生产开关保持关闭，没有创建正式文字收藏，也没有拆分第三、第四条收藏。
+2026-09-22 运行时样例中，PDF 收藏实测 PASS。文字收藏固定使用 `LOSSLESS_COMPACT`：70,661 字、96,870 UTF-8 bytes、1,794 行、1,785 件商品，保留每件品番、人民币价、颜色和有货规格。真实微信笔记已完成分块写入、保存关闭、唯一搜索重开和完整哈希回读，无截断。每天恰好两个收藏的 runtime readiness 已 PASS；默认生产写入开关仍关闭，不会在每日生成时自动写入微信。
 
 ## 命令
 

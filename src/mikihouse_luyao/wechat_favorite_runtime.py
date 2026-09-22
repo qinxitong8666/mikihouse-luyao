@@ -16,6 +16,7 @@ TARGET_BUNDLE_ID = "com.tencent.xinWeChot2"
 TARGET_APP_PATH = "/Applications/微信2.app"
 MAIN_WINDOW_TITLES = {"WeChat", "微信"}
 NON_NOTE_WINDOW_TITLES = MAIN_WINDOW_TITLES | {"Window", ""}
+AUXILIARY_WINDOW_TITLES = {"软件更新"}
 NOTE_WINDOW_ROLE = "AXWindow"
 PRODUCTION_CONFIRMATION = "CONFIRM_MIKIHOUSE_WECHAT_FAVORITE_PRODUCTION_SAVE"
 TEST_TITLE_PREFIX = "MIKIHOUSE_TEST"
@@ -99,7 +100,7 @@ def split_text_chunks(text: str, max_chars: int = 5500) -> list[str]:
         hard_end = min(len(text), start + max_chars)
         end = hard_end
         if hard_end < len(text):
-            newline = text.rfind("\n", start + 1, hard_end + 1)
+            newline = text.rfind("\n", start + 1, hard_end)
             if newline > start:
                 end = newline + 1
         chunks.append(text[start:end])
@@ -201,11 +202,16 @@ def get_windows(pid: int) -> list[WindowIdentity]:
     return windows
 
 
+def _is_note_window(row: WindowIdentity) -> bool:
+    return (
+        row.role == NOTE_WINDOW_ROLE
+        and row.title not in NON_NOTE_WINDOW_TITLES
+        and row.title not in AUXILIARY_WINDOW_TITLES
+    )
+
+
 def _note_windows(pid: int) -> list[WindowIdentity]:
-    return [
-        row for row in get_windows(pid)
-        if row.role == NOTE_WINDOW_ROLE and row.title not in NON_NOTE_WINDOW_TITLES
-    ]
+    return [row for row in get_windows(pid) if _is_note_window(row)]
 
 
 def require_unique_note_window(pid: int) -> WindowIdentity:
@@ -225,20 +231,16 @@ def press_menu_item(pid: int, bundle_id: str, menu_title: str, item_title: str) 
         tell application "System Events"
             {_process_selector(pid)}
             tell targetProc
-                set hitCount to 0
-                repeat with menuBarItem in menu bar items of menu bar 1
-                    if (name of menuBarItem as text) is "{menu_title}" then
-                        repeat with menuItem in menu items of menu 1 of menuBarItem
-                            if (name of menuItem as text) is "{item_title}" then
-                                set hitCount to hitCount + 1
-                                if enabled of menuItem is false then return "MENU_ITEM_DISABLED"
-                                perform action "AXPress" of menuItem
-                                delay 0.8
-                            end if
-                        end repeat
-                    end if
-                end repeat
-                return "MENU_ITEM_PRESSED|||" & hitCount
+                if not (exists menu bar item "{menu_title}" of menu bar 1) then return "MENU_NOT_FOUND"
+                set targetMenuBarItem to menu bar item "{menu_title}" of menu bar 1
+                perform action "AXPress" of targetMenuBarItem
+                delay 0.2
+                if not (exists menu item "{item_title}" of menu 1 of targetMenuBarItem) then return "MENU_ITEM_NOT_FOUND"
+                set targetMenuItem to menu item "{item_title}" of menu 1 of targetMenuBarItem
+                if enabled of targetMenuItem is false then return "MENU_ITEM_DISABLED"
+                perform action "AXPress" of targetMenuItem
+                delay 0.8
+                return "MENU_ITEM_PRESSED|||1"
             end tell
         end tell
         '''
@@ -422,32 +424,110 @@ def _raise_note(pid: int, bundle_id: str, note: WindowIdentity) -> None:
         raise WeChatRuntimeError(f"note window is not frontmost: {result}")
 
 
-def read_note_text(pid: int, bundle_id: str, note: WindowIdentity) -> tuple[str, dict[str, Any]]:
+def read_note_text(
+    pid: int,
+    bundle_id: str,
+    note: WindowIdentity,
+    *,
+    max_attempts: int = 3,
+    selection_delay_seconds: float = 1.5,
+    clipboard_timeout_seconds: float = 8.0,
+    clipboard_poll_seconds: float = 0.25,
+) -> tuple[str, dict[str, Any]]:
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be positive")
+    if selection_delay_seconds < 0 or clipboard_timeout_seconds <= 0 or clipboard_poll_seconds <= 0:
+        raise ValueError("readback timings must be positive")
     original = _clipboard_text()
-    sentinel = f"MIKIHOUSE_CLIPBOARD_SENTINEL_{uuid.uuid4().hex}"
+    attempts: list[dict[str, Any]] = []
     try:
-        _set_clipboard_text(sentinel)
-        _raise_note(pid, bundle_id, note)
-        action = _osascript(
-            f'''
-            tell application "System Events"
-                {_process_selector(pid)}
-                tell targetProc
-                    keystroke "a" using command down
-                    delay 0.2
-                    keystroke "c" using command down
-                    delay 0.6
-                    return "COPY_SENT"
+        for attempt_number in range(1, max_attempts + 1):
+            sentinel = f"MIKIHOUSE_CLIPBOARD_SENTINEL_{uuid.uuid4().hex}"
+            _set_clipboard_text(sentinel)
+            _raise_note(pid, bundle_id, note)
+            action = _osascript(
+                f'''
+                tell application "System Events"
+                    {_process_selector(pid)}
+                    tell targetProc
+                        keystroke "a" using command down
+                        delay {selection_delay_seconds:.3f}
+                        keystroke "c" using command down
+                        return "COPY_SENT"
+                    end tell
                 end tell
-            end tell
-            '''
+                '''
+            )
+            record: dict[str, Any] = {
+                "attempt": attempt_number,
+                "copy_action_status": action["stdout"],
+                "copy_action_returncode": action["returncode"],
+                "clipboard_changed": False,
+            }
+            if action["returncode"] == 0 and action["stdout"] == "COPY_SENT":
+                deadline = time.monotonic() + clipboard_timeout_seconds
+                while time.monotonic() < deadline:
+                    copied = _clipboard_text()
+                    if copied and copied != sentinel:
+                        record["clipboard_changed"] = True
+                        record["fingerprint"] = text_fingerprint(copied)
+                        attempts.append(record)
+                        return copied, {
+                            "copy_status": "COPY_READ",
+                            "attempt_count": attempt_number,
+                            "selection_delay_seconds": selection_delay_seconds,
+                            "clipboard_timeout_seconds": clipboard_timeout_seconds,
+                            "attempts": attempts,
+                            "fingerprint": record["fingerprint"],
+                        }
+                    time.sleep(clipboard_poll_seconds)
+            attempts.append(record)
+            if attempt_number < max_attempts:
+                time.sleep(min(2.0, 0.5 * (2 ** (attempt_number - 1))))
+        raise WeChatRuntimeError(
+            f"note readback failed after {max_attempts} read-only attempts"
         )
-        copied = _clipboard_text()
-        if action["returncode"] != 0 or action["stdout"] != "COPY_SENT" or copied == sentinel:
-            raise WeChatRuntimeError("note readback failed")
-        return copied, {"copy_status": "COPY_READ", "fingerprint": text_fingerprint(copied)}
     finally:
         _set_clipboard_text(original)
+
+
+def read_note_text_until_match(
+    pid: int,
+    bundle_id: str,
+    note: WindowIdentity,
+    expected: str,
+    *,
+    max_attempts: int = 3,
+) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    """Retry only the read-only copy path until the expected text is stable."""
+
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be positive")
+    records: list[dict[str, Any]] = []
+    last_actual = ""
+    last_readback: dict[str, Any] = {}
+    last_comparison: dict[str, Any] = {}
+    for attempt in range(1, max_attempts + 1):
+        last_actual, last_readback = read_note_text(pid, bundle_id, note)
+        last_comparison = compare_text_readback(expected, last_actual)
+        records.append({
+            "attempt": attempt,
+            "readback": last_readback,
+            "comparison": last_comparison,
+        })
+        if last_comparison["normalized_hash_match"]:
+            return last_actual, {
+                "status": "EXPECTED_TEXT_STABLE",
+                "attempt_count": attempt,
+                "attempts": records,
+            }, last_comparison
+        if attempt < max_attempts:
+            time.sleep(min(3.0, float(2 ** (attempt - 1))))
+    return last_actual, {
+        "status": "EXPECTED_TEXT_NOT_STABLE",
+        "attempt_count": max_attempts,
+        "attempts": records,
+    }, last_comparison
 
 
 def write_note_text(
@@ -486,8 +566,9 @@ def write_note_text(
                 raise WeChatRuntimeError(f"chunk {index} paste failed")
             time.sleep(min(3.0, max(0.5, len(chunk) / 5000)))
             expected += chunk
-            actual, readback = read_note_text(pid, bundle_id, note)
-            comparison = compare_text_readback(expected, actual)
+            actual, readback, comparison = read_note_text_until_match(
+                pid, bundle_id, note, expected
+            )
             records.append({
                 "chunk_index": index,
                 "chunk_character_count": len(chunk),
@@ -500,8 +581,9 @@ def write_note_text(
                 raise WeChatRuntimeError(f"chunk {index} cumulative readback mismatch")
     finally:
         _set_clipboard_text(original_clipboard)
-    final_actual, _ = read_note_text(pid, bundle_id, note)
-    final = compare_text_readback(text, final_actual)
+    final_actual, _, final = read_note_text_until_match(
+        pid, bundle_id, note, text
+    )
     if not final["normalized_hash_match"]:
         raise WeChatRuntimeError("final pre-save readback mismatch")
     return {
@@ -560,8 +642,9 @@ def append_note_chunks(
                 raise WeChatRuntimeError(f"resume chunk {offset} paste failed")
             time.sleep(min(3.0, max(0.5, len(chunk) / 5000)))
             expected += chunk
-            actual, readback = read_note_text(pid, bundle_id, note)
-            comparison = compare_text_readback(expected, actual)
+            actual, readback, comparison = read_note_text_until_match(
+                pid, bundle_id, note, expected
+            )
             records.append({
                 "resume_chunk_offset": offset,
                 "chunk_character_count": len(chunk),
@@ -628,7 +711,7 @@ def attach_file(pid: int, bundle_id: str, note: WindowIdentity, file_path: Path)
 def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[str, Any]:
     before = get_windows(pid)
     _raise_note(pid, bundle_id, note)
-    press_menu_item(pid, bundle_id, "文件", "关闭")
+    press_menu_item(pid, bundle_id, "文件", "关闭窗口")
     after = get_windows(pid)
     before_count = len([row for row in before if row.title not in NON_NOTE_WINDOW_TITLES])
     after_count = len([row for row in after if row.title not in NON_NOTE_WINDOW_TITLES])
@@ -693,11 +776,19 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
         if opened["returncode"] != 0 or opened["stdout"] != "UNIQUE_RESULT_OPEN_SENT":
             raise WeChatRuntimeError("cannot open unique saved-note search result")
         after = get_windows(pid)
-        before_non_main = len([row for row in before if row.title not in NON_NOTE_WINDOW_TITLES])
-        after_notes = [row for row in after if row.title not in NON_NOTE_WINDOW_TITLES]
+        before_non_main = len([row for row in before if _is_note_window(row)])
+        after_notes = [row for row in after if _is_note_window(row)]
         if len(after_notes) != before_non_main + 1:
             raise WeChatRuntimeError("saved note did not open as a new window")
-        note = after_notes[0]
+        matching_notes = [
+            row for row in after_notes
+            if row.title and (marker.startswith(row.title) or row.title.startswith(marker))
+        ]
+        if len(matching_notes) != 1:
+            raise WeChatRuntimeError(
+                f"reopened note window is not uniquely identified: {len(matching_notes)}"
+            )
+        note = matching_notes[0]
         return note, {
             "status": "SAVED_NOTE_REOPENED_UNIQUE",
             "favorites": favorites,
@@ -791,6 +882,7 @@ class MacWeChatFavoriteSink:
         production: bool = False,
         confirmation: str | None = None,
         chunk_chars: int = 5500,
+        reuse_existing_blank_test_note: bool = False,
     ) -> dict[str, Any]:
         gate = validate_runtime_write_gate(
             payload,
@@ -801,7 +893,22 @@ class MacWeChatFavoriteSink:
         process = select_target_process()
         pid = int(process["pid"])
         bundle_id = str(process["bundle_id"])
-        note, creation = create_new_note(pid, bundle_id)
+        if reuse_existing_blank_test_note:
+            if production:
+                raise WeChatRuntimeError("an existing blank note can only be reused for a runtime test")
+            candidates = [row for row in _note_windows(pid) if row.title == "笔记"]
+            if len(candidates) != 1:
+                raise WeChatRuntimeError(
+                    f"expected one explicitly verified blank test note, got {len(candidates)}"
+                )
+            note = candidates[0]
+            creation = {
+                "status": "REUSED_EXPLICITLY_VERIFIED_BLANK_TEST_NOTE",
+                "window": asdict(note),
+                "verification_requirement": "operator/Codex screenshot confirmed empty before invocation",
+            }
+        else:
+            note, creation = create_new_note(pid, bundle_id)
         expected_text = f"{payload['title']}\n{payload.get('body') or ''}".rstrip() + "\n"
         write_evidence = write_note_text(
             pid,
@@ -818,11 +925,17 @@ class MacWeChatFavoriteSink:
             attachment_evidence.append(evidence)
         closed = close_and_save_note(pid, bundle_id, note)
         reopened, reopen_evidence = search_and_open_saved_note(pid, bundle_id, payload["title"])
-        actual_text, readback_evidence = read_note_text(pid, bundle_id, reopened)
-        comparable_text = remove_attachment_placeholders(
-            actual_text, len(attachment_evidence)
-        ) if attachment_evidence else actual_text
-        comparison = compare_text_readback(expected_text, comparable_text)
+        if attachment_evidence:
+            actual_text, readback_evidence = read_note_text(pid, bundle_id, reopened)
+            comparable_text = remove_attachment_placeholders(
+                actual_text, len(attachment_evidence)
+            )
+            comparison = compare_text_readback(expected_text, comparable_text)
+        else:
+            actual_text, readback_evidence, comparison = read_note_text_until_match(
+                pid, bundle_id, reopened, expected_text
+            )
+            comparable_text = actual_text
         if not comparison["normalized_hash_match"]:
             raise WeChatRuntimeError("reopened note text does not match payload")
         reopened_tree = collect_window_ax_text(pid, reopened)
@@ -855,17 +968,106 @@ class MacWeChatFavoriteSink:
             ).hexdigest(),
         }
 
+    def resume_test_note(
+        self,
+        payload: dict[str, Any],
+        *,
+        proven_chunk_count: int,
+        chunk_chars: int = 5500,
+    ) -> dict[str, Any]:
+        """Resume one explicitly identified test note after a proven prefix.
+
+        Only chunks after ``proven_chunk_count`` are sent. The prefix is
+        re-read and hash-verified first; mutations are never retried.
+        """
+
+        gate = validate_runtime_write_gate(
+            payload,
+            self.runtime_config,
+            production=False,
+        )
+        process = select_target_process()
+        pid = int(process["pid"])
+        bundle_id = str(process["bundle_id"])
+        expected_text = f"{payload['title']}\n{payload.get('body') or ''}".rstrip() + "\n"
+        chunks = split_text_chunks(expected_text, chunk_chars)
+        if proven_chunk_count < 1 or proven_chunk_count >= len(chunks):
+            raise WeChatRuntimeError("resume requires a strict non-final proven chunk prefix")
+        candidates = [
+            row for row in _note_windows(pid)
+            if row.title and (
+                str(payload["title"]).startswith(row.title)
+                or row.title.startswith(str(payload["title"]))
+            )
+        ]
+        if len(candidates) != 1:
+            raise WeChatRuntimeError(
+                f"expected one matching open test note for resume, got {len(candidates)}"
+            )
+        note = candidates[0]
+        expected_prefix = "".join(chunks[:proven_chunk_count])
+        _, prefix_readback, prefix_comparison = read_note_text_until_match(
+            pid, bundle_id, note, expected_prefix
+        )
+        if not prefix_comparison["normalized_hash_match"]:
+            raise WeChatRuntimeError("resume prefix strong readback failed")
+        resumed = append_note_chunks(
+            pid,
+            bundle_id,
+            note,
+            expected_prefix=expected_prefix,
+            remaining_chunks=chunks[proven_chunk_count:],
+        )
+        closed = close_and_save_note(pid, bundle_id, note)
+        reopened, reopen_evidence = search_and_open_saved_note(
+            pid, bundle_id, str(payload["title"])
+        )
+        actual_text, readback_evidence, comparison = read_note_text_until_match(
+            pid, bundle_id, reopened, expected_text
+        )
+        if not comparison["normalized_hash_match"]:
+            raise WeChatRuntimeError("reopened resumed note text does not match payload")
+        reopened_tree = collect_window_ax_text(pid, reopened)
+        return {
+            "status": "PASS",
+            "gate": gate,
+            "target_process": {
+                "bundle_id": process["bundle_id"],
+                "app_path": process["app_path"],
+                "version": process["version"],
+            },
+            "resume": {
+                "proven_chunk_count": proven_chunk_count,
+                "total_chunk_count": len(chunks),
+                "prefix_readback": prefix_readback,
+                "prefix_comparison": prefix_comparison,
+                "remaining_chunks": resumed,
+            },
+            "close": closed,
+            "reopen": reopen_evidence,
+            "readback": readback_evidence,
+            "comparison": comparison,
+            "reopened_page_fingerprint_sha256": hashlib.sha256(
+                reopened_tree.encode("utf-8")
+            ).hexdigest(),
+        }
+
 
 def summarize_runtime_readiness(
     capacity: dict[str, Any],
     pdf_validation: dict[str, Any],
     text_validation: dict[str, Any],
 ) -> dict[str, Any]:
-    full_characters = int(capacity.get("full_text_character_count") or 0)
+    full_characters = int(
+        capacity.get("production_text_character_count")
+        or capacity.get("full_text_character_count")
+        or 0
+    )
     maximum = int(capacity.get("maximum_verified_body_characters") or 0)
+    production_text_status = capacity.get("production_text_status") or capacity.get("full_text_status")
     capacity_pass = (
         capacity.get("status") == "PASS"
-        and capacity.get("full_text_status") == "PASS"
+        and production_text_status == "PASS"
         and maximum >= full_characters > 0
         and capacity.get("truncation_observed") is False
     )

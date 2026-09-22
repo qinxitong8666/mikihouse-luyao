@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+import mikihouse_luyao.wechat_favorite_runtime as runtime
 
 from mikihouse_luyao.wechat_favorite_runtime import (
     PRODUCTION_CONFIRMATION,
@@ -15,6 +16,7 @@ from mikihouse_luyao.wechat_favorite_runtime import (
     summarize_runtime_readiness,
     text_fingerprint,
     validate_runtime_write_gate,
+    WindowIdentity,
 )
 
 
@@ -49,6 +51,57 @@ def test_chunk_split_is_lossless_and_prefers_line_boundaries() -> None:
     assert "".join(chunks) == text
     assert len(chunks) > 1
     assert all(len(chunk) <= 511 for chunk in chunks)
+    boundary = "a" * 510 + "\n" + "b" * 510
+    boundary_chunks = split_text_chunks(boundary, max_chars=511)
+    assert "".join(boundary_chunks) == boundary
+    assert all(len(chunk) <= 511 for chunk in boundary_chunks)
+
+
+def test_note_window_filter_excludes_software_update(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(runtime, "get_windows", lambda _pid: [
+        WindowIdentity(1, "软件更新", "AXWindow"),
+        WindowIdentity(2, "MIKIHOUSE_TEST_2026-", "AXWindow"),
+        WindowIdentity(3, "WeChat", "AXWindow"),
+    ])
+    assert runtime._note_windows(123) == [
+        WindowIdentity(2, "MIKIHOUSE_TEST_2026-", "AXWindow")
+    ]
+
+
+def test_readback_waits_for_delayed_clipboard_without_mutating_note(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    state = {"clipboard": "ORIGINAL", "polls": 0}
+    expected = "MIKIHOUSE_TEST\n" + ("商品行\n" * 20000)
+
+    def fake_clipboard_text() -> str:
+        if str(state["clipboard"]).startswith("MIKIHOUSE_CLIPBOARD_SENTINEL_"):
+            state["polls"] += 1
+            if state["polls"] >= 3:
+                return expected
+        return str(state["clipboard"])
+
+    monkeypatch.setattr(runtime, "_clipboard_text", fake_clipboard_text)
+    monkeypatch.setattr(runtime, "_set_clipboard_text", lambda value: state.__setitem__("clipboard", value))
+    monkeypatch.setattr(runtime, "_raise_note", lambda *_args: None)
+    scripts: list[str] = []
+
+    def fake_osascript(script: str) -> dict[str, object]:
+        scripts.append(script)
+        return {"returncode": 0, "stdout": "COPY_SENT", "stderr": ""}
+
+    monkeypatch.setattr(runtime, "_osascript", fake_osascript)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
+    actual, evidence = runtime.read_note_text(
+        123,
+        "com.tencent.xinWeChot2",
+        WindowIdentity(1, "MIKIHOUSE_TEST_2026-", "AXWindow"),
+    )
+    assert actual == expected
+    assert evidence["attempt_count"] == 1
+    assert evidence["fingerprint"]["raw_character_count"] == len(expected)
+    assert "delay 1.500" in scripts[0]
+    assert state["clipboard"] == "ORIGINAL"
 
 
 def test_runtime_test_gate_requires_explicit_test_title() -> None:
@@ -127,33 +180,41 @@ def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() 
     assert blocked["status"] == "BLOCKED"
 
 
-def test_tracked_2026_09_22_runtime_evidence_is_fail_closed() -> None:
+def test_tracked_2026_09_22_runtime_evidence_is_production_ready_but_save_off() -> None:
     root = Path(__file__).resolve().parents[1] / "outputs" / "daily_quote" / "2026-09-22"
     capacity = json.loads((root / "wechat_runtime_capacity_audit.json").read_text())
     pdf = json.loads((root / "wechat_pdf_favorite_runtime_validation.json").read_text())
     text = json.loads((root / "wechat_text_favorite_runtime_validation.json").read_text())
     compact = json.loads((root / "wechat_compact_text_experiment.json").read_text())
+    compact_runtime = json.loads((root / "wechat_compact_text_runtime_validation.json").read_text())
     readiness = json.loads((root / "wechat_runtime_readiness.json").read_text())
 
     diagnosis = json.loads((root / "wechat_runtime_readback_diagnosis.json").read_text())
 
-    assert capacity["maximum_verified_body_characters"] == 55544
+    assert capacity["maximum_verified_body_characters"] == 70661
     assert capacity["maximum_completed_capacity_ladder_body_characters"] == 30000
     assert capacity["full_text_status"] == "NOT_TESTED_STOP_ON_FIRST_FAILURE"
+    assert capacity["production_text_status"] == "PASS"
     assert capacity["truncation_observed"] is False
-    assert capacity["compact_70661_test_status"] == "NOT_RUN_PRECONDITION_FALSE_60000_NOT_FULLY_SAVED"
+    assert capacity["compact_70661_test_status"] == "PASS_SAVED_CLOSED_UNIQUE_SEARCH_REOPENED_FULL_HASH"
     assert pdf["status"] == "PASS"
     assert pdf["attachment_filename"] == "MIKIHOUSE_2026-09-22_报价全集.pdf"
     assert pdf["final_sync_indicator_cleared"] is True
+    assert text["status"] == "PASS"
     assert text["full_104006_status"] == "NOT_TESTED_STOP_ON_FIRST_FAILURE"
+    assert text["production_body_character_count"] == 70661
+    assert text["full_body_hash_match"] is True
     assert compact["original"]["unicode_character_count"] == 104006
     assert compact["lossless_compact"]["unicode_character_count"] == 70661
     assert diagnosis["observed"]["saved_reopened_body_normalized_character_count"] == 55544
     assert diagnosis["observed"]["source_prefix_exact"] is True
     assert diagnosis["observed"]["full_60000_body_present"] is False
-    assert diagnosis["compact_70661_decision"]["test_status"] == "NOT_RUN"
-    assert diagnosis["new_test_note_created"] is False
-    assert readiness["daily_exactly_two_favorites_production_ready"] is False
+    assert diagnosis["followup"]["status"] == "PASS"
+    assert compact_runtime["status"] == "PASS"
+    assert compact_runtime["full_body_hash_match"] is True
+    assert compact_runtime["truncation_observed"] is False
+    assert readiness["daily_exactly_two_favorites_production_ready"] is True
+    assert readiness["status"] == "PRODUCTION_READY_TWO_FAVORITES"
     assert readiness["production_save_enabled"] is False
     assert readiness["chat_send_count"] == 0
     assert readiness["shijiu_request_count"] == 0

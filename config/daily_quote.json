@@ -15,7 +15,8 @@
     "baby",
     "apparel"
   ],
-  "wechat_text_capacity_status": "REAL_WECHAT_TEXT_CAPACITY_NOT_YET_VERIFIED",
+  "wechat_text_format": "LOSSLESS_COMPACT",
+  "wechat_text_capacity_status": "PASS_70661_SAVED_REOPENED_FULL_HASH",
   "wechat_write_enabled": false,
   "shijiu_requests_enabled": false
 }

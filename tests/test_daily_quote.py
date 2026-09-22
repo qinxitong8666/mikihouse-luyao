@@ -298,3 +298,18 @@ def test_daily_quote_modules_have_no_shijiu_endpoint_or_mutation_toggle() -> Non
     config = json.loads((root / "config" / "daily_quote.json").read_text(encoding="utf-8"))
     assert config["shijiu_requests_enabled"] is False
     assert config["wechat_write_enabled"] is False
+    assert config["wechat_text_format"] == "LOSSLESS_COMPACT"
+    assert config["wechat_text_capacity_status"] == "PASS_70661_SAVED_REOPENED_FULL_HASH"
+
+
+def test_tracked_text_favorite_payload_uses_verified_lossless_compact_format() -> None:
+    root = Path(__file__).resolve().parents[1] / "outputs" / "daily_quote" / "2026-09-22"
+    manifest = json.loads((root / "daily_quote_manifest.json").read_text(encoding="utf-8"))
+    payload = json.loads((root / "wechat_text_favorite_payload.json").read_text(encoding="utf-8"))
+    expected = render_compact_text_quote(manifest)
+    assert payload["text_format"] == "LOSSLESS_COMPACT"
+    assert payload["capacity_readiness"] == "PASS_70661_SAVED_REOPENED_FULL_HASH"
+    assert payload["body"] == expected
+    assert len(payload["body"]) == 70661
+    assert len(manifest["products"]) == 1785
+    assert all(row["product_number"] in payload["body"] for row in manifest["products"])

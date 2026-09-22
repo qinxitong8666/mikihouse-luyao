@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
-  "status": "EXPERIMENT_ONLY_NOT_PRODUCTION_FORMAT",
-  "runtime_test_status": "NOT_TESTED_PRECONDITION_FALSE_60000_NOT_FULLY_SAVED",
+  "status": "PROMOTED_TO_PRODUCTION_FAVORITE_FORMAT_AFTER_RUNTIME_PASS",
+  "runtime_test_status": "PASS_SAVED_CLOSED_UNIQUE_SEARCH_REOPENED_FULL_HASH",
   "readback_diagnosis": "wechat_runtime_readback_diagnosis.json",
+  "runtime_validation": "wechat_compact_text_runtime_validation.json",
   "quote_date": "2026-09-22",
   "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
   "original": {

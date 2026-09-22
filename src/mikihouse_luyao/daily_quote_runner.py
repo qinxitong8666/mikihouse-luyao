@@ -30,6 +30,7 @@ from .daily_quote_pdf import generate_daily_quote_pdf, validate_daily_quote_pdf
 from .daily_quote_text import (
     build_favorite_payloads,
     render_favorite_preview,
+    render_compact_text_quote,
     render_text_quote,
     text_stats,
     write_json,
@@ -234,13 +235,22 @@ def run_daily_quote(
         text_path = work / f"MIKIHOUSE_{quote_date_text}_文字报价.txt"
         _write_text(text_path, text_quote)
         text_report = text_stats(text_quote, len(manifest["products"]))
+        favorite_text_format = str(config.get("wechat_text_format") or "VERBOSE").upper()
+        if favorite_text_format == "LOSSLESS_COMPACT":
+            favorite_text_quote = render_compact_text_quote(manifest)
+        elif favorite_text_format == "VERBOSE":
+            favorite_text_quote = text_quote
+        else:
+            raise DailyQuoteRunError(f"unsupported wechat_text_format: {favorite_text_format}")
         pdf_payload, text_payload = build_favorite_payloads(
             manifest,
-            text_quote=text_quote,
+            text_quote=favorite_text_quote,
             full_pdf=full_pdf,
             category_pdfs=category_pdfs,
             max_pdf_mb=int(config["mobile_share_pdf_max_mb"]),
         )
+        text_payload["text_format"] = favorite_text_format
+        text_payload["capacity_readiness"] = config.get("wechat_text_capacity_status")
         # Persist relative attachment names so the preview is portable after the atomic directory move.
         pdf_payload["attachments"] = [Path(value).name for value in pdf_payload["attachments"]]
         _write_text(work / "wechat_pdf_favorite_preview.txt", render_favorite_preview(pdf_payload))

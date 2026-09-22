@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-22T06:00:02Z",
-  "status": "READ_ONLY_DIAGNOSIS_CONFIRMED_PARTIAL_60000_NOTE",
+  "generated_at": "2026-09-22T08:22:18Z",
+  "status": "PASS",
   "quote_date": "2026-09-22",
   "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
   "full_text_character_count": 104006,
@@ -77,9 +77,14 @@
       "status": "NOT_TESTED_STOP_ON_FIRST_FAILURE"
     }
   ],
-  "maximum_verified_body_characters": 55544,
+  "production_text_format": "LOSSLESS_COMPACT",
+  "production_text_character_count": 70661,
+  "production_text_utf8_bytes": 96870,
+  "production_text_normalized_sha256": "e669a4f253707902cf73458d9d498385b79ab04ccc8aff6a095c54717c4a07b7",
+  "production_text_status": "PASS",
+  "maximum_verified_body_characters": 70661,
   "maximum_completed_capacity_ladder_body_characters": 30000,
-  "maximum_verified_saved_reopened_note_characters": 55580,
+  "maximum_verified_saved_reopened_note_characters": 70701,
   "maximum_pre_save_exact_body_prefix_characters": 51649,
   "single_paste_probe": {
     "body_character_count": 10000,
@@ -92,7 +97,9 @@
   "truncation_observed": false,
   "indeterminate_readback_failure_observed": false,
   "readback_diagnosis_report": "wechat_runtime_readback_diagnosis.json",
-  "compact_70661_test_status": "NOT_RUN_PRECONDITION_FALSE_60000_NOT_FULLY_SAVED",
+  "compact_70661_test_status": "PASS_SAVED_CLOSED_UNIQUE_SEARCH_REOPENED_FULL_HASH",
+  "compact_runtime_report": "wechat_compact_text_runtime_validation.json",
+  "compact_test_note_title": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
   "test_note_title": "MIKIHOUSE_TEST_2026-09-22_CAPACITY",
   "test_note_retained": true,
   "test_note_deleted": false,

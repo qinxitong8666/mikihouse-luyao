@@ -53,9 +53,19 @@
     "reason": "The existing note contains only 55544 body characters, not the complete 60000-character target."
   },
   "production_readiness": {
-    "status": "BLOCKED_TEXT_CAPACITY_NOT_FULLY_VERIFIED",
-    "daily_exactly_two_favorites_production_ready": false,
+    "status": "HISTORICAL_DIAGNOSIS_SUPERSEDED_BY_FRESH_COMPACT_RUNTIME_PASS",
+    "daily_exactly_two_favorites_production_ready": true,
     "production_save_enabled": false
+  },
+  "followup": {
+    "status": "PASS",
+    "test_note_title": "MIKIHOUSE_TEST_2026-09-22_COMPACT_70661",
+    "body_character_count": 70661,
+    "saved_closed": true,
+    "unique_search_reopened": true,
+    "full_normalized_hash_match": true,
+    "truncation_observed": false,
+    "report": "wechat_compact_text_runtime_validation.json"
   },
   "privacy": "No note body, screenshot, clipboard value, token, chat content, or unrelated Favorite content is committed; only counts and hashes are retained."
 }

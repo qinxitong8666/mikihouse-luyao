@@ -44,6 +44,17 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 用户授权的先决条件是“确认 60,000 字完整保存，且仅为旧回读方法问题”。该条件不成立，所以未修改现有收藏、未新建 70,661 字紧凑版测试收藏，生产开关仍关闭。机器证据见 `wechat_runtime_readback_diagnosis.json`。
 
+### 新笔记的最终容量验收
+
+后续明确授权后，新建 `MIKIHOUSE_TEST_2026-09-22_COMPACT_70661` 测试笔记，仅写入无损紧凑文字版。该正文为 70,661 字、96,870 UTF-8 bytes、1,794 行，包含 1,785 件商品。验收完成：
+
+- 分块写入，每个 mutation 只发送一次；
+- 临时回读不稳定时只重试 `Cmd+A/Cmd+C` 纯只读验证，不重贴正文；
+- 保存关闭后以完整标题搜索，候选数为 1；
+- 重开后完整归一化 SHA-256、首部 SHA-256、尾部 SHA-256、字符数和行数全部一致，无截断。
+
+因此生产文字收藏格式固定为 `LOSSLESS_COMPACT`，“PDF版 + 文字版”恰好两条收藏的运行能力状态为 `PRODUCTION_READY_TWO_FAVORITES`。这不会自动打开正式写入；`production_save_enabled` 仍为 `false`。详细证据见 `wechat_compact_text_runtime_validation.json`。
+
 ## 开关
 
 `config/wechat_favorite_runtime.json` 是独立的运行时门禁，不改动每日报价业务配置。正式写入必须同时满足：
