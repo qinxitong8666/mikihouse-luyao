@@ -179,6 +179,49 @@ def test_production_gate_accepts_only_explicit_fresh_manifest_binding() -> None:
         )
 
 
+def test_production_title_collision_blocks_before_note_creation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    manifest = "b" * 64
+    config = {
+        "runtime_validation_status": "PASS",
+        "production_save_enabled": True,
+        "validated_manifest_sha256": "a" * 64,
+        "allow_fresh_daily_manifest_binding": True,
+    }
+    monkeypatch.setattr(runtime, "select_target_process", lambda: {
+        "pid": 123,
+        "bundle_id": "com.tencent.xinWeChot2",
+        "app_path": "/Applications/微信2.app",
+        "version": "test",
+    })
+    monkeypatch.setattr(runtime, "search_saved_note_candidates", lambda *_args: {
+        "search_candidate_count": 1,
+        "candidate_lines": ["AXStaticText|||MIKI HOUSE 9月23日报价｜PDF版"],
+    })
+    created = {"count": 0}
+
+    def unexpected_create(*_args: object) -> object:
+        created["count"] += 1
+        raise AssertionError("create_new_note must not run after a title collision")
+
+    monkeypatch.setattr(runtime, "create_new_note", unexpected_create)
+    sink = runtime.MacWeChatFavoriteSink(config)
+    with pytest.raises(WeChatRuntimeError, match="refusing duplicate create"):
+        sink.save(
+            {
+                "title": "MIKI HOUSE 9月23日报价｜PDF版",
+                "body": "body",
+                "attachments": [],
+                "source_manifest_sha256": manifest,
+            },
+            production=True,
+            confirmation=PRODUCTION_CONFIRMATION,
+            authorized_manifest_sha256=manifest,
+        )
+    assert created["count"] == 0
+
+
 def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() -> None:
     capacity = {
         "status": "PASS",

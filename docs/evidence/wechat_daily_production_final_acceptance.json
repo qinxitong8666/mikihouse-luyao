@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "PASS_FINAL_ACCEPTANCE_PRODUCTION_GATE_OFF",
+  "verified_at": "2026-09-23T01:36:11.069192+09:00",
+  "base_commit": "779a7a716f5a2c5a64f0b62fc2f72aa8f8bcf752",
+  "scope": "OFFLINE_FINAL_ACCEPTANCE_NO_REAL_WECHAT_OR_SHIJIU_WRITE",
+  "production_save_enabled": false,
+  "one_click_entry": {
+    "status": "PASS",
+    "mac_command": "scripts/生成并保存MIKIHOUSE每日两个微信收藏.command",
+    "runner": "scripts/run_mikihouse_daily_production.py",
+    "default_gate_returncode": 2,
+    "default_gate_evidence": {
+      "status": "FAILED_CLOSED",
+      "phase": "PRE_GENERATION_WRITE_GATE",
+      "error": "production save config switch is disabled",
+      "website_crawl_started": false,
+      "wechat_mutation_count": 0
+    }
+  },
+  "current_sample_bundle_preflight": {
+    "status": "PRODUCTION_BUNDLE_PREFLIGHT_PASS",
+    "quote_date": "2026-09-22",
+    "manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+    "bundle_sha256": "ab46ea32d2b72fdfa034ca3d729a0d78291a5649b6bb059f6152e78ccab1deb6",
+    "runtime_evidence_status": "PRODUCTION_READY_TWO_FAVORITES",
+    "production_save_enabled": false,
+    "shijiu_request_count": 0,
+    "chat_send_count": 0
+  },
+  "scenario_acceptance": {
+    "ordered_pdf_then_text": "PASS_FAKE_SINK",
+    "checkpoint_each_stage": "PASS_FAKE_SINK",
+    "clean_interstage_resume_skips_passed_pdf": "PASS_FAKE_SINK",
+    "completed_replay_creates_zero_duplicates": "PASS_FAKE_SINK",
+    "changed_bundle_rejected_before_mutation": "PASS_FAKE_SINK",
+    "existing_title_collision_blocks_before_create": "PASS_MONKEYPATCHED_READ_ONLY_SEARCH",
+    "mutation_uncertainty_freezes_without_retry": "PASS_FAKE_SINK",
+    "production_gate_disabled_before_crawl": "PASS_REAL_CLI_ZERO_WRITE"
+  },
+  "targeted_pytest": {
+    "status": "PASS",
+    "command": "python -m pytest -q tests/test_wechat_daily_production.py tests/test_wechat_favorite_runtime.py",
+    "stdout": ".......................                                                  [100%]\n23 passed in 0.18s"
+  },
+  "tracked_code_sha256": {
+    "scripts/run_mikihouse_daily_production.py": "d3aac1a79ca2c0df9c6830a5e9596dc7b2a9814344cd26ede18f88dfa8208df1",
+    "scripts/生成并保存MIKIHOUSE每日两个微信收藏.command": "aeff726c1a2b6368fb6c3def21d6599a1d01a749d1fb89f9e46084f73e59068a",
+    "src/mikihouse_luyao/wechat_daily_production.py": "f512fc189c27ed1da892ddf8e8f3daa1c7e34804e2e77aaa211d5e3e2f51f3f9",
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "2d49cec85a79d93b2e71aacbb3cb195f69d16431a4bf496ecee5a8dcdf576bd8",
+    "config/wechat_favorite_runtime.json": "6b81e83ae9edbd09bbae60497b0dad2c6615e5d0811a83df7051d1eb74d65ca7"
+  },
+  "mutation_counters": {
+    "real_wechat_create": 0,
+    "real_wechat_update": 0,
+    "real_wechat_delete": 0,
+    "chat_send": 0,
+    "shijiu_request": 0
+  },
+  "conclusion": "PRODUCTION_FLOW_ACCEPTED_BUT_EXPLICITLY_DISABLED"
+}

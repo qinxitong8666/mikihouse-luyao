@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -10,6 +13,7 @@ from mikihouse_luyao.wechat_daily_production import (
     CHECKPOINT_FILENAME,
     REPORT_FILENAME,
     WeChatDailyProductionError,
+    _new_checkpoint,
     save_daily_production_favorites,
     validate_daily_production_bundle,
 )
@@ -179,6 +183,65 @@ def test_two_favorite_flow_is_ordered_checkpointed_and_idempotent(tmp_path: Path
     assert len(sink.calls) == 2
 
 
+def test_clean_interstage_resume_skips_passed_pdf_and_creates_only_text(tmp_path: Path) -> None:
+    daily, config = build_bundle(tmp_path)
+    preflight = validate_daily_production_bundle(
+        daily, config, repository_root=ROOT, require_write_enabled=True
+    )
+    checkpoint = _new_checkpoint(preflight)
+    checkpoint["status"] = "IN_PROGRESS"
+    checkpoint["favorite_create_count"] = 1
+    checkpoint["stages"]["pdf"].update({
+        "status": "PASS",
+        "evidence_file": "wechat_pdf_favorite_production_validation.json",
+        "mutation_attempt_count": 1,
+    })
+    write_json(daily / CHECKPOINT_FILENAME, checkpoint)
+    write_json(
+        daily / "wechat_pdf_favorite_production_validation.json",
+        {"status": "PASS"},
+    )
+    sink = FakeSink()
+    result = save_daily_production_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=sink,  # type: ignore[arg-type]
+    )
+    assert result["status"] == "PASS"
+    assert [row["payload"]["favorite_kind"] for row in sink.calls] == ["TEXT"]
+    final_checkpoint = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    assert final_checkpoint["favorite_create_count"] == 2
+    assert final_checkpoint["stages"]["pdf"]["mutation_attempt_count"] == 1
+    assert final_checkpoint["stages"]["text"]["mutation_attempt_count"] == 1
+
+
+def test_checkpoint_refuses_changed_bundle_before_any_additional_mutation(tmp_path: Path) -> None:
+    daily, config = build_bundle(tmp_path)
+    sink = FakeSink()
+    save_daily_production_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=sink,  # type: ignore[arg-type]
+    )
+    text_path = daily / "wechat_text_favorite_payload.json"
+    text = json.loads(text_path.read_text())
+    text["body"] += "篡改"
+    write_json(text_path, text)
+    with pytest.raises(WeChatDailyProductionError, match="bundle_sha256"):
+        save_daily_production_favorites(
+            daily,
+            config,
+            repository_root=ROOT,
+            confirmation=PRODUCTION_CONFIRMATION,
+            sink=sink,  # type: ignore[arg-type]
+        )
+    assert len(sink.calls) == 2
+
+
 def test_any_mutation_uncertainty_freezes_without_retry_or_next_stage(tmp_path: Path) -> None:
     daily, config = build_bundle(tmp_path)
     sink = FakeSink(fail_at=1)
@@ -204,3 +267,43 @@ def test_any_mutation_uncertainty_freezes_without_retry_or_next_stage(tmp_path: 
             sink=sink,  # type: ignore[arg-type]
         )
     assert len(sink.calls) == 1
+
+
+def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config() -> None:
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(ROOT / "src")
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "run_mikihouse_daily_production.py"),
+            "--production-save",
+            "--confirm",
+            PRODUCTION_CONFIRMATION,
+        ],
+        cwd=ROOT,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    evidence = json.loads(result.stdout)
+    assert evidence == {
+        "status": "FAILED_CLOSED",
+        "phase": "PRE_GENERATION_WRITE_GATE",
+        "error": "production save config switch is disabled",
+        "website_crawl_started": False,
+        "wechat_mutation_count": 0,
+    }
+
+
+def test_mac_one_click_entry_is_executable_and_uses_only_gated_runner() -> None:
+    command = ROOT / "scripts" / "生成并保存MIKIHOUSE每日两个微信收藏.command"
+    runner = ROOT / "scripts" / "run_mikihouse_daily_production.py"
+    assert command.is_file() and os.access(command, os.X_OK)
+    assert runner.is_file() and os.access(runner, os.X_OK)
+    source = command.read_text(encoding="utf-8")
+    assert str(runner.name) in source
+    assert "--production-save" in source
+    assert PRODUCTION_CONFIRMATION in source
+    assert "save_wechat_daily_quote_favorite.py" not in source

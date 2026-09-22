@@ -22,6 +22,8 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 正式 Mac 入口为 `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command`，GUI 中也提供同一动作。两者默认均不可写：仓库配置保持 `production_save_enabled=false`，并且即使未来得到明确授权启用，也仍要求输入精确确认语句、fresh manifest 绑定、容量上限、PDF自动验收与历史 runtime evidence 全部通过。该入口不进入聊天、不修改或删除已有收藏，也不访问 Shijiu。
 
+最终零写入验收入口为 `PYTHONPATH=src python scripts/verify_wechat_daily_production_acceptance.py`。它要求生产开关仍为关闭，仅使用本地样例、临时目录和 Fake Sink 验证一键入口、checkpoint/resume、幂等、防重复及 fail-closed；机器证据保存在 `docs/evidence/wechat_daily_production_final_acceptance.json`。
+
 每次 run 只抓一次完整 Storefront 快照、只冻结一次 FX，并建立唯一 `DailyQuoteManifest`。PDF、文字版、两个收藏 preview 与内部变化报告都只消费该 manifest，不会分别重抓官网或汇率。默认汇率源为 ECB 官方 euro foreign exchange reference rates，使用 CNY/EUR ÷ JPY/EUR 推导 1 JPY 对应 CNY；周末与节假日使用最近一个仍在 freshness 阈值内的已发布交易日。紧急离线运行可显式传入 `--fx-rate 0.048`，manifest 会明确记录 `MANUAL_OVERRIDE`，不会伪装成官方实时汇率。
 
 每日客户池采用独立的 `DAILY_QUOTE_ELIGIBLE` 边界：

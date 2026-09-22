@@ -100,6 +100,18 @@ PYTHONPATH=src python scripts/run_mikihouse_daily_production.py \
 
 仓库不提供跳过 runtime evidence、容量、manifest、collision、checkpoint 或回读门禁的参数。
 
+## 最终零写入验收
+
+正式启用前可运行：
+
+```bash
+PYTHONPATH=src python scripts/verify_wechat_daily_production_acceptance.py
+```
+
+该验收器强制要求 tracked `production_save_enabled=false`，否则自身 fail closed。它只对已验收样例执行本地 bundle preflight，调用真实一键 CLI 证明默认门禁在官网 crawl 前停止，并用隔离临时目录/Fake Sink 验证：PDF→文字顺序、逐 stage checkpoint、PDF 已 PASS 后只续跑文字、整轮 PASS 后幂等重跑零创建、bundle 变化拒绝、标题碰撞在新建前拒绝，以及 mutation 结果不确定时冻结且不自动重试。不会启动微信 GUI、不会创建/修改收藏、不会访问 Shijiu。
+
+机器结果写入 [`docs/evidence/wechat_daily_production_final_acceptance.json`](evidence/wechat_daily_production_final_acceptance.json)。`PASS_FINAL_ACCEPTANCE_PRODUCTION_GATE_OFF` 只表示正式流程具备受控启用条件，不等于生产开关已开启，也不授权真实保存。
+
 ## 命令
 
 生成无写入的压缩实验和容量计划：
