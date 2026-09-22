@@ -8,6 +8,8 @@ build/
 tmp/
 output/*
 !output/.gitkeep
+outputs/daily_quote/.build/
+outputs/daily_quote/last_successful_manifest.json
 .secrets/
 *.har
 *native_save_request.private.json

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "mode": "PREVIEW_ONLY",
+  "real_wechat_write_enabled": false,
+  "source_manifest_sha256": "14d1da632a8c50f417c6d8b068d4a0ac58859e647cff048ef54e999328272b43",
+  "quote_date": "2026-09-22",
+  "favorite_kind": "PDF",
+  "title": "MIKI HOUSE 9月22日报价｜PDF版",
+  "body": "MIKI HOUSE 日本官网当日报价\n更新：2026年9月22日\n当日可报价：1785款\n仅显示当前官网有货规格\n库存随官网变化，下单前请再次确认",
+  "attachments": [
+    "MIKIHOUSE_2026-09-22_报价全集.pdf"
+  ],
+  "attachment_strategy": "FULL_CATALOG",
+  "full_pdf_size_bytes": 23281316
+}

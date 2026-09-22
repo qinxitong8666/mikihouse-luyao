@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mikihouse-luyao"
-version = "0.21.0"
-description = "MIKI HOUSE product scraper and PDF price-list generator"
+version = "0.22.0"
+description = "MIKI HOUSE daily customer quote, Storefront catalog, and PDF tools"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["Pillow>=9.0", "reportlab>=4.0", "pypdf>=5.0"]
@@ -22,6 +22,7 @@ mikihouse-initialization-plan = "mikihouse_luyao.initialization_plan:main"
 mikihouse-shijiu-duplicate-name-audit = "mikihouse_luyao.shijiu_duplicate_name_audit:main"
 mikihouse-sellable-review-audit = "mikihouse_luyao.sellable_review_audit:main"
 mikihouse-shijiu-plan = "mikihouse_luyao.shijiu_import:main"
+mikihouse-daily-quote = "mikihouse_luyao.daily_quote_runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

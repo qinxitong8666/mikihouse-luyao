@@ -1,6 +1,59 @@
 # mikihouse-luyao
 
-MIKI HOUSE 商品抓取与微信客户版 PDF 商品册。程序读取 `special_skus.csv`，通过官网 Storefront API 按品番抓取并校验商品名、税入价、官方高清主图、颜色、尺码和库存；随后缓存主图、输出底层 JSON，并制作每页最多四件的 A4 商品卡片。
+当前主线是 **MIKI HOUSE 每日报价生成工具**：每天只读完整抓取日本官网，冻结一次当日有效 JPY/CNY 参考汇率，生成同源的客户 PDF、文字报价、两个微信收藏 preview 和内部变化报告。原有 351 特殊品番 PDF、全站主库及历史 Shijiu 代码与证据继续保留，互不覆盖；新主线不访问 Shijiu，也不真实写入微信收藏。
+
+## 每日报价（一键主入口）
+
+安装后运行：
+
+```bash
+mikihouse-daily-quote
+```
+
+也可直接使用仓库脚本：
+
+```bash
+PYTHONPATH=src python scripts/generate_daily_quote.py
+```
+
+macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调用 Python 核心，成功后打开当天输出目录；简单 GUI 为 `scripts/mikihouse_daily_quote_gui.py`，真实微信保存按钮保持禁用。
+
+每次 run 只抓一次完整 Storefront 快照、只冻结一次 FX，并建立唯一 `DailyQuoteManifest`。PDF、文字版、两个收藏 preview 与内部变化报告都只消费该 manifest，不会分别重抓官网或汇率。默认汇率源为 ECB 官方 euro foreign exchange reference rates，使用 CNY/EUR ÷ JPY/EUR 推导 1 JPY 对应 CNY；周末与节假日使用最近一个仍在 freshness 阈值内的已发布交易日。紧急离线运行可显式传入 `--fx-rate 0.048`，manifest 会明确记录 `MANUAL_OVERRIDE`，不会伪装成官方实时汇率。
+
+每日客户池采用独立的 `DAILY_QUOTE_ELIGIBLE` 边界：
+
+- 只允许 `footwear`、`baby`、`apparel`；`goods`、`other` 与未来未知类别全部 fail closed；
+- 直接读取权威的 `special_skus_2026aw.csv`，351 个不能打折品番统一标记 `NO_DISCOUNT_LIST`；
+- 永久排除 WEB/Online Exclusive、限时/促销价格、服务或附加项、无合法价格/SKU/主图的商品；
+- 只输出 `availableForSale=true` 的 variant；当天全 variant 无货的商品整件不报价；
+- 逐 variant 使用 `ceil(tax_included_price_jpy × 0.68 × frozen_jpy_to_cny_rate)`，全程 `Decimal`；
+- 同价规格合并，不同价按最终人民币价分组，PDF 与文字版共用同一分组结果。
+
+客户输出绝不显示日元原价、0.68、汇率、公式、成本或利润。默认 PDF 是 A4 portrait、每页 3×4 商品卡，使用专用 360px sRGB/白底/JPEG thumbnail cache；品番及其余字段均为可提取文字，不把商品卡栅格化。全集超过 50MB 时仍保留全集，并额外生成鞋类、婴幼儿、服装三个分类 PDF，PDF 收藏 preview 自动改用三个分类附件。
+
+输出目录：
+
+```text
+outputs/daily_quote/YYYY-MM-DD/
+├── MIKIHOUSE_YYYY-MM-DD_报价全集.pdf
+├── MIKIHOUSE_YYYY-MM-DD_文字报价.txt
+├── MIKIHOUSE_YYYY-MM-DD_内部变化报告.txt
+├── daily_quote_manifest.json
+├── daily_quote_stats.json
+├── PDF压缩检索验收报告.json
+├── failures.json
+├── source_snapshot.json.gz
+├── wechat_pdf_favorite_preview.txt/json
+└── wechat_text_favorite_preview.txt/json
+```
+
+`outputs/daily_quote/最新/` 指向最后一次完整成功运行。完整 crawl、资源预检、PDF/文字生成或验收任一失败，都不会覆盖 `last_successful_manifest.json`。微信文字收藏的真实容量目前没有足够运行时证据，因此 payload 明确保持 `REAL_WECHAT_TEXT_CAPACITY_NOT_YET_VERIFIED`；完整文字文件与单条 preview 会生成，但不会擅自删商品、拆成更多收藏或执行 GUI 保存。
+
+详细设计、安全边界、输出契约与样例验收见 [`docs/daily_quote.md`](docs/daily_quote.md)。
+
+## 历史 351 特殊品番 PDF 链路
+
+以下旧链路保持原样，用于特殊品番客户商品册。程序读取 `special_skus.csv`，通过官网 Storefront API 按品番抓取并校验商品名、税入价、官方高清主图、颜色、尺码和库存；随后缓存主图、输出底层 JSON，并制作每页最多四件的 A4 商品卡片。
 
 ## 定价规则
 

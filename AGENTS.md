@@ -4,14 +4,25 @@
 
 ## 1. 仓库定位
 
-本仓库同时包含四类链路：
+本仓库当前主线是 MIKI HOUSE 每日报价生成；同时保留以下历史与底层链路：
 
-1. MIKI HOUSE 官网单品抓取与 PDF 商品册；
-2. Storefront 全站商品主库与增量变化；
-3. Shijiu 导入 planning / dry-run / contract 审计；
-4. 具有真实下游写入能力的 Shijiu live import / recovery / browser-exact capture。
+1. 每日完整 Storefront 只读抓取、单次冻结汇率与 `DailyQuoteManifest`；
+2. 客户 PDF、文字报价、微信收藏 preview 与 Mac 一键入口；
+3. 原有 351 特殊品番 PDF 与 Storefront 全站商品主库；
+4. 历史 Shijiu planning / live import / browser-exact 代码与证据（保留但停止作为新开发主线）。
 
-不得把这四类链路混成一个“抓商品脚本”。修改某一层时，必须保持其他层的稳定契约。
+不得把这些链路混成一个“抓商品脚本”。修改某一层时，必须保持其他层的稳定契约。除非后续任务重新明确授权，新增功能不得调用 Shijiu，也不得修改、删除或伪造历史 Shijiu 状态和证据。
+
+### 1.1 每日报价主线不变量
+
+- 当天 PDF、文字报价、两个微信收藏 preview 和内部变化报告必须只消费同一份 `DailyQuoteManifest`；
+- 官网完整快照和汇率每个 run 只能各冻结一次，客户输出不得自行重新抓取；
+- `special_skus_2026aw.csv` 是唯一的 351 品番权威清单，每日报价不得复制第二份；
+- 每日报价只允许 `footwear`、`baby`、`apparel`，且只输出当天 `availableForSale=true` 的 variant；
+- 客户输出不得显示官网 JPY 原价、折扣率、汇率或公式；
+- 默认只生成微信收藏 preview，真实微信写入必须由独立任务完成运行时验收并明确授权；
+- `outputs/daily_quote/last_successful_manifest.json` 只有完整 crawl、资源预检、PDF/文字生成与自动验收全部成功后才可替换；
+- 原有 351 特殊商品 PDF 流水线与 `deliverables/**` 不得被每日报价任务重建或覆盖。
 
 ## 2. 稳定业务标识与数据不变量
 

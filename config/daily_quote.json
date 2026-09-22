@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "discount_rate": "0.68",
+  "fx_provider": "ECB_EUROFXREF_DAILY",
+  "fx_max_staleness_days": 7,
+  "mobile_share_pdf_max_mb": 50,
+  "thumbnail_long_edge_px": 360,
+  "thumbnail_jpeg_quality": 70,
+  "pdf_cards_per_page": 12,
+  "include_product_name_in_text": false,
+  "crawl_minimum_product_count": 2500,
+  "crawl_max_drop_ratio": "0.20",
+  "daily_quote_categories": [
+    "footwear",
+    "baby",
+    "apparel"
+  ],
+  "wechat_text_capacity_status": "REAL_WECHAT_TEXT_CAPACITY_NOT_YET_VERIFIED",
+  "wechat_write_enabled": false,
+  "shijiu_requests_enabled": false
+}
