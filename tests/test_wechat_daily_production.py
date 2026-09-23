@@ -9,13 +9,18 @@ from pathlib import Path
 
 import pytest
 
+import mikihouse_luyao.wechat_daily_production as production
 from mikihouse_luyao.daily_quote import sha256_json
 from mikihouse_luyao.wechat_daily_production import (
     CHECKPOINT_FILENAME,
     PDF_FILE_PICKER_RECOVERY_MODE,
+    REBUILD_HISTORY_DIRECTORY,
     REPORT_FILENAME,
     WeChatDailyProductionError,
     _new_checkpoint,
+    audit_completed_daily_favorites_readonly,
+    audit_frozen_pdf_recovery_readonly,
+    recover_frozen_pdf_and_complete_daily_favorites,
     save_daily_production_favorites,
     validate_daily_production_bundle,
     validate_pdf_file_picker_recovery_evidence,
@@ -90,6 +95,12 @@ def build_bundle(tmp_path: Path) -> tuple[Path, dict]:
         "max_verified_text_utf8_bytes": 96870,
         "max_verified_text_lines": 1794,
         "production_save_enabled": True,
+        "pdf_attachment_recovery": {
+            "strategy": PDF_FILE_PICKER_RECOVERY_MODE,
+            "requires_explicit_operator_authorization": True,
+            "single_attempt_only": True,
+            "automatic_retry_enabled": False,
+        },
     }
     return daily, config
 
@@ -108,9 +119,17 @@ def test_tracked_production_orchestration_defaults_to_zero_write() -> None:
 
 
 class FakeSink:
-    def __init__(self, fail_at: int | None = None) -> None:
+    def __init__(
+        self,
+        fail_at: int | None = None,
+        *,
+        title_counts: list[int] | None = None,
+    ) -> None:
         self.calls: list[dict] = []
         self.fail_at = fail_at
+        self.title_counts = title_counts or [0, 0]
+        self.title_audit_count = 0
+        self.recovery_calls: list[dict] = []
 
     def save(self, payload: dict, **kwargs: object) -> dict:
         self.calls.append({"payload": payload, "kwargs": kwargs})
@@ -120,6 +139,49 @@ class FakeSink:
             "status": "PASS",
             "gate": {"mode": "PRODUCTION"},
             "comparison": {"normalized_hash_match": True},
+        }
+
+    def audit_titles_read_only(self, titles: list[str]) -> dict:
+        self.title_audit_count += 1
+        assert len(titles) == 2
+        return {
+            "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+            "results": [
+                {
+                    "title_sha256": hashlib.sha256(title.encode()).hexdigest(),
+                    "search_candidate_count": count,
+                    "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
+                }
+                for title, count in zip(titles, self.title_counts)
+            ],
+            "all_titles_absent": self.title_counts == [0, 0],
+            "wechat_mutation_count": 0,
+        }
+
+    def recover_existing_pdf_attachment(self, payload: dict, **kwargs: object) -> dict:
+        self.recovery_calls.append({"payload": payload, "kwargs": kwargs})
+        attachment = Path(payload["attachments"][0])
+        title = payload["title"]
+        return {
+            "status": "PASS",
+            "recovery_mode": PDF_FILE_PICKER_RECOVERY_MODE,
+            "automatic_retry_count": 0,
+            "attachment": {
+                "filename": attachment.name,
+                "byte_count": attachment.stat().st_size,
+                "sha256": hashlib.sha256(attachment.read_bytes()).hexdigest(),
+                "selected_path": str(attachment.resolve()),
+                "visible_before_save": True,
+                "visible_after_reopen": True,
+                "clipboard_placeholder_after_reopen": "[\u6587\u4ef6]",
+            },
+            "text_readback": {"status": "EXACT_READBACK_MATCH", "truncated": False},
+            "saved_note_search": {
+                "search_candidate_count": 1,
+                "search_marker_sha256": hashlib.sha256(title.encode("utf-8")).hexdigest(),
+            },
+            "chat_send_count": 0,
+            "shijiu_request_count": 0,
         }
 
 
@@ -225,6 +287,101 @@ def test_two_favorite_flow_is_ordered_checkpointed_and_idempotent(tmp_path: Path
     assert len(sink.calls) == 2
 
 
+def test_safe_rebuild_requires_both_titles_absent_and_archives_previous_pass(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config = build_bundle(tmp_path)
+    first = FakeSink()
+    save_daily_production_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=first,  # type: ignore[arg-type]
+    )
+    old_checkpoint = (daily / CHECKPOINT_FILENAME).read_bytes()
+    rebuild = FakeSink(title_counts=[0, 0])
+    result = save_daily_production_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=rebuild,  # type: ignore[arg-type]
+        rebuild_missing_daily=True,
+    )
+    assert result["status"] == "PASS"
+    assert result["safe_rebuild"]["status"] == "AUTHORIZED_RESET_AFTER_BOTH_TITLES_ABSENT"
+    assert rebuild.title_audit_count == 1
+    assert [row["payload"]["favorite_kind"] for row in rebuild.calls] == ["PDF", "TEXT"]
+    archives = list((daily / REBUILD_HISTORY_DIRECTORY).iterdir())
+    assert len(archives) == 1
+    assert (archives[0] / CHECKPOINT_FILENAME).read_bytes() == old_checkpoint
+    archive_manifest = json.loads((archives[0] / "archive_manifest.json").read_text())
+    assert archive_manifest["status"] == "PREVIOUS_PASS_ARCHIVED_BEFORE_SAFE_REBUILD"
+    assert archive_manifest["wechat_mutation_count"] == 0
+
+
+@pytest.mark.parametrize("counts", ([1, 0], [0, 1], [1, 1]))
+def test_safe_rebuild_blocks_if_either_title_still_exists(
+    tmp_path: Path,
+    counts: list[int],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config = build_bundle(tmp_path)
+    first = FakeSink()
+    save_daily_production_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=first,  # type: ignore[arg-type]
+    )
+    checkpoint_before = (daily / CHECKPOINT_FILENAME).read_bytes()
+    report_before = (daily / REPORT_FILENAME).read_bytes()
+    rebuild = FakeSink(title_counts=counts)
+    audit = audit_completed_daily_favorites_readonly(
+        daily,
+        config,
+        sink=rebuild,  # type: ignore[arg-type]
+        require_today=False,
+    )
+    assert audit["status"] == "BLOCKED_EXISTING_DAILY_FAVORITE"
+    with pytest.raises(WeChatDailyProductionError, match="still exist"):
+        save_daily_production_favorites(
+            daily,
+            config,
+            repository_root=ROOT,
+            confirmation=PRODUCTION_CONFIRMATION,
+            sink=rebuild,  # type: ignore[arg-type]
+            rebuild_missing_daily=True,
+        )
+    assert rebuild.calls == []
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == checkpoint_before
+    assert (daily / REPORT_FILENAME).read_bytes() == report_before
+    assert not (daily / REBUILD_HISTORY_DIRECTORY).exists()
+
+
+def test_safe_rebuild_without_completed_checkpoint_fails_before_mutation(
+    tmp_path: Path,
+) -> None:
+    daily, config = build_bundle(tmp_path)
+    sink = FakeSink()
+    with pytest.raises(WeChatDailyProductionError, match="existing completed"):
+        save_daily_production_favorites(
+            daily,
+            config,
+            repository_root=ROOT,
+            confirmation=PRODUCTION_CONFIRMATION,
+            sink=sink,  # type: ignore[arg-type]
+            rebuild_missing_daily=True,
+        )
+    assert sink.calls == []
+    assert sink.title_audit_count == 0
+
+
 def test_clean_interstage_resume_skips_passed_pdf_and_creates_only_text(tmp_path: Path) -> None:
     daily, config = build_bundle(tmp_path)
     preflight = validate_daily_production_bundle(
@@ -311,6 +468,90 @@ def test_any_mutation_uncertainty_freezes_without_retry_or_next_stage(tmp_path: 
     assert len(sink.calls) == 1
 
 
+def _write_canonical_frozen_attachment_checkpoint(
+    daily: Path, config: dict
+) -> None:
+    preflight = validate_daily_production_bundle(
+        daily, config, repository_root=ROOT, require_write_enabled=True
+    )
+    checkpoint = _new_checkpoint(preflight)
+    checkpoint["status"] = "FROZEN_RECONCILIATION_REQUIRED"
+    checkpoint["stages"]["pdf"].update(
+        {
+            "status": "FROZEN_AFTER_MUTATION_ATTEMPT",
+            "mutation_attempt_count": 1,
+            "error_type": "WeChatRuntimeError",
+            "error": "attachment was not visible before save",
+        }
+    )
+    write_json(daily / CHECKPOINT_FILENAME, checkpoint)
+    write_json(
+        daily / REPORT_FILENAME,
+        {
+            "status": "FROZEN_RECONCILIATION_REQUIRED",
+            "quote_date": daily.name,
+            "manifest_sha256": preflight["manifest_sha256"],
+            "bundle_sha256": preflight["bundle_sha256"],
+        },
+    )
+
+
+def test_frozen_pdf_recovery_requires_one_pdf_zero_text_and_completes_once(
+    tmp_path: Path,
+) -> None:
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    sink = FakeSink(title_counts=[1, 0])
+    audit = audit_frozen_pdf_recovery_readonly(
+        daily,
+        config,
+        repository_root=ROOT,
+        sink=sink,  # type: ignore[arg-type]
+    )
+    assert audit["status"] == "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION"
+    assert audit["exact_title_counts"] == [1, 0]
+    assert audit["wechat_mutation_count"] == 0
+
+    result = recover_frozen_pdf_and_complete_daily_favorites(
+        daily,
+        config,
+        repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,
+        sink=sink,  # type: ignore[arg-type]
+    )
+    assert result["status"] == "PASS"
+    assert result["recovered_existing_pdf_note_without_duplicate_create"] is True
+    assert len(sink.recovery_calls) == 1
+    assert [row["payload"]["favorite_kind"] for row in sink.calls] == ["TEXT"]
+    checkpoint = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    assert checkpoint["status"] == "PASS"
+    assert checkpoint["favorite_create_count"] == 2
+    assert checkpoint["stages"]["pdf"]["mutation_attempt_count"] == 1
+    assert checkpoint["stages"]["pdf"]["authorized_recovery"]["mutation_attempt_count"] == 1
+    assert checkpoint["stages"]["text"]["mutation_attempt_count"] == 1
+
+
+@pytest.mark.parametrize("counts", ([0, 0], [1, 1], [2, 0]))
+def test_frozen_pdf_recovery_wrong_title_state_fails_before_mutation(
+    tmp_path: Path, counts: list[int]
+) -> None:
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    sink = FakeSink(title_counts=counts)
+    checkpoint_before = (daily / CHECKPOINT_FILENAME).read_bytes()
+    with pytest.raises(WeChatDailyProductionError, match="one PDF title and zero text"):
+        recover_frozen_pdf_and_complete_daily_favorites(
+            daily,
+            config,
+            repository_root=ROOT,
+            confirmation=PRODUCTION_CONFIRMATION,
+            sink=sink,  # type: ignore[arg-type]
+        )
+    assert sink.recovery_calls == []
+    assert sink.calls == []
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == checkpoint_before
+
+
 def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config() -> None:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT / "src")
@@ -356,6 +597,14 @@ def test_tracked_pdf_file_picker_recovery_is_fail_closed() -> None:
         (ROOT / "config" / "wechat_favorite_runtime.json").read_text(encoding="utf-8")
     )
     recovery = config["pdf_attachment_recovery"]
+    assert config["production_pdf_attachment"] == {
+        "strategy": "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+        "single_attempt_only": True,
+        "automatic_retry_enabled": False,
+        "exact_attachment_path_required": True,
+        "pre_save_attachment_visibility_required": True,
+        "post_save_unique_title_and_attachment_readback_required": True,
+    }
     assert recovery == {
         "strategy": PDF_FILE_PICKER_RECOVERY_MODE,
         "requires_explicit_operator_authorization": True,

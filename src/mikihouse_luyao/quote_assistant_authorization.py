@@ -16,6 +16,14 @@ from .wechat_favorite_runtime import PRODUCTION_CONFIRMATION
 
 AUTHORIZATION_KIND = "MIKIHOUSE_QUOTE_ASSISTANT_ONE_TIME_PRODUCTION_AUTHORIZATION"
 AUTHORIZATION_SCOPE = "ONE_DAILY_QUOTE_TWO_WECHAT_FAVORITES"
+OPERATION_CREATE_DAILY = "CREATE_DAILY_TWO_FAVORITES"
+OPERATION_REBUILD_MISSING_DAILY = "REBUILD_MISSING_DAILY_TWO_FAVORITES"
+OPERATION_RECOVER_FROZEN_PDF = "RECOVER_FROZEN_PDF_AND_CREATE_PENDING_TEXT"
+ALLOWED_OPERATIONS = (
+    OPERATION_CREATE_DAILY,
+    OPERATION_REBUILD_MISSING_DAILY,
+    OPERATION_RECOVER_FROZEN_PDF,
+)
 APP_BUNDLE_IDENTIFIER = "cn.luyao.mikihouse.quoteassistant"
 APP_ENV_MARKER = "MIKIHOUSE_QUOTE_ASSISTANT_APP"
 DEFAULT_TTL_SECONDS = 15 * 60
@@ -93,6 +101,7 @@ def issue_one_time_authorization(
     output_dir: Path | None = None,
     now: datetime | None = None,
     ttl_seconds: int = DEFAULT_TTL_SECONDS,
+    operation: str = OPERATION_CREATE_DAILY,
 ) -> dict[str, Any]:
     root = repository_root.resolve()
     if confirmation != PRODUCTION_CONFIRMATION:
@@ -101,6 +110,8 @@ def issue_one_time_authorization(
         raise QuoteAssistantAuthorizationError("单次生产授权只能由 MIKI HOUSE 报价助手.app 发起。")
     if ttl_seconds <= 0 or ttl_seconds > DEFAULT_TTL_SECONDS:
         raise QuoteAssistantAuthorizationError("单次授权有效期无效。")
+    if operation not in ALLOWED_OPERATIONS:
+        raise QuoteAssistantAuthorizationError("单次授权操作类型无效。")
     _require_tracked_gate_off(root)
     issued_at = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     nonce = str(uuid.uuid4())
@@ -114,6 +125,7 @@ def issue_one_time_authorization(
         "schema_version": 1,
         "kind": AUTHORIZATION_KIND,
         "scope": AUTHORIZATION_SCOPE,
+        "operation": operation,
         "status": "ISSUED",
         "nonce": nonce,
         "repository_root": str(root),
@@ -132,6 +144,7 @@ def issue_one_time_authorization(
         "nonce": nonce,
         "expires_at": payload["expires_at"],
         "repository_head": payload["repository_head"],
+        "operation": operation,
     }
 
 
@@ -141,6 +154,7 @@ def validate_and_consume_one_time_authorization(
     *,
     confirmation: str,
     now: datetime | None = None,
+    expected_operation: str = OPERATION_CREATE_DAILY,
 ) -> dict[str, Any]:
     root = repository_root.resolve()
     resolved = path.resolve()
@@ -164,6 +178,7 @@ def validate_and_consume_one_time_authorization(
         "schema_version": 1,
         "kind": AUTHORIZATION_KIND,
         "scope": AUTHORIZATION_SCOPE,
+        "operation": expected_operation,
         "status": "ISSUED",
         "app_bundle_identifier": APP_BUNDLE_IDENTIFIER,
         "repository_root": str(root),
@@ -214,6 +229,7 @@ def validate_and_consume_one_time_authorization(
         "status": "CONSUMED",
         "authorization_mode": "APP_ONE_TIME",
         "scope": AUTHORIZATION_SCOPE,
+        "operation": payload["operation"],
         "nonce_sha256": _sha256_text(nonce),
         "repository_head": payload["repository_head"],
         "issued_at": payload["issued_at"],

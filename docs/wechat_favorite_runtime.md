@@ -93,6 +93,10 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 `config/wechat_favorite_runtime.json` 仅声明上述 fail-closed 契约，不会自动打开选择器或开启正式写入。当日恢复证据经纯本地函数 `validate_pdf_file_picker_recovery_evidence` 校验；该函数不调用微信 GUI。
 
+当前生产 PDF 主路径也固定为 `TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT`：它先对唯一笔记窗口和完整正文做强回读，再从窗口原点锚定工具栏「文件」按钮；只有原生打开面板的「打开/Open」按钮指纹出现后才输入精确绝对路径。选择动作只发送一次，保存前必须从正文回读到一个尾随 `[文件]`，保存后必须以唯一标题重开并验证正文与附件。任何一步不确定都冻结，不回退到剪贴板重试。
+
+对已经出现的“文本已保存、附件缺失”状态，恢复入口另有 operation-bound App 许可：只读标题必须为 `[PDF=1, TEXT=0]`，原 checkpoint 必须是第一次附件不可见错误，且文字阶段从未 mutation。恢复只补现有 PDF 收藏，不创建第二条 PDF 收藏；成功后 checkpoint 才把 PDF 计为 1 并继续唯一待处理的文字收藏。
+
 生产 Sink 在创建前使用与重开相同的收藏页精确标题搜索做只读 collision preflight；任何既有/歧义候选都禁止新建。每条保存后强回读并关闭已验证笔记窗口，下一条从干净窗口状态开始。全过程不进入聊天、不发送、不修改/删除既有收藏、不访问 Shijiu。
 
 默认安全状态：
@@ -102,6 +106,14 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 - 旧 `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command` 在默认配置下继续 fail closed；
 - `MIKI HOUSE 报价助手.app` 通过清晰的单次确认签发私有一次性许可，无需手工修改配置；
 - 正式 runner 仍必须收到 production mode、内部精确 confirmation 和有效许可；任一不匹配时在官网 crawl 前停止，微信写入为 0。
+
+### 当天收藏被人工删除后的安全重建
+
+- 只允许重建当天、已有 `PASS` checkpoint/report 且原记录证明恰好两条收藏的生产日；
+- App 在授权前通过真实微信收藏页只读精确搜索 PDF版和文字版标题；任一标题候选数不为 0 即禁止重建；
+- 重建使用独立 `REBUILD_MISSING_DAILY_TWO_FAVORITES` 单次许可，不能用普通首次生产许可代替；
+- fresh crawl 和当日 bundle 验收后，runner 再只读搜索两个标题。只有第二次检查仍为 `[0,0]` 时，才归档旧 checkpoint/report/evidence 并原子重置 checkpoint；
+- 重建后仍按 PDF→文字、逐阶段 checkpoint、mutation 不重试、标题冲突再防护和强回读执行。
 
 CLI（当前默认会 fail closed，不会写微信）：
 
@@ -143,3 +155,14 @@ PYTHONPATH=src python scripts/save_wechat_daily_quote_favorite.py \
 ```
 
 正式模式的双重开关默认关闭，本文档不提供任何跳过方式。
+
+## 收藏页识别修复（2026-09-23）
+
+当日 App 的附件恢复在只读标题核查阶段出现 `favorites page strong fingerprint failed`。
+AX 采集改为在 `System Events` 作用域内显式读取 AXRole/AXTitle/AXDescription/AXValue，
+避免控件属性变成空值。收藏搜索结果以实际笔记卡片计数，不把搜索框、结果标题或选中列表的名称当成收藏。
+相同标题的两个卡片仍算两个；只有列表标题却没有可读卡片、或 AX 读取不完整时，禁止认定收藏不存在。
+候选标题仍不是完整身份凭据，打开后的正文必须继续强回读。
+
+本次已只读观察到当天 PDF 版的一个卡片和缺附件的笔记；打开文件选择器检查后已取消，
+没有选择文件、上传附件或创建新收藏。上述识别修复不等于附件恢复成功，原冻结 checkpoint 保持不变。

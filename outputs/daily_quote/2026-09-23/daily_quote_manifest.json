@@ -3,12 +3,12 @@
   "manifest_kind": "MIKIHOUSE_DAILY_QUOTE",
   "business_boundary": "DAILY_QUOTE_ELIGIBLE",
   "quote_date": "2026-09-23",
-  "generated_at": "2026-09-23T02:04:47.277750+09:00",
+  "generated_at": "2026-09-23T16:40:52.268225+09:00",
   "timezone": "Asia/Tokyo",
-  "source_snapshot_sha256": "135d39435351ca4779625de211099f7ae32d367bf14a9c77181bf77e0316be4f",
+  "source_snapshot_sha256": "dbf385c5a9008f8f4988003fcd2344140540172b9f1602d415f1d2c295b5d78f",
   "source_snapshot_product_count": 2987,
   "crawl": {
-    "synced_at": "2026-09-22T17:04:29.351301+00:00",
+    "synced_at": "2026-09-23T07:39:39.589888+00:00",
     "api_request_count": 34,
     "product_page_count": 30,
     "extra_variant_page_count": 0,
@@ -25,7 +25,7 @@
     "provider": "ECB_EUROFXREF_DAILY",
     "rate_date": "2026-09-22",
     "jpy_to_cny_rate": "0.04262807348615196758616861853",
-    "fetched_at": "2026-09-22T17:04:47.276982+00:00",
+    "fetched_at": "2026-09-23T07:40:52.266658+00:00",
     "raw_response_sha256": "5584ddc3fe6a86196017982fcf87ddf935a994d9282aff1b1fd5e4f4ace127b0",
     "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
     "manual_override": false
@@ -39,11 +39,11 @@
       "baby": 1183,
       "apparel": 831
     },
-    "eligible_product_count": 1786,
-    "included_in_stock_product_count": 1786,
-    "included_available_variant_count": 9930,
+    "eligible_product_count": 1785,
+    "included_in_stock_product_count": 1785,
+    "included_available_variant_count": 9914,
     "excluded_reason_counts": {
-      "ALL_VARIANTS_UNAVAILABLE": 33,
+      "ALL_VARIANTS_UNAVAILABLE": 34,
       "NON_SELLABLE_SERVICE_OR_ADDON": 28,
       "NON_WHITELIST_CATEGORY": 634,
       "NO_DISCOUNT_LIST": 321,
@@ -67414,15 +67414,6 @@
           "customer_price_cny": 574
         },
         {
-          "stable_id": "12-9402-798::12-9402-79800150180",
-          "sku": "12-9402-79800150180",
-          "color": "ブルー",
-          "size": "18cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 19800,
-          "customer_price_cny": 574
-        },
-        {
           "stable_id": "12-9402-798::12-9402-79800150190",
           "sku": "12-9402-79800150190",
           "color": "ブルー",
@@ -67518,7 +67509,6 @@
               "color": "ブルー",
               "sizes": [
                 "16cm",
-                "18cm",
                 "19cm",
                 "20cm",
                 "21cm"
@@ -67553,7 +67543,7 @@
         {
           "stable_id": "12-9402-798::12-9402-79800150180",
           "sku": "12-9402-79800150180",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 19800
         },
         {
@@ -67611,7 +67601,7 @@
           "tax_included_price_jpy": 19800
         }
       ],
-      "product_content_sha256": "5a767fdf373b5a12c9120e72043fdefbfb69d6f0b1cdbd1d4ff749fcfcb520f8"
+      "product_content_sha256": "c98873ac7eaff28a1d304a489420365a625668249db0fefe08be3681391ec417"
     },
     {
       "product_number": "12-9402-828",
@@ -70565,15 +70555,6 @@
           "customer_price_cny": 1117
         },
         {
-          "stable_id": "13-1801-794::13-1801-79400870900",
-          "sku": "13-1801-79400870900",
-          "color": "マルチカラー",
-          "size": "90cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        },
-        {
           "stable_id": "13-1801-794::13-1801-79400871000",
           "sku": "13-1801-79400871000",
           "color": "マルチカラー",
@@ -70624,7 +70605,6 @@
               "color": "マルチカラー",
               "sizes": [
                 "80cm",
-                "90cm",
                 "100cm",
                 "110cm",
                 "120cm"
@@ -70643,7 +70623,7 @@
         {
           "stable_id": "13-1801-794::13-1801-79400870900",
           "sku": "13-1801-79400870900",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 38500
         },
         {
@@ -70665,7 +70645,7 @@
           "tax_included_price_jpy": 38500
         }
       ],
-      "product_content_sha256": "190bbdfb185318d3682f4a6e9248c657c51cc4223dc204e82fcc8e3cfa67d7fe"
+      "product_content_sha256": "8d535eef24bb3a323bd79b7c6d7b22f13f1fc0810e564d7fd6f1baeb94422d83"
     },
     {
       "product_number": "13-1802-681",
@@ -77985,15 +77965,6 @@
           "available_for_sale": true,
           "tax_included_price_jpy": 80300,
           "customer_price_cny": 2328
-        },
-        {
-          "stable_id": "13-3701-821::13-3701-82100081100",
-          "sku": "13-3701-82100081100",
-          "color": "ピンク",
-          "size": "110cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 80300,
-          "customer_price_cny": 2328
         }
       ],
       "main_image": {
@@ -78028,12 +77999,6 @@
           "colors": [
             {
               "color": "紺",
-              "sizes": [
-                "110cm"
-              ]
-            },
-            {
-              "color": "ピンク",
               "sizes": [
                 "110cm"
               ]
@@ -78099,7 +78064,7 @@
         {
           "stable_id": "13-3701-821::13-3701-82100081100",
           "sku": "13-3701-82100081100",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 80300
         },
         {
@@ -78109,7 +78074,7 @@
           "tax_included_price_jpy": 80300
         }
       ],
-      "product_content_sha256": "b47c09badc88ae2539f031cf02ece3262148c949da0c22d41f3e7a1c3688d401"
+      "product_content_sha256": "3a42d46b7f0d69fe543a2dd15225db621a2d737564116379daa9041d1218d1ba"
     },
     {
       "product_number": "13-3702-145",
@@ -83982,15 +83947,6 @@
           "customer_price_cny": 861
         },
         {
-          "stable_id": "13-5206-797::13-5206-79700870900",
-          "sku": "13-5206-79700870900",
-          "color": "マルチカラー",
-          "size": "90cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 29700,
-          "customer_price_cny": 861
-        },
-        {
           "stable_id": "13-5206-797::13-5206-79700871000",
           "sku": "13-5206-79700871000",
           "color": "マルチカラー",
@@ -84041,7 +83997,6 @@
               "color": "マルチカラー",
               "sizes": [
                 "80cm",
-                "90cm",
                 "100cm",
                 "110cm",
                 "120cm"
@@ -84060,7 +84015,7 @@
         {
           "stable_id": "13-5206-797::13-5206-79700870900",
           "sku": "13-5206-79700870900",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 29700
         },
         {
@@ -84082,7 +84037,7 @@
           "tax_included_price_jpy": 29700
         }
       ],
-      "product_content_sha256": "b23f10f088d448e27e8b2db92900e51e616b4c0c594cb74a9da3af029f62436b"
+      "product_content_sha256": "89ace3825d36ab95e4c0c81cb385212a1e083702730174847be41829ae07a6b4"
     },
     {
       "product_number": "13-5207-790",
@@ -85972,37 +85927,10 @@
       "category": "apparel",
       "variants": [
         {
-          "stable_id": "13-5501-799::13-5501-79900031100",
-          "sku": "13-5501-79900031100",
-          "color": "紺",
-          "size": "110cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        },
-        {
-          "stable_id": "13-5501-799::13-5501-79900031200",
-          "sku": "13-5501-79900031200",
-          "color": "紺",
-          "size": "120cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        },
-        {
           "stable_id": "13-5501-799::13-5501-79900031300",
           "sku": "13-5501-79900031300",
           "color": "紺",
           "size": "130cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        },
-        {
-          "stable_id": "13-5501-799::13-5501-79900080900",
-          "sku": "13-5501-79900080900",
-          "color": "ピンク",
-          "size": "90cm",
           "available_for_sale": true,
           "tax_included_price_jpy": 38500,
           "customer_price_cny": 1117
@@ -86021,15 +85949,6 @@
           "sku": "13-5501-79900081100",
           "color": "ピンク",
           "size": "110cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        },
-        {
-          "stable_id": "13-5501-799::13-5501-79900081200",
-          "sku": "13-5501-79900081200",
-          "color": "ピンク",
-          "size": "120cm",
           "available_for_sale": true,
           "tax_included_price_jpy": 38500,
           "customer_price_cny": 1117
@@ -86057,18 +85976,14 @@
             {
               "color": "紺",
               "sizes": [
-                "110cm",
-                "120cm",
                 "130cm"
               ]
             },
             {
               "color": "ピンク",
               "sizes": [
-                "90cm",
                 "100cm",
-                "110cm",
-                "120cm"
+                "110cm"
               ]
             }
           ]
@@ -86090,13 +86005,13 @@
         {
           "stable_id": "13-5501-799::13-5501-79900031100",
           "sku": "13-5501-79900031100",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 38500
         },
         {
           "stable_id": "13-5501-799::13-5501-79900031200",
           "sku": "13-5501-79900031200",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 38500
         },
         {
@@ -86108,7 +86023,7 @@
         {
           "stable_id": "13-5501-799::13-5501-79900080900",
           "sku": "13-5501-79900080900",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 38500
         },
         {
@@ -86126,7 +86041,7 @@
         {
           "stable_id": "13-5501-799::13-5501-79900081200",
           "sku": "13-5501-79900081200",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 38500
         },
         {
@@ -86136,7 +86051,7 @@
           "tax_included_price_jpy": 38500
         }
       ],
-      "product_content_sha256": "045f6af6f5a8807ea9d50bdba6e2e4550bb2ae67e0bb6c95ce09f386063f2abb"
+      "product_content_sha256": "bbc70f5e9f98ada623e79a84603c9fd3f46dce9498bb195152cf7a8f32eb9e54"
     },
     {
       "product_number": "13-5601-149",
@@ -92204,15 +92119,6 @@
           "available_for_sale": true,
           "tax_included_price_jpy": 60500,
           "customer_price_cny": 1754
-        },
-        {
-          "stable_id": "13-6602-794::13-6602-79400031500",
-          "sku": "13-6602-79400031500",
-          "color": "紺",
-          "size": "150cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 60500,
-          "customer_price_cny": 1754
         }
       ],
       "main_image": {
@@ -92251,8 +92157,7 @@
                 "110cm",
                 "120cm",
                 "130cm",
-                "140cm",
-                "150cm"
+                "140cm"
               ]
             }
           ]
@@ -92328,11 +92233,11 @@
         {
           "stable_id": "13-6602-794::13-6602-79400031500",
           "sku": "13-6602-79400031500",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 60500
         }
       ],
-      "product_content_sha256": "5c32264f8dde33f35011d2077f155db82b6fe582fb4573c5ce00a42d4b3fb07d"
+      "product_content_sha256": "5d3179f5b3aafdf057b6bc0c7c751813da53fca4072e323ccfb150d89ac7fffc"
     },
     {
       "product_number": "13-6603-148",
@@ -97868,24 +97773,6 @@
           "available_for_sale": true,
           "tax_included_price_jpy": 22000,
           "customer_price_cny": 638
-        },
-        {
-          "stable_id": "13-9307-494::13-9307-49400870140",
-          "sku": "13-9307-49400870140",
-          "color": "マルチカラー",
-          "size": "14cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 22000,
-          "customer_price_cny": 638
-        },
-        {
-          "stable_id": "13-9307-494::13-9307-49400870145",
-          "sku": "13-9307-49400870145",
-          "color": "マルチカラー",
-          "size": "14.5cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 22000,
-          "customer_price_cny": 638
         }
       ],
       "main_image": {
@@ -97913,13 +97800,6 @@
                 "14cm",
                 "14.5cm",
                 "15cm"
-              ]
-            },
-            {
-              "color": "マルチカラー",
-              "sizes": [
-                "14cm",
-                "14.5cm"
               ]
             }
           ]
@@ -97959,13 +97839,13 @@
         {
           "stable_id": "13-9307-494::13-9307-49400870140",
           "sku": "13-9307-49400870140",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 22000
         },
         {
           "stable_id": "13-9307-494::13-9307-49400870145",
           "sku": "13-9307-49400870145",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 22000
         },
         {
@@ -97975,7 +97855,7 @@
           "tax_included_price_jpy": 22000
         }
       ],
-      "product_content_sha256": "98875e42c88925da48d23c73716ace9d75aa1c59e5fabf9e8985d0b52cc6906b"
+      "product_content_sha256": "0ce0edb9a0c908b63c4ff9b7d62350a55336f4f843e32b17eb621ce5a211eb90"
     },
     {
       "product_number": "13-9310-490",
@@ -112693,15 +112573,6 @@
           "customer_price_cny": 543
         },
         {
-          "stable_id": "23-3202-149::23-3202-14900081100",
-          "sku": "23-3202-14900081100",
-          "color": "ピンク",
-          "size": "110cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 18700,
-          "customer_price_cny": 543
-        },
-        {
           "stable_id": "23-3202-149::23-3202-14900081200",
           "sku": "23-3202-14900081200",
           "color": "ピンク",
@@ -112781,7 +112652,6 @@
                 "80cm",
                 "90cm",
                 "100cm",
-                "110cm",
                 "120cm"
               ]
             },
@@ -112820,7 +112690,7 @@
         {
           "stable_id": "23-3202-149::23-3202-14900081100",
           "sku": "23-3202-14900081100",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 18700
         },
         {
@@ -112860,7 +112730,7 @@
           "tax_included_price_jpy": 18700
         }
       ],
-      "product_content_sha256": "deef90eaec8e4fb03038506a21b7f6af31449900a0d13d1c94f9c4baaf13c6c6"
+      "product_content_sha256": "2538c622f7d3c0f0ac22e216f474cc3261d13c7f2086aec5c0e343f042e20a62"
     },
     {
       "product_number": "23-3202-576",
@@ -139640,15 +139510,6 @@
           "available_for_sale": true,
           "tax_included_price_jpy": 5500,
           "customer_price_cny": 160
-        },
-        {
-          "stable_id": "40-2921-499::40-2921-49900159998",
-          "sku": "40-2921-49900159998",
-          "color": "ブルー",
-          "size": "フリー",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 5500,
-          "customer_price_cny": 160
         }
       ],
       "main_image": {
@@ -139681,12 +139542,6 @@
               "sizes": [
                 "フリー"
               ]
-            },
-            {
-              "color": "ブルー",
-              "sizes": [
-                "フリー"
-              ]
             }
           ]
         }
@@ -139707,11 +139562,11 @@
         {
           "stable_id": "40-2921-499::40-2921-49900159998",
           "sku": "40-2921-49900159998",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 5500
         }
       ],
-      "product_content_sha256": "bfb68f58ea60ac04450e582b3db911ba6ef31f8a915fdf506fbe57afc9247c63"
+      "product_content_sha256": "eebd4971064d1ec60b27900dd5f618e7450c6fffa90ddf7ac2571549b512762e"
     },
     {
       "product_number": "40-2922-492",
@@ -170174,15 +170029,6 @@
       "category": "apparel",
       "variants": [
         {
-          "stable_id": "60-5238-491::60-5238-49100240900",
-          "sku": "60-5238-49100240900",
-          "color": "ライトグリーン",
-          "size": "90cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 11000,
-          "customer_price_cny": 319
-        },
-        {
           "stable_id": "60-5238-491::60-5238-49100241000",
           "sku": "60-5238-49100241000",
           "color": "ライトグリーン",
@@ -170457,7 +170303,6 @@
             {
               "color": "ライトグリーン",
               "sizes": [
-                "90cm",
                 "100cm",
                 "110cm",
                 "120cm",
@@ -170516,7 +170361,7 @@
         {
           "stable_id": "60-5238-491::60-5238-49100240900",
           "sku": "60-5238-49100240900",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 11000
         },
         {
@@ -170700,7 +170545,7 @@
           "tax_included_price_jpy": 11000
         }
       ],
-      "product_content_sha256": "b28c7692fac055b51147582701bafceb66aea268235fb5231bdc148fb51ea80d"
+      "product_content_sha256": "d355ce323c9b747dacbfcad780da1a28255d448d68bc94ec9d9f0f1f59c40429"
     },
     {
       "product_number": "60-5239-685",
@@ -174244,15 +174089,6 @@
       "category": "apparel",
       "variants": [
         {
-          "stable_id": "61-5202-796::61-5202-79600380800",
-          "sku": "61-5202-79600380800",
-          "color": "ストームブルー",
-          "size": "80cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 15400,
-          "customer_price_cny": 447
-        },
-        {
           "stable_id": "61-5202-796::61-5202-79600381000",
           "sku": "61-5202-79600381000",
           "color": "ストームブルー",
@@ -174383,7 +174219,6 @@
             {
               "color": "ストームブルー",
               "sizes": [
-                "80cm",
                 "100cm",
                 "110cm",
                 "120cm",
@@ -174410,7 +174245,7 @@
         {
           "stable_id": "61-5202-796::61-5202-79600380800",
           "sku": "61-5202-79600380800",
-          "available_for_sale": true,
+          "available_for_sale": false,
           "tax_included_price_jpy": 15400
         },
         {
@@ -174504,7 +174339,7 @@
           "tax_included_price_jpy": 15400
         }
       ],
-      "product_content_sha256": "9b02002ccb2c448168c592eaaa61c821a315586e91203c0d67bcd6a3970cb04e"
+      "product_content_sha256": "bd34066ce21ed4d5cebb564d313b4c60f713ef688c015fe28dd7551edfd0da66"
     },
     {
       "product_number": "61-5203-799",
@@ -195096,95 +194931,6 @@
         }
       ],
       "product_content_sha256": "4bb8dd081358f89cc3a2bc5f239c13f83b82a5542818effeafa55e34ed75b929"
-    },
-    {
-      "product_number": "63-5204-796",
-      "name": "長袖Ｔシャツ",
-      "category": "apparel",
-      "variants": [
-        {
-          "stable_id": "63-5204-796::63-5204-79600051200",
-          "sku": "63-5204-79600051200",
-          "color": "黒",
-          "size": "120cm",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500,
-          "customer_price_cny": 1117
-        }
-      ],
-      "main_image": {
-        "url": "https://cdn.shopify.com/s/files/1/0593/3613/0738/files/63-5204-796-05-1_l.jpg?v=1783412676",
-        "width": 700,
-        "height": 700,
-        "alt_text": "",
-        "content_sha256": "2876f9c8cdc8dc1fa6da83d7a07f5f4046579015ffb265bc8918c46ac1facf5c",
-        "thumbnail": {
-          "cache_path": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/output/daily-quote-thumbnail-cache/thumbnails/4b9889e299c1d27b32e1b5d33e59ba8d6515442211a399ba0221e850f50ca5ad.jpg",
-          "sha256": "3f2bfa008c3074eaade50eaf1cf7ba09cbba053435fe365201672ec473ca696a",
-          "byte_count": 10075,
-          "width": 360,
-          "height": 360
-        }
-      },
-      "product_url": "https://www.mikihouse.co.jp/products/63-5204-796",
-      "variant_price_groups": [
-        {
-          "customer_price_cny": 1117,
-          "colors": [
-            {
-              "color": "黒",
-              "sizes": [
-                "120cm"
-              ]
-            }
-          ]
-        }
-      ],
-      "all_variant_states": [
-        {
-          "stable_id": "63-5204-796::63-5204-79600050900",
-          "sku": "63-5204-79600050900",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051000",
-          "sku": "63-5204-79600051000",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051100",
-          "sku": "63-5204-79600051100",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051200",
-          "sku": "63-5204-79600051200",
-          "available_for_sale": true,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051300",
-          "sku": "63-5204-79600051300",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051400",
-          "sku": "63-5204-79600051400",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        },
-        {
-          "stable_id": "63-5204-796::63-5204-79600051500",
-          "sku": "63-5204-79600051500",
-          "available_for_sale": false,
-          "tax_included_price_jpy": 38500
-        }
-      ],
-      "product_content_sha256": "5a9448762bffb7590712a634d630a64e66e57ea197d5dc26c2fee4fc97b66535"
     },
     {
       "product_number": "63-5205-799",
@@ -248712,6 +248458,15 @@
       }
     },
     {
+      "product_number": "63-5204-796",
+      "name": "長袖Ｔシャツ",
+      "category": "apparel",
+      "excluded_reason": "ALL_VARIANTS_UNAVAILABLE",
+      "evidence": {
+        "available_variant_count": 0
+      }
+    },
+    {
       "product_number": "63-5609-797",
       "name": "トレーナー",
       "category": "apparel",
@@ -249548,5 +249303,5 @@
       "pricing formula"
     ]
   },
-  "manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79"
+  "manifest_sha256": "6aab3dd26052d90a32d5d8101ff87c9d3c20c15fef5fdf5a6364aa658227158f"
 }

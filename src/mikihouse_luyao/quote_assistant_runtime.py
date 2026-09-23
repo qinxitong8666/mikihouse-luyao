@@ -13,6 +13,8 @@ REQUIRED_REPOSITORY_FILES = (
     "config/daily_quote.json",
     "config/wechat_favorite_runtime.json",
     "scripts/generate_daily_quote.py",
+    "scripts/audit_wechat_daily_favorite_titles.py",
+    "scripts/audit_wechat_frozen_pdf_recovery.py",
     "scripts/run_mikihouse_daily_production.py",
 )
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -222,17 +223,83 @@ def test_production_title_collision_blocks_before_note_creation(
     assert created["count"] == 0
 
 
+def test_two_title_audit_is_read_only_and_requires_both_absent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(runtime, "select_target_process", lambda: {
+        "pid": 123,
+        "bundle_id": "com.tencent.xinWeChot2",
+        "app_path": "/Applications/微信2.app",
+        "version": "test",
+    })
+    counts = iter([0, 1])
+    monkeypatch.setattr(
+        runtime,
+        "search_saved_note_candidates",
+        lambda _pid, _bundle, title: {
+            "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
+            "search_candidate_count": next(counts),
+            "search_tree_sha256": "a" * 64,
+            "search_marker_sha256": hashlib.sha256(title.encode()).hexdigest(),
+        },
+    )
+    monkeypatch.setattr(
+        runtime,
+        "create_new_note",
+        lambda *_args: (_ for _ in ()).throw(AssertionError("read-only audit must not create")),
+    )
+    result = runtime.MacWeChatFavoriteSink({}).audit_titles_read_only(
+        ["MIKI HOUSE 9月23日报价｜PDF版", "MIKI HOUSE 9月23日报价｜文字版"]
+    )
+    assert [row["search_candidate_count"] for row in result["results"]] == [0, 1]
+    assert result["all_titles_absent"] is False
+    assert result["wechat_mutation_count"] == 0
+
+
 def test_saved_note_candidate_parser_ignores_search_heading_false_duplicate() -> None:
     marker = "MIKI HOUSE 9月23日报价｜PDF版"
     tree = "\n".join([
-        f'|||“{marker}||||||',
-        f'|||{marker}||||||',
+        f'AXStaticText|||“{marker}”的搜索结果||||||',
+        f'AXList|||{marker}||||||',
         f'AXTextField|||搜索|||Search|||{marker}',
-        f'|||笔记{marker}正文摘要||||||',
+        f'AXTextArea|||搜索||||||{marker}',
+        f'AXStaticText|||笔记{marker}正文摘要||||||',
     ])
     assert runtime._exact_saved_note_candidate_lines(tree, marker) == [
-        f'|||{marker}||||||',
+        f'AXStaticText|||笔记{marker}正文摘要||||||',
     ]
+
+
+def test_saved_note_candidates_count_duplicate_cards_not_selected_list() -> None:
+    marker = "MIKI HOUSE 9月23日报价｜PDF版"
+    card = f"AXStaticText|||笔记{marker}正文||||||"
+    tree = f"AXList|||{marker}||||||\n{card}\n{card}"
+    assert len(runtime._exact_saved_note_candidate_lines(tree, marker)) == 2
+    # A truncated or longer same-prefix title must not authorize a rebuild.
+    assert runtime._exact_saved_note_candidate_lines(card.replace("正文", "副本正文"), marker)
+
+
+@pytest.mark.parametrize("tree", [
+    "|||missing value||||||",
+    "AXWindow|||WeChat||||||\nchildren_error|||denied",
+    "AXList|||title||||||",
+])
+def test_unreadable_favorites_never_prove_absence(tree: str) -> None:
+    with pytest.raises(WeChatRuntimeError):
+        runtime._exact_saved_note_candidate_lines(tree, "title")
+
+
+def test_ax_collection_uses_explicit_system_events_attributes(monkeypatch) -> None:
+    scripts = []
+    def capture(script):
+        scripts.append(script)
+        return {"returncode": 0, "stdout": "AXWindow|||WeChat||||||", "stderr": ""}
+    monkeypatch.setattr(runtime, "_osascript", capture)
+    runtime.collect_window_ax_text(1, WindowIdentity(1, "WeChat", "AXWindow"))
+    handler = scripts[0].split("on describeNode", 1)[1].split("end describeNode", 1)[0]
+    assert 'tell application "System Events"' in handler
+    for attribute in ("AXRole", "AXTitle", "AXDescription", "AXValue"):
+        assert f'value of attribute "{attribute}"' in handler
 
 
 def test_close_and_save_note_waits_for_delayed_window_disappearance(
@@ -255,6 +322,57 @@ def test_close_and_save_note_waits_for_delayed_window_disappearance(
     assert evidence["status"] == "NOTE_CLOSED_AUTO_SAVE_EXPECTED"
     assert evidence["close_poll_attempt_count"] == 3
     assert sleeps == [0.5, 0.5]
+
+
+def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    attachment = tmp_path / "daily.pdf"
+    attachment.write_bytes(b"%PDF-test")
+    note = WindowIdentity(2, "MIKI HOUSE 9月23日报价｜P", "AXWindow")
+    expected = "MIKI HOUSE 9月23日报价｜PDF版\n正文\n"
+    readbacks = iter(
+        [
+            (expected, {"copy_status": "COPY_READ"}),
+            (expected + "[\u6587\u4ef6]\n", {"copy_status": "COPY_READ"}),
+        ]
+    )
+    monkeypatch.setattr(runtime, "read_note_text", lambda *_args, **_kwargs: next(readbacks))
+    monkeypatch.setattr(runtime, "_raise_note", lambda *_args: None)
+    monkeypatch.setattr(runtime, "_clipboard_text", lambda: "original")
+    clipboard_values: list[str] = []
+    monkeypatch.setattr(runtime, "_set_clipboard_text", clipboard_values.append)
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _pid: note)
+    monkeypatch.setattr(runtime, "collect_window_ax_text", lambda *_args: attachment.name)
+    osascript_calls: list[str] = []
+
+    def fake_osascript(script: str) -> dict:
+        osascript_calls.append(script)
+        if "OPEN_PANEL_CONFIRMED" in script:
+            return {
+                "returncode": 0,
+                "stdout": "OPEN_PANEL_CONFIRMED|||0|||0|||800|||600",
+                "stderr": "",
+            }
+        return {
+            "returncode": 0,
+            "stdout": "FILE_PICKER_SELECTION_SENT_ONCE",
+            "stderr": "",
+        }
+
+    monkeypatch.setattr(runtime, "_osascript", fake_osascript)
+    result = runtime.attach_file_with_toolbar_picker(
+        123,
+        "com.tencent.xinWeChot2",
+        note,
+        attachment,
+        expected_text=expected,
+    )
+    assert result["status"] == "ATTACHMENT_VISIBLE"
+    assert result["method"] == "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
+    assert result["automatic_retry_count"] == 0
+    assert len(osascript_calls) == 2
+    assert clipboard_values == [str(attachment.resolve()), "original"]
 
 
 def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() -> None:

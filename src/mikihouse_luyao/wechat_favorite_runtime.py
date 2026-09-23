@@ -288,26 +288,28 @@ def collect_window_ax_text(pid: int, window: WindowIdentity, max_nodes: int = 50
         end cleanText
 
         on describeNode(nodeItem, idx)
-            try
-                set nodeRole to role of nodeItem as text
-            on error
-                set nodeRole to ""
-            end try
-            try
-                set nodeName to name of nodeItem as text
-            on error
-                set nodeName to ""
-            end try
-            try
-                set nodeDescription to description of nodeItem as text
-            on error
-                set nodeDescription to ""
-            end try
-            try
-                set nodeValue to value of nodeItem as text
-            on error
-                set nodeValue to ""
-            end try
+            tell application "System Events"
+                try
+                    set nodeRole to value of attribute "AXRole" of nodeItem as text
+                on error
+                    set nodeRole to ""
+                end try
+                try
+                    set nodeName to value of attribute "AXTitle" of nodeItem as text
+                on error
+                    set nodeName to ""
+                end try
+                try
+                    set nodeDescription to value of attribute "AXDescription" of nodeItem as text
+                on error
+                    set nodeDescription to ""
+                end try
+                try
+                    set nodeValue to value of attribute "AXValue" of nodeItem as text
+                on error
+                    set nodeValue to ""
+                end try
+            end tell
             return nodeRole & "|||" & my cleanText(nodeName) & "|||" & my cleanText(nodeDescription) & "|||" & my cleanText(nodeValue) & linefeed
         end describeNode
 
@@ -369,7 +371,10 @@ def navigate_to_favorites(pid: int, bundle_id: str) -> dict[str, Any]:
     press_menu_item(pid, bundle_id, "窗口", "收藏")
     result = favorites_page_fingerprint(pid)
     if result["status"] != "FAVORITES_PAGE_CONFIRMED":
-        raise WeChatRuntimeError("favorites page strong fingerprint failed")
+        raise WeChatRuntimeError(
+            "无法确认微信收藏页面，已在写入前安全停止；"
+            "请检查微信2是否停留在收藏页。不会自动重试或新建笔记。"
+        )
     return result
 
 
@@ -708,6 +713,134 @@ def attach_file(pid: int, bundle_id: str, note: WindowIdentity, file_path: Path)
         _set_clipboard_text(original)
 
 
+def attach_file_with_toolbar_picker(
+    pid: int,
+    bundle_id: str,
+    note: WindowIdentity,
+    file_path: Path,
+    *,
+    expected_text: str,
+) -> dict[str, Any]:
+    """Attach one file through WeChat's native note-toolbar picker exactly once.
+
+    WeChat 4.1.6 can silently ignore a file-alias paste.  The toolbar picker is
+    therefore the production attachment path.  The coordinate is anchored to
+    a uniquely identified note window and is guarded by exact text readback,
+    minimum window dimensions, a native Open-panel fingerprint, and a trailing
+    ``[\u6587\u4ef6]`` readback before the note may be saved.  No action in this
+    function is retried.
+    """
+
+    resolved = file_path.resolve()
+    if not resolved.is_file() or resolved.stat().st_size <= 0:
+        raise WeChatRuntimeError(f"attachment missing: {resolved}")
+    current, before_readback = read_note_text(pid, bundle_id, note, max_attempts=1)
+    comparison = compare_text_readback(expected_text, current)
+    if not comparison["normalized_hash_match"]:
+        raise WeChatRuntimeError("toolbar picker refused: note text does not match payload")
+    if normalize_wechat_text(current).endswith("[\u6587\u4ef6]"):
+        raise WeChatRuntimeError("toolbar picker refused: note already contains a file placeholder")
+
+    _raise_note(pid, bundle_id, note)
+    opened = _osascript(
+        f'''
+        tell application "System Events"
+            {_process_selector(pid)}
+            tell targetProc
+                if (count of windows) < {note.index} then return "WINDOW_NOT_FOUND"
+                set targetWindow to window {note.index}
+                set windowPosition to position of targetWindow
+                set windowSize to size of targetWindow
+                set windowX to item 1 of windowPosition
+                set windowY to item 2 of windowPosition
+                set windowWidth to item 1 of windowSize
+                set windowHeight to item 2 of windowSize
+                if windowWidth < 500 or windowHeight < 400 then return "NOTE_WINDOW_TOO_SMALL"
+                click at {{windowX + 35, windowY + 96}}
+                delay 1
+                set openButtonCount to 0
+                try
+                    set allItems to entire contents
+                    repeat with uiItem in allItems
+                        try
+                            set itemRole to role of uiItem as text
+                            set itemName to name of uiItem as text
+                            if itemRole is "AXButton" and (itemName is "\u6253\u5f00" or itemName is "Open") then
+                                set openButtonCount to openButtonCount + 1
+                            end if
+                        end try
+                    end repeat
+                end try
+                if openButtonCount < 1 then return "OPEN_PANEL_NOT_CONFIRMED"
+                return "OPEN_PANEL_CONFIRMED|||" & windowX & "|||" & windowY & "|||" & windowWidth & "|||" & windowHeight
+            end tell
+        end tell
+        '''
+    )
+    if opened["returncode"] != 0 or not opened["stdout"].startswith("OPEN_PANEL_CONFIRMED|||"):
+        raise WeChatRuntimeError(
+            f"toolbar file picker did not open with a strong fingerprint: {opened}"
+        )
+
+    original = _clipboard_text()
+    try:
+        _set_clipboard_text(str(resolved))
+        selected = _osascript(
+            f'''
+            tell application "System Events"
+                {_process_selector(pid)}
+                tell targetProc
+                    keystroke "g" using {{command down, shift down}}
+                    delay 0.5
+                    keystroke "a" using command down
+                    keystroke "v" using command down
+                    delay 0.3
+                    key code 36
+                    delay 0.8
+                    key code 36
+                    delay 5
+                    return "FILE_PICKER_SELECTION_SENT_ONCE"
+                end tell
+            end tell
+            '''
+        )
+        if (
+            selected["returncode"] != 0
+            or selected["stdout"] != "FILE_PICKER_SELECTION_SENT_ONCE"
+        ):
+            raise WeChatRuntimeError(f"toolbar file picker selection failed: {selected}")
+    finally:
+        _set_clipboard_text(original)
+
+    current_after, after_readback = read_note_text(
+        pid, bundle_id, require_unique_note_window(pid), max_attempts=1
+    )
+    comparable = remove_attachment_placeholders(current_after, 1)
+    after_comparison = compare_text_readback(expected_text, comparable)
+    if not after_comparison["normalized_hash_match"]:
+        raise WeChatRuntimeError(
+            "toolbar file picker attachment was not visible before save"
+        )
+    return {
+        "status": "ATTACHMENT_VISIBLE",
+        "method": "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+        "path": str(resolved),
+        "filename": resolved.name,
+        "byte_count": resolved.stat().st_size,
+        "sha256": hashlib.sha256(resolved.read_bytes()).hexdigest(),
+        "open_panel_fingerprint": opened["stdout"],
+        "filename_present_in_ax_tree": resolved.name in collect_window_ax_text(
+            pid, require_unique_note_window(pid)
+        ),
+        "placeholder_visible_before_save": True,
+        "before_readback": before_readback,
+        "before_comparison": comparison,
+        "after_readback": after_readback,
+        "after_comparison": after_comparison,
+        "automatic_retry_count": 0,
+    }
+
+
 def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[str, Any]:
     before = get_windows(pid)
     _raise_note(pid, bundle_id, note)
@@ -787,6 +920,7 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
     """
 
     favorites = navigate_to_favorites(pid, bundle_id)
+    main = _main_window(pid)
     original = _clipboard_text()
     try:
         _set_clipboard_text(marker)
@@ -798,6 +932,9 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
                 {_process_selector(pid)}
                 tell targetProc
                     set frontmost to true
+                    if (name of window {main.index} as text) is not "WeChat" and (name of window {main.index} as text) is not "微信" then return "MAIN_WINDOW_CHANGED"
+                    perform action "AXRaise" of window {main.index}
+                    delay 0.2
                     keystroke "f" using command down
                     delay 0.2
                     keystroke "a" using command down
@@ -826,19 +963,32 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
 
 
 def _exact_saved_note_candidate_lines(tree: str, marker: str) -> list[str]:
-    """Return only exact saved-note title nodes from a Favorites search tree.
+    """Inventory result cards, never the query input or selected-list label.
 
-    WeChat exposes the search-results heading as a separate AX node whose text
-    starts with a typographic quote followed by the query.  Substring matching
-    therefore reports a false duplicate for every exact search.  A saved note
-    title is counted only when one AX field equals the marker exactly.
+    WeChat 4.1.6 exposes a card as ``笔记<title><body preview>`` without a
+    separator. Prefix matches are therefore conservative *candidates*, not
+    binding proof. Full note readback must still match the payload. A longer
+    title sharing the prefix blocks absence/rebuild rather than risking a
+    duplicate. Each card counts, even when several cards have the same title.
     """
-
     candidates: list[str] = []
+    title_observed = False
     for line in tree.splitlines():
         fields = line.split("|||", 3)
-        if len(fields) == 4 and fields[0] != "AXTextField" and marker in fields[1:]:
+        if len(fields) != 4:
+            continue
+        if fields[0] == "AXList" and marker in fields[1:]:
+            title_observed = True
+        if fields[0] == "AXStaticText" and any(
+            value.startswith("笔记" + marker) for value in fields[1:]
+        ):
             candidates.append(line)
+    if title_observed and not candidates:
+        raise WeChatRuntimeError("收藏结果存在，但无法读取笔记卡片；已停止，不能判定标题不存在")
+    if "children_error|||" in tree or not any(
+        line.startswith("AX") for line in tree.splitlines()
+    ):
+        raise WeChatRuntimeError("收藏辅助功能结构读取不完整；已停止，不能判定标题不存在")
     return candidates
 
 
@@ -925,6 +1075,44 @@ class MacWeChatFavoriteSink:
     def __init__(self, runtime_config: dict[str, Any]) -> None:
         self.runtime_config = dict(runtime_config)
 
+    def audit_titles_read_only(self, titles: list[str]) -> dict[str, Any]:
+        """Inspect exact Favorite titles without opening, editing, or deleting notes."""
+
+        if len(titles) != 2 or len(set(titles)) != 2:
+            raise WeChatRuntimeError("daily title audit requires exactly two distinct titles")
+        process = select_target_process()
+        pid = int(process["pid"])
+        bundle_id = str(process["bundle_id"])
+        results: list[dict[str, Any]] = []
+        for title in titles:
+            evidence = search_saved_note_candidates(pid, bundle_id, title)
+            results.append(
+                {
+                    "title_sha256": hashlib.sha256(title.encode("utf-8")).hexdigest(),
+                    "search_candidate_count": int(
+                        evidence.get("search_candidate_count") or 0
+                    ),
+                    "search_tree_sha256": evidence.get("search_tree_sha256"),
+                    "search_marker_sha256": evidence.get("search_marker_sha256"),
+                    "status": evidence.get("status"),
+                }
+            )
+        return {
+            "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+            "target_process": {
+                "bundle_id": process["bundle_id"],
+                "app_path": process["app_path"],
+                "version": process["version"],
+            },
+            "results": results,
+            "all_titles_absent": all(
+                row["search_candidate_count"] == 0 for row in results
+            ),
+            "wechat_mutation_count": 0,
+            "chat_send_count": 0,
+            "shijiu_request_count": 0,
+        }
+
     def save(
         self,
         payload: dict[str, Any],
@@ -980,7 +1168,28 @@ class MacWeChatFavoriteSink:
         )
         attachment_evidence = []
         for value in payload.get("attachments") or []:
-            evidence = attach_file(pid, bundle_id, note, Path(value))
+            if production:
+                attachment_contract = self.runtime_config.get(
+                    "production_pdf_attachment"
+                ) or {}
+                if (
+                    attachment_contract.get("strategy")
+                    != "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
+                    or attachment_contract.get("single_attempt_only") is not True
+                    or attachment_contract.get("automatic_retry_enabled") is not False
+                ):
+                    raise WeChatRuntimeError(
+                        "production PDF toolbar-picker contract is missing"
+                    )
+                evidence = attach_file_with_toolbar_picker(
+                    pid,
+                    bundle_id,
+                    note,
+                    Path(value),
+                    expected_text=expected_text,
+                )
+            else:
+                evidence = attach_file(pid, bundle_id, note, Path(value))
             if evidence["status"] != "ATTACHMENT_VISIBLE":
                 raise WeChatRuntimeError("attachment was not visible before save")
             attachment_evidence.append(evidence)
@@ -1030,6 +1239,128 @@ class MacWeChatFavoriteSink:
             "reopened_page_fingerprint_sha256": hashlib.sha256(
                 reopened_tree.encode("utf-8")
             ).hexdigest(),
+        }
+
+    def recover_existing_pdf_attachment(
+        self,
+        payload: dict[str, Any],
+        *,
+        production: bool,
+        confirmation: str | None,
+        authorized_manifest_sha256: str,
+    ) -> dict[str, Any]:
+        """Repair the one task-owned, text-only PDF note without recreating it.
+
+        This is intentionally narrower than ``save``: one exact title must
+        already exist, the text must match the frozen payload, no attachment
+        may already be present, and the toolbar picker is invoked once.
+        """
+
+        gate = validate_runtime_write_gate(
+            payload,
+            self.runtime_config,
+            production=production,
+            confirmation=confirmation,
+            authorized_manifest_sha256=authorized_manifest_sha256,
+        )
+        attachments = list(payload.get("attachments") or [])
+        if len(attachments) != 1:
+            raise WeChatRuntimeError("PDF recovery requires exactly one attachment")
+        process = select_target_process()
+        pid = int(process["pid"])
+        bundle_id = str(process["bundle_id"])
+        title = str(payload.get("title") or "")
+        expected_text = f"{title}\n{payload.get('body') or ''}".rstrip() + "\n"
+        search = search_saved_note_candidates(pid, bundle_id, title)
+        if int(search.get("search_candidate_count") or 0) != 1:
+            raise WeChatRuntimeError(
+                "PDF recovery requires exactly one saved exact-title candidate"
+            )
+
+        open_notes = [
+            row
+            for row in _note_windows(pid)
+            if row.title and (title.startswith(row.title) or row.title.startswith(title))
+        ]
+        if len(open_notes) == 1:
+            note = open_notes[0]
+            open_evidence = {
+                "status": "REUSED_UNIQUE_OPEN_TASK_NOTE",
+                "search_marker_sha256": search["search_marker_sha256"],
+                "search_candidate_count": 1,
+                "window": asdict(note),
+            }
+        elif len(open_notes) == 0:
+            note, open_evidence = search_and_open_saved_note(
+                pid, bundle_id, title
+            )
+        else:
+            raise WeChatRuntimeError("PDF recovery found multiple matching open note windows")
+
+        before_text, before_readback = read_note_text(
+            pid, bundle_id, note, max_attempts=1
+        )
+        before_comparison = compare_text_readback(expected_text, before_text)
+        if not before_comparison["normalized_hash_match"]:
+            raise WeChatRuntimeError("PDF recovery note text does not match payload")
+        if normalize_wechat_text(before_text).endswith("[\u6587\u4ef6]"):
+            raise WeChatRuntimeError("PDF recovery refused because an attachment already exists")
+
+        attachment_path = Path(str(attachments[0])).resolve()
+        attachment = attach_file_with_toolbar_picker(
+            pid,
+            bundle_id,
+            note,
+            attachment_path,
+            expected_text=expected_text,
+        )
+        closed = close_and_save_note(
+            pid, bundle_id, require_unique_note_window(pid)
+        )
+        reopened, reopen = search_and_open_saved_note(pid, bundle_id, title)
+        actual_text, readback = read_note_text(
+            pid, bundle_id, reopened, max_attempts=1
+        )
+        comparable = remove_attachment_placeholders(actual_text, 1)
+        comparison = compare_text_readback(expected_text, comparable)
+        reopened_tree = collect_window_ax_text(pid, reopened)
+        filename_visible = attachment_path.name in reopened_tree
+        if not comparison["normalized_hash_match"] or not filename_visible:
+            raise WeChatRuntimeError(
+                "PDF recovery reopened readback did not prove text and attachment"
+            )
+        verification_close = close_and_save_note(pid, bundle_id, reopened)
+        return {
+            "status": "PASS",
+            "recovery_mode": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+            "gate": gate,
+            "target_process": {
+                "bundle_id": process["bundle_id"],
+                "app_path": process["app_path"],
+                "version": process["version"],
+            },
+            "saved_note_search": search,
+            "open_note": open_evidence,
+            "text_before": before_readback,
+            "text_before_comparison": before_comparison,
+            "attachment": {
+                "filename": attachment_path.name,
+                "byte_count": attachment_path.stat().st_size,
+                "sha256": hashlib.sha256(attachment_path.read_bytes()).hexdigest(),
+                "selected_path": str(attachment_path),
+                "visible_before_save": attachment["placeholder_visible_before_save"],
+                "visible_after_reopen": filename_visible,
+                "clipboard_placeholder_after_reopen": "[\u6587\u4ef6]",
+                "method": attachment["method"],
+            },
+            "close": closed,
+            "reopen": reopen,
+            "readback": readback,
+            "text_readback": comparison,
+            "verification_close": verification_close,
+            "automatic_retry_count": 0,
+            "chat_send_count": 0,
+            "shijiu_request_count": 0,
         }
 
     def resume_test_note(

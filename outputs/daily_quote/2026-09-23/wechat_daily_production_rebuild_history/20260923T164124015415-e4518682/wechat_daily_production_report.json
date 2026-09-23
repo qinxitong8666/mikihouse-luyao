@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "production_readiness": "DAILY_EXACTLY_TWO_FAVORITES_SAVED_REOPENED_AND_PDF_VISUAL_QA_VERIFIED",
+  "quote_date": "2026-09-23",
+  "manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79",
+  "bundle_sha256": "7623965f08390c3660deb2d392a745ee7666d568b2b8348f2bd4d384f9ab1272",
+  "favorite_create_count": 2,
+  "favorite_order": [
+    "pdf",
+    "text"
+  ],
+  "evidence_files": {
+    "pdf": "wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
+    "text": "wechat_text_favorite_production_validation.json",
+    "pdf_visual_qa": "PDF压缩检索验收报告.json"
+  },
+  "pdf_attachment_recovery": "TOOLBAR_FILE_PICKER_PASS",
+  "text_close_latency_reconciliation": "READ_ONLY_STRONG_MATCH_PASS_NO_MUTATION_REPLAY",
+  "automatic_mutation_retry_count": 0,
+  "existing_favorite_mutation_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "completed_at": "2026-09-23T10:30:30.936124+09:00",
+  "pdf_visual_qa": {
+    "status": "PASS",
+    "render_dpi": 200,
+    "rendered_page_count": 162,
+    "pdf_file_size_bytes": 23293065,
+    "pdf_sha256": "0ecec3c378c1abf0e1245c81c47df047b05c45ad5e1537c4c952d6bf651bb1ab",
+    "report": "PDF压缩检索验收报告.json"
+  },
+  "pdf_attachment_recovery_contract": {
+    "status": "PASS",
+    "strategy": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+    "attachment_filename": "MIKIHOUSE_2026-09-23_报价全集.pdf",
+    "attachment_byte_count": 23293065,
+    "attachment_sha256": "0ecec3c378c1abf0e1245c81c47df047b05c45ad5e1537c4c952d6bf651bb1ab",
+    "title_sha256": "e366c75494cdf8cdf6a7ced51025538433bdd66023b5fb35cea50da3fbc66668",
+    "saved_note_candidate_count": 1,
+    "automatic_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "text_readback": {
+    "status": "PASS",
+    "normalized_sha256": "15d36430663ac1eaaf3d1b07ab4c6e757171af5bbc96b28ffda77213126cb2d8",
+    "truncated": false,
+    "mutation_replayed": false
+  },
+  "additional_wechat_mutation_count_during_finalization": 0,
+  "evidence_finalized_at": "2026-09-23T11:01:23.449783+09:00",
+  "final_state": {
+    "status": "PASS",
+    "exactly_two_favorites": true,
+    "favorite_create_count": 2,
+    "pdf_visual_qa_verified": true,
+    "pdf_attachment_verified": true,
+    "text_full_hash_verified": true,
+    "additional_wechat_mutation_count_during_finalization": 0,
+    "automatic_mutation_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "finalized_at": "2026-09-23T11:01:23.449783+09:00"
+  }
+}

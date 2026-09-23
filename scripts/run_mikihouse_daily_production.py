@@ -4,23 +4,29 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from mikihouse_luyao.daily_quote import DailyQuoteError
 from mikihouse_luyao.daily_quote_fx import FxError
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, run_daily_quote
 from mikihouse_luyao.quote_assistant_app import format_progress_event
 from mikihouse_luyao.quote_assistant_authorization import (
+    OPERATION_CREATE_DAILY,
+    OPERATION_RECOVER_FROZEN_PDF,
+    OPERATION_REBUILD_MISSING_DAILY,
     QuoteAssistantAuthorizationError,
     validate_and_consume_one_time_authorization,
 )
 from mikihouse_luyao.scraper import ScrapeError
 from mikihouse_luyao.wechat_daily_production import (
     WeChatDailyProductionError,
+    recover_frozen_pdf_and_complete_daily_favorites,
     save_daily_production_favorites,
 )
-from mikihouse_luyao.wechat_favorite_runtime import PRODUCTION_CONFIRMATION
+from mikihouse_luyao.wechat_favorite_runtime import PRODUCTION_CONFIRMATION, WeChatRuntimeError
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -72,6 +78,16 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="private, short-lived permit created by MIKI HOUSE 报价助手.app",
     )
+    parser.add_argument(
+        "--rebuild-missing-daily-favorites",
+        action="store_true",
+        help="rebuild only after a completed checkpoint and a fresh read-only proof that both titles are absent",
+    )
+    parser.add_argument(
+        "--recover-frozen-pdf",
+        action="store_true",
+        help="recover the one frozen text-only PDF note through the toolbar picker, then create the untouched text note",
+    )
     return parser
 
 
@@ -88,6 +104,24 @@ def main(argv: list[str] | None = None) -> int:
     runtime_config = _read_json(args.runtime_config)
     production_authorization: dict[str, Any] | None = None
     emit("PRODUCTION_GATE", 1, "正在检查微信正式保存门禁")
+    if args.rebuild_missing_daily_favorites and args.recover_frozen_pdf:
+        print(json.dumps({
+            "status": "FAILED_CLOSED",
+            "phase": "PRE_GENERATION_WRITE_GATE",
+            "error": "安全重建与PDF冻结恢复不能同时执行。",
+            "website_crawl_started": False,
+            "wechat_mutation_count": 0,
+        }, ensure_ascii=False, indent=2))
+        return 2
+    if (args.rebuild_missing_daily_favorites or args.recover_frozen_pdf) and not args.production_save:
+        print(json.dumps({
+            "status": "FAILED_CLOSED",
+            "phase": "PRE_GENERATION_WRITE_GATE",
+            "error": "安全重建必须使用 App 正式生产模式。",
+            "website_crawl_started": False,
+            "wechat_mutation_count": 0,
+        }, ensure_ascii=False, indent=2))
+        return 2
     if args.production_save:
         if args.confirm != PRODUCTION_CONFIRMATION:
             print(json.dumps({
@@ -100,10 +134,20 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         if args.app_authorization_file is not None:
             try:
+                expected_operation = (
+                    OPERATION_RECOVER_FROZEN_PDF
+                    if args.recover_frozen_pdf
+                    else (
+                        OPERATION_REBUILD_MISSING_DAILY
+                        if args.rebuild_missing_daily_favorites
+                        else OPERATION_CREATE_DAILY
+                    )
+                )
                 production_authorization = validate_and_consume_one_time_authorization(
                     args.app_authorization_file,
                     ROOT,
                     confirmation=args.confirm,
+                    expected_operation=expected_operation,
                 )
             except (QuoteAssistantAuthorizationError, OSError, ValueError) as exc:
                 print(json.dumps({
@@ -120,6 +164,15 @@ def main(argv: list[str] | None = None) -> int:
                 "production_authorization_mode": "APP_ONE_TIME",
             }
         elif runtime_config.get("production_save_enabled") is True:
+            if args.rebuild_missing_daily_favorites or args.recover_frozen_pdf:
+                print(json.dumps({
+                    "status": "FAILED_CLOSED",
+                    "phase": "PRE_GENERATION_WRITE_GATE",
+                    "error": "安全重建只允许从报价助手 App 发起并消费专用单次授权。",
+                    "website_crawl_started": False,
+                    "wechat_mutation_count": 0,
+                }, ensure_ascii=False, indent=2))
+                return 2
             production_authorization = {
                 "status": "ACCEPTED",
                 "authorization_mode": "TRACKED_CONFIG_AND_EXACT_CONFIRMATION",
@@ -135,6 +188,31 @@ def main(argv: list[str] | None = None) -> int:
             }, ensure_ascii=False, indent=2))
             return 2
     try:
+        if args.recover_frozen_pdf:
+            quote_date = args.quote_date or datetime.now(
+                ZoneInfo("Asia/Tokyo")
+            ).date().isoformat()
+            daily_dir = args.output_root / quote_date
+            emit("PDF_RECOVERY_PREFLIGHT", 10, "正在核对冻结checkpoint与精确收藏标题")
+            recovered = recover_frozen_pdf_and_complete_daily_favorites(
+                daily_dir,
+                runtime_config,
+                repository_root=ROOT,
+                confirmation=args.confirm,
+            )
+            emit("COMPLETE", 100, "PDF附件已恢复，文字收藏已保存并通过强回读")
+            print(json.dumps({
+                "status": "SUCCESS",
+                "production_authorization": production_authorization,
+                "daily_quote": {
+                    "status": "REUSED_FROZEN_DAILY_BUNDLE",
+                    "output_dir": str(daily_dir.resolve()),
+                    "website_crawl_started": False,
+                },
+                "wechat_two_favorites": recovered,
+            }, ensure_ascii=False, indent=2))
+            return 0
+
         def quote_progress(
             stage: str,
             percent: int,
@@ -170,6 +248,7 @@ def main(argv: list[str] | None = None) -> int:
             runtime_config,
             repository_root=ROOT,
             confirmation=args.confirm,
+            rebuild_missing_daily=args.rebuild_missing_daily_favorites,
         )
         emit("COMPLETE", 100, "两条微信收藏已保存并通过强回读")
     except (
@@ -178,6 +257,7 @@ def main(argv: list[str] | None = None) -> int:
         FxError,
         ScrapeError,
         WeChatDailyProductionError,
+        WeChatRuntimeError,
         OSError,
         ValueError,
     ) as exc:

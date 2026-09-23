@@ -4,6 +4,9 @@ import Foundation
 private let progressPrefix = "MIKIHOUSE_PROGRESS "
 private let productionConfirmation = "CONFIRM_MIKIHOUSE_WECHAT_FAVORITE_PRODUCTION_SAVE"
 private let appBundleIdentifier = "cn.luyao.mikihouse.quoteassistant"
+private let createDailyOperation = "CREATE_DAILY_TWO_FAVORITES"
+private let rebuildMissingDailyOperation = "REBUILD_MISSING_DAILY_TWO_FAVORITES"
+private let recoverFrozenPDFOperation = "RECOVER_FROZEN_PDF_AND_CREATE_PENDING_TEXT"
 
 private final class AppDelegate: NSObject, NSApplicationDelegate {
     private var window: NSWindow!
@@ -17,6 +20,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
     private var logView = NSTextView()
     private var generateButton: NSButton!
     private var productionButton: NSButton!
+    private var rebuildButton: NSButton!
+    private var recoveryButton: NSButton!
     private var openPDFButton: NSButton!
     private var openFolderButton: NSButton!
     private var relocateButton: NSButton!
@@ -153,6 +158,24 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         return (process.terminationStatus, object, errorText.isEmpty ? outputText : errorText)
     }
 
+    private func pythonEnvironment() -> [String: String] {
+        var environment = ProcessInfo.processInfo.environment
+        // A Python framework executable launched by a native .app can inherit
+        // the parent's LaunchServices/XPC identity.  On some macOS versions
+        // that makes Python initialise as another GUI app and hang before it
+        // can import even the standard-library codecs module.  These values
+        // describe the parent process, not the quote task, and must not cross
+        // the subprocess boundary.
+        for key in ["__CFBundleIdentifier", "XPC_SERVICE_NAME", "XPC_FLAGS", "__PYVENV_LAUNCHER__"] {
+            environment.removeValue(forKey: key)
+        }
+        environment["PWD"] = repositoryRoot.path
+        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        environment["PYTHONPYCACHEPREFIX"] = FileManager.default.temporaryDirectory
+            .appendingPathComponent("mikihouse-quote-assistant-pyc", isDirectory: true).path
+        return environment
+    }
+
     private func performEnvironmentCheck() {
         runtimeErrors = []
         environmentReady = false
@@ -166,8 +189,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             runtimeErrors.append("找不到项目运行环境 .venv/bin/python，请按 README 完成一次安装。")
             return
         }
-        var environment = ProcessInfo.processInfo.environment
-        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        let environment = pythonEnvironment()
         let script = repositoryRoot.appendingPathComponent("scripts/check_quote_assistant_runtime.py")
         let result = runJSONCommand(
             executable: python,
@@ -247,10 +269,12 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         actions.spacing = 10
         generateButton = button("生成今日报价", action: #selector(generateToday), emphasized: true)
         productionButton = button("生成并保存两个微信收藏", action: #selector(generateAndSave), emphasized: true)
+        rebuildButton = button("安全重建已删除收藏", action: #selector(rebuildMissingFavorites), emphasized: false)
         openPDFButton = button("打开 PDF", action: #selector(openPDF), emphasized: false)
         openFolderButton = button("打开输出目录", action: #selector(openOutputFolder), emphasized: false)
         actions.addArrangedSubview(generateButton)
         actions.addArrangedSubview(productionButton)
+        actions.addArrangedSubview(rebuildButton)
         actions.addArrangedSubview(NSView())
         actions.addArrangedSubview(openFolderButton)
         actions.addArrangedSubview(openPDFButton)
@@ -275,6 +299,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         previewActions.spacing = 8
         previewActions.addArrangedSubview(button("预览 PDF 收藏", action: #selector(previewPDF), emphasized: false))
         previewActions.addArrangedSubview(button("预览文字收藏", action: #selector(previewText), emphasized: false))
+        recoveryButton = button("恢复冻结PDF附件", action: #selector(recoverFrozenPDFAttachment), emphasized: false)
+        previewActions.addArrangedSubview(recoveryButton)
         previewActions.addArrangedSubview(button("刷新状态", action: #selector(refreshAction), emphasized: false))
         relocateButton = button("选择仓库…", action: #selector(chooseRepository), emphasized: false)
         previewActions.addArrangedSubview(relocateButton)
@@ -371,7 +397,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             showEnvironmentError()
             return
         }
-        startCore(production: false, confirmation: nil, authorizationFile: nil)
+        startCore(production: false, rebuildMissing: false, recoverFrozenPDF: false, confirmation: nil, authorizationFile: nil)
     }
 
     @objc private func generateAndSave() {
@@ -396,19 +422,121 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         statusLabel.stringValue = "正在签发一次性本地授权……"
-        guard let authorizationFile = issueOneTimeAuthorization() else { return }
+        guard let authorizationFile = issueOneTimeAuthorization(operation: createDailyOperation) else { return }
         startCore(
             production: true,
+            rebuildMissing: false,
+            recoverFrozenPDF: false,
             confirmation: productionConfirmation,
             authorizationFile: authorizationFile
         )
     }
 
-    private func issueOneTimeAuthorization() -> String? {
+    @objc private func rebuildMissingFavorites() {
+        performEnvironmentCheck()
+        refreshDashboard()
+        guard environmentReady && wechatInstalled else {
+            showEnvironmentError()
+            return
+        }
+        statusLabel.stringValue = "正在只读检查当天两条收藏标题……"
+        appendLog("开始只读检查 PDF版和文字版标题；本步不修改 checkpoint，不创建收藏。")
+        let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
+        let script = repositoryRoot.appendingPathComponent("scripts/audit_wechat_daily_favorite_titles.py")
+        let environment = pythonEnvironment()
+        let audit = runJSONCommand(
+            executable: python,
+            arguments: [script.path],
+            environment: environment
+        )
+        guard audit.0 == 0,
+              audit.1?["status"] as? String == "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION",
+              audit.1?["all_titles_absent"] as? Bool == true else {
+            let status = audit.1?["status"] as? String ?? "FAILED_CLOSED"
+            let error = audit.1?["error"] as? String ?? "PDF版或文字版收藏仍然存在，或只读检查无法得出唯一结论。"
+            statusLabel.stringValue = "安全重建已阻止；零微信写入"
+            appendLog("只读标题检查结果：\(status)；checkpoint 未重置。")
+            appendLog("阻止原因：\(error)")
+            showAlert(title: "不能安全重建", message: error + "\n\n只有两个精确标题都不存在时才允许重建。")
+            return
+        }
+        appendLog("只读检查通过：当天 PDF版和文字版精确标题均为 0 个候选。")
+        let alert = NSAlert()
+        alert.messageText = "单次授权：重建已人工删除的当天收藏"
+        alert.informativeText = "只读检查已确认当天 PDF版和文字版标题均不存在。本次将重新生成今日报价，完整归档旧 checkpoint，然后依次创建恰好两条收藏。\n\n写入前会再做一次双标题只读检查；任一收藏已存在即停止。"
+        alert.addButton(withTitle: "单次授权并安全重建")
+        alert.addButton(withTitle: "取消")
+        let confirmationCheck = NSButton(checkboxWithTitle: "我确认当天两条收藏均已人工删除，本次重建恰好两条", target: nil, action: nil)
+        confirmationCheck.frame = NSRect(x: 0, y: 0, width: 560, height: 28)
+        alert.accessoryView = confirmationCheck
+        guard alert.runModal() == .alertFirstButtonReturn,
+              confirmationCheck.state == .on else {
+            statusLabel.stringValue = "未完成重建授权；checkpoint 未修改"
+            appendLog("用户未确认安全重建；流程未启动。")
+            return
+        }
+        guard let authorizationFile = issueOneTimeAuthorization(operation: rebuildMissingDailyOperation) else { return }
+        startCore(
+            production: true,
+            rebuildMissing: true,
+            recoverFrozenPDF: false,
+            confirmation: productionConfirmation,
+            authorizationFile: authorizationFile
+        )
+    }
+
+    @objc private func recoverFrozenPDFAttachment() {
+        performEnvironmentCheck()
+        refreshDashboard()
+        guard environmentReady && wechatInstalled else {
+            showEnvironmentError()
+            return
+        }
+        statusLabel.stringValue = "正在只读核对冻结草稿与收藏标题……"
+        appendLog("开始只读核对：PDF版必须恰好1个、文字版必须为0个，checkpoint必须是首次附件不可见冻结状态。")
+        let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
+        let script = repositoryRoot.appendingPathComponent("scripts/audit_wechat_frozen_pdf_recovery.py")
+        let audit = runJSONCommand(
+            executable: python,
+            arguments: [script.path],
+            environment: pythonEnvironment()
+        )
+        guard audit.0 == 0,
+              audit.1?["status"] as? String == "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION" else {
+            let error = audit.1?["error"] as? String ?? "未能证明当前只有一条本任务PDF收藏且文字收藏不存在。"
+            statusLabel.stringValue = "PDF附件恢复已阻止；零新增写入"
+            appendLog("恢复前只读核对失败：\(error)")
+            showAlert(title: "不能安全恢复", message: error)
+            return
+        }
+        appendLog("只读核对通过：将仅修复现有PDF收藏的附件，不创建第二条PDF收藏。")
+        let alert = NSAlert()
+        alert.messageText = "单次授权：恢复冻结PDF附件并完成文字收藏"
+        alert.informativeText = "当前已证明PDF标题恰好1个、文字标题0个。本次只会在该任务已有PDF收藏中，通过工具栏「文件」按钮选择同一PDF一次；强回读通过后再创建待处理的文字收藏。任何不确定都立即冻结，不自动重试。"
+        alert.addButton(withTitle: "单次授权并恢复")
+        alert.addButton(withTitle: "取消")
+        let check = NSButton(checkboxWithTitle: "我确认修复现有1条PDF收藏并创建待处理的1条文字收藏", target: nil, action: nil)
+        check.frame = NSRect(x: 0, y: 0, width: 620, height: 28)
+        alert.accessoryView = check
+        guard alert.runModal() == .alertFirstButtonReturn, check.state == .on else {
+            statusLabel.stringValue = "未完成PDF恢复授权；未修改微信"
+            appendLog("用户未确认PDF附件恢复；流程未启动。")
+            return
+        }
+        guard let authorizationFile = issueOneTimeAuthorization(operation: recoverFrozenPDFOperation) else { return }
+        startCore(
+            production: true,
+            rebuildMissing: false,
+            recoverFrozenPDF: true,
+            confirmation: productionConfirmation,
+            authorizationFile: authorizationFile
+        )
+    }
+
+    private func issueOneTimeAuthorization(operation: String) -> String? {
         let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
         let script = repositoryRoot.appendingPathComponent("scripts/create_quote_assistant_one_time_authorization.py")
-        var environment = ProcessInfo.processInfo.environment
-        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        var environment = pythonEnvironment()
         environment["MIKIHOUSE_QUOTE_ASSISTANT_APP"] = appBundleIdentifier
         let result = runJSONCommand(
             executable: python,
@@ -416,6 +544,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
                 script.path,
                 "--repository-root", repositoryRoot.path,
                 "--confirm", productionConfirmation,
+                "--operation", operation,
             ],
             environment: environment
         )
@@ -511,6 +640,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
     private func updateButtonStates() {
         generateButton.isEnabled = environmentReady && !running
         productionButton.isEnabled = environmentReady && wechatInstalled && !running
+        rebuildButton.isEnabled = environmentReady && wechatInstalled && !running
+        recoveryButton.isEnabled = environmentReady && wechatInstalled && !running
         relocateButton.isEnabled = !running
         openPDFButton.isEnabled = latestPDF != nil && !running
         openFolderButton.isEnabled = FileManager.default.fileExists(
@@ -531,7 +662,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         showAlert(title: "运行环境检查未通过", message: message)
     }
 
-    private func startCore(production: Bool, confirmation: String?, authorizationFile: String?) {
+    private func startCore(production: Bool, rebuildMissing: Bool, recoverFrozenPDF: Bool, confirmation: String?, authorizationFile: String?) {
         guard !running else { return }
         let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
         guard FileManager.default.isExecutableFile(atPath: python.path) else {
@@ -549,6 +680,12 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         var arguments = [script.path]
         if production {
             arguments += ["--production-save", "--confirm", confirmation ?? ""]
+            if rebuildMissing {
+                arguments.append("--rebuild-missing-daily-favorites")
+            }
+            if recoverFrozenPDF {
+                arguments.append("--recover-frozen-pdf")
+            }
             if let authorizationFile {
                 arguments += ["--app-authorization-file", authorizationFile]
             }
@@ -559,8 +696,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         process.executableURL = python
         process.arguments = arguments
         process.currentDirectoryURL = repositoryRoot
-        var environment = ProcessInfo.processInfo.environment
-        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        let environment = pythonEnvironment()
         process.environment = environment
         let pipe = Pipe()
         process.standardOutput = pipe
@@ -702,6 +838,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             "buttons": [
                 "generate_today": generateButton.title,
                 "generate_and_save_two_favorites": productionButton.title,
+                "safe_rebuild_missing_favorites": rebuildButton.title,
+                "recover_frozen_pdf_attachment": recoveryButton.title,
                 "open_pdf": openPDFButton.title,
                 "open_output_directory": openFolderButton.title,
                 "choose_repository": relocateButton.title,

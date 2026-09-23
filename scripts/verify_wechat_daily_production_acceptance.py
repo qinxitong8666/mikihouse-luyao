@@ -105,6 +105,8 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("FAIL: cannot resolve git HEAD")
     tracked_paths = [
         ROOT / "scripts" / "run_mikihouse_daily_production.py",
+        ROOT / "scripts" / "audit_wechat_daily_favorite_titles.py",
+        ROOT / "scripts" / "audit_wechat_frozen_pdf_recovery.py",
         ROOT / "scripts" / "生成并保存MIKIHOUSE每日两个微信收藏.command",
         ROOT / "src" / "mikihouse_luyao" / "wechat_daily_production.py",
         ROOT / "src" / "mikihouse_luyao" / "wechat_favorite_runtime.py",
@@ -151,6 +153,11 @@ def main(argv: list[str] | None = None) -> int:
             "mutation_uncertainty_freezes_without_retry": "PASS_FAKE_SINK",
             "production_gate_disabled_before_crawl": "PASS_REAL_CLI_ZERO_WRITE",
             "app_one_time_permit_private_head_bound_expiring_single_use": "PASS_OFFLINE",
+            "safe_rebuild_requires_two_absent_titles_and_dedicated_permit": "PASS_FAKE_SINK",
+            "safe_rebuild_any_existing_title_blocks_before_checkpoint_reset": "PASS_FAKE_SINK",
+            "frozen_pdf_recovery_requires_exact_one_pdf_zero_text": "PASS_FAKE_SINK",
+            "frozen_pdf_recovery_reuses_existing_note_and_creates_only_pending_text": "PASS_FAKE_SINK",
+            "production_pdf_attachment_uses_single_attempt_toolbar_picker": "PASS_OFFLINE_CONTRACT",
         },
         "targeted_pytest": {
             "status": "PASS",

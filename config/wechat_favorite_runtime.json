@@ -17,6 +17,14 @@
   "production_save_enabled": false,
   "chat_send_enabled": false,
   "automatic_test_note_delete_enabled": false,
+  "production_pdf_attachment": {
+    "strategy": "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+    "single_attempt_only": true,
+    "automatic_retry_enabled": false,
+    "exact_attachment_path_required": true,
+    "pre_save_attachment_visibility_required": true,
+    "post_save_unique_title_and_attachment_readback_required": true
+  },
   "pdf_attachment_recovery": {
     "strategy": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
     "requires_explicit_operator_authorization": true,

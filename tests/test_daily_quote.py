@@ -37,7 +37,11 @@ from mikihouse_luyao.daily_quote_pdf import (
     generate_daily_quote_pdf,
     validate_daily_quote_pdf,
 )
-from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, _validate_crawl
+from mikihouse_luyao.daily_quote_runner import (
+    DailyQuoteRunError,
+    _frozen_fx_progress_details,
+    _validate_crawl,
+)
 from mikihouse_luyao.daily_quote_text import (
     build_favorite_payloads,
     render_compact_text_quote,
@@ -105,6 +109,15 @@ def frozen_fx(rate: str = "0.048") -> FrozenFxRate:
         raw_response_sha256="a" * 64,
         source_url="https://example.test/fx",
     )
+
+
+def test_frozen_fx_progress_uses_dataclass_attributes() -> None:
+    fx = frozen_fx("0.04262807")
+    assert _frozen_fx_progress_details(fx) == {
+        "rate": "0.04262807",
+        "rate_date": "2026-09-18",
+        "provider": "TEST",
+    }
 
 
 def test_decimal_price_uses_ceiling_without_float() -> None:

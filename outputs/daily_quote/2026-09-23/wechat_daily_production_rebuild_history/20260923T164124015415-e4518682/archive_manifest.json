@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "PREVIOUS_PASS_ARCHIVED_BEFORE_SAFE_REBUILD",
+  "rebuild_id": "20260923T164124015415-e4518682",
+  "archived_at": "2026-09-23T16:41:24.018695+09:00",
+  "quote_date": "2026-09-23",
+  "prior_manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79",
+  "prior_bundle_sha256": "7623965f08390c3660deb2d392a745ee7666d568b2b8348f2bd4d384f9ab1272",
+  "prior_report_sha256": "fe266f424ff261759f0f5493b6ce63071132b65d681c412071986a235e00165c",
+  "absence_audit": {
+    "schema_version": 1,
+    "status": "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION",
+    "quote_date": "2026-09-23",
+    "prior_manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79",
+    "prior_bundle_sha256": "7623965f08390c3660deb2d392a745ee7666d568b2b8348f2bd4d384f9ab1272",
+    "prior_report_completed_at": "2026-09-23T10:30:30.936124+09:00",
+    "title_results": [
+      {
+        "title_sha256": "e366c75494cdf8cdf6a7ced51025538433bdd66023b5fb35cea50da3fbc66668",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "371f5a10e6e5fb45f26f27dcad69bdf7b76e1d58916715baca60f95850d36949",
+        "search_marker_sha256": "e366c75494cdf8cdf6a7ced51025538433bdd66023b5fb35cea50da3fbc66668",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "4df60db6a04a5d6ad358167c0ff306a62a3a3f013480e19d8baa47094f994ade",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "371f5a10e6e5fb45f26f27dcad69bdf7b76e1d58916715baca60f95850d36949",
+        "search_marker_sha256": "4df60db6a04a5d6ad358167c0ff306a62a3a3f013480e19d8baa47094f994ade",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": true,
+    "checkpoint_reset_count": 0,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "files": [
+    {
+      "name": "wechat_daily_production_checkpoint.json",
+      "sha256": "5c30ed6e68c817e158554f21cf41161de8e562f0f05e54af48bba9959dc8e340",
+      "byte_count": 4747
+    },
+    {
+      "name": "wechat_daily_production_report.json",
+      "sha256": "00e66498bb26d880c36a5eefd6cc37a8d22a06a32185ce214367b6444d09df39",
+      "byte_count": 2575
+    },
+    {
+      "name": "wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
+      "sha256": "eb82611a27dfa4bc255b457980f072966b7f27bfe7d2002879b186338e9629c8",
+      "byte_count": 1546
+    },
+    {
+      "name": "wechat_text_favorite_production_validation.json",
+      "sha256": "204162a7ee32d164d77e39cec25e6fcb12b2b0bdcdedb668c9990b6e3faf5c30",
+      "byte_count": 1436
+    }
+  ],
+  "wechat_mutation_count": 0
+}

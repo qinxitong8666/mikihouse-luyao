@@ -25,7 +25,7 @@ from .daily_quote import (
     load_special_numbers,
     sha256_json,
 )
-from .daily_quote_fx import FxError, fetch_ecb_reference_rate, manual_fx_rate
+from .daily_quote_fx import FrozenFxRate, FxError, fetch_ecb_reference_rate, manual_fx_rate
 from .daily_quote_images import prepare_product_thumbnails
 from .daily_quote_pdf import generate_daily_quote_pdf, validate_daily_quote_pdf
 from .daily_quote_text import (
@@ -56,6 +56,16 @@ def _progress(
 ) -> None:
     if callback is not None:
         callback(stage, percent, message, details)
+
+
+def _frozen_fx_progress_details(fx: FrozenFxRate) -> dict[str, str]:
+    """Return display-only progress values without treating the dataclass as a mapping."""
+
+    return {
+        "rate": format(fx.jpy_to_cny_rate, "f"),
+        "rate_date": fx.rate_date,
+        "provider": fx.provider,
+    }
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -197,9 +207,7 @@ def run_daily_quote(
         "FX_READY",
         30,
         "当日汇率已获取并冻结",
-        rate=str(fx["jpy_to_cny_rate"]),
-        rate_date=fx["rate_date"],
-        provider=fx["provider"],
+        **_frozen_fx_progress_details(fx),
     )
     generated_at = datetime.now(ZoneInfo("Asia/Tokyo")).isoformat()
     preliminary = build_daily_quote_manifest(

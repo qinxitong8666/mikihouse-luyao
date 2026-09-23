@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUNDLE = ROOT / "MIKI HOUSE 报价助手.app"
 EXECUTABLE_NAME = "mikihouse-quote-assistant"
 SWIFT_SOURCE = ROOT / "macos" / "MikihouseQuoteAssistant" / "main.swift"
+BUNDLE_IDENTIFIER = "cn.luyao.mikihouse.quoteassistant"
+STABLE_DESIGNATED_REQUIREMENT = f'designated => identifier "{BUNDLE_IDENTIFIER}"'
 
 
 def info_plist() -> dict[str, object]:
@@ -20,7 +22,7 @@ def info_plist() -> dict[str, object]:
         "CFBundleDevelopmentRegion": "zh_CN",
         "CFBundleDisplayName": "MIKI HOUSE 报价助手",
         "CFBundleExecutable": EXECUTABLE_NAME,
-        "CFBundleIdentifier": "cn.luyao.mikihouse.quoteassistant",
+        "CFBundleIdentifier": BUNDLE_IDENTIFIER,
         "CFBundleInfoDictionaryVersion": "6.0",
         "CFBundleName": "MIKI HOUSE 报价助手",
         "CFBundlePackageType": "APPL",
@@ -77,6 +79,8 @@ def build_bundle(bundle: Path) -> dict[str, object]:
             "--deep",
             "--sign",
             "-",
+            "--requirements",
+            f"={STABLE_DESIGNATED_REQUIREMENT}",
             "--timestamp=none",
             str(bundle),
         ],
@@ -90,6 +94,7 @@ def build_bundle(bundle: Path) -> dict[str, object]:
         "architecture": architecture,
         "native_appkit": True,
         "code_signature": "AD_HOC",
+        "designated_requirement": STABLE_DESIGNATED_REQUIREMENT,
         "bundle_identifier": info_plist()["CFBundleIdentifier"],
     }
 

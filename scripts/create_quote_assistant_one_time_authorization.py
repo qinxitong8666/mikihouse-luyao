@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 
 from mikihouse_luyao.quote_assistant_authorization import (
+    ALLOWED_OPERATIONS,
+    OPERATION_CREATE_DAILY,
     QuoteAssistantAuthorizationError,
     issue_one_time_authorization,
 )
@@ -18,6 +20,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Issue one private, short-lived quote assistant production permit")
     parser.add_argument("--repository-root", type=Path, default=ROOT)
     parser.add_argument("--confirm", required=True)
+    parser.add_argument(
+        "--operation",
+        choices=ALLOWED_OPERATIONS,
+        default=OPERATION_CREATE_DAILY,
+    )
     return parser
 
 
@@ -27,6 +34,7 @@ def main(argv: list[str] | None = None) -> int:
         result = issue_one_time_authorization(
             args.repository_root,
             confirmation=args.confirm,
+            operation=args.operation,
         )
     except (QuoteAssistantAuthorizationError, OSError, ValueError) as exc:
         print(json.dumps({"status": "FAILED_CLOSED", "error": str(exc)}, ensure_ascii=False))

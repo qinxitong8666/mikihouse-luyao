@@ -1,115 +1,37 @@
 {
   "schema_version": 1,
-  "status": "PASS",
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
   "quote_date": "2026-09-23",
-  "manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79",
-  "bundle_sha256": "7623965f08390c3660deb2d392a745ee7666d568b2b8348f2bd4d384f9ab1272",
-  "created_at": "2026-09-23T02:05:00.263280+09:00",
-  "updated_at": "2026-09-23T11:01:23.449783+09:00",
+  "manifest_sha256": "6aab3dd26052d90a32d5d8101ff87c9d3c20c15fef5fdf5a6364aa658227158f",
+  "bundle_sha256": "994acef187afdb3d129623680be05a17e8872182b6b3538265b150855b65fc61",
+  "created_at": "2026-09-23T16:41:24.019612+09:00",
+  "updated_at": "2026-09-23T16:41:53.776859+09:00",
   "stages": {
     "pdf": {
-      "status": "PASS",
-      "payload_sha256": "f865bb372ddf6f36e57d9e9b414205bda43ba46c3aac8bf5de46301dbb98cccc",
+      "status": "FROZEN_AFTER_MUTATION_ATTEMPT",
+      "payload_sha256": "fb55fc8d53bb7b09c7e71b652b1eca7e8eb951ca6ba2364a89d08a7a54f66eaf",
       "mutation_attempt_count": 1,
-      "mutation_started_at": "2026-09-23T02:05:00.263628+09:00",
-      "completed_at": "2026-09-23T10:24:39.409583+09:00",
-      "evidence_file": "wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
-      "manual_file_picker_recovery": {
-        "status": "PASS",
-        "attempt_count": 1,
-        "authorization": "OPERATOR_AUTHORIZED_IN_THREAD",
-        "automatic_retry": false,
-        "evidence_file": "wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
-        "completed_at": "2026-09-23T10:24:39.409593+09:00"
-      },
-      "final_attachment_method": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
-      "file_picker_recovery_contract": {
-        "status": "PASS",
-        "strategy": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
-        "attachment_filename": "MIKIHOUSE_2026-09-23_报价全集.pdf",
-        "attachment_byte_count": 23293065,
-        "attachment_sha256": "0ecec3c378c1abf0e1245c81c47df047b05c45ad5e1537c4c952d6bf651bb1ab",
-        "title_sha256": "e366c75494cdf8cdf6a7ced51025538433bdd66023b5fb35cea50da3fbc66668",
-        "saved_note_candidate_count": 1,
-        "automatic_retry_count": 0,
-        "chat_send_count": 0,
-        "shijiu_request_count": 0
-      }
+      "mutation_started_at": "2026-09-23T16:41:24.020795+09:00",
+      "error_type": "WeChatRuntimeError",
+      "error": "attachment was not visible before save"
     },
     "text": {
-      "status": "PASS",
-      "payload_sha256": "9ce88ce3b151d5216b8cb2f54e3a69c9992cb9d43b7d8cb3df8eda4c05d10079",
-      "mutation_attempt_count": 1,
-      "mutation_started_at": "2026-09-23T10:24:39.525669+09:00",
-      "completed_at": "2026-09-23T10:30:30.936124+09:00",
-      "evidence_file": "wechat_text_favorite_production_validation.json",
-      "close_latency_reconciliation": {
-        "status": "PASS",
-        "mutation_replayed": false,
-        "saved_note_unique": true,
-        "normalized_hash_match": true,
-        "truncated": false,
-        "evidence_file": "wechat_text_favorite_production_validation.json",
-        "completed_at": "2026-09-23T10:30:30.936124+09:00"
-      },
-      "final_readback_method": "READ_ONLY_STRONG_MATCH_AFTER_CLOSE_LATENCY"
+      "status": "PENDING",
+      "payload_sha256": "1d66bb34bb23d3731b5b59e445e8e3b4fd688201d651e84687b1c70198e8d8aa",
+      "mutation_attempt_count": 0
     }
   },
-  "favorite_create_count": 2,
+  "favorite_create_count": 0,
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
   "shijiu_request_count": 0,
-  "completed_at": "2026-09-23T10:30:30.936124+09:00",
-  "attempt_history": [
-    {
-      "stage": "pdf",
-      "status": "FAILED_ATTACHMENT_NOT_VISIBLE",
-      "method": "CLIPBOARD_FILE_ALIAS_PASTE",
-      "automatic_retry": false,
-      "error_type": "WeChatRuntimeError",
-      "error": "attachment was not visible before save",
-      "started_at": "2026-09-23T02:05:00.263628+09:00"
-    },
-    {
-      "stage": "pdf",
-      "status": "FAILED_ATTACHMENT_NOT_VISIBLE",
-      "method": "OPERATOR_AUTHORIZED_CLIPBOARD_RECOVERY_SINGLE_ATTEMPT",
-      "automatic_retry": false,
-      "error_type": "WeChatRuntimeError",
-      "error": "authorized recovery attachment was not visible before save",
-      "started_at": "2026-09-23T10:04:51.616991+09:00",
-      "failed_at": "2026-09-23T10:05:00.065109+09:00"
-    },
-    {
-      "stage": "pdf",
-      "status": "PASS",
-      "method": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
-      "automatic_retry": false,
-      "evidence_file": "wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
-      "completed_at": "2026-09-23T10:24:39.409583+09:00"
-    },
-    {
-      "stage": "text",
-      "status": "READBACK_FALSE_NEGATIVE_RECONCILED_PASS",
-      "method": "READ_ONLY_STRONG_MATCH_AFTER_CLOSE_LATENCY",
-      "mutation_replayed": false,
-      "original_error_type": "WeChatRuntimeError",
-      "original_error": "note did not close cleanly; save state unknown",
-      "evidence_file": "wechat_text_favorite_production_validation.json",
-      "completed_at": "2026-09-23T10:30:30.936124+09:00"
-    }
-  ],
-  "final_state": {
-    "status": "PASS",
-    "exactly_two_favorites": true,
-    "favorite_create_count": 2,
-    "pdf_attachment_verified": true,
-    "text_full_hash_verified": true,
-    "additional_wechat_mutation_count_during_finalization": 0,
-    "automatic_mutation_retry_count": 0,
-    "chat_send_count": 0,
-    "shijiu_request_count": 0,
-    "finalized_at": "2026-09-23T11:01:23.449783+09:00"
-  },
-  "evidence_finalized_at": "2026-09-23T11:01:23.449783+09:00"
+  "safe_rebuild": {
+    "status": "AUTHORIZED_RESET_AFTER_BOTH_TITLES_ABSENT",
+    "rebuild_id": "20260923T164124015415-e4518682",
+    "archive_directory": "wechat_daily_production_rebuild_history/20260923T164124015415-e4518682",
+    "prior_manifest_sha256": "d5e7d92641da7293b83a5fd0629b9ee02b25b659a731b723a03c019048929f79",
+    "prior_bundle_sha256": "7623965f08390c3660deb2d392a745ee7666d568b2b8348f2bd4d384f9ab1272",
+    "absence_audit_sha256": "e6e96477db1899eabf927ba74634fe68b22ea1785cffaa068778919ff414dc3a",
+    "reset_at": "2026-09-23T16:41:24.019746+09:00"
+  }
 }

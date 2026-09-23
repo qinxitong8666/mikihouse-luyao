@@ -8,6 +8,10 @@
 
 两个核心入口可用 `--progress-jsonl` 向 stderr 输出以 `MIKIHOUSE_PROGRESS ` 开头的单行 JSON 事件。该事件只增加可观察性，不参与 DailyQuoteManifest、定价、筛选或写入判定。跟踪配置始终保持 `production_save_enabled=false`；App 内明确确认会签发绑定当前 HEAD、短时且仅可消费一次的 Git 外许可，正式 runner 必须先原子消费许可才继续。许可不跳过 exact confirmation、fresh manifest、checkpoint、幂等、防重复或强回读门禁。
 
+当天生产已成功但两条收藏后续被用户人工删除时，只能使用 App 的“安全重建已删除收藏”。该入口先执行 `scripts/audit_wechat_daily_favorite_titles.py` 双标题只读检查，两个精确标题必须同时为 0 个候选才能继续。用户勾选专用单次确认后，正式 runner 重新生成当日报价，再做一次双标题只读复核；仅在仍然全部不存在时，先归档旧 checkpoint/report/evidence，再重置新 checkpoint 并按 PDF→文字创建。任一标题存在、审计不完整或旧生产记录不是 PASS，都保持 checkpoint 不变且零写入。
+
+若重建过程中微信已经保存了标题/正文，但 PDF 附件在保存前不可见，checkpoint 会冻结且绝不自动重发。App 的“恢复冻结PDF附件”会运行 `scripts/audit_wechat_frozen_pdf_recovery.py`：只有精确 PDF 标题 1 个、文字标题 0 个、原 PDF mutation 1 次且文字 mutation 0 次时，才展示专用单次确认。恢复只修改现有任务 PDF 收藏，通过工具栏「文件」选择同一 PDF 一次，保存前和重开后强回读通过后再创建文字收藏；不会重新抓官网或创建重复 PDF 收藏。
+
 ## 边界与安全
 
 当前主线只进行 MIKI HOUSE 官网只读抓取、ECB 汇率读取和本地文件生成。`config/daily_quote.json` 中 `shijiu_requests_enabled` 与 `wechat_write_enabled` 必须同时为 `false`，否则入口立即停止。每日模块不包含 `/shopapi/` endpoint，也不接受跳过该门禁的命令行参数。

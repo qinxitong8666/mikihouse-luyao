@@ -26,12 +26,16 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 - “生成今日报价”：完整抓官网并生成当天 PDF、文字报价及收藏 preview，不写微信；
 - “生成并保存两个微信收藏”：仓库默认开关保持关闭；用户在 App 内勾选本次明确确认后，App 签发绑定当前 HEAD、15分钟过期且仅可消费一次的私有许可，再按 PDF→文字顺序调用现有正式编排器；
+- “安全重建已删除收藏”：仅用于当天原生产 checkpoint 已 PASS，但用户后续人工删除了两条收藏的情况。App 先只读精确查询 PDF版/文字版两个标题，只有两者候选数都为 0 才展示单次重建确认；写入前再次只读复核，任一标题存在都在 checkpoint 重置和收藏创建前 fail closed；
+- “恢复冻结PDF附件”：只处理报价助手本轮已经留下的唯一 PDF 文字草稿。入口要求冻结 checkpoint 证明原 PDF mutation 仅发生 1 次、文字 mutation 为 0，并只读证明 PDF 精确标题为 1、文字精确标题为 0；专用单次授权后，仅通过工具栏「文件」选择器为现有 PDF 收藏补同一路径附件，强回读通过后才创建文字收藏，不会新建第二条 PDF 收藏；
 - 官网抓取、汇率冻结、缩略图、PDF、发布和微信阶段的实时进度；
 - 最新报价日期、冻结汇率、当日有货商品数、PDF 大小；
 - 打开 PDF、打开输出目录及 PDF/文字收藏预览；
 - 启动时自动定位仓库，检查 `.venv`、依赖、安全配置、输出目录和已验收的“微信2”，错误以中文 fail closed 显示。
 
 默认配置仍保持 `production_save_enabled=false`，App 不修改该文件。单次许可只写入 Git 忽略的 `.secrets/mikihouse_quote_assistant/authorizations/`，权限为 `0600`，绑定仓库路径与当前 HEAD，首次运行即原子标记为已消费；重复使用、过期、权限异常或版本变化均在官网抓取前停止。重新构建 app bundle 可运行：
+
+安全重建、普通首次生产及冻结 PDF 恢复三种许可按 operation 分离，不能交叉使用。重置前的 checkpoint、report 和引用 evidence 会先完整归档到当天输出目录下的 `wechat_daily_production_rebuild_history/`；归档失败则不重置。正式 PDF 附件路径已改为原生工具栏选择器单次提交，剪贴板 file-alias 不再作为生产主路径。
 
 ```bash
 python scripts/build_mikihouse_quote_assistant_app.py

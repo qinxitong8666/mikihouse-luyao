@@ -113,14 +113,36 @@ def test_tracked_app_bundle_is_native_double_clickable() -> None:
         ["/usr/bin/codesign", "--verify", "--deep", "--strict", str(BUNDLE)],
         capture_output=True,
     ).returncode == 0
+    requirement_result = subprocess.run(
+        ["/usr/bin/codesign", "-dr", "-", str(BUNDLE)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    requirement = requirement_result.stdout + requirement_result.stderr
+    assert (
+        'designated => identifier "cn.luyao.mikihouse.quoteassistant"'
+        in requirement
+    )
     source = (ROOT / "macos" / "MikihouseQuoteAssistant" / "main.swift").read_text()
     assert "scripts/generate_daily_quote.py" in source
     assert "scripts/run_mikihouse_daily_production.py" in source
     assert "scripts/check_quote_assistant_runtime.py" in source
     assert "scripts/create_quote_assistant_one_time_authorization.py" in source
+    assert "scripts/audit_wechat_daily_favorite_titles.py" in source
+    assert "scripts/audit_wechat_frozen_pdf_recovery.py" in source
     assert "--app-authorization-file" in source
+    assert "--rebuild-missing-daily-favorites" in source
+    assert "--recover-frozen-pdf" in source
     assert "选择仓库…" in source
+    assert "安全重建已删除收藏" in source
+    assert "恢复冻结PDF附件" in source
+    assert "我确认修复现有1条PDF收藏并创建待处理的1条文字收藏" in source
+    assert "我确认当天两条收藏均已人工删除" in source
     assert "repository_path.txt" in source
+    assert 'environment.removeValue(forKey: key)' in source
+    assert '"__CFBundleIdentifier", "XPC_SERVICE_NAME", "XPC_FLAGS"' in source
+    assert 'environment["PWD"] = repositoryRoot.path' in source
 
 
 def test_bundle_builder_reproduces_valid_structure(tmp_path: Path) -> None:
@@ -132,6 +154,9 @@ def test_bundle_builder_reproduces_valid_structure(tmp_path: Path) -> None:
     output = tmp_path / "MIKI HOUSE 报价助手.app"
     report = module.build_bundle(output)
     assert report["status"] == "PASS"
+    assert report["designated_requirement"] == (
+        'designated => identifier "cn.luyao.mikihouse.quoteassistant"'
+    )
     executable = output / "Contents" / "MacOS" / "mikihouse-quote-assistant"
     assert os.access(executable, os.X_OK)
     assert "Mach-O" in subprocess.run(
@@ -141,6 +166,17 @@ def test_bundle_builder_reproduces_valid_structure(tmp_path: Path) -> None:
         ["/usr/bin/codesign", "--verify", "--deep", "--strict", str(output)],
         capture_output=True,
     ).returncode == 0
+    requirement_result = subprocess.run(
+        ["/usr/bin/codesign", "-dr", "-", str(output)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    requirement = requirement_result.stdout + requirement_result.stderr
+    assert (
+        'designated => identifier "cn.luyao.mikihouse.quoteassistant"'
+        in requirement
+    )
     with (output / "Contents" / "Info.plist").open("rb") as handle:
         assert plistlib.load(handle)["CFBundleIdentifier"] == "cn.luyao.mikihouse.quoteassistant"
 

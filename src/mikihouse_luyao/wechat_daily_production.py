@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
+import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -18,6 +20,7 @@ from .wechat_favorite_runtime import (
 
 CHECKPOINT_FILENAME = "wechat_daily_production_checkpoint.json"
 REPORT_FILENAME = "wechat_daily_production_report.json"
+REBUILD_HISTORY_DIRECTORY = "wechat_daily_production_rebuild_history"
 STAGE_ORDER = ("pdf", "text")
 PDF_FILE_PICKER_RECOVERY_MODE = (
     "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
@@ -41,6 +44,10 @@ def _canonical_sha256(value: Any) -> str:
 
 def _now() -> str:
     return datetime.now(ZoneInfo("Asia/Tokyo")).isoformat()
+
+
+def _today() -> str:
+    return datetime.now(ZoneInfo("Asia/Tokyo")).date().isoformat()
 
 
 def _resolve_payload_attachments(
@@ -327,6 +334,173 @@ def _new_checkpoint(preflight: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _daily_titles(daily_dir: Path) -> list[str]:
+    titles: list[str] = []
+    for stage in STAGE_ORDER:
+        payload = _read_json(daily_dir / f"wechat_{stage}_favorite_payload.json")
+        title = str(payload.get("title") or "")
+        if not title:
+            raise WeChatDailyProductionError(f"{stage} Favorite title is missing")
+        titles.append(title)
+    if len(set(titles)) != len(STAGE_ORDER):
+        raise WeChatDailyProductionError("daily Favorite titles must be distinct")
+    return titles
+
+
+def _validate_completed_production_record(daily_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    checkpoint_path = daily_dir / CHECKPOINT_FILENAME
+    report_path = daily_dir / REPORT_FILENAME
+    if not checkpoint_path.is_file() or not report_path.is_file():
+        raise WeChatDailyProductionError(
+            "safe rebuild requires a completed daily production checkpoint and report"
+        )
+    checkpoint = _read_json(checkpoint_path)
+    report = _read_json(report_path)
+    if checkpoint.get("status") != "PASS" or report.get("status") != "PASS":
+        raise WeChatDailyProductionError(
+            "safe rebuild requires the previous daily production to be PASS"
+        )
+    if int(checkpoint.get("favorite_create_count") or 0) != 2:
+        raise WeChatDailyProductionError("completed checkpoint does not prove exactly two Favorites")
+    if checkpoint.get("quote_date") != daily_dir.name or report.get("quote_date") != daily_dir.name:
+        raise WeChatDailyProductionError("completed production date does not match the daily directory")
+    if report.get("bundle_sha256") != checkpoint.get("bundle_sha256"):
+        raise WeChatDailyProductionError("completed checkpoint/report bundle mismatch")
+    for stage in STAGE_ORDER:
+        if ((checkpoint.get("stages") or {}).get(stage) or {}).get("status") != "PASS":
+            raise WeChatDailyProductionError(f"completed checkpoint stage is not PASS: {stage}")
+    return checkpoint, report
+
+
+def audit_completed_daily_favorites_readonly(
+    daily_dir: Path,
+    runtime_config: dict[str, Any],
+    *,
+    sink: MacWeChatFavoriteSink | None = None,
+    require_today: bool = True,
+) -> dict[str, Any]:
+    """Prove whether both completed daily Favorite titles are absent, with zero mutation."""
+
+    daily_dir = daily_dir.resolve()
+    checkpoint, report = _validate_completed_production_record(daily_dir)
+    if require_today and daily_dir.name != _today():
+        raise WeChatDailyProductionError("safe rebuild is only allowed for today's production")
+    titles = _daily_titles(daily_dir)
+    target = sink or MacWeChatFavoriteSink(runtime_config)
+    evidence = target.audit_titles_read_only(titles)
+    rows = list(evidence.get("results") or [])
+    if len(rows) != 2:
+        raise WeChatDailyProductionError("read-only title audit did not return exactly two results")
+    counts = [int(row.get("search_candidate_count") or 0) for row in rows]
+    if any(count < 0 for count in counts):
+        raise WeChatDailyProductionError("read-only title audit returned an invalid count")
+    all_absent = counts == [0, 0] and evidence.get("all_titles_absent") is True
+    return {
+        "schema_version": 1,
+        "status": (
+            "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION"
+            if all_absent
+            else "BLOCKED_EXISTING_DAILY_FAVORITE"
+        ),
+        "quote_date": daily_dir.name,
+        "prior_manifest_sha256": checkpoint.get("manifest_sha256"),
+        "prior_bundle_sha256": checkpoint.get("bundle_sha256"),
+        "prior_report_completed_at": report.get("completed_at"),
+        "title_results": rows,
+        "all_titles_absent": all_absent,
+        "checkpoint_reset_count": 0,
+        "wechat_mutation_count": 0,
+        "chat_send_count": 0,
+        "shijiu_request_count": 0,
+    }
+
+
+def _archive_and_reset_completed_checkpoint(
+    daily_dir: Path,
+    preflight: dict[str, Any],
+    audit: dict[str, Any],
+) -> dict[str, Any]:
+    checkpoint, report = _validate_completed_production_record(daily_dir)
+    if audit.get("status") != "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION":
+        raise WeChatDailyProductionError("safe rebuild title audit is not ready")
+    if audit.get("all_titles_absent") is not True:
+        raise WeChatDailyProductionError("one or more daily Favorites still exist")
+    if any(
+        int(row.get("search_candidate_count") or 0) != 0
+        for row in audit.get("title_results") or []
+    ):
+        raise WeChatDailyProductionError("one or more daily Favorites still exist")
+
+    history_root = daily_dir / REBUILD_HISTORY_DIRECTORY
+    history_root.mkdir(parents=True, exist_ok=True)
+    rebuild_id = f"{datetime.now(ZoneInfo('Asia/Tokyo')).strftime('%Y%m%dT%H%M%S%f')}-{uuid.uuid4().hex[:8]}"
+    temporary = history_root / f".{rebuild_id}.tmp"
+    archive = history_root / rebuild_id
+    temporary.mkdir()
+    source_names = {CHECKPOINT_FILENAME, REPORT_FILENAME}
+    for stage in STAGE_ORDER:
+        evidence_file = str((checkpoint.get("stages") or {}).get(stage, {}).get("evidence_file") or "")
+        if evidence_file:
+            source_names.add(evidence_file)
+    archived_files: list[dict[str, Any]] = []
+    for name in sorted(source_names):
+        source = daily_dir / name
+        if not source.is_file():
+            continue
+        target = temporary / name
+        shutil.copy2(source, target)
+        archived_files.append(
+            {
+                "name": name,
+                "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                "byte_count": source.stat().st_size,
+            }
+        )
+    archive_manifest = {
+        "schema_version": 1,
+        "status": "PREVIOUS_PASS_ARCHIVED_BEFORE_SAFE_REBUILD",
+        "rebuild_id": rebuild_id,
+        "archived_at": _now(),
+        "quote_date": daily_dir.name,
+        "prior_manifest_sha256": checkpoint.get("manifest_sha256"),
+        "prior_bundle_sha256": checkpoint.get("bundle_sha256"),
+        "prior_report_sha256": _canonical_sha256(report),
+        "absence_audit": audit,
+        "files": archived_files,
+        "wechat_mutation_count": 0,
+    }
+    write_json(temporary / "archive_manifest.json", archive_manifest)
+    temporary.replace(archive)
+
+    replacement = _new_checkpoint(preflight)
+    replacement["safe_rebuild"] = {
+        "status": "AUTHORIZED_RESET_AFTER_BOTH_TITLES_ABSENT",
+        "rebuild_id": rebuild_id,
+        "archive_directory": str(archive.relative_to(daily_dir)),
+        "prior_manifest_sha256": checkpoint.get("manifest_sha256"),
+        "prior_bundle_sha256": checkpoint.get("bundle_sha256"),
+        "absence_audit_sha256": _canonical_sha256(audit),
+        "reset_at": _now(),
+    }
+    write_json(daily_dir / CHECKPOINT_FILENAME, replacement)
+    write_json(
+        daily_dir / REPORT_FILENAME,
+        {
+            "schema_version": 1,
+            "status": "SAFE_REBUILD_IN_PROGRESS",
+            "quote_date": preflight["quote_date"],
+            "manifest_sha256": preflight["manifest_sha256"],
+            "bundle_sha256": preflight["bundle_sha256"],
+            "rebuild_id": rebuild_id,
+            "automatic_mutation_retry_count": 0,
+            "wechat_mutation_count": 0,
+            "chat_send_count": 0,
+            "shijiu_request_count": 0,
+        },
+    )
+    return replacement
+
+
 def _validate_checkpoint(checkpoint: dict[str, Any], preflight: dict[str, Any]) -> None:
     for key in ("quote_date", "manifest_sha256", "bundle_sha256"):
         if checkpoint.get(key) != preflight.get(key):
@@ -341,6 +515,222 @@ def _validate_checkpoint(checkpoint: dict[str, Any], preflight: dict[str, Any]) 
             )
 
 
+def audit_frozen_pdf_recovery_readonly(
+    daily_dir: Path,
+    runtime_config: dict[str, Any],
+    *,
+    repository_root: Path,
+    sink: MacWeChatFavoriteSink | None = None,
+) -> dict[str, Any]:
+    """Prove that the frozen run owns one repairable PDF note and no text note."""
+    preflight = validate_daily_production_bundle(
+        daily_dir,
+        runtime_config,
+        repository_root=repository_root,
+        require_write_enabled=False,
+    )
+    daily_dir = daily_dir.resolve()
+    checkpoint_path = daily_dir / CHECKPOINT_FILENAME
+    if not checkpoint_path.is_file():
+        raise WeChatDailyProductionError("PDF recovery requires a frozen checkpoint")
+    checkpoint = _read_json(checkpoint_path)
+    for key in ("quote_date", "manifest_sha256", "bundle_sha256"):
+        if checkpoint.get(key) != preflight.get(key):
+            raise WeChatDailyProductionError(
+                f"PDF recovery checkpoint {key} does not match current bundle"
+            )
+    pdf_stage = (checkpoint.get("stages") or {}).get("pdf") or {}
+    text_stage = (checkpoint.get("stages") or {}).get("text") or {}
+    if checkpoint.get("status") != "FROZEN_RECONCILIATION_REQUIRED":
+        raise WeChatDailyProductionError("PDF recovery requires frozen reconciliation status")
+    if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT":
+        raise WeChatDailyProductionError("PDF recovery requires one frozen PDF attempt")
+    if pdf_stage.get("error") != "attachment was not visible before save":
+        raise WeChatDailyProductionError("PDF recovery error is not the canonical attachment failure")
+    if int(pdf_stage.get("mutation_attempt_count") or 0) != 1:
+        raise WeChatDailyProductionError("PDF recovery requires exactly one original PDF attempt")
+    if text_stage.get("status") != "PENDING" or int(
+        text_stage.get("mutation_attempt_count") or 0
+    ) != 0:
+        raise WeChatDailyProductionError("PDF recovery requires an untouched text stage")
+    if int(checkpoint.get("favorite_create_count") or 0) != 0:
+        raise WeChatDailyProductionError("PDF recovery checkpoint already counts a created Favorite")
+    if (pdf_stage.get("authorized_recovery") or {}).get("mutation_started_at"):
+        raise WeChatDailyProductionError("PDF recovery has already been attempted")
+
+    target = sink or MacWeChatFavoriteSink(runtime_config)
+    titles = _daily_titles(daily_dir)
+    audit = target.audit_titles_read_only(titles)
+    rows = list(audit.get("results") or [])
+    counts = [int(row.get("search_candidate_count") or 0) for row in rows]
+    if len(rows) != 2 or counts != [1, 0]:
+        raise WeChatDailyProductionError(
+            "PDF recovery requires exactly one PDF title and zero text titles"
+        )
+    return {
+        "schema_version": 1,
+        "status": "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION",
+        "quote_date": daily_dir.name,
+        "manifest_sha256": preflight["manifest_sha256"],
+        "bundle_sha256": preflight["bundle_sha256"],
+        "title_results": rows,
+        "exact_title_counts": counts,
+        "pdf_original_mutation_attempt_count": 1,
+        "text_mutation_attempt_count": 0,
+        "checkpoint_reset_count": 0,
+        "wechat_mutation_count": 0,
+        "chat_send_count": 0,
+        "shijiu_request_count": 0,
+    }
+
+
+def recover_frozen_pdf_and_complete_daily_favorites(
+    daily_dir: Path,
+    runtime_config: dict[str, Any],
+    *,
+    repository_root: Path,
+    confirmation: str | None,
+    sink: MacWeChatFavoriteSink | None = None,
+) -> dict[str, Any]:
+    """Recover one proven text-only PDF note, then create the pending text note.
+
+    This path never creates a second PDF note.  It is available only for the
+    exact frozen attachment failure produced by the current rebuild attempt,
+    after a read-only proof of one PDF title and zero text titles.  The toolbar
+    picker mutation is single-attempt and separately checkpointed.
+    """
+
+    preflight = validate_daily_production_bundle(
+        daily_dir,
+        runtime_config,
+        repository_root=repository_root,
+        require_write_enabled=True,
+    )
+    if confirmation != PRODUCTION_CONFIRMATION:
+        raise WeChatDailyProductionError("exact production confirmation is missing")
+    recovery_contract = runtime_config.get("pdf_attachment_recovery") or {}
+    if (
+        recovery_contract.get("strategy") != PDF_FILE_PICKER_RECOVERY_MODE
+        or recovery_contract.get("requires_explicit_operator_authorization") is not True
+        or recovery_contract.get("single_attempt_only") is not True
+        or recovery_contract.get("automatic_retry_enabled") is not False
+    ):
+        raise WeChatDailyProductionError("PDF recovery runtime contract is not fail-closed")
+    daily_dir = daily_dir.resolve()
+    checkpoint_path = daily_dir / CHECKPOINT_FILENAME
+    report_path = daily_dir / REPORT_FILENAME
+    checkpoint = _read_json(checkpoint_path)
+    pdf_stage = checkpoint["stages"]["pdf"]
+    target = sink or MacWeChatFavoriteSink(runtime_config)
+    audit = audit_frozen_pdf_recovery_readonly(
+        daily_dir,
+        runtime_config,
+        repository_root=repository_root,
+        sink=target,
+    )
+    recovery_state = {
+        "status": "MUTATION_STARTED",
+        "mutation_started_at": _now(),
+        "mutation_attempt_count": 1,
+        "title_audit": audit,
+        "automatic_retry_count": 0,
+    }
+    pdf_stage["authorized_recovery"] = recovery_state
+    checkpoint["updated_at"] = _now()
+    write_json(checkpoint_path, checkpoint)
+    try:
+        evidence = target.recover_existing_pdf_attachment(
+            preflight["payloads"]["pdf"],
+            production=True,
+            confirmation=confirmation,
+            authorized_manifest_sha256=preflight["manifest_sha256"],
+        )
+        attachment_path = Path(preflight["payloads"]["pdf"]["attachments"][0])
+        contract = validate_pdf_file_picker_recovery_evidence(
+            evidence,
+            attachment_path=attachment_path,
+            expected_title=str(preflight["payloads"]["pdf"]["title"]),
+        )
+    except Exception as exc:
+        recovery_state.update(
+            {
+                "status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
+                "failed_at": _now(),
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+            }
+        )
+        pdf_stage["status"] = "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+        checkpoint["status"] = "FROZEN_RECONCILIATION_REQUIRED"
+        checkpoint["updated_at"] = _now()
+        write_json(checkpoint_path, checkpoint)
+        write_json(
+            report_path,
+            {
+                "schema_version": 1,
+                "status": "FROZEN_RECONCILIATION_REQUIRED",
+                "quote_date": preflight["quote_date"],
+                "manifest_sha256": preflight["manifest_sha256"],
+                "bundle_sha256": preflight["bundle_sha256"],
+                "failed_stage": "pdf_file_picker_recovery",
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+                "automatic_mutation_retry_count": 0,
+                "chat_send_count": 0,
+                "shijiu_request_count": 0,
+            },
+        )
+        raise WeChatDailyProductionError(
+            f"PDF toolbar recovery failed and was frozen without retry: {exc}"
+        ) from exc
+
+    evidence_file = "wechat_pdf_favorite_manual_file_picker_recovery_validation.json"
+    write_json(daily_dir / evidence_file, evidence)
+    recovery_state.update(
+        {
+            "status": "PASS",
+            "completed_at": _now(),
+            "evidence_file": evidence_file,
+            "contract": contract,
+        }
+    )
+    pdf_stage["status"] = "PASS"
+    pdf_stage["completed_at"] = recovery_state["completed_at"]
+    pdf_stage["evidence_file"] = evidence_file
+    pdf_stage["final_attachment_method"] = PDF_FILE_PICKER_RECOVERY_MODE
+    checkpoint["favorite_create_count"] = 1
+    checkpoint["status"] = "IN_PROGRESS"
+    checkpoint["updated_at"] = _now()
+    write_json(checkpoint_path, checkpoint)
+    write_json(
+        report_path,
+        {
+            "schema_version": 1,
+            "status": "PDF_RECOVERY_PASS_TEXT_PENDING",
+            "quote_date": preflight["quote_date"],
+            "manifest_sha256": preflight["manifest_sha256"],
+            "bundle_sha256": preflight["bundle_sha256"],
+            "pdf_attachment_recovery": contract,
+            "favorite_create_count": 1,
+            "automatic_mutation_retry_count": 0,
+            "chat_send_count": 0,
+            "shijiu_request_count": 0,
+        },
+    )
+    result = save_daily_production_favorites(
+        daily_dir,
+        runtime_config,
+        repository_root=repository_root,
+        confirmation=confirmation,
+        sink=target,
+    )
+    return {
+        **result,
+        "pdf_file_picker_recovery": contract,
+        "recovered_existing_pdf_note_without_duplicate_create": True,
+    }
+
+
 def save_daily_production_favorites(
     daily_dir: Path,
     runtime_config: dict[str, Any],
@@ -348,6 +738,7 @@ def save_daily_production_favorites(
     repository_root: Path,
     confirmation: str | None,
     sink: MacWeChatFavoriteSink | None = None,
+    rebuild_missing_daily: bool = False,
 ) -> dict[str, Any]:
     """Create exactly the two daily Favorites with resumable, no-retry stages."""
 
@@ -362,19 +753,42 @@ def save_daily_production_favorites(
     daily_dir = daily_dir.resolve()
     checkpoint_path = daily_dir / CHECKPOINT_FILENAME
     report_path = daily_dir / REPORT_FILENAME
+    sink = sink or MacWeChatFavoriteSink(runtime_config)
     if checkpoint_path.exists():
         checkpoint = _read_json(checkpoint_path)
-        _validate_checkpoint(checkpoint, preflight)
+        if rebuild_missing_daily:
+            if checkpoint.get("status") != "PASS":
+                raise WeChatDailyProductionError(
+                    "safe rebuild requires a completed PASS checkpoint"
+                )
+            audit = audit_completed_daily_favorites_readonly(
+                daily_dir,
+                runtime_config,
+                sink=sink,
+                require_today=True,
+            )
+            if audit["status"] != "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION":
+                raise WeChatDailyProductionError(
+                    "safe rebuild blocked: one or more daily Favorite titles still exist"
+                )
+            checkpoint = _archive_and_reset_completed_checkpoint(
+                daily_dir, preflight, audit
+            )
+        else:
+            _validate_checkpoint(checkpoint, preflight)
         if checkpoint.get("status") == "PASS":
             report = _read_json(report_path)
             if report.get("status") != "PASS" or report.get("bundle_sha256") != preflight["bundle_sha256"]:
                 raise WeChatDailyProductionError("completed checkpoint/report mismatch")
             return {**report, "idempotent_replay": True}
     else:
+        if rebuild_missing_daily:
+            raise WeChatDailyProductionError(
+                "safe rebuild requires an existing completed production checkpoint"
+            )
         checkpoint = _new_checkpoint(preflight)
         write_json(checkpoint_path, checkpoint)
 
-    sink = sink or MacWeChatFavoriteSink(runtime_config)
     evidence_paths: dict[str, str] = {}
     for stage in STAGE_ORDER:
         stage_state = checkpoint["stages"][stage]
@@ -451,6 +865,7 @@ def save_daily_production_favorites(
         "evidence_files": evidence_paths,
         "automatic_mutation_retry_count": 0,
         "existing_favorite_mutation_count": 0,
+        "safe_rebuild": checkpoint.get("safe_rebuild"),
         "chat_send_count": 0,
         "shijiu_request_count": 0,
         "completed_at": _now(),

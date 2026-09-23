@@ -13,6 +13,9 @@ import pytest
 from mikihouse_luyao.quote_assistant_authorization import (
     APP_BUNDLE_IDENTIFIER,
     APP_ENV_MARKER,
+    OPERATION_CREATE_DAILY,
+    OPERATION_RECOVER_FROZEN_PDF,
+    OPERATION_REBUILD_MISSING_DAILY,
     QuoteAssistantAuthorizationError,
     issue_one_time_authorization,
     validate_and_consume_one_time_authorization,
@@ -89,6 +92,52 @@ def test_authorization_rejects_wrong_confirmation(tmp_path: Path, monkeypatch: p
     monkeypatch.setenv(APP_ENV_MARKER, APP_BUNDLE_IDENTIFIER)
     with pytest.raises(QuoteAssistantAuthorizationError, match="确认内容"):
         issue_one_time_authorization(root, confirmation="wrong")
+
+
+def test_rebuild_authorization_is_operation_bound(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = make_repository(tmp_path)
+    monkeypatch.setenv(APP_ENV_MARKER, APP_BUNDLE_IDENTIFIER)
+    issued = issue_one_time_authorization(
+        root,
+        confirmation=PRODUCTION_CONFIRMATION,
+        operation=OPERATION_REBUILD_MISSING_DAILY,
+    )
+    path = Path(issued["authorization_file"])
+    with pytest.raises(QuoteAssistantAuthorizationError, match="operation"):
+        validate_and_consume_one_time_authorization(
+            path,
+            root,
+            confirmation=PRODUCTION_CONFIRMATION,
+        )
+    assert path.is_file()
+    consumed = validate_and_consume_one_time_authorization(
+        path,
+        root,
+        confirmation=PRODUCTION_CONFIRMATION,
+        expected_operation=OPERATION_REBUILD_MISSING_DAILY,
+    )
+    assert consumed["operation"] == OPERATION_REBUILD_MISSING_DAILY
+
+
+def test_frozen_pdf_recovery_authorization_is_operation_bound(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = make_repository(tmp_path)
+    monkeypatch.setenv(APP_ENV_MARKER, APP_BUNDLE_IDENTIFIER)
+    issued = issue_one_time_authorization(
+        root,
+        confirmation=PRODUCTION_CONFIRMATION,
+        operation=OPERATION_RECOVER_FROZEN_PDF,
+    )
+    consumed = validate_and_consume_one_time_authorization(
+        Path(issued["authorization_file"]),
+        root,
+        confirmation=PRODUCTION_CONFIRMATION,
+        expected_operation=OPERATION_RECOVER_FROZEN_PDF,
+    )
+    assert consumed["operation"] == OPERATION_RECOVER_FROZEN_PDF
 
 
 def test_authorization_requires_tracked_gate_to_remain_off(
@@ -206,10 +255,16 @@ def test_runner_accepts_consumed_app_permit_without_editing_tracked_config(
         "authorization_mode": "APP_ONE_TIME",
         "reusable": False,
     }
+    authorization_call: dict[str, object] = {}
+
+    def fake_consume(*_args: object, **kwargs: object) -> dict:
+        authorization_call.update(kwargs)
+        return dict(consumed)
+
     monkeypatch.setattr(
         runner,
         "validate_and_consume_one_time_authorization",
-        lambda *_args, **_kwargs: dict(consumed),
+        fake_consume,
     )
     generated_dir = tmp_path / "generated"
     generated_dir.mkdir()
@@ -239,3 +294,107 @@ def test_runner_accepts_consumed_app_permit_without_editing_tracked_config(
     output = json.loads(capsys.readouterr().out)
     assert output["status"] == "SUCCESS"
     assert output["production_authorization"] == consumed
+    assert authorization_call["expected_operation"] == OPERATION_CREATE_DAILY
+
+
+def test_runner_binds_rebuild_flag_to_rebuild_permit_and_sink_mode(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    script = ROOT / "scripts" / "run_mikihouse_daily_production.py"
+    spec = importlib.util.spec_from_file_location("daily_production_rebuild_runner", script)
+    assert spec is not None and spec.loader is not None
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+    monkeypatch.setattr(
+        runner,
+        "_read_json",
+        lambda _path: {"production_save_enabled": False},
+    )
+
+    def fake_consume(*_args: object, **kwargs: object) -> dict:
+        assert kwargs["expected_operation"] == OPERATION_REBUILD_MISSING_DAILY
+        return {
+            "status": "CONSUMED",
+            "authorization_mode": "APP_ONE_TIME",
+            "operation": OPERATION_REBUILD_MISSING_DAILY,
+        }
+
+    monkeypatch.setattr(runner, "validate_and_consume_one_time_authorization", fake_consume)
+    generated_dir = tmp_path / "generated"
+    generated_dir.mkdir()
+    monkeypatch.setattr(
+        runner,
+        "run_daily_quote",
+        lambda **_kwargs: {"status": "SUCCESS", "output_dir": str(generated_dir)},
+    )
+
+    def fake_save(_daily: Path, _config: dict, **kwargs: object) -> dict:
+        assert kwargs["rebuild_missing_daily"] is True
+        return {"status": "PASS", "favorite_create_count": 2}
+
+    monkeypatch.setattr(runner, "save_daily_production_favorites", fake_save)
+    code = runner.main(
+        [
+            "--production-save",
+            "--rebuild-missing-daily-favorites",
+            "--confirm",
+            PRODUCTION_CONFIRMATION,
+            "--app-authorization-file",
+            str(tmp_path / "private-rebuild-permit.json"),
+        ]
+    )
+    assert code == 0
+    assert json.loads(capsys.readouterr().out)["status"] == "SUCCESS"
+
+
+def test_runner_recovery_uses_dedicated_permit_without_new_crawl(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    script = ROOT / "scripts" / "run_mikihouse_daily_production.py"
+    spec = importlib.util.spec_from_file_location("daily_production_recovery_runner", script)
+    assert spec is not None and spec.loader is not None
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+    monkeypatch.setattr(runner, "_read_json", lambda _path: {"production_save_enabled": False})
+
+    def fake_consume(*_args: object, **kwargs: object) -> dict:
+        assert kwargs["expected_operation"] == OPERATION_RECOVER_FROZEN_PDF
+        return {
+            "status": "CONSUMED",
+            "authorization_mode": "APP_ONE_TIME",
+            "operation": OPERATION_RECOVER_FROZEN_PDF,
+        }
+
+    monkeypatch.setattr(runner, "validate_and_consume_one_time_authorization", fake_consume)
+    monkeypatch.setattr(
+        runner,
+        "run_daily_quote",
+        lambda **_kwargs: pytest.fail("recovery must not run a new crawl"),
+    )
+    monkeypatch.setattr(
+        runner,
+        "recover_frozen_pdf_and_complete_daily_favorites",
+        lambda *_args, **_kwargs: {"status": "PASS", "favorite_create_count": 2},
+    )
+    code = runner.main(
+        [
+            "--production-save",
+            "--recover-frozen-pdf",
+            "--quote-date",
+            "2026-09-23",
+            "--output-root",
+            str(tmp_path),
+            "--confirm",
+            PRODUCTION_CONFIRMATION,
+            "--app-authorization-file",
+            str(tmp_path / "private-recovery-permit.json"),
+        ]
+    )
+    assert code == 0
+    output = json.loads(capsys.readouterr().out)
+    assert output["status"] == "SUCCESS"
+    assert output["daily_quote"]["website_crawl_started"] is False
