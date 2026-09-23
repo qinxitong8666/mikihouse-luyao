@@ -36,9 +36,11 @@ JPY_TO_CNY = CNY_PER_EUR / JPY_PER_EUR
 
 全集 PDF 使用 12 件/页的 A4 3×4 卡片，分类顺序固定为鞋类、婴幼儿、服装。索引按品番排序并链接到商品页；三个分类各有 outline/bookmark。每个品番使用 Helvetica 的真实 text object，商品名、颜色、尺码、价格使用嵌入的 Unicode 字体。
 
+水印契约为 `株式会社路遥` / `opacity=0.18` / `scope=PRODUCT_PAGES_ONLY`。首页及所有品番索引页不绘制水印；全集和超限时生成的三个分类 PDF 都只在商品页绘制。自动验收会逐页校验索引页零水印、商品页水印文字完整，以及 PDF ExtGState 的实际 fill alpha 为 0.18；任一页不符合都使生成任务 fail closed。
+
 主图在嵌入前经过独立缓存处理：EXIF transpose、透明层白底 flatten、RGB/sRGB 兼容输出、长边 360px、默认 JPEG quality 70、按内容 hash 去重。源高清图不直接嵌入客户 PDF。
 
-自动验收至少从首页、末页、分类边界和固定种子随机样本抽取 50 个品番，使用 `pypdf` 对完整文本层精确检索；任一缺失、重复落页或 outline 缺失都会使 PDF 任务失败。视觉改动还必须把全部页面以至少 200dpi 渲染并人工检查后，才能把 `visual_qa.status` 标记为 `PASS`。
+自动验收至少从首页、末页、分类边界和固定种子随机样本抽取 50 个品番，使用 `pypdf` 对完整文本层精确检索；任一缺失、重复落页、outline 缺失或水印 scope/alpha 不匹配都会使 PDF 任务失败。视觉改动还必须把全部页面以至少 200dpi 渲染并人工检查后，才能把 `visual_qa.status` 标记为 `PASS`。
 
 ## 微信收藏 preview
 

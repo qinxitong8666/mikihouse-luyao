@@ -35,7 +35,7 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 - 逐 variant 使用 `ceil(tax_included_price_jpy × 0.68 × frozen_jpy_to_cny_rate)`，全程 `Decimal`；
 - 同价规格合并，不同价按最终人民币价分组，PDF 与文字版共用同一分组结果。
 
-客户输出绝不显示日元原价、0.68、汇率、公式、成本或利润。默认 PDF 是 A4 portrait、每页 3×4 商品卡，使用专用 360px sRGB/白底/JPEG thumbnail cache；品番及其余字段均为可提取文字，不把商品卡栅格化。全集超过 50MB 时仍保留全集，并额外生成鞋类、婴幼儿、服装三个分类 PDF，PDF 收藏 preview 自动改用三个分类附件。
+客户输出绝不显示日元原价、0.68、汇率、公式、成本或利润。默认 PDF 是 A4 portrait、每页 3×4 商品卡，使用专用 360px sRGB/白底/JPEG thumbnail cache；品番及其余字段均为可提取文字，不把商品卡栅格化。首页及全部品番索引页保持无水印；所有商品页统一叠加“株式会社路遥”斜向水印，透明度固定为 18%。全集超过 50MB 时仍保留全集，并额外生成鞋类、婴幼儿、服装三个分类 PDF，PDF 收藏 preview 自动改用三个分类附件。
 
 输出目录：
 

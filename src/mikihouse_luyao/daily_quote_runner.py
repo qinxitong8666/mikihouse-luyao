@@ -212,7 +212,13 @@ def run_daily_quote(
     with tempfile.TemporaryDirectory(prefix=f"{quote_date_text}-", dir=build_parent) as temp_name:
         work = Path(temp_name)
         full_pdf = work / f"MIKIHOUSE_{quote_date_text}_报价全集.pdf"
-        pdf_report = generate_daily_quote_pdf(manifest, thumbnail_paths, full_pdf)
+        watermark_kwargs = {
+            "watermark_text": str(config["customer_pdf_watermark_text"]),
+            "watermark_opacity": float(config["customer_pdf_watermark_opacity"]),
+        }
+        pdf_report = generate_daily_quote_pdf(
+            manifest, thumbnail_paths, full_pdf, **watermark_kwargs
+        )
         pdf_validation = validate_daily_quote_pdf(full_pdf, manifest, pdf_report, sample_size=50)
         pdf_report["path"] = full_pdf.name
         threshold = int(config["mobile_share_pdf_max_mb"]) * 1024 * 1024
@@ -223,7 +229,11 @@ def run_daily_quote(
             for category in ALLOWED_CATEGORIES:
                 path = work / f"MIKIHOUSE_{quote_date_text}_{CATEGORY_LABELS[category]}.pdf"
                 report = generate_daily_quote_pdf(
-                    manifest, thumbnail_paths, path, categories=(category,)
+                    manifest,
+                    thumbnail_paths,
+                    path,
+                    categories=(category,),
+                    **watermark_kwargs,
                 )
                 validation = validate_daily_quote_pdf(path, manifest, report, sample_size=50)
                 report["path"] = path.name

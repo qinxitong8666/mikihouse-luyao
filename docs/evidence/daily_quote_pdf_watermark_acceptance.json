@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "completed_at": "2026-09-23T11:26:36+09:00",
+  "scope": "DAILY_QUOTE_CUSTOMER_PDFS",
+  "source_fixture": {
+    "quote_date": "2026-09-23",
+    "source_snapshot_sha256": "135d39435351ca4779625de211099f7ae32d367bf14a9c77181bf77e0316be4f",
+    "manifest_sha256": "f9859b2a4422b590698d1d286d5f4fdb1838e6ec0c1961af6108c0da5c2f3344",
+    "product_count": 1786,
+    "historical_production_pdf_modified": false
+  },
+  "watermark_contract": {
+    "text": "株式会社路遥",
+    "opacity": 0.18,
+    "scope": "PRODUCT_PAGES_ONLY",
+    "angle_degrees": 32,
+    "font_size": 42
+  },
+  "generated_pdf": {
+    "page_count": 162,
+    "index_page_count": 11,
+    "product_page_count": 151,
+    "file_size_bytes": 23317450,
+    "sha256": "10c7c6e4bbf9146484f446a1850e49eb62ff05167f553e20ba6e5ca5bbeb0e85"
+  },
+  "automatic_validation": {
+    "status": "PASS",
+    "index_pages_with_watermark_count": 0,
+    "product_pages_with_watermark_text_count": 151,
+    "product_pages_with_opacity_extgstate_count": 151,
+    "search_sample_count": 50,
+    "search_pass_count": 50,
+    "search_pass_rate": 1.0,
+    "required_outline_titles_present": true,
+    "forbidden_customer_text_hits": []
+  },
+  "visual_qa": {
+    "status": "PASS",
+    "render_dpi": 200,
+    "rendered_page_count": 162,
+    "render_dimensions_pixels": [
+      1654,
+      2339
+    ],
+    "all_page_contact_sheet_count": 9,
+    "all_page_contact_sheets_reviewed": true,
+    "full_resolution_pages_reviewed": [
+      1,
+      11,
+      12,
+      24,
+      25,
+      107,
+      108,
+      162
+    ],
+    "index_readability_preserved": true,
+    "product_text_readability_preserved": true,
+    "clipping_count": 0,
+    "overlap_count": 0,
+    "broken_image_count": 0,
+    "unreadable_text_count": 0,
+    "layout_changes_required": false
+  },
+  "safety": {
+    "wechat_mutation_count": 0,
+    "shijiu_request_count": 0,
+    "historical_daily_quote_output_modified": false
+  }
+}

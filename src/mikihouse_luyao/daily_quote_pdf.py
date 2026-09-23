@@ -36,6 +36,11 @@ TINTS = {
     "baby": colors.HexColor("#F5FAFF"),
     "apparel": colors.HexColor("#FAF7FF"),
 }
+DEFAULT_WATERMARK_TEXT = "株式会社路遥"
+DEFAULT_WATERMARK_OPACITY = 0.18
+WATERMARK_ANGLE_DEGREES = 32
+WATERMARK_FONT_SIZE = 42
+WATERMARK_COLOR = colors.HexColor("#596473")
 
 
 def _register_font() -> str:
@@ -162,6 +167,44 @@ def _draw_card(
         canvas.drawString(text_x, variant_top - size - index * leading, line)
 
 
+def _draw_product_page_watermark(
+    canvas: Canvas,
+    *,
+    font: str,
+    text: str,
+    opacity: float,
+) -> None:
+    if not text.strip():
+        raise DailyQuoteError("customer PDF watermark text must not be empty")
+    if not 0 < opacity < 1:
+        raise DailyQuoteError("customer PDF watermark opacity must be between 0 and 1")
+    canvas.saveState()
+    canvas.setFillColor(WATERMARK_COLOR)
+    canvas.setFillAlpha(opacity)
+    canvas.translate(PAGE_WIDTH / 2, PAGE_HEIGHT / 2)
+    canvas.rotate(WATERMARK_ANGLE_DEGREES)
+    canvas.setFont(font, WATERMARK_FONT_SIZE)
+    canvas.drawCentredString(0, -WATERMARK_FONT_SIZE / 3, text)
+    canvas.restoreState()
+
+
+def _page_has_fill_alpha(page: Any, opacity: float) -> bool:
+    resources = page.get("/Resources") or {}
+    if hasattr(resources, "get_object"):
+        resources = resources.get_object()
+    ext_gstate = resources.get("/ExtGState") or {}
+    if hasattr(ext_gstate, "get_object"):
+        ext_gstate = ext_gstate.get_object()
+    for raw_state in ext_gstate.values():
+        state = raw_state.get_object() if hasattr(raw_state, "get_object") else raw_state
+        fill_alpha = state.get("/ca")
+        if fill_alpha is not None and math.isclose(
+            float(fill_alpha), opacity, rel_tol=0, abs_tol=0.0001
+        ):
+            return True
+    return False
+
+
 def _chunk(values: list[Any], size: int) -> list[list[Any]]:
     return [values[index:index + size] for index in range(0, len(values), size)]
 
@@ -184,6 +227,8 @@ def generate_daily_quote_pdf(
     output_path: Path,
     *,
     categories: tuple[str, ...] = ALLOWED_CATEGORIES,
+    watermark_text: str = DEFAULT_WATERMARK_TEXT,
+    watermark_opacity: float = DEFAULT_WATERMARK_OPACITY,
 ) -> dict[str, Any]:
     products = [row for row in manifest["products"] if row["category"] in categories]
     if not products:
@@ -255,6 +300,12 @@ def generate_daily_quote_pdf(
             y = PAGE_HEIGHT - MARGIN_Y - HEADER_H - (row + 1) * CARD_H - row * GAP_Y
             canvas.bookmarkPage(f"product-{product['product_number']}")
             _draw_card(canvas, product, thumbnail_paths[product["product_number"]], x, y, font)
+        _draw_product_page_watermark(
+            canvas,
+            font=font,
+            text=watermark_text,
+            opacity=watermark_opacity,
+        )
         canvas.showPage()
     canvas.save()
     return {
@@ -267,6 +318,15 @@ def generate_daily_quote_pdf(
         "product_count": len(products_by_category),
         "page_map": page_map,
         "categories": list(categories),
+        "watermark": {
+            "text": watermark_text,
+            "opacity": watermark_opacity,
+            "scope": "PRODUCT_PAGES_ONLY",
+            "index_page_count_without_watermark": index_pages,
+            "product_page_count_with_watermark": len(content_pages),
+            "angle_degrees": WATERMARK_ANGLE_DEGREES,
+            "font_size": WATERMARK_FONT_SIZE,
+        },
     }
 
 
@@ -307,13 +367,49 @@ def validate_daily_quote_pdf(
         title = getattr(item, "title", None)
         if title:
             outline_titles.append(str(title))
-    required_outlines = [CATEGORY_LABELS[key] for key in ALLOWED_CATEGORIES if key in pdf_report["categories"]]
+    required_outlines = [
+        CATEGORY_LABELS[key]
+        for key in ALLOWED_CATEGORIES
+        if key in pdf_report["categories"]
+    ]
+    watermark = pdf_report.get("watermark") or {}
+    watermark_text = str(watermark.get("text") or "")
+    watermark_opacity = float(watermark.get("opacity") or 0)
+    index_page_count = int(pdf_report.get("index_page_count") or 0)
+    index_watermark_pages = [
+        index + 1
+        for index, text in enumerate(page_texts[:index_page_count])
+        if watermark_text and watermark_text in text
+    ]
+    product_watermark_pages = [
+        index + 1
+        for index, text in enumerate(page_texts[index_page_count:], start=index_page_count)
+        if watermark_text and watermark_text in text
+    ]
+    product_opacity_pages = [
+        index + 1
+        for index, page in enumerate(
+            reader.pages[index_page_count:], start=index_page_count
+        )
+        if _page_has_fill_alpha(page, watermark_opacity)
+    ]
+    expected_product_pages = list(range(index_page_count + 1, len(reader.pages) + 1))
+    watermark_passed = (
+        watermark_text == DEFAULT_WATERMARK_TEXT
+        and math.isclose(
+            watermark_opacity, DEFAULT_WATERMARK_OPACITY, rel_tol=0, abs_tol=0.0001
+        )
+        and not index_watermark_pages
+        and product_watermark_pages == expected_product_pages
+        and product_opacity_pages == expected_product_pages
+    )
     passed = (
         len(reader.pages) == pdf_report["page_count"]
         and len(checks) >= min(50, len(products))
         and all(row["passed"] for row in checks)
         and not forbidden_hits
         and all(title in outline_titles for title in required_outlines)
+        and watermark_passed
     )
     result = {
         "status": "PASS" if passed else "FAIL",
@@ -327,6 +423,17 @@ def validate_daily_quote_pdf(
         "outline_titles": outline_titles,
         "required_outline_titles": required_outlines,
         "text_layer_character_count": len(all_text),
+        "watermark": {
+            "status": "PASS" if watermark_passed else "FAIL",
+            "text": watermark_text,
+            "opacity": watermark_opacity,
+            "scope": watermark.get("scope"),
+            "index_page_count": index_page_count,
+            "index_pages_with_watermark": index_watermark_pages,
+            "product_page_count": len(expected_product_pages),
+            "product_pages_with_watermark_text": product_watermark_pages,
+            "product_pages_with_opacity_extgstate": product_opacity_pages,
+        },
     }
     if not passed:
         raise DailyQuoteError(f"daily quote PDF validation failed: {result}")

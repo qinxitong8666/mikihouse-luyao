@@ -31,7 +31,12 @@ from mikihouse_luyao.daily_quote_fx import (
     parse_ecb_reference_rates,
 )
 from mikihouse_luyao.daily_quote_images import create_thumbnail
-from mikihouse_luyao.daily_quote_pdf import generate_daily_quote_pdf, validate_daily_quote_pdf
+from mikihouse_luyao.daily_quote_pdf import (
+    DEFAULT_WATERMARK_OPACITY,
+    DEFAULT_WATERMARK_TEXT,
+    generate_daily_quote_pdf,
+    validate_daily_quote_pdf,
+)
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, _validate_crawl
 from mikihouse_luyao.daily_quote_text import (
     build_favorite_payloads,
@@ -271,6 +276,26 @@ def test_pdf_search_layer_outlines_and_thumbnail_compression(tmp_path: Path) -> 
     assert validation["search_sample_count"] == 50
     assert validation["search_pass_rate"] == 1
     assert set(("鞋类", "婴幼儿", "服装")).issubset(validation["outline_titles"])
+    assert report["watermark"]["text"] == DEFAULT_WATERMARK_TEXT
+    assert report["watermark"]["opacity"] == DEFAULT_WATERMARK_OPACITY
+    assert validation["watermark"]["status"] == "PASS"
+    assert validation["watermark"]["index_pages_with_watermark"] == []
+    assert validation["watermark"]["product_page_count"] == report["product_page_count"]
+    assert len(validation["watermark"]["product_pages_with_watermark_text"]) == report[
+        "product_page_count"
+    ]
+    assert len(
+        validation["watermark"]["product_pages_with_opacity_extgstate"]
+    ) == report["product_page_count"]
+    page_texts = [page.extract_text() or "" for page in PdfReader(pdf_path).pages]
+    assert all(
+        DEFAULT_WATERMARK_TEXT not in text
+        for text in page_texts[: report["index_page_count"]]
+    )
+    assert all(
+        DEFAULT_WATERMARK_TEXT in text
+        for text in page_texts[report["index_page_count"] :]
+    )
     assert "ベビーシューズ" in extracted and "赤" in extracted and "13cm" in extracted and "元" not in extracted
     assert "人民币" in extracted
     assert thumb["thumbnail_width"] <= 360 and thumb["thumbnail_height"] <= 360
@@ -321,6 +346,8 @@ def test_daily_quote_modules_have_no_shijiu_endpoint_or_mutation_toggle() -> Non
     assert config["wechat_write_enabled"] is False
     assert config["wechat_text_format"] == "LOSSLESS_COMPACT"
     assert config["wechat_text_capacity_status"] == "PASS_70661_SAVED_REOPENED_FULL_HASH"
+    assert config["customer_pdf_watermark_text"] == DEFAULT_WATERMARK_TEXT
+    assert config["customer_pdf_watermark_opacity"] == DEFAULT_WATERMARK_OPACITY
 
 
 def test_tracked_text_favorite_payload_uses_verified_lossless_compact_format() -> None:
