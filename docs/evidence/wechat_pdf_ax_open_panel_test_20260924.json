@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "REOPEN_VISUAL_PASS_AUTOMATIC_TOOLBAR_BLOCKED",
+  "base_commit": "c54001506c8802d3c08e42bdc9b1f2c38a39e974",
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "test_title": "MIKIHOUSE_TEST_2026-09-24_AX_PDF_PICKER",
+  "toolbar_activation": "OPERATOR_MANUAL_CLICK",
+  "semantic_toolbar_discovery": "NOT_VERIFIED",
+  "panel_evidence": {
+    "owner": "TEST_NOTE_WINDOW",
+    "role": "AXSheet",
+    "identifier": "open-panel",
+    "name": "打开",
+    "selection": "EXACT_FILE_AXURL_THEN_EXPOSED_OPEN_FINDER_ITEM_ACTION",
+    "fixed_coordinate_click_used": false,
+    "main_process_open_button_alone_used_as_proof": false
+  },
+  "attachment": {
+    "relative_path": "outputs/daily_quote/2026-09-24/MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "bytes": 23317467,
+    "sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+    "filename_and_22_24_mb_visible_before_close": true,
+    "saved_unique_search_result_contains_filename": true,
+    "search_candidate_count": 1,
+    "reopened_note_filename_strong_readback": "PASS_VISUAL_AFTER_OPERATOR_AUTHORIZED_WECHAT2_RESTART",
+    "reopened_filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "reopened_display_size": "22.24MB",
+    "reopened_filename_in_note_ax_tree": false,
+    "reopened_observation": "Repeated read-only captures show a blank white note canvas; accessibility exposes window title and window controls only. Operator screenshot independently confirms a transparent note window, so the observation is not limited to automation capture. Root cause remains unknown.",
+    "operator_mobile_observation": "Operator reports the PDF exists in this test Favorite on the phone, while the separate formal daily PDF Favorite has no attachment. This supports cross-device attachment persistence but does not replace Mac reopened filename/content verification or prove PDF byte integrity.",
+    "placement_observation": "Attachment appeared inside the test body between Accessibility 文 and 件选择器单次验收；不发送聊天。, not at its end. Production placement validation is not passed."
+  },
+  "safety": {
+    "attachment_mutation_count": 1,
+    "automatic_mutation_retry_count": 0,
+    "formal_favorite_mutation_count": 0,
+    "checkpoint_reset_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "test_note_retained_not_deleted": true,
+    "production_integration": "NOT_CHANGED_PENDING_REAL_ATTACHMENT_ACCEPTANCE"
+  },
+  "readonly_followup": {
+    "wechat2_main_process_running": true,
+    "wechat2_helper_process_running": true,
+    "main_enhanced_ax": true,
+    "helper_enhanced_ax": false,
+    "helper_window_count": 0,
+    "test_note_sheet_count": 0,
+    "recent_wechat_crash_report_seen_in_latest_diagnostic_listing": false,
+    "process_alive_does_not_prove_renderer_healthy": true,
+    "remote_main_matches_base_commit": true,
+    "existing_coordinate_picker_not_executed": true
+  },
+  "authorized_restart_validation": {
+    "operator_authorized": true,
+    "method": "Wechat2 native Quit menu, reenter existing account, Favorites, open existing test result",
+    "other_wechat_not_restarted": true,
+    "transparent_window_resolved_after_restart": true,
+    "root_cause": "UNKNOWN; restart resolved the observed symptom but does not establish a specific renderer defect",
+    "visible_title": "1.MIKIHOUSE_TEST_2026-09-24_AX_PDF_PICKER",
+    "attachment_filename_and_size_visible": true,
+    "toolbar_file_button_visually_present": true,
+    "toolbar_file_button_accessibility_exposed": false,
+    "additional_attachment_mutations": 0,
+    "formal_favorite_mutations": 0,
+    "test_body_attachment_placement_still_mid_text": true
+  },
+  "next_step": "Automatic production integration remains blocked by unavailable semantic toolbar access and unverified end-of-body placement. Do not infer automatic acceptance from operator-assisted picker success; no coordinate fallback or repeat attachment."
+}

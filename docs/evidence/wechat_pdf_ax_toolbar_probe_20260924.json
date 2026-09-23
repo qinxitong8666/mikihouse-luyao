@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_AX_TOOLBAR_NOT_EXPOSED",
+  "base_commit": "c54001506c8802d3c08e42bdc9b1f2c38a39e974",
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "test_title": "MIKIHOUSE_TEST_2026-09-24_AX_PDF_PICKER",
+  "operator_authorized_temporary_enhanced_ax": true,
+  "helper_executable": "/Applications/微信2.app/Contents/MacOS/WeChatAppEx.app/Contents/MacOS/WeChatAppEx",
+  "helper_parent_verified_as_wechat2": true,
+  "helper_enhanced_ax_before": false,
+  "helper_enhanced_ax_during_probe": true,
+  "helper_enhanced_ax_restored": false,
+  "main_process_enhanced_ax_already_true": true,
+  "observations": {
+    "test_note_saved_and_reopened_by_unique_exact_title": true,
+    "search_candidate_count": 1,
+    "exposed_note_controls_before_and_after_reopen": ["close", "fullscreen", "minimize"],
+    "semantic_file_toolbar_button_found": false,
+    "helper_window_count": 0,
+    "open_panel_opened": false,
+    "pdf_selected_or_uploaded": false,
+    "attachment_filename_readback": "NOT_EXECUTED_BLOCKED_BEFORE_ATTACHMENT"
+  },
+  "prior_success_comparison": {
+    "evidence": "outputs/daily_quote/2026-09-23/wechat_pdf_favorite_manual_file_picker_recovery_validation.json",
+    "prior_success": "CUA_FILENAME_AND_SIZE_VISIBLE_AFTER_OPERATOR_AUTHORIZED_TOOLBAR_PICKER",
+    "current_failure": "OPEN_PANEL_NOT_CONFIRMED_AFTER_WINDOW_OFFSET_CLICK",
+    "conclusion": "Prior manual picker success does not prove semantic AX toolbar discovery or main-process-only Open button discovery. No coordinate fallback is authorized."
+  },
+  "safety": {
+    "formal_favorite_mutation_count": 0,
+    "attachment_mutation_count": 0,
+    "automatic_retry_count": 0,
+    "checkpoint_reset_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "test_note_retained_not_deleted": true,
+    "production_integration": "NOT_CHANGED_PENDING_REAL_ATTACHMENT_ACCEPTANCE"
+  }
+}
