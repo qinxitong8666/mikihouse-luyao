@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "recovery_mode": "EXPLICIT_OPERATOR_AUTHORIZED_SINGLE_ATTEMPT",
+  "automatic_retry_count": 0,
+  "error_type": "WeChatRuntimeError",
+  "error": "authorized recovery attachment was not visible before save",
+  "failed_at": "2026-09-23T10:05:00.065384+09:00",
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

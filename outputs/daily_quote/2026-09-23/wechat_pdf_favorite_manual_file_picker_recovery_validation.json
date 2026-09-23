@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "recovery_mode": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+  "automatic_retry_count": 0,
+  "attachment": {
+    "filename": "MIKIHOUSE_2026-09-23_报价全集.pdf",
+    "byte_count": 23293065,
+    "sha256": "0ecec3c378c1abf0e1245c81c47df047b05c45ad5e1537c4c952d6bf651bb1ab",
+    "selected_path": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/outputs/daily_quote/2026-09-23/MIKIHOUSE_2026-09-23_报价全集.pdf",
+    "visible_before_save": true,
+    "visible_after_reopen": true,
+    "visual_readback": "CUA_FILENAME_AND_SIZE_VISIBLE",
+    "clipboard_placeholder_after_reopen": "[文件]"
+  },
+  "text_readback": {
+    "status": "EXACT_READBACK_MATCH",
+    "truncated": false,
+    "raw_character_count": 99,
+    "normalized_character_count": 98,
+    "raw_sha256": "38d1e553675584724b69a17d0be26830d9916d6bb1d045716ff5db0619f3a907",
+    "normalized_sha256": "951dcfacea6440def4c248c575a7c01833be098e118351ea60cb586cdd93b38c"
+  },
+  "saved_note_search": {
+    "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
+    "search_candidate_count": 1,
+    "search_marker_sha256": "e366c75494cdf8cdf6a7ced51025538433bdd66023b5fb35cea50da3fbc66668",
+    "search_tree_sha256": "685ce886f54ed95e548a146e77b8691d9bbc2234eeba1bc03cfa0b2ec77a8c25"
+  },
+  "target_process": {
+    "bundle_id": "com.tencent.xinWeChot2",
+    "app_path": "/Applications/微信2.app",
+    "version": "4.1.6"
+  },
+  "completed_at": "2026-09-23T10:24:39.409157+09:00",
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

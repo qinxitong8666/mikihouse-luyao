@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "reconciliation_mode": "READ_ONLY_STRONG_MATCH_AFTER_CLOSE_LATENCY",
+  "mutation_replayed": false,
+  "automatic_mutation_retry_count": 0,
+  "saved_note_search": {
+    "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
+    "search_candidate_count": 1,
+    "search_marker_sha256": "4df60db6a04a5d6ad358167c0ff306a62a3a3f013480e19d8baa47094f994ade",
+    "search_tree_sha256": "4967b9fb5f02cdec7bf771964248d7f91d81356ad5301a4c79a172a28b50fded"
+  },
+  "readback": {
+    "status": "NORMALIZED_READBACK_MATCH",
+    "truncated": false,
+    "raw_character_count": 70683,
+    "normalized_character_count": 70682,
+    "utf8_byte_count": 96876,
+    "line_count": 1793,
+    "expected_raw_sha256": "56b70c3686423d66a52c46a89da6499372d435f6b1618902fc99ab52655f850c",
+    "normalized_sha256": "15d36430663ac1eaaf3d1b07ab4c6e757171af5bbc96b28ffda77213126cb2d8",
+    "head_sha256": "aac31f69bf1498e6a558ecc5341b2453715c1ad7ad9b20aa67e95bdae086604a",
+    "tail_sha256": "592b5bd42cdbc2e70b6890c54a8ce02fb2010ef12e8df12aa071dba85b97a907",
+    "first_line": "MIKI HOUSE 9月23日报价｜文字版",
+    "last_line": "74-9956-149｜488元 サーモンピンク:80"
+  },
+  "target_process": {
+    "bundle_id": "com.tencent.xinWeChot2",
+    "app_path": "/Applications/微信2.app",
+    "version": "4.1.6"
+  },
+  "completed_at": "2026-09-23T10:30:30.936124+09:00",
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

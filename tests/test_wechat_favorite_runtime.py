@@ -222,6 +222,41 @@ def test_production_title_collision_blocks_before_note_creation(
     assert created["count"] == 0
 
 
+def test_saved_note_candidate_parser_ignores_search_heading_false_duplicate() -> None:
+    marker = "MIKI HOUSE 9月23日报价｜PDF版"
+    tree = "\n".join([
+        f'|||“{marker}||||||',
+        f'|||{marker}||||||',
+        f'AXTextField|||搜索|||Search|||{marker}',
+        f'|||笔记{marker}正文摘要||||||',
+    ])
+    assert runtime._exact_saved_note_candidate_lines(tree, marker) == [
+        f'|||{marker}||||||',
+    ]
+
+
+def test_close_and_save_note_waits_for_delayed_window_disappearance(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    main = WindowIdentity(1, "WeChat", "AXWindow")
+    note = WindowIdentity(2, "MIKI HOUSE 9月23日报价｜文", "AXWindow")
+    inventories = iter([
+        [main, note],
+        [main, note],
+        [main, note],
+        [main],
+    ])
+    monkeypatch.setattr(runtime, "get_windows", lambda _pid: next(inventories))
+    monkeypatch.setattr(runtime, "_raise_note", lambda *_args: None)
+    monkeypatch.setattr(runtime, "press_menu_item", lambda *_args: {})
+    sleeps: list[float] = []
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    evidence = runtime.close_and_save_note(123, "com.tencent.xinWeChot2", note)
+    assert evidence["status"] == "NOTE_CLOSED_AUTO_SAVE_EXPECTED"
+    assert evidence["close_poll_attempt_count"] == 3
+    assert sleeps == [0.5, 0.5]
+
+
 def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() -> None:
     capacity = {
         "status": "PASS",

@@ -99,6 +99,29 @@ def render_compact_text_quote(manifest: dict[str, Any]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def render_production_compact_text_quote(manifest: dict[str, Any]) -> str:
+    """Render the verified compact rows without title/date duplication.
+
+    The Favorite title already carries MIKI HOUSE and the quote date.  Keeping
+    only an explicit in-stock marker and the shoe-size unit preserves every
+    product/price/color/size fact while leaving a small capacity margin.
+    """
+
+    lines = ["有货"]
+    for category in ALLOWED_CATEGORIES:
+        label = "鞋(cm)" if category == "footwear" else CATEGORY_LABELS[category]
+        lines.append(f"【{label}】")
+        for product in (row for row in manifest["products"] if row["category"] == category):
+            segments = []
+            for group in product.get("variant_price_groups") or []:
+                segments.append(
+                    f"{int(group['customer_price_cny'])}元 {_compact_colors(group, category=category)}"
+                )
+            lines.append(f"{product['product_number']}｜" + "｜".join(segments))
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def text_stats(text: str, product_count: int) -> dict[str, int]:
     lines = text.splitlines()
     return {

@@ -30,7 +30,7 @@ from .daily_quote_pdf import generate_daily_quote_pdf, validate_daily_quote_pdf
 from .daily_quote_text import (
     build_favorite_payloads,
     render_favorite_preview,
-    render_compact_text_quote,
+    render_production_compact_text_quote,
     render_text_quote,
     text_stats,
     write_json,
@@ -237,7 +237,7 @@ def run_daily_quote(
         text_report = text_stats(text_quote, len(manifest["products"]))
         favorite_text_format = str(config.get("wechat_text_format") or "VERBOSE").upper()
         if favorite_text_format == "LOSSLESS_COMPACT":
-            favorite_text_quote = render_compact_text_quote(manifest)
+            favorite_text_quote = render_production_compact_text_quote(manifest)
         elif favorite_text_format == "VERBOSE":
             favorite_text_quote = text_quote
         else:

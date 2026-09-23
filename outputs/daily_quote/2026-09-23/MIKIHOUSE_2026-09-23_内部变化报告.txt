@@ -1,0 +1,24 @@
+MIKI HOUSE 2026-09-23 内部变化报告
+
+官网总商品数：2987
+白名单分类商品数：2223
+最终eligible数量：1786
+实际有货并进入报价数量：1786
+NO_DISCOUNT_LIST排除数：321
+WEB_EXCLUSIVE排除数：184
+LIMITED_TIME_PRICE排除数：0
+NON_SELLABLE_SERVICE_OR_ADDON排除数：28
+非白名单分类排除数：634
+抓取/资源异常数：0
+FX：0.04262807348615196758616861853（2026-09-22，ECB_EUROFXREF_DAILY）
+
+今日新增商品：0
+今日退出报价商品：0
+官网JPY价格变化：0
+最终CNY报价变化：0
+新售罄SKU：0
+恢复有货SKU：0
+新增variant：0
+
+客户输出安全：不包含官网JPY原价、折扣率、汇率或定价公式。
+Shijiu请求/写入：0。微信收藏真实写入：0。

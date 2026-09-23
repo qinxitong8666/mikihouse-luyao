@@ -36,6 +36,7 @@ from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, _validate_cra
 from mikihouse_luyao.daily_quote_text import (
     build_favorite_payloads,
     render_compact_text_quote,
+    render_production_compact_text_quote,
     render_text_quote,
     text_stats,
 )
@@ -205,6 +206,26 @@ def test_compact_text_is_lossless_for_price_color_and_in_stock_sizes() -> None:
     assert "327元 赤/紺:13/13.5" in compact
     assert "392元 赤:14" in compact
     assert "16500" not in compact and "0.68" not in compact and "JPY" not in compact
+
+
+def test_production_compact_text_removes_only_redundant_note_header() -> None:
+    manifest = build_daily_quote_manifest(
+        [product("10-0001-011", "ベビーシューズ", tags=["first-shoes"], variants=[
+            {"sku": "A", "color": "赤", "size": "13cm", "available_for_sale": True, "tax_included_price_jpy": 10000, "compare_at_price_jpy": 10000},
+            {"sku": "B", "color": "紺", "size": "13.5cm", "available_for_sale": True, "tax_included_price_jpy": 12000, "compare_at_price_jpy": 12000},
+        ])],
+        special_numbers=special_set(), fx=frozen_fx(), quote_date="2026-09-23",
+        generated_at="2026-09-23T10:00:00+09:00",
+    )
+    historical = render_compact_text_quote(manifest)
+    production = render_production_compact_text_quote(manifest)
+    assert production.startswith("有货\n【鞋(cm)】\n")
+    assert "MIKI HOUSE当日报价" not in production
+    assert "更新:2026-09-23" not in production
+    assert "10-0001-011｜327元 赤:13｜392元 紺:13.5" in production
+    assert len(production) < len(historical)
+    for forbidden in ("10000", "12000", "0.68", "0.048", "JPY", "税入"):
+        assert forbidden not in production
 
 
 def test_pdf_and_text_share_manifest_variant_price_groups() -> None:

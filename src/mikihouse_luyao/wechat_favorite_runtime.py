@@ -712,15 +712,22 @@ def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[
     before = get_windows(pid)
     _raise_note(pid, bundle_id, note)
     press_menu_item(pid, bundle_id, "文件", "关闭窗口")
-    after = get_windows(pid)
     before_count = len([row for row in before if row.title not in NON_NOTE_WINDOW_TITLES])
+    after = get_windows(pid)
+    close_poll_attempt_count = 1
     after_count = len([row for row in after if row.title not in NON_NOTE_WINDOW_TITLES])
+    while after_count != before_count - 1 and close_poll_attempt_count < 20:
+        time.sleep(0.5)
+        after = get_windows(pid)
+        close_poll_attempt_count += 1
+        after_count = len([row for row in after if row.title not in NON_NOTE_WINDOW_TITLES])
     if after_count != before_count - 1:
         raise WeChatRuntimeError("note did not close cleanly; save state unknown")
     return {
         "status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED",
         "windows_before": [asdict(row) for row in before],
         "windows_after": [asdict(row) for row in after],
+        "close_poll_attempt_count": close_poll_attempt_count,
         "save_prompt_observed": False,
     }
 
@@ -805,10 +812,7 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
             raise WeChatRuntimeError("favorites search failed")
         main = _main_window(pid)
         tree = collect_window_ax_text(pid, main)
-        candidate_lines = [
-            line for line in tree.splitlines()
-            if marker in line and not line.startswith("AXTextField|||")
-        ]
+        candidate_lines = _exact_saved_note_candidate_lines(tree, marker)
         return {
             "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
             "favorites": favorites,
@@ -819,6 +823,23 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
         }
     finally:
         _set_clipboard_text(original)
+
+
+def _exact_saved_note_candidate_lines(tree: str, marker: str) -> list[str]:
+    """Return only exact saved-note title nodes from a Favorites search tree.
+
+    WeChat exposes the search-results heading as a separate AX node whose text
+    starts with a typographic quote followed by the query.  Substring matching
+    therefore reports a false duplicate for every exact search.  A saved note
+    title is counted only when one AX field equals the marker exactly.
+    """
+
+    candidates: list[str] = []
+    for line in tree.splitlines():
+        fields = line.split("|||", 3)
+        if len(fields) == 4 and fields[0] != "AXTextField" and marker in fields[1:]:
+            candidates.append(line)
+    return candidates
 
 
 def page_fingerprint(pid: int, window: WindowIdentity | None = None) -> dict[str, Any]:
