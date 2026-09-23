@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "accepted_runtime_source_sha256": {
+  "src/mikihouse_luyao/wechat_favorite_runtime.py": "d2817bea82824b2a162134ecb1a09d64d46a158c84021e55c2efcf76e6acbe71",
+  "src/mikihouse_luyao/wechat_native_picker.py": "e279c87deb75613d584fa36d315fbd8b0b05deed34445f200c37bc88e5245729",
+  "src/mikihouse_luyao/wechat_pdf_keyboard.py": "981fb536e9486257be0928d2c524595b47e795d472a04b514edb01fabeb8106e"
+},
+  "base_commit": "db8bedc0fd9049a7a2fdccb27de4503b67a8b505",
+  "status": "PASS_FULL_SINK_UNINTERRUPTED",
+  "runtime_date": "2026-09-24",
+  "target": {
+    "bundle_id": "com.tencent.xinWeChot2",
+    "app_path": "/Applications/微信2.app",
+    "version": "4.1.6"
+  },
+  "accepted_test_title": "MIKIHOUSE_TEST_2026-09-24_SINK_AX_V4",
+  "sink_invocation_count": 1,
+  "full_sink_interrupted": false,
+  "manual_gui_assistance_during_accepted_invocation": false,
+  "exact_title_preflight_candidate_count": 0,
+  "local_raw_evidence_sha256": "31ce858e7022169c36270068cd0a425e416ef613b0797c1499a1cadc4e6ceb00",
+  "attachment": {
+    "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "byte_count": 23317467,
+    "sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+    "trigger": "COMMAND_O_NOTE_OWNED_AXSHEET",
+    "selection": "EXACT_CFURL_PATH_AXOPEN",
+    "insertion": "COMMAND_DOWN_COMMAND_RIGHT_END_OF_BODY",
+    "panel_observation": {
+      "dispatch": "PICKER_KEYS_SENT_ONCE",
+      "status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED",
+      "read_only_polls": 1,
+      "identifier": "open-panel",
+      "owner_pid": 12576,
+      "note_title": "MIKIHOUSE_TEST_2026-"
+    },
+    "file_dispatch": {
+      "api_returncode": -25205,
+      "action": "AXOpen",
+      "dispatch_count": 1,
+      "status": "DISPATCH_REQUIRES_READBACK"
+    },
+    "file_dispatch_resolved_by_readback": true,
+    "placeholder_visible_before_save": true,
+    "automatic_retry_count": 0
+  },
+  "body_readback": {
+    "normalized_before": "460298ec7736129690c0f85bac57d4080626e88a03e764e0da505be4ce6aa5c7",
+    "normalized_after_insert": "460298ec7736129690c0f85bac57d4080626e88a03e764e0da505be4ce6aa5c7",
+    "normalized_after_reopen": "460298ec7736129690c0f85bac57d4080626e88a03e764e0da505be4ce6aa5c7",
+    "exact_expected_after_reopen": "14a7d70030d393dd0bad3f7ca159709b78f1bd3797afc7fda48569ea909bb352",
+    "exact_actual_after_reopen": "14a7d70030d393dd0bad3f7ca159709b78f1bd3797afc7fda48569ea909bb352",
+    "exact_hash_match_after_reopen": true,
+    "normalized_hash_match_after_reopen": true,
+    "truncated": false,
+    "body_character_count": 96,
+    "tail_marker": "[文件]",
+    "tail_marker_count": 1
+  },
+  "save_close": {
+    "status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED",
+    "windows_before": [
+      {
+        "index": 1,
+        "title": "MIKIHOUSE_TEST_2026-",
+        "role": "AXWindow"
+      },
+      {
+        "index": 2,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "close_poll_attempt_count": 1,
+    "save_prompt_observed": false,
+    "native_close": {
+      "method": "NOTE_OWNED_AXCLOSEBUTTON",
+      "dispatch_count": 1
+    }
+  },
+  "reopen": {
+    "status": "SAVED_NOTE_REOPENED_UNIQUE",
+    "result_focus": {
+      "status": "EXACT_RESULT_LIST_FOCUSED",
+      "candidate_count": 1,
+      "list_identifier": "fav_detail_list",
+      "query": "MIKIHOUSE_TEST_2026-09-24_SINK_AX_V4",
+      "focus_target": "UNIQUE_EXACT_NOTE_ROW"
+    },
+    "favorites": {
+      "status": "FAVORITES_PAGE_CONFIRMED",
+      "window": {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow"
+      },
+      "positive_signals": [
+        "全部收藏",
+        "最近使用",
+        "图片与视频",
+        "笔记",
+        "文件",
+        "小程序"
+      ],
+      "negative_signals": [],
+      "tree_sha256": "f2944c3b2ab35292fb1bea06c00ef9012e62008b5ce4192c0a53e0409dac6e76",
+      "tree_line_count": 57
+    },
+    "search_marker_sha256": "bb27b0c9e61e3e0e41dbc055f583c8ba1013ea9730753c76d928d757d496c4b4",
+    "search_candidate_count": 1,
+    "search_tree_sha256": "b30b02311a68482ae378009c823bf742bd3b1b5e3cf808ed37e84198c2e14ef2",
+    "windows_before": [
+      {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "MIKIHOUSE_TEST_2026-",
+        "role": "AXWindow"
+      },
+      {
+        "index": 2,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ]
+  },
+  "verification_close": {
+    "status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED",
+    "windows_before": [
+      {
+        "index": 1,
+        "title": "MIKIHOUSE_TEST_2026-",
+        "role": "AXWindow"
+      },
+      {
+        "index": 2,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "close_poll_attempt_count": 1,
+    "save_prompt_observed": false,
+    "native_close": {
+      "method": "NOTE_OWNED_AXCLOSEBUTTON",
+      "dispatch_count": 1
+    }
+  },
+  "attachment_filename_readback": [
+    {
+      "method": "EXACT_FILENAME_INDEX_AND_REOPENED_BODY_WITH_TRAILING_FILE",
+      "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+      "same_title_unique_candidate_count": 1,
+      "query_sha256": "dc2d0ddf7f66638ccae62376d7af91d92d6223a711d175b604ca22935a30e882",
+      "page_sha256": "81e62c767530ccc531600cd2543fbf54b9ba783750c4424aff6284de5bb376a7"
+    }
+  ],
+  "reopened_page_fingerprint_sha256": "655886af2f4460ba708edce948fc8ed3ec0e8c764f1c02a6470f79752d0e5a95",
+  "steps": [
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.204,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 3.986,
+      "returncode": 0,
+      "result_sha256": "e2493a4f217b2e549d2659febbe730f8b2bdad0d42be709f86bc005e28485493"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.2,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "MENU_ACTION",
+      "seconds": 1.576,
+      "returncode": 0,
+      "result_sha256": "05f1047a178a599c1e2dc1ea65e2077ada377217825979c56c8f3f58d6b5a367",
+      "result": "MENU_ITEM_PRESSED|||1",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.22,
+      "returncode": 0,
+      "result_sha256": "239952c36805e7102a33e24f8aa146bb04bf46f458435e3964c9b6d0a31de1d6"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.614,
+      "returncode": 0,
+      "result_sha256": "b778e307964fb978f7deb01a76dcfb63f3c97b8ee695d9804e278dfc1dd4f016"
+    },
+    {
+      "phase": "BODY_PASTE",
+      "seconds": 0.78,
+      "returncode": 0,
+      "result_sha256": "9510fb0868f3b750c4c6bbe660776e158bf291cfac638d02f61c1644ea630604",
+      "result": "PASTE_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.605,
+      "returncode": 0,
+      "result_sha256": "b778e307964fb978f7deb01a76dcfb63f3c97b8ee695d9804e278dfc1dd4f016"
+    },
+    {
+      "phase": "BODY_COPY",
+      "seconds": 1.664,
+      "returncode": 0,
+      "result_sha256": "683ff636234c95e84b6ead70269250019e9be07e3d9c29e8f88013031e05f83f",
+      "result": "COPY_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.617,
+      "returncode": 0,
+      "result_sha256": "b778e307964fb978f7deb01a76dcfb63f3c97b8ee695d9804e278dfc1dd4f016"
+    },
+    {
+      "phase": "BODY_COPY",
+      "seconds": 1.693,
+      "returncode": 0,
+      "result_sha256": "683ff636234c95e84b6ead70269250019e9be07e3d9c29e8f88013031e05f83f",
+      "result": "COPY_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.228,
+      "returncode": 0,
+      "result_sha256": "239952c36805e7102a33e24f8aa146bb04bf46f458435e3964c9b6d0a31de1d6"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.609,
+      "returncode": 0,
+      "result_sha256": "b778e307964fb978f7deb01a76dcfb63f3c97b8ee695d9804e278dfc1dd4f016"
+    },
+    {
+      "phase": "BODY_COPY",
+      "seconds": 1.656,
+      "returncode": 0,
+      "result_sha256": "683ff636234c95e84b6ead70269250019e9be07e3d9c29e8f88013031e05f83f",
+      "result": "COPY_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.225,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "PICKER_DISPATCH",
+      "seconds": 0.629,
+      "returncode": 0,
+      "result_sha256": "c97f9365cab63e681c2e913379cefe1725b294060f978d6a58bafab572340f07",
+      "result": "PICKER_KEYS_SENT_ONCE",
+      "stderr": ""
+    },
+    {
+      "phase": "PANEL_NAVIGATION",
+      "seconds": 0.229,
+      "returncode": 0,
+      "result_sha256": "0ea4132c8b980572228d6cd115f1c0476463d3c9085fd16117535025f6f20c23",
+      "result": "KEY_SENT_ONCE",
+      "stderr": ""
+    },
+    {
+      "phase": "PANEL_NAVIGATION",
+      "seconds": 0.225,
+      "returncode": 0,
+      "result_sha256": "0ea4132c8b980572228d6cd115f1c0476463d3c9085fd16117535025f6f20c23",
+      "result": "KEY_SENT_ONCE",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.212,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.594,
+      "returncode": 0,
+      "result_sha256": "1233f7d942350643199a2cdbc725e50f60b80a3e3dc98b46232bbe01ccda2889"
+    },
+    {
+      "phase": "BODY_COPY",
+      "seconds": 1.662,
+      "returncode": 0,
+      "result_sha256": "683ff636234c95e84b6ead70269250019e9be07e3d9c29e8f88013031e05f83f",
+      "result": "COPY_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.208,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.216,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.547,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.197,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 3.984,
+      "returncode": 0,
+      "result_sha256": "f2944c3b2ab35292fb1bea06c00ef9012e62008b5ce4192c0a53e0409dac6e76"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.179,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 3.372,
+      "returncode": 0,
+      "result_sha256": "1a6884b24414c6ef515549dd209b757ca5bfca41b78ea75458963a4da059c489"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.195,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 4.451,
+      "returncode": 0,
+      "result_sha256": "b30b02311a68482ae378009c823bf742bd3b1b5e3cf808ed37e84198c2e14ef2"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.19,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.179,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "RESULT_OPEN",
+      "seconds": 1.362,
+      "returncode": 0,
+      "result_sha256": "d87b1a0267b6c306b80a5d45bf85797e518882279eab0c1b496888a81cd327f7",
+      "result": "UNIQUE_RESULT_OPEN_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.227,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.607,
+      "returncode": 0,
+      "result_sha256": "1233f7d942350643199a2cdbc725e50f60b80a3e3dc98b46232bbe01ccda2889"
+    },
+    {
+      "phase": "BODY_COPY",
+      "seconds": 1.662,
+      "returncode": 0,
+      "result_sha256": "683ff636234c95e84b6ead70269250019e9be07e3d9c29e8f88013031e05f83f",
+      "result": "COPY_SENT",
+      "stderr": ""
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.517,
+      "returncode": 0,
+      "result_sha256": "655886af2f4460ba708edce948fc8ed3ec0e8c764f1c02a6470f79752d0e5a95"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.211,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.217,
+      "returncode": 0,
+      "result_sha256": "dcd90d7ba8b0da701725b0cee331a6f3f620be704eca7cf198ce01fc2941d21c"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.56,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.184,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 4.468,
+      "returncode": 0,
+      "result_sha256": "b30b02311a68482ae378009c823bf742bd3b1b5e3cf808ed37e84198c2e14ef2"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.181,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 3.503,
+      "returncode": 0,
+      "result_sha256": "1a6884b24414c6ef515549dd209b757ca5bfca41b78ea75458963a4da059c489"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 0.18,
+      "returncode": 0,
+      "result_sha256": "1190439d0d30f7af6d09227a38e13a0dc68f207127aaf36adaf2fbd1ea16464d"
+    },
+    {
+      "phase": "OBSERVATION",
+      "seconds": 4.651,
+      "returncode": 0,
+      "result_sha256": "81e62c767530ccc531600cd2543fbf54b9ba783750c4424aff6284de5bb376a7"
+    }
+  ],
+  "prior_attempts": [
+    {
+      "title": "MIKIHOUSE_TEST_2026-09-24_SINK_AX_V2",
+      "status": "FROZEN_NO_RETRY",
+      "error": "file AXOpen returned unknown outcome (-25205); do not retry",
+      "local_raw_evidence_sha256": "ba7cb8aa7fff5a5d659767c7281927a5821f5dcb36b270cf208ebf708d64b391",
+      "upload_attempt_count": 1,
+      "automatic_upload_retries": 0,
+      "later_read_only_reconciliation": "PASS_NOT_FULL_SINK_ACCEPTANCE"
+    },
+    {
+      "title": "MIKIHOUSE_TEST_2026-09-24_SINK_AX_V3",
+      "status": "FROZEN_NO_RETRY",
+      "error": "Favorites result list did not acquire focus",
+      "local_raw_evidence_sha256": "808133e0f671adf6c545c8dc21b55521c1d0908f773b39aed1664adf2f012b4a",
+      "upload_attempt_count": 1,
+      "automatic_upload_retries": 0,
+      "later_read_only_reconciliation": "PASS_NOT_FULL_SINK_ACCEPTANCE"
+    }
+  ],
+  "safety": {
+    "formal_favorite_mutations": 0,
+    "test_notes_created_this_turn": 3,
+    "pdf_selection_dispatches_this_turn": 3,
+    "automatic_mutation_retries": 0,
+    "favorite_deletions": 0,
+    "chat_sends": 0,
+    "shijiu_requests": 0,
+    "production_save_enabled": false,
+    "formal_checkpoint_reset": false,
+    "test_notes_retained": true
+  },
+  "integration": {
+    "coordinate_free_pdf_runtime_validation_status": "PASS",
+    "app_uses_same_repository_sink": true,
+    "production_single_use_authorization_still_required": true,
+    "old_frozen_checkpoints_not_resumed": true,
+    "formal_app_production_run_this_turn": "NOT_EXECUTED"
+  },
+  "verification": {
+    "verify_local": "PASS",
+    "pytest_passed": 409,
+    "tracked_python_syntax_files": 153,
+    "node_helper_syntax_files": 2,
+    "protected_tracked_files_unchanged": 132,
+    "protected_state_deliverables": "UNCHANGED",
+    "existing_daily_outputs": "Pre-existing dirty files preserved and excluded from commit",
+    "pricing_and_pdf_layout_changes": false
+  },
+  "historical_original_failure": {
+    "evidence": "docs/evidence/wechat_pdf_coordinate_free_runtime_20260924.json",
+    "specific_picker_return_code": "NOT_CAPTURED_BY_OLD_EXCEPTION",
+    "unique_original_root_cause": "NOT_PROVEN",
+    "old_note_not_retried": true
+  },
+  "observed_differences_and_fixes": [
+    "Fresh note-owned native AX sheet references after one paced physical Command+O; verified in V2/V3/V4",
+    "PathTextField owns focus; main AXFocusedUIElement absent",
+    "AXOpen -25205 observed with real insertion; only strict readback resolves, never repeat mutation",
+    "Native note-owned AXCloseButton replaces mismatched process menus for PDF notes",
+    "Exact Favorites query/list plus unique row focus before Home/Return; list may delegate focus to sole row"
+  ]
+}

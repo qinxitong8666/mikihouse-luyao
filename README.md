@@ -37,7 +37,7 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 安全重建、普通首次生产及冻结 PDF 恢复三种许可按 operation 分离，不能交叉使用。重置前的 checkpoint、report 和引用 evidence 会先完整归档到当天输出目录下的 `wechat_daily_production_rebuild_history/`；归档失败则不重置。
 
-2026-09-24 PDF 无坐标测试：通过 `Command+Down → Command+Right → Command+O` 和精确原生文件 URL，测试收藏已实际在正文末尾插入 PDF，保存重开后正文 hash、尾随附件、文件名一致。代码已移除固定坐标、全进程 Open 按钮扫描与盲按两次回车；原生 AX 适配器只访问该笔记自己的 `open-panel`，解析 CFURL 文件引用为完整路径。**但随后完整 Python Sink 测试在确认文件选择器阶段停止，出现空白笔记，尚未上传该次附件。因此 App 正式 PDF 保存/恢复仍额外门禁为 `BLOCKED_RUNNER_ACCEPTANCE`，不能因直接 GUI 路径成功而宣布 App 已通过。** 默认生产开关未启用，失败测试不自动重试，旧正式 checkpoint 不变。详见 [无坐标附件验收记录](docs/evidence/wechat_pdf_coordinate_free_runtime_20260924.json)。
+2026-09-24 **完整 Python PDF Sink 已真实 PASS**：全新测试收藏 `MIKIHOUSE_TEST_2026-09-24_SINK_AX_V4` 在一次连续调用中完成正文、无坐标文件选择、正文末尾插入 23,317,467 bytes PDF、保存、重开、完整正文 hash 和文件名强回读。修复了原生面板重新绑定、目录字段焦点、搜索结果列表/唯一子项焦点及笔记自身关闭按钮；已观察到的 AXOpen `-25205` 只进入严格回读判定，绝不重发文件。App 复用同一个 Sink，`BLOCKED_RUNNER_ACCEPTANCE` 已解除，**`production_save_enabled=false` 仍保持，正式保存仍需 App 单次明确授权及既有 checkpoint 门禁**。本轮未新建正式收藏、未重置旧 checkpoint；测试收藏保留不删除。详见 [完整 Sink 验收及差异证据](docs/evidence/wechat_pdf_full_sink_runtime_20260924.json)，[此前受阻证据](docs/evidence/wechat_pdf_coordinate_free_runtime_20260924.json)保留原样。
 
 当天存在任何 checkpoint 时，“生成今日报价”在抓取前停止，禁止覆盖受保护 bundle、`最新` 或 `last_successful_manifest`。普通生产重跑直接校验现有 bundle：一致且已成功则幂等返回，冻结/不匹配则停止；不会先生成后报错。生成、保存和恢复共享本机非阻塞输出锁，不能并发覆盖。专用重建是用户确认后的新建操作，不是自动重试旧 mutation；旧冻结历史永久保留。
 

@@ -13,19 +13,22 @@ NOTE = runtime.WindowIdentity(1, "MIKIHOUSE_TEST_2026-", "AXWindow")
 @pytest.fixture(autouse=True)
 def verified_target(monkeypatch):
     monkeypatch.setattr(runtime, "select_target_process", lambda: {"pid": 123})
+    from mikihouse_luyao import wechat_native_picker as native
+    monkeypatch.setattr(native, "wait_for_owned_panel", lambda *a, **kw: {
+        "status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED", "read_only_polls": 1,
+    })
 
 
 def test_script_has_no_coordinates_global_tree_or_repeated_action():
     script = picker.keyboard_picker_script(123, NOTE)
     assert "click at" not in script
     assert "entire contents" not in script
-    assert "sheet 1 of targetNote" in script
-    assert "AXIdentifier" in script and "open-panel" in script
-    assert script.count('keystroke "o"') == 1
-    assert script.index("key code 124") < script.index('keystroke "o"')
+    assert "sheets of targetNote" in script
+    assert script.count('key code 31 using command down') == 1
+    assert script.index("key code 124") < script.index('key code 31')
     assert "key code 125 using command down" in script
     assert "key code 124 using command down" in script
-    assert script.index('keystroke "o"') < script.index("repeat 12 times")
+    assert "repeat" not in script
     assert "NOTE_NOT_FRONTMOST" in script and "NOTE_NOT_UNIQUE" in script
 
 
@@ -87,7 +90,7 @@ def test_filename_index_uses_filename_query_and_separate_task_title(monkeypatch)
     assert proof[0]["filename"] == "daily.pdf"
 
 
-@pytest.mark.parametrize("failure", ["open", "directory", "file", "readback"])
+@pytest.mark.parametrize("failure", ["open", "directory", "file", "panel_still_open", "readback"])
 def test_native_failure_never_retries_upload(tmp_path, monkeypatch, failure):
     from unittest.mock import MagicMock
     from mikihouse_luyao import wechat_native_picker as native
@@ -95,12 +98,17 @@ def test_native_failure_never_retries_upload(tmp_path, monkeypatch, failure):
     path.write_bytes(b"%PDF-test")
     panel = MagicMock()
     panel.__enter__.return_value = panel
+    panel.owned_panel.return_value = 123 if failure == "panel_still_open" else None
+    panel.open_exact_file_once.return_value = {
+        "status": "DISPATCH_REQUIRES_READBACK", "api_returncode": -25205,
+        "dispatch_count": 1,
+    }
     monkeypatch.setattr(native, "NativePickerAX", lambda *_: panel)
     monkeypatch.setattr(picker.time, "sleep", lambda _: None)
     monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
     readbacks = iter([(BODY, {}), ("broken", {})])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: next(readbacks))
-    outputs = ["NOTE_OWNED_OPEN_PANEL_CONFIRMED", "KEY_SENT_ONCE", "KEY_SENT_ONCE"]
+    outputs = ["PICKER_KEYS_SENT_ONCE", "KEY_SENT_ONCE", "KEY_SENT_ONCE"]
     if failure == "open": outputs[0] = "NOT_CONFIRMED"
     responses = iter(outputs)
     monkeypatch.setattr(runtime, "_osascript", lambda _: {"returncode": 0, "stdout": next(responses)})
@@ -108,7 +116,7 @@ def test_native_failure_never_retries_upload(tmp_path, monkeypatch, failure):
     if failure == "file": panel.open_exact_file_once.side_effect = runtime.WeChatRuntimeError("unknown transport")
     with pytest.raises(runtime.WeChatRuntimeError):
         picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
-    assert panel.open_exact_file_once.call_count == (1 if failure in ("file", "readback") else 0)
+    assert panel.open_exact_file_once.call_count == (1 if failure in ("file", "panel_still_open", "readback") else 0)
 
 
 def test_exact_file_native_ambiguous_fails_before_action():
@@ -162,7 +170,7 @@ def test_panel_failure_never_retries(monkeypatch, output, code):
 def test_preparation_is_not_production_or_attachment_acceptance(monkeypatch):
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **kw: (BODY, {}))
     monkeypatch.setattr(runtime, "_osascript", lambda script: {
-        "returncode": 0, "stdout": "NOTE_OWNED_OPEN_PANEL_CONFIRMED", "stderr": "",
+        "returncode": 0, "stdout": "PICKER_KEYS_SENT_ONCE", "stderr": "",
     })
     result = picker.prepare_test_pdf_picker(123, runtime.TARGET_BUNDLE_ID, NOTE, expected_text=BODY)
     assert result["status"] == "PICKER_PREPARED_NOT_ATTACHMENT_ACCEPTED"
@@ -184,3 +192,40 @@ def test_foreign_pid_never_reads_note_or_opens_picker(monkeypatch):
         picker.prepare_test_pdf_picker(456, runtime.TARGET_BUNDLE_ID, NOTE, expected_text=BODY)
     read.assert_not_called()
     action.assert_not_called()
+
+
+def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monkeypatch):
+    import hashlib
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    config = json.loads((root / "config/wechat_favorite_runtime.json").read_text())
+    evidence = json.loads((root / config["coordinate_free_pdf_runtime_evidence_path"]).read_text())
+    assert config["coordinate_free_pdf_runtime_validation_status"] == "PASS"
+    assert config["production_save_enabled"] is False
+    assert evidence["status"] == "PASS_FULL_SINK_UNINTERRUPTED"
+    assert evidence["sink_invocation_count"] == 1
+    assert evidence["full_sink_interrupted"] is False
+    assert evidence["body_readback"]["exact_hash_match_after_reopen"] is True
+    assert evidence["attachment"]["file_dispatch"]["dispatch_count"] == 1
+    assert evidence["attachment_filename_readback"][0]["same_title_unique_candidate_count"] == 1
+    assert evidence["safety"]["formal_favorite_mutations"] == 0
+    for relative, expected_hash in evidence["accepted_runtime_source_sha256"].items():
+        assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == expected_hash
+    target = Mock()
+    monkeypatch.setattr(runtime, "select_target_process", target)
+    with pytest.raises(runtime.WeChatRuntimeError, match="config switch is disabled"):
+        runtime.MacWeChatFavoriteSink(config).save(
+            {"title": "正式PDF", "attachments": ["daily.pdf"]},
+            production=True, confirmation=runtime.PRODUCTION_CONFIRMATION,
+        )
+    target.assert_not_called()
+
+
+def test_reopened_body_cannot_hide_leading_duplicate_or_missing_attachment():
+    for value in ("[文件]\n" + BODY, BODY + "[文件]\n[文件]\n", BODY):
+        try:
+            comparable = runtime.remove_attachment_placeholders(value, 1)
+        except runtime.WeChatRuntimeError:
+            continue
+        assert not runtime.compare_text_readback(BODY, comparable)["normalized_hash_match"]

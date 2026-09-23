@@ -731,10 +731,19 @@ def attach_file_with_toolbar_picker(
     return attach_pdf_once(pid, bundle_id, file_path, expected_text=expected_text)
 
 
-def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[str, Any]:
+def close_and_save_note(
+    pid: int, bundle_id: str, note: WindowIdentity, *, native: bool = False,
+) -> dict[str, Any]:
     before = get_windows(pid)
-    _raise_note(pid, bundle_id, note)
-    press_menu_item(pid, bundle_id, "文件", "关闭窗口")
+    close_action = None
+    if native:
+        from .wechat_native_picker import NativePickerAX
+        current = require_unique_note_window(pid)
+        with NativePickerAX(pid, current.title) as ax:
+            close_action = ax.close_note_once()
+    else:
+        _raise_note(pid, bundle_id, note)
+        press_menu_item(pid, bundle_id, "文件", "关闭窗口")
     before_count = len([row for row in before if row.title not in NON_NOTE_WINDOW_TITLES])
     after = get_windows(pid)
     close_poll_attempt_count = 1
@@ -752,6 +761,7 @@ def close_and_save_note(pid: int, bundle_id: str, note: WindowIdentity) -> dict[
         "windows_after": [asdict(row) for row in after],
         "close_poll_attempt_count": close_poll_attempt_count,
         "save_prompt_observed": False,
+        "native_close": close_action,
     }
 
 
@@ -761,12 +771,18 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
     if len(candidate_lines) != 1:
         raise WeChatRuntimeError(f"saved note search is not unique: {len(candidate_lines)} candidates")
     before = get_windows(pid)
+    from .wechat_native_picker import NativePickerAX
+    main = _main_window(pid)
+    with NativePickerAX(pid, main.title) as ax:
+        focus = ax.focus_unique_favorite_result(marker)
     opened = _osascript(
         f'''
         tell application "System Events"
             {_process_selector(pid)}
             tell targetProc
-                key code 125
+                if frontmost is not true then return "PROCESS_NOT_FRONTMOST"
+                if (name of window 1 as text) is not "WeChat" and (name of window 1 as text) is not "微信" then return "MAIN_WINDOW_CHANGED"
+                key code 115
                 delay 0.15
                 key code 36
                 delay 1
@@ -793,6 +809,7 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
     note = matching_notes[0]
     return note, {
         "status": "SAVED_NOTE_REOPENED_UNIQUE",
+        "result_focus": focus,
         "favorites": search_evidence["favorites"],
         "search_marker_sha256": search_evidence["search_marker_sha256"],
         "search_candidate_count": len(candidate_lines),
@@ -1170,7 +1187,7 @@ class MacWeChatFavoriteSink:
             if evidence["status"] != "ATTACHMENT_VISIBLE":
                 raise WeChatRuntimeError("attachment was not visible before save")
             attachment_evidence.append(evidence)
-        closed = close_and_save_note(pid, bundle_id, note)
+        closed = close_and_save_note(pid, bundle_id, note, native=bool(attachment_evidence))
         reopened, reopen_evidence = search_and_open_saved_note(pid, bundle_id, payload["title"])
         if attachment_evidence:
             actual_text, readback_evidence = read_note_text(pid, bundle_id, reopened)
@@ -1186,7 +1203,7 @@ class MacWeChatFavoriteSink:
         if not comparison["normalized_hash_match"]:
             raise WeChatRuntimeError("reopened note text does not match payload")
         reopened_tree = collect_window_ax_text(pid, reopened)
-        verification_close = close_and_save_note(pid, bundle_id, reopened)
+        verification_close = close_and_save_note(pid, bundle_id, reopened, native=bool(attachment_evidence))
         attachment_index = verify_saved_attachment_index(
             pid, bundle_id, payload["title"], expected_text,
             [item["filename"] for item in attachment_evidence],
@@ -1289,7 +1306,7 @@ class MacWeChatFavoriteSink:
             expected_text=expected_text,
         )
         closed = close_and_save_note(
-            pid, bundle_id, require_unique_note_window(pid)
+            pid, bundle_id, require_unique_note_window(pid), native=True,
         )
         reopened, reopen = search_and_open_saved_note(pid, bundle_id, title)
         actual_text, readback = read_note_text(
@@ -1301,7 +1318,7 @@ class MacWeChatFavoriteSink:
             raise WeChatRuntimeError(
                 "PDF recovery reopened readback did not prove text and attachment"
             )
-        verification_close = close_and_save_note(pid, bundle_id, reopened)
+        verification_close = close_and_save_note(pid, bundle_id, reopened, native=True)
         attachment_index = verify_saved_attachment_index(
             pid, bundle_id, title, expected_text, [attachment_path.name],
         )

@@ -378,16 +378,19 @@ def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
     from unittest.mock import MagicMock
     panel = MagicMock()
     panel.__enter__.return_value = panel
+    panel.owned_panel.return_value = None
+    panel.open_exact_file_once.return_value = {"api_returncode": -25205, "dispatch_count": 1}
     monkeypatch.setattr(native, "NativePickerAX", lambda *_: panel)
+    monkeypatch.setattr(native, "wait_for_owned_panel", lambda *a, **kw: {"status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED"})
     monkeypatch.setattr(keyboard.time, "sleep", lambda _: None)
     osascript_calls: list[str] = []
 
     def fake_osascript(script: str) -> dict:
         osascript_calls.append(script)
-        if "OPEN_PANEL_CONFIRMED" in script:
+        if "PICKER_KEYS_SENT_ONCE" in script:
             return {
                 "returncode": 0,
-                "stdout": "NOTE_OWNED_OPEN_PANEL_CONFIRMED",
+                "stdout": "PICKER_KEYS_SENT_ONCE",
                 "stderr": "",
             }
         return {

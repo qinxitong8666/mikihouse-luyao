@@ -15,7 +15,8 @@
   "runtime_readiness_evidence_path": "outputs/daily_quote/2026-09-22/wechat_runtime_readiness.json",
   "allow_fresh_daily_manifest_binding": true,
   "production_save_enabled": false,
-  "coordinate_free_pdf_runtime_validation_status": "BLOCKED_RUNNER_ACCEPTANCE",
+  "coordinate_free_pdf_runtime_validation_status": "PASS",
+  "coordinate_free_pdf_runtime_evidence_path": "docs/evidence/wechat_pdf_full_sink_runtime_20260924.json",
   "chat_send_enabled": false,
   "automatic_test_note_delete_enabled": false,
   "production_pdf_attachment": {

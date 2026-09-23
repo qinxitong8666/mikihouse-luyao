@@ -26,29 +26,36 @@ def keyboard_picker_script(pid: int, note: runtime.WindowIdentity) -> str:
             set matchingNotes to every window whose name is {title}
             if (count of matchingNotes) is not 1 then return "NOTE_NOT_UNIQUE"
             set targetNote to item 1 of matchingNotes
+            if frontmost is not true then return "PROCESS_NOT_FRONTMOST"
             if (name of window 1 as text) is not {title} then return "NOTE_NOT_FRONTMOST"
             if (count of sheets of targetNote) is not 0 then return "EXISTING_SHEET"
             -- Right alone did NOT clear selection in the real WeChat editor.
             -- Document end, then line end was verified with a trailing PDF.
             key code 125 using command down
+            delay 0.2
             key code 124 using command down
-            keystroke "o" using command down
-            -- Bounded observation only: never resend Command+O.
-            repeat 12 times
-                if (count of sheets of targetNote) is 1 then
-                    set filePanel to sheet 1 of targetNote
-                    if (value of attribute "AXIdentifier" of filePanel as text) is "open-panel" then
-                        return "NOTE_OWNED_OPEN_PANEL_CONFIRMED"
-                    end if
-                    return "UNEXPECTED_SHEET"
-                end if
-                if (count of sheets of targetNote) > 1 then return "AMBIGUOUS_SHEETS"
-                delay 0.25
-            end repeat
-            return "OPEN_PANEL_NOT_CONFIRMED"
+            delay 0.2
+            -- Physical O, independent of the active keyboard/IME layout.
+            key code 31 using command down
+            return "PICKER_KEYS_SENT_ONCE"
         end tell
     end tell
     '''
+
+
+def open_picker_once(pid: int, note: runtime.WindowIdentity) -> dict[str, Any]:
+    from .wechat_native_picker import wait_for_owned_panel
+    result = runtime._osascript(keyboard_picker_script(pid, note))
+    if result["returncode"] != 0 or result["stdout"] != "PICKER_KEYS_SENT_ONCE":
+        raise runtime.WeChatRuntimeError(
+            "picker shortcut not confirmed; no retry: " + json.dumps({
+                "returncode": result["returncode"], "result": result["stdout"],
+                "stderr": result.get("stderr", ""), "expected_window": note.title,
+            }, ensure_ascii=False)
+        )
+    # Do not hold a System Events window proxy while the UI installs a modal
+    # sheet. Each bounded read reacquires the exact native owner and children.
+    return {"dispatch": "PICKER_KEYS_SENT_ONCE", **wait_for_owned_panel(pid, note.title)}
 
 
 def prepare_test_pdf_picker(
@@ -84,11 +91,7 @@ def prepare_test_pdf_picker(
     comparison = runtime.compare_text_readback(expected_text, current)
     if not comparison["normalized_hash_match"] or "[文件]" in current:
         raise runtime.WeChatRuntimeError("test body readback mismatch; no picker opened")
-    result = runtime._osascript(keyboard_picker_script(pid, note))
-    if result["returncode"] != 0 or result["stdout"] != "NOTE_OWNED_OPEN_PANEL_CONFIRMED":
-        raise runtime.WeChatRuntimeError(
-            "keyboard picker not confirmed; do not retry: " + str(result)
-        )
+    result = open_picker_once(pid, note)
     return {
         "status": "PICKER_PREPARED_NOT_ATTACHMENT_ACCEPTED",
         "method": "COMMAND_O_NOTE_OWNED_AXSHEET_TEST_ONLY",
@@ -96,6 +99,7 @@ def prepare_test_pdf_picker(
         "body_readback": readback,
         "body_comparison": comparison,
         "panel_identifier": "open-panel",
+        "panel_observation": result,
         "automatic_action_retry_count": 0,
         "attachment_upload_count": 0,
         "production_integration_enabled": False,
@@ -119,7 +123,10 @@ def _panel_key(pid: int, note: runtime.WindowIdentity, command: str) -> None:
     '''
     result = runtime._osascript(script)
     if result["returncode"] != 0 or result["stdout"] != "KEY_SENT_ONCE":
-        raise runtime.WeChatRuntimeError("native picker navigation unknown; no retry")
+        raise runtime.WeChatRuntimeError("native picker navigation unknown; no retry: " + json.dumps({
+            "returncode": result["returncode"], "result": result["stdout"],
+            "stderr": result.get("stderr", ""),
+        }, ensure_ascii=False))
 
 
 def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text: str) -> dict[str, Any]:
@@ -148,13 +155,7 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         raise runtime.WeChatRuntimeError("post-readback note title does not match verified body")
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     size = path.stat().st_size
-    opened = runtime._osascript(keyboard_picker_script(pid, note))
-    if opened["returncode"] != 0 or opened["stdout"] != "NOTE_OWNED_OPEN_PANEL_CONFIRMED":
-        raise runtime.WeChatRuntimeError(
-            "note-owned PDF picker not confirmed; no retry: "
-            + json.dumps({"returncode": opened["returncode"], "result": opened["stdout"],
-                          "stderr": opened.get("stderr", ""), "expected_window": note.title}, ensure_ascii=False)
-        )
+    opened = open_picker_once(pid, note)
     _panel_key(pid, note, 'keystroke "g" using {command down, shift down}')
     time.sleep(0.5)
     with NativePickerAX(pid, note.title) as panel:
@@ -165,8 +166,11 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         panel.exact_file(path)  # read-only proof before the sole file mutation
         if path.stat().st_size != size or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             raise runtime.WeChatRuntimeError("PDF changed before selection; no upload")
-        panel.open_exact_file_once(path)
+        dispatch = panel.open_exact_file_once(path)
     time.sleep(3)
+    with NativePickerAX(pid, note.title) as panel:
+        if panel.owned_panel(allow_pending=True) is not None:
+            raise runtime.WeChatRuntimeError("file panel remains after AXOpen; no repeat allowed")
     current_after, after = runtime.read_note_text(
         pid, bundle_id, runtime.require_unique_note_window(pid), max_attempts=1
     )
@@ -182,7 +186,10 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         "selection": "EXACT_CFURL_PATH_AXOPEN",
         "insertion": "COMMAND_DOWN_COMMAND_RIGHT_END_OF_BODY",
         "path": str(path), "filename": path.name, "byte_count": size, "sha256": digest,
-        "open_panel_fingerprint": opened["stdout"],
+        "open_panel_fingerprint": opened["status"],
+        "panel_observation": opened,
+        "file_dispatch": dispatch,
+        "file_dispatch_resolved_by_readback": True,
         "placeholder_visible_before_save": True,
         "before_readback": before, "before_comparison": comparison,
         "after_readback": after, "after_comparison": after_comparison,

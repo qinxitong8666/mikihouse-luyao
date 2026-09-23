@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ctypes as C
 import sys
+import time
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -104,7 +105,7 @@ class NativePickerAX:
     def value(self, node, name):
         return self.text(self.attr(node, name))
 
-    def owned_panel(self):
+    def owned_note(self):
         windows = self.array(self.attr(self.app, "AXWindows"))
         notes = [w for w in windows if self.value(w, "AXTitle") == self.title]
         if len(notes) != 1 or not windows or self.value(windows[0], "AXTitle") != self.title:
@@ -112,10 +113,16 @@ class NativePickerAX:
         frontmost = self.attr(self.app, "AXFrontmost")
         if not frontmost or not self.cf.CFBooleanGetValue(frontmost):
             raise WeChatRuntimeError("WeChat2 is not frontmost; no picker action")
+        return notes[0]
+
+    def owned_panel(self, *, allow_pending: bool = False):
+        note = self.owned_note()
         # WeChat exposes AXSheet in AXChildren but omits AXSheets in the
         # native API. System Events synthesizes its `sheets` collection.
-        sheets = [c for c in self.array(self.attr(notes[0], "AXChildren"))
+        sheets = [c for c in self.array(self.attr(note, "AXChildren"))
                   if self.value(c, "AXRole") == "AXSheet"]
+        if not sheets and allow_pending:
+            return None
         if len(sheets) != 1 or self.value(sheets[0], "AXIdentifier") != "open-panel":
             raise WeChatRuntimeError("native picker is not the note-owned open-panel")
         return sheets[0]
@@ -161,8 +168,8 @@ class NativePickerAX:
         fields = [n for n in self.nodes(dialogs[0]) if self.value(n, "AXIdentifier") == "PathTextField"]
         if len(fields) != 1:
             raise WeChatRuntimeError("GoToWindow PathTextField is not unique")
-        focused = self.attr(self.app, "AXFocusedUIElement")
-        if not focused or self.value(focused, "AXIdentifier") != "PathTextField":
+        focused = self.attr(fields[0], "AXFocused")
+        if not focused or not self.cf.CFBooleanGetValue(focused):
             raise WeChatRuntimeError("directory field is not focused")
         expected = str(directory.resolve()) + "/"
         error = self.ax.AXUIElementSetAttributeValue(fields[0], self.string("AXValue"), self.string(expected))
@@ -172,8 +179,53 @@ class NativePickerAX:
     def open_exact_file_once(self, path: Path):
         node = self.exact_file(path)
         error = self.ax.AXUIElementPerformAction(node, self.string("AXOpen"))
-        if error:
+        if error not in (0, -25205):
             raise WeChatRuntimeError(f"file AXOpen returned unknown outcome ({error}); do not retry")
+        # Observed -25205 even when the file panel closed and the attachment
+        # was inserted. This is NOT success: caller must prove all effects.
+        return {"api_returncode": error, "action": "AXOpen", "dispatch_count": 1,
+                "status": "DISPATCH_REQUIRES_READBACK"}
+
+    def close_note_once(self):
+        note = self.owned_note()
+        children = self.array(self.attr(note, "AXChildren"))
+        if any(self.value(n, "AXRole") == "AXSheet" for n in children):
+            raise WeChatRuntimeError("refusing close while note has a modal sheet")
+        buttons = [n for n in children if self.value(n, "AXSubrole") == "AXCloseButton"]
+        if len(buttons) != 1 or "AXPress" not in self.actions(buttons[0]):
+            raise WeChatRuntimeError("note-owned AXCloseButton not unique")
+        error = self.ax.AXUIElementPerformAction(buttons[0], self.string("AXPress"))
+        if error:
+            raise WeChatRuntimeError(f"note close outcome unknown ({error}); no retry")
+        return {"method": "NOTE_OWNED_AXCLOSEBUTTON", "dispatch_count": 1}
+
+    def focus_unique_favorite_result(self, marker: str):
+        main = self.owned_note()
+        lists = [n for n in self.nodes(main) if self.value(n, "AXIdentifier") == "fav_detail_list"]
+        if len(lists) != 1 or self.value(lists[0], "AXTitle") != marker:
+            raise WeChatRuntimeError("Favorites result list is not bound to exact query")
+        rows = [n for n in self.array(self.attr(lists[0], "AXChildren"))
+                if self.value(n, "AXTitle").strip()]
+        if len(rows) != 1 or not self.value(rows[0], "AXTitle").startswith("笔记" + marker):
+            raise WeChatRuntimeError("Favorites result list is not one exact-title note")
+        yes = C.c_void_p.in_dll(self.cf, "kCFBooleanTrue").value
+        error = self.ax.AXUIElementSetAttributeValue(lists[0], self.string("AXFocused"), yes)
+        if error:
+            raise WeChatRuntimeError(f"Favorites focus dispatch failed ({error}); no retry")
+        focus_target = self.verify_result_focus(lists[0], rows[0])
+        return {"status": "EXACT_RESULT_LIST_FOCUSED", "candidate_count": 1,
+                "list_identifier": "fav_detail_list", "query": marker,
+                "focus_target": focus_target}
+
+    def verify_result_focus(self, result_list, exact_row):
+        # WeChat can delegate focus to the sole result row instead of keeping
+        # it on AXList. Both are within the already verified exact query tree;
+        # a search box/foreign row is never accepted. This performs no action.
+        for name, node in (("EXACT_RESULT_LIST", result_list), ("UNIQUE_EXACT_NOTE_ROW", exact_row)):
+            focused = self.attr(node, "AXFocused")
+            if focused and self.cf.CFBooleanGetValue(focused):
+                return name
+        raise WeChatRuntimeError("Favorites result list/unique note row did not acquire focus")
 
 
 def exact_file_url(url: str, path: Path) -> bool:
@@ -181,3 +233,19 @@ def exact_file_url(url: str, path: Path) -> bool:
     return (parts.scheme == "file" and parts.netloc in ("", "localhost")
             and not parts.query and not parts.fragment
             and unquote(parts.path) == str(path.resolve()))
+
+
+def wait_for_owned_panel(pid: int, title: str, *, timeout: float = 5.0) -> dict:
+    """Fresh native references on every read. Never re-dispatch the shortcut."""
+    deadline = time.monotonic() + timeout
+    polls = 0
+    while True:
+        polls += 1
+        with NativePickerAX(pid, title) as ax:
+            panel = ax.owned_panel(allow_pending=True)
+            if panel is not None:
+                return {"status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED", "read_only_polls": polls,
+                        "identifier": "open-panel", "owner_pid": pid, "note_title": title}
+        if time.monotonic() >= deadline:
+            raise WeChatRuntimeError(f"native open-panel absent after {polls} read-only polls; no retry")
+        time.sleep(0.2)
