@@ -26,6 +26,7 @@ from .daily_quote import (
     sha256_json,
 )
 from .daily_quote_fx import FrozenFxRate, FxError, fetch_ecb_reference_rate, manual_fx_rate
+from .daily_quote_guard import locked_daily_output, require_unprotected_quote_directory
 from .daily_quote_images import prepare_product_thumbnails
 from .daily_quote_pdf import generate_daily_quote_pdf, validate_daily_quote_pdf
 from .daily_quote_text import (
@@ -160,6 +161,7 @@ def _replace_latest(output_root: Path, quote_date: str) -> None:
     temporary.replace(latest)
 
 
+@locked_daily_output
 def run_daily_quote(
     *,
     config_path: Path,
@@ -179,6 +181,7 @@ def run_daily_quote(
         raise DailyQuoteRunError("daily quote config must keep Shijiu and WeChat writes disabled")
     today = date.fromisoformat(quote_date) if quote_date else datetime.now(ZoneInfo("Asia/Tokyo")).date()
     quote_date_text = today.isoformat()
+    require_unprotected_quote_directory(output_root / quote_date_text)
     output_root.mkdir(parents=True, exist_ok=True)
     previous_path = output_root / "last_successful_manifest.json"
     previous = _read_json(previous_path) if previous_path.exists() else None
@@ -407,6 +410,7 @@ def run_daily_quote(
         _write_text(work / f"MIKIHOUSE_{quote_date_text}_内部变化报告.txt", _internal_report(manifest, diff, stats))
         _progress(progress_callback, "FINALIZING", 94, "正在原子发布当日输出并更新最新目录")
         final_dir = output_root / quote_date_text
+        require_unprotected_quote_directory(final_dir)
         final_dir.mkdir(parents=True, exist_ok=True)
         for child in work.iterdir():
             target = final_dir / child.name

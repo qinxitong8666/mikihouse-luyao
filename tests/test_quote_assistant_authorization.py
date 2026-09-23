@@ -288,6 +288,7 @@ def test_runner_accepts_consumed_app_permit_without_editing_tracked_config(
             PRODUCTION_CONFIRMATION,
             "--app-authorization-file",
             str(tmp_path / "private-permit.json"),
+            "--output-root", str(tmp_path / "output"),
         ]
     )
     assert code == 0
@@ -322,16 +323,19 @@ def test_runner_binds_rebuild_flag_to_rebuild_permit_and_sink_mode(
         }
 
     monkeypatch.setattr(runner, "validate_and_consume_one_time_authorization", fake_consume)
-    generated_dir = tmp_path / "generated"
+    generated_dir = tmp_path / "2026-09-23"
     generated_dir.mkdir()
+    (generated_dir / "wechat_daily_production_checkpoint.json").write_text('{"status":"FROZEN_RECONCILIATION_REQUIRED"}')
     monkeypatch.setattr(
         runner,
         "run_daily_quote",
-        lambda **_kwargs: {"status": "SUCCESS", "output_dir": str(generated_dir)},
+        lambda **_kwargs: pytest.fail("rebuild must not regenerate a protected bundle"),
     )
 
     def fake_save(_daily: Path, _config: dict, **kwargs: object) -> dict:
+        assert _daily == generated_dir
         assert kwargs["rebuild_missing_daily"] is True
+        assert _config["production_authorization_operation"] == OPERATION_REBUILD_MISSING_DAILY
         return {"status": "PASS", "favorite_create_count": 2}
 
     monkeypatch.setattr(runner, "save_daily_production_favorites", fake_save)
@@ -343,10 +347,38 @@ def test_runner_binds_rebuild_flag_to_rebuild_permit_and_sink_mode(
             PRODUCTION_CONFIRMATION,
             "--app-authorization-file",
             str(tmp_path / "private-rebuild-permit.json"),
+            "--output-root", str(tmp_path), "--quote-date", "2026-09-23",
         ]
     )
     assert code == 0
     assert json.loads(capsys.readouterr().out)["status"] == "SUCCESS"
+
+
+@pytest.mark.parametrize("frozen", [False, True])
+def test_ordinary_same_day_production_reuses_before_generation(tmp_path, monkeypatch, capsys, frozen):
+    spec = importlib.util.spec_from_file_location("ordinary_replay", ROOT / "scripts/run_mikihouse_daily_production.py")
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+    daily = tmp_path / "2026-09-23"
+    daily.mkdir()
+    checkpoint = daily / "wechat_daily_production_checkpoint.json"
+    checkpoint.write_text("protected checkpoint")
+    monkeypatch.setattr(runner, "_read_json", lambda path: {"production_save_enabled": True})
+    monkeypatch.setattr(runner, "run_daily_quote", lambda **kwargs: pytest.fail("protected bundle must not be generated"))
+    def reuse(path, config, **kwargs):
+        assert path == daily and kwargs["rebuild_missing_daily"] is False
+        if frozen:
+            raise runner.WeChatDailyProductionError("checkpoint manifest mismatch")
+        return {"status": "PASS", "idempotent_replay": True}
+    monkeypatch.setattr(runner, "save_daily_production_favorites", reuse)
+    code = runner.main(["--output-root", str(tmp_path), "--quote-date", "2026-09-23",
+                        "--production-save", "--confirm", PRODUCTION_CONFIRMATION])
+    assert code == (1 if frozen else 0)
+    assert checkpoint.read_text() == "protected checkpoint"
+    output = json.loads(capsys.readouterr().out)
+    if not frozen:
+        assert output["daily_quote"]["website_crawl_started"] is False
+        assert output["wechat_two_favorites"]["idempotent_replay"] is True
 
 
 def test_runner_recovery_uses_dedicated_permit_without_new_crawl(

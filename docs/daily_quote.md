@@ -8,7 +8,9 @@
 
 两个核心入口可用 `--progress-jsonl` 向 stderr 输出以 `MIKIHOUSE_PROGRESS ` 开头的单行 JSON 事件。该事件只增加可观察性，不参与 DailyQuoteManifest、定价、筛选或写入判定。跟踪配置始终保持 `production_save_enabled=false`；App 内明确确认会签发绑定当前 HEAD、短时且仅可消费一次的 Git 外许可，正式 runner 必须先原子消费许可才继续。许可不跳过 exact confirmation、fresh manifest、checkpoint、幂等、防重复或强回读门禁。
 
-当天生产已成功但两条收藏后续被用户人工删除时，只能使用 App 的“安全重建已删除收藏”。该入口先执行 `scripts/audit_wechat_daily_favorite_titles.py` 双标题只读检查，两个精确标题必须同时为 0 个候选才能继续。用户勾选专用单次确认后，正式 runner 重新生成当日报价，再做一次双标题只读复核；仅在仍然全部不存在时，先归档旧 checkpoint/report/evidence，再重置新 checkpoint 并按 PDF→文字创建。任一标题存在、审计不完整或旧生产记录不是 PASS，都保持 checkpoint 不变且零写入。
+当天 PASS 或明确冻结的生产记录需要安全重建时，只能使用 App 的“安全重建已删除收藏”。该入口先执行 `scripts/audit_wechat_daily_favorite_titles.py` 双标题只读检查，两个固定日期标题必须同时不存在才能继续。审计校验旧 checkpoint 与其对应 report 一致，但不要求旧 manifest 等于当前 bundle。用户勾选专用单次确认后，runner 不重新生成报价，完整校验当前最新 bundle，再做一次双标题只读复核；仅在仍然全部不存在时，先复制并校验旧 checkpoint/report/对应证据，原子发布归档目录，再以当前 bundle 建立新 checkpoint 并按 PDF→文字创建。任一标题存在、审计不完整、归档失败、bundle 在审计中变化、旧记录仍运行中或未知，都保持 checkpoint 不变且零微信写入。旧 bundle 若此前已被覆盖，不伪造旧文件；归档明确记录旧/新 manifest 与 bundle hash，保留实际可用证据。
+
+普通同日重跑不获得任何覆盖豁免：纯生成入口在 crawl 前和发布前检查 checkpoint；生产入口有 checkpoint 时跳过生成并直接校验/复用现有 bundle。PASS 可幂等返回；冻结或 hash 不一致停止。生成、保存和恢复共用输出根目录 `.daily_quote.lock` 非阻塞本机锁；默认生产开关保持 false，未提供任何跳过 checkpoint 保护的生成参数。
 
 若重建过程中微信已经保存了标题/正文，但 PDF 附件在保存前不可见，checkpoint 会冻结且绝不自动重发。App 的“恢复冻结PDF附件”会运行 `scripts/audit_wechat_frozen_pdf_recovery.py`：只有精确 PDF 标题 1 个、文字标题 0 个、原 PDF mutation 1 次且文字 mutation 0 次时，才展示专用单次确认。恢复只修改现有任务 PDF 收藏，通过工具栏「文件」选择同一 PDF 一次，保存前和重开后强回读通过后再创建文字收藏；不会重新抓官网或创建重复 PDF 收藏。
 

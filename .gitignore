@@ -10,6 +10,7 @@ output/*
 !output/.gitkeep
 outputs/daily_quote/.build/
 outputs/daily_quote/.app-runtime/
+outputs/daily_quote/.daily_quote.lock
 outputs/daily_quote/last_successful_manifest.json
 .secrets/
 *.har

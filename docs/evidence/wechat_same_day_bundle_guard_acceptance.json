@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "status": "READ_ONLY_APP_ACCEPTANCE_PASS_AWAITING_USER_REBUILD_AUTHORIZATION",
+  "quote_date": "2026-09-23",
+  "repository_base_sha": "a45f4237b5adb235103aaf4c3a171485cf6ba51b",
+  "scope": "Same-day bundle protection and explicitly authorized absent-Favorite rebuild; no production save in this acceptance",
+  "real_app_acceptance": {
+    "app": "MIKI HOUSE 报价助手.app",
+    "target_bundle_id": "com.tencent.xinWeChot2",
+    "same_day_generate_guard": "PASS_BLOCKED_BEFORE_CRAWL",
+    "read_only_audit_completed_at": "2026-09-23T23:37:02+09:00",
+    "pdf_title": "MIKI HOUSE 9月23日报价｜PDF版",
+    "pdf_candidate_count": 0,
+    "text_title": "MIKI HOUSE 9月23日报价｜文字版",
+    "text_candidate_count": 0,
+    "absence_proof": "Exact query AXValue plus completed result heading (adjacent highlighted AXStaticText segments) and explicit 无结果; not empty-list inference",
+    "app_confirmation_dialog": "PASS_CURRENT_BUNDLE_NO_REGENERATION_ARCHIVE_OLD_FROZEN_CHECKPOINT",
+    "confirmation_checked": false,
+    "action": "CANCEL",
+    "cancelled_at": "2026-09-23T23:37:34+09:00",
+    "authorization_issued_count": 0,
+    "checkpoint_reset_count": 0,
+    "wechat_mutation_count": 0
+  },
+  "offline_rebuild_acceptance": {
+    "sink": "FakeSink, not real WeChat",
+    "cases": [
+      "frozen checkpoint with different current manifest/bundle and both titles absent archives byte-identical prior records then creates PDF/text",
+      "any PDF/text candidate blocks reset and mutation",
+      "archive copy failure preserves checkpoint",
+      "bundle changed during read-only audit blocks reset",
+      "wrong App operation blocks rebuild",
+      "idempotent replay does not recreate",
+      "checkpoint blocks generator before source crawl",
+      "cross-process output lock blocks concurrent generation/save"
+    ]
+  },
+  "production_rebuild_end_to_end": "NOT_EXECUTED_REQUIRES_USER_APP_ONE_TIME_CONFIRMATION",
+  "protected_daily_files": {
+    "count": 19,
+    "all_unchanged": true,
+    "sha256": {
+      "outputs/daily_quote/2026-09-23/MIKIHOUSE_2026-09-23_报价全集.pdf": "cba5fb457bb3dbcb5c07e07e305c9ff50c95ac51b6b00dcf3ea2bd75b6f25445",
+      "outputs/daily_quote/2026-09-23/wechat_text_favorite_production_validation.json": "204162a7ee32d164d77e39cec25e6fcb12b2b0bdcdedb668c9990b6e3faf5c30",
+      "outputs/daily_quote/2026-09-23/failures.json": "46ce01ee4e62ecb5d040a8cf88bd0b95576d689abd754d1d656475e2fa09eb3a",
+      "outputs/daily_quote/2026-09-23/PDF压缩检索验收报告.json": "3f685e59a9e97ce7ed3a4f0ff7ce9885f931e5f5a660e3f56469201c74aac155",
+      "outputs/daily_quote/2026-09-23/wechat_text_favorite_preview.txt": "e152c7b2aa060a845d0f5e7472c7ac9d261212e0670633d319a464b158e65d97",
+      "outputs/daily_quote/2026-09-23/MIKIHOUSE_2026-09-23_内部变化报告.txt": "ed1c8333f6496d672b1fb199630107aa813efecc07276c2ef0602d9eb1b59ba8",
+      "outputs/daily_quote/2026-09-23/daily_quote_manifest.json": "41bf0ffcf1adb1f786c09c95914690845654cb46db4878b78782150e75b9fdbe",
+      "outputs/daily_quote/2026-09-23/wechat_pdf_recovery_readonly_audit_20260923T134359Z.json": "8fbe50aed7f3a433e7ab0d60bcf20d0c8e02ecee4f0a1ecb36788e64183956e7",
+      "outputs/daily_quote/2026-09-23/source_snapshot.json.gz": "42cee426e73630ae52ca8b23d526c789fa744aef74910284f6e3062365c2870a",
+      "outputs/daily_quote/2026-09-23/wechat_pdf_favorite_manual_file_picker_recovery_validation.json": "eb82611a27dfa4bc255b457980f072966b7f27bfe7d2002879b186338e9629c8",
+      "outputs/daily_quote/2026-09-23/daily_quote_stats.json": "535a17e691abbe5ae23d66b28ab6196997eab44e52899da1964dc98feb7120ee",
+      "outputs/daily_quote/2026-09-23/MIKIHOUSE_2026-09-23_文字报价.txt": "1199caac5d921945a245ff234489c559025fb28861a3f979f8d11256acee9cc6",
+      "outputs/daily_quote/2026-09-23/wechat_pdf_favorite_preview.txt": "a7ce63ccb99501a222124ff3a7defdada5d5dd6cdb452ec119b6d0634e22f177",
+      "outputs/daily_quote/2026-09-23/wechat_daily_production_checkpoint.json": "f2b072e74c2ca0466aaaa259b2e6528fe800c1c0ec4be2163699e988dd1080fb",
+      "outputs/daily_quote/2026-09-23/wechat_pdf_favorite_payload.json": "fb9d5d9d3407b40bf929a3ba2a50e4014ba2d4cbbcbd1cb91fbb7cf31134a369",
+      "outputs/daily_quote/2026-09-23/wechat_pdf_favorite_authorized_recovery_validation.json": "ad3698f85ccbd3679658e72fa2efc7da219d4f61ad0714d9000a9ea28ae7799d",
+      "outputs/daily_quote/2026-09-23/wechat_daily_production_report.json": "bde80d82639a0a2f9fb266dc6411466da5a8af49841ea4e14f1191cd55f439d4",
+      "outputs/daily_quote/2026-09-23/wechat_daily_production_checkpoint.before_authorized_recovery.json": "8a760d17d6ad0434bd3696b266deaf30a9ce973837400e3af290bba5bec75707",
+      "outputs/daily_quote/2026-09-23/wechat_text_favorite_payload.json": "c9626963e54512ae4152c69e8f2f2d95de8ca406d791d3d013cb9e49dc6e9729"
+    }
+  },
+  "production_save_enabled": false,
+  "shijiu_request_count": 0,
+  "writer_evidence_generated_count": 0,
+  "chat_send_count": 0,
+  "pdf_layout_changed": false,
+  "visual_qa": "NOT_APPLICABLE_NO_PDF_CONTENT_OR_LAYOUT_CHANGE",
+  "tests": {
+    "focused": "75 passed",
+    "unified": "PASS: scripts/verify_local.py; 361 passed in 74.38s; 149 Python files; JSON configs; 2 Node helpers; 132 protected files unchanged",
+    "codesign": "PASS: codesign --verify --deep --strict",
+    "git_diff_check": "PASS"
+  },
+  "preexisting_user_output_changes": "Preserved and excluded from commit"
+}

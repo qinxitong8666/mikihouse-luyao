@@ -95,6 +95,8 @@ def build_bundle(tmp_path: Path) -> tuple[Path, dict]:
         "max_verified_text_utf8_bytes": 96870,
         "max_verified_text_lines": 1794,
         "production_save_enabled": True,
+        "production_authorization_mode": "APP_ONE_TIME",
+        "production_authorization_operation": "REBUILD_MISSING_DAILY_TWO_FAVORITES",
         "pdf_attachment_recovery": {
             "strategy": PDF_FILE_PICKER_RECOVERY_MODE,
             "requires_explicit_operator_authorization": True,
@@ -380,6 +382,110 @@ def test_safe_rebuild_without_completed_checkpoint_fails_before_mutation(
         )
     assert sink.calls == []
     assert sink.title_audit_count == 0
+
+
+def frozen_record_with_regenerated_bundle(tmp_path: Path):
+    daily, config = build_bundle(tmp_path)
+    with pytest.raises(WeChatDailyProductionError):
+        save_daily_production_favorites(
+            daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION,
+            sink=FakeSink(fail_at=1),
+        )
+    checkpoint_bytes = (daily / CHECKPOINT_FILENAME).read_bytes()
+    old = json.loads(checkpoint_bytes)
+    manifest_path = daily / "daily_quote_manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest.pop("manifest_sha256")
+    manifest["generated_at"] = "2026-09-23T22:50:00+09:00"
+    manifest["manifest_sha256"] = sha256_json(manifest)
+    write_json(manifest_path, manifest)
+    for name in ("daily_quote_stats.json", "wechat_pdf_favorite_payload.json", "wechat_text_favorite_payload.json"):
+        path = daily / name
+        value = json.loads(path.read_text())
+        key = "manifest_sha256" if name == "daily_quote_stats.json" else "source_manifest_sha256"
+        value[key] = manifest["manifest_sha256"]
+        write_json(path, value)
+    write_json(daily / "wechat_pdf_failure_validation.json", {"old_manifest": old["manifest_sha256"], "status": "FAILED"})
+    return daily, config, checkpoint_bytes, manifest["manifest_sha256"]
+
+
+def test_frozen_mismatched_manifest_rebuild_archives_old_and_binds_current(tmp_path, monkeypatch):
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config, old_checkpoint, current_manifest = frozen_record_with_regenerated_bundle(tmp_path)
+    current_bytes = (daily / "daily_quote_manifest.json").read_bytes()
+    sink = FakeSink(title_counts=[0, 0])
+    audit = audit_completed_daily_favorites_readonly(daily, config, sink=sink)
+    assert audit["status"] == "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION"
+    assert audit["prior_checkpoint_status"] == "FROZEN_RECONCILIATION_REQUIRED"
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == old_checkpoint
+    result = save_daily_production_favorites(
+        daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION,
+        sink=sink, rebuild_missing_daily=True,
+    )
+    assert result["status"] == "PASS"
+    assert result["manifest_sha256"] == current_manifest
+    assert (daily / "daily_quote_manifest.json").read_bytes() == current_bytes
+    archive, = (daily / REBUILD_HISTORY_DIRECTORY).iterdir()
+    assert (archive / CHECKPOINT_FILENAME).read_bytes() == old_checkpoint
+    assert (archive / "wechat_pdf_failure_validation.json").read_bytes() == (daily / "wechat_pdf_failure_validation.json").read_bytes()
+    history = json.loads((archive / "archive_manifest.json").read_text())
+    assert history["status"] == "PREVIOUS_FROZEN_ARCHIVED_BEFORE_SAFE_REBUILD"
+    assert history["previous_bundle_matches_current"] is False
+    assert len(sink.calls) == 2
+    # Ordinary replay consumes no extra mutation, archive or generation.
+    replay = save_daily_production_favorites(daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION, sink=sink)
+    assert replay["idempotent_replay"] and len(sink.calls) == 2
+
+
+@pytest.mark.parametrize("counts", [[1, 0], [0, 1], [1, 1], [2, 0]])
+def test_frozen_rebuild_existing_note_never_resets_or_overwrites(tmp_path, monkeypatch, counts):
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config, _, _ = frozen_record_with_regenerated_bundle(tmp_path)
+    before = {p.name: p.read_bytes() for p in daily.iterdir() if p.is_file()}
+    sink = FakeSink(title_counts=counts)
+    with pytest.raises(WeChatDailyProductionError, match="still exist"):
+        save_daily_production_favorites(daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION, sink=sink, rebuild_missing_daily=True)
+    assert not sink.calls
+    assert before == {p.name: p.read_bytes() for p in daily.iterdir() if p.is_file()}
+    assert not (daily / REBUILD_HISTORY_DIRECTORY).exists()
+
+
+def test_frozen_rebuild_requires_specific_app_operation(tmp_path):
+    daily, config, original, _ = frozen_record_with_regenerated_bundle(tmp_path)
+    config["production_authorization_operation"] = "CREATE_DAILY_TWO_FAVORITES"
+    sink = FakeSink()
+    with pytest.raises(WeChatDailyProductionError, match="专用单次授权"):
+        save_daily_production_favorites(daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION, sink=sink, rebuild_missing_daily=True)
+    assert not sink.calls and sink.title_audit_count == 0
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == original
+
+
+def test_frozen_archive_failure_preserves_checkpoint_before_mutation(tmp_path, monkeypatch):
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config, original, _ = frozen_record_with_regenerated_bundle(tmp_path)
+    def fail_copy(*args, **kwargs):
+        raise OSError("disk full")
+    monkeypatch.setattr(production.shutil, "copy2", fail_copy)
+    sink = FakeSink()
+    with pytest.raises(OSError, match="disk full"):
+        save_daily_production_favorites(daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION, sink=sink, rebuild_missing_daily=True)
+    assert not sink.calls
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == original
+
+
+def test_frozen_bundle_changed_during_absence_audit_blocks_reset(tmp_path, monkeypatch):
+    monkeypatch.setattr(production, "_today", lambda: "2026-09-23")
+    daily, config, original, _ = frozen_record_with_regenerated_bundle(tmp_path)
+    class ChangingSink(FakeSink):
+        def audit_titles_read_only(self, titles):
+            evidence = super().audit_titles_read_only(titles)
+            (daily / "MIKIHOUSE_2026-09-23_报价全集.pdf").write_bytes(b"changed PDF")
+            return evidence
+    sink = ChangingSink()
+    with pytest.raises(WeChatDailyProductionError, match="bundle changed"):
+        save_daily_production_favorites(daily, config, repository_root=ROOT, confirmation=PRODUCTION_CONFIRMATION, sink=sink, rebuild_missing_daily=True)
+    assert not sink.calls
+    assert (daily / CHECKPOINT_FILENAME).read_bytes() == original
 
 
 def test_clean_interstage_resume_skips_passed_pdf_and_creates_only_text(tmp_path: Path) -> None:

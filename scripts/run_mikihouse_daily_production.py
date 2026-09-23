@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 from mikihouse_luyao.daily_quote import DailyQuoteError
 from mikihouse_luyao.daily_quote_fx import FxError
+from mikihouse_luyao.daily_quote_guard import CHECKPOINT_FILE
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, run_daily_quote
 from mikihouse_luyao.quote_assistant_app import format_progress_event
 from mikihouse_luyao.quote_assistant_authorization import (
@@ -81,7 +82,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--rebuild-missing-daily-favorites",
         action="store_true",
-        help="rebuild only after a completed checkpoint and a fresh read-only proof that both titles are absent",
+        help="rebuild a PASS/frozen checkpoint from the current bundle only after App authorization and read-only proof that both titles are absent",
     )
     parser.add_argument(
         "--recover-frozen-pdf",
@@ -162,6 +163,7 @@ def main(argv: list[str] | None = None) -> int:
                 **runtime_config,
                 "production_save_enabled": True,
                 "production_authorization_mode": "APP_ONE_TIME",
+                "production_authorization_operation": expected_operation,
             }
         elif runtime_config.get("production_save_enabled") is True:
             if args.rebuild_missing_daily_favorites or args.recover_frozen_pdf:
@@ -221,18 +223,33 @@ def main(argv: list[str] | None = None) -> int:
         ) -> None:
             emit(stage, 4 + int(percent * 0.72), message, **details)
 
-        generated = run_daily_quote(
-            config_path=args.config,
-            special_path=args.special,
-            output_root=args.output_root,
-            cache_dir=args.thumbnail_cache,
-            quote_date=args.quote_date,
-            manual_rate=args.fx_rate,
-            source_snapshot_path=args.source_snapshot,
-            page_size=args.page_size,
-            delay=args.delay,
-            progress_callback=quote_progress,
-        )
+        quote_date = args.quote_date or datetime.now(ZoneInfo("Asia/Tokyo")).date().isoformat()
+        daily_dir = args.output_root / quote_date
+        has_checkpoint = (daily_dir / CHECKPOINT_FILE).exists() or (daily_dir / CHECKPOINT_FILE).is_symlink()
+        if args.rebuild_missing_daily_favorites and not has_checkpoint:
+            raise WeChatDailyProductionError("安全重建需要当天已有 PASS 或冻结 checkpoint，不会先重新生成报价")
+        if args.production_save and has_checkpoint:
+            if args.fx_rate or args.source_snapshot:
+                raise WeChatDailyProductionError("已有 checkpoint，禁止使用汇率或快照覆盖参数重新生成当天 bundle")
+            emit("REUSE_CHECKPOINT_BUNDLE", 78, "当天已有checkpoint：复用当前bundle，禁止先覆盖报价文件")
+            generated = {
+                "status": "REUSED_CHECKPOINT_PROTECTED_BUNDLE",
+                "output_dir": str(daily_dir.resolve()),
+                "website_crawl_started": False,
+            }
+        else:
+            generated = run_daily_quote(
+                config_path=args.config,
+                special_path=args.special,
+                output_root=args.output_root,
+                cache_dir=args.thumbnail_cache,
+                quote_date=args.quote_date,
+                manual_rate=args.fx_rate,
+                source_snapshot_path=args.source_snapshot,
+                page_size=args.page_size,
+                delay=args.delay,
+                progress_callback=quote_progress,
+            )
         if not args.production_save:
             print(json.dumps({
                 **generated,

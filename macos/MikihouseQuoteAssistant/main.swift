@@ -462,8 +462,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         appendLog("只读检查通过：当天 PDF版和文字版精确标题均为 0 个候选。")
         let alert = NSAlert()
-        alert.messageText = "单次授权：重建已人工删除的当天收藏"
-        alert.informativeText = "只读检查已确认当天 PDF版和文字版标题均不存在。本次将重新生成今日报价，完整归档旧 checkpoint，然后依次创建恰好两条收藏。\n\n写入前会再做一次双标题只读检查；任一收藏已存在即停止。"
+        alert.messageText = "单次授权：使用当前报价安全重建当天收藏"
+        alert.informativeText = "只读检查已确认当天 PDF版和文字版标题均不存在。本次不会再次生成或覆盖报价文件；将使用当前最新 bundle，完整归档旧 PASS/冻结 checkpoint 及对应证据，建立新 checkpoint，然后依次创建恰好两条收藏。\n\n写入前会再次检查两个标题、当前 bundle 完整性及归档；任一收藏存在即停止，不重置。"
         alert.addButton(withTitle: "单次授权并安全重建")
         alert.addButton(withTitle: "取消")
         let confirmationCheck = NSButton(checkboxWithTitle: "我确认当天两条收藏均已人工删除，本次重建恰好两条", target: nil, action: nil)

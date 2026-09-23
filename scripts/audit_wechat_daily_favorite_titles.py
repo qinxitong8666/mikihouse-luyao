@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Read-only audit of today's two completed MIKI HOUSE Favorite titles"
+        description="Read-only audit of today's PASS/frozen MIKI HOUSE Favorite titles"
     )
     parser.add_argument(
         "--output-root",

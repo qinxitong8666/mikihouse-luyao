@@ -10,6 +10,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from .daily_quote import sha256_json
+from .daily_quote_guard import locked_daily_output
 from .wechat_favorite_runtime import (
     MacWeChatFavoriteSink,
     PRODUCTION_CONFIRMATION,
@@ -344,6 +345,10 @@ def _daily_titles(daily_dir: Path) -> list[str]:
         titles.append(title)
     if len(set(titles)) != len(STAGE_ORDER):
         raise WeChatDailyProductionError("daily Favorite titles must be distinct")
+    day = datetime.fromisoformat(daily_dir.name)
+    expected = [f"MIKI HOUSE {day.month}月{day.day}日报价｜{kind}版" for kind in ("PDF", "文字")]
+    if titles != expected:
+        raise WeChatDailyProductionError("当天 payload 标题不符合固定日期格式，禁止用变更后的标题证明旧收藏不存在")
     return titles
 
 
@@ -372,6 +377,23 @@ def _validate_completed_production_record(daily_dir: Path) -> tuple[dict[str, An
     return checkpoint, report
 
 
+def _validate_rebuildable_production_record(daily_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    checkpoint = _read_json(daily_dir / CHECKPOINT_FILENAME)
+    if checkpoint.get("status") == "PASS":
+        return _validate_completed_production_record(daily_dir)
+    report = _read_json(daily_dir / REPORT_FILENAME)
+    if checkpoint.get("status") != "FROZEN_RECONCILIATION_REQUIRED" or report.get("status") != "FROZEN_RECONCILIATION_REQUIRED":
+        raise WeChatDailyProductionError("安全重建仅允许已完成 PASS 或明确冻结的 checkpoint；运行中/未知状态禁止重置")
+    for key in ("quote_date", "manifest_sha256", "bundle_sha256"):
+        if not checkpoint.get(key) or checkpoint.get(key) != report.get(key):
+            raise WeChatDailyProductionError(f"frozen checkpoint/report {key} mismatch")
+    if checkpoint["quote_date"] != daily_dir.name:
+        raise WeChatDailyProductionError("frozen checkpoint date mismatch")
+    # A different *current* bundle is expected in the explicitly authorized
+    # migration. The old checkpoint and its own report must still agree.
+    return checkpoint, report
+
+
 def audit_completed_daily_favorites_readonly(
     daily_dir: Path,
     runtime_config: dict[str, Any],
@@ -379,10 +401,10 @@ def audit_completed_daily_favorites_readonly(
     sink: MacWeChatFavoriteSink | None = None,
     require_today: bool = True,
 ) -> dict[str, Any]:
-    """Prove whether both completed daily Favorite titles are absent, with zero mutation."""
+    """Audit PASS or frozen records independently of the current bundle hash."""
 
     daily_dir = daily_dir.resolve()
-    checkpoint, report = _validate_completed_production_record(daily_dir)
+    checkpoint, report = _validate_rebuildable_production_record(daily_dir)
     if require_today and daily_dir.name != _today():
         raise WeChatDailyProductionError("safe rebuild is only allowed for today's production")
     titles = _daily_titles(daily_dir)
@@ -391,9 +413,15 @@ def audit_completed_daily_favorites_readonly(
     rows = list(evidence.get("results") or [])
     if len(rows) != 2:
         raise WeChatDailyProductionError("read-only title audit did not return exactly two results")
-    counts = [int(row.get("search_candidate_count") or 0) for row in rows]
-    if any(count < 0 for count in counts):
+    counts = [row.get("search_candidate_count") for row in rows]
+    if any(type(count) is not int or count < 0 for count in counts):
         raise WeChatDailyProductionError("read-only title audit returned an invalid count")
+    if evidence.get("status") != "READ_ONLY_TITLE_AUDIT_COMPLETE" or any(
+        row.get("title_sha256") != hashlib.sha256(title.encode("utf-8")).hexdigest()
+        or row.get("status") != "SAVED_NOTE_CANDIDATES_READ_ONLY"
+        for title, row in zip(titles, rows)
+    ):
+        raise WeChatDailyProductionError("read-only title audit identity/status mismatch")
     all_absent = counts == [0, 0] and evidence.get("all_titles_absent") is True
     return {
         "schema_version": 1,
@@ -405,6 +433,9 @@ def audit_completed_daily_favorites_readonly(
         "quote_date": daily_dir.name,
         "prior_manifest_sha256": checkpoint.get("manifest_sha256"),
         "prior_bundle_sha256": checkpoint.get("bundle_sha256"),
+        "prior_checkpoint_status": checkpoint.get("status"),
+        "prior_checkpoint_file_sha256": hashlib.sha256((daily_dir / CHECKPOINT_FILENAME).read_bytes()).hexdigest(),
+        "prior_report_file_sha256": hashlib.sha256((daily_dir / REPORT_FILENAME).read_bytes()).hexdigest(),
         "prior_report_completed_at": report.get("completed_at"),
         "title_results": rows,
         "all_titles_absent": all_absent,
@@ -420,16 +451,19 @@ def _archive_and_reset_completed_checkpoint(
     preflight: dict[str, Any],
     audit: dict[str, Any],
 ) -> dict[str, Any]:
-    checkpoint, report = _validate_completed_production_record(daily_dir)
+    checkpoint, report = _validate_rebuildable_production_record(daily_dir)
     if audit.get("status") != "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION":
         raise WeChatDailyProductionError("safe rebuild title audit is not ready")
     if audit.get("all_titles_absent") is not True:
         raise WeChatDailyProductionError("one or more daily Favorites still exist")
-    if any(
+    if len(audit.get("title_results") or []) != 2 or any(
         int(row.get("search_candidate_count") or 0) != 0
         for row in audit.get("title_results") or []
     ):
         raise WeChatDailyProductionError("one or more daily Favorites still exist")
+    for name, key in ((CHECKPOINT_FILENAME, "prior_checkpoint_file_sha256"), (REPORT_FILENAME, "prior_report_file_sha256")):
+        if hashlib.sha256((daily_dir / name).read_bytes()).hexdigest() != audit.get(key):
+            raise WeChatDailyProductionError("checkpoint/report changed after absence audit")
 
     history_root = daily_dir / REBUILD_HISTORY_DIRECTORY
     history_root.mkdir(parents=True, exist_ok=True)
@@ -438,17 +472,34 @@ def _archive_and_reset_completed_checkpoint(
     archive = history_root / rebuild_id
     temporary.mkdir()
     source_names = {CHECKPOINT_FILENAME, REPORT_FILENAME}
+    # Include historical validation/audit records that an interrupted stage
+    # may have written before adding an evidence_file pointer to checkpoint.
+    source_names.update(path.name for path in daily_dir.glob("wechat_*validation*.json"))
+    source_names.update(path.name for path in daily_dir.glob("wechat_*audit*.json"))
     for stage in STAGE_ORDER:
         evidence_file = str((checkpoint.get("stages") or {}).get(stage, {}).get("evidence_file") or "")
         if evidence_file:
+            if Path(evidence_file).name != evidence_file or not (daily_dir / evidence_file).is_file():
+                raise WeChatDailyProductionError("referenced evidence is missing or outside daily directory")
+            source_names.add(evidence_file)
+    for stage in STAGE_ORDER:
+        recovery = (checkpoint.get("stages") or {}).get(stage, {}).get("authorized_recovery") or {}
+        evidence_file = recovery.get("evidence_file")
+        if evidence_file:
+            if Path(evidence_file).name != evidence_file or not (daily_dir / evidence_file).is_file():
+                raise WeChatDailyProductionError("recovery evidence is missing or outside daily directory")
             source_names.add(evidence_file)
     archived_files: list[dict[str, Any]] = []
     for name in sorted(source_names):
         source = daily_dir / name
+        if source.is_symlink():
+            raise WeChatDailyProductionError("archive source must not be a symlink")
         if not source.is_file():
             continue
         target = temporary / name
         shutil.copy2(source, target)
+        if target.read_bytes() != source.read_bytes():
+            raise WeChatDailyProductionError("archive copy verification failed")
         archived_files.append(
             {
                 "name": name,
@@ -458,7 +509,12 @@ def _archive_and_reset_completed_checkpoint(
         )
     archive_manifest = {
         "schema_version": 1,
-        "status": "PREVIOUS_PASS_ARCHIVED_BEFORE_SAFE_REBUILD",
+        "status": ("PREVIOUS_PASS_ARCHIVED_BEFORE_SAFE_REBUILD" if checkpoint["status"] == "PASS"
+                   else "PREVIOUS_FROZEN_ARCHIVED_BEFORE_SAFE_REBUILD"),
+        "prior_checkpoint_status": checkpoint["status"],
+        "replacement_manifest_sha256": preflight["manifest_sha256"],
+        "replacement_bundle_sha256": preflight["bundle_sha256"],
+        "previous_bundle_matches_current": checkpoint["bundle_sha256"] == preflight["bundle_sha256"],
         "rebuild_id": rebuild_id,
         "archived_at": _now(),
         "quote_date": daily_dir.name,
@@ -584,6 +640,7 @@ def audit_frozen_pdf_recovery_readonly(
     }
 
 
+@locked_daily_output
 def recover_frozen_pdf_and_complete_daily_favorites(
     daily_dir: Path,
     runtime_config: dict[str, Any],
@@ -731,6 +788,7 @@ def recover_frozen_pdf_and_complete_daily_favorites(
     }
 
 
+@locked_daily_output
 def save_daily_production_favorites(
     daily_dir: Path,
     runtime_config: dict[str, Any],
@@ -754,13 +812,14 @@ def save_daily_production_favorites(
     checkpoint_path = daily_dir / CHECKPOINT_FILENAME
     report_path = daily_dir / REPORT_FILENAME
     sink = sink or MacWeChatFavoriteSink(runtime_config)
+    if rebuild_missing_daily and (
+        runtime_config.get("production_authorization_mode") != "APP_ONE_TIME"
+        or runtime_config.get("production_authorization_operation") != "REBUILD_MISSING_DAILY_TWO_FAVORITES"
+    ):
+        raise WeChatDailyProductionError("安全重建必须消费 App 专用单次授权，普通生产许可不能重置 checkpoint")
     if checkpoint_path.exists():
         checkpoint = _read_json(checkpoint_path)
         if rebuild_missing_daily:
-            if checkpoint.get("status") != "PASS":
-                raise WeChatDailyProductionError(
-                    "safe rebuild requires a completed PASS checkpoint"
-                )
             audit = audit_completed_daily_favorites_readonly(
                 daily_dir,
                 runtime_config,
@@ -771,6 +830,11 @@ def save_daily_production_favorites(
                 raise WeChatDailyProductionError(
                     "safe rebuild blocked: one or more daily Favorite titles still exist"
                 )
+            current_preflight = validate_daily_production_bundle(
+                daily_dir, runtime_config, repository_root=repository_root, require_write_enabled=True
+            )
+            if current_preflight["bundle_sha256"] != preflight["bundle_sha256"]:
+                raise WeChatDailyProductionError("current bundle changed during read-only title audit; no reset")
             checkpoint = _archive_and_reset_completed_checkpoint(
                 daily_dir, preflight, audit
             )

@@ -926,6 +926,20 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
         _set_clipboard_text(marker)
         search = _osascript(
             f'''
+            on isSearchField(nodeItem)
+                tell application "System Events"
+                    try
+                        set nodeRole to value of attribute "AXRole" of nodeItem as text
+                        if nodeRole is not "AXTextArea" and nodeRole is not "AXTextField" and nodeRole is not "AXSearchField" then return false
+                        repeat with attributeName in {{"AXTitle", "AXDescription", "AXPlaceholderValue"}}
+                            try
+                                if (value of attribute (contents of attributeName) of nodeItem as text) is "搜索" then return true
+                            end try
+                        end repeat
+                    end try
+                end tell
+                return false
+            end isSearchField
             tell application id "{bundle_id}" to activate
             delay 0.2
             tell application "System Events"
@@ -933,12 +947,22 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
                 tell targetProc
                     set frontmost to true
                     if (name of window {main.index} as text) is not "WeChat" and (name of window {main.index} as text) is not "微信" then return "MAIN_WINDOW_CHANGED"
-                    perform action "AXRaise" of window {main.index}
+                    set searchWindow to window {main.index}
+                    perform action "AXRaise" of searchWindow
                     delay 0.2
-                    keystroke "f" using command down
-                    delay 0.2
-                    keystroke "a" using command down
-                    keystroke "v" using command down
+                    set searchFields to {{}}
+                    set allItems to entire contents of searchWindow
+                    repeat with idx from 1 to count of allItems
+                        if my isSearchField(item idx of allItems) then set end of searchFields to item idx of allItems
+                    end repeat
+                    if (count of searchFields) is not 1 then return "SEARCH_FIELD_NOT_UNIQUE"
+                    set targetSearch to item 1 of searchFields
+                    set expectedQuery to the clipboard as text
+                    set value of attribute "AXFocused" of targetSearch to true
+                    set value of attribute "AXValue" of targetSearch to expectedQuery
+                    delay 0.3
+                    if (value of attribute "AXValue" of targetSearch as text) is not expectedQuery then return "SEARCH_VALUE_MISMATCH"
+                    key code 36
                     delay 1.2
                     return "SEARCH_TYPED"
                 end tell
@@ -946,10 +970,14 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
             '''
         )
         if search["returncode"] != 0 or search["stdout"] != "SEARCH_TYPED":
-            raise WeChatRuntimeError("favorites search failed")
+            reason = search["stdout"] if search["stdout"] in {
+                "MAIN_WINDOW_CHANGED", "SEARCH_FIELD_NOT_UNIQUE", "SEARCH_VALUE_MISMATCH"
+            } else "ACCESSIBILITY_SEARCH_FAILED"
+            raise WeChatRuntimeError(f"收藏搜索未完成（{reason}）；未确认标题不存在，禁止重建")
         main = _main_window(pid)
         tree = collect_window_ax_text(pid, main)
         candidate_lines = _exact_saved_note_candidate_lines(tree, marker)
+        validate_saved_note_search_completion(tree, marker, len(candidate_lines))
         return {
             "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
             "favorites": favorites,
@@ -960,6 +988,35 @@ def search_saved_note_candidates(pid: int, bundle_id: str, marker: str) -> dict[
         }
     finally:
         _set_clipboard_text(original)
+
+
+def validate_saved_note_search_completion(tree: str, marker: str, candidate_count: int) -> None:
+    """A query field alone cannot prove that a Favorites search completed."""
+    # WeChat 4.1.6 exposes the highlighted query and the heading suffix as
+    # adjacent AXStaticText nodes. Reassemble only adjacent static nodes,
+    # never the editable search field or text from an unrelated result card.
+    fragments: list[str] = []
+    heading_verified = False
+    heading_pattern = r"“" + re.escape(marker) + r"\s*”的搜索结果"
+    for line in tree.splitlines():
+        fields = line.split("|||", 3)
+        if len(fields) != 4 or fields[0] != "AXStaticText":
+            fragments = []
+            continue
+        values = [value for value in (fields[3], fields[1], fields[2])
+                  if value and value != "missing value"]
+        fragments.append(values[0] if values else "")
+        fragments = fragments[-4:]
+        if any(re.fullmatch(heading_pattern, "".join(fragments[start:]))
+               for start in range(len(fragments))):
+            heading_verified = True
+    if not heading_verified:
+        raise WeChatRuntimeError("收藏查询尚未确认完成或结果不是当前标题；禁止判定不存在")
+    if candidate_count == 0 and not any(
+        "无结果" in line.split("|||", 3)[1:] for line in tree.splitlines()
+        if line.startswith("AXStaticText|||")
+    ):
+        raise WeChatRuntimeError("未读到明确的无结果状态；禁止凭空列表重建收藏")
 
 
 def _exact_saved_note_candidate_lines(tree: str, marker: str) -> list[str]:

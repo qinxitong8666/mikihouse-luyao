@@ -292,6 +292,21 @@ def test_numbered_pdf_title_cannot_authorize_frozen_recovery() -> None:
         runtime._exact_saved_note_candidate_lines(tree, marker)
 
 
+def test_title_absence_requires_current_search_heading_and_explicit_no_results():
+    marker = "MIKI HOUSE 9月23日报价｜PDF版"
+    heading = f"AXStaticText|||“{marker} ”的搜索结果||||||"
+    empty = "AXStaticText|||||||||无结果"
+    runtime.validate_saved_note_search_completion(heading + "\n" + empty, marker, 0)
+    split = f"AXStaticText|||missing value||||||“{marker}\nAXStaticText|||missing value|||||| \nAXStaticText|||missing value||||||”的搜索结果"
+    runtime.validate_saved_note_search_completion(split + "\n" + empty, marker, 0)
+    for tree in (heading, empty, "AXTextArea|||搜索||||||" + marker,
+                 split.replace(marker, "旧标题") + "\n" + empty,
+                 split.replace("AXStaticText|||missing value||||||”", "AXTextArea|||missing value||||||”") + "\n" + empty,
+                 "AXStaticText|||旧标题的搜索结果||||||\n" + empty):
+        with pytest.raises(WeChatRuntimeError):
+            runtime.validate_saved_note_search_completion(tree, marker, 0)
+
+
 @pytest.mark.parametrize("tree", [
     "|||missing value||||||",
     "AXWindow|||WeChat||||||\nchildren_error|||denied",
