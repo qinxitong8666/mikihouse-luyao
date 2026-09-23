@@ -160,14 +160,23 @@ def test_authorization_rejects_unsafe_private_directory(
         )
 
 
-def test_current_repository_runtime_is_ready_and_default_gate_is_off() -> None:
+def test_current_repository_runtime_reports_local_environment_and_default_gate() -> None:
     report = check_quote_assistant_runtime(ROOT)
-    assert report["status"] == "READY"
-    assert report["errors"] == []
     assert report["wechat_mutation_count"] == 0
     safety = next(row for row in report["checks"] if row["name"] == "safety_configuration")
     assert safety["passed"] is True
     assert "默认生产开关关闭" in safety["message"]
+    python_check = next(row for row in report["checks"] if row["name"] == "python_environment")
+    if (ROOT / ".venv" / "bin" / "python").is_file():
+        assert report["status"] == "READY"
+        assert report["errors"] == []
+        assert python_check["passed"] is True
+    else:
+        # CI intentionally has no repository-local .venv. The App must report
+        # that daily-use prerequisite in Chinese and fail closed.
+        assert report["status"] == "BLOCKED"
+        assert python_check["passed"] is False
+        assert any("找不到可执行的项目 Python" in error for error in report["errors"])
 
 
 def test_incomplete_repository_runtime_fails_with_chinese_reason(tmp_path: Path) -> None:
