@@ -1,0 +1,2 @@
+本应用必须保留在 mikihouse-luyao 仓库根目录，并使用仓库 .venv。
+正式微信收藏保存继续受 config/wechat_favorite_runtime.json 和精确确认语句保护。

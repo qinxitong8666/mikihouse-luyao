@@ -3,11 +3,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+from typing import Any
 
 from mikihouse_luyao.daily_quote import DailyQuoteError
 from mikihouse_luyao.daily_quote_fx import FxError
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, run_daily_quote
+from mikihouse_luyao.quote_assistant_app import format_progress_event
 from mikihouse_luyao.scraper import ScrapeError
 from mikihouse_luyao.wechat_daily_production import (
     WeChatDailyProductionError,
@@ -55,12 +58,26 @@ def build_parser() -> argparse.ArgumentParser:
         default="",
         help="exact production confirmation; ignored in preview-only mode",
     )
+    parser.add_argument(
+        "--progress-jsonl",
+        action="store_true",
+        help="emit machine-readable progress events to stderr",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    def emit(stage: str, percent: int, message: str, **details: Any) -> None:
+        if args.progress_jsonl:
+            print(
+                format_progress_event(stage, percent, message, **details),
+                file=sys.stderr,
+                flush=True,
+            )
+
     runtime_config = _read_json(args.runtime_config)
+    emit("PRODUCTION_GATE", 1, "正在检查微信正式保存门禁")
     if args.production_save:
         if runtime_config.get("production_save_enabled") is not True:
             print(json.dumps({
@@ -81,6 +98,14 @@ def main(argv: list[str] | None = None) -> int:
             }, ensure_ascii=False, indent=2))
             return 2
     try:
+        def quote_progress(
+            stage: str,
+            percent: int,
+            message: str,
+            details: dict[str, Any],
+        ) -> None:
+            emit(stage, 4 + int(percent * 0.72), message, **details)
+
         generated = run_daily_quote(
             config_path=args.config,
             special_path=args.special,
@@ -91,6 +116,7 @@ def main(argv: list[str] | None = None) -> int:
             source_snapshot_path=args.source_snapshot,
             page_size=args.page_size,
             delay=args.delay,
+            progress_callback=quote_progress,
         )
         if not args.production_save:
             print(json.dumps({
@@ -100,12 +126,15 @@ def main(argv: list[str] | None = None) -> int:
                 "next_gate": "explicit production authorization required",
             }, ensure_ascii=False, indent=2))
             return 0
+        emit("WECHAT_PREFLIGHT", 78, "报价生成完成，正在校验双收藏正式保存前置条件")
+        emit("WECHAT_SAVE", 82, "正在按 PDF 版、文字版顺序保存并强回读")
         saved = save_daily_production_favorites(
             Path(generated["output_dir"]),
             runtime_config,
             repository_root=ROOT,
             confirmation=args.confirm,
         )
+        emit("COMPLETE", 100, "两条微信收藏已保存并通过强回读")
     except (
         DailyQuoteError,
         DailyQuoteRunError,

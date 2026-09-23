@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "generated_at": "2026-09-23T12:46:01+09:00",
+  "application": {
+    "name": "MIKI HOUSE 报价助手",
+    "bundle_path": "MIKI HOUSE 报价助手.app",
+    "bundle_identifier": "cn.luyao.mikihouse.quoteassistant",
+    "implementation": "NATIVE_APPKIT",
+    "architecture": "arm64",
+    "minimum_macos": "13.0",
+    "code_signature": "AD_HOC_VALID",
+    "executable_sha256": "47dc9391ffdf83b657f0f5bda8a98ef98afece6591e2ee060b2742b3a1c63c7b",
+    "executable_byte_count": 266496
+  },
+  "runtime_smoke": {
+    "status": "PASS",
+    "launch_method": "NATIVE_BUNDLE_EXECUTABLE_AND_FINDER_OPEN_EQUIVALENT",
+    "window_detected": true,
+    "window_title": "MIKI HOUSE 报价助手",
+    "buttons_detected": [
+      "生成今日报价",
+      "生成并保存两个微信收藏",
+      "打开 PDF",
+      "打开输出目录",
+      "预览 PDF 收藏",
+      "预览文字收藏",
+      "刷新状态"
+    ],
+    "latest_summary": {
+      "quote_date": "2026-09-23",
+      "fx_rate_display": "0.04262807",
+      "included_in_stock_product_count": 1786,
+      "pdf_size_display": "22.21 MB"
+    },
+    "production_save_enabled": false,
+    "production_button_enabled": false,
+    "website_request_count": 0,
+    "wechat_mutation_count": 0,
+    "shijiu_request_count": 0
+  },
+  "safety_acceptance": {
+    "business_logic_reimplemented_in_app": false,
+    "generation_entrypoint": "scripts/generate_daily_quote.py",
+    "production_entrypoint": "scripts/run_mikihouse_daily_production.py",
+    "checkpoint_and_idempotency_owner": "mikihouse_luyao.wechat_daily_production",
+    "exact_confirmation_required_when_enabled": true,
+    "mutation_auto_retry": false,
+    "production_gate_probe": {
+      "status": "FAILED_CLOSED_AS_EXPECTED",
+      "phase": "PRE_GENERATION_WRITE_GATE",
+      "website_crawl_started": false,
+      "wechat_mutation_count": 0
+    }
+  },
+  "verification": {
+    "pytest": "312 passed",
+    "verify_local": "PASS",
+    "plist_lint": "PASS",
+    "codesign_verify_deep_strict": "PASS",
+    "git_diff_check": "PASS",
+    "protected_state_and_deliverables": "UNCHANGED"
+  }
+}

@@ -1,5 +1,11 @@
 # MIKI HOUSE 每日报价生成工具
 
+## macOS 报价助手
+
+仓库根目录的原生 AppKit 应用 `MIKI HOUSE 报价助手.app` 是现有 CLI 的可双击桌面外壳。它只负责展示阶段进度、最新汇率/商品数/PDF 大小和打开产物；生成动作仍由 `scripts/generate_daily_quote.py` 执行，双收藏动作仍由 `scripts/run_mikihouse_daily_production.py` 执行。应用不持有微信 Sink，不直接执行任何收藏或 Shijiu 操作，也没有绕过 `production_save_enabled`、精确 confirmation、checkpoint、幂等、防重复与强回读门禁的参数。
+
+两个核心入口可用 `--progress-jsonl` 向 stderr 输出以 `MIKIHOUSE_PROGRESS ` 开头的单行 JSON 事件。该事件只增加可观察性，不参与 DailyQuoteManifest、定价、筛选或写入判定。默认跟踪配置下正式保存按钮为禁用状态。
+
 ## 边界与安全
 
 当前主线只进行 MIKI HOUSE 官网只读抓取、ECB 汇率读取和本地文件生成。`config/daily_quote.json` 中 `shijiu_requests_enabled` 与 `wechat_write_enabled` 必须同时为 `false`，否则入口立即停止。每日模块不包含 `/shopapi/` endpoint，也不接受跳过该门禁的命令行参数。

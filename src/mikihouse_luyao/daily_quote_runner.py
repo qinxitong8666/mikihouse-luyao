@@ -6,11 +6,12 @@ import hashlib
 import json
 import os
 import shutil
+import sys
 import tempfile
 from datetime import date, datetime
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
 from .catalog import fetch_all_storefront_products
@@ -36,10 +37,25 @@ from .daily_quote_text import (
     write_json,
 )
 from .scraper import ScrapeError
+from .quote_assistant_app import format_progress_event
 
 
 class DailyQuoteRunError(RuntimeError):
     pass
+
+
+ProgressCallback = Callable[[str, int, str, dict[str, Any]], None]
+
+
+def _progress(
+    callback: ProgressCallback | None,
+    stage: str,
+    percent: int,
+    message: str,
+    **details: Any,
+) -> None:
+    if callback is not None:
+        callback(stage, percent, message, details)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -145,7 +161,9 @@ def run_daily_quote(
     source_snapshot_path: Path | None = None,
     page_size: int = 100,
     delay: float = 0.1,
+    progress_callback: ProgressCallback | None = None,
 ) -> dict[str, Any]:
+    _progress(progress_callback, "INITIALIZING", 2, "正在检查配置和安全门禁")
     config = _read_json(config_path)
     if config.get("shijiu_requests_enabled") is not False or config.get("wechat_write_enabled") is not False:
         raise DailyQuoteRunError("daily quote config must keep Shijiu and WeChat writes disabled")
@@ -155,6 +173,7 @@ def run_daily_quote(
     previous_path = output_root / "last_successful_manifest.json"
     previous = _read_json(previous_path) if previous_path.exists() else None
     special = load_special_numbers(special_path)
+    _progress(progress_callback, "SOURCE_CRAWL", 8, "正在完整抓取 MIKI HOUSE 官网")
     if source_snapshot_path:
         products, crawl = _load_source_snapshot(source_snapshot_path)
     else:
@@ -163,8 +182,24 @@ def run_daily_quote(
         )
     crawl = {**crawl, "complete_pagination_validated": True}
     _validate_crawl(products, crawl, config, previous)
+    _progress(
+        progress_callback,
+        "SOURCE_READY",
+        24,
+        "官网全量商品抓取与分页校验完成",
+        product_count=len(products),
+    )
     fx = manual_fx_rate(manual_rate, quote_date=today) if manual_rate else fetch_ecb_reference_rate(
         quote_date=today, max_staleness_days=int(config["fx_max_staleness_days"])
+    )
+    _progress(
+        progress_callback,
+        "FX_READY",
+        30,
+        "当日汇率已获取并冻结",
+        rate=str(fx["jpy_to_cny_rate"]),
+        rate_date=fx["rate_date"],
+        provider=fx["provider"],
     )
     generated_at = datetime.now(ZoneInfo("Asia/Tokyo")).isoformat()
     preliminary = build_daily_quote_manifest(
@@ -178,6 +213,13 @@ def run_daily_quote(
     )
     eligible_numbers = {row["product_number"] for row in preliminary["products"]}
     source_eligible = [row for row in products if row["product_number"] in eligible_numbers]
+    _progress(
+        progress_callback,
+        "ELIGIBILITY_READY",
+        38,
+        "客户可报价商品池已生成",
+        eligible_product_count=len(source_eligible),
+    )
     assets, image_failures = prepare_product_thumbnails(
         source_eligible,
         cache_dir=cache_dir,
@@ -188,6 +230,14 @@ def run_daily_quote(
     failure_ratio = Decimal(len(image_failures)) / Decimal(max(1, len(source_eligible)))
     if failure_ratio > Decimal("0.02"):
         raise DailyQuoteRunError(f"image failure ratio exceeds 2%: {failure_ratio:.2%}")
+    _progress(
+        progress_callback,
+        "THUMBNAILS_READY",
+        58,
+        "客户 PDF 缩略图已完成",
+        thumbnail_count=len(assets),
+        failure_count=len(image_failures),
+    )
     manifest = build_daily_quote_manifest(
         products,
         special_numbers=special,
@@ -212,6 +262,7 @@ def run_daily_quote(
     with tempfile.TemporaryDirectory(prefix=f"{quote_date_text}-", dir=build_parent) as temp_name:
         work = Path(temp_name)
         full_pdf = work / f"MIKIHOUSE_{quote_date_text}_报价全集.pdf"
+        _progress(progress_callback, "PDF_BUILD", 63, "正在生成可搜索客户 PDF")
         watermark_kwargs = {
             "watermark_text": str(config["customer_pdf_watermark_text"]),
             "watermark_opacity": float(config["customer_pdf_watermark_opacity"]),
@@ -221,6 +272,15 @@ def run_daily_quote(
         )
         pdf_validation = validate_daily_quote_pdf(full_pdf, manifest, pdf_report, sample_size=50)
         pdf_report["path"] = full_pdf.name
+        _progress(
+            progress_callback,
+            "PDF_READY",
+            82,
+            "PDF 已生成并通过自动检索验收",
+            page_count=pdf_report["page_count"],
+            product_count=pdf_report["product_count"],
+            size_mb=round(full_pdf.stat().st_size / 1024 / 1024, 3),
+        )
         threshold = int(config["mobile_share_pdf_max_mb"]) * 1024 * 1024
         category_pdfs: dict[str, Path] | None = None
         category_reports: dict[str, Any] = {}
@@ -337,6 +397,7 @@ def run_daily_quote(
         }
         write_json(work / "daily_quote_stats.json", stats)
         _write_text(work / f"MIKIHOUSE_{quote_date_text}_内部变化报告.txt", _internal_report(manifest, diff, stats))
+        _progress(progress_callback, "FINALIZING", 94, "正在原子发布当日输出并更新最新目录")
         final_dir = output_root / quote_date_text
         final_dir.mkdir(parents=True, exist_ok=True)
         for child in work.iterdir():
@@ -346,6 +407,13 @@ def run_daily_quote(
         previous_tmp = output_root / ".last_successful_manifest.tmp"
         previous_tmp.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         previous_tmp.replace(previous_path)
+    _progress(
+        progress_callback,
+        "COMPLETE",
+        100,
+        "今日报价生成完成",
+        output_dir=str(output_root / quote_date_text),
+    )
     return {
         "status": "SUCCESS_VISUAL_QA_PENDING",
         "output_dir": str(output_root / quote_date_text),
@@ -365,11 +433,20 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source-snapshot", type=Path, help="complete offline source snapshot for tests/emergency runs")
     parser.add_argument("--page-size", type=int, default=100)
     parser.add_argument("--delay", type=float, default=0.1)
+    parser.add_argument(
+        "--progress-jsonl",
+        action="store_true",
+        help="emit machine-readable progress events to stderr",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    progress_callback = None
+    if args.progress_jsonl:
+        def progress_callback(stage: str, percent: int, message: str, details: dict[str, Any]) -> None:
+            print(format_progress_event(stage, percent, message, **details), file=sys.stderr, flush=True)
     try:
         result = run_daily_quote(
             config_path=args.config,
@@ -381,6 +458,7 @@ def main(argv: list[str] | None = None) -> int:
             source_snapshot_path=args.source_snapshot,
             page_size=args.page_size,
             delay=args.delay,
+            progress_callback=progress_callback,
         )
     except (DailyQuoteError, DailyQuoteRunError, FxError, ScrapeError, OSError, ValueError) as exc:
         print(json.dumps({"status": "FAILED_CLOSED", "error": str(exc)}, ensure_ascii=False, indent=2))
