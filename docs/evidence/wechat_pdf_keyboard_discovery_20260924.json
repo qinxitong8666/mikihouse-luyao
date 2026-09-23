@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "base_commit": "6e31ca756989a59aa155746289b969ba3a572c7d",
+  "status": "COMMAND_O_DISCOVERED_RUNTIME_BLOCKED_NOT_INTEGRATED",
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "observations": {
+    "old_test_title": "1.MIKIHOUSE_TEST_2026-09-24_AX_PDF_PICKER",
+    "old_test_body_and_existing_pdf_visible": true,
+    "intended_new_test_title": "MIKIHOUSE_TEST_2026-09-24_KEYBOARD_END",
+    "new_test_title_search_result": "NO_RESULTS",
+    "new_draft_body_not_entered": true,
+    "new_draft_blank_after_window_zoom": true,
+    "command_o_confirmed_native_open_panel_count": 2,
+    "confirmed_open_panels_cancelled_without_file_selection": 2,
+    "additional_command_o_tool_result": "USER_CHANGED_APP; dispatch not established, no retry",
+    "native_panel_identifier": "open-panel",
+    "operator_reports_wechat_inaccessible_and_stuck": true,
+    "all_gui_interaction_stopped_after_operator_report": true,
+    "subsequent_diagnostic": "Read-only process listing: main and helper alive. Latest diagnostic filename still the earlier crash; no fresh crash established. Process liveness is not responsiveness proof."
+  },
+  "implementation": {
+    "module": "src/mikihouse_luyao/wechat_pdf_keyboard.py",
+    "purpose": "Test-only picker preparation, not attachment writer",
+    "window_identity": "Exact unique frontmost test window; only its own AXSheet",
+    "body_guard": "Full body readback and hash comparison before any keyboard action",
+    "end_placement_candidate": "Collapse proven whole-body selection with Right before Command+O",
+    "end_placement_runtime_verified": false,
+    "attachment_save_reopen_runtime_verified": false,
+    "action_retry_count": 0,
+    "production_callers_added": 0,
+    "formal_save_enabled": false
+  },
+  "safety": {
+    "new_attachment_upload_count": 0,
+    "new_test_body_paste_count": 0,
+    "formal_favorite_mutation_count": 0,
+    "existing_attachment_reupload_count": 0,
+    "fixed_coordinate_click_count": 0,
+    "checkpoint_reset_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "software_update_installed": false,
+    "forced_process_termination_count": 0
+  },
+  "next_gate": "Restore responsive WeChat2 session without software update as requested; prove clean test body, end insertion, single attachment selection, save and reopened filename/body before any production integration."
+}
