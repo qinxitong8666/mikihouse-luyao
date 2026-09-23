@@ -81,6 +81,18 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 写入顺序固定为 PDF→文字。`wechat_daily_production_checkpoint.json` 在每次 mutation 前原子落盘；成功 stage 的 payload hash 与回读 evidence 被持久记录。若进程在两条之间正常中断，可在 bundle 完全未变时跳过已 PASS 的 PDF；若任一 mutation 已发送后返回异常或回读不一致，checkpoint 标记 `FROZEN_RECONCILIATION_REQUIRED`，后续运行 fail closed，不自动重发 mutation，也不继续下一条。整轮 PASS 后重复运行只返回幂等结果，微信 mutation 为 0。
 
+### PDF 附件文件选择器恢复契约
+
+2026-09-23 真实生产证明，微信 4.1.6 可能不接受剪贴板 file-alias 粘贴，但同一草稿中的工具栏「文件」选择器能正确附加 PDF。该路径已固定为 `OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT`，不是通用自动 retry：
+
+- 原附件写入已发送且不可见时必须立即冻结；
+- 必须取得当轮人工明确授权，只能复用同一已打开草稿，不得新建笔记；
+- 选择器必须使用 payload 中经解析的精确绝对路径，并校验文件名、字节数和 SHA-256；
+- 保存前必须看到附件；保存后必须精确标题唯一搜索、重开，验证正文和附件文件名；
+- 单次恢复任一环节不确定时继续 fail closed，禁止自动重试、重新创建或继续文字收藏。
+
+`config/wechat_favorite_runtime.json` 仅声明上述 fail-closed 契约，不会自动打开选择器或开启正式写入。当日恢复证据经纯本地函数 `validate_pdf_file_picker_recovery_evidence` 校验；该函数不调用微信 GUI。
+
 生产 Sink 在创建前使用与重开相同的收藏页精确标题搜索做只读 collision preflight；任何既有/歧义候选都禁止新建。每条保存后强回读并关闭已验证笔记窗口，下一条从干净窗口状态开始。全过程不进入聊天、不发送、不修改/删除既有收藏、不访问 Shijiu。
 
 默认安全状态：

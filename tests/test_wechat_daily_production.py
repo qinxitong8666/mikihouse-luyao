@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
@@ -11,11 +12,13 @@ import pytest
 from mikihouse_luyao.daily_quote import sha256_json
 from mikihouse_luyao.wechat_daily_production import (
     CHECKPOINT_FILENAME,
+    PDF_FILE_PICKER_RECOVERY_MODE,
     REPORT_FILENAME,
     WeChatDailyProductionError,
     _new_checkpoint,
     save_daily_production_favorites,
     validate_daily_production_bundle,
+    validate_pdf_file_picker_recovery_evidence,
 )
 from mikihouse_luyao.wechat_favorite_runtime import PRODUCTION_CONFIRMATION
 
@@ -147,6 +150,45 @@ def test_bundle_preflight_rejects_text_larger_than_verified_capacity(tmp_path: P
     with pytest.raises(WeChatDailyProductionError, match="exceeds verified"):
         validate_daily_production_bundle(
             daily, config, repository_root=ROOT, require_write_enabled=True
+        )
+
+
+def test_pdf_file_picker_recovery_contract_is_exact_and_read_only(tmp_path: Path) -> None:
+    attachment = tmp_path / "MIKIHOUSE_2026-09-23_报价全集.pdf"
+    attachment.write_bytes(b"%PDF-verified")
+    title = "MIKI HOUSE 9月23日报价｜PDF版"
+    evidence = {
+        "status": "PASS",
+        "recovery_mode": PDF_FILE_PICKER_RECOVERY_MODE,
+        "automatic_retry_count": 0,
+        "attachment": {
+            "filename": attachment.name,
+            "byte_count": attachment.stat().st_size,
+            "sha256": hashlib.sha256(attachment.read_bytes()).hexdigest(),
+            "selected_path": str(attachment.resolve()),
+            "visible_before_save": True,
+            "visible_after_reopen": True,
+            "clipboard_placeholder_after_reopen": "[文件]",
+        },
+        "text_readback": {"status": "EXACT_READBACK_MATCH", "truncated": False},
+        "saved_note_search": {
+            "search_candidate_count": 1,
+            "search_marker_sha256": hashlib.sha256(title.encode("utf-8")).hexdigest(),
+        },
+        "chat_send_count": 0,
+        "shijiu_request_count": 0,
+    }
+    result = validate_pdf_file_picker_recovery_evidence(
+        evidence, attachment_path=attachment, expected_title=title
+    )
+    assert result["status"] == "PASS"
+    assert result["strategy"] == PDF_FILE_PICKER_RECOVERY_MODE
+    assert result["automatic_retry_count"] == 0
+
+    evidence["automatic_retry_count"] = 1
+    with pytest.raises(WeChatDailyProductionError, match="automatic retry"):
+        validate_pdf_file_picker_recovery_evidence(
+            evidence, attachment_path=attachment, expected_title=title
         )
 
 
@@ -307,3 +349,20 @@ def test_mac_one_click_entry_is_executable_and_uses_only_gated_runner() -> None:
     assert "--production-save" in source
     assert PRODUCTION_CONFIRMATION in source
     assert "save_wechat_daily_quote_favorite.py" not in source
+
+
+def test_tracked_pdf_file_picker_recovery_is_fail_closed() -> None:
+    config = json.loads(
+        (ROOT / "config" / "wechat_favorite_runtime.json").read_text(encoding="utf-8")
+    )
+    recovery = config["pdf_attachment_recovery"]
+    assert recovery == {
+        "strategy": PDF_FILE_PICKER_RECOVERY_MODE,
+        "requires_explicit_operator_authorization": True,
+        "same_open_draft_only": True,
+        "single_attempt_only": True,
+        "automatic_retry_enabled": False,
+        "exact_attachment_path_required": True,
+        "pre_save_attachment_visibility_required": True,
+        "post_save_unique_title_and_attachment_readback_required": True,
+    }

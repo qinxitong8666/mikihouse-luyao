@@ -1,5 +1,5 @@
 {
-  "status": "AUTOMATED_PASS_VISUAL_QA_PENDING",
+  "status": "PASS",
   "pdf": {
     "path": "MIKIHOUSE_2026-09-23_报价全集.pdf",
     "file_size_bytes": 23293065,
@@ -14841,6 +14841,46 @@
   "full_pdf_over_limit": false,
   "visual_qa": {
     "required_dpi": 200,
-    "status": "PENDING_MANUAL_REVIEW"
+    "rendered_dpi": 200,
+    "status": "PASS",
+    "scope": "ALL_PAGES",
+    "rendered_page_count": 162,
+    "render_dimensions_pixels": [
+      1654,
+      2339
+    ],
+    "low_ink_review_pages": [
+      107
+    ],
+    "review_method": "ALL_PAGE_CONTACT_SHEETS_PLUS_FULL_RESOLUTION_BOUNDARY_SAMPLES",
+    "contact_sheet_count": 27,
+    "representative_full_resolution_pages": [
+      1,
+      11,
+      12,
+      24,
+      107,
+      108,
+      148,
+      162
+    ],
+    "intentional_underfilled_pages": [
+      24,
+      107,
+      162
+    ],
+    "checks": {
+      "clipping_count": 0,
+      "overlap_count": 0,
+      "out_of_bounds_count": 0,
+      "unreadable_text_count": 0,
+      "broken_image_count": 0,
+      "blank_page_count": 0,
+      "black_square_glyph_count": 0
+    },
+    "layout_changes_required": false,
+    "manual_visual_review_completed": true,
+    "pdf_sha256": "0ecec3c378c1abf0e1245c81c47df047b05c45ad5e1537c4c952d6bf651bb1ab",
+    "completed_at": "2026-09-23T11:01:23.449783+09:00"
   }
 }

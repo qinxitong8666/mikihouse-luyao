@@ -19,6 +19,9 @@ from .wechat_favorite_runtime import (
 CHECKPOINT_FILENAME = "wechat_daily_production_checkpoint.json"
 REPORT_FILENAME = "wechat_daily_production_report.json"
 STAGE_ORDER = ("pdf", "text")
+PDF_FILE_PICKER_RECOVERY_MODE = (
+    "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
+)
 
 
 class WeChatDailyProductionError(RuntimeError):
@@ -52,6 +55,70 @@ def _resolve_payload_attachments(
         attachments.append(str(path.resolve()))
     resolved["attachments"] = attachments
     return resolved
+
+
+def validate_pdf_file_picker_recovery_evidence(
+    evidence: dict[str, Any],
+    *,
+    attachment_path: Path,
+    expected_title: str,
+) -> dict[str, Any]:
+    """Validate the one audited PDF picker recovery without touching WeChat.
+
+    This is deliberately an evidence contract, not a second automated mutation
+    path.  The toolbar picker may only be used on the already-open draft after
+    explicit operator authorization, exactly once, with no automatic retry.
+    """
+
+    attachment_path = attachment_path.resolve()
+    if evidence.get("status") != "PASS":
+        raise WeChatDailyProductionError("PDF file-picker recovery evidence is not PASS")
+    if evidence.get("recovery_mode") != PDF_FILE_PICKER_RECOVERY_MODE:
+        raise WeChatDailyProductionError("PDF file-picker recovery mode is not canonical")
+    if int(evidence.get("automatic_retry_count") or 0) != 0:
+        raise WeChatDailyProductionError("PDF file-picker recovery used automatic retry")
+    attachment = evidence.get("attachment") or {}
+    if Path(str(attachment.get("selected_path") or "")).resolve() != attachment_path:
+        raise WeChatDailyProductionError("PDF file-picker recovery selected a different path")
+    if attachment.get("filename") != attachment_path.name:
+        raise WeChatDailyProductionError("PDF file-picker recovery filename mismatch")
+    if int(attachment.get("byte_count") or 0) != attachment_path.stat().st_size:
+        raise WeChatDailyProductionError("PDF file-picker recovery byte count mismatch")
+    actual_sha256 = hashlib.sha256(attachment_path.read_bytes()).hexdigest()
+    if attachment.get("sha256") != actual_sha256:
+        raise WeChatDailyProductionError("PDF file-picker recovery attachment hash mismatch")
+    if attachment.get("visible_before_save") is not True:
+        raise WeChatDailyProductionError("PDF file-picker recovery lacks pre-save visibility proof")
+    if attachment.get("visible_after_reopen") is not True:
+        raise WeChatDailyProductionError("PDF file-picker recovery lacks reopened attachment proof")
+    if attachment.get("clipboard_placeholder_after_reopen") != "[文件]":
+        raise WeChatDailyProductionError("PDF file-picker recovery placeholder mismatch")
+    search = evidence.get("saved_note_search") or {}
+    if int(search.get("search_candidate_count") or 0) != 1:
+        raise WeChatDailyProductionError("PDF file-picker recovery title is not unique")
+    expected_title_sha256 = hashlib.sha256(expected_title.encode("utf-8")).hexdigest()
+    if search.get("search_marker_sha256") != expected_title_sha256:
+        raise WeChatDailyProductionError("PDF file-picker recovery title hash mismatch")
+    text_readback = evidence.get("text_readback") or {}
+    if (
+        text_readback.get("status") != "EXACT_READBACK_MATCH"
+        or text_readback.get("truncated") is not False
+    ):
+        raise WeChatDailyProductionError("PDF file-picker recovery text readback failed")
+    if any(int(evidence.get(key) or 0) != 0 for key in ("chat_send_count", "shijiu_request_count")):
+        raise WeChatDailyProductionError("PDF file-picker recovery crossed a forbidden boundary")
+    return {
+        "status": "PASS",
+        "strategy": PDF_FILE_PICKER_RECOVERY_MODE,
+        "attachment_filename": attachment_path.name,
+        "attachment_byte_count": attachment_path.stat().st_size,
+        "attachment_sha256": actual_sha256,
+        "title_sha256": expected_title_sha256,
+        "saved_note_candidate_count": 1,
+        "automatic_retry_count": 0,
+        "chat_send_count": 0,
+        "shijiu_request_count": 0,
+    }
 
 
 def validate_daily_production_bundle(
