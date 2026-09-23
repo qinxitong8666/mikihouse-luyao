@@ -1,0 +1,183 @@
+"""Small, bounded macOS AX adapter for a note-owned native file panel.
+
+No coordinate fallback, process-wide tree scan, or action retry. CFURL values
+must be read through CoreFoundation (System Events cannot coerce them to text).
+Imports/framework loading are lazy, so offline tests work on other platforms.
+"""
+from __future__ import annotations
+
+import ctypes as C
+import sys
+from pathlib import Path
+from urllib.parse import unquote, urlsplit
+
+from .wechat_favorite_runtime import WeChatRuntimeError
+
+
+class NativePickerAX:
+    def __init__(self, pid: int, title: str):
+        if sys.platform != "darwin":
+            raise WeChatRuntimeError("native PDF picker requires macOS")
+        self.cf = C.CDLL("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")
+        self.ax = C.CDLL("/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices")
+        self.refs: list[int] = []
+        self.title = title
+        p = C.c_void_p
+        self._bind(self.cf, "CFRelease", None, [p])
+        self._bind(self.cf, "CFStringCreateWithCString", p, [p, C.c_char_p, C.c_uint32])
+        self._bind(self.cf, "CFStringGetCString", C.c_bool, [p, C.c_char_p, C.c_long, C.c_uint32])
+        self._bind(self.cf, "CFGetTypeID", C.c_ulong, [p])
+        self._bind(self.cf, "CFBooleanGetValue", C.c_bool, [p])
+        for name in ("CFStringGetTypeID", "CFArrayGetTypeID", "CFURLGetTypeID"):
+            self._bind(self.cf, name, C.c_ulong, [])
+        self._bind(self.cf, "CFURLGetString", p, [p])
+        self._bind(self.cf, "CFURLCreateFilePathURL", p, [p, p, C.POINTER(p)])
+        self._bind(self.cf, "CFArrayGetCount", C.c_long, [p])
+        self._bind(self.cf, "CFArrayGetValueAtIndex", p, [p, C.c_long])
+        self._bind(self.ax, "AXUIElementCreateApplication", p, [C.c_int])
+        self._bind(self.ax, "AXUIElementSetMessagingTimeout", C.c_int, [p, C.c_float])
+        self._bind(self.ax, "AXUIElementCopyAttributeValue", C.c_int, [p, p, C.POINTER(p)])
+        self._bind(self.ax, "AXUIElementCopyActionNames", C.c_int, [p, C.POINTER(p)])
+        self._bind(self.ax, "AXUIElementSetAttributeValue", C.c_int, [p, p, p])
+        self._bind(self.ax, "AXUIElementPerformAction", C.c_int, [p, p])
+        self.app = self._keep(self.ax.AXUIElementCreateApplication(pid))
+        self.ax.AXUIElementSetMessagingTimeout(self.app, 2.0)
+
+    @staticmethod
+    def _bind(lib, name, result, args):
+        fn = getattr(lib, name)
+        fn.restype, fn.argtypes = result, args
+
+    def _keep(self, ref):
+        if ref:
+            self.refs.append(ref)
+        return ref
+
+    def close(self):
+        for ref in reversed(self.refs):
+            self.cf.CFRelease(ref)
+        self.refs.clear()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
+
+    def string(self, text):
+        return self._keep(self.cf.CFStringCreateWithCString(None, text.encode("utf-8"), 0x08000100))
+
+    def text(self, ref):
+        if not ref:
+            return ""
+        kind = self.cf.CFGetTypeID(ref)
+        if kind == self.cf.CFURLGetTypeID():
+            error = C.c_void_p()
+            path_url = self._keep(self.cf.CFURLCreateFilePathURL(None, ref, C.byref(error)))
+            self._keep(error.value)
+            if not path_url:
+                raise WeChatRuntimeError("native file reference URL cannot resolve to path")
+            ref = self.cf.CFURLGetString(path_url)
+        elif kind != self.cf.CFStringGetTypeID():
+            return ""
+        buf = C.create_string_buffer(32768)
+        if not self.cf.CFStringGetCString(ref, buf, len(buf), 0x08000100):
+            raise WeChatRuntimeError("AX string exceeds bounded buffer")
+        return buf.value.decode("utf-8")
+
+    def attr(self, node, name):
+        value = C.c_void_p()
+        error = self.ax.AXUIElementCopyAttributeValue(node, self.string(name), C.byref(value))
+        if error in (-25205, -25212):  # unsupported attribute / no value
+            return None
+        if error:
+            raise WeChatRuntimeError(f"AX read failed: {name} ({error})")
+        return self._keep(value.value)
+
+    def array(self, ref):
+        if not ref:
+            return []
+        if self.cf.CFGetTypeID(ref) != self.cf.CFArrayGetTypeID():
+            raise WeChatRuntimeError("AX collection has unexpected type")
+        return [self.cf.CFArrayGetValueAtIndex(ref, n) for n in range(self.cf.CFArrayGetCount(ref))]
+
+    def value(self, node, name):
+        return self.text(self.attr(node, name))
+
+    def owned_panel(self):
+        windows = self.array(self.attr(self.app, "AXWindows"))
+        notes = [w for w in windows if self.value(w, "AXTitle") == self.title]
+        if len(notes) != 1 or not windows or self.value(windows[0], "AXTitle") != self.title:
+            raise WeChatRuntimeError("native picker note identity is not unique")
+        frontmost = self.attr(self.app, "AXFrontmost")
+        if not frontmost or not self.cf.CFBooleanGetValue(frontmost):
+            raise WeChatRuntimeError("WeChat2 is not frontmost; no picker action")
+        # WeChat exposes AXSheet in AXChildren but omits AXSheets in the
+        # native API. System Events synthesizes its `sheets` collection.
+        sheets = [c for c in self.array(self.attr(notes[0], "AXChildren"))
+                  if self.value(c, "AXRole") == "AXSheet"]
+        if len(sheets) != 1 or self.value(sheets[0], "AXIdentifier") != "open-panel":
+            raise WeChatRuntimeError("native picker is not the note-owned open-panel")
+        return sheets[0]
+
+    def nodes(self, root):
+        queue = [(root, 0)]
+        result = []
+        while queue:
+            if len(result) >= 1500:
+                raise WeChatRuntimeError("native panel exceeds AX traversal bound")
+            node, depth = queue.pop(0)
+            result.append(node)
+            children = self.array(self.attr(node, "AXChildren"))
+            if children and depth >= 18:
+                raise WeChatRuntimeError("native panel exceeds AX depth bound")
+            queue.extend((child, depth + 1) for child in children)
+        return result
+
+    def actions(self, node):
+        value = C.c_void_p()
+        error = self.ax.AXUIElementCopyActionNames(node, C.byref(value))
+        if error:
+            raise WeChatRuntimeError(f"AX actions unavailable ({error})")
+        return [self.text(x) for x in self.array(self._keep(value.value))]
+
+    def exact_file(self, path: Path):
+        panel = self.owned_panel()
+        matches = []
+        for node in self.nodes(panel):
+            url = self.value(node, "AXURL")
+            if exact_file_url(url, path):
+                matches.append(node)
+        if len(matches) != 1 or "AXOpen" not in self.actions(matches[0]):
+            raise WeChatRuntimeError("exact PDF AXURL/AXOpen is not unique; no file selected")
+        return matches[0]
+
+    def set_directory(self, directory: Path):
+        # GoToWindow is a child of this note's native panel, never a global match.
+        panel = self.owned_panel()
+        dialogs = [n for n in self.nodes(panel) if self.value(n, "AXIdentifier") == "GoToWindow"]
+        if len(dialogs) != 1:
+            raise WeChatRuntimeError("note-owned GoToWindow is not unique")
+        fields = [n for n in self.nodes(dialogs[0]) if self.value(n, "AXIdentifier") == "PathTextField"]
+        if len(fields) != 1:
+            raise WeChatRuntimeError("GoToWindow PathTextField is not unique")
+        focused = self.attr(self.app, "AXFocusedUIElement")
+        if not focused or self.value(focused, "AXIdentifier") != "PathTextField":
+            raise WeChatRuntimeError("directory field is not focused")
+        expected = str(directory.resolve()) + "/"
+        error = self.ax.AXUIElementSetAttributeValue(fields[0], self.string("AXValue"), self.string(expected))
+        if error or self.value(fields[0], "AXValue") != expected:
+            raise WeChatRuntimeError("directory navigation value not confirmed")
+
+    def open_exact_file_once(self, path: Path):
+        node = self.exact_file(path)
+        error = self.ax.AXUIElementPerformAction(node, self.string("AXOpen"))
+        if error:
+            raise WeChatRuntimeError(f"file AXOpen returned unknown outcome ({error}); do not retry")
+
+
+def exact_file_url(url: str, path: Path) -> bool:
+    parts = urlsplit(url)
+    return (parts.scheme == "file" and parts.netloc in ("", "localhost")
+            and not parts.query and not parts.fragment
+            and unquote(parts.path) == str(path.resolve()))

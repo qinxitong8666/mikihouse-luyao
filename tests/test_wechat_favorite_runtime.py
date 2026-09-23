@@ -371,7 +371,15 @@ def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
     clipboard_values: list[str] = []
     monkeypatch.setattr(runtime, "_set_clipboard_text", clipboard_values.append)
     monkeypatch.setattr(runtime, "require_unique_note_window", lambda _pid: note)
+    monkeypatch.setattr(runtime, "select_target_process", lambda: {"pid": 123})
     monkeypatch.setattr(runtime, "collect_window_ax_text", lambda *_args: attachment.name)
+    from mikihouse_luyao import wechat_pdf_keyboard as keyboard
+    from mikihouse_luyao import wechat_native_picker as native
+    from unittest.mock import MagicMock
+    panel = MagicMock()
+    panel.__enter__.return_value = panel
+    monkeypatch.setattr(native, "NativePickerAX", lambda *_: panel)
+    monkeypatch.setattr(keyboard.time, "sleep", lambda _: None)
     osascript_calls: list[str] = []
 
     def fake_osascript(script: str) -> dict:
@@ -379,12 +387,12 @@ def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
         if "OPEN_PANEL_CONFIRMED" in script:
             return {
                 "returncode": 0,
-                "stdout": "OPEN_PANEL_CONFIRMED|||0|||0|||800|||600",
+                "stdout": "NOTE_OWNED_OPEN_PANEL_CONFIRMED",
                 "stderr": "",
             }
         return {
             "returncode": 0,
-            "stdout": "FILE_PICKER_SELECTION_SENT_ONCE",
+            "stdout": "KEY_SENT_ONCE",
             "stderr": "",
         }
 
@@ -399,8 +407,11 @@ def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
     assert result["status"] == "ATTACHMENT_VISIBLE"
     assert result["method"] == "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
     assert result["automatic_retry_count"] == 0
-    assert len(osascript_calls) == 2
-    assert clipboard_values == [str(attachment.resolve()), "original"]
+    assert len(osascript_calls) == 3
+    assert clipboard_values == []
+    panel.open_exact_file_once.assert_called_once_with(attachment.resolve())
+    assert result["selection"] == "EXACT_CFURL_PATH_AXOPEN"
+    assert all("click at" not in script for script in osascript_calls)
 
 
 def test_runtime_readiness_requires_both_reopened_favorites_and_full_capacity() -> None:

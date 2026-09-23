@@ -23,6 +23,8 @@ def test_script_has_no_coordinates_global_tree_or_repeated_action():
     assert "AXIdentifier" in script and "open-panel" in script
     assert script.count('keystroke "o"') == 1
     assert script.index("key code 124") < script.index('keystroke "o"')
+    assert "key code 125 using command down" in script
+    assert "key code 124 using command down" in script
     assert script.index('keystroke "o"') < script.index("repeat 12 times")
     assert "NOTE_NOT_FRONTMOST" in script and "NOTE_NOT_UNIQUE" in script
 
@@ -41,6 +43,107 @@ def test_unsafe_input_never_opens_picker(monkeypatch, reason):
             NOTE, expected_text="正式收藏\n" if reason == "formal" else BODY,
         )
     action.assert_not_called()
+
+
+@pytest.mark.parametrize("url,expected", [
+    ("file:///tmp/%E6%8A%A5%E4%BB%B7.pdf", True),
+    ("file://localhost/tmp/%E6%8A%A5%E4%BB%B7.pdf", True),
+    ("https://host/tmp/%E6%8A%A5%E4%BB%B7.pdf", False),
+    ("file://foreign/tmp/%E6%8A%A5%E4%BB%B7.pdf", False),
+    ("file:///tmp/other.pdf", False),
+    ("file:///tmp/%E6%8A%A5%E4%BB%B7.pdf?x=1", False),
+    ("file:///.file/id=1.123", False),
+])
+def test_exact_file_url_requires_resolved_path(url, expected):
+    from pathlib import Path
+    from mikihouse_luyao.wechat_native_picker import exact_file_url
+    # /tmp may resolve to /private/tmp on Mac; use a non-symlink path.
+    url = url.replace("/tmp/", "/private/tmp/")
+    assert exact_file_url(url, Path("/private/tmp/报价.pdf")) is expected
+
+
+@pytest.mark.parametrize("count", [0, 2])
+def test_filename_index_never_accepts_missing_or_ambiguous_note(monkeypatch, count):
+    monkeypatch.setattr(runtime, "search_saved_note_candidates", lambda *a, **kw: {
+        "search_candidate_count": count,
+    })
+    with pytest.raises(runtime.WeChatRuntimeError):
+        runtime.verify_saved_attachment_index(123, runtime.TARGET_BUNDLE_ID, "TEST", BODY, ["daily.pdf"])
+
+
+def test_filename_in_body_cannot_fake_file_proof(monkeypatch):
+    search = Mock()
+    monkeypatch.setattr(runtime, "search_saved_note_candidates", search)
+    with pytest.raises(runtime.WeChatRuntimeError):
+        runtime.verify_saved_attachment_index(123, runtime.TARGET_BUNDLE_ID, "TEST", "daily.pdf", ["daily.pdf"])
+    search.assert_not_called()
+
+
+def test_filename_index_uses_filename_query_and_separate_task_title(monkeypatch):
+    search = Mock(return_value={"search_candidate_count": 1, "search_tree_sha256": "evidence"})
+    monkeypatch.setattr(runtime, "search_saved_note_candidates", search)
+    proof = runtime.verify_saved_attachment_index(123, runtime.TARGET_BUNDLE_ID, "TEST", BODY, ["daily.pdf"])
+    search.assert_called_once_with(123, runtime.TARGET_BUNDLE_ID, "daily.pdf", candidate_title="TEST")
+    assert proof[0]["filename"] == "daily.pdf"
+
+
+@pytest.mark.parametrize("failure", ["open", "directory", "file", "readback"])
+def test_native_failure_never_retries_upload(tmp_path, monkeypatch, failure):
+    from unittest.mock import MagicMock
+    from mikihouse_luyao import wechat_native_picker as native
+    path = tmp_path / "daily.pdf"
+    path.write_bytes(b"%PDF-test")
+    panel = MagicMock()
+    panel.__enter__.return_value = panel
+    monkeypatch.setattr(native, "NativePickerAX", lambda *_: panel)
+    monkeypatch.setattr(picker.time, "sleep", lambda _: None)
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    readbacks = iter([(BODY, {}), ("broken", {})])
+    monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: next(readbacks))
+    outputs = ["NOTE_OWNED_OPEN_PANEL_CONFIRMED", "KEY_SENT_ONCE", "KEY_SENT_ONCE"]
+    if failure == "open": outputs[0] = "NOT_CONFIRMED"
+    responses = iter(outputs)
+    monkeypatch.setattr(runtime, "_osascript", lambda _: {"returncode": 0, "stdout": next(responses)})
+    if failure == "directory": panel.set_directory.side_effect = runtime.WeChatRuntimeError("wrong sheet")
+    if failure == "file": panel.open_exact_file_once.side_effect = runtime.WeChatRuntimeError("unknown transport")
+    with pytest.raises(runtime.WeChatRuntimeError):
+        picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
+    assert panel.open_exact_file_once.call_count == (1 if failure in ("file", "readback") else 0)
+
+
+def test_exact_file_native_ambiguous_fails_before_action():
+    from pathlib import Path
+    from mikihouse_luyao.wechat_native_picker import NativePickerAX
+    ax = object.__new__(NativePickerAX)
+    ax.owned_panel = lambda: 1
+    ax.nodes = lambda _: [2, 3]
+    ax.value = lambda *_: "file:///private/tmp/daily.pdf"
+    ax.actions = lambda _: ["AXOpen"]
+    with pytest.raises(runtime.WeChatRuntimeError):
+        ax.exact_file(Path("/private/tmp/daily.pdf"))
+
+
+@pytest.mark.parametrize("method", ["save", "recover_existing_pdf_attachment"])
+def test_unaccepted_runner_blocks_production_before_all_ui(monkeypatch, method):
+    target = Mock()
+    monkeypatch.setattr(runtime, "select_target_process", target)
+    sink = runtime.MacWeChatFavoriteSink({"production_save_enabled": True})
+    kwargs = {"production": True, "confirmation": runtime.PRODUCTION_CONFIRMATION}
+    if method == "recover_existing_pdf_attachment":
+        kwargs["authorized_manifest_sha256"] = "a" * 64
+    with pytest.raises(runtime.WeChatRuntimeError, match="尚未通过"):
+        getattr(sink, method)({"title": "正式PDF", "attachments": ["daily.pdf"]}, **kwargs)
+    target.assert_not_called()
+
+
+def test_runtime_failure_report_retains_panel_result(tmp_path, monkeypatch):
+    path = tmp_path / "daily.pdf"
+    path.write_bytes(b"%PDF-test")
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: (BODY, {}))
+    monkeypatch.setattr(runtime, "_osascript", lambda _: {"returncode": 0, "stdout": "NOTE_NOT_FRONTMOST"})
+    with pytest.raises(runtime.WeChatRuntimeError, match="NOTE_NOT_FRONTMOST"):
+        picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
 
 
 @pytest.mark.parametrize("output,code", [

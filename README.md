@@ -35,7 +35,9 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 默认配置仍保持 `production_save_enabled=false`，App 不修改该文件。单次许可只写入 Git 忽略的 `.secrets/mikihouse_quote_assistant/authorizations/`，权限为 `0600`，绑定仓库路径与当前 HEAD，首次运行即原子标记为已消费；重复使用、过期、权限异常或版本变化均在官网抓取前停止。重新构建 app bundle 可运行：
 
-安全重建、普通首次生产及冻结 PDF 恢复三种许可按 operation 分离，不能交叉使用。重置前的 checkpoint、report 和引用 evidence 会先完整归档到当天输出目录下的 `wechat_daily_production_rebuild_history/`；归档失败则不重置。正式 PDF 附件路径已改为原生工具栏选择器单次提交，剪贴板 file-alias 不再作为生产主路径。
+安全重建、普通首次生产及冻结 PDF 恢复三种许可按 operation 分离，不能交叉使用。重置前的 checkpoint、report 和引用 evidence 会先完整归档到当天输出目录下的 `wechat_daily_production_rebuild_history/`；归档失败则不重置。
+
+2026-09-24 PDF 无坐标测试：通过 `Command+Down → Command+Right → Command+O` 和精确原生文件 URL，测试收藏已实际在正文末尾插入 PDF，保存重开后正文 hash、尾随附件、文件名一致。代码已移除固定坐标、全进程 Open 按钮扫描与盲按两次回车；原生 AX 适配器只访问该笔记自己的 `open-panel`，解析 CFURL 文件引用为完整路径。**但随后完整 Python Sink 测试在确认文件选择器阶段停止，出现空白笔记，尚未上传该次附件。因此 App 正式 PDF 保存/恢复仍额外门禁为 `BLOCKED_RUNNER_ACCEPTANCE`，不能因直接 GUI 路径成功而宣布 App 已通过。** 默认生产开关未启用，失败测试不自动重试，旧正式 checkpoint 不变。详见 [无坐标附件验收记录](docs/evidence/wechat_pdf_coordinate_free_runtime_20260924.json)。
 
 当天存在任何 checkpoint 时，“生成今日报价”在抓取前停止，禁止覆盖受保护 bundle、`最新` 或 `last_successful_manifest`。普通生产重跑直接校验现有 bundle：一致且已成功则幂等返回，冻结/不匹配则停止；不会先生成后报错。生成、保存和恢复共享本机非阻塞输出锁，不能并发覆盖。专用重建是用户确认后的新建操作，不是自动重试旧 mutation；旧冻结历史永久保留。
 

@@ -83,9 +83,13 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 ### PDF 附件文件选择器恢复契约
 
-2026-09-24 无固定坐标探索进度：`Command+O` 已在微信2旧测试笔记和空白测试窗口中真实打开原生 `open-panel`，两次都取消且没有选择/上传附件。新增 `wechat_pdf_keyboard.prepare_test_pdf_picker` 仅供后续测试：只接受 `MIKIHOUSE_TEST_` 正文和窗口、先完整正文回读、向右折叠全文选区到末尾、只发送一次 `Command+O`，然后仅轮询该笔记自己的 AXSheet。拒绝同名窗口、已有 sheet、正文不符、正式标题及其它微信进程；不扫描整个进程菜单，不点击固定坐标。
+2026-09-24 用户重启后的真实测试已证明：Right 单键不足以解除选区；`Command+Down → Command+Right` 才能稳定移至正文末尾，随后 `Command+O` 打开笔记自己的 `open-panel`。测试收藏 `MIKIHOUSE_TEST_2026-09-24_KEYBOARD_END` 已实际插入 23,317,467 bytes PDF，保存、重新搜索打开后正文 normalized hash 相同，只有一个尾随 `[文件]`，屏幕显示正确文件名和 22.24MB。
 
-该 helper **尚未接回 App/Sink**，也不包含文件选择、上传或保存动作。末尾折叠与完整附件保存/重开尚未真实验收；用户随后报告微信界面卡住，已停止所有 GUI 探测。不能把“快捷键能打开选择器”当成附件链路 PASS。下文描述的是尚未替换的历史生产实现，不应据此重新执行冻结任务。默认生产开关保持关闭，正式 checkpoint 与已有收藏不变。
+原生 AX 适配器 `wechat_native_picker.py` 只有限遍历该笔记的文件 sheet，不扫描整个微信进程。GoToWindow/PathTextField 只用于导航父目录，最终必须按完整 AXURL 匹配一个文件且具有 AXOpen。注意系统实际给的是 `file:///.file/id=...` 文件引用，必须用 CFURLCreateFilePathURL 解析；不能用 AXFilename 同名匹配替代完整路径。该解析器和 GoToWindow 所有权已在真实面板只读验收。
+
+重开后完整正文与尾随附件标记仍是必要条件，另以完整附件文件名搜索收藏索引并匹配同一唯一标题；正文中若含该文件名，不能使用这个索引证明。因为编辑器 AX 不提供附件卡片名称，不能把 AX 缺字段直接当附件丢失，也不能仅凭 `[文件]` 放行。重新搜索会先清空旧查询，避免保留保存前的“无结果”。
+
+**完整程序尚未通过**：新的 `MIKIHOUSE_TEST_2026-09-24_NATIVE_AX_RUNNER` 运行到 picker 确认时 fail closed（没有进入文件选择/上传）；随后截图为空白笔记。已冻结，不重试、不删除，不修改旧正式收藏。当前额外门禁 `coordinate_free_pdf_runtime_validation_status=BLOCKED_RUNNER_ACCEPTANCE` 在正式 PDF 保存/恢复的任何 UI 操作之前生效。已移除旧坐标路径，没有自动 fallback。修复同时刷新完整正文回读后的窗口标题，并保留后续具体 picker 返回码；窗口标题竞态只是防御性修复，不冒充本次已确认根因。下一次需要独立测试验收，不能仅把配置改为 PASS 便放行。直接 GUI 成功、原生只读解析成功、完整 Python runner 失败必须分开记录。
 
 2026-09-23 真实生产证明，微信 4.1.6 可能不接受剪贴板 file-alias 粘贴，但同一草稿中的工具栏「文件」选择器能正确附加 PDF。该路径已固定为 `OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT`，不是通用自动 retry：
 
@@ -97,7 +101,7 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 `config/wechat_favorite_runtime.json` 仅声明上述 fail-closed 契约，不会自动打开选择器或开启正式写入。当日恢复证据经纯本地函数 `validate_pdf_file_picker_recovery_evidence` 校验；该函数不调用微信 GUI。
 
-当前生产 PDF 主路径也固定为 `TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT`：它先对唯一笔记窗口和完整正文做强回读，再从窗口原点锚定工具栏「文件」按钮；只有原生打开面板的「打开/Open」按钮指纹出现后才输入精确绝对路径。选择动作只发送一次，保存前必须从正文回读到一个尾随 `[文件]`，保存后必须以唯一标题重开并验证正文与附件。任何一步不确定都冻结，不回退到剪贴板重试。
+`TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT` 仅保留为历史 checkpoint 的兼容策略标识，不再代表坐标点击。实现已改为上述 Cmd+O + native AXURL/AXOpen；完整 runner 未验收前仅允许 TEST 模式，生产门禁不因 App 单次授权而绕过。任何不确定都冻结，不回退到剪贴板或旧坐标路径，不自动重发文件选择。
 
 对已经出现的“文本已保存、附件缺失”状态，恢复入口另有 operation-bound App 许可：只读标题必须为 `[PDF=1, TEXT=0]`，原 checkpoint 必须是第一次附件不可见错误，且文字阶段从未 mutation。恢复只补现有 PDF 收藏，不创建第二条 PDF 收藏；成功后 checkpoint 才把 PDF 计为 1 并继续唯一待处理的文字收藏。
 
