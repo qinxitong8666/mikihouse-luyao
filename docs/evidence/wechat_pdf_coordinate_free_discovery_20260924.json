@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_WECHAT2_ACCESSIBILITY_CRASH_BEFORE_TEST_MUTATION",
+  "base_commit": "25d535d0ab1ef24650260ad22713b4e9fcf2d9d5",
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "scope": "Coordinate-free PDF picker discovery, existing test note only",
+  "observations": {
+    "existing_test_window_title": "1.MIKIHOUSE_TEST_202",
+    "note_file_menu_examined": true,
+    "enabled_menu_commands_observed": ["关闭窗口"],
+    "attachment_command_in_observed_note_file_menu": false,
+    "file_menu_disabled_commands": ["关闭标签页", "后退", "前进", "刷新", "收藏", "打印…"],
+    "last_ui_error": "noWindowsAvailable",
+    "wechat2_main_and_helper_absent_after_error": true
+  },
+  "sanitized_crash_evidence": {
+    "capture_time": "2026-09-24 00:50:50.2660 +0900",
+    "process_path": "/Applications/微信2.app/Contents/MacOS/WeChat",
+    "exception_type": "EXC_BAD_ACCESS",
+    "signal": "SIGSEGV",
+    "subtype": "KERN_INVALID_ADDRESS at 0x0000000000000000",
+    "faulting_thread": "com.apple.main-thread",
+    "observed_stack_symbols": [
+      "-[NSAccessibilityAttributeAccessorInfo getAttributeValue:forObject:]",
+      "___NSAccessibilityEntryPointValueForAttribute_block_invoke.773",
+      "NSAccessibilityPerformEntryPointObject",
+      "_NSAccessibilityEntryPointValueForAttribute",
+      "-[NSObject(NSAccessibilityInternal) _accessibilityValueForAttribute:clientError:]"
+    ],
+    "interpretation": "A real WeChat2 crash occurred during menu/AX observation; its stack includes Accessibility attribute reads. Exact faulty attribute and causal relation to the earlier transparent window are not established.",
+    "raw_crash_report_committed": false
+  },
+  "acceptance": {
+    "coordinate_free_trigger": "NOT_VERIFIED",
+    "end_of_body_attachment_placement": "NOT_TESTED",
+    "new_test_save_reopen": "NOT_EXECUTED",
+    "prior_operator_assisted_attachment_result_preserved": true,
+    "production_app_integration": "NOT_CHANGED_GATE_NOT_PASSED"
+  },
+  "safety": {
+    "new_test_note_count": 0,
+    "attachment_upload_count": 0,
+    "formal_favorite_mutation_count": 0,
+    "automatic_mutation_retry_count": 0,
+    "automatic_restart_after_crash_count": 0,
+    "fixed_coordinate_click_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "checkpoint_reset_count": 0
+  },
+  "next_step": "Restore a stable WeChat2 session with operator coordination before further runtime discovery. Do not deploy guessed shortcut, coordinate fallback, or manual-click evidence as automatic production acceptance."
+}
