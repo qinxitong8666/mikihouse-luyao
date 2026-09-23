@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_EXACT_PDF_TITLE_NOT_PROVEN",
+  "observed_at": "2026-09-23T13:43:59.929439+00:00",
+  "quote_date": "2026-09-23",
+  "source_head": "042997e781a94a42b249889527f40be29842150e",
+  "remote_main_matched_source_head": true,
+  "target_bundle_id": "com.tencent.xinWeChot2",
+  "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+  "checkpoint_file_sha256_before": "f2b072e74c2ca0466aaaa259b2e6528fe800c1c0ec4be2163699e988dd1080fb",
+  "checkpoint_file_sha256_after": "f2b072e74c2ca0466aaaa259b2e6528fe800c1c0ec4be2163699e988dd1080fb",
+  "manifest_sha256": "6aab3dd26052d90a32d5d8101ff87c9d3c20c15fef5fdf5a6364aa658227158f",
+  "bundle_sha256": "994acef187afdb3d129623680be05a17e8872182b6b3538265b150855b65fc61",
+  "observation_method": "CUA_ACCESSIBILITY_AND_SCREENSHOT_READ_ONLY",
+  "pdf": {
+    "expected_title": "MIKI HOUSE 9月23日报价｜PDF版",
+    "search_result_card_count": 1,
+    "exact_title_match_verified": false,
+    "observed_card_prefix": "笔记1.MIKI HOUSE 9月23日报价｜PDF版",
+    "observed_note_window_title": "1.MIKI HOUSE 9月23日报价",
+    "ordered_list_number_visible": "1.",
+    "body_readonly_visual_match": true,
+    "full_body_hash_readback": "NOT_CAPTURED",
+    "attachment_visible_in_open_note": false,
+    "finding": "Unique search candidate is not exact-title binding proof. The persisted note exposes a numbered title, unlike the frozen payload. Do not silently strip numbering or treat the search list label as the saved title."
+  },
+  "text": {
+    "expected_title": "MIKI HOUSE 9月23日报价｜文字版",
+    "search_result_card_count": 0,
+    "explicit_no_results_visible": true
+  },
+  "recovery_gate_passed": false,
+  "recovery_invoked": false,
+  "one_time_authorization_issued_count": 0,
+  "checkpoint_reset_count": 0,
+  "wechat_note_edit_count": 0,
+  "wechat_attachment_upload_count": 0,
+  "favorite_create_count": 0,
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "next_step": "A separate explicit authorization and exact readback are required before correcting the numbered title. This audit does not authorize editing, unfreezing, or retrying."
+}

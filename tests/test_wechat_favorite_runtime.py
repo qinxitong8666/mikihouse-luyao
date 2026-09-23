@@ -279,6 +279,19 @@ def test_saved_note_candidates_count_duplicate_cards_not_selected_list() -> None
     assert runtime._exact_saved_note_candidate_lines(card.replace("正文", "副本正文"), marker)
 
 
+def test_numbered_pdf_title_cannot_authorize_frozen_recovery() -> None:
+    marker = "MIKI HOUSE 9月23日报价｜PDF版"
+    # Observed on 2026-09-23: the list repeats the search query, but its one
+    # saved note card and note window have a numbered title. Never strip it.
+    tree = "\n".join([
+        f"AXList|||{marker}||||||",
+        f"AXStaticText|||笔记1.{marker}MIKI HOUSE 日本官网当日报价||||||",
+        f"AXTextArea|||搜索||||||{marker}",
+    ])
+    with pytest.raises(WeChatRuntimeError, match="不能判定标题不存在"):
+        runtime._exact_saved_note_candidate_lines(tree, marker)
+
+
 @pytest.mark.parametrize("tree", [
     "|||missing value||||||",
     "AXWindow|||WeChat||||||\nchildren_error|||denied",
