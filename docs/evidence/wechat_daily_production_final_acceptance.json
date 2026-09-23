@@ -1,10 +1,11 @@
 {
   "schema_version": 1,
-  "status": "PASS_FINAL_ACCEPTANCE_PRODUCTION_GATE_OFF",
-  "verified_at": "2026-09-23T01:36:11.069192+09:00",
-  "base_commit": "779a7a716f5a2c5a64f0b62fc2f72aa8f8bcf752",
+  "status": "PASS_FINAL_ACCEPTANCE_DEFAULT_GATE_OFF_APP_ONE_TIME_READY",
+  "verified_at": "2026-09-23T14:11:42.417855+09:00",
+  "base_commit": "46aa243d74d6c857ffcd9f18a0222e2127d784ec",
   "scope": "OFFLINE_FINAL_ACCEPTANCE_NO_REAL_WECHAT_OR_SHIJIU_WRITE",
   "production_save_enabled": false,
+  "app_one_time_authorization": "AVAILABLE_WITH_EXPLICIT_IN_APP_CONFIRMATION",
   "one_click_entry": {
     "status": "PASS",
     "mac_command": "scripts/生成并保存MIKIHOUSE每日两个微信收藏.command",
@@ -13,7 +14,7 @@
     "default_gate_evidence": {
       "status": "FAILED_CLOSED",
       "phase": "PRE_GENERATION_WRITE_GATE",
-      "error": "production save config switch is disabled",
+      "error": "仓库默认生产开关关闭；请从 MIKI HOUSE 报价助手.app 完成本次单次授权。",
       "website_crawl_started": false,
       "wechat_mutation_count": 0
     }
@@ -36,19 +37,23 @@
     "changed_bundle_rejected_before_mutation": "PASS_FAKE_SINK",
     "existing_title_collision_blocks_before_create": "PASS_MONKEYPATCHED_READ_ONLY_SEARCH",
     "mutation_uncertainty_freezes_without_retry": "PASS_FAKE_SINK",
-    "production_gate_disabled_before_crawl": "PASS_REAL_CLI_ZERO_WRITE"
+    "production_gate_disabled_before_crawl": "PASS_REAL_CLI_ZERO_WRITE",
+    "app_one_time_permit_private_head_bound_expiring_single_use": "PASS_OFFLINE"
   },
   "targeted_pytest": {
     "status": "PASS",
-    "command": "python -m pytest -q tests/test_wechat_daily_production.py tests/test_wechat_favorite_runtime.py",
-    "stdout": ".......................                                                  [100%]\n23 passed in 0.18s"
+    "command": "python -m pytest -q tests/test_wechat_daily_production.py tests/test_wechat_favorite_runtime.py tests/test_quote_assistant_authorization.py",
+    "stdout": ".....................................                                    [100%]\n37 passed in 0.67s"
   },
   "tracked_code_sha256": {
-    "scripts/run_mikihouse_daily_production.py": "d3aac1a79ca2c0df9c6830a5e9596dc7b2a9814344cd26ede18f88dfa8208df1",
+    "scripts/run_mikihouse_daily_production.py": "4ba9aa06cfea20fee1b6975b3b9f442b26ae77088c5b22cae7a4c24f4b9d8ebd",
     "scripts/生成并保存MIKIHOUSE每日两个微信收藏.command": "aeff726c1a2b6368fb6c3def21d6599a1d01a749d1fb89f9e46084f73e59068a",
-    "src/mikihouse_luyao/wechat_daily_production.py": "f512fc189c27ed1da892ddf8e8f3daa1c7e34804e2e77aaa211d5e3e2f51f3f9",
-    "src/mikihouse_luyao/wechat_favorite_runtime.py": "2d49cec85a79d93b2e71aacbb3cb195f69d16431a4bf496ecee5a8dcdf576bd8",
-    "config/wechat_favorite_runtime.json": "6b81e83ae9edbd09bbae60497b0dad2c6615e5d0811a83df7051d1eb74d65ca7"
+    "src/mikihouse_luyao/wechat_daily_production.py": "8d26adfeaa7a69261e93ea707f540b6e84976e7ad9064c9fbacb3431bd5f6372",
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "bfe127c1476ff39364ba82f42218767807c2ff9bfa1162c83b95cff130637b75",
+    "src/mikihouse_luyao/quote_assistant_authorization.py": "ff7596f949010776324b6f936bac5f8e7ebb01d63cec16ffb13001f99135d535",
+    "src/mikihouse_luyao/quote_assistant_runtime.py": "a07d043e6e64ddfa363d349bf669c7ab6da1820dd6a684f214c9c6a2ee0b23aa",
+    "macos/MikihouseQuoteAssistant/main.swift": "c442a6b2aa882532571b5bb6dfae213e65463327d84b44fb399288f0285f65af",
+    "config/wechat_favorite_runtime.json": "346c6e01691afda2a69604c976a193f018a822a5823789dc3bdbbce4aa306524"
   },
   "mutation_counters": {
     "real_wechat_create": 0,
@@ -57,5 +62,5 @@
     "chat_send": 0,
     "shijiu_request": 0
   },
-  "conclusion": "PRODUCTION_FLOW_ACCEPTED_BUT_EXPLICITLY_DISABLED"
+  "conclusion": "TRACKED_GATE_OFF_APP_EXPLICIT_ONE_TIME_PRODUCTION_READY"
 }

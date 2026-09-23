@@ -3,6 +3,7 @@ import Foundation
 
 private let progressPrefix = "MIKIHOUSE_PROGRESS "
 private let productionConfirmation = "CONFIRM_MIKIHOUSE_WECHAT_FAVORITE_PRODUCTION_SAVE"
+private let appBundleIdentifier = "cn.luyao.mikihouse.quoteassistant"
 
 private final class AppDelegate: NSObject, NSApplicationDelegate {
     private var window: NSWindow!
@@ -18,24 +19,31 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
     private var productionButton: NSButton!
     private var openPDFButton: NSButton!
     private var openFolderButton: NSButton!
+    private var relocateButton: NSButton!
     private var running = false
-    private var productionEnabled = false
+    private var trackedProductionEnabled = false
+    private var environmentReady = false
+    private var wechatInstalled = false
+    private var runtimeErrors: [String] = []
     private var latestPDF: URL?
     private var activeProcess: Process?
+    private var lastProcessOutput = ""
     private let outputQueue = DispatchQueue(label: "cn.luyao.mikihouse.quoteassistant.output")
     private var outputBuffer = Data()
 
-    private lazy var repositoryRoot: URL = {
-        Bundle.main.bundleURL.deletingLastPathComponent()
-    }()
+    private var repositoryRoot: URL!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
+        repositoryRoot = locateRepositoryRoot() ?? Bundle.main.bundleURL.deletingLastPathComponent()
         buildWindow()
+        performEnvironmentCheck()
         refreshDashboard()
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         appendLog("应用已启动；尚未执行任何官网抓取或微信写入。")
+        appendLog("仓库位置：\(repositoryRoot.path)")
+        appendEnvironmentStatus()
 
         if let index = CommandLine.arguments.firstIndex(of: "--runtime-smoke-evidence"),
            CommandLine.arguments.indices.contains(index + 1) {
@@ -48,6 +56,144 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
+    }
+
+    private func repositoryLooksValid(_ url: URL) -> Bool {
+        let required = [
+            "pyproject.toml",
+            "special_skus_2026aw.csv",
+            "config/daily_quote.json",
+            "scripts/generate_daily_quote.py",
+            "scripts/run_mikihouse_daily_production.py",
+        ]
+        return required.allSatisfy {
+            FileManager.default.fileExists(atPath: url.appendingPathComponent($0).path)
+        }
+    }
+
+    private func ancestors(startingAt url: URL, limit: Int = 8) -> [URL] {
+        var values: [URL] = []
+        var current = url.standardizedFileURL
+        for _ in 0..<limit {
+            values.append(current)
+            let parent = current.deletingLastPathComponent()
+            if parent.path == current.path { break }
+            current = parent
+        }
+        return values
+    }
+
+    private func locateRepositoryRoot() -> URL? {
+        var candidates: [URL] = []
+        if let configured = ProcessInfo.processInfo.environment["MIKIHOUSE_REPOSITORY_ROOT"],
+           !configured.isEmpty {
+            candidates.append(URL(fileURLWithPath: configured, isDirectory: true))
+        }
+        if let saved = savedRepositoryURL() { candidates.append(saved) }
+        candidates += ancestors(startingAt: Bundle.main.bundleURL.deletingLastPathComponent())
+        candidates += ancestors(startingAt: URL(fileURLWithPath: FileManager.default.currentDirectoryPath))
+        var seen = Set<String>()
+        for candidate in candidates {
+            let normalized = candidate.resolvingSymlinksInPath().standardizedFileURL
+            guard seen.insert(normalized.path).inserted else { continue }
+            if repositoryLooksValid(normalized) { return normalized }
+        }
+        return nil
+    }
+
+    private func repositoryPreferenceURL() -> URL? {
+        guard let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        return support
+            .appendingPathComponent(appBundleIdentifier, isDirectory: true)
+            .appendingPathComponent("repository_path.txt")
+    }
+
+    private func savedRepositoryURL() -> URL? {
+        guard let preference = repositoryPreferenceURL(),
+              let value = try? String(contentsOf: preference, encoding: .utf8)
+                .trimmingCharacters(in: .whitespacesAndNewlines),
+              !value.isEmpty else { return nil }
+        return URL(fileURLWithPath: value, isDirectory: true)
+    }
+
+    private func persistRepositoryURL(_ url: URL) throws {
+        guard let preference = repositoryPreferenceURL() else {
+            throw NSError(domain: appBundleIdentifier, code: 1, userInfo: [NSLocalizedDescriptionKey: "无法读取用户配置目录。"])
+        }
+        try FileManager.default.createDirectory(
+            at: preference.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try (url.path + "\n").write(to: preference, atomically: true, encoding: .utf8)
+    }
+
+    private func runJSONCommand(executable: URL, arguments: [String], environment: [String: String]) -> (Int32, [String: Any]?, String) {
+        let process = Process()
+        process.executableURL = executable
+        process.arguments = arguments
+        process.currentDirectoryURL = repositoryRoot
+        process.environment = environment
+        let output = Pipe()
+        let errors = Pipe()
+        process.standardOutput = output
+        process.standardError = errors
+        do {
+            try process.run()
+            process.waitUntilExit()
+        } catch {
+            return (127, nil, error.localizedDescription)
+        }
+        let outputData = output.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errors.fileHandleForReading.readDataToEndOfFile()
+        let outputText = String(data: outputData, encoding: .utf8) ?? ""
+        let errorText = String(data: errorData, encoding: .utf8) ?? ""
+        let object = try? JSONSerialization.jsonObject(with: outputData) as? [String: Any]
+        return (process.terminationStatus, object, errorText.isEmpty ? outputText : errorText)
+    }
+
+    private func performEnvironmentCheck() {
+        runtimeErrors = []
+        environmentReady = false
+        wechatInstalled = false
+        guard repositoryLooksValid(repositoryRoot) else {
+            runtimeErrors.append("无法定位完整的 mikihouse-luyao 仓库。请把 App 放回仓库根目录。")
+            return
+        }
+        let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
+        guard FileManager.default.isExecutableFile(atPath: python.path) else {
+            runtimeErrors.append("找不到项目运行环境 .venv/bin/python，请按 README 完成一次安装。")
+            return
+        }
+        var environment = ProcessInfo.processInfo.environment
+        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        let script = repositoryRoot.appendingPathComponent("scripts/check_quote_assistant_runtime.py")
+        let result = runJSONCommand(
+            executable: python,
+            arguments: [script.path, "--repository-root", repositoryRoot.path],
+            environment: environment
+        )
+        if result.0 != 0 || result.1?["status"] as? String != "READY" {
+            if let errors = result.1?["errors"] as? [String], !errors.isEmpty {
+                runtimeErrors.append(contentsOf: errors)
+            } else {
+                runtimeErrors.append("运行环境检查失败：\(result.2.trimmingCharacters(in: .whitespacesAndNewlines))")
+            }
+            return
+        }
+        let configURL = repositoryRoot.appendingPathComponent("config/wechat_favorite_runtime.json")
+        if let data = try? Data(contentsOf: configURL),
+           let config = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+           let targetPath = config["target_app_path"] as? String,
+           let expectedBundle = config["target_bundle_id"] as? String,
+           let targetBundle = Bundle(url: URL(fileURLWithPath: targetPath)),
+           targetBundle.bundleIdentifier == expectedBundle {
+            wechatInstalled = true
+        } else {
+            runtimeErrors.append("未找到已验收的“微信2”应用，双收藏保存暂不可用。")
+        }
+        environmentReady = true
     }
 
     private func buildWindow() {
@@ -130,6 +276,8 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         previewActions.addArrangedSubview(button("预览 PDF 收藏", action: #selector(previewPDF), emphasized: false))
         previewActions.addArrangedSubview(button("预览文字收藏", action: #selector(previewText), emphasized: false))
         previewActions.addArrangedSubview(button("刷新状态", action: #selector(refreshAction), emphasized: false))
+        relocateButton = button("选择仓库…", action: #selector(chooseRepository), emphasized: false)
+        previewActions.addArrangedSubview(relocateButton)
         root.addArrangedSubview(previewActions)
 
         let scroll = NSScrollView()
@@ -182,29 +330,106 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         return button
     }
 
-    @objc private func refreshAction() { refreshDashboard() }
-    @objc private func generateToday() { startCore(production: false, confirmation: nil) }
+    @objc private func refreshAction() {
+        performEnvironmentCheck()
+        refreshDashboard()
+        appendEnvironmentStatus()
+    }
+
+    @objc private func chooseRepository() {
+        guard !running else { return }
+        let panel = NSOpenPanel()
+        panel.title = "选择 mikihouse-luyao 仓库文件夹"
+        panel.prompt = "使用此仓库"
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.directoryURL = repositoryRoot
+        guard panel.runModal() == .OK, let selected = panel.url else { return }
+        let normalized = selected.resolvingSymlinksInPath().standardizedFileURL
+        guard repositoryLooksValid(normalized) else {
+            showAlert(
+                title: "选择的文件夹不是完整仓库",
+                message: "请选择包含 pyproject.toml、special_skus_2026aw.csv、config 和 scripts 的 mikihouse-luyao 根目录。"
+            )
+            return
+        }
+        do {
+            try persistRepositoryURL(normalized)
+            repositoryRoot = normalized
+            performEnvironmentCheck()
+            refreshDashboard()
+            appendLog("仓库位置已更新：\(repositoryRoot.path)")
+            appendEnvironmentStatus()
+        } catch {
+            showAlert(title: "无法保存仓库位置", message: error.localizedDescription)
+        }
+    }
+
+    @objc private func generateToday() {
+        guard environmentReady else {
+            showEnvironmentError()
+            return
+        }
+        startCore(production: false, confirmation: nil, authorizationFile: nil)
+    }
 
     @objc private func generateAndSave() {
+        performEnvironmentCheck()
         refreshDashboard()
-        guard productionEnabled else {
-            showAlert(title: "正式保存已关闭", message: "安全门禁处于关闭状态；应用不会创建微信收藏。需要新的明确授权任务启用。")
+        guard environmentReady && wechatInstalled else {
+            showEnvironmentError()
             return
         }
         let alert = NSAlert()
-        alert.messageText = "确认创建恰好两条微信收藏"
-        alert.informativeText = "将重新生成报价，并按 PDF版 → 文字版 保存。不会发送聊天，也不会自动重试 mutation。\n\n请输入完整确认语句："
-        alert.addButton(withTitle: "确认")
+        alert.messageText = "单次授权：生成并保存两个微信收藏"
+        alert.informativeText = "本次将重新完整抓取官网、生成今日报价，然后依次创建 PDF版和文字版两条微信收藏。不会发送聊天；任何写入结果不确定都会立即停止且不会自动重试。\n\n授权仅对本次、当前仓库版本有效，15分钟后自动过期。"
+        alert.addButton(withTitle: "单次授权并执行")
         alert.addButton(withTitle: "取消")
-        let input = NSTextField(frame: NSRect(x: 0, y: 0, width: 500, height: 24))
-        alert.accessoryView = input
+        let confirmationCheck = NSButton(checkboxWithTitle: "我确认本次创建恰好两条微信收藏", target: nil, action: nil)
+        confirmationCheck.frame = NSRect(x: 0, y: 0, width: 460, height: 28)
+        alert.accessoryView = confirmationCheck
         guard alert.runModal() == .alertFirstButtonReturn,
-              input.stringValue == productionConfirmation else {
-            statusLabel.stringValue = "确认语句不匹配；零微信写入"
-            appendLog("正式保存确认失败；流程未启动。")
+              confirmationCheck.state == .on else {
+            statusLabel.stringValue = "未完成单次授权；零微信写入"
+            appendLog("用户未确认本次双收藏创建；流程未启动。")
             return
         }
-        startCore(production: true, confirmation: input.stringValue)
+        statusLabel.stringValue = "正在签发一次性本地授权……"
+        guard let authorizationFile = issueOneTimeAuthorization() else { return }
+        startCore(
+            production: true,
+            confirmation: productionConfirmation,
+            authorizationFile: authorizationFile
+        )
+    }
+
+    private func issueOneTimeAuthorization() -> String? {
+        let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
+        let script = repositoryRoot.appendingPathComponent("scripts/create_quote_assistant_one_time_authorization.py")
+        var environment = ProcessInfo.processInfo.environment
+        environment["PYTHONPATH"] = repositoryRoot.appendingPathComponent("src").path
+        environment["MIKIHOUSE_QUOTE_ASSISTANT_APP"] = appBundleIdentifier
+        let result = runJSONCommand(
+            executable: python,
+            arguments: [
+                script.path,
+                "--repository-root", repositoryRoot.path,
+                "--confirm", productionConfirmation,
+            ],
+            environment: environment
+        )
+        guard result.0 == 0,
+              result.1?["status"] as? String == "ISSUED",
+              let path = result.1?["authorization_file"] as? String else {
+            let error = result.1?["error"] as? String ?? result.2
+            statusLabel.stringValue = "单次授权失败；零微信写入"
+            appendLog("单次授权失败：\(error)")
+            showAlert(title: "无法开始本次保存", message: error.isEmpty ? "一次性授权创建失败。" : error)
+            return nil
+        }
+        appendLog("一次性授权已签发并绑定当前仓库版本；正式入口将立即消费，不能复用。")
+        return path
     }
 
     @objc private func openPDF() {
@@ -266,27 +491,47 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let configURL = repositoryRoot.appendingPathComponent("config/wechat_favorite_runtime.json")
-        productionEnabled = false
+        trackedProductionEnabled = false
         if let data = try? Data(contentsOf: configURL),
            let config = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            productionEnabled = config["production_save_enabled"] as? Bool == true
+            trackedProductionEnabled = config["production_save_enabled"] as? Bool == true
         }
-        gateLabel.stringValue = productionEnabled
-            ? "微信正式保存门禁：已启用；执行前仍须输入精确确认语句"
-            : "微信正式保存门禁：关闭（安全默认；不会创建收藏）"
+        if !environmentReady {
+            gateLabel.stringValue = "运行环境未就绪；生成和保存均已安全禁用"
+        } else if !wechatInstalled {
+            gateLabel.stringValue = "报价生成可用；未找到已验收的微信2，双收藏保存已禁用"
+        } else if trackedProductionEnabled {
+            gateLabel.stringValue = "仓库生产开关已启用；执行前仍要求 App 单次明确确认"
+        } else {
+            gateLabel.stringValue = "仓库生产开关保持关闭；App 单次授权可用且不会修改配置"
+        }
         updateButtonStates()
     }
 
     private func updateButtonStates() {
-        generateButton.isEnabled = !running
-        productionButton.isEnabled = productionEnabled && !running
+        generateButton.isEnabled = environmentReady && !running
+        productionButton.isEnabled = environmentReady && wechatInstalled && !running
+        relocateButton.isEnabled = !running
         openPDFButton.isEnabled = latestPDF != nil && !running
         openFolderButton.isEnabled = FileManager.default.fileExists(
             atPath: repositoryRoot.appendingPathComponent("outputs/daily_quote/最新").path
         ) && !running
     }
 
-    private func startCore(production: Bool, confirmation: String?) {
+    private func appendEnvironmentStatus() {
+        if environmentReady {
+            appendLog(wechatInstalled ? "运行环境检查通过；今日报价和单次授权双收藏均可用。" : "报价环境检查通过，但未找到微信2。")
+        } else {
+            runtimeErrors.forEach { appendLog("环境检查：\($0)") }
+        }
+    }
+
+    private func showEnvironmentError() {
+        let message = runtimeErrors.isEmpty ? "运行环境尚未就绪。" : runtimeErrors.joined(separator: "\n")
+        showAlert(title: "运行环境检查未通过", message: message)
+    }
+
+    private func startCore(production: Bool, confirmation: String?, authorizationFile: String?) {
         guard !running else { return }
         let python = repositoryRoot.appendingPathComponent(".venv/bin/python")
         guard FileManager.default.isExecutableFile(atPath: python.path) else {
@@ -304,6 +549,9 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         var arguments = [script.path]
         if production {
             arguments += ["--production-save", "--confirm", confirmation ?? ""]
+            if let authorizationFile {
+                arguments += ["--app-authorization-file", authorizationFile]
+            }
         }
         arguments.append("--progress-jsonl")
 
@@ -324,6 +572,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         statusLabel.stringValue = "正在启动安全流程……"
         updateButtonStates()
         appendLog(production ? "开始正式双收藏流程。" : "开始生成今日报价。")
+        lastProcessOutput = ""
         outputQueue.sync { outputBuffer.removeAll(keepingCapacity: true) }
 
         pipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
@@ -387,6 +636,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             let detail = details.keys.sorted().map { "\($0)=\(details[$0]!)" }.joined(separator: "；")
             appendLog(message + (detail.isEmpty ? "" : "（\(detail)）"))
         } else if !line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            lastProcessOutput += line + "\n"
             appendLog(line)
         }
     }
@@ -404,8 +654,25 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             statusLabel.stringValue = "失败并已安全停止；请查看运行记录"
             appendLog("流程退出码：\(exitCode)；未自动重试副作用操作。")
-            showAlert(title: "流程已安全停止", message: "请查看运行记录和 checkpoint；不要盲目重跑。")
+            showAlert(title: "流程已安全停止", message: chineseFailureMessage())
         }
+    }
+
+    private func chineseFailureMessage() -> String {
+        if let data = lastProcessOutput.data(using: .utf8),
+           let payload = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+           let error = payload["error"] as? String,
+           !error.isEmpty {
+            return error + "\n\n未自动重试任何微信写入；请根据提示处理后重新从 App 发起。"
+        }
+        let lower = lastProcessOutput.lowercased()
+        if lower.contains("network") || lower.contains("timeout") || lower.contains("connection") {
+            return "官网、汇率或图片网络请求失败。上一次成功结果未覆盖，也没有创建微信收藏。请检查网络后重新运行。"
+        }
+        if lower.contains("permission") || lower.contains("accessibility") {
+            return "微信自动化权限不足。请在“系统设置→隐私与安全性→辅助功能”中允许报价助手，然后重新运行。"
+        }
+        return "流程未完成。上一次成功结果未覆盖，微信副作用操作不会自动重试。请查看窗口中的中文运行记录和 checkpoint。"
     }
 
     private func appendLog(_ text: String) {
@@ -437,9 +704,15 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
                 "generate_and_save_two_favorites": productionButton.title,
                 "open_pdf": openPDFButton.title,
                 "open_output_directory": openFolderButton.title,
+                "choose_repository": relocateButton.title,
             ],
-            "production_save_enabled": productionEnabled,
+            "tracked_production_save_enabled": trackedProductionEnabled,
+            "app_one_time_authorization_available": environmentReady && wechatInstalled,
             "production_button_enabled": productionButton.isEnabled,
+            "environment_ready": environmentReady,
+            "wechat2_installed": wechatInstalled,
+            "repository_root": repositoryRoot.path,
+            "runtime_errors": runtimeErrors,
             "latest_summary": [
                 "quote_date": dateValue.stringValue,
                 "fx_rate_display": fxValue.stringValue,

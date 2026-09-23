@@ -333,7 +333,7 @@ def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config(
     assert evidence == {
         "status": "FAILED_CLOSED",
         "phase": "PRE_GENERATION_WRITE_GATE",
-        "error": "production save config switch is disabled",
+        "error": "仓库默认生产开关关闭；请从 MIKI HOUSE 报价助手.app 完成本次单次授权。",
         "website_crawl_started": False,
         "wechat_mutation_count": 0,
     }

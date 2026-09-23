@@ -61,11 +61,11 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 1. `runtime_validation_status=PASS`；
 2. payload 的 manifest hash 与已验证 hash 一致；
-3. `production_save_enabled=true`；
+3. `production_save_enabled=true`，或由 `MIKI HOUSE 报价助手.app` 创建并由 runner 原子消费有效的一次性许可；
 4. 命令行显式传入 `--production-save`；
 5. 显式传入精确 confirmation phrase。
 
-默认 `production_save_enabled=false`。运行验收即使 PASS，也不会自动保存后续每日收藏。
+默认 `production_save_enabled=false`。App 不修改该配置；每次用户在 App 内勾选明确确认后，许可只在 `.secrets` 私有目录保存，绑定仓库路径与当前 HEAD，15分钟过期、权限 `0600`、首次消费后不能复用。直接运行 CLI 且没有该许可时仍在官网 crawl 前 fail closed。
 
 ## 正式每日双收藏编排
 
@@ -99,8 +99,9 @@ PDF 收藏额外验证重开后的标题、正文和附件文件名。容量探�
 
 - `config/wechat_favorite_runtime.json` 的 `production_save_enabled=false`；
 - 普通 `scripts/生成MIKIHOUSE每日报价.command` 和 GUI“生成今日报价”永远 preview-only；
-- `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command` 与 GUI 正式按钮只有在另一个明确授权任务启用开关后才可运行；
-- 正式运行还必须显式选择 production mode 并输入精确确认语句；开关关闭或确认不匹配时在官网 crawl 前停止，微信写入为 0。
+- 旧 `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command` 在默认配置下继续 fail closed；
+- `MIKI HOUSE 报价助手.app` 通过清晰的单次确认签发私有一次性许可，无需手工修改配置；
+- 正式 runner 仍必须收到 production mode、内部精确 confirmation 和有效许可；任一不匹配时在官网 crawl 前停止，微信写入为 0。
 
 CLI（当前默认会 fail closed，不会写微信）：
 

@@ -20,17 +20,18 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 ### MIKI HOUSE 报价助手.app
 
-仓库根目录提供可在 Finder 中直接双击的原生 AppKit 应用 [`MIKI HOUSE 报价助手.app`](MIKI%20HOUSE%20报价助手.app)。应用不复制报价或微信业务逻辑，而是调用上面的两个正式 Python 入口，因此商品筛选、0.68 定价、ECB 汇率、DailyQuoteManifest、checkpoint、防重复、强回读和 fail-closed 门禁保持同一实现。使用前需按“环境与安装”建立仓库 `.venv`，并将 `.app` 保留在仓库根目录。
+仓库根目录提供可在 Finder 中直接双击的原生 AppKit 应用 [`MIKI HOUSE 报价助手.app`](MIKI%20HOUSE%20报价助手.app)。应用不复制报价或微信业务逻辑，而是调用上面的两个正式 Python 入口，因此商品筛选、0.68 定价、ECB 汇率、DailyQuoteManifest、checkpoint、防重复、强回读和 fail-closed 门禁保持同一实现。使用前需按“环境与安装”建立仓库 `.venv`；App 默认自动识别所在仓库，若被移动也可通过“选择仓库…”定位一次并保存到用户 Application Support，之后无需 Codex 或终端。
 
 界面提供：
 
 - “生成今日报价”：完整抓官网并生成当天 PDF、文字报价及收藏 preview，不写微信；
-- “生成并保存两个微信收藏”：仅在跟踪配置 `production_save_enabled=true` 且再次输入精确确认语句时可用，继续按 PDF→文字顺序调用现有正式编排器；
+- “生成并保存两个微信收藏”：仓库默认开关保持关闭；用户在 App 内勾选本次明确确认后，App 签发绑定当前 HEAD、15分钟过期且仅可消费一次的私有许可，再按 PDF→文字顺序调用现有正式编排器；
 - 官网抓取、汇率冻结、缩略图、PDF、发布和微信阶段的实时进度；
 - 最新报价日期、冻结汇率、当日有货商品数、PDF 大小；
-- 打开 PDF、打开输出目录及 PDF/文字收藏预览。
+- 打开 PDF、打开输出目录及 PDF/文字收藏预览；
+- 启动时自动定位仓库，检查 `.venv`、依赖、安全配置、输出目录和已验收的“微信2”，错误以中文 fail closed 显示。
 
-默认配置仍保持正式保存关闭，应用没有自行启用开关的控件。重新构建 app bundle 可运行：
+默认配置仍保持 `production_save_enabled=false`，App 不修改该文件。单次许可只写入 Git 忽略的 `.secrets/mikihouse_quote_assistant/authorizations/`，权限为 `0600`，绑定仓库路径与当前 HEAD，首次运行即原子标记为已消费；重复使用、过期、权限异常或版本变化均在官网抓取前停止。重新构建 app bundle 可运行：
 
 ```bash
 python scripts/build_mikihouse_quote_assistant_app.py
@@ -45,7 +46,7 @@ PYTHONPATH=src "MIKI HOUSE 报价助手.app/Contents/MacOS/mikihouse-quote-assis
 
 已验证通过的“PDF版 + LOSSLESS_COMPACT文字版”现已接入统一正式编排器 `scripts/run_mikihouse_daily_production.py`。普通运行仍然只生成 preview；显式生产模式会重新完整抓取官网、生成当天同一 manifest 的全部产物，然后严格按 PDF→文字顺序创建恰好两条收藏，每条保存后都关闭、唯一标题重开并强回读。每个 stage 先写 checkpoint，mutation 不自动 retry；任一未知结果会冻结整轮，重跑不得重复创建已完成收藏。
 
-正式 Mac 入口为 `scripts/生成并保存MIKIHOUSE每日两个微信收藏.command`，GUI 中也提供同一动作。两者默认均不可写：仓库配置保持 `production_save_enabled=false`，并且即使未来得到明确授权启用，也仍要求输入精确确认语句、fresh manifest 绑定、容量上限、PDF自动验收与历史 runtime evidence 全部通过。该入口不进入聊天、不修改或删除已有收藏，也不访问 Shijiu。
+正式日常入口为仓库根目录的 `MIKI HOUSE 报价助手.app`。旧 `.command` 入口在默认配置下继续 fail closed；App 则通过上述一次性许可完成本轮授权，不要求用户编辑 JSON。两条路径仍要求 fresh manifest 绑定、容量上限、PDF 自动验收、checkpoint、防重复和历史 runtime evidence 全部通过。该入口不进入聊天、不修改或删除已有收藏，也不访问 Shijiu。
 
 最终零写入验收入口为 `PYTHONPATH=src python scripts/verify_wechat_daily_production_acceptance.py`。它要求生产开关仍为关闭，仅使用本地样例、临时目录和 Fake Sink 验证一键入口、checkpoint/resume、幂等、防重复及 fail-closed；机器证据保存在 `docs/evidence/wechat_daily_production_final_acceptance.json`。
 

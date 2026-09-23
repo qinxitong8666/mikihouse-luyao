@@ -2,9 +2,11 @@
 
 ## macOS 报价助手
 
-仓库根目录的原生 AppKit 应用 `MIKI HOUSE 报价助手.app` 是现有 CLI 的可双击桌面外壳。它只负责展示阶段进度、最新汇率/商品数/PDF 大小和打开产物；生成动作仍由 `scripts/generate_daily_quote.py` 执行，双收藏动作仍由 `scripts/run_mikihouse_daily_production.py` 执行。应用不持有微信 Sink，不直接执行任何收藏或 Shijiu 操作，也没有绕过 `production_save_enabled`、精确 confirmation、checkpoint、幂等、防重复与强回读门禁的参数。
+仓库根目录的原生 AppKit 应用 `MIKI HOUSE 报价助手.app` 是现有 CLI 的可双击桌面外壳。它只负责环境检查、单次确认、展示阶段进度、最新汇率/商品数/PDF 大小和打开产物；生成动作仍由 `scripts/generate_daily_quote.py` 执行，双收藏动作仍由 `scripts/run_mikihouse_daily_production.py` 执行。应用不持有微信 Sink，不直接执行任何收藏或 Shijiu 操作。
 
-两个核心入口可用 `--progress-jsonl` 向 stderr 输出以 `MIKIHOUSE_PROGRESS ` 开头的单行 JSON 事件。该事件只增加可观察性，不参与 DailyQuoteManifest、定价、筛选或写入判定。默认跟踪配置下正式保存按钮为禁用状态。
+仓库定位依次检查显式环境变量、用户 Application Support 中保存的位置、App 所在目录及当前目录的上级；仍无法定位时只允许通过“选择仓库…”选择同时具备完整 markers 的根目录。环境预检覆盖 `.venv`、Python 依赖、安全配置、输出目录及目标微信2 bundle/path，任何缺失均用中文提示并禁用对应动作。
+
+两个核心入口可用 `--progress-jsonl` 向 stderr 输出以 `MIKIHOUSE_PROGRESS ` 开头的单行 JSON 事件。该事件只增加可观察性，不参与 DailyQuoteManifest、定价、筛选或写入判定。跟踪配置始终保持 `production_save_enabled=false`；App 内明确确认会签发绑定当前 HEAD、短时且仅可消费一次的 Git 外许可，正式 runner 必须先原子消费许可才继续。许可不跳过 exact confirmation、fresh manifest、checkpoint、幂等、防重复或强回读门禁。
 
 ## 边界与安全
 

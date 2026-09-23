@@ -11,6 +11,10 @@ from mikihouse_luyao.daily_quote import DailyQuoteError
 from mikihouse_luyao.daily_quote_fx import FxError
 from mikihouse_luyao.daily_quote_runner import DailyQuoteRunError, run_daily_quote
 from mikihouse_luyao.quote_assistant_app import format_progress_event
+from mikihouse_luyao.quote_assistant_authorization import (
+    QuoteAssistantAuthorizationError,
+    validate_and_consume_one_time_authorization,
+)
 from mikihouse_luyao.scraper import ScrapeError
 from mikihouse_luyao.wechat_daily_production import (
     WeChatDailyProductionError,
@@ -63,6 +67,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="emit machine-readable progress events to stderr",
     )
+    parser.add_argument(
+        "--app-authorization-file",
+        type=Path,
+        help="private, short-lived permit created by MIKI HOUSE 报价助手.app",
+    )
     return parser
 
 
@@ -77,22 +86,50 @@ def main(argv: list[str] | None = None) -> int:
             )
 
     runtime_config = _read_json(args.runtime_config)
+    production_authorization: dict[str, Any] | None = None
     emit("PRODUCTION_GATE", 1, "正在检查微信正式保存门禁")
     if args.production_save:
-        if runtime_config.get("production_save_enabled") is not True:
-            print(json.dumps({
-                "status": "FAILED_CLOSED",
-                "phase": "PRE_GENERATION_WRITE_GATE",
-                "error": "production save config switch is disabled",
-                "website_crawl_started": False,
-                "wechat_mutation_count": 0,
-            }, ensure_ascii=False, indent=2))
-            return 2
         if args.confirm != PRODUCTION_CONFIRMATION:
             print(json.dumps({
                 "status": "FAILED_CLOSED",
                 "phase": "PRE_GENERATION_WRITE_GATE",
-                "error": "exact production confirmation is missing",
+                "error": "确认内容不匹配，未开始官网抓取或微信写入。",
+                "website_crawl_started": False,
+                "wechat_mutation_count": 0,
+            }, ensure_ascii=False, indent=2))
+            return 2
+        if args.app_authorization_file is not None:
+            try:
+                production_authorization = validate_and_consume_one_time_authorization(
+                    args.app_authorization_file,
+                    ROOT,
+                    confirmation=args.confirm,
+                )
+            except (QuoteAssistantAuthorizationError, OSError, ValueError) as exc:
+                print(json.dumps({
+                    "status": "FAILED_CLOSED",
+                    "phase": "PRE_GENERATION_WRITE_GATE",
+                    "error": str(exc),
+                    "website_crawl_started": False,
+                    "wechat_mutation_count": 0,
+                }, ensure_ascii=False, indent=2))
+                return 2
+            runtime_config = {
+                **runtime_config,
+                "production_save_enabled": True,
+                "production_authorization_mode": "APP_ONE_TIME",
+            }
+        elif runtime_config.get("production_save_enabled") is True:
+            production_authorization = {
+                "status": "ACCEPTED",
+                "authorization_mode": "TRACKED_CONFIG_AND_EXACT_CONFIRMATION",
+                "reusable": False,
+            }
+        else:
+            print(json.dumps({
+                "status": "FAILED_CLOSED",
+                "phase": "PRE_GENERATION_WRITE_GATE",
+                "error": "仓库默认生产开关关闭；请从 MIKI HOUSE 报价助手.app 完成本次单次授权。",
                 "website_crawl_started": False,
                 "wechat_mutation_count": 0,
             }, ensure_ascii=False, indent=2))
@@ -152,6 +189,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print(json.dumps({
         "status": "SUCCESS",
+        "production_authorization": production_authorization,
         "daily_quote": generated,
         "wechat_two_favorites": saved,
     }, ensure_ascii=False, indent=2))

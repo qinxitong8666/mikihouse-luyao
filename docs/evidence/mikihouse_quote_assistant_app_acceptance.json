@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "generated_at": "2026-09-23T12:46:01+09:00",
+  "generated_at": "2026-09-23T14:10:30+09:00",
   "application": {
     "name": "MIKI HOUSE 报价助手",
     "bundle_path": "MIKI HOUSE 报价助手.app",
@@ -10,8 +10,8 @@
     "architecture": "arm64",
     "minimum_macos": "13.0",
     "code_signature": "AD_HOC_VALID",
-    "executable_sha256": "47dc9391ffdf83b657f0f5bda8a98ef98afece6591e2ee060b2742b3a1c63c7b",
-    "executable_byte_count": 266496
+    "executable_sha256": "0b9a4594722280981688eccefa922a6a12c0f4b07ea5546f66235873a4521c99",
+    "executable_byte_count": 311888
   },
   "runtime_smoke": {
     "status": "PASS",
@@ -25,7 +25,8 @@
       "打开输出目录",
       "预览 PDF 收藏",
       "预览文字收藏",
-      "刷新状态"
+      "刷新状态",
+      "选择仓库…"
     ],
     "latest_summary": {
       "quote_date": "2026-09-23",
@@ -33,8 +34,12 @@
       "included_in_stock_product_count": 1786,
       "pdf_size_display": "22.21 MB"
     },
+    "repository_root": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取",
+    "environment_ready": true,
+    "wechat2_installed": true,
     "production_save_enabled": false,
-    "production_button_enabled": false,
+    "app_one_time_authorization_available": true,
+    "production_button_enabled": true,
     "website_request_count": 0,
     "wechat_mutation_count": 0,
     "shijiu_request_count": 0
@@ -45,6 +50,33 @@
     "production_entrypoint": "scripts/run_mikihouse_daily_production.py",
     "checkpoint_and_idempotency_owner": "mikihouse_luyao.wechat_daily_production",
     "exact_confirmation_required_when_enabled": true,
+    "explicit_confirmation_dialog_inspected": true,
+    "confirmation_checkbox_label": "我确认本次创建恰好两条微信收藏",
+    "confirmation_dialog_cancelled_without_authorization": true,
+    "one_time_authorization": {
+      "tracked_default_production_save_enabled": false,
+      "tracked_default_gate_unchanged": true,
+      "ttl_seconds": 900,
+      "head_bound": true,
+      "repository_bound": true,
+      "private_mode": "0600",
+      "private_directory_mode": "0700",
+      "atomic_single_consumer_claim": true,
+      "reusable": false
+    },
+    "repository_location": {
+      "automatic_discovery": true,
+      "manual_folder_picker": true,
+      "saved_outside_repository": true
+    },
+    "runtime_checks": [
+      "repository markers",
+      ".venv Python",
+      "PDF/image dependencies",
+      "safe tracked config",
+      "writable output directory",
+      "validated WeChat2 bundle"
+    ],
     "mutation_auto_retry": false,
     "production_gate_probe": {
       "status": "FAILED_CLOSED_AS_EXPECTED",
@@ -54,7 +86,8 @@
     }
   },
   "verification": {
-    "pytest": "312 passed",
+    "targeted_pytest": "43 passed",
+    "pytest": "322 passed",
     "verify_local": "PASS",
     "plist_lint": "PASS",
     "codesign_verify_deep_strict": "PASS",

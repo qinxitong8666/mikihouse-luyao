@@ -77,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
     expected_cli_gate = {
         "status": "FAILED_CLOSED",
         "phase": "PRE_GENERATION_WRITE_GATE",
-        "error": "production save config switch is disabled",
+        "error": "仓库默认生产开关关闭；请从 MIKI HOUSE 报价助手.app 完成本次单次授权。",
         "website_crawl_started": False,
         "wechat_mutation_count": 0,
     }
@@ -92,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
             "-q",
             "tests/test_wechat_daily_production.py",
             "tests/test_wechat_favorite_runtime.py",
+            "tests/test_quote_assistant_authorization.py",
         ],
         env=env,
     )
@@ -107,15 +108,19 @@ def main(argv: list[str] | None = None) -> int:
         ROOT / "scripts" / "生成并保存MIKIHOUSE每日两个微信收藏.command",
         ROOT / "src" / "mikihouse_luyao" / "wechat_daily_production.py",
         ROOT / "src" / "mikihouse_luyao" / "wechat_favorite_runtime.py",
+        ROOT / "src" / "mikihouse_luyao" / "quote_assistant_authorization.py",
+        ROOT / "src" / "mikihouse_luyao" / "quote_assistant_runtime.py",
+        ROOT / "macos" / "MikihouseQuoteAssistant" / "main.swift",
         runtime_config_path,
     ]
     report = {
         "schema_version": 1,
-        "status": "PASS_FINAL_ACCEPTANCE_PRODUCTION_GATE_OFF",
+        "status": "PASS_FINAL_ACCEPTANCE_DEFAULT_GATE_OFF_APP_ONE_TIME_READY",
         "verified_at": datetime.now(ZoneInfo("Asia/Tokyo")).isoformat(),
         "base_commit": head.stdout.strip(),
         "scope": "OFFLINE_FINAL_ACCEPTANCE_NO_REAL_WECHAT_OR_SHIJIU_WRITE",
         "production_save_enabled": False,
+        "app_one_time_authorization": "AVAILABLE_WITH_EXPLICIT_IN_APP_CONFIRMATION",
         "one_click_entry": {
             "status": "PASS",
             "mac_command": "scripts/生成并保存MIKIHOUSE每日两个微信收藏.command",
@@ -145,10 +150,11 @@ def main(argv: list[str] | None = None) -> int:
             "existing_title_collision_blocks_before_create": "PASS_MONKEYPATCHED_READ_ONLY_SEARCH",
             "mutation_uncertainty_freezes_without_retry": "PASS_FAKE_SINK",
             "production_gate_disabled_before_crawl": "PASS_REAL_CLI_ZERO_WRITE",
+            "app_one_time_permit_private_head_bound_expiring_single_use": "PASS_OFFLINE",
         },
         "targeted_pytest": {
             "status": "PASS",
-            "command": "python -m pytest -q tests/test_wechat_daily_production.py tests/test_wechat_favorite_runtime.py",
+            "command": "python -m pytest -q tests/test_wechat_daily_production.py tests/test_wechat_favorite_runtime.py tests/test_quote_assistant_authorization.py",
             "stdout": pytest_result.stdout.strip(),
         },
         "tracked_code_sha256": {
@@ -161,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
             "chat_send": 0,
             "shijiu_request": 0,
         },
-        "conclusion": "PRODUCTION_FLOW_ACCEPTED_BUT_EXPLICITLY_DISABLED",
+        "conclusion": "TRACKED_GATE_OFF_APP_EXPLICIT_ONE_TIME_PRODUCTION_READY",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.output.with_name(f".{args.output.name}.tmp")

@@ -116,6 +116,11 @@ def test_tracked_app_bundle_is_native_double_clickable() -> None:
     source = (ROOT / "macos" / "MikihouseQuoteAssistant" / "main.swift").read_text()
     assert "scripts/generate_daily_quote.py" in source
     assert "scripts/run_mikihouse_daily_production.py" in source
+    assert "scripts/check_quote_assistant_runtime.py" in source
+    assert "scripts/create_quote_assistant_one_time_authorization.py" in source
+    assert "--app-authorization-file" in source
+    assert "选择仓库…" in source
+    assert "repository_path.txt" in source
 
 
 def test_bundle_builder_reproduces_valid_structure(tmp_path: Path) -> None:
@@ -147,3 +152,5 @@ def test_default_runtime_gate_remains_disabled_and_native_app_has_no_direct_sink
     assert "save_daily_production_favorites" not in app
     assert "WeChatFavoriteSink" not in app
     assert "/shopapi/" not in app
+    assert "production_save_enabled\"] = true" not in app.lower()
+    assert "我确认本次创建恰好两条微信收藏" in app
