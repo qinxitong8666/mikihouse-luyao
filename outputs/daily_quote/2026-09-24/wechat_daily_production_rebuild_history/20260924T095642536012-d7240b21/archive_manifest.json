@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "PREVIOUS_FROZEN_ARCHIVED_BEFORE_SAFE_REBUILD",
+  "prior_checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+  "replacement_manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+  "replacement_bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+  "previous_bundle_matches_current": true,
+  "rebuild_id": "20260924T095642536012-d7240b21",
+  "archived_at": "2026-09-24T09:56:42.537060+09:00",
+  "quote_date": "2026-09-24",
+  "prior_manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+  "prior_bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+  "prior_report_sha256": "dc7b4c237d55c41d170baa1313e61cbdd45f33cff1adb45742049d28c7c149c8",
+  "absence_audit": {
+    "schema_version": 1,
+    "status": "READY_FOR_EXPLICIT_REBUILD_AUTHORIZATION",
+    "quote_date": "2026-09-24",
+    "prior_manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+    "prior_bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+    "prior_checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "prior_checkpoint_file_sha256": "a960eba8af3fc1088dfe91a0146f180d04696c4750f8db39ae4ad9125bad7621",
+    "prior_report_file_sha256": "05cad80b613ff6f3ec28ca1013bdd006f8aa82c555fa17f73b499a5176cdfd1b",
+    "prior_report_completed_at": null,
+    "title_results": [
+      {
+        "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "aa1e8ec767499c5d1fe7a6c8967a162be0fdc32ae986ed85abff3ee4640fbda0",
+        "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "2a1a27da734bb3cf8daba0ee4b64fd70ac7a2a605aa1e304973c2b0c8c306dde",
+        "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": true,
+    "checkpoint_reset_count": 0,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "files": [
+    {
+      "name": "wechat_daily_production_checkpoint.json",
+      "sha256": "a960eba8af3fc1088dfe91a0146f180d04696c4750f8db39ae4ad9125bad7621",
+      "byte_count": 2919
+    },
+    {
+      "name": "wechat_daily_production_report.json",
+      "sha256": "05cad80b613ff6f3ec28ca1013bdd006f8aa82c555fa17f73b499a5176cdfd1b",
+      "byte_count": 2350
+    }
+  ],
+  "wechat_mutation_count": 0
+}

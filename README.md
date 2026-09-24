@@ -41,6 +41,8 @@ macOS 可双击 `scripts/生成MIKIHOUSE每日报价.command`。该入口只调�
 
 当天存在任何 checkpoint 时，“生成今日报价”在抓取前停止，禁止覆盖受保护 bundle、`最新` 或 `last_successful_manifest`。普通生产重跑直接校验现有 bundle：一致且已成功则幂等返回，冻结/不匹配则停止；不会先生成后报错。生成、保存和恢复共享本机非阻塞输出锁，不能并发覆盖。专用重建是用户确认后的新建操作，不是自动重试旧 mutation；旧冻结历史永久保留。
 
+2026-09-24 09:56 正式安全重建实际状态：**FROZEN，未完成双收藏**。只读检查确认 PDF/文字均不存在后，App 消费本次专用许可并完整归档旧冻结记录；复用当天 bundle，没有重新抓取或生成。PDF 正文写入后，窗口标题绑定守卫报 `post-readback note title does not match verified body`，在打开 picker 前停止，未上传 PDF、未开始文字收藏。之后只读证据为 PDF 精确标题 1 条、文字 0 条，PDF 正文 hash 一致但无附件；不得把先前测试 Sink PASS 当作这次正式生产成功，也不得自动重置或重试。见 [本轮正式冻结证据](docs/evidence/wechat_daily_production_20260924_rebuild_attempt.json)。
+
 2026-09-23 本机验收：App 已只读确认 PDF版/文字版均不存在并弹出新版专用授权窗口；取消后 19 个当日文件与 checkpoint hash 全部不变，零微信写入。冻结旧 bundle → 归档 → 当前 bundle → 两阶段保存的故障隔离/幂等由 FakeSink 回归覆盖；本轮没有代替用户勾选生产授权，也不宣称真实重建已完成。详见 `docs/evidence/wechat_same_day_bundle_guard_acceptance.json`。收藏搜索必须识别当前查询的结果标题与明确“无结果”，搜索未完成或 AX 不完整不能被当作不存在。
 
 ```bash

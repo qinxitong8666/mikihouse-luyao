@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "quote_date": "2026-09-24",
+  "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+  "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+  "failed_stage": "pdf",
+  "error_type": "WeChatRuntimeError",
+  "error": "toolbar file picker did not open with a strong fingerprint: {'command': ['osascript', '-e', '\\n        tell application \"System Events\"\\n            set targetProc to first process whose unix id is 81292\\n\\n            tell targetProc\\n                if (count of windows) < 1 then return \"WINDOW_NOT_FOUND\"\\n                set targetWindow to window 1\\n                set windowPosition to position of targetWindow\\n                set windowSize to size of targetWindow\\n                set windowX to item 1 of windowPosition\\n                set windowY to item 2 of windowPosition\\n                set windowWidth to item 1 of windowSize\\n                set windowHeight to item 2 of windowSize\\n                if windowWidth < 500 or windowHeight < 400 then return \"NOTE_WINDOW_TOO_SMALL\"\\n                click at {windowX + 35, windowY + 96}\\n                delay 1\\n                set openButtonCount to 0\\n                try\\n                    set allItems to entire contents\\n                    repeat with uiItem in allItems\\n                        try\\n                            set itemRole to role of uiItem as text\\n                            set itemName to name of uiItem as text\\n                            if itemRole is \"AXButton\" and (itemName is \"打开\" or itemName is \"Open\") then\\n                                set openButtonCount to openButtonCount + 1\\n                            end if\\n                        end try\\n                    end repeat\\n                end try\\n                if openButtonCount < 1 then return \"OPEN_PANEL_NOT_CONFIRMED\"\\n                return \"OPEN_PANEL_CONFIRMED|||\" & windowX & \"|||\" & windowY & \"|||\" & windowWidth & \"|||\" & windowHeight\\n            end tell\\n        end tell\\n        '], 'returncode': 0, 'stdout': 'OPEN_PANEL_NOT_CONFIRMED', 'stderr': ''}",
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

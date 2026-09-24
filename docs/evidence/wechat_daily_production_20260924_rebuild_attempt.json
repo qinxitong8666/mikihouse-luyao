@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_FROZEN_AFTER_PDF_BODY_BEFORE_PICKER",
+  "quote_date": "2026-09-24",
+  "executed_repository_head": "afbbd1c29423d5a509334d4160e3e236e3bc0d96",
+  "production_goal_completed": false,
+  "branch_selected": "AUTHORIZED_SAFE_REBUILD_BOTH_TITLES_ABSENT",
+  "initial_title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "5c08ccdd34d2d0d9385bd006946eed10dfda9c65ea340866ccb3b581a7d8d886",
+        "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "c9fe17ae2a5907b9f0a69d2b46a8d1ea3b45a2c9b641026cae590468c98de120",
+        "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": true,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "authorization": {
+    "kind": "MIKIHOUSE_QUOTE_ASSISTANT_ONE_TIME_PRODUCTION_AUTHORIZATION",
+    "operation": "REBUILD_MISSING_DAILY_TWO_FAVORITES",
+    "status": "CONSUMED",
+    "repository_head": "afbbd1c29423d5a509334d4160e3e236e3bc0d96",
+    "issued_at": "2026-09-24T00:56:18.032143+00:00",
+    "consumed_at": "2026-09-24T00:56:18.233241+00:00",
+    "reusable": false,
+    "tracked_production_save_enabled": false
+  },
+  "bundle": {
+    "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+    "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+    "checkpoint_and_both_payload_hashes_matched_before_write": true,
+    "regenerated": false,
+    "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "pdf_bytes": 23317467,
+    "pdf_sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+    "text_payload_body_characters": 70627
+  },
+  "archive": {
+    "path": "outputs/daily_quote/2026-09-24/wechat_daily_production_rebuild_history/20260924T095642536012-d7240b21",
+    "manifest_sha256": "00b41f42042797040e2a51adeaebaceba31dafdcd9db3b9fd00de5fa98bcd6ae",
+    "prior_checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "all_file_hashes_verified": true
+  },
+  "failure": {
+    "stage": "pdf",
+    "error": "post-readback note title does not match verified body",
+    "mutation_attempt_count": 1,
+    "picker_open_dispatch_count": 0,
+    "pdf_file_selection_count": 0,
+    "text_mutation_attempt_count": 0,
+    "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "checkpoint_sha256": "8c6ce6a4fbd07773754e98750de6bb217f816e7bae4a0dfc1ae819a9cabe2b50",
+    "report_sha256": "a2b6f1c90fb29cd9f3461e5da49a33d9c6c5cdf36ecde724644615a8ac050d53"
+  },
+  "post_failure_readonly": {
+    "status": "READ_ONLY_POST_FAILURE",
+    "target": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "windows": [
+      {
+        "index": 1,
+        "title": "MIKI HOUSE 9月24日报价｜P",
+        "role": "AXWindow"
+      },
+      {
+        "index": 2,
+        "title": "WeChat",
+        "role": "AXWindow"
+      }
+    ],
+    "wechat_mutation_count": 0,
+    "new_attachment_attempt_count": 0,
+    "body_comparison": {
+      "status": "NORMALIZED_READBACK_MATCH",
+      "exact_hash_match": false,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "af01ab5780b4f981fd6563858b8bead083a88a9e62da8d7d09b402a6efa5d816",
+        "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      },
+      "actual": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+        "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "readback": {
+      "copy_status": "COPY_READ",
+      "attempt_count": 1,
+      "selection_delay_seconds": 1.5,
+      "clipboard_timeout_seconds": 8.0,
+      "attempts": [
+        {
+          "attempt": 1,
+          "copy_action_status": "COPY_SENT",
+          "copy_action_returncode": 0,
+          "clipboard_changed": true,
+          "fingerprint": {
+            "raw_character_count": 99,
+            "normalized_character_count": 98,
+            "utf8_byte_count": 207,
+            "line_count": 6,
+            "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+            "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+            "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+            "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+            "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+            "last_line": "库存随官网变化，下单前请再次确认"
+          }
+        }
+      ],
+      "fingerprint": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+        "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "file_marker_count": 0,
+    "expected_title": "MIKI HOUSE 9月24日报价｜PDF版",
+    "actual_window_title": "MIKI HOUSE 9月24日报价｜P"
+  },
+  "final_title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "5e9788d5cafd1be7f66e387460075b6bb8c48ef8baf033e3d9df2618b1166b4c",
+        "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "fac748bba7c00bfa7adc9cee2b9ea765512c0cf09c39ebc04bd44931c32cc2d4",
+        "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": false,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "observations": {
+    "exact_title_counts_before": [
+      0,
+      0
+    ],
+    "exact_title_counts_after": [
+      1,
+      0
+    ],
+    "pdf_body_normalized_hash_match": true,
+    "pdf_file_marker_count": 0,
+    "title_prefix_matches_at_later_readonly_observation": true,
+    "title_at_failure_instant": "NOT_CAPTURED",
+    "root_cause": "NOT_PROVEN; later correct title is compatible with asynchronous title update but does not prove the title at failure",
+    "full_save_close_reopen_verification": "NOT_EXECUTED_AFTER_STOP",
+    "final_two_favorites": "NOT_COMPLETE"
+  },
+  "safety": {
+    "automatic_mutation_retries": 0,
+    "further_mutations_after_failure": 0,
+    "favorite_deletions": 0,
+    "chat_sends": 0,
+    "shijiu_requests": 0,
+    "production_save_enabled": false,
+    "runtime_acceptance_gate_bypassed": false,
+    "checkpoint_error_rewritten": false,
+    "old_frozen_history_preserved": true,
+    "existing_test_favorites_modified": false
+  },
+  "verification": {
+    "verify_local": "PASS",
+    "pytest_passed": 409,
+    "protected_tracked_state_deliverables_unchanged": 132,
+    "code_or_business_rule_changes": false,
+    "preexisting_20260923_dirty_outputs": "PRESERVED_NOT_STAGED"
+  },
+  "next_step": "Separate diagnosis/authorization needed for frozen PDF title binding; do not restart normal production, reset checkpoint, recreate PDF, or continue text."
+}
