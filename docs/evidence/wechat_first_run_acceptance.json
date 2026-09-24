@@ -1,0 +1,61 @@
+{
+  "status": "PASS_OFFLINE_FRESH_DATE_NORMAL_PATH",
+  "scope": "NO_REAL_WECHAT_OR_SHIJIU_REQUEST; real orchestration/Sink, simulated OS/network edges",
+  "test_dates": [
+    "2026-09-25",
+    "2026-10-01"
+  ],
+  "fixture_product_count_per_run": 300,
+  "generation": "REAL_MANIFEST_THUMBNAILS_PDF_TEXT_PREVIEWS_IN_TEMP_DIRECTORY",
+  "external_edges": [
+    "fixture full crawl",
+    "fixture frozen FX",
+    "fixture source image",
+    "simulated App permit validation; no real permit generated",
+    "in-memory desktop/clipboard/AX, including unresolvable CFURL"
+  ],
+  "ordinary_entry": "App build_production_command -> run_mikihouse_daily_production.main -> run_daily_quote -> save_daily_production_favorites -> MacWeChatFavoriteSink.save",
+  "checks": {
+    "crawl_and_fx_once_per_new_date": "PASS",
+    "PDF_then_text": "PASS",
+    "first_paste_async_title_then_payload_only_binding": "PASS",
+    "single_Command_O_and_exact_CFURL_AXOpen": "PASS",
+    "unresolvable_unrelated_CFURL_skipped_not_bound": "PASS",
+    "attachment_inserted_at_body_end": "PASS",
+    "multi_chunk_cumulative_readback": "PASS",
+    "separate_close_reopen_body_and_filename_validation": "PASS",
+    "same_date_replay_no_generation_no_GUI": "PASS",
+    "unknown_picker_or_ambiguous_title_freezes_without_retry": "PASS",
+    "other_notes_ignored": "PASS",
+    "no_date_specific_recovery_called": "PASS",
+    "shared_image_cold_cache_concurrency": "PASS"
+  },
+  "protected_file_count_unchanged": 208,
+  "pytest_passed": 99,
+  "production_save_enabled": false,
+  "real_wechat_create_update_delete": 0,
+  "real_chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "real_authorization_generated": 0,
+  "live_new_date_wechat_validation": "NOT_RUN_BY_DESIGN_NO_WRITE_ACCEPTANCE",
+  "prior_real_evidence": [
+    "docs/evidence/wechat_cfurl_scan_20260924.json",
+    "docs/evidence/wechat_text_append_20260924.json"
+  ],
+  "prior_real_evidence_hashes": {
+    "outputs/daily_quote/2026-09-24/wechat_daily_production_checkpoint.json": "d245ebbb96f4cebde3e4da6a1cef6f284e81e0d6796f07c8cfede04f8a087687",
+    "outputs/daily_quote/2026-09-24/wechat_daily_production_report.json": "c88b9a620094b0e7d8cbd6b91d4232aedf0bf33f35fe9f649dca0280892f42f8"
+  },
+  "source_sha256": {
+    "macos/MikihouseQuoteAssistant/main.swift": "1f4fe600159dac0758b4d4805373a815f6a4e4a2da88c3cd10f7bfcb633c9dd4",
+    "scripts/run_mikihouse_daily_production.py": "e42af04ed3c645abf77bb957435c94f08b81a7a6b4c882492b7704199a4eb747",
+    "src/mikihouse_luyao/quote_assistant_app.py": "a6d807f2705c82705d654ff459fa62b06011891ae1764576ce0cded29bc380ff",
+    "src/mikihouse_luyao/daily_quote_runner.py": "e99e609fe933abfaff307a01e3cc783e0d816517746eed780b59dd0e9469ce87",
+    "src/mikihouse_luyao/daily_quote_images.py": "fe407c86de1cdb348c69e3fed1585a128059dde748aab7c0c38c940890cd2f80",
+    "src/mikihouse_luyao/wechat_daily_production.py": "7f7e252c811d87f623a156d22b95ecfbc67a2a6910e8737591db85f48c82972b",
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "db576a00d62ce8d090b7e95e14d0301edd8991a16b0ce8b50260674f5a57f81d",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "e459b595261d22d7c1aa195a1365feaf3c10b47dc9538905ea2fd9994b034e5c",
+    "src/mikihouse_luyao/wechat_native_picker.py": "b65befb0ca09c60236b4c28b2320400446f82298a9af701ed1911d1b6f344a14",
+    "tests/test_wechat_first_run_acceptance.py": "927ea99cb0d7d43eca961fa52bb60daa5a5125eb36639bdded081f0f4eb7ebfb"
+  }
+}

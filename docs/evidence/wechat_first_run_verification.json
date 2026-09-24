@@ -1,0 +1,20 @@
+{
+  "status": "PASS_NO_FORMAL_WRITE_ACCEPTANCE",
+  "base_main": "36ec9a60f56b372f9286187216101127698295dd",
+  "unified_verification": {"command": ".venv/bin/python scripts/verify_local.py", "status": "PASS", "pytest_passed": 445, "protected_state_deliverables_unchanged": 132},
+  "fresh_date_integration": {"status": "PASS", "evidence": "docs/evidence/wechat_first_run_acceptance.json", "targeted_tests_passed": 99},
+  "app_readonly_runtime": {"status": "PASS", "evidence": "docs/evidence/wechat_first_run_app_smoke.json"},
+  "default_cli_gate": {"status": "PASS", "command": "scripts/verify_wechat_daily_production_acceptance.py --output /private/tmp/mikihouse_first_run_default_gate.json", "production_without_app_permit": "FAILED_CLOSED_PRE_GENERATION_WRITE_GATE", "website_crawl_started": false},
+  "bug_fixed": "Identical image cold-cache workers formerly shared the same .part path; each atomic publish now has its own temporary file.",
+  "cache_concurrency_regression": "8 writers synchronized immediately before atomic replace; all succeed, complete final content, no temporary residue",
+  "business_rule_or_pdf_layout_changes": false,
+  "historical_20260924_pass_evidence_modified": false,
+  "production_save_enabled": false,
+  "real_wechat_mutations": 0,
+  "shijiu_requests": 0,
+  "real_authorization_generated": 0,
+  "network_smoke": "NOT_RUN; no Storefront parsing or resource contract changes; cache publication-only fix",
+  "pdf_visual_qa": "NOT_APPLICABLE; no layout changes; generated fixture PDFs used for automated text validation only",
+  "new_date_live_wechat_run": "NOT_RUN_BY_DESIGN; OS/clipboard/AX simulated, real Sink logic executed",
+  "ci": "See GitHub CI for final commit; pending at report creation"
+}

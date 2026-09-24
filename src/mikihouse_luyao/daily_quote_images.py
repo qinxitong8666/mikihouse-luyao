@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import tempfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
@@ -20,9 +21,21 @@ class DailyQuoteImageError(RuntimeError):
 
 def _atomic_write(path: Path, data: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(f".{path.name}.part")
-    temporary.write_bytes(data)
-    temporary.replace(path)
+    # Identical images share a content-addressed target. Concurrent first-run
+    # workers must not share its temporary filename (one replace could remove
+    # another worker's pending file).
+    with tempfile.NamedTemporaryFile(dir=path.parent, prefix=f".{path.name}.", suffix=".part", delete=False) as handle:
+        temporary = Path(handle.name)
+        try:
+            handle.write(data)
+            handle.flush()
+        except BaseException:
+            temporary.unlink(missing_ok=True)
+            raise
+    try:
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def download_main_image(

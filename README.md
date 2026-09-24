@@ -4,6 +4,10 @@
 
 ## 每日报价（一键主入口）
 
+**全新日期正常首次运行：无正式写入最终验收 PASS。** 新增 `PYTHONPATH=src .venv/bin/python scripts/verify_wechat_first_run_acceptance.py`：在临时目录以新日期 9/25、跨月 10/1 的三分类 fixture 运行普通 App 命令入口、真实报价生成器与 `MacWeChatFavoriteSink.save`，不调用任何日期专用恢复脚本。真实生成 manifest、缩略图、PDF、文字及 preview；仅官网/FX/源图片、App 许可和桌面 OS 边界模拟，**不代表又执行了一次真实微信保存**。校验 PDF→文字顺序、首段后 payload 标题绑定、CFURL 无关节点跳过但目标完整路径唯一匹配、单次 AXOpen/正文末尾附件、连续分块/分别重开回读，以及重复运行无动作、picker 异常和标题歧义立即冻结。99 项专项测试通过，见[机器报告](docs/evidence/wechat_first_run_acceptance.json)。现有 App 已另行完成只读启动/环境/按钮 smoke，[报告](docs/evidence/wechat_first_run_app_smoke.json)；未授权、未创建或修改微信收藏，9/24 PASS 状态未改。
+
+本轮发现并修复首次冷缓存并发缺陷：多个商品共用相同图片时，共享 `.part` 文件会互相抢占；现在每次原子写入使用独立临时文件，8 线程屏障回归验证无冲突。图片内容、压缩参数、PDF 版式、筛选和报价规则均未改变。真实网络及新日期微信写入本轮均不执行，默认 `production_save_enabled=false` 保持。
+
 **最新状态（2026-09-24）：正式双收藏 checkpoint / report 均为 PASS。** 本轮不打开、不编辑已 PASS 的 PDF 收藏，PDF 文件、附件验收证据和 PDF stage 完整保持不变。只读证明现有文字 10,952 字符恰好等于前两个完整 chunk（5,485 + 5,467）；微信剪贴板只把 LF 转为 CR，校验仅统一换行编码，绝不裁剪空白或忽略内容差异。随后只追加第 3–13 块，共 59,698 字符，每块 mutation 前落盘、累计正文强回读后落盘，未重发前两块、未新建或覆盖收藏。保存、按标题唯一重开后全文 70,650 字符及 EOL-only SHA-256 一致，文字标题候选仍为 1。重开初次读取未包含全部换行，仅重试只读回读后匹配，没有重发文字。见[最终机器证据](docs/evidence/wechat_text_append_20260924.json)。
 
 今后新建文字草稿首次粘贴后，通过有界只读等待绑定 payload 标题，再进行第一次正文回读及后续追加；不再重新查找通用“笔记”。其他用户笔记仍不读、不关、不改。`scripts/recover_wechat_text_20260924.py` 是本次明确授权的固定日期/固定 payload 追加工具（默认只读），不是 App 门禁旁路或通用重试入口；消费后的 recovery marker 和 PASS checkpoint 会拒绝再次执行。仓库 `production_save_enabled=false` 不变。本轮 PDF 唯一性和附件沿用此前 PASS 证据，未为重复验收而操作 PDF。

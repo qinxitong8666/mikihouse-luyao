@@ -1,0 +1,30 @@
+{
+  "app_one_time_authorization_available": true,
+  "application": "MIKI HOUSE 报价助手",
+  "bundle_identifier": "cn.luyao.mikihouse.quoteassistant",
+  "buttons": {
+    "choose_repository": "选择仓库…",
+    "generate_and_save_two_favorites": "生成并保存两个微信收藏",
+    "generate_today": "生成今日报价",
+    "open_output_directory": "打开输出目录",
+    "open_pdf": "打开 PDF",
+    "recover_frozen_pdf_attachment": "恢复冻结PDF附件",
+    "safe_rebuild_missing_favorites": "安全重建已删除收藏"
+  },
+  "environment_ready": true,
+  "latest_summary": {
+    "fx_rate_display": "0.04247391",
+    "pdf_size": "22.24 MB",
+    "product_count": "1786",
+    "quote_date": "2026-09-24"
+  },
+  "production_button_enabled": true,
+  "runtime_errors": [],
+  "schema_version": 1,
+  "shijiu_request_count": 0,
+  "status": "PASS",
+  "tracked_production_save_enabled": false,
+  "website_request_count": 0,
+  "wechat_mutation_count": 0,
+  "wechat2_installed": true
+}
