@@ -4,6 +4,13 @@
 
 ## 每日报价（一键主入口）
 
+**2026-09-25：原生 AX 窗口身份修复，真实恢复仍冻结，尚未双收藏 PASS。**
+原首次运行已经写入正确 PDF 正文，但旧 runner 在标题异步变化时连续找不到窗口，尚未打开 picker 就停止。现改为创建前后原生 `AXWindows` 引用差集绑定本次新窗口；通过 `CFEqual` 保持同一 AX 身份直到保存，不用窗口序号、可见标题或其他笔记重绑定。正文回读、分块追加、Command+O、note-owned sheet、关闭均复用该引用；窗口消失/替换立即停止。payload 标题只用于正文校验及保存后的收藏搜索/唯一重开。其他用户笔记（包括空白笔记）不读、不关、不改。
+
+本次只读确认 PDF 标题1条、文字标题0条，现有99字符 PDF 正文完整匹配且附件0。新绑定路径只读正文通过；单次 Command+O 打开后，首次实现错误要求焦点仍是父 AXWindow，被 macOS 转移到其 `open-panel` 子 AXSheet 的正常行为拦停。**没有选择文件、上传附件、重贴正文或创建文字收藏**，冻结 checkpoint 和旧证据已保留。现已修正为仅接受该保留窗口或它唯一的原生 open-panel 子sheet焦点，并真实只读核验通过；普通编辑器动作仍禁止在 modal sheet 内执行。完整附件/保存/重开链路尚未通过新实现验收，因此 `retained_ax_window_runtime_validation_status=BLOCKED_RUNTIME_ACCEPTANCE`，默认 `production_save_enabled=false` 仍不变。需新的明确授权才可继续当前已打开选择器，不得重新运行旧恢复、重发 Command+O 或重建PDF。见[本轮证据](docs/evidence/wechat_retained_window_20260925.json)。
+
+以下 9/24 及首次离线测试为历史证据，不代表 9/25 已完成。
+
 **全新日期正常首次运行：无正式写入最终验收 PASS。** 新增 `PYTHONPATH=src .venv/bin/python scripts/verify_wechat_first_run_acceptance.py`：在临时目录以新日期 9/25、跨月 10/1 的三分类 fixture 运行普通 App 命令入口、真实报价生成器与 `MacWeChatFavoriteSink.save`，不调用任何日期专用恢复脚本。真实生成 manifest、缩略图、PDF、文字及 preview；仅官网/FX/源图片、App 许可和桌面 OS 边界模拟，**不代表又执行了一次真实微信保存**。校验 PDF→文字顺序、首段后 payload 标题绑定、CFURL 无关节点跳过但目标完整路径唯一匹配、单次 AXOpen/正文末尾附件、连续分块/分别重开回读，以及重复运行无动作、picker 异常和标题歧义立即冻结。99 项专项测试通过，见[机器报告](docs/evidence/wechat_first_run_acceptance.json)。现有 App 已另行完成只读启动/环境/按钮 smoke，[报告](docs/evidence/wechat_first_run_app_smoke.json)；未授权、未创建或修改微信收藏，9/24 PASS 状态未改。
 
 本轮发现并修复首次冷缓存并发缺陷：多个商品共用相同图片时，共享 `.part` 文件会互相抢占；现在每次原子写入使用独立临时文件，8 线程屏障回归验证无冲突。图片内容、压缩参数、PDF 版式、筛选和报价规则均未改变。真实网络及新日期微信写入本轮均不执行，默认 `production_save_enabled=false` 保持。

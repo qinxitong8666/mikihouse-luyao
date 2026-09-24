@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "quote_date": "2026-09-25",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "created_at": "2026-09-25T00:48:00.171142+09:00",
+  "updated_at": "2026-09-25T00:48:28.085749+09:00",
+  "stages": {
+    "pdf": {
+      "status": "FROZEN_AFTER_MUTATION_ATTEMPT",
+      "payload_sha256": "7609d03281ceccba3ddff5efb1bba8992970da95e399715154fb5a94ec1e671e",
+      "mutation_attempt_count": 1,
+      "mutation_started_at": "2026-09-25T00:48:00.171410+09:00",
+      "error_type": "WeChatRuntimeError",
+      "error": "post-readback note title did not stabilize; no picker opened: [{\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}, {\"matching_window_count\": 0}]"
+    },
+    "text": {
+      "status": "PENDING",
+      "payload_sha256": "74ca5e6a589b8178fb20ff1292fdd23f2fad789ffc33006b93917b0781b35f63",
+      "mutation_attempt_count": 0
+    }
+  },
+  "favorite_create_count": 0,
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

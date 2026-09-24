@@ -34,6 +34,7 @@ class NativePickerAX:
         self.title = title
         p = C.c_void_p
         self._bind(self.cf, "CFRelease", None, [p])
+        self._bind(self.cf, "CFEqual", C.c_bool, [p, p])
         self._bind(self.cf, "CFStringCreateWithCString", p, [p, C.c_char_p, C.c_uint32])
         self._bind(self.cf, "CFStringGetCString", C.c_bool, [p, C.c_char_p, C.c_long, C.c_uint32])
         self._bind(self.cf, "CFGetTypeID", C.c_ulong, [p])
@@ -115,6 +116,17 @@ class NativePickerAX:
         return self.text(self.attr(node, name))
 
     def owned_note(self):
+        if getattr(self, "bound_note", None):
+            note = self.bound_window()
+            focused = self.attr(self.app, "AXFocusedWindow")
+            frontmost = self.attr(self.app, "AXFrontmost")
+            # macOS AXFocusedWindow becomes this exact child AXSheet while
+            # the native file panel is open. It is not a replacement note.
+            focused_owner = self.focus_belongs_to_note(note, focused)
+            if (not focused_owner or not frontmost
+                    or not self.cf.CFBooleanGetValue(frontmost)):
+                raise WeChatRuntimeError("retained note is not focused; no action")
+            return note
         windows = self.array(self.attr(self.app, "AXWindows"))
         notes = [w for w in windows if self.value(w, "AXTitle") == self.title]
         if len(notes) != 1 or not windows or self.value(windows[0], "AXTitle") != self.title:
@@ -123,6 +135,54 @@ class NativePickerAX:
         if not frontmost or not self.cf.CFBooleanGetValue(frontmost):
             raise WeChatRuntimeError("WeChat2 is not frontmost; no picker action")
         return notes[0]
+
+    def focus_belongs_to_note(self, note, focused):
+        if not focused:
+            return False
+        if self.cf.CFEqual(note, focused):
+            return True
+        panels = [c for c in self.array(self.attr(note, "AXChildren"))
+                  if self.value(c, "AXRole") == "AXSheet"
+                  and self.value(c, "AXIdentifier") == "open-panel"]
+        return len(panels) == 1 and bool(self.cf.CFEqual(panels[0], focused))
+
+    def window_refs(self):
+        # AXWindows CFArray stays retained in refs for the invocation lifetime.
+        return self.array(self.attr(self.app, "AXWindows"))
+
+    def bind_new_window(self, before):
+        candidates = [w for w in self.window_refs()
+                      if not any(self.cf.CFEqual(w, old) for old in before)
+                      and self.value(w, "AXRole") == "AXWindow"
+                      and self.value(w, "AXTitle") == "笔记"]
+        if len(candidates) != 1:
+            raise WeChatRuntimeError("new native AX window delta is not unique")
+        self.bound_note = candidates[0]
+
+    def bind_exact_title(self, title):
+        from .wechat_favorite_runtime import payload_title_matches
+        candidates = [w for w in self.window_refs()
+                      if self.value(w, "AXRole") == "AXWindow"
+                      and payload_title_matches(self.value(w, "AXTitle"), title)]
+        if len(candidates) != 1:
+            raise WeChatRuntimeError("existing native target window is not unique")
+        self.bound_note = candidates[0]
+
+    def bound_present(self):
+        return any(self.cf.CFEqual(w, self.bound_note) for w in self.window_refs())
+
+    def bound_window(self):
+        matches = [w for w in self.window_refs() if self.cf.CFEqual(w, self.bound_note)]
+        if len(matches) != 1 or self.value(matches[0], "AXRole") != "AXWindow":
+            raise WeChatRuntimeError("retained native note disappeared/replaced; no rebind")
+        return matches[0]
+
+    def raise_bound(self):
+        note = self.bound_window()
+        error = self.ax.AXUIElementPerformAction(note, self.string("AXRaise"))
+        if error:
+            raise WeChatRuntimeError(f"retained native note AXRaise failed ({error})")
+        self.owned_note()
 
     def owned_panel(self, *, allow_pending: bool = False):
         note = self.owned_note()

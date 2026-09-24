@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION",
+  "quote_date": "2026-09-25",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "title_results": [
+    {
+      "title_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+      "search_candidate_count": 1,
+      "search_tree_sha256": "b418006f88b0047dd5e8b54b36cc58f9e47c89508a94e31f8663ecb28a1885f0",
+      "search_marker_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+    },
+    {
+      "title_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+      "search_candidate_count": 0,
+      "search_tree_sha256": "adb89cb0747afb30cc5a676f6520bf5b5b749cf5fb08d4d73dfa027d5bb2547c",
+      "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+    }
+  ],
+  "exact_title_counts": [
+    1,
+    0
+  ],
+  "title_scoped_explicit_recovery": false,
+  "native_reference_explicit_recovery": false,
+  "payload_draft_proof": {
+    "status": "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT",
+    "window": {
+      "index": 2,
+      "title": "MIKI HOUSE 9月25日报价｜P",
+      "role": "AXWindow",
+      "payload_title": "MIKI HOUSE 9月25日报价｜PDF版",
+      "new_draft": false,
+      "native_binding": null
+    },
+    "comparison": {
+      "status": "NORMALIZED_READBACK_MATCH",
+      "exact_hash_match": false,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8",
+        "normalized_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "head_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "tail_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      },
+      "actual": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "458e49c0d8f473ca8df273f4e5de355c546bb4f014e0c169ccd7499e8633b66c",
+        "normalized_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "head_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "tail_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "readback": {
+      "copy_status": "COPY_READ",
+      "attempt_count": 1,
+      "selection_delay_seconds": 1.5,
+      "clipboard_timeout_seconds": 8.0,
+      "attempts": [
+        {
+          "attempt": 1,
+          "copy_action_status": "COPY_SENT",
+          "copy_action_returncode": 0,
+          "clipboard_changed": true,
+          "fingerprint": {
+            "raw_character_count": 99,
+            "normalized_character_count": 98,
+            "utf8_byte_count": 207,
+            "line_count": 6,
+            "raw_sha256": "458e49c0d8f473ca8df273f4e5de355c546bb4f014e0c169ccd7499e8633b66c",
+            "normalized_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+            "head_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+            "tail_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+            "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+            "last_line": "库存随官网变化，下单前请再次确认"
+          }
+        }
+      ],
+      "fingerprint": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "458e49c0d8f473ca8df273f4e5de355c546bb4f014e0c169ccd7499e8633b66c",
+        "normalized_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "head_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "tail_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+        "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "attachment_marker_count": 0,
+    "other_note_body_reads": 0,
+    "mutation_count": 0
+  },
+  "pdf_original_mutation_attempt_count": 1,
+  "text_mutation_attempt_count": 0,
+  "checkpoint_reset_count": 0,
+  "wechat_mutation_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

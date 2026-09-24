@@ -619,7 +619,9 @@ def audit_frozen_pdf_recovery_readonly(
     explicit_resume = title_scoped_resume or native_reference_resume
     if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT" and not explicit_resume:
         raise WeChatDailyProductionError("PDF recovery requires one frozen PDF attempt")
-    if pdf_stage.get("error") not in {
+    title_timeout = str(pdf_stage.get("error") or "").startswith(
+        "post-readback note title did not stabilize; no picker opened: ")
+    if not title_timeout and pdf_stage.get("error") not in {
         "attachment was not visible before save",
         "post-readback note title does not match verified body",
     }:
@@ -645,7 +647,7 @@ def audit_frozen_pdf_recovery_readonly(
             "PDF recovery requires exactly one PDF title and zero text titles"
         )
     draft_proof = None
-    if explicit_resume:
+    if explicit_resume or title_timeout:
         draft_proof = target.audit_pdf_draft_read_only(preflight["payloads"]["pdf"])
         if (draft_proof.get("status") != "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT"
                 or draft_proof.get("attachment_marker_count") != 0

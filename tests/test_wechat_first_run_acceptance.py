@@ -59,6 +59,7 @@ class Desktop:
         monkeypatch.setattr(r, 'select_target_process', lambda: dict(pid=123, bundle_id=r.TARGET_BUNDLE_ID,
                                                                   app_path='/SIMULATED/微信2.app', version='fixture'))
         monkeypatch.setattr(r, 'get_windows', self.windows)
+        monkeypatch.setattr(r, '_native_notes', {})
         monkeypatch.setattr(r, '_raise_note', self.raise_note)
         monkeypatch.setattr(r, '_clipboard_text', lambda: self.clipboard)
         monkeypatch.setattr(r, '_set_clipboard_text', lambda value: setattr(self, 'clipboard', value))
@@ -75,7 +76,14 @@ class Desktop:
             # Real exact_file/open_exact_file_once scan and one-shot semantics.
             def __init__(self, pid, title):
                 assert desktop.active and desktop.active['title'].startswith(title)
+                self.owner = desktop.active
                 self.ax = SimpleNamespace(AXUIElementPerformAction=self.perform)
+            def bound_window(self):
+                assert desktop.active is self.owner
+                return self.owner
+            def owned_note(self): return self.bound_window()
+            def bound_present(self): return desktop.active is self.owner
+            def close(self): pass
             def __enter__(self): return self
             def __exit__(self, *args): pass
             def string(self, value): return value
@@ -119,14 +127,16 @@ class Desktop:
     def raise_note(self, pid, bundle, note):
         assert note.index != 99
         if self.active['text']:
-            assert not note.new_draft and note.payload_title == self.active['title']
+            assert (note.native_binding or not note.new_draft) and note.payload_title == self.active['title']
         self.events.append(('raise', note.title))
 
     def create(self, *args):
         assert self.active is None
         self.active = dict(title='笔记', text='', attachment=None)
         self.events.append('create')
-        return r.WindowIdentity(1, '笔记', 'AXWindow'), {'simulated': True}
+        note = r._register_native_note(123, r.WindowIdentity(1, '笔记', 'AXWindow'),
+                                       native.NativePickerAX(123, '笔记'))
+        return note, {'simulated': True, 'identity': 'RETAINED_NATIVE_AX_WINDOW_DELTA'}
 
     def script(self, script):
         assert 'click at' not in script
@@ -143,7 +153,7 @@ class Desktop:
         if 'return "PICKER_KEYS_SENT_ONCE"' in script:
             assert script.index('key code 125') < script.index('key code 31')
             assert script.index('key code 124') < script.index('key code 31')
-            assert self.active['title'][:20] in script
+            assert 'every window whose name' not in script
             self.events.append('Command+O_once'); self.panel = True
             return dict(returncode=0, stdout='PICKER_KEYS_SENT_ONCE')
         if 'return "KEY_SENT_ONCE"' in script:
@@ -152,7 +162,7 @@ class Desktop:
         raise AssertionError('unexpected system action')
 
     def read(self, pid, bundle, note, **kwargs):
-        assert note.index != 99 and not note.new_draft
+        assert note.index != 99 and (note.native_binding or not note.new_draft)
         assert note.payload_title == self.active['title']
         self.events.append(('read', self.active['title']))
         return self.active['text'].replace('\n', '\r'), {'simulated': True}
@@ -163,7 +173,10 @@ class Desktop:
 
     def reopen(self, pid, bundle, title):
         assert self.active is None and title in self.notes
+        if self.failure == 'ambiguous' and title.endswith('文字版'):
+            raise r.WeChatRuntimeError('saved note search is not unique: 2 candidates')
         self.active = self.notes[title]
+        self.lag = 0  # saved/reopened title, not the still-anonymous new editor
         self.events.append(('reopen', title))
         return r.WindowIdentity(1, title[:20], 'AXWindow', title), {'search_candidate_count': 1}
 
@@ -192,6 +205,9 @@ def test_new_date_app_normal_entry_real_sink_no_recovery(tmp_path, monkeypatch, 
     config = json.loads((ROOT / 'config/daily_quote.json').read_text())
     config['crawl_minimum_product_count'] = 1  # small fixture, never production
     cfg = tmp_path / 'config.json'; cfg.write_text(json.dumps(config))
+    runtime_config = json.loads((ROOT / 'config/wechat_favorite_runtime.json').read_text())
+    runtime_config['retained_ax_window_runtime_validation_status'] = 'PASS'  # isolated fixture, not runtime evidence
+    runtime_cfg = tmp_path / 'runtime.json'; runtime_cfg.write_text(json.dumps(runtime_config))
     rows = [product(f'88-{i:04d}-001', ['セカンドベビーシューズ', 'ベビー肌着', 'シャツ'][i % 3],
                     tags=['baby'] if i % 3 == 1 else []) for i in range(300)]
     crawl = Mock(return_value=(rows, {'storefront_product_count': len(rows)}))
@@ -207,6 +223,7 @@ def test_new_date_app_normal_entry_real_sink_no_recovery(tmp_path, monkeypatch, 
     args = build_production_command(Path('python'), ROOT, r.PRODUCTION_CONFIRMATION)[2:] + [
         '--quote-date', date, '--output-root', str(output), '--thumbnail-cache', str(tmp_path / 'cache'),
         '--config', str(cfg), '--app-authorization-file', str(tmp_path / 'SIMULATED_ONLY')]
+    args += ['--runtime-config', str(runtime_cfg)]
     result = core(args)
     cp = json.loads((daily / 'wechat_daily_production_checkpoint.json').read_text())
     assert crawl.call_count == fx.call_count == permit.call_count == 1

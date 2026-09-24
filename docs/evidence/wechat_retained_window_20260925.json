@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_AFTER_SINGLE_COMMAND_O_NO_FILE_SELECTION",
+  "quote_date": "2026-09-25",
+  "base_head": "463ba8b5200aa1977811b886543baba4adfae522",
+  "root_cause": "Normal first-run re-scanned by asynchronously changing visible title after correct initial body paste; matching_window_count=0 before picker.",
+  "implemented_identity": "RETAINED_NATIVE_AX_WINDOW_DELTA_CFEqual",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "2f3a2bcede9b814183f6f9a62fac0e8cd7159f274ba33d9daa0116d519143ed5",
+    "src/mikihouse_luyao/wechat_native_picker.py": "b03807312df442e7549e64b19548553c7d3694c1b464a5bd375dec56beb5e928",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "0363cde8c8205fe6f678921867115324950ed9878376c4e9a817671548175d8f",
+    "src/mikihouse_luyao/wechat_daily_production.py": "83836e10150910449c08d2b2c0d51839b31aedc6e9ee2f981f1b1a87553bc7df"
+  },
+  "pre_mutation_readonly": {
+    "pdf_title_count": 1,
+    "text_title_count": 0,
+    "pdf_body_characters": 99,
+    "full_normalized_sha256": "39ae786fc38b7fdff4a416f192de157bab511e43b086149f16c9c4759a043d6f",
+    "attachment_marker_count": 0,
+    "retained_native_body_readback": "PASS"
+  },
+  "live_attempt": {
+    "command_o_dispatch_count": 1,
+    "file_selection_count": 0,
+    "pdf_attachment_upload_count": 0,
+    "pdf_create_count": 0,
+    "pdf_body_paste_count": 0,
+    "text_create_count": 0,
+    "automatic_mutation_retry_count": 0,
+    "error": "retained note is not focused; no action",
+    "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "no_retry": true
+  },
+  "readonly_forensics": {
+    "owner_title": "MIKI HOUSE 9月25日报价｜P",
+    "owner_role": "AXWindow",
+    "owner_children_roles": [
+      "AXButton",
+      "AXButton",
+      "AXButton",
+      "AXSheet"
+    ],
+    "focused_role": "AXSheet",
+    "focused_identifier": "open-panel",
+    "focused_equals_exact_owned_panel": true,
+    "corrected_owner_sheet_focus_readonly": "PASS",
+    "mutation_count": 0
+  },
+  "remaining": "Explicit new authorization required to continue existing picker; no second Command+O, no body repaste, no new PDF. Full save/reopen for new implementation NOT VERIFIED.",
+  "runtime_acceptance": "BLOCKED_RUNTIME_ACCEPTANCE",
+  "production_save_enabled": false,
+  "shijiu_request_count": 0,
+  "chat_send_count": 0,
+  "other_note_body_read_count": 0,
+  "other_note_edit_or_close_count": 0,
+  "preserved_history": [
+    "2026-09-24 final PASS",
+    "all prior Shijiu and PDF evidence",
+    "2026-09-25 original checkpoint/report in wechat_retained_window_before"
+  ],
+  "offline_verification": {
+    "status": "PASS",
+    "command": ".venv/bin/python scripts/verify_local.py",
+    "pytest_passed": 456,
+    "protected_state_deliverables_unchanged": 132,
+    "historical_20260924_checkpoint_sha256": "d245ebbb96f4cebde3e4da6a1cef6f284e81e0d6796f07c8cfede04f8a087687",
+    "historical_20260924_report_sha256": "c88b9a620094b0e7d8cbd6b91d4232aedf0bf33f35fe9f649dca0280892f42f8",
+    "note": "Mock tests must not be represented as live PASS."
+  }
+}

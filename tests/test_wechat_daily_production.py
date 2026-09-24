@@ -606,7 +606,8 @@ def _write_canonical_frozen_attachment_checkpoint(
     )
 
 
-@pytest.mark.parametrize("error", ["attachment was not visible before save", "post-readback note title does not match verified body"])
+@pytest.mark.parametrize("error", ["attachment was not visible before save", "post-readback note title does not match verified body",
+    'post-readback note title did not stabilize; no picker opened: [{"matching_window_count": 0}]'])
 def test_frozen_pdf_recovery_requires_one_pdf_zero_text_and_completes_once(
     tmp_path: Path, error: str,
 ) -> None:

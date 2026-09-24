@@ -7,7 +7,7 @@ import re
 import subprocess
 import time
 import uuid
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any, Callable
 
@@ -33,6 +33,38 @@ class WindowIdentity:
     role: str
     payload_title: str | None = None
     new_draft: bool = False
+    native_binding: str | None = None
+
+
+_native_notes: dict[str, tuple[int, Any]] = {}
+
+
+def retained_note_ax(pid: int, note: WindowIdentity):
+    entry = _native_notes.get(note.native_binding or "")
+    if not entry or entry[0] != pid:
+        raise WeChatRuntimeError("missing invocation-local native note identity")
+    entry[1].bound_window()
+    return entry[1]
+
+
+def _register_native_note(pid: int, note: WindowIdentity, ax) -> WindowIdentity:
+    token = uuid.uuid4().hex
+    _native_notes[token] = (pid, ax)
+    return replace(note, native_binding=token)
+
+
+def bind_existing_note(pid: int, note: WindowIdentity) -> WindowIdentity:
+    if note.native_binding:
+        retained_note_ax(pid, note)
+        return note
+    from .wechat_native_picker import NativePickerAX
+    ax = NativePickerAX(pid, note.title)
+    try:
+        ax.bind_exact_title(note.payload_title or note.title)
+        return _register_native_note(pid, note, ax)
+    except Exception:
+        ax.close()
+        raise
 
 
 def normalize_wechat_text(text: str) -> str:
@@ -407,20 +439,23 @@ def navigate_to_favorites(pid: int, bundle_id: str) -> dict[str, Any]:
 
 
 def create_new_note(pid: int, bundle_id: str) -> tuple[WindowIdentity, dict[str, Any]]:
+    from .wechat_native_picker import NativePickerAX
     fingerprint = navigate_to_favorites(pid, bundle_id)
     before = get_windows(pid)
-    press_menu_item(pid, bundle_id, "文件", "新建笔记")
+    ax = NativePickerAX(pid, "")
+    refs_before = ax.window_refs()
+    try:
+        press_menu_item(pid, bundle_id, "文件", "新建笔记")
+        ax.bind_new_window(refs_before)
+    except Exception:
+        ax.close()
+        raise
     after = get_windows(pid)
-    before_keys = {(row.title, row.role) for row in before}
-    new = [row for row in after if row.title == "笔记" and row.role == NOTE_WINDOW_ROLE and (row.title, row.role) not in before_keys]
-    if len(new) != 1:
-        before_note_count = len([row for row in before if row.title == "笔记" and row.role == NOTE_WINDOW_ROLE])
-        after_notes = [row for row in after if row.title == "笔记" and row.role == NOTE_WINDOW_ROLE]
-        if len(after_notes) == before_note_count + 1 and after_notes and after_notes[0].index == 1:
-            new = [after_notes[0]]
-    if len(new) != 1:
-        raise WeChatRuntimeError(f"new note window not unique: {after}")
-    return new[0], {"favorites": fingerprint, "windows_before": [asdict(row) for row in before], "windows_after": [asdict(row) for row in after]}
+    # Native retained AX identity, not title/index, owns every subsequent step.
+    note = WindowIdentity(0, ax.value(ax.bound_window(), "AXTitle"), NOTE_WINDOW_ROLE)
+    return _register_native_note(pid, note, ax), {"favorites": fingerprint,
+        "identity": "RETAINED_NATIVE_AX_WINDOW_DELTA", "windows_before": [asdict(row) for row in before],
+        "windows_after": [asdict(row) for row in after]}
 
 
 def _clipboard_text() -> str:
@@ -437,6 +472,15 @@ def _set_clipboard_text(text: str) -> None:
 
 
 def _raise_note(pid: int, bundle_id: str, note: WindowIdentity) -> None:
+    if note.native_binding:
+        ax = retained_note_ax(pid, note)
+        result = _osascript(f'tell application id "{bundle_id}" to activate')
+        if result["returncode"]:
+            raise WeChatRuntimeError("cannot activate retained note application")
+        ax.raise_bound()
+        if ax.owned_panel(allow_pending=True) is not None:
+            raise WeChatRuntimeError("retained note has modal sheet; no editor action")
+        return
     if note.payload_title:
         note = require_payload_note_window(pid, note.payload_title, new_draft=note.new_draft)
     exact_title = json.dumps(note.title, ensure_ascii=False)
@@ -603,7 +647,7 @@ def write_note_text(
                 raise WeChatRuntimeError(f"chunk {index} paste failed")
             time.sleep(min(3.0, max(0.5, len(chunk) / 5000)))
             expected += chunk
-            if index == 1 and note.payload_title and note.new_draft:
+            if index == 1 and note.payload_title and note.new_draft and not note.native_binding:
                 # The anonymous draft belongs to this invocation only before
                 # its first paste. Never reacquire `笔记` after text was sent:
                 # the editor updates its title asynchronously during readback.
@@ -777,12 +821,24 @@ def attach_file_with_toolbar_picker(
     """
     from .wechat_pdf_keyboard import attach_pdf_once
 
-    return attach_pdf_once(pid, bundle_id, file_path, expected_text=expected_text)
+    return attach_pdf_once(pid, bundle_id, file_path, expected_text=expected_text, note=note)
 
 
 def close_and_save_note(
     pid: int, bundle_id: str, note: WindowIdentity, *, native: bool = False,
 ) -> dict[str, Any]:
+    if note.native_binding:
+        ax = retained_note_ax(pid, note)
+        _raise_note(pid, bundle_id, note)
+        close_action = ax.close_note_once()
+        for poll in range(20):
+            if not ax.bound_present():
+                ax.close()
+                _native_notes.pop(note.native_binding, None)
+                return {"status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED", "native_close": close_action,
+                        "identity": "RETAINED_NATIVE_AX_WINDOW", "close_poll_attempt_count": poll + 1}
+            time.sleep(0.5)
+        raise WeChatRuntimeError("retained note did not close; save unknown; no retry")
     title = note.payload_title or note.title
     current = require_payload_note_window(pid, title)
     before = [current]
@@ -1129,6 +1185,9 @@ class MacWeChatFavoriteSink:
                 "other_note_body_reads": 0, "mutation_count": 0}
 
     def _require_pdf_runtime_acceptance(self, payload: dict[str, Any], production: bool) -> None:
+        if (production and self.runtime_config.get("retained_ax_window_runtime_validation_status", "PASS")
+                != "PASS"):
+            raise WeChatRuntimeError("原生窗口绑定完整运行验收尚未通过，正式写入已阻止；不得重试冻结任务")
         if (production and payload.get("attachments") and
                 self.runtime_config.get("coordinate_free_pdf_runtime_validation_status") != "PASS"):
             raise WeChatRuntimeError(
@@ -1218,10 +1277,8 @@ class MacWeChatFavoriteSink:
                 "verification_requirement": "operator/Codex screenshot confirmed empty before invocation",
             }
         else:
-            if any(w.title == "笔记" for w in _note_windows(pid)):
-                raise WeChatRuntimeError("an unrelated blank draft is open; cannot prove ownership of a new draft")
             note, creation = create_new_note(pid, bundle_id)
-            note = WindowIdentity(note.index, note.title, note.role, str(payload["title"]), True)
+            note = replace(note, payload_title=str(payload["title"]), new_draft=True)
         expected_text = f"{payload['title']}\n{payload.get('body') or ''}".rstrip() + "\n"
         write_evidence = write_note_text(
             pid,
@@ -1251,8 +1308,10 @@ class MacWeChatFavoriteSink:
             if evidence["status"] != "ATTACHMENT_VISIBLE":
                 raise WeChatRuntimeError("attachment was not visible before save")
             attachment_evidence.append(evidence)
-        from .wechat_pdf_keyboard import wait_for_verified_note_title
-        note, title_binding = wait_for_verified_note_title(pid, str(payload["title"]))
+        title_binding = {"status": "RETAINED_NATIVE_AX_WINDOW_TITLE_NOT_IDENTITY"}
+        if not note.native_binding:
+            from .wechat_pdf_keyboard import wait_for_verified_note_title
+            note, title_binding = wait_for_verified_note_title(pid, str(payload["title"]))
         closed = close_and_save_note(pid, bundle_id, note, native=True)
         reopened, reopen_evidence = search_and_open_saved_note(pid, bundle_id, payload["title"])
         if attachment_evidence:
@@ -1351,6 +1410,7 @@ class MacWeChatFavoriteSink:
         else:
             raise WeChatRuntimeError("PDF recovery found multiple matching open note windows")
 
+        note = bind_existing_note(pid, note)
         before_text, before_readback = read_note_text(
             pid, bundle_id, note, max_attempts=1
         )
@@ -1369,7 +1429,7 @@ class MacWeChatFavoriteSink:
             expected_text=expected_text,
         )
         closed = close_and_save_note(
-            pid, bundle_id, require_payload_note_window(pid, title), native=True,
+            pid, bundle_id, note, native=True,
         )
         reopened, reopen = search_and_open_saved_note(pid, bundle_id, title)
         actual_text, readback = read_note_text(

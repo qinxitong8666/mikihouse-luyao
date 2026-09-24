@@ -5,6 +5,7 @@ import json
 import hashlib
 import time
 from pathlib import Path
+from contextlib import nullcontext
 from typing import Any
 
 from . import wechat_favorite_runtime as runtime
@@ -45,6 +46,31 @@ def keyboard_picker_script(pid: int, note: runtime.WindowIdentity) -> str:
 
 def open_picker_once(pid: int, note: runtime.WindowIdentity) -> dict[str, Any]:
     from .wechat_native_picker import wait_for_owned_panel
+    if note.native_binding:
+        ax = runtime.retained_note_ax(pid, note)
+        ax.owned_note()
+        if ax.owned_panel(allow_pending=True) is not None:
+            raise runtime.WeChatRuntimeError("existing sheet; no picker dispatch")
+        result = runtime._osascript(f'''tell application "System Events"
+            {runtime._process_selector(pid)}
+            tell targetProc
+                if frontmost is not true then return "NOT_FRONTMOST"
+                key code 125 using command down
+                delay 0.2
+                key code 124 using command down
+                delay 0.2
+                key code 31 using command down
+                return "PICKER_KEYS_SENT_ONCE"
+            end tell
+        end tell''')
+        if result["returncode"] or result["stdout"] != "PICKER_KEYS_SENT_ONCE":
+            raise runtime.WeChatRuntimeError("retained note picker outcome unknown; no retry")
+        for poll in range(25):
+            if ax.owned_panel(allow_pending=True) is not None:
+                return {"status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED", "read_only_polls": poll + 1,
+                        "identity": "RETAINED_NATIVE_AX_WINDOW", "dispatch_count": 1}
+            time.sleep(0.2)
+        raise runtime.WeChatRuntimeError("retained note picker absent; no retry")
     result = runtime._osascript(keyboard_picker_script(pid, note))
     if result["returncode"] != 0 or result["stdout"] != "PICKER_KEYS_SENT_ONCE":
         raise runtime.WeChatRuntimeError(
@@ -108,6 +134,19 @@ def prepare_test_pdf_picker(
 
 def _panel_key(pid: int, note: runtime.WindowIdentity, command: str) -> None:
     # command is an internal literal, never caller-provided input.
+    if note.native_binding:
+        runtime.retained_note_ax(pid, note).owned_panel()
+        result = runtime._osascript(f'''tell application "System Events"
+            {runtime._process_selector(pid)}
+            tell targetProc
+                if frontmost is not true then return "NOT_FRONTMOST"
+                {command}
+                return "KEY_SENT_ONCE"
+            end tell
+        end tell''')
+        if result["returncode"] or result["stdout"] != "KEY_SENT_ONCE":
+            raise runtime.WeChatRuntimeError("retained picker navigation unknown; no retry")
+        return
     script = f'''
     tell application "System Events"
         {runtime._process_selector(pid)}
@@ -176,7 +215,8 @@ def wait_for_verified_note_title(pid: int, expected_title: str) -> tuple[runtime
     )
 
 
-def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text: str) -> dict[str, Any]:
+def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text: str,
+                    note: runtime.WindowIdentity | None = None) -> dict[str, Any]:
     """One exact AXOpen. Never resend a key/upload after ambiguous outcomes."""
     from .wechat_native_picker import NativePickerAX
 
@@ -188,7 +228,15 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
     if "[文件]" in expected_text or path.name in expected_text:
         raise runtime.WeChatRuntimeError("body must not contain attachment marker/filename")
     title = expected_text.splitlines()[0]
-    note, initial_title_binding = wait_for_verified_note_title(pid, title)
+    bound = note is not None and bool(note.native_binding)
+    if bound:
+        runtime.retained_note_ax(pid, note)
+        initial_title_binding = {"status": "RETAINED_NATIVE_AX_WINDOW_TITLE_NOT_IDENTITY"}
+    else:
+        note, initial_title_binding = wait_for_verified_note_title(pid, title)
+    def panel_context():
+        return (nullcontext(runtime.retained_note_ax(pid, note)) if bound
+                else NativePickerAX(pid, note.title))
     if note.role != runtime.NOTE_WINDOW_ROLE:
         raise runtime.WeChatRuntimeError("unique note window required")
     current, before = runtime.read_note_text(pid, bundle_id, note, max_attempts=1)
@@ -198,27 +246,30 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
     # Native title may update only after the editor/clipboard has settled.
     # Rebind after readback; never rely on the new draft's old `笔记` title.
     title = expected_text.splitlines()[0]
-    note, title_binding = wait_for_verified_note_title(pid, title)
+    if bound:
+        title_binding = initial_title_binding
+    else:
+        note, title_binding = wait_for_verified_note_title(pid, title)
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     size = path.stat().st_size
     opened = open_picker_once(pid, note)
     _panel_key(pid, note, 'keystroke "g" using {command down, shift down}')
     time.sleep(0.5)
-    with NativePickerAX(pid, note.title) as panel:
+    with panel_context() as panel:
         panel.set_directory(path.parent)
     _panel_key(pid, note, "key code 36")  # directory navigation, not file open
     time.sleep(0.8)
-    with NativePickerAX(pid, note.title) as panel:
+    with panel_context() as panel:
         panel.exact_file(path)  # read-only proof before the sole file mutation
         if path.stat().st_size != size or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             raise runtime.WeChatRuntimeError("PDF changed before selection; no upload")
         dispatch = panel.open_exact_file_once(path)
     time.sleep(3)
-    with NativePickerAX(pid, note.title) as panel:
+    with panel_context() as panel:
         if panel.owned_panel(allow_pending=True) is not None:
             raise runtime.WeChatRuntimeError("file panel remains after AXOpen; no repeat allowed")
     current_after, after = runtime.read_note_text(
-        pid, bundle_id, runtime.require_payload_note_window(pid, title), max_attempts=1
+        pid, bundle_id, note if bound else runtime.require_payload_note_window(pid, title), max_attempts=1
     )
     comparable = runtime.remove_attachment_placeholders(current_after, 1)
     after_comparison = runtime.compare_text_readback(expected_text, comparable)
