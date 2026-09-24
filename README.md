@@ -4,6 +4,14 @@
 
 ## 每日报价（一键主入口）
 
+**9/25 双收藏最终 PASS：PDF标题1条、文字标题1条，checkpoint/report均PASS。** 原生窗口身份绑定已用于本次PDF附件续行以及正常Sink新建文字收藏。系统焦点仅允许沿已绑定笔记的 `AXWindow → open-panel → GoToWindow` 精确归属链移动；AXRaise单次发送后最多16次只读等待，绝不重发业务动作。PDF只插入一次、未重建或重贴正文；文字70,640字符分13块写入。分别保存重开，PDF正文、附件文件名、文字全文EOL-only SHA-256及唯一标题均通过。[最终机器证据](docs/evidence/wechat_retained_window_final_20260925.json)。`retained_ax_window_runtime_validation_status=PASS`；仓库默认 `production_save_enabled=false` 不变，未来保存仍需App单次授权。
+
+本次是明确授权的分阶段恢复，不冒充另一次全新日期不中断生产实验。临时验收脚本曾误读附件报告字段（正确字段为 `search.search_candidate_count`）而停止；之后仅只读核实PDF成功，再经独立授权创建文字，未重放任何附件动作。所有旧冻结记录/备份保留，9/24 PASS未改。本次未访问Shijiu、发送聊天或操作其他笔记。
+
+以下9/25记录是先前失败/冻结历史，不代表最终状态；各阶段证据和checkpoint备份完整保留。
+
+**9/25 早期续行：冻结于文件选择前。** 原选择器的“前往文件夹”把焦点转到 `GoToWindow`，旧规则缺少第二层而安全停止，尚未填写目录或选择PDF。后续修复只接受精确归属链，外来/同名/重复对话框均拒绝；仅激活微信可能使主窗口获得焦点，不能作为目标笔记获焦证据。见[嵌套sheet历史证据](docs/evidence/wechat_owned_goto_20260925.json)。
+
 **2026-09-25：原生 AX 窗口身份修复，真实恢复仍冻结，尚未双收藏 PASS。**
 原首次运行已经写入正确 PDF 正文，但旧 runner 在标题异步变化时连续找不到窗口，尚未打开 picker 就停止。现改为创建前后原生 `AXWindows` 引用差集绑定本次新窗口；通过 `CFEqual` 保持同一 AX 身份直到保存，不用窗口序号、可见标题或其他笔记重绑定。正文回读、分块追加、Command+O、note-owned sheet、关闭均复用该引用；窗口消失/替换立即停止。payload 标题只用于正文校验及保存后的收藏搜索/唯一重开。其他用户笔记（包括空白笔记）不读、不关、不改。
 

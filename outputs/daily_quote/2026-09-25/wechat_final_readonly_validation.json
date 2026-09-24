@@ -1,0 +1,247 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-09-25T01:38:09.370405+09:00",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "d86071339f2cd6aa7eac243e183d6c313ce0c5c948732c47e5fef9ddf887e2c0",
+        "search_marker_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "447b90d955d90f8d5b7790e1edc57d355ec8793ac933b3dd8bd694b5628acc4a",
+        "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": false,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "exact_title_counts": [
+    1,
+    1
+  ],
+  "text_reopen": {
+    "status": "SAVED_NOTE_REOPENED_UNIQUE",
+    "result_focus": {
+      "status": "EXACT_RESULT_LIST_FOCUSED",
+      "candidate_count": 1,
+      "list_identifier": "fav_detail_list",
+      "query": "MIKI HOUSE 9月25日报价｜文字版",
+      "focus_target": "UNIQUE_EXACT_NOTE_ROW"
+    },
+    "favorites": {
+      "status": "FAVORITES_PAGE_CONFIRMED",
+      "window": {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow",
+        "payload_title": null,
+        "new_draft": false,
+        "native_binding": null
+      },
+      "positive_signals": [
+        "全部收藏",
+        "最近使用",
+        "图片与视频",
+        "笔记",
+        "文件",
+        "小程序"
+      ],
+      "negative_signals": [],
+      "tree_sha256": "447b90d955d90f8d5b7790e1edc57d355ec8793ac933b3dd8bd694b5628acc4a",
+      "tree_line_count": 64
+    },
+    "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+    "search_candidate_count": 1,
+    "search_tree_sha256": "447b90d955d90f8d5b7790e1edc57d355ec8793ac933b3dd8bd694b5628acc4a",
+    "windows_before": [],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "MIKI HOUSE 9月25日报价｜文",
+        "role": "AXWindow",
+        "payload_title": "MIKI HOUSE 9月25日报价｜文字版",
+        "new_draft": false,
+        "native_binding": null
+      }
+    ]
+  },
+  "text_readback": [
+    {
+      "attempt": 1,
+      "readback": {
+        "copy_status": "COPY_READ",
+        "attempt_count": 1,
+        "selection_delay_seconds": 1.5,
+        "clipboard_timeout_seconds": 8.0,
+        "attempts": [
+          {
+            "attempt": 1,
+            "copy_action_status": "COPY_SENT",
+            "copy_action_returncode": 0,
+            "clipboard_changed": true,
+            "fingerprint": {
+              "raw_character_count": 69307,
+              "normalized_character_count": 69307,
+              "utf8_byte_count": 95432,
+              "line_count": 462,
+              "raw_sha256": "563c82392e87b55347cda14396a4c5001b0092742d19ce7128813b63a567d56e",
+              "normalized_sha256": "1727a4a0049d77fd00f924d0618a367bcc3ea9e03734325dd3651d5a592c80c5",
+              "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+              "tail_sha256": "28d5e54f0409071f2ba61c0b50281bb4edb37ead01e225b26e275ceafbe17d86",
+              "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+              "last_line": "【服装】10-1711-494｜253元 白:S(100-110cm)/M(120-130cm)；インディゴブルー/紺×白:SS(80-90cm)/S(100-110cm)/M(120-130cm)10-1821-575｜317元 白/茶:80/90/100；インディゴブルー:80/90/100/110/12010-1"
+            }
+          }
+        ],
+        "fingerprint": {
+          "raw_character_count": 69307,
+          "normalized_character_count": 69307,
+          "utf8_byte_count": 95432,
+          "line_count": 462,
+          "raw_sha256": "563c82392e87b55347cda14396a4c5001b0092742d19ce7128813b63a567d56e",
+          "normalized_sha256": "1727a4a0049d77fd00f924d0618a367bcc3ea9e03734325dd3651d5a592c80c5",
+          "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+          "tail_sha256": "28d5e54f0409071f2ba61c0b50281bb4edb37ead01e225b26e275ceafbe17d86",
+          "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+          "last_line": "【服装】10-1711-494｜253元 白:S(100-110cm)/M(120-130cm)；インディゴブルー/紺×白:SS(80-90cm)/S(100-110cm)/M(120-130cm)10-1821-575｜317元 白/茶:80/90/100；インディゴブルー:80/90/100/110/12010-1"
+        }
+      },
+      "eol_only_sha256": "1727a4a0049d77fd00f924d0618a367bcc3ea9e03734325dd3651d5a592c80c5",
+      "matches": false
+    },
+    {
+      "attempt": 2,
+      "readback": {
+        "copy_status": "COPY_READ",
+        "attempt_count": 1,
+        "selection_delay_seconds": 1.5,
+        "clipboard_timeout_seconds": 8.0,
+        "attempts": [
+          {
+            "attempt": 1,
+            "copy_action_status": "COPY_SENT",
+            "copy_action_returncode": 0,
+            "clipboard_changed": true,
+            "fingerprint": {
+              "raw_character_count": 70409,
+              "normalized_character_count": 70409,
+              "utf8_byte_count": 96534,
+              "line_count": 1564,
+              "raw_sha256": "2ce81599e9d9c4746240ccaecda0952b80b8f75d2d83acef2abd1359f3fb9205",
+              "normalized_sha256": "be655c10bc13cc0275e64ac39011e45abaf0424665a91f3a9dd12701ad07b107",
+              "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+              "tail_sha256": "28d5e54f0409071f2ba61c0b50281bb4edb37ead01e225b26e275ceafbe17d86",
+              "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+              "last_line": "30-3634-492｜6954元 赤/紺:110/120/13030-3635-495｜2055元 紺:110/120/13030-3636-498｜2845元 紺:95/100/110/120/13030-3638-791｜1012元 紺:95/100/110/120；グレー:95/10030-3639-794｜2"
+            }
+          }
+        ],
+        "fingerprint": {
+          "raw_character_count": 70409,
+          "normalized_character_count": 70409,
+          "utf8_byte_count": 96534,
+          "line_count": 1564,
+          "raw_sha256": "2ce81599e9d9c4746240ccaecda0952b80b8f75d2d83acef2abd1359f3fb9205",
+          "normalized_sha256": "be655c10bc13cc0275e64ac39011e45abaf0424665a91f3a9dd12701ad07b107",
+          "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+          "tail_sha256": "28d5e54f0409071f2ba61c0b50281bb4edb37ead01e225b26e275ceafbe17d86",
+          "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+          "last_line": "30-3634-492｜6954元 赤/紺:110/120/13030-3635-495｜2055元 紺:110/120/13030-3636-498｜2845元 紺:95/100/110/120/13030-3638-791｜1012元 紺:95/100/110/120；グレー:95/10030-3639-794｜2"
+        }
+      },
+      "eol_only_sha256": "be655c10bc13cc0275e64ac39011e45abaf0424665a91f3a9dd12701ad07b107",
+      "matches": false
+    },
+    {
+      "attempt": 3,
+      "readback": {
+        "copy_status": "COPY_READ",
+        "attempt_count": 1,
+        "selection_delay_seconds": 1.5,
+        "clipboard_timeout_seconds": 8.0,
+        "attempts": [
+          {
+            "attempt": 1,
+            "copy_action_status": "COPY_SENT",
+            "copy_action_returncode": 0,
+            "clipboard_changed": true,
+            "fingerprint": {
+              "raw_character_count": 70640,
+              "normalized_character_count": 70639,
+              "utf8_byte_count": 96765,
+              "line_count": 1794,
+              "raw_sha256": "38ac9d2347dd086a440bd5d3bd30bfcfd550d6f2b080b04f8c161c60036b1f07",
+              "normalized_sha256": "324180b8571de94e716d699fd4c0bd06da4134c686b12a4f3d147d57e0936191",
+              "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+              "tail_sha256": "15a1a8fce864fe980565e508c5cd00b5769fd6717b07237c1df12b7eea70d3c7",
+              "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+              "last_line": "74-9956-149｜484元 サーモンピンク:80"
+            }
+          }
+        ],
+        "fingerprint": {
+          "raw_character_count": 70640,
+          "normalized_character_count": 70639,
+          "utf8_byte_count": 96765,
+          "line_count": 1794,
+          "raw_sha256": "38ac9d2347dd086a440bd5d3bd30bfcfd550d6f2b080b04f8c161c60036b1f07",
+          "normalized_sha256": "324180b8571de94e716d699fd4c0bd06da4134c686b12a4f3d147d57e0936191",
+          "head_sha256": "3a028f951b16e0471d93c670f7423ac9442c7faade151c0e6865fbf5e356bc17",
+          "tail_sha256": "15a1a8fce864fe980565e508c5cd00b5769fd6717b07237c1df12b7eea70d3c7",
+          "first_line": "MIKI HOUSE 9月25日报价｜文字版",
+          "last_line": "74-9956-149｜484元 サーモンピンク:80"
+        }
+      },
+      "eol_only_sha256": "62ff08448345616393be5edf9edf54f7885be4e3c23c191fb5244b896eeea769",
+      "matches": true
+    }
+  ],
+  "text_close": {
+    "status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED",
+    "windows_before": [
+      {
+        "index": 1,
+        "title": "MIKI HOUSE 9月25日报价｜文",
+        "role": "AXWindow",
+        "payload_title": "MIKI HOUSE 9月25日报价｜文字版",
+        "new_draft": false,
+        "native_binding": null
+      }
+    ],
+    "windows_after": [],
+    "close_poll_attempt_count": 1,
+    "save_prompt_observed": false,
+    "native_close": {
+      "method": "NOTE_OWNED_AXCLOSEBUTTON",
+      "dispatch_count": 1
+    }
+  },
+  "expected_character_count": 70640,
+  "actual_character_count": 70640,
+  "expected_eol_sha256": "62ff08448345616393be5edf9edf54f7885be4e3c23c191fb5244b896eeea769",
+  "actual_eol_sha256": "62ff08448345616393be5edf9edf54f7885be4e3c23c191fb5244b896eeea769",
+  "full_hash_match": true,
+  "pdf_evidence_file": "wechat_pdf_saved_readonly_validation.json",
+  "pdf_reopened_in_this_final_audit": false,
+  "body_write_count": 0,
+  "attachment_insert_count": 0,
+  "note_create_count": 0,
+  "shijiu_request_count": 0,
+  "chat_send_count": 0
+}

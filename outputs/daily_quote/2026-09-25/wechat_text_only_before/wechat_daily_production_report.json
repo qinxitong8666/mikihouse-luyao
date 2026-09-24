@@ -1,0 +1,13 @@
+{
+  "status": "PDF_PASS_TEXT_PENDING_AUTHORIZATION",
+  "quote_date": "2026-09-25",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "pdf_evidence_file": "wechat_pdf_saved_readonly_validation.json",
+  "pdf_title_count": 1,
+  "text_title_count": 0,
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "prior_error": "Local temporary acceptance report used wrong filename evidence key; historical frozen record retained."
+}

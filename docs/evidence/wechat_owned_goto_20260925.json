@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_GOTO_FOCUS_BEFORE_FILE_SELECTION",
+  "quote_date": "2026-09-25",
+  "base_head": "a57250b6a59cbeb5f4106ed4b8b3ea1bc9883d93",
+  "authorization": "User explicitly authorized continuation of existing picker and pending text; no automatic replay.",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "2f3a2bcede9b814183f6f9a62fac0e8cd7159f274ba33d9daa0116d519143ed5",
+    "src/mikihouse_luyao/wechat_native_picker.py": "7f4c24874545621f013c44b19de54d42f0c0ef7f1ae163bf126815937c4fa001",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "0363cde8c8205fe6f678921867115324950ed9878376c4e9a817671548175d8f",
+    "src/mikihouse_luyao/wechat_daily_production.py": "83836e10150910449c08d2b2c0d51839b31aedc6e9ee2f981f1b1a87553bc7df"
+  },
+  "live_attempt": {
+    "new_command_o_count": 0,
+    "goto_shortcut_count": 1,
+    "path_field_write_count": 0,
+    "file_selection_dispatch_count": 0,
+    "pdf_upload_count": 0,
+    "pdf_body_paste_count": 0,
+    "pdf_create_count": 0,
+    "text_create_count": 0,
+    "automatic_mutation_retry_count": 0,
+    "error": "retained note is not focused; no action",
+    "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED"
+  },
+  "readonly_observation": {
+    "initial_panel_unique": true,
+    "focused_owner_chain_at_failure": [
+      "AXWindow",
+      "open-panel",
+      "GoToWindow"
+    ],
+    "goto_role": "AXSheet",
+    "goto_identifier": "GoToWindow",
+    "path_field_count": 1,
+    "activation_can_focus_main_window": true,
+    "later_readonly_focus_belongs_to_note": true,
+    "later_app_frontmost": false
+  },
+  "fix": {
+    "accepted_focus": "Only retained AXWindow, its unique open-panel sheet, or that sheet's unique GoToWindow child; no global matching",
+    "raise_wait": "One AXRaise; at most 16 read-only focus observations, 0.2s apart; never redispatch",
+    "live_full_save_reopen": "NOT_VERIFIED"
+  },
+  "runtime_acceptance": "BLOCKED_RUNTIME_ACCEPTANCE",
+  "production_save_enabled": false,
+  "shijiu_request_count": 0,
+  "chat_send_count": 0,
+  "other_note_body_read_count": 0,
+  "remaining": "New explicit authorization required to continue current PathTextField without either opening shortcut.",
+  "offline_verification": {
+    "status": "PASS",
+    "pytest_passed": 458,
+    "protected_tracked_files_unchanged": 132,
+    "command": ".venv/bin/python scripts/verify_local.py"
+  }
+}

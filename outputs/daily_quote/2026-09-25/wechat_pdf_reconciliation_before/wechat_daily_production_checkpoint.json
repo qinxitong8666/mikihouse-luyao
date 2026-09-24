@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "PASS",
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
   "quote_date": "2026-09-25",
   "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
   "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
   "created_at": "2026-09-25T00:48:00.171142+09:00",
-  "updated_at": "2026-09-25T01:36:26.889296+09:00",
+  "updated_at": "2026-09-25T01:30:25.962035+09:00",
   "stages": {
     "pdf": {
-      "status": "PASS",
+      "status": "FROZEN_AFTER_OWNED_GOTO_CONTINUATION",
       "payload_sha256": "7609d03281ceccba3ddff5efb1bba8992970da95e399715154fb5a94ec1e671e",
       "mutation_attempt_count": 1,
       "mutation_started_at": "2026-09-25T00:48:00.171410+09:00",
@@ -90,7 +90,7 @@
               "copy_status": "COPY_READ",
               "attempt_count": 1,
               "selection_delay_seconds": 1.5,
-              "clipboard_timeout_seconds": 8,
+              "clipboard_timeout_seconds": 8.0,
               "attempts": [
                 {
                   "attempt": 1,
@@ -229,65 +229,16 @@
         ],
         "error": "'exact_query_candidate_count'",
         "failed_at": "2026-09-25T01:30:25.961910+09:00"
-      },
-      "completed_at": "2026-09-25T01:32:26.262691+09:00",
-      "evidence_file": "wechat_pdf_saved_readonly_validation.json",
-      "readonly_reconciliation": true
+      }
     },
     "text": {
-      "status": "PASS",
+      "status": "PENDING",
       "payload_sha256": "74ca5e6a589b8178fb20ff1292fdd23f2fad789ffc33006b93917b0781b35f63",
-      "mutation_attempt_count": 1,
-      "mutation_started_at": "2026-09-25T01:34:42.326127+09:00",
-      "completed_at": "2026-09-25T01:36:26.888384+09:00",
-      "evidence_file": "wechat_text_favorite_production_validation.json"
+      "mutation_attempt_count": 0
     }
   },
-  "favorite_create_count": 2,
+  "favorite_create_count": 0,
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
-  "shijiu_request_count": 0,
-  "text_only_authorization": {
-    "status": "CONSUMED_ONCE",
-    "at": "2026-09-25T01:34:42.201242+09:00",
-    "scope": "2026-09-25 text only; PDF unchanged",
-    "absence_evidence": {
-      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
-      "favorites": {
-        "status": "FAVORITES_PAGE_CONFIRMED",
-        "window": {
-          "index": 1,
-          "title": "WeChat",
-          "role": "AXWindow",
-          "payload_title": null,
-          "new_draft": false,
-          "native_binding": null
-        },
-        "positive_signals": [
-          "全部收藏",
-          "最近使用",
-          "图片与视频",
-          "笔记",
-          "文件",
-          "小程序"
-        ],
-        "negative_signals": [],
-        "tree_sha256": "4798510863908158c9f5274e5aa782c0c24f5f08b72114d43f0108c16bfb941b",
-        "tree_line_count": 64
-      },
-      "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
-      "search_candidate_count": 0,
-      "search_tree_sha256": "f640dcc3de861ada9ff45cde562204696138adcb718e0573a6ca810f63121af1",
-      "candidate_lines": []
-    },
-    "automatic_mutation_retry_count": 0
-  },
-  "completed_at": "2026-09-25T01:36:26.889288+09:00",
-  "final_readonly_evidence_file": "wechat_final_readonly_validation.json",
-  "exact_title_counts": [
-    1,
-    1
-  ],
-  "recovered_existing_pdf_favorite_count": 1,
-  "new_favorites_created_in_authorized_continuation": 1
+  "shijiu_request_count": 0
 }

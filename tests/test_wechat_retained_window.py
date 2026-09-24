@@ -2,6 +2,8 @@
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
+import hashlib
+import json
 
 import pytest
 
@@ -13,6 +15,27 @@ from mikihouse_luyao.wechat_native_picker import NativePickerAX
 TITLE = "MIKI HOUSE 9月25日报价｜PDF版"
 BODY = TITLE + "\n正文\n"
 NOTE = r.WindowIdentity(0, "笔记", "AXWindow", TITLE, True, "retained-token")
+
+
+def test_final_retained_runtime_evidence_and_default_authorization_gate():
+    root=Path(__file__).resolve().parents[1]
+    config=json.loads((root/'config/wechat_favorite_runtime.json').read_text())
+    proof=json.loads((root/config['retained_ax_window_runtime_evidence_path']).read_text())
+    assert config['production_save_enabled'] is False
+    assert config['retained_ax_window_runtime_validation_status']=='PASS'
+    assert proof['status']=='PASS_SAVED_REOPENED'
+    assert proof['exact_title_counts']==[1,1]
+    assert proof['pdf']['file_selection_dispatch_count']==1
+    assert proof['pdf']['body_paste_count']==0
+    assert proof['text']['normal_sink_used'] is True
+    assert proof['text']['save_reopen_full_hash_match'] is True
+    for path,digest in proof['source_sha256'].items():
+        assert hashlib.sha256((root/path).read_bytes()).hexdigest()==digest
+    for path in proof['historical_failures_preserved']:
+        assert json.loads((root/path).read_text())['status'].startswith('BLOCKED')
+    final=json.loads((root/'outputs/daily_quote/2026-09-25/wechat_final_readonly_validation.json').read_text())
+    assert final['full_hash_match'] and final['exact_title_counts']==[1,1]
+    assert final['expected_eol_sha256']==final['actual_eol_sha256']==proof['text']['eol_only_sha256']
 
 
 def forbid_titles(monkeypatch):
@@ -129,6 +152,36 @@ def test_editor_read_must_not_type_into_open_panel(monkeypatch):
     monkeypatch.setattr(r,'_osascript',Mock(return_value={'returncode':0}))
     with pytest.raises(r.WeChatRuntimeError,match='modal sheet'):
         r._raise_note(123,r.TARGET_BUNDLE_ID,NOTE)
+
+
+def test_exact_nested_goto_sheet_is_owned_but_foreign_or_duplicate_is_not():
+    ax=object.__new__(NativePickerAX)
+    ax.cf=SimpleNamespace(CFEqual=lambda a,b:a==b)
+    children={7:[8],8:[9],9:[]}
+    identifiers={8:'open-panel',9:'GoToWindow',10:'GoToWindow'}
+    ax.attr=lambda n,k:children.get(n,[])
+    ax.array=lambda v:v
+    ax.value=lambda n,k:'AXSheet' if k=='AXRole' else identifiers.get(n,'')
+    assert ax.focus_belongs_to_note(7,9)
+    assert not ax.focus_belongs_to_note(7,10)
+    children[8]=[9,10]
+    assert not ax.focus_belongs_to_note(7,9)
+    children[8]=[9]; identifiers[9]='unrecognized-panel'
+    assert not ax.focus_belongs_to_note(7,9)
+
+
+def test_native_raise_dispatch_once_waits_only_readonly_focus(monkeypatch):
+    from mikihouse_luyao import wechat_native_picker as native
+    monkeypatch.setattr(native.time,'sleep',lambda _:None)
+    ax=object.__new__(NativePickerAX)
+    ax.bound_window=Mock(return_value=7)
+    ax.string=lambda v:v
+    dispatch=Mock(return_value=0)
+    ax.ax=SimpleNamespace(AXUIElementPerformAction=dispatch)
+    ax.owned_note=Mock(side_effect=[r.WeChatRuntimeError('retained note is not focused; no action'),7])
+    ax.raise_bound()
+    dispatch.assert_called_once_with(7,'AXRaise')
+    assert ax.owned_note.call_count==2
 
 
 def test_invalid_retained_token_does_not_fall_back(monkeypatch):

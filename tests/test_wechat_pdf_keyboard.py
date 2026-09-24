@@ -266,7 +266,7 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     assert current["production_goal_completed"] is False
     # Preserve the accepted PDF snapshot. The shared runtime's subsequent text
     # binding change is pinned by its own append/save/reopen runtime evidence.
-    current_binding = json.loads((root / "docs/evidence/wechat_retained_window_20260925.json").read_text())
+    current_binding = json.loads((root / config['retained_ax_window_runtime_evidence_path']).read_text())
     for relative, expected_hash in evidence["source_sha256"].items():
         if relative in current_binding["source_sha256"]:
             expected_hash = current_binding["source_sha256"][relative]

@@ -144,7 +144,18 @@ class NativePickerAX:
         panels = [c for c in self.array(self.attr(note, "AXChildren"))
                   if self.value(c, "AXRole") == "AXSheet"
                   and self.value(c, "AXIdentifier") == "open-panel"]
-        return len(panels) == 1 and bool(self.cf.CFEqual(panels[0], focused))
+        if len(panels) != 1:
+            return False
+        if self.cf.CFEqual(panels[0], focused):
+            return True
+        # The system Go To Folder sheet is directly owned by this open-panel.
+        # AXFocusedWindow moves again, to GoToWindow, while entering a path.
+        # Accept only this proven two-edge owner chain, never a process-wide
+        # same-name dialog or an arbitrary descendant window.
+        dialogs = [c for c in self.array(self.attr(panels[0], "AXChildren"))
+                   if self.value(c, "AXRole") == "AXSheet"
+                   and self.value(c, "AXIdentifier") == "GoToWindow"]
+        return len(dialogs) == 1 and bool(self.cf.CFEqual(dialogs[0], focused))
 
     def window_refs(self):
         # AXWindows CFArray stays retained in refs for the invocation lifetime.
@@ -182,7 +193,18 @@ class NativePickerAX:
         error = self.ax.AXUIElementPerformAction(note, self.string("AXRaise"))
         if error:
             raise WeChatRuntimeError(f"retained native note AXRaise failed ({error})")
-        self.owned_note()
+        # AXRaise dispatch is single-shot. Window/app focus can settle after
+        # the AX call returns; only re-read that same retained owner, never
+        # re-raise, activate another window or resend an editor action.
+        for poll in range(16):
+            self.bound_window()  # disappearance/replacement is not transient
+            try:
+                self.owned_note()
+                return
+            except WeChatRuntimeError as exc:
+                if str(exc) != "retained note is not focused; no action" or poll == 15:
+                    raise
+                time.sleep(0.2)
 
     def owned_panel(self, *, allow_pending: bool = False):
         note = self.owned_note()

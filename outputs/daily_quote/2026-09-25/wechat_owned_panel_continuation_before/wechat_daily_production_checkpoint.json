@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "PASS",
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
   "quote_date": "2026-09-25",
   "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
   "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
   "created_at": "2026-09-25T00:48:00.171142+09:00",
-  "updated_at": "2026-09-25T01:36:26.889296+09:00",
+  "updated_at": "2026-09-25T01:03:40.209975+09:00",
   "stages": {
     "pdf": {
-      "status": "PASS",
+      "status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
       "payload_sha256": "7609d03281ceccba3ddff5efb1bba8992970da95e399715154fb5a94ec1e671e",
       "mutation_attempt_count": 1,
       "mutation_started_at": "2026-09-25T00:48:00.171410+09:00",
@@ -90,7 +90,7 @@
               "copy_status": "COPY_READ",
               "attempt_count": 1,
               "selection_delay_seconds": 1.5,
-              "clipboard_timeout_seconds": 8,
+              "clipboard_timeout_seconds": 8.0,
               "attempts": [
                 {
                   "attempt": 1,
@@ -139,155 +139,16 @@
         "failed_at": "2026-09-25T01:03:40.209895+09:00",
         "error_type": "WeChatRuntimeError",
         "error": "retained note is not focused; no action"
-      },
-      "owned_panel_continuation": {
-        "status": "FROZEN_NO_RETRY",
-        "started_at": "2026-09-25T01:19:44.131685+09:00",
-        "authorization": "USER_EXPLICIT_CONTINUE_CURRENT_PICKER_AND_PENDING_TEXT",
-        "new_command_o_count": 0,
-        "pdf_body_paste_count": 0,
-        "pdf_create_count": 0,
-        "automatic_mutation_retry_count": 0,
-        "file_selection_dispatch_count": 0,
-        "steps": [
-          {
-            "step": "UNIQUE_EXISTING_PANEL_VERIFIED",
-            "at": "2026-09-25T01:19:44.131859+09:00",
-            "pid": 12576,
-            "filename": "MIKIHOUSE_2026-09-25_报价全集.pdf",
-            "sha256": "66290e5b35153556a8380445976a6bcd26103a9dfe88f8ae0faa4a02fdda662f",
-            "byte_count": 23338678
-          },
-          {
-            "step": "DIRECTORY_NAVIGATION_STARTED",
-            "at": "2026-09-25T01:19:44.132352+09:00"
-          }
-        ],
-        "error": "retained note is not focused; no action",
-        "failed_at": "2026-09-25T01:19:44.882668+09:00"
-      },
-      "owned_goto_continuation": {
-        "status": "FROZEN_NO_RETRY",
-        "started_at": "2026-09-25T01:29:42.679135+09:00",
-        "authorization": "USER_EXPLICIT_CONTINUE_CURRENT_PATH_FIELD_AND_PENDING_TEXT",
-        "new_command_o_count": 0,
-        "pdf_body_paste_count": 0,
-        "pdf_create_count": 0,
-        "automatic_mutation_retry_count": 0,
-        "file_selection_dispatch_count": 1,
-        "steps": [
-          {
-            "step": "UNIQUE_EXISTING_PANEL_VERIFIED",
-            "at": "2026-09-25T01:29:42.679267+09:00",
-            "pid": 12576,
-            "filename": "MIKIHOUSE_2026-09-25_报价全集.pdf",
-            "sha256": "66290e5b35153556a8380445976a6bcd26103a9dfe88f8ae0faa4a02fdda662f",
-            "byte_count": 23338678
-          },
-          {
-            "step": "EXISTING_PATH_FIELD_WRITE_STARTED",
-            "at": "2026-09-25T01:29:42.679651+09:00"
-          },
-          {
-            "step": "EXACT_FILE_AXOPEN_STARTED",
-            "at": "2026-09-25T01:29:44.029413+09:00",
-            "scan": {
-              "status": "UNIQUE_RESOLVED_PATH_AND_AXOPEN",
-              "skipped_unresolvable": [],
-              "exact_match_count": 1,
-              "mutation_count": 0,
-              "target_path_sha256": "d4c24facdb37a3bd7b1ece027c797cbe579dd68f03bcdb50c00440f5f763e89d"
-            }
-          },
-          {
-            "step": "ATTACHMENT_VISIBLE_BODY_HASH_PASS",
-            "at": "2026-09-25T01:29:49.071951+09:00",
-            "file_dispatch": {
-              "api_returncode": -25205,
-              "action": "AXOpen",
-              "dispatch_count": 1,
-              "status": "DISPATCH_REQUIRES_READBACK",
-              "file_scan": {
-                "status": "UNIQUE_RESOLVED_PATH_AND_AXOPEN",
-                "skipped_unresolvable": [
-                  {
-                    "node_index": 335,
-                    "role": "AXTextField",
-                    "identifier": "",
-                    "raw_url_sha256": "3c0c37255a4f080828aac203e52eb718dd3130a916bfc9c7438f77c4a7fe05af",
-                    "reason": "UNRESOLVABLE_CFURL_NOT_IDENTITY_PROOF"
-                  }
-                ],
-                "exact_match_count": 1,
-                "mutation_count": 0,
-                "target_path_sha256": "d4c24facdb37a3bd7b1ece027c797cbe579dd68f03bcdb50c00440f5f763e89d"
-              }
-            },
-            "expected_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8",
-            "actual_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8"
-          }
-        ],
-        "error": "'exact_query_candidate_count'",
-        "failed_at": "2026-09-25T01:30:25.961910+09:00"
-      },
-      "completed_at": "2026-09-25T01:32:26.262691+09:00",
-      "evidence_file": "wechat_pdf_saved_readonly_validation.json",
-      "readonly_reconciliation": true
+      }
     },
     "text": {
-      "status": "PASS",
+      "status": "PENDING",
       "payload_sha256": "74ca5e6a589b8178fb20ff1292fdd23f2fad789ffc33006b93917b0781b35f63",
-      "mutation_attempt_count": 1,
-      "mutation_started_at": "2026-09-25T01:34:42.326127+09:00",
-      "completed_at": "2026-09-25T01:36:26.888384+09:00",
-      "evidence_file": "wechat_text_favorite_production_validation.json"
+      "mutation_attempt_count": 0
     }
   },
-  "favorite_create_count": 2,
+  "favorite_create_count": 0,
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
-  "shijiu_request_count": 0,
-  "text_only_authorization": {
-    "status": "CONSUMED_ONCE",
-    "at": "2026-09-25T01:34:42.201242+09:00",
-    "scope": "2026-09-25 text only; PDF unchanged",
-    "absence_evidence": {
-      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
-      "favorites": {
-        "status": "FAVORITES_PAGE_CONFIRMED",
-        "window": {
-          "index": 1,
-          "title": "WeChat",
-          "role": "AXWindow",
-          "payload_title": null,
-          "new_draft": false,
-          "native_binding": null
-        },
-        "positive_signals": [
-          "全部收藏",
-          "最近使用",
-          "图片与视频",
-          "笔记",
-          "文件",
-          "小程序"
-        ],
-        "negative_signals": [],
-        "tree_sha256": "4798510863908158c9f5274e5aa782c0c24f5f08b72114d43f0108c16bfb941b",
-        "tree_line_count": 64
-      },
-      "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
-      "search_candidate_count": 0,
-      "search_tree_sha256": "f640dcc3de861ada9ff45cde562204696138adcb718e0573a6ca810f63121af1",
-      "candidate_lines": []
-    },
-    "automatic_mutation_retry_count": 0
-  },
-  "completed_at": "2026-09-25T01:36:26.889288+09:00",
-  "final_readonly_evidence_file": "wechat_final_readonly_validation.json",
-  "exact_title_counts": [
-    1,
-    1
-  ],
-  "recovered_existing_pdf_favorite_count": 1,
-  "new_favorites_created_in_authorized_continuation": 1
+  "shijiu_request_count": 0
 }

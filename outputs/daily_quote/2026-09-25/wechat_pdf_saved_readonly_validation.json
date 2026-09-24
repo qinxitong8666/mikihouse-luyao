@@ -1,0 +1,188 @@
+{
+  "status": "PDF_PASS_TEXT_NOT_STARTED",
+  "checked_at": "2026-09-25T01:32:26.262691+09:00",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "fc391c9fa2128c9d71f3a1b7ff89c0fee36145e87cb175006e261122ad37290f",
+        "search_marker_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+        "search_candidate_count": 0,
+        "search_tree_sha256": "f640dcc3de861ada9ff45cde562204696138adcb718e0573a6ca810f63121af1",
+        "search_marker_sha256": "8ad794b3487d53220b88e4af99d296218c187198ebf7048cfcccf9bf44021ee3",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": false,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "reopen": {
+    "status": "SAVED_NOTE_REOPENED_UNIQUE",
+    "result_focus": {
+      "status": "EXACT_RESULT_LIST_FOCUSED",
+      "candidate_count": 1,
+      "list_identifier": "fav_detail_list",
+      "query": "MIKI HOUSE 9月25日报价｜PDF版",
+      "focus_target": "UNIQUE_EXACT_NOTE_ROW"
+    },
+    "favorites": {
+      "status": "FAVORITES_PAGE_CONFIRMED",
+      "window": {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow",
+        "payload_title": null,
+        "new_draft": false,
+        "native_binding": null
+      },
+      "positive_signals": [
+        "全部收藏",
+        "最近使用",
+        "图片与视频",
+        "笔记",
+        "文件",
+        "小程序"
+      ],
+      "negative_signals": [],
+      "tree_sha256": "f640dcc3de861ada9ff45cde562204696138adcb718e0573a6ca810f63121af1",
+      "tree_line_count": 57
+    },
+    "search_marker_sha256": "ee80d57dae1bb27dd817b75653ab00454e04f5a014d79bbc31563cade01fe9cd",
+    "search_candidate_count": 1,
+    "search_tree_sha256": "fc391c9fa2128c9d71f3a1b7ff89c0fee36145e87cb175006e261122ad37290f",
+    "windows_before": [],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "MIKI HOUSE 9月25日报价｜P",
+        "role": "AXWindow",
+        "payload_title": "MIKI HOUSE 9月25日报价｜PDF版",
+        "new_draft": false,
+        "native_binding": null
+      }
+    ]
+  },
+  "readback": {
+    "copy_status": "COPY_READ",
+    "attempt_count": 1,
+    "selection_delay_seconds": 1.5,
+    "clipboard_timeout_seconds": 8.0,
+    "attempts": [
+      {
+        "attempt": 1,
+        "copy_action_status": "COPY_SENT",
+        "copy_action_returncode": 0,
+        "clipboard_changed": true,
+        "fingerprint": {
+          "raw_character_count": 104,
+          "normalized_character_count": 103,
+          "utf8_byte_count": 216,
+          "line_count": 7,
+          "raw_sha256": "6866e054b8c23287bf747907cdd3f6bfd657e96aeb4cec929c6b5d1cb5d9043a",
+          "normalized_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+          "head_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+          "tail_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+          "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+          "last_line": "[文件]"
+        }
+      }
+    ],
+    "fingerprint": {
+      "raw_character_count": 104,
+      "normalized_character_count": 103,
+      "utf8_byte_count": 216,
+      "line_count": 7,
+      "raw_sha256": "6866e054b8c23287bf747907cdd3f6bfd657e96aeb4cec929c6b5d1cb5d9043a",
+      "normalized_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+      "head_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+      "tail_sha256": "05243309c95510b64e63780539384035105c3ff78f05ac34c12bc59c91787e44",
+      "first_line": "MIKI HOUSE 9月25日报价｜PDF版",
+      "last_line": "[文件]"
+    }
+  },
+  "close": {
+    "status": "NOTE_CLOSED_AUTO_SAVE_EXPECTED",
+    "windows_before": [
+      {
+        "index": 1,
+        "title": "MIKI HOUSE 9月25日报价｜P",
+        "role": "AXWindow",
+        "payload_title": "MIKI HOUSE 9月25日报价｜PDF版",
+        "new_draft": false,
+        "native_binding": null
+      }
+    ],
+    "windows_after": [],
+    "close_poll_attempt_count": 1,
+    "save_prompt_observed": false,
+    "native_close": {
+      "method": "NOTE_OWNED_AXCLOSEBUTTON",
+      "dispatch_count": 1
+    }
+  },
+  "filename_readback": [
+    {
+      "method": "EXACT_FILENAME_INDEX_AND_REOPENED_BODY_WITH_TRAILING_FILE",
+      "filename": "MIKIHOUSE_2026-09-25_报价全集.pdf",
+      "search": {
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY",
+        "favorites": {
+          "status": "FAVORITES_PAGE_CONFIRMED",
+          "window": {
+            "index": 1,
+            "title": "WeChat",
+            "role": "AXWindow",
+            "payload_title": null,
+            "new_draft": false,
+            "native_binding": null
+          },
+          "positive_signals": [
+            "全部收藏",
+            "最近使用",
+            "图片与视频",
+            "笔记",
+            "文件",
+            "小程序"
+          ],
+          "negative_signals": [],
+          "tree_sha256": "fc391c9fa2128c9d71f3a1b7ff89c0fee36145e87cb175006e261122ad37290f",
+          "tree_line_count": 64
+        },
+        "search_marker_sha256": "d639a4141592dd13fe91271eb323712ba2963b8f93082dec64816644c87de8d5",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "4798510863908158c9f5274e5aa782c0c24f5f08b72114d43f0108c16bfb941b",
+        "candidate_lines": [
+          "AXStaticText|||笔记MIKI HOUSE 9月25日报价｜PDF版MIKI HOUSE 日本官网当日报价更新：2026年9月25日路遥-小路国现报价看朋友圈今天||||||missing value"
+        ]
+      }
+    }
+  ],
+  "expected_body_eol_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8",
+  "actual_body_eol_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8",
+  "body_full_hash_match": true,
+  "attachment_count": 1,
+  "attachment_filename": "MIKIHOUSE_2026-09-25_报价全集.pdf",
+  "attachment_file_sha256": "66290e5b35153556a8380445976a6bcd26103a9dfe88f8ae0faa4a02fdda662f",
+  "audit_note_create_count": 0,
+  "audit_attachment_insert_count": 0,
+  "audit_body_write_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "prior_local_report_error": "KeyError: exact_query_candidate_count; actual field is search.search_candidate_count",
+  "next": "Text not created. No mutation replay. Preserve frozen checkpoint pending authorized continuation."
+}

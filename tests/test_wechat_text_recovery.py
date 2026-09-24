@@ -93,7 +93,8 @@ def test_live_recovery_evidence_and_consumed_checkpoint_are_not_replayable():
     assert evidence['reopened_full_hash_match']
     assert evidence['pdf_ui_access_count'] == evidence['resent_chunk_count'] == evidence['new_note_count'] == 0
     assert evidence['production_save_enabled'] is False
-    current_binding = json.loads((root / 'docs/evidence/wechat_retained_window_20260925.json').read_text())
+    config = json.loads((root / 'config/wechat_favorite_runtime.json').read_text())
+    current_binding = json.loads((root / config['retained_ax_window_runtime_evidence_path']).read_text())
     for path, digest in evidence['source_sha256'].items():
         if path in current_binding['source_sha256']:
             digest = current_binding['source_sha256'][path]

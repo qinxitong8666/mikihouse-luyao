@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SAVED_REOPENED",
+  "quote_date": "2026-09-25",
+  "base_head": "a57250b6a59cbeb5f4106ed4b8b3ea1bc9883d93",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "2f3a2bcede9b814183f6f9a62fac0e8cd7159f274ba33d9daa0116d519143ed5",
+    "src/mikihouse_luyao/wechat_native_picker.py": "7f4c24874545621f013c44b19de54d42f0c0ef7f1ae163bf126815937c4fa001",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "0363cde8c8205fe6f678921867115324950ed9878376c4e9a817671548175d8f",
+    "src/mikihouse_luyao/wechat_daily_production.py": "83836e10150910449c08d2b2c0d51839b31aedc6e9ee2f981f1b1a87553bc7df"
+  },
+  "acceptance_scope": "Operator-authorized recovery of existing PDF plus normal Sink first creation of text; not an uninterrupted fresh PDF creation experiment.",
+  "root_cause": "Visible title was asynchronously updated. Retain invocation-local native AXWindow CFEqual identity; only recognize exact note-owned open-panel and GoToWindow focus. One AXRaise with bounded read-only focus wait.",
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c",
+  "pdf": {
+    "status": "PASS",
+    "existing_draft_reused": true,
+    "new_note_count": 0,
+    "body_paste_count": 0,
+    "file_selection_dispatch_count": 1,
+    "attachment_count": 1,
+    "filename": "MIKIHOUSE_2026-09-25_报价全集.pdf",
+    "file_bytes": 23338678,
+    "file_sha256": "66290e5b35153556a8380445976a6bcd26103a9dfe88f8ae0faa4a02fdda662f",
+    "body_character_count": 99,
+    "body_eol_sha256": "1bed4d5b594e0f2277d86fde43384410de068b8fb6fbb41b5615178d5e76b5e8",
+    "save_reopen_full_hash_match": true,
+    "filename_index_unique": true
+  },
+  "text": {
+    "status": "PASS",
+    "new_note_count": 1,
+    "normal_sink_used": true,
+    "new_window_identity": "RETAINED_NATIVE_AX_WINDOW_DELTA",
+    "binding": "RETAINED_NATIVE_AX_WINDOW_TITLE_NOT_IDENTITY",
+    "chunk_count": 13,
+    "character_count": 70640,
+    "eol_only_sha256": "62ff08448345616393be5edf9edf54f7885be4e3c23c191fb5244b896eeea769",
+    "save_reopen_full_hash_match": true
+  },
+  "exact_title_counts": [
+    1,
+    1
+  ],
+  "checkpoint_status": "PASS",
+  "production_report_status": "PASS",
+  "production_save_enabled": false,
+  "safety": {
+    "automatic_mutation_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "other_note_body_read_count": 0,
+    "other_note_modified_count": 0,
+    "pdf_recreated_count": 0
+  },
+  "historical_failures_preserved": [
+    "docs/evidence/wechat_retained_window_20260925.json",
+    "docs/evidence/wechat_owned_goto_20260925.json"
+  ],
+  "local_acceptance_script_error": {
+    "error": "KeyError: exact_query_candidate_count",
+    "actual_field": "search.search_candidate_count",
+    "effect": "Stopped after PDF save/reopen, before text creation. Pure read-only reconciliation proved PDF PASS. Separate explicit user authorization consumed for text only. No mutation replay."
+  },
+  "evidence_files": [
+    "outputs/daily_quote/2026-09-25/wechat_pdf_saved_readonly_validation.json",
+    "outputs/daily_quote/2026-09-25/wechat_text_favorite_production_validation.json",
+    "outputs/daily_quote/2026-09-25/wechat_final_readonly_validation.json",
+    "outputs/daily_quote/2026-09-25/wechat_daily_production_checkpoint.json",
+    "outputs/daily_quote/2026-09-25/wechat_daily_production_report.json"
+  ],
+  "verification": {
+    "status": "PASS",
+    "command": ".venv/bin/python scripts/verify_local.py",
+    "pytest_passed": 459,
+    "protected_tracked_files_unchanged": 132,
+    "completed_checkpoint_idempotent_replay": "PASS_ZERO_SINK_CALLS_AND_UNCHANGED_FILES",
+    "previous_passed_tests": 458
+  },
+  "limitations": [
+    "9/25 completed via explicit staged recovery, not a second new-date first-run production test.",
+    "Repository save default remains disabled; future writes require App one-time authorization."
+  ]
+}

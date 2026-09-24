@@ -1,0 +1,9 @@
+{
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "quote_date": "2026-09-25",
+  "failed_stage": "owned_goto_continuation",
+  "error": "'exact_query_candidate_count'",
+  "automatic_mutation_retry_count": 0,
+  "manifest_sha256": "f779b92688c3e6ba18e825eac1da8ba6ec0e4699aa42f797cb267114660c6f7e",
+  "bundle_sha256": "2276dbc69643c1908f17b748258e241873d459a8606d3ec18f33b5660040749c"
+}

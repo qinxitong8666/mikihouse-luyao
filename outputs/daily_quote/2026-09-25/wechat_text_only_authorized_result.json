@@ -15,17 +15,9 @@
     "text": "wechat_text_favorite_production_validation.json"
   },
   "automatic_mutation_retry_count": 0,
-  "existing_favorite_mutation_count": 1,
+  "existing_favorite_mutation_count": 0,
   "safe_rebuild": null,
   "chat_send_count": 0,
   "shijiu_request_count": 0,
-  "completed_at": "2026-09-25T01:36:26.889902+09:00",
-  "final_readonly_evidence_file": "wechat_final_readonly_validation.json",
-  "exact_title_counts": [
-    1,
-    1
-  ],
-  "recovered_existing_pdf_favorite_count": 1,
-  "new_favorites_created_in_authorized_continuation": 1,
-  "existing_favorite_mutation_scope": "Authorized attachment insertion into existing task PDF draft only; no other note modified"
+  "completed_at": "2026-09-25T01:36:26.889902+09:00"
 }
