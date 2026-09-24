@@ -602,11 +602,15 @@ def _write_canonical_frozen_attachment_checkpoint(
     )
 
 
+@pytest.mark.parametrize("error", ["attachment was not visible before save", "post-readback note title does not match verified body"])
 def test_frozen_pdf_recovery_requires_one_pdf_zero_text_and_completes_once(
-    tmp_path: Path,
+    tmp_path: Path, error: str,
 ) -> None:
     daily, config = build_bundle(tmp_path)
     _write_canonical_frozen_attachment_checkpoint(daily, config)
+    frozen = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    frozen["stages"]["pdf"]["error"] = error
+    write_json(daily / CHECKPOINT_FILENAME, frozen)
     sink = FakeSink(title_counts=[1, 0])
     audit = audit_frozen_pdf_recovery_readonly(
         daily,
@@ -656,6 +660,18 @@ def test_frozen_pdf_recovery_wrong_title_state_fails_before_mutation(
     assert sink.recovery_calls == []
     assert sink.calls == []
     assert (daily / CHECKPOINT_FILENAME).read_bytes() == checkpoint_before
+
+
+def test_unknown_frozen_error_is_not_a_recovery_permission(tmp_path):
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    frozen = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    frozen["stages"]["pdf"]["error"] = "unknown outcome after AXOpen"
+    write_json(daily / CHECKPOINT_FILENAME, frozen)
+    sink = FakeSink(title_counts=[1, 0])
+    with pytest.raises(WeChatDailyProductionError, match="canonical attachment failure"):
+        audit_frozen_pdf_recovery_readonly(daily, config, repository_root=ROOT, sink=sink)
+    assert sink.calls == [] and sink.recovery_calls == []
 
 
 def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config() -> None:

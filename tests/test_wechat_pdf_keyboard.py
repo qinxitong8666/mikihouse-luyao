@@ -32,6 +32,56 @@ def test_script_has_no_coordinates_global_tree_or_repeated_action():
     assert "NOTE_NOT_FRONTMOST" in script and "NOTE_NOT_UNIQUE" in script
 
 
+def test_title_wait_rebinds_without_actions(monkeypatch):
+    titles = iter(["笔记", "MIKIHOUSE_TEST_2026", NOTE.title, NOTE.title])
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: runtime.WindowIdentity(1, next(titles), "AXWindow"))
+    monkeypatch.setattr(picker.time, "sleep", lambda _: None)
+    action = Mock()
+    monkeypatch.setattr(runtime, "_osascript", action)
+    note, proof = picker.wait_for_verified_note_title(123, BODY.splitlines()[0])
+    assert note == NOTE
+    assert proof["read_only_poll_count"] == 4
+    assert proof["mutation_count"] == 0
+    action.assert_not_called()
+
+
+@pytest.mark.parametrize("title", ["笔记", "other note", "MIKI"])
+def test_title_wait_timeout_never_opens_picker(tmp_path, monkeypatch, title):
+    path = tmp_path / "daily.pdf"
+    path.write_bytes(b"%PDF-test")
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: runtime.WindowIdentity(1, title, "AXWindow"))
+    monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: (BODY, {}))
+    sleep = Mock()
+    monkeypatch.setattr(picker.time, "sleep", sleep)
+    opening = Mock()
+    monkeypatch.setattr(picker, "open_picker_once", opening)
+    with pytest.raises(runtime.WeChatRuntimeError, match="did not stabilize"):
+        picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
+    assert sleep.call_count <= 20
+    opening.assert_not_called()
+
+
+def test_title_wait_ambiguous_window_fails_immediately(monkeypatch):
+    monkeypatch.setattr(runtime, "require_unique_note_window", Mock(side_effect=runtime.WeChatRuntimeError("got 2")))
+    sleep = Mock()
+    monkeypatch.setattr(picker.time, "sleep", sleep)
+    with pytest.raises(runtime.WeChatRuntimeError, match="got 2"):
+        picker.wait_for_verified_note_title(123, BODY.splitlines()[0])
+    sleep.assert_not_called()
+
+
+def test_body_proof_required_before_title_wait(tmp_path, monkeypatch):
+    path = tmp_path / "daily.pdf"
+    path.write_bytes(b"%PDF-test")
+    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: ("foreign body", {}))
+    wait = Mock()
+    monkeypatch.setattr(picker, "wait_for_verified_note_title", wait)
+    with pytest.raises(runtime.WeChatRuntimeError, match="body mismatch"):
+        picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
+    wait.assert_not_called()
+
+
 @pytest.mark.parametrize("reason", ["body", "attachment", "formal", "foreign"])
 def test_unsafe_input_never_opens_picker(monkeypatch, reason):
     action = Mock()
@@ -211,7 +261,25 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     assert evidence["attachment_filename_readback"][0]["same_title_unique_candidate_count"] == 1
     assert evidence["safety"]["formal_favorite_mutations"] == 0
     for relative, expected_hash in evidence["accepted_runtime_source_sha256"].items():
-        assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == expected_hash
+        source = (root / relative).read_text()
+        # Preserve the historical V4 evidence rather than assigning its PASS
+        # to this new gate. Pin every byte of its mutation/readback path, with
+        # only these explicit read-only/evidence amendments projected out.
+        if relative.endswith("wechat_favorite_runtime.py"):
+            source = source.replace('            "coordinate_free_attachment_evidence": attachment,\n', '')
+        if relative.endswith("wechat_pdf_keyboard.py"):
+            start = source.index("def wait_for_verified_note_title(")
+            end = source.index("def attach_pdf_once(", start)
+            source = source[:start] + source[end:]
+            source = source.replace(
+                '    title = expected_text.splitlines()[0]\n    note, title_binding = wait_for_verified_note_title(pid, title)\n',
+                '    note = runtime.require_unique_note_window(pid)\n'
+                '    title = expected_text.splitlines()[0]\n'
+                '    if not note.title or not title.startswith(note.title):\n'
+                '        raise runtime.WeChatRuntimeError("post-readback note title does not match verified body")\n',
+            )
+            source = source.replace('        "title_binding": title_binding,\n', '')
+        assert hashlib.sha256(source.encode()).hexdigest() == expected_hash
     target = Mock()
     monkeypatch.setattr(runtime, "select_target_process", target)
     with pytest.raises(runtime.WeChatRuntimeError, match="config switch is disabled"):

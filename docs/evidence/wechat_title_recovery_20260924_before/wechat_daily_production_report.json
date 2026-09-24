@@ -4,9 +4,9 @@
   "quote_date": "2026-09-24",
   "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
   "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
-  "failed_stage": "pdf_file_picker_recovery",
+  "failed_stage": "pdf",
   "error_type": "WeChatRuntimeError",
-  "error": "expected one owned note window, got 2",
+  "error": "post-readback note title does not match verified body",
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
   "shijiu_request_count": 0

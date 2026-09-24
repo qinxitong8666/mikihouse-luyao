@@ -601,7 +601,10 @@ def audit_frozen_pdf_recovery_readonly(
         raise WeChatDailyProductionError("PDF recovery requires frozen reconciliation status")
     if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT":
         raise WeChatDailyProductionError("PDF recovery requires one frozen PDF attempt")
-    if pdf_stage.get("error") != "attachment was not visible before save":
+    if pdf_stage.get("error") not in {
+        "attachment was not visible before save",
+        "post-readback note title does not match verified body",
+    }:
         raise WeChatDailyProductionError("PDF recovery error is not the canonical attachment failure")
     if int(pdf_stage.get("mutation_attempt_count") or 0) != 1:
         raise WeChatDailyProductionError("PDF recovery requires exactly one original PDF attempt")

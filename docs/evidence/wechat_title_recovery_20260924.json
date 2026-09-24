@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_MULTIPLE_OPEN_NOTE_WINDOWS",
+  "production_goal_completed": false,
+  "base_head": "a182d1f298f764c406c228f2c626975b847bebc9",
+  "quote_date": "2026-09-24",
+  "code_change": {
+    "body_hash_required_before_wait": true,
+    "read_only_poll_max_count": 21,
+    "poll_interval_seconds": 0.3,
+    "deadline_seconds": 6,
+    "stable_consecutive_unique_window_observations": 2,
+    "minimum_title_prefix_characters": 16,
+    "generic_title_not_accepted": true,
+    "ambiguous_window_fails_immediately": true,
+    "note": "Deadline checked between AX reads; underlying System Events call latency is not included in a hard wall-clock guarantee.",
+    "picker_mutation_path_unchanged": true,
+    "new_title_wait_live_pass": false
+  },
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "6ad976c5df67657b3e920390d4aee7d9fbb9e951910fd7f4ef1334dbe0238e7e",
+    "src/mikihouse_luyao/wechat_native_picker.py": "e279c87deb75613d584fa36d315fbd8b0b05deed34445f200c37bc88e5245729",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "463db18f6b46900b98f77de62698dc4ceec8cd31937cc8bee02e091a0d1d0b61"
+  },
+  "preflight": {
+    "exact_title_counts": [1, 0],
+    "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+    "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+    "regenerated": false,
+    "pdf_sha256_after_attempt": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+    "initial_read_only_audit_error": "MENU_ITEM_NOT_FOUND; a later complete read-only audit and the App audit both passed before authorization"
+  },
+  "authorization": {
+    "operation": "RECOVER_FROZEN_PDF_AND_CREATE_PENDING_TEXT",
+    "status": "CONSUMED",
+    "issued_at": "2026-09-24T01:22:36.729817+00:00",
+    "consumed_at": "2026-09-24T01:22:36.916292+00:00",
+    "repository_head": "a182d1f298f764c406c228f2c626975b847bebc9",
+    "actual_app_confirmation": true,
+    "private_permit_not_committed": true,
+    "production_save_enabled": false
+  },
+  "recovery": {
+    "attempt_count": 1,
+    "started_at": "2026-09-24T10:23:02.669701+09:00",
+    "failed_at": "2026-09-24T10:23:33.874219+09:00",
+    "error": "expected one owned note window, got 2",
+    "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "pdf_stage_status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
+    "text_stage_status": "PENDING",
+    "text_mutation_attempt_count": 0,
+    "picker_dispatch_evidence": "NOT_CAPTURED",
+    "attachment_recovery_pass": false,
+    "checkpoint_reset_count": 0,
+    "new_pdf_note_create_count": 0,
+    "automatic_mutation_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "post_failure_readonly": {
+    "evidence": "docs/evidence/wechat_title_recovery_20260924_readonly.json",
+    "open_note_titles": ["MIKI HOUSE 9月24日报价｜P", "MIKIHOUSE_TEST_2026-"],
+    "other_window": "WeChat",
+    "pdf_body_normalized_hash_match": true,
+    "pdf_body_raw_hash_match": false,
+    "pdf_body_normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+    "attachment_marker_count": 0,
+    "test_note_not_modified_or_closed": true
+  },
+  "backups": {
+    "directory": "docs/evidence/wechat_title_recovery_20260924_before",
+    "checkpoint_sha256": "8c6ce6a4fbd07773754e98750de6bb217f816e7bae4a0dfc1ae819a9cabe2b50",
+    "report_sha256": "a2b6f1c90fb29cd9f3461e5da49a33d9c6c5cdf36ecde724644615a8ac050d53"
+  },
+  "next_action": "Separate reconciliation/authorization required. Do not replay this consumed recovery or reset the checkpoint. Establish a single owned note context without modifying unrelated notes before considering any new attachment action.",
+  "historical_v4_evidence_preserved": true,
+  "final_title_audit": {
+    "evidence": "docs/evidence/wechat_title_recovery_20260924_final_titles.json",
+    "exact_title_counts": [1, 0]
+  },
+  "verification": {
+    "unified_offline_verification": "PASS",
+    "pytest_passed": 417,
+    "focused_tests_passed": 72,
+    "protected_tracked_state_deliverables_unchanged": 132,
+    "historical_mutation_source_pin": "PASS after projecting out only the explicit read-only title gate and added evidence fields; historical evidence not rewritten",
+    "real_attachment_and_two_favorites_goal": "BLOCKED_NOT_COMPLETED"
+  },
+  "business_rules_and_pdf_unchanged": true
+}

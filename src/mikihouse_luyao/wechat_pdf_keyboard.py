@@ -129,6 +129,43 @@ def _panel_key(pid: int, note: runtime.WindowIdentity, command: str) -> None:
         }, ensure_ascii=False))
 
 
+def wait_for_verified_note_title(pid: int, expected_title: str) -> tuple[runtime.WindowIdentity, dict[str, Any]]:
+    """After body proof, only read/rebind AX windows; never repeat editor actions.
+
+    Two identical unique-window observations must carry a meaningful exact
+    prefix. Generic draft titles may settle asynchronously. Ambiguity fails
+    immediately; timeout never opens a picker or changes note content.
+    """
+    observations: list[dict[str, Any]] = []
+    previous = None
+    started = time.monotonic()
+    for poll in range(21):
+        note = runtime.require_unique_note_window(pid)
+        identity = (note.index, note.title, note.role)
+        valid = (
+            note.role == runtime.NOTE_WINDOW_ROLE
+            and len(note.title) >= min(16, len(expected_title))
+            and expected_title.startswith(note.title)
+        )
+        observations.append({"index": note.index, "title": note.title, "role": note.role, "matches_prefix": valid})
+        if valid and identity == previous:
+            return note, {
+                "status": "STABLE_VERIFIED_BODY_TITLE_PREFIX",
+                "observations": observations,
+                "read_only_poll_count": len(observations),
+                "elapsed_seconds": round(time.monotonic() - started, 3),
+                "mutation_count": 0,
+            }
+        previous = identity if valid else None
+        if poll == 20 or time.monotonic() - started >= 6:
+            break
+        time.sleep(0.3)
+    raise runtime.WeChatRuntimeError(
+        "post-readback note title did not stabilize; no picker opened: "
+        + json.dumps(observations, ensure_ascii=False)
+    )
+
+
 def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text: str) -> dict[str, Any]:
     """One exact AXOpen. Never resend a key/upload after ambiguous outcomes."""
     from .wechat_native_picker import NativePickerAX
@@ -149,10 +186,8 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         raise runtime.WeChatRuntimeError("PDF picker body mismatch/existing attachment")
     # Native title may update only after the editor/clipboard has settled.
     # Rebind after readback; never rely on the new draft's old `笔记` title.
-    note = runtime.require_unique_note_window(pid)
     title = expected_text.splitlines()[0]
-    if not note.title or not title.startswith(note.title):
-        raise runtime.WeChatRuntimeError("post-readback note title does not match verified body")
+    note, title_binding = wait_for_verified_note_title(pid, title)
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     size = path.stat().st_size
     opened = open_picker_once(pid, note)
@@ -192,6 +227,7 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         "file_dispatch_resolved_by_readback": True,
         "placeholder_visible_before_save": True,
         "before_readback": before, "before_comparison": comparison,
+        "title_binding": title_binding,
         "after_readback": after, "after_comparison": after_comparison,
         "automatic_retry_count": 0,
     }

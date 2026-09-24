@@ -1336,6 +1336,7 @@ class MacWeChatFavoriteSink:
             "open_note": open_evidence,
             "text_before": before_readback,
             "text_before_comparison": before_comparison,
+            "coordinate_free_attachment_evidence": attachment,
             "attachment": {
                 "filename": attachment_path.name,
                 "byte_count": attachment_path.stat().st_size,

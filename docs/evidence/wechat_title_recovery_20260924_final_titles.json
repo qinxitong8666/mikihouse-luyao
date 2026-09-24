@@ -1,0 +1,28 @@
+{
+  "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+  "target_process": {
+    "bundle_id": "com.tencent.xinWeChot2",
+    "app_path": "/Applications/微信2.app",
+    "version": "4.1.6"
+  },
+  "results": [
+    {
+      "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+      "search_candidate_count": 1,
+      "search_tree_sha256": "6ee23fe1d3c17df78a8e2eaccf3269f54e8d5a1325c12059c642d71b0cdbddac",
+      "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+    },
+    {
+      "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+      "search_candidate_count": 0,
+      "search_tree_sha256": "39e3e56f6125bbf04f3f60a513d70e84d16bf3712ebb67a7a8dd8c2d750f2677",
+      "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+      "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+    }
+  ],
+  "all_titles_absent": false,
+  "wechat_mutation_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}
