@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "status": "PASS",
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
   "quote_date": "2026-09-24",
   "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
   "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
   "created_at": "2026-09-24T09:56:42.537372+09:00",
-  "updated_at": "2026-09-24T12:55:58.671494+09:00",
+  "updated_at": "2026-09-24T11:17:11.349210+09:00",
   "stages": {
     "pdf": {
       "status": "PASS",
@@ -325,276 +325,15 @@
       "final_attachment_method": "OPERATOR_AUTHORIZED_TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
     },
     "text": {
-      "status": "PASS",
+      "status": "FROZEN_AFTER_MUTATION_ATTEMPT",
       "payload_sha256": "c1d39d766c3ad1198afafeac5c2e1ebec94f0d2549ec11dea6366253cae071c2",
       "mutation_attempt_count": 1,
       "mutation_started_at": "2026-09-24T11:16:42.329437+09:00",
       "error_type": "WeChatRuntimeError",
-      "error": "note window is not frontmost: {'command': ['osascript', '-e', '\\n        tell application id \"com.tencent.xinWeChot2\" to activate\\n        delay 0.2\\n        tell application \"System Events\"\\n            set targetProc to first process whose unix id is 12576\\n\\n            tell targetProc\\n                set frontmost to true\\n                set targetNotes to every window whose name is \"笔记\"\\n                if (count of targetNotes) is not 1 then return \"WINDOW_NOT_UNIQUE\"\\n                perform action \"AXRaise\" of item 1 of targetNotes\\n                delay 0.2\\n                return (name of window 1 as text)\\n            end tell\\n        end tell\\n        '], 'returncode': 0, 'stdout': 'WINDOW_NOT_UNIQUE', 'stderr': ''}",
-      "append_only_recovery": {
-        "status": "PASS",
-        "started_at": "2026-09-24T12:54:09.014240+09:00",
-        "authorization": "CONFIRM_APPEND_ONLY_MIKIHOUSE_20260924_TEXT_CHUNKS_3_TO_13",
-        "audit": {
-          "status": "PROVEN_APPEND_ONLY_SCOPE",
-          "proof": {
-            "status": "EXACT_COMPLETE_CHUNK_PREFIX",
-            "sent_chunk_count": 2,
-            "total_chunk_count": 13,
-            "remaining_chunk_count": 11,
-            "prefix_character_count": 10952,
-            "total_character_count": 70650,
-            "raw_exact_match": false,
-            "newline_transport_only": true,
-            "prefix_sha256": "21679a583bc625fd541b403ff0a39e181cec9c48e5360ccfd5fc6d66d3d49799",
-            "raw_readback_sha256": "5cd36f9ffb0bf09e32d404af815a161f8814443b21ce4cae39ac726efff1cafe",
-            "expected_sha256": "308a7593a1275a8d7fc3283897ae5a98e1d3cd8e8f0983c66a7acf4dd76a6b88",
-            "boundaries": [
-              5485,
-              10952,
-              16448,
-              21946,
-              27441,
-              32935,
-              38424,
-              43898,
-              49397,
-              54894,
-              60368,
-              65844,
-              70650
-            ],
-            "remaining_character_count": 59698
-          },
-          "saved_title_count": 1,
-          "readback": {
-            "copy_status": "COPY_READ",
-            "attempt_count": 1,
-            "selection_delay_seconds": 1.5,
-            "clipboard_timeout_seconds": 8.0,
-            "attempts": [
-              {
-                "attempt": 1,
-                "copy_action_status": "COPY_SENT",
-                "copy_action_returncode": 0,
-                "clipboard_changed": true,
-                "fingerprint": {
-                  "raw_character_count": 10952,
-                  "normalized_character_count": 10951,
-                  "utf8_byte_count": 15241,
-                  "line_count": 267,
-                  "raw_sha256": "5cd36f9ffb0bf09e32d404af815a161f8814443b21ce4cae39ac726efff1cafe",
-                  "normalized_sha256": "b8727acb53b294a54a3e2cf300bfea7ff6446c9b7f3cd57588e9e4e376f12917",
-                  "head_sha256": "7fe7107b3fa2364c3ffc4464245bec285f6ea6b46aa76cb7fec09a4d56eb01bc",
-                  "tail_sha256": "ddd585adbaacc9e118b3a0643405efa1dde900aa0b770e0c742cd0949dc60d87",
-                  "first_line": "MIKI HOUSE 9月24日报价｜文字版",
-                  "last_line": "12-1502-793｜477元 グリーン/オレンジ:S(70-80cm)"
-                }
-              }
-            ],
-            "fingerprint": {
-              "raw_character_count": 10952,
-              "normalized_character_count": 10951,
-              "utf8_byte_count": 15241,
-              "line_count": 267,
-              "raw_sha256": "5cd36f9ffb0bf09e32d404af815a161f8814443b21ce4cae39ac726efff1cafe",
-              "normalized_sha256": "b8727acb53b294a54a3e2cf300bfea7ff6446c9b7f3cd57588e9e4e376f12917",
-              "head_sha256": "7fe7107b3fa2364c3ffc4464245bec285f6ea6b46aa76cb7fec09a4d56eb01bc",
-              "tail_sha256": "ddd585adbaacc9e118b3a0643405efa1dde900aa0b770e0c742cd0949dc60d87",
-              "first_line": "MIKI HOUSE 9月24日报价｜文字版",
-              "last_line": "12-1502-793｜477元 グリーン/オレンジ:S(70-80cm)"
-            }
-          },
-          "pdf_ui_access_count": 0,
-          "no_new_note": true,
-          "no_replace": true
-        },
-        "chunk_ledger": [
-          {
-            "resume_chunk_offset": 1,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "fc18219617e4eb747431e65bbf98d768c73bd4b2d89c67173f273c6aba6ba295",
-            "chunk_character_count": 5496,
-            "chunk_index": 3,
-            "at": "2026-09-24T12:54:12.850861+09:00"
-          },
-          {
-            "resume_chunk_offset": 1,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "c90d85fbdcf28164f434726d9ddaede4ac9c103578163071dd4a6b3e1559e118",
-            "cumulative_character_count": 16448,
-            "chunk_index": 3,
-            "at": "2026-09-24T12:54:17.725229+09:00"
-          },
-          {
-            "resume_chunk_offset": 2,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "3fe2b660b1394ffa0fd4e81ed3c2ba79a28c6a65bf7f87e3350f44b61ce4a7df",
-            "chunk_character_count": 5498,
-            "chunk_index": 4,
-            "at": "2026-09-24T12:54:18.655398+09:00"
-          },
-          {
-            "resume_chunk_offset": 2,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "7340a546453a8053e1bf3fca17ba302a4512c1df9d8719bcb39dab2a54cfa277",
-            "cumulative_character_count": 21946,
-            "chunk_index": 4,
-            "at": "2026-09-24T12:54:23.591786+09:00"
-          },
-          {
-            "resume_chunk_offset": 3,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "49f9413eece7b89e6a5cb16534211411bb381eed280f0f9317c2aeae77c078e3",
-            "chunk_character_count": 5495,
-            "chunk_index": 5,
-            "at": "2026-09-24T12:54:24.494508+09:00"
-          },
-          {
-            "resume_chunk_offset": 3,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "214f5c9c4209c8e5d70e809cb8b9d1c69d62da5889d8accee28722f7fbb28e28",
-            "cumulative_character_count": 27441,
-            "chunk_index": 5,
-            "at": "2026-09-24T12:54:29.412974+09:00"
-          },
-          {
-            "resume_chunk_offset": 4,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "95554d22d958da44ed34cd9aa79657d598ba6493f8048931c59d3fce3bd4e3a4",
-            "chunk_character_count": 5494,
-            "chunk_index": 6,
-            "at": "2026-09-24T12:54:30.303174+09:00"
-          },
-          {
-            "resume_chunk_offset": 4,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "b3640bc17ca62f2387548ad2b93a4ccd4757ffc09997dd4d666864819bc392cd",
-            "cumulative_character_count": 32935,
-            "chunk_index": 6,
-            "at": "2026-09-24T12:54:35.213434+09:00"
-          },
-          {
-            "resume_chunk_offset": 5,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "1aa5f3b4a6ae32b826f8b41cabf4f818fae1383cf4a91b61cb45ad5295f3f1f3",
-            "chunk_character_count": 5489,
-            "chunk_index": 7,
-            "at": "2026-09-24T12:54:36.158486+09:00"
-          },
-          {
-            "resume_chunk_offset": 5,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "a88ad82781416013cacaf455fd83d4a190fd8bc62fb4f68f0f8530e38486b011",
-            "cumulative_character_count": 38424,
-            "chunk_index": 7,
-            "at": "2026-09-24T12:54:41.027315+09:00"
-          },
-          {
-            "resume_chunk_offset": 6,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "36faa7301ac915b032028ffd5911c36df47fff0645083ca99b4bafbd616e0da4",
-            "chunk_character_count": 5474,
-            "chunk_index": 8,
-            "at": "2026-09-24T12:54:41.956285+09:00"
-          },
-          {
-            "resume_chunk_offset": 6,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "fb11bc56c99673140387080b31ce78f81fe8cee0cf9f048c78f5a67be2372b80",
-            "cumulative_character_count": 43898,
-            "chunk_index": 8,
-            "at": "2026-09-24T12:54:47.042313+09:00"
-          },
-          {
-            "resume_chunk_offset": 7,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "19128ee6bf91d8e0672da5433e8e85adce44f1c76bb7fda0404f506c818101e5",
-            "chunk_character_count": 5499,
-            "chunk_index": 9,
-            "at": "2026-09-24T12:54:47.950512+09:00"
-          },
-          {
-            "resume_chunk_offset": 7,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "bbeb69fccf10a1250cd6e14821907ae28c0de05e6a18b1171cb228c6c39e3147",
-            "cumulative_character_count": 49397,
-            "chunk_index": 9,
-            "at": "2026-09-24T12:54:53.048810+09:00"
-          },
-          {
-            "resume_chunk_offset": 8,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "48bff5dbe2cc5ab169157cf2aa682ff6851c800a64ff82df8f14f7891018a1b7",
-            "chunk_character_count": 5497,
-            "chunk_index": 10,
-            "at": "2026-09-24T12:54:53.948438+09:00"
-          },
-          {
-            "resume_chunk_offset": 8,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "6d03de6eb6c44cce2b536f3ec67ae75eb831f182af7d7b886085b2a3a3f6c0f8",
-            "cumulative_character_count": 54894,
-            "chunk_index": 10,
-            "at": "2026-09-24T12:54:59.062489+09:00"
-          },
-          {
-            "resume_chunk_offset": 9,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "f2248ffaebee02aba9b6361dc9a10c393247e8cd836d823ad49a3e44b7120c5f",
-            "chunk_character_count": 5474,
-            "chunk_index": 11,
-            "at": "2026-09-24T12:54:59.983698+09:00"
-          },
-          {
-            "resume_chunk_offset": 9,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "dfabd181c7e36f4b13bbc323ec0980683c5638f44c95ee553ec77367fe43bc79",
-            "cumulative_character_count": 60368,
-            "chunk_index": 11,
-            "at": "2026-09-24T12:55:05.432115+09:00"
-          },
-          {
-            "resume_chunk_offset": 10,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "7fd9f47e2f8b7cca30acf34264c846c45d6d5406b6ecb92a5b8680d5c4f274c8",
-            "chunk_character_count": 5476,
-            "chunk_index": 12,
-            "at": "2026-09-24T12:55:06.357655+09:00"
-          },
-          {
-            "resume_chunk_offset": 10,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "a1956a91d0f9f83549f49c4359bdf0f306d9a171201dd67734e74915577e8033",
-            "cumulative_character_count": 65844,
-            "chunk_index": 12,
-            "at": "2026-09-24T12:55:12.007392+09:00"
-          },
-          {
-            "resume_chunk_offset": 11,
-            "status": "MUTATION_STARTED",
-            "chunk_sha256": "ca1660b775cd55c10edf64a1c3f64fff5d86cab3ab7e4cbd8e36ad9c959abed5",
-            "chunk_character_count": 4806,
-            "chunk_index": 13,
-            "at": "2026-09-24T12:55:12.933490+09:00"
-          },
-          {
-            "resume_chunk_offset": 11,
-            "status": "READBACK_PASS",
-            "cumulative_eol_sha256": "308a7593a1275a8d7fc3283897ae5a98e1d3cd8e8f0983c66a7acf4dd76a6b88",
-            "cumulative_character_count": 70650,
-            "chunk_index": 13,
-            "at": "2026-09-24T12:55:18.398480+09:00"
-          }
-        ],
-        "automatic_retry_count": 0,
-        "completed_at": "2026-09-24T12:55:58.671431+09:00"
-      },
-      "completed_at": "2026-09-24T12:55:58.671463+09:00",
-      "evidence_file": "wechat_text_append_recovery_validation.json"
+      "error": "note window is not frontmost: {'command': ['osascript', '-e', '\\n        tell application id \"com.tencent.xinWeChot2\" to activate\\n        delay 0.2\\n        tell application \"System Events\"\\n            set targetProc to first process whose unix id is 12576\\n\\n            tell targetProc\\n                set frontmost to true\\n                set targetNotes to every window whose name is \"笔记\"\\n                if (count of targetNotes) is not 1 then return \"WINDOW_NOT_UNIQUE\"\\n                perform action \"AXRaise\" of item 1 of targetNotes\\n                delay 0.2\\n                return (name of window 1 as text)\\n            end tell\\n        end tell\\n        '], 'returncode': 0, 'stdout': 'WINDOW_NOT_UNIQUE', 'stderr': ''}"
     }
   },
-  "favorite_create_count": 2,
+  "favorite_create_count": 1,
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
   "shijiu_request_count": 0,
@@ -606,6 +345,5 @@
     "prior_bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
     "absence_audit_sha256": "9b62975d26c9010294594eb2d37acf2088be8292c42dd436d65edeaccdcec1c0",
     "reset_at": "2026-09-24T09:56:42.537424+09:00"
-  },
-  "completed_at": "2026-09-24T12:55:58.671466+09:00"
+  }
 }

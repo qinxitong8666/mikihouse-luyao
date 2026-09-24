@@ -264,7 +264,12 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     current = json.loads((root / config["coordinate_free_pdf_runtime_blocking_evidence_path"]).read_text())
     assert current["status"] == "BLOCKED_NATIVE_FILE_REFERENCE"
     assert current["production_goal_completed"] is False
+    # Preserve the accepted PDF snapshot. The shared runtime's subsequent text
+    # binding change is pinned by its own append/save/reopen runtime evidence.
+    text_evidence = json.loads((root / "docs/evidence/wechat_text_append_20260924.json").read_text())
     for relative, expected_hash in evidence["source_sha256"].items():
+        if relative == "src/mikihouse_luyao/wechat_favorite_runtime.py":
+            expected_hash = text_evidence["source_sha256"][relative]
         assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == expected_hash
     target = Mock()
     monkeypatch.setattr(runtime, "select_target_process", target)

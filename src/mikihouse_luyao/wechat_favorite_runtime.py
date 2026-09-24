@@ -603,6 +603,12 @@ def write_note_text(
                 raise WeChatRuntimeError(f"chunk {index} paste failed")
             time.sleep(min(3.0, max(0.5, len(chunk) / 5000)))
             expected += chunk
+            if index == 1 and note.payload_title and note.new_draft:
+                # The anonymous draft belongs to this invocation only before
+                # its first paste. Never reacquire `笔记` after text was sent:
+                # the editor updates its title asynchronously during readback.
+                from .wechat_pdf_keyboard import wait_for_verified_note_title
+                note, _ = wait_for_verified_note_title(pid, note.payload_title)
             actual, readback, comparison = read_note_text_until_match(
                 pid, bundle_id, note, expected
             )
@@ -639,6 +645,8 @@ def append_note_chunks(
     *,
     expected_prefix: str,
     remaining_chunks: list[str],
+    strict_eol: bool = False,
+    progress: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Resume only unsent chunks after a readback-proven exact prefix.
 
@@ -651,7 +659,8 @@ def append_note_chunks(
         raise WeChatRuntimeError("resume requires a proven prefix and unsent chunks")
     current, _ = read_note_text(pid, bundle_id, note)
     prefix_comparison = compare_text_readback(expected_prefix, current)
-    if not prefix_comparison["normalized_hash_match"]:
+    equal = lambda a, b: a.replace("\r\n", "\n").replace("\r", "\n") == b.replace("\r\n", "\n").replace("\r", "\n")
+    if not prefix_comparison["normalized_hash_match"] or (strict_eol and not equal(expected_prefix, current)):
         raise WeChatRuntimeError("resume prefix does not match current note")
     original_clipboard = _clipboard_text()
     expected = expected_prefix
@@ -660,6 +669,10 @@ def append_note_chunks(
         for offset, chunk in enumerate(remaining_chunks, 1):
             _raise_note(pid, bundle_id, note)
             _set_clipboard_text(chunk)
+            if progress:
+                progress({"resume_chunk_offset": offset, "status": "MUTATION_STARTED",
+                          "chunk_sha256": hashlib.sha256(chunk.encode()).hexdigest(),
+                          "chunk_character_count": len(chunk)})
             action = _osascript(
                 f'''
                 tell application "System Events"
@@ -690,10 +703,14 @@ def append_note_chunks(
                 "readback": readback,
                 "comparison": comparison,
             })
-            if not comparison["normalized_hash_match"]:
+            if not comparison["normalized_hash_match"] or (strict_eol and not equal(expected, actual)):
                 raise WeChatRuntimeError(
                     f"resume chunk {offset} cumulative readback mismatch"
                 )
+            if progress:
+                progress({"resume_chunk_offset": offset, "status": "READBACK_PASS",
+                          "cumulative_eol_sha256": hashlib.sha256(expected.encode()).hexdigest(),
+                          "cumulative_character_count": len(expected)})
     finally:
         _set_clipboard_text(original_clipboard)
     return {
