@@ -186,6 +186,10 @@ class FakeSink:
             "shijiu_request_count": 0,
         }
 
+    def audit_pdf_draft_read_only(self, payload):
+        return {"status": "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT",
+                "attachment_marker_count": 0, "comparison": {"normalized_hash_match": True}}
+
 
 def test_bundle_preflight_binds_one_manifest_and_two_validated_payloads(tmp_path: Path) -> None:
     daily, config = build_bundle(tmp_path)
@@ -672,6 +676,42 @@ def test_unknown_frozen_error_is_not_a_recovery_permission(tmp_path):
     with pytest.raises(WeChatDailyProductionError, match="canonical attachment failure"):
         audit_frozen_pdf_recovery_readonly(daily, config, repository_root=ROOT, sink=sink)
     assert sink.calls == [] and sink.recovery_calls == []
+
+
+def test_title_scoped_recovery_preserves_consumed_attempt_and_cannot_repeat(tmp_path):
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    frozen = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    stage = frozen["stages"]["pdf"]
+    stage["status"] = "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+    prior = {"status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT", "mutation_attempt_count": 1,
+             "mutation_started_at": "original", "error": "expected one owned note window, got 2"}
+    stage["authorized_recovery"] = prior
+    write_json(daily / CHECKPOINT_FILENAME, frozen)
+    sink = FakeSink(title_counts=[1, 0])
+    result = recover_frozen_pdf_and_complete_daily_favorites(daily, config, repository_root=ROOT,
+              confirmation=PRODUCTION_CONFIRMATION, sink=sink)
+    assert result["status"] == "PASS"
+    final = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    assert final["stages"]["pdf"]["recovery_history"] == [prior]
+    assert len(sink.recovery_calls) == 1 and len(sink.calls) == 1
+    with pytest.raises(WeChatDailyProductionError):
+        recover_frozen_pdf_and_complete_daily_favorites(daily, config, repository_root=ROOT,
+                  confirmation=PRODUCTION_CONFIRMATION, sink=sink)
+    assert len(sink.recovery_calls) == 1
+
+
+def test_title_scoped_resume_cannot_replay_another_failure(tmp_path):
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    frozen = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    frozen["stages"]["pdf"].update(status="FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
+         authorized_recovery={"status":"FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT", "error":"unknown upload", "mutation_attempt_count":1})
+    write_json(daily / CHECKPOINT_FILENAME, frozen)
+    sink = FakeSink(title_counts=[1, 0])
+    with pytest.raises(WeChatDailyProductionError):
+        audit_frozen_pdf_recovery_readonly(daily, config, repository_root=ROOT, sink=sink)
+    assert sink.recovery_calls == [] and sink.title_audit_count == 0
 
 
 def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config() -> None:

@@ -79,7 +79,7 @@ def test_pdf_close_never_uses_helper_or_main_file_menu(monkeypatch):
     note = runtime.WindowIdentity(1, "TEST", "AXWindow")
     windows = iter([[note, main], [main]])
     monkeypatch.setattr(runtime, "get_windows", lambda _: next(windows))
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: note)
+    monkeypatch.setattr(runtime, "_raise_note", Mock())
     menu = Mock()
     monkeypatch.setattr(runtime, "press_menu_item", menu)
     a = MagicMock()
@@ -112,7 +112,8 @@ def test_reopen_focuses_exact_list_before_home_enter(monkeypatch):
         return {"returncode": 0, "stdout": "UNIQUE_RESULT_OPEN_SENT"}
     monkeypatch.setattr(runtime, "_osascript", keys)
     reopened, ev = runtime.search_and_open_saved_note(123, runtime.TARGET_BUNDLE_ID, "TEST")
-    assert reopened == note
+    assert reopened.title == note.title
+    assert reopened.payload_title == "TEST"
     assert ev["result_focus"]["status"] == "EXACT_RESULT_LIST_FOCUSED"
 
 

@@ -34,12 +34,12 @@ def test_script_has_no_coordinates_global_tree_or_repeated_action():
 
 def test_title_wait_rebinds_without_actions(monkeypatch):
     titles = iter(["笔记", "MIKIHOUSE_TEST_2026", NOTE.title, NOTE.title])
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: runtime.WindowIdentity(1, next(titles), "AXWindow"))
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [runtime.WindowIdentity(1, next(titles), "AXWindow")])
     monkeypatch.setattr(picker.time, "sleep", lambda _: None)
     action = Mock()
     monkeypatch.setattr(runtime, "_osascript", action)
     note, proof = picker.wait_for_verified_note_title(123, BODY.splitlines()[0])
-    assert note == NOTE
+    assert note.title == NOTE.title
     assert proof["read_only_poll_count"] == 4
     assert proof["mutation_count"] == 0
     action.assert_not_called()
@@ -49,20 +49,20 @@ def test_title_wait_rebinds_without_actions(monkeypatch):
 def test_title_wait_timeout_never_opens_picker(tmp_path, monkeypatch, title):
     path = tmp_path / "daily.pdf"
     path.write_bytes(b"%PDF-test")
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: runtime.WindowIdentity(1, title, "AXWindow"))
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [runtime.WindowIdentity(1, title, "AXWindow")])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: (BODY, {}))
     sleep = Mock()
     monkeypatch.setattr(picker.time, "sleep", sleep)
     opening = Mock()
     monkeypatch.setattr(picker, "open_picker_once", opening)
     with pytest.raises(runtime.WeChatRuntimeError, match="did not stabilize"):
-        picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
+        picker.wait_for_verified_note_title(123, BODY.splitlines()[0])
     assert sleep.call_count <= 20
     opening.assert_not_called()
 
 
 def test_title_wait_ambiguous_window_fails_immediately(monkeypatch):
-    monkeypatch.setattr(runtime, "require_unique_note_window", Mock(side_effect=runtime.WeChatRuntimeError("got 2")))
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [NOTE, NOTE])
     sleep = Mock()
     monkeypatch.setattr(picker.time, "sleep", sleep)
     with pytest.raises(runtime.WeChatRuntimeError, match="got 2"):
@@ -73,7 +73,7 @@ def test_title_wait_ambiguous_window_fails_immediately(monkeypatch):
 def test_body_proof_required_before_title_wait(tmp_path, monkeypatch):
     path = tmp_path / "daily.pdf"
     path.write_bytes(b"%PDF-test")
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [NOTE])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: ("foreign body", {}))
     wait = Mock()
     monkeypatch.setattr(picker, "wait_for_verified_note_title", wait)
@@ -155,7 +155,7 @@ def test_native_failure_never_retries_upload(tmp_path, monkeypatch, failure):
     }
     monkeypatch.setattr(native, "NativePickerAX", lambda *_: panel)
     monkeypatch.setattr(picker.time, "sleep", lambda _: None)
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [NOTE])
     readbacks = iter([(BODY, {}), ("broken", {})])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: next(readbacks))
     outputs = ["PICKER_KEYS_SENT_ONCE", "KEY_SENT_ONCE", "KEY_SENT_ONCE"]
@@ -197,7 +197,7 @@ def test_unaccepted_runner_blocks_production_before_all_ui(monkeypatch, method):
 def test_runtime_failure_report_retains_panel_result(tmp_path, monkeypatch):
     path = tmp_path / "daily.pdf"
     path.write_bytes(b"%PDF-test")
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _: NOTE)
+    monkeypatch.setattr(runtime, "get_windows", lambda _: [NOTE])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: (BODY, {}))
     monkeypatch.setattr(runtime, "_osascript", lambda _: {"returncode": 0, "stdout": "NOTE_NOT_FRONTMOST"})
     with pytest.raises(runtime.WeChatRuntimeError, match="NOTE_NOT_FRONTMOST"):
@@ -251,7 +251,7 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     root = Path(__file__).resolve().parents[1]
     config = json.loads((root / "config/wechat_favorite_runtime.json").read_text())
     evidence = json.loads((root / config["coordinate_free_pdf_runtime_evidence_path"]).read_text())
-    assert config["coordinate_free_pdf_runtime_validation_status"] == "PASS"
+    assert config["coordinate_free_pdf_runtime_validation_status"] == "BLOCKED_NATIVE_FILE_REFERENCE"
     assert config["production_save_enabled"] is False
     assert evidence["status"] == "PASS_FULL_SINK_UNINTERRUPTED"
     assert evidence["sink_invocation_count"] == 1
@@ -260,29 +260,16 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     assert evidence["attachment"]["file_dispatch"]["dispatch_count"] == 1
     assert evidence["attachment_filename_readback"][0]["same_title_unique_candidate_count"] == 1
     assert evidence["safety"]["formal_favorite_mutations"] == 0
-    for relative, expected_hash in evidence["accepted_runtime_source_sha256"].items():
-        source = (root / relative).read_text()
-        # Preserve the historical V4 evidence rather than assigning its PASS
-        # to this new gate. Pin every byte of its mutation/readback path, with
-        # only these explicit read-only/evidence amendments projected out.
-        if relative.endswith("wechat_favorite_runtime.py"):
-            source = source.replace('            "coordinate_free_attachment_evidence": attachment,\n', '')
-        if relative.endswith("wechat_pdf_keyboard.py"):
-            start = source.index("def wait_for_verified_note_title(")
-            end = source.index("def attach_pdf_once(", start)
-            source = source[:start] + source[end:]
-            source = source.replace(
-                '    title = expected_text.splitlines()[0]\n    note, title_binding = wait_for_verified_note_title(pid, title)\n',
-                '    note = runtime.require_unique_note_window(pid)\n'
-                '    title = expected_text.splitlines()[0]\n'
-                '    if not note.title or not title.startswith(note.title):\n'
-                '        raise runtime.WeChatRuntimeError("post-readback note title does not match verified body")\n',
-            )
-            source = source.replace('        "title_binding": title_binding,\n', '')
-        assert hashlib.sha256(source.encode()).hexdigest() == expected_hash
+    # Historical full-Sink PASS remains historical. The current binding change
+    # is pinned to its actual blocked runtime report, never promoted to PASS.
+    current = json.loads((root / config["coordinate_free_pdf_runtime_blocking_evidence_path"]).read_text())
+    assert current["status"] == config["coordinate_free_pdf_runtime_validation_status"]
+    assert current["production_goal_completed"] is False
+    for relative, expected_hash in current["source_sha256"].items():
+        assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == expected_hash
     target = Mock()
     monkeypatch.setattr(runtime, "select_target_process", target)
-    with pytest.raises(runtime.WeChatRuntimeError, match="config switch is disabled"):
+    with pytest.raises(runtime.WeChatRuntimeError, match="尚未通过"):
         runtime.MacWeChatFavoriteSink(config).save(
             {"title": "正式PDF", "attachments": ["daily.pdf"]},
             production=True, confirmation=runtime.PRODUCTION_CONFIRMATION,

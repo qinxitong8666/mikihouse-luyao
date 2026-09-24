@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_NATIVE_FILE_REFERENCE",
+  "production_goal_completed": false,
+  "base_head": "62732177cf24d396f60e91af77feed3918342bc4",
+  "quote_date": "2026-09-24",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_daily_production.py": "362dee6b83d258f7288557222edd557787ab570dce425b55826f212011cb6afe",
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "666fe1e1a685a211fd919ba3fc4ab0b0ac56a595ec484e3722ee3f0aa02741ed",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "070dc34c8228efcb2a1bfed39cdb8ef69f3a2a66ebb58ebf0711258a8a9ec998",
+    "src/mikihouse_luyao/wechat_native_picker.py": "e279c87deb75613d584fa36d315fbd8b0b05deed34445f200c37bc88e5245729"
+  },
+  "binding_contract": {
+    "candidate_titles": "Exact payload title or its observed 20-Unicode-character WeChat AX truncation only",
+    "arbitrary_prefix_matching": false,
+    "global_unique_note_requirement": false,
+    "candidate_count_required": 1,
+    "body_hash_required": true,
+    "foreign_note_body_read_count": 0,
+    "foreign_note_close_count": 0,
+    "foreign_note_mutation_count": 0,
+    "raise_by_stale_window_index": false,
+    "new_anonymous_draft": "Only a newly-created draft with no preexisting anonymous draft; otherwise fail closed without reading another draft"
+  },
+  "post_failure_readonly_hardening": {
+    "executed_wechat_favorite_runtime_sha256": "ee4af0705eec12d10bdbad18894ead0896da2e873ba6a2f2f51edc9dabfe706c",
+    "change": "AX body-tree collection now rebinds the payload window and verifies its exact observed title before reading children, rejecting a stale index",
+    "live_rerun": false
+  },
+  "preflight": {
+    "exact_title_counts": [1, 0],
+    "draft_proof": "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT",
+    "body_normalized_hash_match": true,
+    "attachment_marker_count": 0,
+    "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+    "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+    "bundle_regenerated": false
+  },
+  "authorization": {
+    "operation": "RECOVER_FROZEN_PDF_AND_CREATE_PENDING_TEXT",
+    "status": "CONSUMED",
+    "repository_head": "62732177cf24d396f60e91af77feed3918342bc4",
+    "issued_at": "2026-09-24T01:44:25.468519+00:00",
+    "consumed_at": "2026-09-24T01:44:25.656784+00:00",
+    "actual_app_confirmation": true,
+    "private_permit_committed": false,
+    "production_save_enabled": false
+  },
+  "execution": {
+    "payload_title_recovery_started_at": "2026-09-24T10:44:54.974224+09:00",
+    "failed_at": "2026-09-24T10:45:17.530216+09:00",
+    "error": "native file reference URL cannot resolve to path",
+    "error_source": "NativePickerAX.text / CFURLCreateFilePathURL; native adapter unchanged in this task",
+    "failed_resource_url": "NOT_CAPTURED; do not infer it was the requested PDF itself",
+    "picker_was_reached": "Inferred from native URL read failure in the note-owned panel path, after payload/body guards",
+    "file_open_dispatch_count": 0,
+    "file_open_count_basis": "URL resolution is part of exact_file validation before AXOpen dispatch; no retry was executed",
+    "new_pdf_note_create_count": 0,
+    "new_text_note_create_count": 0,
+    "automatic_mutation_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "old_recovery_preserved_in_checkpoint_history": true,
+    "checkpoint_reset_count": 0,
+    "final_checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+    "text_stage_status": "PENDING"
+  },
+  "post_failure_metadata_readonly": {
+    "matching_target_window_count": 1,
+    "observed_title": "MIKI HOUSE 9月24日报价｜P",
+    "payload_title": "MIKI HOUSE 9月24日报价｜PDF版",
+    "other_note_body_reads": 0,
+    "mutation_count": 0,
+    "no_further_search_or_copy_while_picker_pending": true
+  },
+  "before_snapshot_directory": "docs/evidence/wechat_payload_binding_20260924_before",
+  "before_checkpoint_sha256": "c1d5a01f0856603ed178954e5664169110ddf3deccbff7ce6e719c6d60b003e7",
+  "before_report_sha256": "2395c0c3c4820a929a5723ff9f41d909fcfc0768206e32564e41971f730f2b0c",
+  "pdf_unchanged_sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+  "checkpoint_path": "outputs/daily_quote/2026-09-24/wechat_daily_production_checkpoint.json",
+  "production_report_path": "outputs/daily_quote/2026-09-24/wechat_daily_production_report.json",
+  "historical_v4_pass_evidence_unchanged": true,
+  "final_reopen_body_and_filename_acceptance": "NOT_COMPLETED",
+  "offline_verification": {
+    "command": ".venv/bin/python scripts/verify_local.py",
+    "status": "PASS",
+    "pytest_passed": 424,
+    "config_json": "PASS",
+    "node_syntax": "PASS",
+    "protected_tracked_files_unchanged": 132,
+    "live_acceptance": "BLOCKED_NATIVE_FILE_REFERENCE"
+  },
+  "next_action": "Separate bounded native CFURL diagnostic/repair and explicit authorization required; do not replay the consumed recovery or claim two Favorites PASS."
+}

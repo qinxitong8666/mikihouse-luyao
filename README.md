@@ -4,6 +4,10 @@
 
 ## 每日报价（一键主入口）
 
+**2026-09-24 最新状态：按 payload 标题隔离窗口已实现，但当天双收藏仍未完成。** 正式流程只定位完整 payload 标题或已观察到的20字符 AX 截断形式，要求候选唯一并校验正文 hash；不再要求全局仅有一个笔记窗口。其他笔记只在窗口标题枚举时被排除，不读取正文、不关闭、不修改；关闭/重开验收也只检查目标窗口，不比较全局笔记数。新建文字笔记从本次创建的空草稿绑定到 payload，若已有匿名空草稿无法证明归属则写前停止。
+
+本轮 App 消费新的单次恢复许可，保留上一轮失败到 `recovery_history`，未重置 checkpoint。PDF=1、文字=0 和正式草稿正文/无附件预检通过，已进入目标笔记文件选择器；随后在原生 CFURL 解析阶段报 `native file reference URL cannot resolve to path`，未确认文件、未自动重试、未创建文字。当前附件能力门禁为 `BLOCKED_NATIVE_FILE_REFERENCE`，默认生产开关仍为 false；历史 V4 PASS 不是当前版本全链路 PASS。见[本轮生产证据](docs/evidence/wechat_payload_binding_20260924.json)。文件选择器现场保留，不能通过重放许可或重置 checkpoint 来继续。
+
 2026-09-24 标题异步更新修复：PDF 正文 hash 匹配后，只读轮询并重新绑定唯一笔记窗口（最多21次、间隔0.3秒、轮询间检查6秒截止），连续两次窗口身份与预期标题的有效截断前缀一致才打开文件选择器；多窗口立即停止，不重复正文或附件动作。历史 V4 PASS 证据保留原样，不等同于本轮正式成功。
 
 本轮 App 单次恢复的实际结果为 **BLOCKED_MULTIPLE_OPEN_NOTE_WINDOWS**：标题核对 PDF=1、文字=0 通过，但恢复时同时存在正式 PDF 窗口和 `MIKIHOUSE_TEST_2026-` 窗口，唯一窗口守卫停止。现有 PDF 正文规范化 hash 仍匹配、附件标记为0；文字阶段仍 PENDING。未重建 PDF、未重试恢复、未关闭或修改测试笔记；checkpoint 继续冻结，不能再次点击恢复来重放已消费许可。见[恢复证据](docs/evidence/wechat_title_recovery_20260924.json)和[只读回读](docs/evidence/wechat_title_recovery_20260924_readonly.json)。

@@ -140,7 +140,17 @@ def wait_for_verified_note_title(pid: int, expected_title: str) -> tuple[runtime
     previous = None
     started = time.monotonic()
     for poll in range(21):
-        note = runtime.require_unique_note_window(pid)
+        candidates = runtime.payload_note_windows(pid, expected_title)
+        if len(candidates) > 1:
+            raise runtime.WeChatRuntimeError("expected one payload-title note window, got 2 or more")
+        if not candidates:
+            observations.append({"matching_window_count": 0})
+            previous = None
+            if poll == 20 or time.monotonic() - started >= 6:
+                break
+            time.sleep(0.3)
+            continue
+        note = candidates[0]
         identity = (note.index, note.title, note.role)
         valid = (
             note.role == runtime.NOTE_WINDOW_ROLE
@@ -177,7 +187,8 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         raise runtime.WeChatRuntimeError("nonempty local PDF required")
     if "[文件]" in expected_text or path.name in expected_text:
         raise runtime.WeChatRuntimeError("body must not contain attachment marker/filename")
-    note = runtime.require_unique_note_window(pid)
+    title = expected_text.splitlines()[0]
+    note = runtime.require_payload_note_window(pid, title)
     if note.role != runtime.NOTE_WINDOW_ROLE:
         raise runtime.WeChatRuntimeError("unique note window required")
     current, before = runtime.read_note_text(pid, bundle_id, note, max_attempts=1)
@@ -207,7 +218,7 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         if panel.owned_panel(allow_pending=True) is not None:
             raise runtime.WeChatRuntimeError("file panel remains after AXOpen; no repeat allowed")
     current_after, after = runtime.read_note_text(
-        pid, bundle_id, runtime.require_unique_note_window(pid), max_attempts=1
+        pid, bundle_id, runtime.require_payload_note_window(pid, title), max_attempts=1
     )
     comparable = runtime.remove_attachment_placeholders(current_after, 1)
     after_comparison = runtime.compare_text_readback(expected_text, comparable)

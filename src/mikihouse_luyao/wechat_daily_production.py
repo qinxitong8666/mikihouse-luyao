@@ -599,7 +599,15 @@ def audit_frozen_pdf_recovery_readonly(
     text_stage = (checkpoint.get("stages") or {}).get("text") or {}
     if checkpoint.get("status") != "FROZEN_RECONCILIATION_REQUIRED":
         raise WeChatDailyProductionError("PDF recovery requires frozen reconciliation status")
-    if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT":
+    prior_recovery = pdf_stage.get("authorized_recovery") or {}
+    title_scoped_resume = (
+        pdf_stage.get("status") == "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+        and prior_recovery.get("error") == "expected one owned note window, got 2"
+        and prior_recovery.get("status") == "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+        and prior_recovery.get("mutation_attempt_count") == 1
+        and not pdf_stage.get("payload_title_recovery_started_at")
+    )
+    if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT" and not title_scoped_resume:
         raise WeChatDailyProductionError("PDF recovery requires one frozen PDF attempt")
     if pdf_stage.get("error") not in {
         "attachment was not visible before save",
@@ -614,7 +622,7 @@ def audit_frozen_pdf_recovery_readonly(
         raise WeChatDailyProductionError("PDF recovery requires an untouched text stage")
     if int(checkpoint.get("favorite_create_count") or 0) != 0:
         raise WeChatDailyProductionError("PDF recovery checkpoint already counts a created Favorite")
-    if (pdf_stage.get("authorized_recovery") or {}).get("mutation_started_at"):
+    if prior_recovery.get("mutation_started_at") and not title_scoped_resume:
         raise WeChatDailyProductionError("PDF recovery has already been attempted")
 
     target = sink or MacWeChatFavoriteSink(runtime_config)
@@ -626,6 +634,13 @@ def audit_frozen_pdf_recovery_readonly(
         raise WeChatDailyProductionError(
             "PDF recovery requires exactly one PDF title and zero text titles"
         )
+    draft_proof = None
+    if title_scoped_resume:
+        draft_proof = target.audit_pdf_draft_read_only(preflight["payloads"]["pdf"])
+        if (draft_proof.get("status") != "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT"
+                or draft_proof.get("attachment_marker_count") != 0
+                or not (draft_proof.get("comparison") or {}).get("normalized_hash_match")):
+            raise WeChatDailyProductionError("title-scoped recovery draft proof failed")
     return {
         "schema_version": 1,
         "status": "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION",
@@ -634,6 +649,8 @@ def audit_frozen_pdf_recovery_readonly(
         "bundle_sha256": preflight["bundle_sha256"],
         "title_results": rows,
         "exact_title_counts": counts,
+        "title_scoped_explicit_recovery": title_scoped_resume,
+        "payload_draft_proof": draft_proof,
         "pdf_original_mutation_attempt_count": 1,
         "text_mutation_attempt_count": 0,
         "checkpoint_reset_count": 0,
@@ -695,6 +712,11 @@ def recover_frozen_pdf_and_complete_daily_favorites(
         "title_audit": audit,
         "automatic_retry_count": 0,
     }
+    if audit["title_scoped_explicit_recovery"]:
+        # A new operator-authorized task, not replay of the consumed permit.
+        # Preserve the failed attempt permanently and disallow another resume.
+        pdf_stage.setdefault("recovery_history", []).append(pdf_stage["authorized_recovery"])
+        pdf_stage["payload_title_recovery_started_at"] = recovery_state["mutation_started_at"]
     pdf_stage["authorized_recovery"] = recovery_state
     checkpoint["updated_at"] = _now()
     write_json(checkpoint_path, checkpoint)

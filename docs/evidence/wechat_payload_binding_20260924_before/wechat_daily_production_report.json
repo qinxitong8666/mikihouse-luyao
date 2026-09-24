@@ -6,7 +6,7 @@
   "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
   "failed_stage": "pdf_file_picker_recovery",
   "error_type": "WeChatRuntimeError",
-  "error": "native file reference URL cannot resolve to path",
+  "error": "expected one owned note window, got 2",
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
   "shijiu_request_count": 0

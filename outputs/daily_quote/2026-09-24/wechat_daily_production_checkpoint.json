@@ -5,7 +5,7 @@
   "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
   "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
   "created_at": "2026-09-24T09:56:42.537372+09:00",
-  "updated_at": "2026-09-24T10:23:33.874315+09:00",
+  "updated_at": "2026-09-24T10:45:17.530216+09:00",
   "stages": {
     "pdf": {
       "status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
@@ -16,7 +16,7 @@
       "error": "post-readback note title does not match verified body",
       "authorized_recovery": {
         "status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
-        "mutation_started_at": "2026-09-24T10:23:02.669701+09:00",
+        "mutation_started_at": "2026-09-24T10:44:54.974224+09:00",
         "mutation_attempt_count": 1,
         "title_audit": {
           "schema_version": 1,
@@ -28,14 +28,14 @@
             {
               "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
               "search_candidate_count": 1,
-              "search_tree_sha256": "963ca8281fcf2a0011257a866459b3613d86aee93aec344df2f134aa849a87de",
+              "search_tree_sha256": "ea169a8b86ec3c37917e34c416960f04f7951fc2bf0598dc19121e819f05abc5",
               "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
               "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
             },
             {
               "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
               "search_candidate_count": 0,
-              "search_tree_sha256": "9fe0f5ed106a4a29104193ca17665aad944d4f1a56952a53df240924d64a1b55",
+              "search_tree_sha256": "4c469cd3ee58c0eefeebf715a3f111071200e7629e6275504ffc0b43f61e837f",
               "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
               "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
             }
@@ -44,6 +44,88 @@
             1,
             0
           ],
+          "title_scoped_explicit_recovery": true,
+          "payload_draft_proof": {
+            "status": "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT",
+            "window": {
+              "index": 2,
+              "title": "MIKI HOUSE 9月24日报价｜P",
+              "role": "AXWindow",
+              "payload_title": "MIKI HOUSE 9月24日报价｜PDF版",
+              "new_draft": false
+            },
+            "comparison": {
+              "status": "NORMALIZED_READBACK_MATCH",
+              "exact_hash_match": false,
+              "normalized_hash_match": true,
+              "truncated": false,
+              "expected": {
+                "raw_character_count": 99,
+                "normalized_character_count": 98,
+                "utf8_byte_count": 207,
+                "line_count": 6,
+                "raw_sha256": "af01ab5780b4f981fd6563858b8bead083a88a9e62da8d7d09b402a6efa5d816",
+                "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+                "last_line": "库存随官网变化，下单前请再次确认"
+              },
+              "actual": {
+                "raw_character_count": 99,
+                "normalized_character_count": 98,
+                "utf8_byte_count": 207,
+                "line_count": 6,
+                "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+                "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+                "last_line": "库存随官网变化，下单前请再次确认"
+              }
+            },
+            "readback": {
+              "copy_status": "COPY_READ",
+              "attempt_count": 1,
+              "selection_delay_seconds": 1.5,
+              "clipboard_timeout_seconds": 8.0,
+              "attempts": [
+                {
+                  "attempt": 1,
+                  "copy_action_status": "COPY_SENT",
+                  "copy_action_returncode": 0,
+                  "clipboard_changed": true,
+                  "fingerprint": {
+                    "raw_character_count": 99,
+                    "normalized_character_count": 98,
+                    "utf8_byte_count": 207,
+                    "line_count": 6,
+                    "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+                    "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                    "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                    "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                    "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+                    "last_line": "库存随官网变化，下单前请再次确认"
+                  }
+                }
+              ],
+              "fingerprint": {
+                "raw_character_count": 99,
+                "normalized_character_count": 98,
+                "utf8_byte_count": 207,
+                "line_count": 6,
+                "raw_sha256": "0762efea9269775ba5f0d5d98c5fa37bbd4a95ee12c9b6f4b166b83eb0f55872",
+                "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+                "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+                "last_line": "库存随官网变化，下单前请再次确认"
+              }
+            },
+            "attachment_marker_count": 0,
+            "other_note_body_reads": 0,
+            "mutation_count": 0
+          },
           "pdf_original_mutation_attempt_count": 1,
           "text_mutation_attempt_count": 0,
           "checkpoint_reset_count": 0,
@@ -52,10 +134,55 @@
           "shijiu_request_count": 0
         },
         "automatic_retry_count": 0,
-        "failed_at": "2026-09-24T10:23:33.874219+09:00",
+        "failed_at": "2026-09-24T10:45:17.530188+09:00",
         "error_type": "WeChatRuntimeError",
-        "error": "expected one owned note window, got 2"
-      }
+        "error": "native file reference URL cannot resolve to path"
+      },
+      "recovery_history": [
+        {
+          "status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT",
+          "mutation_started_at": "2026-09-24T10:23:02.669701+09:00",
+          "mutation_attempt_count": 1,
+          "title_audit": {
+            "schema_version": 1,
+            "status": "READY_FOR_EXPLICIT_PDF_RECOVERY_AUTHORIZATION",
+            "quote_date": "2026-09-24",
+            "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+            "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+            "title_results": [
+              {
+                "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+                "search_candidate_count": 1,
+                "search_tree_sha256": "963ca8281fcf2a0011257a866459b3613d86aee93aec344df2f134aa849a87de",
+                "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+                "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+              },
+              {
+                "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+                "search_candidate_count": 0,
+                "search_tree_sha256": "9fe0f5ed106a4a29104193ca17665aad944d4f1a56952a53df240924d64a1b55",
+                "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+                "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+              }
+            ],
+            "exact_title_counts": [
+              1,
+              0
+            ],
+            "pdf_original_mutation_attempt_count": 1,
+            "text_mutation_attempt_count": 0,
+            "checkpoint_reset_count": 0,
+            "wechat_mutation_count": 0,
+            "chat_send_count": 0,
+            "shijiu_request_count": 0
+          },
+          "automatic_retry_count": 0,
+          "failed_at": "2026-09-24T10:23:33.874219+09:00",
+          "error_type": "WeChatRuntimeError",
+          "error": "expected one owned note window, got 2"
+        }
+      ],
+      "payload_title_recovery_started_at": "2026-09-24T10:44:54.974224+09:00"
     },
     "text": {
       "status": "PENDING",

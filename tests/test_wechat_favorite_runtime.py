@@ -370,7 +370,7 @@ def test_toolbar_picker_attachment_is_single_attempt_and_strongly_read_back(
     monkeypatch.setattr(runtime, "_clipboard_text", lambda: "original")
     clipboard_values: list[str] = []
     monkeypatch.setattr(runtime, "_set_clipboard_text", clipboard_values.append)
-    monkeypatch.setattr(runtime, "require_unique_note_window", lambda _pid: note)
+    monkeypatch.setattr(runtime, "get_windows", lambda _pid: [note])
     monkeypatch.setattr(runtime, "select_target_process", lambda: {"pid": 123})
     monkeypatch.setattr(runtime, "collect_window_ax_text", lambda *_args: attachment.name)
     from mikihouse_luyao import wechat_pdf_keyboard as keyboard
