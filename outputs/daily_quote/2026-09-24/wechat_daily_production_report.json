@@ -4,9 +4,9 @@
   "quote_date": "2026-09-24",
   "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
   "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
-  "failed_stage": "pdf_file_picker_recovery",
+  "failed_stage": "text",
   "error_type": "WeChatRuntimeError",
-  "error": "native file reference URL cannot resolve to path",
+  "error": "note window is not frontmost: {'command': ['osascript', '-e', '\\n        tell application id \"com.tencent.xinWeChot2\" to activate\\n        delay 0.2\\n        tell application \"System Events\"\\n            set targetProc to first process whose unix id is 12576\\n\\n            tell targetProc\\n                set frontmost to true\\n                set targetNotes to every window whose name is \"笔记\"\\n                if (count of targetNotes) is not 1 then return \"WINDOW_NOT_UNIQUE\"\\n                perform action \"AXRaise\" of item 1 of targetNotes\\n                delay 0.2\\n                return (name of window 1 as text)\\n            end tell\\n        end tell\\n        '], 'returncode': 0, 'stdout': 'WINDOW_NOT_UNIQUE', 'stderr': ''}",
   "automatic_mutation_retry_count": 0,
   "chat_send_count": 0,
   "shijiu_request_count": 0

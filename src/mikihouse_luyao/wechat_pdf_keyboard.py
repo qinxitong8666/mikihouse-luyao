@@ -188,7 +188,7 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
     if "[文件]" in expected_text or path.name in expected_text:
         raise runtime.WeChatRuntimeError("body must not contain attachment marker/filename")
     title = expected_text.splitlines()[0]
-    note = runtime.require_payload_note_window(pid, title)
+    note, initial_title_binding = wait_for_verified_note_title(pid, title)
     if note.role != runtime.NOTE_WINDOW_ROLE:
         raise runtime.WeChatRuntimeError("unique note window required")
     current, before = runtime.read_note_text(pid, bundle_id, note, max_attempts=1)
@@ -238,6 +238,7 @@ def attach_pdf_once(pid: int, bundle_id: str, file_path: Path, *, expected_text:
         "file_dispatch_resolved_by_readback": True,
         "placeholder_visible_before_save": True,
         "before_readback": before, "before_comparison": comparison,
+        "initial_title_binding": initial_title_binding,
         "title_binding": title_binding,
         "after_readback": after, "after_comparison": after_comparison,
         "automatic_retry_count": 0,

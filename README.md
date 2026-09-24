@@ -4,9 +4,13 @@
 
 ## 每日报价（一键主入口）
 
-**2026-09-24 最新状态：按 payload 标题隔离窗口已实现，但当天双收藏仍未完成。** 正式流程只定位完整 payload 标题或已观察到的20字符 AX 截断形式，要求候选唯一并校验正文 hash；不再要求全局仅有一个笔记窗口。其他笔记只在窗口标题枚举时被排除，不读取正文、不关闭、不修改；关闭/重开验收也只检查目标窗口，不比较全局笔记数。新建文字笔记从本次创建的空草稿绑定到 payload，若已有匿名空草稿无法证明归属则写前停止。
+**2026-09-24 CFURL 扫描修复：完整测试 Sink 已通过，正式 PDF 草稿附件已恢复。** `exact_file` 仅跳过并记录无法解析的 CFURL 节点（节点序号、role、identifier、原始 URL hash），不会将其标签、文件名或位置视为目标。仍需最终恰好一个可解析的 PDF 完整路径匹配且具备 `AXOpen`，才允许单次选择；其他 AX 错误继续失败关闭。测试保存/重开正文精确 hash 与附件文件名通过，生产默认开关仍为 false。见[新验收记录](docs/evidence/wechat_cfurl_scan_20260924.json)。
 
-本轮 App 消费新的单次恢复许可，保留上一轮失败到 `recovery_history`，未重置 checkpoint。PDF=1、文字=0 和正式草稿正文/无附件预检通过，已进入目标笔记文件选择器；随后在原生 CFURL 解析阶段报 `native file reference URL cannot resolve to path`，未确认文件、未自动重试、未创建文字。当前附件能力门禁为 `BLOCKED_NATIVE_FILE_REFERENCE`，默认生产开关仍为 false；历史 V4 PASS 不是当前版本全链路 PASS。见[本轮生产证据](docs/evidence/wechat_payload_binding_20260924.json)。文件选择器现场保留，不能通过重放许可或重置 checkpoint 来继续。
+本次正式恢复中安全跳过了节点329（AXTextField、identifier为空）的不可解析 AXURL，目标 PDF 仍唯一完整解析，单次 AXOpen 后保存/重开正文和文件名强回读 PASS。**当天双收藏尚未完成**：后续文字分段写入在“笔记”→正式标题异步切换时出现 `WINDOW_NOT_UNIQUE`，已冻结。只读确认现有文字草稿为10,952字符、预期70,650字符的精确规范化前缀，不得重建同名收藏、重复粘贴或重置 checkpoint。PDF 保持 PASS，不再插入附件；文字恢复需独立处理现有部分草稿。见[正式恢复与冻结记录](docs/evidence/wechat_cfurl_production_20260924.json)。
+
+正式流程只定位完整 payload 标题或已观察到的20字符 AX 截断形式，要求候选唯一并校验正文 hash；不再要求全局仅有一个笔记窗口。其他笔记只在窗口标题枚举时被排除，不读取正文、不关闭、不修改；关闭/重开验收也只检查目标窗口，不比较全局笔记数。新建文字笔记从本次创建的空草稿绑定到 payload，若已有匿名空草稿无法证明归属则写前停止。附件入口和正文回读后均采用有界只读标题等待，绝不通过重复正文或文件操作等待标题。
+
+此前 App 单次恢复在原生 CFURL 解析阶段报 `native file reference URL cannot resolve to path`，未确认文件、未自动重试、未创建文字。[历史失败证据](docs/evidence/wechat_payload_binding_20260924.json)保持原样。新路径仅允许该明确错误在新测试 PASS、PDF=1/文字=0、完整草稿正文及零附件复核、新 App 单次授权全部满足后恢复一次；旧尝试归档到 `recovery_history`，独立 `native_reference_recovery_started_at` 防止再次执行，绝不重置 checkpoint 或重放已消费许可。
 
 2026-09-24 标题异步更新修复：PDF 正文 hash 匹配后，只读轮询并重新绑定唯一笔记窗口（最多21次、间隔0.3秒、轮询间检查6秒截止），连续两次窗口身份与预期标题的有效截断前缀一致才打开文件选择器；多窗口立即停止，不重复正文或附件动作。历史 V4 PASS 证据保留原样，不等同于本轮正式成功。
 

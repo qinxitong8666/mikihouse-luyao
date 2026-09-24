@@ -714,6 +714,35 @@ def test_title_scoped_resume_cannot_replay_another_failure(tmp_path):
     assert sink.recovery_calls == [] and sink.title_audit_count == 0
 
 
+@pytest.mark.parametrize("accepted,already_started", [(False, False), (True, True), (True, False)])
+def test_native_reference_resume_requires_new_acceptance_and_is_single_use(tmp_path, accepted, already_started):
+    daily, config = build_bundle(tmp_path)
+    _write_canonical_frozen_attachment_checkpoint(daily, config)
+    config["coordinate_free_pdf_runtime_validation_status"] = "PASS" if accepted else "BLOCKED_NATIVE_FILE_REFERENCE"
+    frozen = json.loads((daily / CHECKPOINT_FILENAME).read_text())
+    stage = frozen["stages"]["pdf"]
+    prior = {"status": "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT", "mutation_attempt_count": 1,
+             "mutation_started_at": "old", "error": "native file reference URL cannot resolve to path"}
+    stage.update(status="FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT", authorized_recovery=prior,
+                 payload_title_recovery_started_at="old")
+    if already_started:
+        stage["native_reference_recovery_started_at"] = "consumed"
+    write_json(daily / CHECKPOINT_FILENAME, frozen)
+    sink = FakeSink(title_counts=[1, 0])
+    if not accepted or already_started:
+        with pytest.raises(WeChatDailyProductionError):
+            recover_frozen_pdf_and_complete_daily_favorites(daily, config, repository_root=ROOT,
+                    confirmation=PRODUCTION_CONFIRMATION, sink=sink)
+        assert not sink.recovery_calls and not sink.calls
+    else:
+        result = recover_frozen_pdf_and_complete_daily_favorites(daily, config, repository_root=ROOT,
+                    confirmation=PRODUCTION_CONFIRMATION, sink=sink)
+        assert result["status"] == "PASS"
+        final = json.loads((daily / CHECKPOINT_FILENAME).read_text())["stages"]["pdf"]
+        assert final["recovery_history"] == [prior] and final["native_reference_recovery_started_at"]
+        assert len(sink.recovery_calls) == 1 and len(sink.calls) == 1
+
+
 def test_real_one_click_cli_is_blocked_before_crawl_with_tracked_default_config() -> None:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT / "src")

@@ -70,16 +70,16 @@ def test_title_wait_ambiguous_window_fails_immediately(monkeypatch):
     sleep.assert_not_called()
 
 
-def test_body_proof_required_before_title_wait(tmp_path, monkeypatch):
+def test_body_proof_required_before_picker_after_readonly_title_wait(tmp_path, monkeypatch):
     path = tmp_path / "daily.pdf"
     path.write_bytes(b"%PDF-test")
     monkeypatch.setattr(runtime, "get_windows", lambda _: [NOTE])
     monkeypatch.setattr(runtime, "read_note_text", lambda *a, **k: ("foreign body", {}))
-    wait = Mock()
+    wait = Mock(return_value=(NOTE, {}))
     monkeypatch.setattr(picker, "wait_for_verified_note_title", wait)
     with pytest.raises(runtime.WeChatRuntimeError, match="body mismatch"):
         picker.attach_pdf_once(123, runtime.TARGET_BUNDLE_ID, path, expected_text=BODY)
-    wait.assert_not_called()
+    wait.assert_called_once()
 
 
 @pytest.mark.parametrize("reason", ["body", "attachment", "formal", "foreign"])
@@ -251,25 +251,24 @@ def test_live_acceptance_does_not_enable_production_or_bypass_authorization(monk
     root = Path(__file__).resolve().parents[1]
     config = json.loads((root / "config/wechat_favorite_runtime.json").read_text())
     evidence = json.loads((root / config["coordinate_free_pdf_runtime_evidence_path"]).read_text())
-    assert config["coordinate_free_pdf_runtime_validation_status"] == "BLOCKED_NATIVE_FILE_REFERENCE"
+    assert config["coordinate_free_pdf_runtime_validation_status"] == "PASS"
     assert config["production_save_enabled"] is False
     assert evidence["status"] == "PASS_FULL_SINK_UNINTERRUPTED"
     assert evidence["sink_invocation_count"] == 1
     assert evidence["full_sink_interrupted"] is False
-    assert evidence["body_readback"]["exact_hash_match_after_reopen"] is True
+    assert evidence["body_readback"]["exact_hash_match"] is True
     assert evidence["attachment"]["file_dispatch"]["dispatch_count"] == 1
-    assert evidence["attachment_filename_readback"][0]["same_title_unique_candidate_count"] == 1
-    assert evidence["safety"]["formal_favorite_mutations"] == 0
-    # Historical full-Sink PASS remains historical. The current binding change
-    # is pinned to its actual blocked runtime report, never promoted to PASS.
+    assert evidence["attachment_filename_readback"][0]["exact_query_candidate_count"] == 1
+    assert evidence["safety"]["formal_favorite_mutations_during_test"] == 0
+    # Keep the previous failure immutable; pin only the new accepted runtime.
     current = json.loads((root / config["coordinate_free_pdf_runtime_blocking_evidence_path"]).read_text())
-    assert current["status"] == config["coordinate_free_pdf_runtime_validation_status"]
+    assert current["status"] == "BLOCKED_NATIVE_FILE_REFERENCE"
     assert current["production_goal_completed"] is False
-    for relative, expected_hash in current["source_sha256"].items():
+    for relative, expected_hash in evidence["source_sha256"].items():
         assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == expected_hash
     target = Mock()
     monkeypatch.setattr(runtime, "select_target_process", target)
-    with pytest.raises(runtime.WeChatRuntimeError, match="尚未通过"):
+    with pytest.raises(runtime.WeChatRuntimeError):
         runtime.MacWeChatFavoriteSink(config).save(
             {"title": "正式PDF", "attachments": ["daily.pdf"]},
             production=True, confirmation=runtime.PRODUCTION_CONFIRMATION,

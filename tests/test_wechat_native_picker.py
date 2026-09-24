@@ -7,6 +7,53 @@ from mikihouse_luyao import wechat_native_picker as native
 from mikihouse_luyao import wechat_favorite_runtime as runtime
 
 
+def file_scanner(urls, actions=None):
+    ax = object.__new__(native.NativePickerAX)
+    ax.owned_panel = lambda: "panel"
+    ax.nodes = lambda _: list(range(len(urls)))
+    def value(node, key):
+        if key != "AXURL":
+            return "AXTextField" if key == "AXRole" else ""
+        if isinstance(urls[node], Exception):
+            raise urls[node]
+        return urls[node]
+    ax.value = value
+    ax.actions = lambda _: actions if actions is not None else ["AXOpen"]
+    ax.ax = Mock()
+    return ax
+
+
+def test_unresolved_foreign_url_is_recorded_not_a_target():
+    ax = file_scanner([native.UnresolvableFileReference("file:///.file/id=stale"),
+                       "file:///private/tmp/quote.pdf"])
+    assert ax.exact_file(Path("/private/tmp/quote.pdf")) == 1
+    assert len(ax.last_file_scan["skipped_unresolvable"]) == 1
+    assert ax.last_file_scan["exact_match_count"] == 1
+    assert ax.last_file_scan["status"] == "UNIQUE_RESOLVED_PATH_AND_AXOPEN"
+    ax.ax.AXUIElementPerformAction.assert_not_called()
+
+
+@pytest.mark.parametrize("urls,actions", [
+    ([native.UnresolvableFileReference("file:///private/tmp/quote.pdf")], ["AXOpen"]),
+    (["file:///other/quote.pdf"], ["AXOpen"]),
+    (["file:///private/tmp/quote.pdf"] * 2, ["AXOpen"]),
+    (["file:///private/tmp/quote.pdf"], ["AXPress"]),
+    (["file://foreign/private/tmp/quote.pdf"], ["AXOpen"]),
+])
+def test_scan_never_guesses_missing_duplicate_or_wrong_target(urls, actions):
+    ax = file_scanner(urls, actions)
+    with pytest.raises(runtime.WeChatRuntimeError, match="no file selected"):
+        ax.open_exact_file_once(Path("/private/tmp/quote.pdf"))
+    ax.ax.AXUIElementPerformAction.assert_not_called()
+
+
+def test_unrelated_ax_read_error_is_not_silently_skipped():
+    ax = file_scanner([runtime.WeChatRuntimeError("AX read failed"), "file:///private/tmp/quote.pdf"])
+    with pytest.raises(runtime.WeChatRuntimeError, match="AX read failed"):
+        ax.exact_file(Path("/private/tmp/quote.pdf"))
+    ax.ax.AXUIElementPerformAction.assert_not_called()
+
+
 @pytest.mark.parametrize("code", [0, -25205])
 def test_axopen_dispatch_is_never_itself_attachment_success(code):
     ax = object.__new__(native.NativePickerAX)

@@ -607,7 +607,17 @@ def audit_frozen_pdf_recovery_readonly(
         and prior_recovery.get("mutation_attempt_count") == 1
         and not pdf_stage.get("payload_title_recovery_started_at")
     )
-    if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT" and not title_scoped_resume:
+    native_reference_resume = (
+        pdf_stage.get("status") == "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+        and prior_recovery.get("error") == "native file reference URL cannot resolve to path"
+        and prior_recovery.get("status") == "FROZEN_AFTER_RECOVERY_MUTATION_ATTEMPT"
+        and prior_recovery.get("mutation_attempt_count") == 1
+        and bool(pdf_stage.get("payload_title_recovery_started_at"))
+        and not pdf_stage.get("native_reference_recovery_started_at")
+        and runtime_config.get("coordinate_free_pdf_runtime_validation_status") == "PASS"
+    )
+    explicit_resume = title_scoped_resume or native_reference_resume
+    if pdf_stage.get("status") != "FROZEN_AFTER_MUTATION_ATTEMPT" and not explicit_resume:
         raise WeChatDailyProductionError("PDF recovery requires one frozen PDF attempt")
     if pdf_stage.get("error") not in {
         "attachment was not visible before save",
@@ -622,7 +632,7 @@ def audit_frozen_pdf_recovery_readonly(
         raise WeChatDailyProductionError("PDF recovery requires an untouched text stage")
     if int(checkpoint.get("favorite_create_count") or 0) != 0:
         raise WeChatDailyProductionError("PDF recovery checkpoint already counts a created Favorite")
-    if prior_recovery.get("mutation_started_at") and not title_scoped_resume:
+    if prior_recovery.get("mutation_started_at") and not explicit_resume:
         raise WeChatDailyProductionError("PDF recovery has already been attempted")
 
     target = sink or MacWeChatFavoriteSink(runtime_config)
@@ -635,7 +645,7 @@ def audit_frozen_pdf_recovery_readonly(
             "PDF recovery requires exactly one PDF title and zero text titles"
         )
     draft_proof = None
-    if title_scoped_resume:
+    if explicit_resume:
         draft_proof = target.audit_pdf_draft_read_only(preflight["payloads"]["pdf"])
         if (draft_proof.get("status") != "VERIFIED_PAYLOAD_DRAFT_WITHOUT_ATTACHMENT"
                 or draft_proof.get("attachment_marker_count") != 0
@@ -650,6 +660,7 @@ def audit_frozen_pdf_recovery_readonly(
         "title_results": rows,
         "exact_title_counts": counts,
         "title_scoped_explicit_recovery": title_scoped_resume,
+        "native_reference_explicit_recovery": native_reference_resume,
         "payload_draft_proof": draft_proof,
         "pdf_original_mutation_attempt_count": 1,
         "text_mutation_attempt_count": 0,
@@ -712,11 +723,13 @@ def recover_frozen_pdf_and_complete_daily_favorites(
         "title_audit": audit,
         "automatic_retry_count": 0,
     }
-    if audit["title_scoped_explicit_recovery"]:
+    if audit["title_scoped_explicit_recovery"] or audit["native_reference_explicit_recovery"]:
         # A new operator-authorized task, not replay of the consumed permit.
         # Preserve the failed attempt permanently and disallow another resume.
         pdf_stage.setdefault("recovery_history", []).append(pdf_stage["authorized_recovery"])
-        pdf_stage["payload_title_recovery_started_at"] = recovery_state["mutation_started_at"]
+        marker = ("native_reference_recovery_started_at" if audit["native_reference_explicit_recovery"]
+                  else "payload_title_recovery_started_at")
+        pdf_stage[marker] = recovery_state["mutation_started_at"]
     pdf_stage["authorized_recovery"] = recovery_state
     checkpoint["updated_at"] = _now()
     write_json(checkpoint_path, checkpoint)

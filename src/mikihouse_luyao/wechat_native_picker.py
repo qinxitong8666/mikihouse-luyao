@@ -7,12 +7,21 @@ Imports/framework loading are lazy, so offline tests work on other platforms.
 from __future__ import annotations
 
 import ctypes as C
+import hashlib
 import sys
 import time
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 from .wechat_favorite_runtime import WeChatRuntimeError
+
+
+class UnresolvableFileReference(WeChatRuntimeError):
+    """A CFURL exists but cannot be resolved. It is never file identity proof."""
+
+    def __init__(self, raw_url: str):
+        super().__init__("native file reference URL cannot resolve to path")
+        self.raw_url_sha256 = hashlib.sha256(raw_url.encode("utf-8")).hexdigest()
 
 
 class NativePickerAX:
@@ -77,7 +86,7 @@ class NativePickerAX:
             path_url = self._keep(self.cf.CFURLCreateFilePathURL(None, ref, C.byref(error)))
             self._keep(error.value)
             if not path_url:
-                raise WeChatRuntimeError("native file reference URL cannot resolve to path")
+                raise UnresolvableFileReference(self.text(self.cf.CFURLGetString(ref)))
             ref = self.cf.CFURLGetString(path_url)
         elif kind != self.cf.CFStringGetTypeID():
             return ""
@@ -151,12 +160,29 @@ class NativePickerAX:
     def exact_file(self, path: Path):
         panel = self.owned_panel()
         matches = []
-        for node in self.nodes(panel):
-            url = self.value(node, "AXURL")
+        self.last_file_scan = {"status": "SCANNING_READ_ONLY", "skipped_unresolvable": [],
+                               "exact_match_count": 0, "mutation_count": 0}
+        for index, node in enumerate(self.nodes(panel)):
+            try:
+                url = self.value(node, "AXURL")
+            except UnresolvableFileReference as exc:
+                # Never interpret an unresolved URL, node label, basename or
+                # list position as the target. All other AX errors propagate.
+                self.last_file_scan["skipped_unresolvable"].append({
+                    "node_index": index, "role": self.value(node, "AXRole"),
+                    "identifier": self.value(node, "AXIdentifier"),
+                    "raw_url_sha256": exc.raw_url_sha256,
+                    "reason": "UNRESOLVABLE_CFURL_NOT_IDENTITY_PROOF",
+                })
+                continue
             if exact_file_url(url, path):
                 matches.append(node)
+        self.last_file_scan["exact_match_count"] = len(matches)
         if len(matches) != 1 or "AXOpen" not in self.actions(matches[0]):
+            self.last_file_scan["status"] = "BLOCKED_NO_UNIQUE_RESOLVED_AXOPEN_TARGET"
             raise WeChatRuntimeError("exact PDF AXURL/AXOpen is not unique; no file selected")
+        self.last_file_scan.update(status="UNIQUE_RESOLVED_PATH_AND_AXOPEN",
+                                   target_path_sha256=hashlib.sha256(str(path.resolve()).encode()).hexdigest())
         return matches[0]
 
     def set_directory(self, directory: Path):
@@ -184,7 +210,8 @@ class NativePickerAX:
         # Observed -25205 even when the file panel closed and the attachment
         # was inserted. This is NOT success: caller must prove all effects.
         return {"api_returncode": error, "action": "AXOpen", "dispatch_count": 1,
-                "status": "DISPATCH_REQUIRES_READBACK"}
+                "status": "DISPATCH_REQUIRES_READBACK",
+                "file_scan": getattr(self, "last_file_scan", None)}
 
     def close_note_once(self):
         note = self.owned_note()

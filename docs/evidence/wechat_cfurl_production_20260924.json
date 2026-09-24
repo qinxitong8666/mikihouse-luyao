@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "status": "PDF_PASS_TEXT_FROZEN_PARTIAL",
+  "production_goal_completed": false,
+  "quote_date": "2026-09-24",
+  "base_commit": "867456275f7abe960b38e0fc96b731649f1b3d3b",
+  "authorization": {
+    "kind": "MIKIHOUSE_QUOTE_ASSISTANT_ONE_TIME_PRODUCTION_AUTHORIZATION",
+    "operation": "RECOVER_FROZEN_PDF_AND_CREATE_PENDING_TEXT",
+    "status": "CONSUMED",
+    "repository_head": "867456275f7abe960b38e0fc96b731649f1b3d3b",
+    "issued_at": "2026-09-24T02:15:08.758253+00:00",
+    "consumed_at": "2026-09-24T02:15:08.936669+00:00"
+  },
+  "authorization_source": "REAL_APP_CHECKBOX_AND_SINGLE_USE_CONFIRMATION",
+  "private_permit_committed": false,
+  "checkpoint_status": "FROZEN_RECONCILIATION_REQUIRED",
+  "stage_statuses": {
+    "pdf": "PASS",
+    "text": "FROZEN_AFTER_MUTATION_ATTEMPT"
+  },
+  "checkpoint_reset_count": 0,
+  "historical_recoveries_preserved": 2,
+  "pdf": {
+    "status": "PASS",
+    "attachment": {
+      "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+      "byte_count": 23317467,
+      "sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+      "selected_path": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/outputs/daily_quote/2026-09-24/MIKIHOUSE_2026-09-24_报价全集.pdf",
+      "visible_before_save": true,
+      "visible_after_reopen": true,
+      "clipboard_placeholder_after_reopen": "[文件]",
+      "method": "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT"
+    },
+    "file_dispatch": {
+      "api_returncode": -25205,
+      "action": "AXOpen",
+      "dispatch_count": 1,
+      "status": "DISPATCH_REQUIRES_READBACK",
+      "file_scan": {
+        "status": "UNIQUE_RESOLVED_PATH_AND_AXOPEN",
+        "skipped_unresolvable": [
+          {
+            "node_index": 329,
+            "role": "AXTextField",
+            "identifier": "",
+            "raw_url_sha256": "4989e1166bab5da12f030ba64eadf0c7155ec3a3a2845ee0352ee89eccaf3ff0",
+            "reason": "UNRESOLVABLE_CFURL_NOT_IDENTITY_PROOF"
+          }
+        ],
+        "exact_match_count": 1,
+        "mutation_count": 0,
+        "target_path_sha256": "4d3f4ec1a86da7934a442400719c4a045b429cdfd4d55e5bdb4e3a0cccb7e38d"
+      }
+    },
+    "text_readback": {
+      "status": "EXACT_READBACK_MATCH",
+      "exact_hash_match": true,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "af01ab5780b4f981fd6563858b8bead083a88a9e62da8d7d09b402a6efa5d816",
+        "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      },
+      "actual": {
+        "raw_character_count": 99,
+        "normalized_character_count": 98,
+        "utf8_byte_count": 207,
+        "line_count": 6,
+        "raw_sha256": "af01ab5780b4f981fd6563858b8bead083a88a9e62da8d7d09b402a6efa5d816",
+        "normalized_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "head_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "tail_sha256": "a1036b13e06de5a9cc82e56e985c5375d011054de5c451667540e35824e83e07",
+        "first_line": "MIKI HOUSE 9月24日报价｜PDF版",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "saved_reopened_and_filename_verified": true,
+    "recreated": false
+  },
+  "text": {
+    "status": "PARTIAL_TEXT_DRAFT_READ_ONLY",
+    "payload_title": "MIKI HOUSE 9月24日报价｜文字版",
+    "window": {
+      "index": 1,
+      "title": "MIKI HOUSE 9月24日报价｜文",
+      "role": "AXWindow",
+      "payload_title": "MIKI HOUSE 9月24日报价｜文字版",
+      "new_draft": false
+    },
+    "actual_character_count": 10952,
+    "expected_character_count": 70650,
+    "actual_normalized_sha256": "b8727acb53b294a54a3e2cf300bfea7ff6446c9b7f3cd57588e9e4e376f12917",
+    "expected_normalized_sha256": "308cbec329643eb96d95876ad65eb94ebf4f5f3db16e90ae808b29e1ecce1dab",
+    "exact_full_match": false,
+    "normalized_full_match": false,
+    "exact_expected_prefix": true,
+    "readback": {
+      "copy_status": "COPY_READ",
+      "attempt_count": 1,
+      "selection_delay_seconds": 1.5,
+      "clipboard_timeout_seconds": 8.0,
+      "attempts": [
+        {
+          "attempt": 1,
+          "copy_action_status": "COPY_SENT",
+          "copy_action_returncode": 0,
+          "clipboard_changed": true,
+          "fingerprint": {
+            "raw_character_count": 10952,
+            "normalized_character_count": 10951,
+            "utf8_byte_count": 15241,
+            "line_count": 267,
+            "raw_sha256": "5cd36f9ffb0bf09e32d404af815a161f8814443b21ce4cae39ac726efff1cafe",
+            "normalized_sha256": "b8727acb53b294a54a3e2cf300bfea7ff6446c9b7f3cd57588e9e4e376f12917",
+            "head_sha256": "7fe7107b3fa2364c3ffc4464245bec285f6ea6b46aa76cb7fec09a4d56eb01bc",
+            "tail_sha256": "ddd585adbaacc9e118b3a0643405efa1dde900aa0b770e0c742cd0949dc60d87",
+            "first_line": "MIKI HOUSE 9月24日报价｜文字版",
+            "last_line": "12-1502-793｜477元 グリーン/オレンジ:S(70-80cm)"
+          }
+        }
+      ],
+      "fingerprint": {
+        "raw_character_count": 10952,
+        "normalized_character_count": 10951,
+        "utf8_byte_count": 15241,
+        "line_count": 267,
+        "raw_sha256": "5cd36f9ffb0bf09e32d404af815a161f8814443b21ce4cae39ac726efff1cafe",
+        "normalized_sha256": "b8727acb53b294a54a3e2cf300bfea7ff6446c9b7f3cd57588e9e4e376f12917",
+        "head_sha256": "7fe7107b3fa2364c3ffc4464245bec285f6ea6b46aa76cb7fec09a4d56eb01bc",
+        "tail_sha256": "ddd585adbaacc9e118b3a0643405efa1dde900aa0b770e0c742cd0949dc60d87",
+        "first_line": "MIKI HOUSE 9月24日报价｜文字版",
+        "last_line": "12-1502-793｜477元 グリーン/オレンジ:S(70-80cm)"
+      }
+    },
+    "mutation_count": 0,
+    "no_close_or_append": true
+  },
+  "final_title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "eaf34a555e9a10a8b7e545d2b1625f65de44ee76c3bee2fd0e95d9147dd3cc64",
+        "search_marker_sha256": "f3b739e974488e4ade47bf9ed1d5832676bb924df7669a74b71ddf1bbddf0351",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "77a3f416a775de2ae5cd69a768c0dd5fb65f7b736f3e5ef54632064643de7bd8",
+        "search_marker_sha256": "be7d94a7a7bc4fda410d422a5d9e84fff1b04d30f0ec4f4195dee2b519c76c10",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": false,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "final_title_counts": [
+    1,
+    1
+  ],
+  "text_failure": {
+    "error": "WINDOW_NOT_UNIQUE while raising previously anonymous note",
+    "mutation_attempt_count": 1,
+    "mutation_started_at": "2026-09-24T11:16:42.329437+09:00",
+    "automatic_retry_count": 0,
+    "action": "FROZEN_NO_APPEND_NO_RECREATE"
+  },
+  "read_only_diagnosis": "Test scan had no unresolved URL; formal pre-dispatch scan recorded node329 AXTextField with unresolved CFURL. Historical failure node identity remains unproven. This unresolved node was excluded, not treated as target.",
+  "bundle_sha256": "3fea3816074626d32cd94cda9af669ec7cdc9a23f34cb3b6892083129eb65b34",
+  "manifest_sha256": "5865267c60063d083faf08bc25c61b1afba466799e952290f33ddf9643719cf2",
+  "source_bundle_regenerated": false,
+  "safety": {
+    "shijiu_requests": 0,
+    "chat_sends": 0,
+    "foreign_note_body_reads": 0,
+    "foreign_note_closes": 0,
+    "foreign_note_mutations": 0,
+    "automatic_mutation_retries": 0,
+    "production_save_enabled": false
+  },
+  "verification": {
+    "verify_local": "PASS",
+    "pytest_passed": 434,
+    "protected_state_deliverables_unchanged": 132
+  },
+  "next_action": "Do not recreate either Favorite. PDF is complete; any text recovery must prove the partial prefix and have separate authorization; no replay of consumed permit."
+}

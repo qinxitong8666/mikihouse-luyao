@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "status": "PASS_FULL_SINK_UNINTERRUPTED",
+  "base_commit": "867456275f7abe960b38e0fc96b731649f1b3d3b",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_native_picker.py": "b65befb0ca09c60236b4c28b2320400446f82298a9af701ed1911d1b6f344a14",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "e459b595261d22d7c1aa195a1365feaf3c10b47dc9538905ea2fd9994b034e5c",
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "666fe1e1a685a211fd919ba3fc4ab0b0ac56a595ec484e3722ee3f0aa02741ed",
+    "src/mikihouse_luyao/wechat_daily_production.py": "7f7e252c811d87f623a156d22b95ecfbc67a2a6910e8737591db85f48c82972b"
+  },
+  "diagnostic": {
+    "old_panel_present": false,
+    "reproduction_url_nodes": 62,
+    "unresolvable_nodes": [],
+    "historical_bad_node_identity": "NOT_REPRODUCED_NOT_GUESSED",
+    "exact_target_count": 1,
+    "file_open_dispatch_count": 0
+  },
+  "test_title": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+  "sink_invocation_count": 1,
+  "full_sink_interrupted": false,
+  "first_test_attempt": {
+    "title": "MIKIHOUSE_TEST_CFURL_20260924_SINK",
+    "status": "BLOCKED_BEFORE_PICKER",
+    "error": "expected one payload-title note window, got 0",
+    "attachment_dispatch_count": 0,
+    "preserved": true
+  },
+  "attachment": {
+    "status": "ATTACHMENT_VISIBLE",
+    "method": "TOOLBAR_FILE_PICKER_SINGLE_ATTEMPT",
+    "trigger": "COMMAND_O_NOTE_OWNED_AXSHEET",
+    "selection": "EXACT_CFURL_PATH_AXOPEN",
+    "insertion": "COMMAND_DOWN_COMMAND_RIGHT_END_OF_BODY",
+    "path": "/Users/apple/Documents/ChatGPT/mikihouse价格抓取/outputs/daily_quote/2026-09-24/MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+    "byte_count": 23317467,
+    "sha256": "ca4c6d8fbd97510f4d0936b3c2d63cbe79de3ea274db4343c78bd90dc98c1d44",
+    "open_panel_fingerprint": "NOTE_OWNED_OPEN_PANEL_CONFIRMED",
+    "panel_observation": {
+      "dispatch": "PICKER_KEYS_SENT_ONCE",
+      "status": "NOTE_OWNED_OPEN_PANEL_CONFIRMED",
+      "read_only_polls": 1,
+      "identifier": "open-panel",
+      "owner_pid": 12576,
+      "note_title": "MIKIHOUSE_TEST_CFU2_"
+    },
+    "file_dispatch": {
+      "api_returncode": -25205,
+      "action": "AXOpen",
+      "dispatch_count": 1,
+      "status": "DISPATCH_REQUIRES_READBACK",
+      "file_scan": {
+        "status": "UNIQUE_RESOLVED_PATH_AND_AXOPEN",
+        "skipped_unresolvable": [],
+        "exact_match_count": 1,
+        "mutation_count": 0,
+        "target_path_sha256": "4d3f4ec1a86da7934a442400719c4a045b429cdfd4d55e5bdb4e3a0cccb7e38d"
+      }
+    },
+    "file_dispatch_resolved_by_readback": true,
+    "placeholder_visible_before_save": true,
+    "before_readback": {
+      "copy_status": "COPY_READ",
+      "attempt_count": 1,
+      "selection_delay_seconds": 1.5,
+      "clipboard_timeout_seconds": 8,
+      "attempts": [
+        {
+          "attempt": 1,
+          "copy_action_status": "COPY_SENT",
+          "copy_action_returncode": 0,
+          "clipboard_changed": true,
+          "fingerprint": {
+            "raw_character_count": 109,
+            "normalized_character_count": 108,
+            "utf8_byte_count": 205,
+            "line_count": 6,
+            "raw_sha256": "12a4c9f5c6c6cdab4861aa183eac2539cd7c0a89d611bb91bb8cfcce8f856141",
+            "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+            "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+            "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+            "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+            "last_line": "库存随官网变化，下单前请再次确认"
+          }
+        }
+      ],
+      "fingerprint": {
+        "raw_character_count": 109,
+        "normalized_character_count": 108,
+        "utf8_byte_count": 205,
+        "line_count": 6,
+        "raw_sha256": "12a4c9f5c6c6cdab4861aa183eac2539cd7c0a89d611bb91bb8cfcce8f856141",
+        "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "before_comparison": {
+      "status": "NORMALIZED_READBACK_MATCH",
+      "exact_hash_match": false,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 109,
+        "normalized_character_count": 108,
+        "utf8_byte_count": 205,
+        "line_count": 6,
+        "raw_sha256": "86d679fe34d02aa1631753e84debe96738ac5b61ff19df3c627fbef4a0b8519c",
+        "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      },
+      "actual": {
+        "raw_character_count": 109,
+        "normalized_character_count": 108,
+        "utf8_byte_count": 205,
+        "line_count": 6,
+        "raw_sha256": "12a4c9f5c6c6cdab4861aa183eac2539cd7c0a89d611bb91bb8cfcce8f856141",
+        "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "initial_title_binding": {
+      "status": "STABLE_VERIFIED_BODY_TITLE_PREFIX",
+      "observations": [
+        {
+          "matching_window_count": 0
+        },
+        {
+          "matching_window_count": 0
+        },
+        {
+          "index": 1,
+          "title": "MIKIHOUSE_TEST_CFU2_",
+          "role": "AXWindow",
+          "matches_prefix": true
+        },
+        {
+          "index": 1,
+          "title": "MIKIHOUSE_TEST_CFU2_",
+          "role": "AXWindow",
+          "matches_prefix": true
+        }
+      ],
+      "read_only_poll_count": 4,
+      "elapsed_seconds": 1.877,
+      "mutation_count": 0
+    },
+    "title_binding": {
+      "status": "STABLE_VERIFIED_BODY_TITLE_PREFIX",
+      "observations": [
+        {
+          "index": 1,
+          "title": "MIKIHOUSE_TEST_CFU2_",
+          "role": "AXWindow",
+          "matches_prefix": true
+        },
+        {
+          "index": 1,
+          "title": "MIKIHOUSE_TEST_CFU2_",
+          "role": "AXWindow",
+          "matches_prefix": true
+        }
+      ],
+      "read_only_poll_count": 2,
+      "elapsed_seconds": 0.804,
+      "mutation_count": 0
+    },
+    "after_readback": {
+      "copy_status": "COPY_READ",
+      "attempt_count": 1,
+      "selection_delay_seconds": 1.5,
+      "clipboard_timeout_seconds": 8,
+      "attempts": [
+        {
+          "attempt": 1,
+          "copy_action_status": "COPY_SENT",
+          "copy_action_returncode": 0,
+          "clipboard_changed": true,
+          "fingerprint": {
+            "raw_character_count": 114,
+            "normalized_character_count": 113,
+            "utf8_byte_count": 214,
+            "line_count": 7,
+            "raw_sha256": "072f0dea6975f2f87f0febfd6100760d15de541290204b5f110486274a83203b",
+            "normalized_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+            "head_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+            "tail_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+            "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+            "last_line": "[文件]"
+          }
+        }
+      ],
+      "fingerprint": {
+        "raw_character_count": 114,
+        "normalized_character_count": 113,
+        "utf8_byte_count": 214,
+        "line_count": 7,
+        "raw_sha256": "072f0dea6975f2f87f0febfd6100760d15de541290204b5f110486274a83203b",
+        "normalized_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+        "head_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+        "tail_sha256": "de9d2ab91d4a568a90b7e8d03e1ab44d773199ca588cf25675d75c522e9eda2a",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "[文件]"
+      }
+    },
+    "after_comparison": {
+      "status": "EXACT_READBACK_MATCH",
+      "exact_hash_match": true,
+      "normalized_hash_match": true,
+      "truncated": false,
+      "expected": {
+        "raw_character_count": 109,
+        "normalized_character_count": 108,
+        "utf8_byte_count": 205,
+        "line_count": 6,
+        "raw_sha256": "86d679fe34d02aa1631753e84debe96738ac5b61ff19df3c627fbef4a0b8519c",
+        "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      },
+      "actual": {
+        "raw_character_count": 109,
+        "normalized_character_count": 108,
+        "utf8_byte_count": 205,
+        "line_count": 6,
+        "raw_sha256": "86d679fe34d02aa1631753e84debe96738ac5b61ff19df3c627fbef4a0b8519c",
+        "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+        "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "last_line": "库存随官网变化，下单前请再次确认"
+      }
+    },
+    "automatic_retry_count": 0
+  },
+  "body_readback": {
+    "status": "EXACT_READBACK_MATCH",
+    "exact_hash_match": true,
+    "normalized_hash_match": true,
+    "truncated": false,
+    "expected": {
+      "raw_character_count": 109,
+      "normalized_character_count": 108,
+      "utf8_byte_count": 205,
+      "line_count": 6,
+      "raw_sha256": "86d679fe34d02aa1631753e84debe96738ac5b61ff19df3c627fbef4a0b8519c",
+      "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+      "last_line": "库存随官网变化，下单前请再次确认"
+    },
+    "actual": {
+      "raw_character_count": 109,
+      "normalized_character_count": 108,
+      "utf8_byte_count": 205,
+      "line_count": 6,
+      "raw_sha256": "86d679fe34d02aa1631753e84debe96738ac5b61ff19df3c627fbef4a0b8519c",
+      "normalized_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "head_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "tail_sha256": "7dc9642f340c65f6ee648c899d8a160e7efa7ed89db15b17cbcaf2d98d50501b",
+      "first_line": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+      "last_line": "库存随官网变化，下单前请再次确认"
+    }
+  },
+  "attachment_filename_readback": [
+    {
+      "filename": "MIKIHOUSE_2026-09-24_报价全集.pdf",
+      "exact_query_candidate_count": 1,
+      "method": "EXACT_FILENAME_INDEX_AND_REOPENED_BODY_WITH_TRAILING_FILE"
+    }
+  ],
+  "reopen": {
+    "status": "SAVED_NOTE_REOPENED_UNIQUE",
+    "result_focus": {
+      "status": "EXACT_RESULT_LIST_FOCUSED",
+      "candidate_count": 1,
+      "list_identifier": "fav_detail_list",
+      "query": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+      "focus_target": "UNIQUE_EXACT_NOTE_ROW"
+    },
+    "favorites": {
+      "status": "FAVORITES_PAGE_CONFIRMED",
+      "window": {
+        "index": 1,
+        "title": "WeChat",
+        "role": "AXWindow",
+        "payload_title": null,
+        "new_draft": false
+      },
+      "positive_signals": [
+        "全部收藏",
+        "最近使用",
+        "图片与视频",
+        "笔记",
+        "文件",
+        "小程序"
+      ],
+      "negative_signals": [],
+      "tree_sha256": "9c59f02a68576a5924ae09372090ec4c846502804878692f8f157635aad36072",
+      "tree_line_count": 57
+    },
+    "search_marker_sha256": "cf7158f06af3bc75dcd632f4ecaa241145515fa4f8107e89e27e8b88d0ea91a9",
+    "search_candidate_count": 1,
+    "search_tree_sha256": "8457bd07d1ac9a2337565fb066b2f4890e92d034ab30d84f0af8355732aeae07",
+    "windows_before": [],
+    "windows_after": [
+      {
+        "index": 1,
+        "title": "MIKIHOUSE_TEST_CFU2_",
+        "role": "AXWindow",
+        "payload_title": "MIKIHOUSE_TEST_CFU2_20260924_SINK",
+        "new_draft": false
+      }
+    ]
+  },
+  "safety": {
+    "formal_favorite_mutations_during_test": 0,
+    "shijiu_requests": 0,
+    "chat_sends": 0,
+    "automatic_mutation_retries": 0,
+    "test_notes_retained_not_deleted": true
+  },
+  "production_save_enabled": false,
+  "production_status": "PDF_PASS_TEXT_FROZEN_PARTIAL",
+  "production_evidence": "docs/evidence/wechat_cfurl_production_20260924.json"
+}
