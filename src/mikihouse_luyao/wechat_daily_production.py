@@ -948,6 +948,8 @@ def save_daily_production_favorites(
         stage_state["status"] = "PASS"
         stage_state["completed_at"] = _now()
         stage_state["evidence_file"] = evidence_file
+        stage_state["save_status"] = evidence.get("save_status", "SAVED_REOPEN_VERIFIED")
+        stage_state["cleanup_status"] = (evidence.get("verification_close") or {}).get("status")
         checkpoint["favorite_create_count"] += 1
         checkpoint["updated_at"] = _now()
         write_json(checkpoint_path, checkpoint)
@@ -967,6 +969,9 @@ def save_daily_production_favorites(
         "favorite_create_count": checkpoint["favorite_create_count"],
         "favorite_order": list(STAGE_ORDER),
         "evidence_files": evidence_paths,
+        "cleanup_warnings": [stage for stage in STAGE_ORDER
+                             if checkpoint["stages"][stage].get("cleanup_status")
+                             == "CLEANUP_FAILED_AFTER_VERIFIED_SAVE"],
         "automatic_mutation_retry_count": 0,
         "existing_favorite_mutation_count": 0,
         "safe_rebuild": checkpoint.get("safe_rebuild"),

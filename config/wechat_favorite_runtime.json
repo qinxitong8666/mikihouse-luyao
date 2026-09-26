@@ -16,7 +16,7 @@
   "allow_fresh_daily_manifest_binding": true,
   "production_save_enabled": false,
   "retained_ax_window_runtime_validation_status": "PASS",
-  "retained_ax_window_runtime_evidence_path": "docs/evidence/wechat_retained_window_final_20260925.json",
+  "retained_ax_window_runtime_evidence_path": "docs/evidence/wechat_verification_cleanup_20260926.json",
   "coordinate_free_pdf_runtime_validation_status": "PASS",
   "coordinate_free_pdf_runtime_blocking_evidence_path": "docs/evidence/wechat_payload_binding_20260924.json",
   "coordinate_free_pdf_runtime_evidence_path": "docs/evidence/wechat_cfurl_scan_20260924.json",

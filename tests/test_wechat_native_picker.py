@@ -161,6 +161,10 @@ def test_reopen_focuses_exact_list_before_home_enter(monkeypatch):
     reopened, ev = runtime.search_and_open_saved_note(123, runtime.TARGET_BUNDLE_ID, "TEST")
     assert reopened.title == note.title
     assert reopened.payload_title == "TEST"
+    assert reopened.native_binding
+    a.bind_exact_title.assert_called_once_with("TEST")
+    assert runtime.retained_note_ax(123, reopened) is a
+    assert ev['identity']=='RETAINED_NATIVE_AX_WINDOW'
     assert ev["result_focus"]["status"] == "EXACT_RESULT_LIST_FOCUSED"
 
 

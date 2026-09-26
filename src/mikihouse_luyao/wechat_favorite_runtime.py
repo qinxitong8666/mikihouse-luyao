@@ -905,7 +905,9 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
         raise WeChatRuntimeError(
             f"reopened note window is not uniquely identified: {len(matching_notes)}"
         )
-    note = matching_notes[0]
+    # Bind once at reopen. Subsequent reads/cleanup must retain this exact AX
+    # object, not rediscover a window by its asynchronously changing title.
+    note = bind_existing_note(pid, matching_notes[0])
     return note, {
         "status": "SAVED_NOTE_REOPENED_UNIQUE",
         "result_focus": focus,
@@ -915,6 +917,7 @@ def search_and_open_saved_note(pid: int, bundle_id: str, marker: str) -> tuple[W
         "search_tree_sha256": search_evidence["search_tree_sha256"],
         "windows_before": [asdict(row) for row in before],
         "windows_after": [asdict(row) for row in after],
+        "identity": "RETAINED_NATIVE_AX_WINDOW",
     }
 
 
@@ -1022,6 +1025,49 @@ def verify_saved_attachment_index(
             "filename": filename, "search": result,
         })
     return evidence
+
+
+def verify_reopened_favorite(
+    pid: int, bundle_id: str, note: WindowIdentity, *, title: str,
+    expected_text: str, filenames: list[str],
+) -> dict[str, Any]:
+    """Prove persisted content before best-effort cleanup of the readback UI.
+
+    A cleanup warning never authorizes a content retry. Any missing body,
+    attachment or exact filename proof still raises before cleanup is attempted.
+    """
+    if not note.native_binding:
+        raise WeChatRuntimeError("reopened verification requires retained native AX identity")
+    if filenames:
+        actual, readback = read_note_text(pid, bundle_id, note)
+        comparable = remove_attachment_placeholders(actual, len(filenames))
+        comparison = compare_text_readback(expected_text, comparable)
+    else:
+        actual, readback, comparison = read_note_text_until_match(pid, bundle_id, note, expected_text)
+        comparable = actual
+    eol = lambda value: value.replace("\r\n", "\n").replace("\r", "\n")
+    if eol(comparable) != eol(expected_text):
+        raise WeChatRuntimeError("reopened note full EOL-only body hash does not match payload")
+    tree = collect_window_ax_text(pid, note)
+    attachment_index = verify_saved_attachment_index(pid, bundle_id, title, expected_text, filenames)
+    if len(attachment_index) != len(filenames):
+        raise WeChatRuntimeError("reopened attachment filename proof incomplete")
+    # All persistence evidence is complete BEFORE this single close dispatch.
+    # Never retry a close or hide a validation failure behind a cleanup warning.
+    try:
+        cleanup = close_and_save_note(pid, bundle_id, note, native=True)
+    except Exception as exc:
+        cleanup = {"status": "CLEANUP_FAILED_AFTER_VERIFIED_SAVE", "error": str(exc),
+                   "error_type": type(exc).__name__,
+                   "save_status": "SAVED_REOPEN_VERIFIED", "automatic_retry_count": 0}
+    return {
+        "save_status": "SAVED_REOPEN_VERIFIED", "readback": readback,
+        "comparison": comparison, "full_eol_hash_match": True,
+        "expected_eol_sha256": hashlib.sha256(eol(expected_text).encode()).hexdigest(),
+        "actual_eol_sha256": hashlib.sha256(eol(comparable).encode()).hexdigest(),
+        "verification_close": cleanup, "attachment_filename_readback": attachment_index,
+        "reopened_page_fingerprint_sha256": hashlib.sha256(tree.encode()).hexdigest(),
+    }
 
 
 def validate_saved_note_search_completion(tree: str, marker: str, candidate_count: int) -> None:
@@ -1312,26 +1358,14 @@ class MacWeChatFavoriteSink:
         if not note.native_binding:
             from .wechat_pdf_keyboard import wait_for_verified_note_title
             note, title_binding = wait_for_verified_note_title(pid, str(payload["title"]))
-        closed = close_and_save_note(pid, bundle_id, note, native=True)
+        try:
+            closed = close_and_save_note(pid, bundle_id, note, native=True)
+        except WeChatRuntimeError as exc:
+            raise WeChatRuntimeError(f"INITIAL_SAVE_CLOSE_FAILED: {exc}") from exc
         reopened, reopen_evidence = search_and_open_saved_note(pid, bundle_id, payload["title"])
-        if attachment_evidence:
-            actual_text, readback_evidence = read_note_text(pid, bundle_id, reopened)
-            comparable_text = remove_attachment_placeholders(
-                actual_text, len(attachment_evidence)
-            )
-            comparison = compare_text_readback(expected_text, comparable_text)
-        else:
-            actual_text, readback_evidence, comparison = read_note_text_until_match(
-                pid, bundle_id, reopened, expected_text
-            )
-            comparable_text = actual_text
-        if not comparison["normalized_hash_match"]:
-            raise WeChatRuntimeError("reopened note text does not match payload")
-        reopened_tree = collect_window_ax_text(pid, reopened)
-        verification_close = close_and_save_note(pid, bundle_id, reopened, native=True)
-        attachment_index = verify_saved_attachment_index(
-            pid, bundle_id, payload["title"], expected_text,
-            [item["filename"] for item in attachment_evidence],
+        verification = verify_reopened_favorite(
+            pid, bundle_id, reopened, title=payload["title"], expected_text=expected_text,
+            filenames=[item["filename"] for item in attachment_evidence],
         )
         return {
             "status": "PASS",
@@ -1348,13 +1382,7 @@ class MacWeChatFavoriteSink:
             "attachments": attachment_evidence,
             "close": closed,
             "reopen": reopen_evidence,
-            "readback": readback_evidence,
-            "comparison": comparison,
-            "verification_close": verification_close,
-            "attachment_filename_readback": attachment_index,
-            "reopened_page_fingerprint_sha256": hashlib.sha256(
-                reopened_tree.encode("utf-8")
-            ).hexdigest(),
+            **verification,
         }
 
     def recover_existing_pdf_attachment(

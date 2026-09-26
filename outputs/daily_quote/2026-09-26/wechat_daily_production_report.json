@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "production_readiness": "DAILY_EXACTLY_TWO_FAVORITES_SAVED_AND_REOPEN_VERIFIED",
+  "quote_date": "2026-09-26",
+  "manifest_sha256": "6a1a1cddd489479f6d2fdf45f2452429e759e12c6baf593e892c1db87777f692",
+  "bundle_sha256": "6c65c2afdb051cb9551197fb58206dead36eec2c226b41175cc5fc52ed4a36f2",
+  "favorite_create_count": 2,
+  "favorite_order": [
+    "pdf",
+    "text"
+  ],
+  "evidence_files": {
+    "pdf": "wechat_pdf_native_cleanup_validation.json",
+    "text": "wechat_text_favorite_production_validation.json"
+  },
+  "automatic_mutation_retry_count": 0,
+  "existing_favorite_mutation_count": 0,
+  "safe_rebuild": null,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0,
+  "completed_at": "2026-09-26T23:28:31.301309+09:00",
+  "recovered_existing_pdf_favorite_count": 1,
+  "new_favorites_created_in_this_task": 1,
+  "pdf_attachment_insert_count_this_task": 0,
+  "pdf_body_write_count_this_task": 0,
+  "reconciliation_evidence_file": "wechat_pdf_native_cleanup_validation.json",
+  "exact_title_counts": [
+    1,
+    1
+  ],
+  "final_readonly_evidence_file": "wechat_final_readonly_validation.json",
+  "cleanup_warnings": []
+}

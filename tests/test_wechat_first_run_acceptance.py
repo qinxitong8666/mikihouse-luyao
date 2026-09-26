@@ -178,10 +178,12 @@ class Desktop:
         self.active = self.notes[title]
         self.lag = 0  # saved/reopened title, not the still-anonymous new editor
         self.events.append(('reopen', title))
-        return r.WindowIdentity(1, title[:20], 'AXWindow', title), {'search_candidate_count': 1}
+        note=r._register_native_note(123, r.WindowIdentity(1, title[:20], 'AXWindow', title),
+                                     native.NativePickerAX(123, title[:20]))
+        return note, {'search_candidate_count': 1}
 
     def attachment_index(self, pid, bundle, title, body, filenames):
-        assert self.active is None
+        assert self.active is self.notes[title]
         if not filenames: return []
         assert filenames == [self.notes[title]['attachment']]
         return [{'filename': filenames[0], 'exact_query_candidate_count': 1}]

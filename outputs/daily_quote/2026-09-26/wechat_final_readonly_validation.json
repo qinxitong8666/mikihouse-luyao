@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-09-26T23:30:04.875272+09:00",
+  "manifest_sha256": "6a1a1cddd489479f6d2fdf45f2452429e759e12c6baf593e892c1db87777f692",
+  "bundle_sha256": "6c65c2afdb051cb9551197fb58206dead36eec2c226b41175cc5fc52ed4a36f2",
+  "title_audit": {
+    "status": "READ_ONLY_TITLE_AUDIT_COMPLETE",
+    "target_process": {
+      "bundle_id": "com.tencent.xinWeChot2",
+      "app_path": "/Applications/微信2.app",
+      "version": "4.1.6"
+    },
+    "results": [
+      {
+        "title_sha256": "a7276cdec37ede36d3d0e894530ac54bccdb494749b560cc7b96b1845d1362fa",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "31f0209b054c2670c9f49b2db0f56e877df2e9c27bd5693aeb840a9bfd5161a0",
+        "search_marker_sha256": "a7276cdec37ede36d3d0e894530ac54bccdb494749b560cc7b96b1845d1362fa",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      },
+      {
+        "title_sha256": "784bafdf367913f12abbddd79014f4d1889411a78a883a897eebc630e1c2c3eb",
+        "search_candidate_count": 1,
+        "search_tree_sha256": "c86b571335fbb9d8586c75c00d63b5c4fe5b17c162ef12db8cce28f23f1c8feb",
+        "search_marker_sha256": "784bafdf367913f12abbddd79014f4d1889411a78a883a897eebc630e1c2c3eb",
+        "status": "SAVED_NOTE_CANDIDATES_READ_ONLY"
+      }
+    ],
+    "all_titles_absent": false,
+    "wechat_mutation_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0
+  },
+  "exact_title_counts": [
+    1,
+    1
+  ],
+  "full_hash_match": true,
+  "expected_character_count": 70583,
+  "actual_character_count": 70583,
+  "expected_eol_sha256": "1ba89d12c7cf85fc2341c406ccb04a5e4348ced6d2ad03b59607110a344cecf2",
+  "actual_eol_sha256": "1ba89d12c7cf85fc2341c406ccb04a5e4348ced6d2ad03b59607110a344cecf2",
+  "pdf_body_eol_sha256": "3555697474831cf4e1d84eacb4e6a1ef129f0b53187a7284a3ad63375f04d1b7",
+  "pdf_evidence_file": "wechat_pdf_native_cleanup_validation.json",
+  "text_evidence_file": "wechat_text_favorite_production_validation.json",
+  "pdf_recreated_count": 0,
+  "pdf_attachment_insert_count": 0,
+  "body_write_count_in_final_audit": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

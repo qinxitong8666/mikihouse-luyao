@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "quote_date": "2026-09-26",
+  "manifest_sha256": "6a1a1cddd489479f6d2fdf45f2452429e759e12c6baf593e892c1db87777f692",
+  "bundle_sha256": "6c65c2afdb051cb9551197fb58206dead36eec2c226b41175cc5fc52ed4a36f2",
+  "failed_stage": "pdf",
+  "error_type": "WeChatRuntimeError",
+  "error": "note did not close cleanly; save state unknown",
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

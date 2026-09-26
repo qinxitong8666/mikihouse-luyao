@@ -33,7 +33,8 @@ def test_final_retained_runtime_evidence_and_default_authorization_gate():
         assert hashlib.sha256((root/path).read_bytes()).hexdigest()==digest
     for path in proof['historical_failures_preserved']:
         assert json.loads((root/path).read_text())['status'].startswith('BLOCKED')
-    final=json.loads((root/'outputs/daily_quote/2026-09-25/wechat_final_readonly_validation.json').read_text())
+    final=json.loads((root/proof.get('final_readonly_evidence_file',
+        'outputs/daily_quote/2026-09-25/wechat_final_readonly_validation.json')).read_text())
     assert final['full_hash_match'] and final['exact_title_counts']==[1,1]
     assert final['expected_eol_sha256']==final['actual_eol_sha256']==proof['text']['eol_only_sha256']
 

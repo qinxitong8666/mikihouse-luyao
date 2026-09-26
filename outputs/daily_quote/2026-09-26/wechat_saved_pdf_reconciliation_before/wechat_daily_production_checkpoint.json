@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_RECONCILIATION_REQUIRED",
+  "quote_date": "2026-09-26",
+  "manifest_sha256": "6a1a1cddd489479f6d2fdf45f2452429e759e12c6baf593e892c1db87777f692",
+  "bundle_sha256": "6c65c2afdb051cb9551197fb58206dead36eec2c226b41175cc5fc52ed4a36f2",
+  "created_at": "2026-09-26T23:12:52.039300+09:00",
+  "updated_at": "2026-09-26T23:14:00.882376+09:00",
+  "stages": {
+    "pdf": {
+      "status": "FROZEN_AFTER_MUTATION_ATTEMPT",
+      "payload_sha256": "9f134180ac2f0c134d4de04928f2854fc1e3db640ee3542f4e0b3f3b688e3deb",
+      "mutation_attempt_count": 1,
+      "mutation_started_at": "2026-09-26T23:12:52.039575+09:00",
+      "error_type": "WeChatRuntimeError",
+      "error": "note did not close cleanly; save state unknown"
+    },
+    "text": {
+      "status": "PENDING",
+      "payload_sha256": "51c1eb2f1c97293b7b6da6570b35b415d009261fa80acc640ce0c12b15140712",
+      "mutation_attempt_count": 0
+    }
+  },
+  "favorite_create_count": 0,
+  "automatic_mutation_retry_count": 0,
+  "chat_send_count": 0,
+  "shijiu_request_count": 0
+}

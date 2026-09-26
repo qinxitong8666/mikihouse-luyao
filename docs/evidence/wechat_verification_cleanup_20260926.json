@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "status": "PASS_SAVED_REOPENED",
+  "quote_date": "2026-09-26",
+  "base_head": "7699c5a4808e98e16aabc079c6e30563f96c1b79",
+  "source_sha256": {
+    "src/mikihouse_luyao/wechat_favorite_runtime.py": "e0db980162cbb9ea1b66f03c428e18eceaec54b185eb92a2bc113f9e3731e0f9",
+    "src/mikihouse_luyao/wechat_native_picker.py": "7f4c24874545621f013c44b19de54d42f0c0ef7f1ae163bf126815937c4fa001",
+    "src/mikihouse_luyao/wechat_pdf_keyboard.py": "0363cde8c8205fe6f678921867115324950ed9878376c4e9a817671548175d8f",
+    "src/mikihouse_luyao/wechat_daily_production.py": "8da51ea0ed3aabd8d1e3bc0a13c2284b9a17ccf346561f22d714d69daf56443d"
+  },
+  "acceptance_scope": "Read-only reconciliation of an already saved PDF, native verification-window cleanup/reopen, and one pending text creation through the normal Sink.",
+  "root_cause": "The exact original exception occurs only in the unbound title-scanning close branch. Normal first save already retained the native AX identity; the post-save reopened window did not. The failed phase was verification-window cleanup, not first save or upload.",
+  "manifest_sha256": "6a1a1cddd489479f6d2fdf45f2452429e759e12c6baf593e892c1db87777f692",
+  "bundle_sha256": "6c65c2afdb051cb9551197fb58206dead36eec2c226b41175cc5fc52ed4a36f2",
+  "pdf": {
+    "status": "PASS",
+    "already_persisted_before_task": true,
+    "new_note_count": 0,
+    "body_paste_count": 0,
+    "file_selection_dispatch_count": 1,
+    "file_selection_count_scope": "Original normal runner only; this task performed ZERO insertion/upload",
+    "task_file_selection_dispatch_count": 0,
+    "attachment_count": 1,
+    "filename": "MIKIHOUSE_2026-09-26_报价全集.pdf",
+    "file_bytes": 23333141,
+    "file_sha256": "fd3b3e2a8aaddda96f120e136db9457f0ac1d214f2a411d00fe0b39b5938b02a",
+    "body_eol_sha256": "3555697474831cf4e1d84eacb4e6a1ef129f0b53187a7284a3ad63375f04d1b7",
+    "save_reopen_full_hash_match": true,
+    "filename_index_unique": true,
+    "native_verification_cleanup": "PASS"
+  },
+  "text": {
+    "status": "PASS",
+    "new_note_count": 1,
+    "normal_sink_used": true,
+    "new_window_identity": "RETAINED_NATIVE_AX_WINDOW_DELTA",
+    "binding": "RETAINED_NATIVE_AX_WINDOW_TITLE_NOT_IDENTITY",
+    "reopened_identity": "RETAINED_NATIVE_AX_WINDOW",
+    "chunk_count": 13,
+    "character_count": 70583,
+    "eol_only_sha256": "1ba89d12c7cf85fc2341c406ccb04a5e4348ced6d2ad03b59607110a344cecf2",
+    "save_reopen_full_hash_match": true,
+    "native_verification_cleanup": "PASS"
+  },
+  "exact_title_counts": [
+    1,
+    1
+  ],
+  "checkpoint_status": "PASS",
+  "production_report_status": "PASS",
+  "production_save_enabled": false,
+  "safety": {
+    "automatic_mutation_retry_count": 0,
+    "chat_send_count": 0,
+    "shijiu_request_count": 0,
+    "other_note_body_read_count": 0,
+    "other_note_modified_count": 0,
+    "pdf_recreated_count": 0
+  },
+  "historical_failures_preserved": [
+    "docs/evidence/wechat_retained_window_20260925.json",
+    "docs/evidence/wechat_owned_goto_20260925.json"
+  ],
+  "evidence_files": [
+    "outputs/daily_quote/2026-09-26/wechat_pdf_readonly_reconciliation.json",
+    "outputs/daily_quote/2026-09-26/wechat_pdf_native_cleanup_validation.json",
+    "outputs/daily_quote/2026-09-26/wechat_text_favorite_production_validation.json",
+    "outputs/daily_quote/2026-09-26/wechat_final_readonly_validation.json",
+    "outputs/daily_quote/2026-09-26/wechat_daily_production_checkpoint.json",
+    "outputs/daily_quote/2026-09-26/wechat_daily_production_report.json"
+  ],
+  "verification": {
+    "status": "PASS",
+    "command": ".venv/bin/python scripts/verify_local.py",
+    "pytest_passed": 469,
+    "protected_tracked_files_unchanged": 132,
+    "actual_checkpoint_idempotence": "PASS_ZERO_SINK_CALLS_AND_UNCHANGED_FILES",
+    "targeted_tests_passed": 70
+  },
+  "limitations": [
+    "Original runner had no phase trace; phase determined by exact exception/control flow, not an invented traceback.",
+    "This task performed no new PDF creation/upload. PDF persistence and native reopen cleanup verified on the existing saved item.",
+    "Repository save default remains false; future writes require one-time authorization."
+  ],
+  "diagnosis": {
+    "original_error": "note did not close cleanly; save state unknown",
+    "phase": "POST_SAVE_REOPEN_VERIFICATION_CLEANUP",
+    "basis": "Frozen checkpoint plus baseline call graph and distinct first-save retained-close error; independently reconfirmed persisted PDF via exact title/full body hash/attachment filename.",
+    "original_phase_trace_available": false,
+    "original_filename_index_before_failure": "NOT_COMPLETED: old order closed verification window before filename index",
+    "underlying_os_close_latency": "NOT_PROVEN; no speculative OS cause asserted"
+  },
+  "fix": {
+    "reopen_bind": "Retain native AX identity immediately after unique exact-title search/reopen",
+    "validation_order": "Reopen -> full EOL-only body hash -> attachment placeholders -> exact filename index -> saved proof -> one cleanup",
+    "cleanup_failure": "CLEANUP_FAILED_AFTER_VERIFIED_SAVE warning; never repeat create/upload/body/close. Only after all content proof passed.",
+    "unverified_content": "Fail closed; initial-save close error remains fatal with INITIAL_SAVE_CLOSE_FAILED phase label"
+  },
+  "final_readonly_evidence_file": "outputs/daily_quote/2026-09-26/wechat_final_readonly_validation.json",
+  "original_frozen_checkpoint": "outputs/daily_quote/2026-09-26/wechat_saved_pdf_reconciliation_before/wechat_daily_production_checkpoint.json",
+  "cleanup_warnings": []
+}

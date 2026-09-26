@@ -107,6 +107,26 @@ def build_bundle(tmp_path: Path) -> tuple[Path, dict]:
     return daily, config
 
 
+def test_cleanup_warning_preserves_verified_stage_and_idempotence(tmp_path: Path) -> None:
+    daily, config = build_bundle(tmp_path)
+    config['production_save_enabled'] = True
+    class CleanupWarningSink(FakeSink):
+        def save(self, payload, **kwargs):
+            evidence=super().save(payload, **kwargs)
+            return {**evidence, 'save_status':'SAVED_REOPEN_VERIFIED',
+                    'verification_close':{'status':'CLEANUP_FAILED_AFTER_VERIFIED_SAVE'}}
+    sink=CleanupWarningSink()
+    first=save_daily_production_favorites(daily,config,repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,sink=sink)
+    assert first['status']=='PASS' and first['cleanup_warnings']==['pdf','text']
+    second=save_daily_production_favorites(daily,config,repository_root=ROOT,
+        confirmation=PRODUCTION_CONFIRMATION,sink=sink)
+    assert second['idempotent_replay'] and len(sink.calls)==2
+    checkpoint=json.loads((daily/CHECKPOINT_FILENAME).read_text())
+    assert all(row['status']=='PASS' and row['save_status']=='SAVED_REOPEN_VERIFIED'
+               for row in checkpoint['stages'].values())
+
+
 def test_tracked_production_orchestration_defaults_to_zero_write() -> None:
     config = json.loads(
         (ROOT / "config" / "wechat_favorite_runtime.json").read_text(encoding="utf-8")

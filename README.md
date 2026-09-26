@@ -4,6 +4,10 @@
 
 ## 每日报价（一键主入口）
 
+**9/26 正式双收藏最终PASS：PDF与文字标题各1条。** 原异常 `note did not close cleanly; save state unknown` 根据基线调用路径确定发生在保存后reopen验收窗口的关闭分支：首次保存已有原生AX身份，reopen返回的窗口却没有。原始runner未输出阶段trace，不能据此臆测具体OS延迟原因。本轮独立只读证明PDF全文EOL-only hash、附件文件名和唯一标题一致，未重建PDF、未重新上传23,333,141字节附件；仅创建待处理文字收藏，70,583字符/13块，保存重开全文hash通过，最终checkpoint/report均PASS。见[9/26机器证据](docs/evidence/wechat_verification_cleanup_20260926.json)。
+
+正常流程现于reopen后立即保留原生AX窗口身份。必须先完成正文、附件标记、文件名等全部强验证，再单次关闭验收窗口；此后的清理失败独立记录 `CLEANUP_FAILED_AFTER_VERIFIED_SAVE`，保存仍可PASS且不重试创建/上传/关闭。任何尚未完成的正文或附件验证仍fail closed；首次保存关闭异常明确标记 `INITIAL_SAVE_CLOSE_FAILED`，不能当成清理警告。checkpoint分别记录save_status/cleanup_status，报告保留cleanup_warnings。本次PDF、文字的原生清理均真实成功（无警告），不是把错误隐藏成PASS。默认生产开关仍为false，旧9/24、9/25证据与业务规则未改。
+
 **9/25 双收藏最终 PASS：PDF标题1条、文字标题1条，checkpoint/report均PASS。** 原生窗口身份绑定已用于本次PDF附件续行以及正常Sink新建文字收藏。系统焦点仅允许沿已绑定笔记的 `AXWindow → open-panel → GoToWindow` 精确归属链移动；AXRaise单次发送后最多16次只读等待，绝不重发业务动作。PDF只插入一次、未重建或重贴正文；文字70,640字符分13块写入。分别保存重开，PDF正文、附件文件名、文字全文EOL-only SHA-256及唯一标题均通过。[最终机器证据](docs/evidence/wechat_retained_window_final_20260925.json)。`retained_ax_window_runtime_validation_status=PASS`；仓库默认 `production_save_enabled=false` 不变，未来保存仍需App单次授权。
 
 本次是明确授权的分阶段恢复，不冒充另一次全新日期不中断生产实验。临时验收脚本曾误读附件报告字段（正确字段为 `search.search_candidate_count`）而停止；之后仅只读核实PDF成功，再经独立授权创建文字，未重放任何附件动作。所有旧冻结记录/备份保留，9/24 PASS未改。本次未访问Shijiu、发送聊天或操作其他笔记。
